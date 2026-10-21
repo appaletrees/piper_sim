@@ -136,7 +136,10 @@ def cylinder_features(shape, radius):
 
 def optical_reference(shape, model):
     """Virtual projection frame at stereo aperture midpoint, NOT RGB calibration."""
-    candidates = cylinder_features(shape, 8.105 if model == "D435" else 9.35)
+    # Radii measured from the supplied CAD; wrist hardware is D435i even though
+    # the source STEP product is named REALSENSE_D435.
+    aperture_radius = {"D435i": 8.105, "D455": 9.35}[model]
+    candidates = cylinder_features(shape, aperture_radius)
     apertures = []
     for center, axis, end in candidates:
         entrance = center + axis*end
@@ -232,7 +235,7 @@ def convert(step, output, tolerance=.1, config=None):
     reference_poses = {}
     rig = {
         "schema_version": 1, "source_sha256": digest,
-        "selection": {"overhead": "D455", "left_wrist": "D435", "right_wrist": "D435"},
+        "selection": {"overhead": "D455", "left_wrist": "D435i", "right_wrist": "D435i"},
         "reference_joint_positions_rad": [0.]*6,
         "geometry_units": "metres", "geometry_scale_from_cad_mm": .001,
         "calibration_status": "CAD geometry aligned; RGB optics uncalibrated",
@@ -315,14 +318,15 @@ def convert(step, output, tolerance=.1, config=None):
             preview[f"color_{n}"] = np.asarray(color, dtype=np.float32)
         counts[target] += 1
         if camera_body:
-            model = "D455" if index == 124 else "D435"
+            model = "D455" if index == 124 else "D435i"
             world_pose, evidence = optical_reference(shape, model)
             local_pose = np.linalg.inv(reference_poses[side]) @ world_pose if side else world_pose
             name = f"{side}_wrist" if side else "overhead"
             # Measure housing in its analytic front frame (bounding box is rotated in CAD).
             camera_points = transform_points(world, np.linalg.inv(world_pose))
             rig["cameras"][name] = {
-                "model": model, "source_occurrence": index,
+                "model": model, "manufacturer": "Intel RealSense",
+                "source_cad_path": path, "source_occurrence": index,
                 "prim_path": f"/World/{side}/link6/CameraRig/Camera" if side else "/World/Overhead",
                 "position": local_pose[:3, 3].tolist(), "rotation_wxyz_ros": quaternion(local_pose[:3, :3]),
                 "reference_world_pose": world_pose.tolist(),

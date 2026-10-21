@@ -2,6 +2,10 @@
 
 日期：2026-10-20。本机独立环境，未连接或驱动真实机械臂。
 
+型号说明更新于 2026-10-21：用户确认中央为 Intel RealSense D455，双腕为 Intel RealSense D435i。
+此前 episode 的腕部型号标签沿用了 STEP 中的 D435 名称；原始采集记录保留不改，
+当前导出清单和后续采集使用 D435i。此次型号更正不改变已验证的几何和安装坐标。
+
 ## 环境与资产
 
 - Ubuntu 24.04，RTX 5090 D / 32607 MiB，驱动 580.178.04。
@@ -11,7 +15,7 @@
   `requirements/runtime-linux-py311.lock`，环境报告在 `outputs/acceptance/environment.json`。
 - 已读取布局图、STEP 和原始 Piper URDF / SDK；原始文件未改动。
 - STEP 元数据包含 172 个装配实例；OCP 读取到 168 个叶级实体出现项。
-  按确认的“双腕 D435、中央 D455”组合导出 52 个静态网格（含一个无碰撞 guide）
+  按确认的“双腕 Intel RealSense D435i、中央 Intel RealSense D455”组合导出 52 个静态网格（含一个无碰撞 guide）
   和左右各 10 个腕部相机/支架/螺钉网格，排除重复和备选件。
 - 重新读取 STEP，对全部 72 个导出网格逐顶点核对：变换与浮点存储最大误差
   0.00002986 mm；源 BRep 与导出网格的轴向包围盒最大差异 0.04944 mm。

@@ -45,7 +45,7 @@ def test_cad_table_matches_contact_height_and_config():
 def test_selected_camera_bodies_brackets_and_reference_dimensions():
     cfg = load()
     rig = load_camera_rig(cfg)
-    assert rig["selection"] == {"overhead": "D455", "left_wrist": "D435", "right_wrist": "D435"}
+    assert rig["selection"] == {"overhead": "D455", "left_wrist": "D435i", "right_wrist": "D435i"}
     expected_centers = {"overhead": [.0189, 0, .75366764],
                         "left_wrist": [.09384029, .27000935, .32523133],
                         "right_wrist": [.09384029, -.32999065, .32523133]}

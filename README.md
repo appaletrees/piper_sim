@@ -5,9 +5,20 @@
 VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个模型的训练代码。
 
 **已在本机通过带三路相机的物理仿真、120 帧采集和 GUI 回放验收；真机联调待接入 CAN。**
-相机采用原 STEP 中的双腕 D435、中央 D455，支架和紧固件按原装配坐标恢复。
+相机配置为 **中央 Intel RealSense D455 × 1、腕部 Intel RealSense D435i × 2**，
+外壳、支架和紧固件按提供的 STEP 装配坐标恢复。
 详见 [相机与支架还原说明](docs/camera_restore.md)、
-[验证记录](docs/validation.md)。实际引擎截图：[场景总览](outputs/cad_restore_acceptance/overview.png)。
+[验证记录](docs/validation.md)。
+
+## 双臂 Piper 场景
+
+下图为本项目在 Isaac Lab / Isaac Sim 中的实际零位场景截图。
+
+![双臂 Piper 仿真场景：中央 Intel RealSense D455，左右腕部 Intel RealSense D435i](outputs/cad_restore_acceptance/overview.png)
+
+| 左腕 Intel RealSense D435i | 右腕 Intel RealSense D435i | 中央 Intel RealSense D455 |
+|---|---|---|
+| ![左腕相机与原始支架](outputs/cad_restore_acceptance/left_mount.png) | ![右腕相机与原始支架](outputs/cad_restore_acceptance/right_mount.png) | ![中央相机与立柱支架](outputs/cad_restore_acceptance/central_mount.png) |
 
 ## 项目结构
 

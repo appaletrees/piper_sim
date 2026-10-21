@@ -1,21 +1,27 @@
 # 原始相机与支架的尺寸还原
 
-采用用户确认的组合：左右腕部 D435、中央 D455。来源为项目根目录的
+采用用户确认的组合：左右腕部 **Intel RealSense D435i**、中央 **Intel RealSense D455**。
+几何来源为项目根目录的
 `demoa_asm_20261020.stp`，布局对照为 `zuomian.png`。原文件未改动。
+
+腕部的源 STEP 零件名仍为 `REALSENSE_D435`；这是资料中的命名，实际设备型号以用户确认的
+**D435i** 为准。导出清单分别保存设备型号和原始 CAD 名称，方便追溯几何来源。
+
+![双臂 Piper 实际仿真场景](../outputs/cad_restore_acceptance/overview.png)
 
 ## 保留的实体
 
 | 位置 | STEP 实体 | 处理 |
 |---|---|---|
-| 左、右腕部 | REALSENSE_D435 | 各保留一个相机实体 |
+| 左、右腕部 D435i | REALSENSE_D435 | 各保留一个原始相机实体，设备型号记为 D435i |
 | 左、右腕部 | PIPER_CAMERA_BRACKET_A4_1 的 SOLID 与 COMPOUND | 原始两部分几何均保留 |
 | 左、右腕部 | PIPER_CAMERA_BRACKET_A2_2 | 原形状、孔位及装配位置保留 |
 | 每个腕部 | M3×10 四颗，M3×6 两颗 | 随支架一起运动 |
-| 中央 | REALSENSE_D455/SOLID、CAMERA_BRACKET_M_3 | 使用对应相机和支架 |
+| 中央 D455 | REALSENSE_D455/SOLID、CAMERA_BRACKET_M_3 | 使用对应相机和支架 |
 | 中央立柱 | CAMERA_BRACKET_M_1、立柱、斜撑及其紧固件 | 保留源装配 |
 | D455 视场示意 | REALSENSE_D455/COMPOUND | 作为 USD guide 保存，无碰撞、不进入相机图像 |
 
-源 STEP 每个腕部有两份近乎重合的 D435，中央也同时放置 D435 与 D455 备选件。
+源 STEP 每个腕部有两份近乎重合、命名为 `REALSENSE_D435` 的实体，中央也同时放置 D435 与 D455 备选件。
 中央 M_2 支架实体完全包含于 M_3 实体内。按确认组合排除第二份腕部相机、
 中央 D435、M_2 及其两颗专用螺钉。所有保留/排除原因及源装配路径见
 `assets/generated/workcell/workcell.json`。
@@ -45,8 +51,8 @@ world.z = CAD.y / 1000 + 0.025
 
 | 模型 | 宽 × 高 × 深（mm） | 双目开孔间距 |
 |---|---|---|
-| 腕部 D435 | 89.904 × 25.001 × 25.051 | 65 mm |
-| 中央 D455 | 123.999 × 29.085 × 26.555 | 95 mm |
+| 腕部 Intel RealSense D435i（源 CAD 名为 REALSENSE_D435） | 89.904 × 25.001 × 25.051 | 65 mm |
+| 中央 Intel RealSense D455 | 123.999 × 29.085 × 26.555 | 95 mm |
 
 原 STEP 没有可用的表面颜色定义，因此使用中性材质显示；布局图片中的配色没有被当作
 材质参数。外观网格保持原形，腕部碰撞使用凸包近似，附件质量和惯量尚未实测。
