@@ -1,0 +1,49 @@
+schema_version: 1
+runtime:
+  isaac_lab: v2.3.0
+  isaac_sim: 5.1.0
+  physics_dt: 0.008333333333333333
+  decimation: 4
+  # The camera adapter reads live Fabric poses, matching the GPU renderer.
+  use_fabric: true
+robot:
+  source: /home/midea/Desktop/piper_tele/sink-bot-control_bk/example_agilex/piper_description
+  urdf: assets/generated/piper/piper.urdf
+  # Arm zero pose matches the source STEP assembly reference.
+  home: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.04]
+  # CAD J12 base envelope: 11 mm above tabletop. Physical mounting remains to be checked.
+  left:
+    position: [0.0, 0.3, 0.036]
+    rotation: [1.0, 0.0, 0.0, 0.0]
+  right:
+    position: [0.0, -0.3, 0.036]
+    rotation: [1.0, 0.0, 0.0, 0.0]
+scene:
+  # world: +X forward along table depth, +Y robot left, +Z up; SI metres.
+  geometry: cad
+  cad_usd: assets/generated/workcell/workcell.usda
+  table:
+    size: [0.7, 1.4, 0.025]
+    position: [0.295, 0.0, 0.0125]
+  mast:
+    size: [0.016, 0.04, 1.0]
+    position: [-0.0315, 0.0, 0.536]
+  object:
+    size: [0.04, 0.04, 0.04]
+    position: [0.35, 0.0, 0.05]
+cameras:
+  width: 640
+  height: 480
+  # Source STEP: two wrist D435 + central D455, with original mounting hardware.
+  # Projection frames come from CAD stereo apertures; real RGB calibration is separate.
+  rig_manifest: assets/generated/workcell/camera_rig.json
+hardware:
+  sdk_path: /home/midea/Desktop/piper_tele/sink-bot-control_bk/example_agilex/piper_sdk
+  can_left: can_left
+  can_right: can_right
+  feedback_max_age: 0.15
+  command_max_age: 0.15
+  joint_speed: 0.5
+  gripper_speed: 0.03
+  speed_percent: 10
+  gripper_effort: 500

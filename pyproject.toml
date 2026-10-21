@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "piper-sim"
+version = "0.1.0"
+description = "Decoupled dual Piper workcell for Isaac Lab, recording and teleoperation"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26,<2", "PyYAML>=6", "h5py>=3.11", "Pillow>=10"]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+preview = ["matplotlib>=3.8"]
+hardware = ["python-can>=3.3.4,<5"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
