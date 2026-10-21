@@ -329,16 +329,14 @@
     <position name="left/joint4" joint="left/joint4" kp="400" kv="40" ctrlrange="-1.745 1.745" forcerange="-100 100" />
     <position name="left/joint5" joint="left/joint5" kp="400" kv="40" ctrlrange="-1.22 1.22" forcerange="-100 100" />
     <position name="left/joint6" joint="left/joint6" kp="400" kv="40" ctrlrange="-2.0944 2.0944" forcerange="-100 100" />
-    <position name="left/joint7" joint="left/joint7" kp="2000" kv="50" ctrlrange="0 0.035" forcerange="-10 10" />
-    <position name="left/joint8" joint="left/joint8" kp="2000" kv="50" ctrlrange="0 0.035" forcerange="-10 10" />
+    <position name="left/gripper" tendon="left/gripper_width" kp="1000" kv="25" ctrlrange="0 0.07" forcerange="-10 10" />
     <position name="right/joint1" joint="right/joint1" kp="400" kv="40" ctrlrange="-2.618 2.618" forcerange="-100 100" />
     <position name="right/joint2" joint="right/joint2" kp="400" kv="40" ctrlrange="0 3.14" forcerange="-100 100" />
     <position name="right/joint3" joint="right/joint3" kp="400" kv="40" ctrlrange="-2.967 0" forcerange="-100 100" />
     <position name="right/joint4" joint="right/joint4" kp="400" kv="40" ctrlrange="-1.745 1.745" forcerange="-100 100" />
     <position name="right/joint5" joint="right/joint5" kp="400" kv="40" ctrlrange="-1.22 1.22" forcerange="-100 100" />
     <position name="right/joint6" joint="right/joint6" kp="400" kv="40" ctrlrange="-2.0944 2.0944" forcerange="-100 100" />
-    <position name="right/joint7" joint="right/joint7" kp="2000" kv="50" ctrlrange="0 0.035" forcerange="-10 10" />
-    <position name="right/joint8" joint="right/joint8" kp="2000" kv="50" ctrlrange="0 0.035" forcerange="-10 10" />
+    <position name="right/gripper" tendon="right/gripper_width" kp="1000" kv="25" ctrlrange="0 0.07" forcerange="-10 10" />
   </actuator>
   <contact>
     <exclude body1="left/base_link" body2="left/link1" />
@@ -362,7 +360,21 @@
     <exclude body1="right/gripper_base" body2="right/link7" />
     <exclude body1="right/gripper_base" body2="right/link8" />
   </contact>
+  <equality>
+    <joint name="left/gripper_coupling" joint1="left/joint8" joint2="left/joint7" polycoef="0 1 0 0 0" solref="0.0042 1" solimp="0.999 0.9999 0.001" />
+    <joint name="right/gripper_coupling" joint1="right/joint8" joint2="right/joint7" polycoef="0 1 0 0 0" solref="0.0042 1" solimp="0.999 0.9999 0.001" />
+  </equality>
+  <tendon>
+    <fixed name="left/gripper_width">
+      <joint joint="left/joint7" coef="1" />
+      <joint joint="left/joint8" coef="1" />
+    </fixed>
+    <fixed name="right/gripper_width">
+      <joint joint="right/joint7" coef="1" />
+      <joint joint="right/joint8" coef="1" />
+    </fixed>
+  </tendon>
   <keyframe>
-    <key name="home" qpos="0 0 0 0 0 0 0.02 0.02 0 0 0 0 0 0 0.02 0.02 0.35 0 0.05 1 0 0 0" ctrl="0 0 0 0 0 0 0.02 0.02 0 0 0 0 0 0 0.02 0.02" />
+    <key name="home" qpos="0 0 0 0 0 0 0.02 0.02 0 0 0 0 0 0 0.02 0.02 0.35 0 0.05 1 0 0 0" ctrl="0 0 0 0 0 0 0.04 0 0 0 0 0 0 0.04" />
   </keyframe>
 </mujoco>

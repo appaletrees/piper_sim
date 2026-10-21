@@ -132,6 +132,8 @@ def build_model(cfg, output=None):
                   rgba=".25 .28 .32 1", friction="1 .005 .0001")
     actuator = ET.SubElement(root, "actuator")
     contact = ET.SubElement(root, "contact")
+    equality = ET.SubElement(root, "equality")
+    tendon = ET.SubElement(root, "tendon")
     manifest = {"schema_version": 1, "source_cad_sha256": rig["source_sha256"],
                 "units": "metres", "geometry_policy": "authoritative_source_CAD_no_visual_fitting",
                 "urdf_sha256": digest(urdf_path), "rgb_profiles_sha256": rig["rgb_profiles_sha256"],
@@ -141,7 +143,9 @@ def build_model(cfg, output=None):
                 "inputs": {str(p.relative_to(ROOT)): digest(p) for p in
                            [urdf_path, workcell_path.with_suffix(".json"),
                             ROOT/cfg["cameras"]["rig_manifest"], *([gripper_path] if gripper else [])]},
-                "robot_bodies": {}, "joint_names": []}
+                "robot_bodies": {}, "joint_names": [],
+                "gripper_control": {"independent_dof_per_arm": 1, "target": "full opening in metres",
+                    "actuator": "{side}/gripper", "coupling": "joint8=joint7; tendon=joint7+joint8"}}
     manifest["configuration_sha256"] = configuration_fingerprint(cfg)
     manifest["builder_sha256"] = digest(__file__)
 
@@ -253,10 +257,10 @@ def build_model(cfg, output=None):
                     ET.SubElement(child, "joint", name=joint_name, type="slide" if slide else "hinge",
                         axis=joint.find("axis").get("xyz"), range=f"{limit.get('lower')} {limit.get('upper')}",
                         damping="1" if slide else "1.5", armature="0.005" if slide else "0.01")
-                    ET.SubElement(actuator, "position", name=joint_name, joint=joint_name,
-                        kp="2000" if slide else "400", kv="50" if slide else "40",
-                        ctrlrange=f"{limit.get('lower')} {limit.get('upper')}",
-                        forcerange="-10 10" if slide else "-100 100")
+                    if not slide:
+                        ET.SubElement(actuator, "position", name=joint_name, joint=joint_name,
+                            kp="400", kv="40", ctrlrange=f"{limit.get('lower')} {limit.get('upper')}",
+                            forcerange="-100 100")
                     manifest["joint_names"].append(joint_name)
                 # Explicit adjacent exclusions preserve the URDF joint's overlapping
                 # bearing surfaces, including fixed gripper_base intermediates.
@@ -264,6 +268,20 @@ def build_model(cfg, output=None):
                 add_link(child_name, child)
 
         add_link("base_link", base)
+        mimic = urdf.find("joint[@name='joint8']/mimic")
+        if (mimic is None or mimic.get("joint") != "joint7"
+                or float(mimic.get("multiplier", "1")) != 1 or float(mimic.get("offset", "0")) != 0):
+            raise ValueError("Expected joint8 to mimic joint7; rerun scripts/prepare_assets.py")
+        ET.SubElement(equality, "joint", name=f"{side}/gripper_coupling",
+            joint1=f"{side}/joint8", joint2=f"{side}/joint7", polycoef="0 1 0 0 0",
+            solref="0.0042 1", solimp="0.999 0.9999 0.001")
+        width = ET.SubElement(tendon, "fixed", name=f"{side}/gripper_width")
+        for finger in ("joint7", "joint8"):
+            ET.SubElement(width, "joint", joint=f"{side}/{finger}", coef="1")
+        finger_limit = urdf.find("joint[@name='joint7']/limit")
+        ET.SubElement(actuator, "position", name=f"{side}/gripper", tendon=f"{side}/gripper_width",
+            kp="1000", kv="25", ctrlrange=numbers([0, 2*float(finger_limit.get("upper"))]),
+            forcerange="-10 10")
         for part in source_manifest["parts"]:
             if part.get("target") != side:
                 continue
@@ -304,10 +322,10 @@ def build_model(cfg, output=None):
     ET.SubElement(body, "geom", name="object", type="box", size=numbers(size/2), rgba=".8 .15 .08 1",
                   friction="1 .005 .0001")
     home = cfg["robot"]["home"]
-    controls = [*home[:6], home[6]/2, home[6]/2]*2
+    positions = [*home[:6], home[6]/2, home[6]/2]*2
     keyframe = ET.SubElement(root, "keyframe")
-    ET.SubElement(keyframe, "key", name="home", qpos=numbers([*controls, *obj["position"], 1, 0, 0, 0]),
-                  ctrl=numbers(controls))
+    ET.SubElement(keyframe, "key", name="home", qpos=numbers([*positions, *obj["position"], 1, 0, 0, 0]),
+                  ctrl=numbers(home*2))
     ET.indent(root)
     path = output/"workcell.xml"
     ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)

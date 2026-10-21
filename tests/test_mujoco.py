@@ -81,6 +81,27 @@ def test_dynamics_record_contract_and_target_rejection(backend):
     np.testing.assert_array_equal(backend.data.ctrl, previous)
 
 
+@pytest.mark.parametrize("width", [.01, .04, .06])
+def test_single_gripper_control_keeps_fingers_coupled_under_one_sided_load(backend, width):
+    backend.reset()
+    assert backend.model.nu == 14
+    assert backend.model.neq == 2
+    target = backend.read().position
+    target[[6, 13]] = width
+    backend.apply(Command(target, time.monotonic(), 0))
+    assert backend.data.ctrl[backend.model.actuator("left/gripper").id] == width
+    assert backend.data.ctrl[backend.model.actuator("right/gripper").id] == width
+    # A single finger's external load must be transmitted through the mechanism.
+    backend.data.qfrc_applied[backend.indices["left"]["dof"][6]] = 2.
+    for _ in range(90):
+        backend.step()
+    for side in ("left", "right"):
+        fingers = backend.data.qpos[backend.indices[side]["qpos"][-2:]]
+        assert abs(fingers[0]-fingers[1]) < 5e-5
+        assert sum(fingers) == pytest.approx(width, abs=.002)
+    backend.reset()
+
+
 def test_portable_bundle_needs_no_generated_cad_or_external_source(tmp_path, monkeypatch):
     import piper_sim.mujoco_asset as assets
     if not (ROOT/"assets/mujoco/manifest.json").exists():
@@ -96,7 +117,7 @@ def test_portable_bundle_needs_no_generated_cad_or_external_source(tmp_path, mon
     backend = MujocoBackend(load())
     try:
         assert backend.model.ncam == 3
-        assert backend.model.nu == 16
+        assert backend.model.nu == 14
         backend.step()
         assert backend.read().sim_time == pytest.approx(1/30)
     finally:

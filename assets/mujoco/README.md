@@ -12,6 +12,11 @@ the existing converter's 0.1 mm tolerance. The two wrists use D435i RGB optics;
 the central camera uses D455 RGB optics. Camera optical metadata and every mesh
 SHA256 are recorded in `manifest.json`.
 
+There are 14 actuators: six arm joints and one `gripper` per side. Each gripper
+actuator controls the full opening in metres through a fixed tendon; an equality
+constraint couples its two physical finger joints. Do not independently command
+`joint7` and `joint8`. The shared 14-value action/observation contract is unchanged.
+
 Piper STL meshes and the source URDF are redistributed with `UPSTREAM_LICENSE`
 copied unchanged from the supplied robot description. The CAD parts derive from
 the user's supplied `demoa_asm_20261020.stp`; this bundle does not assign a new
@@ -28,6 +33,9 @@ Use the project launcher for the shared control, recording and replay interfaces
 ```bash
 bash scripts/run_mujoco.sh --enable_cameras
 ```
+
+Add `--interactive` to let the native Control sliders drive the project scene
+and optionally record those actions with `--record`.
 
 For a standalone model viewer:
 

@@ -16,6 +16,9 @@ Piper SDK 适配器、HTTP 控制接口、HDF5 记录器和回放逻辑。
 bash scripts/install_mujoco.sh
 bash scripts/run_mujoco.sh --enable_cameras
 
+# 手动滑条控制：每臂六关节＋一个gripper开口，可同时使用 --record。
+bash scripts/run_mujoco.sh --interactive --enable_cameras
+
 # 纯仿真：双臂小幅运动，采集4秒仿真时间，共120个transition。
 # 输出文件必须不存在，避免覆盖已有数据。
 bash scripts/run_mujoco.sh --headless --enable_cameras --steps 120 --demo \
@@ -29,6 +32,10 @@ bash scripts/run_mujoco.sh --enable_cameras --mode replay \
 
 Linux 无窗口渲染默认使用 EGL；GUI 使用 GLFW。两者均在本机 RTX 5090 D 上通过检查。
 原生窗口显示总览场景，`--enable_cameras` 启用三路 RGB 读回和记录。
+`--interactive` 下展开右侧 `Control`，使用 `left/gripper`、`right/gripper` 控制整只夹爪，单位m。
+每个夹爪只有一个独立控制量。两根物理手指仍有各自的滑动坐标，由约束保持联动；
+`Joint` 面板中的手指坐标是内部状态，不是两路独立控制目标。
+普通启动模式保持初始目标；交互模式不能与 `--demo`、回放或HTTP控制源混用。
 纯物理测试可省略该选项。仿真采集频率为30 Hz，MuJoCo 内部积分为480 Hz，
 每个控制周期推进16步。原始三路画幅采集本次实测约21.6帧/墙钟秒，
 同时存在其他GPU任务；这不是实时性能承诺。
@@ -70,7 +77,8 @@ MuJoCo 的地面和测试方块是仿真辅助物体。机器人、相机、原�
 ## 采集与双向主从
 
 状态/动作顺序为左臂6关节+夹爪开口，再右臂6关节+夹爪开口；关节rad，开口m。
-内部两个滑动手指各接收开口的一半。三路RGB、K、世界光学位姿、仿真时间和动作前后状态
+MuJoCo内部由一个tendon驱动总开口，两手指等量反向运动；Isaac使用URDF mimic约束和一个主动指驱动。
+三路RGB、K、世界光学位姿、仿真时间和动作前后状态
 使用与 Isaac 相同的 HDF5 schema；metadata 的 `source` 和 `backend` 标明 `mujoco`。
 可供后续VLA数据导出和WAM时序窗口读取，尚未绑定特定训练框架。
 
@@ -88,6 +96,7 @@ bash scripts/run_mujoco.sh --mode sim-to-real --enable_cameras \
 
 主从模式复用现有新鲜度、限位、限速和停止逻辑，操作步骤见 [README](../README.md#双向主从控制)。
 本次已检查SDK导入和离线保护测试，未连接CAN、未驱动真机。
+不需要仿真窗口时，可直接使用 [PiperConnection / connect_piper.py](piper_connection.md)。
 
 ## 已完成验证与边界
 
@@ -95,7 +104,8 @@ bash scripts/run_mujoco.sh --mode sim-to-real --enable_cameras \
 
 | 检查 | 结果 |
 |---|---|
-| 项目测试 | 41项通过；包含3组姿态下所有关节与相机的FK核对 |
+| 项目测试 | 52项通过；包含FK、单侧负载下的夹爪联动、真机连接与CAN异常处理 |
+| 单输入夹爪 | 两引擎10/40/60 mm开口检查通过；Isaac双指位置差最大约2.92 μm |
 | CAD网格转换 | 99个编译后网格转换回父节点后，包围盒与源资产一致，容差2 μm |
 | 三路实际渲染投影 | 全幅/偏心K最大约0.06 px；640×480中心裁剪模式约0.12 px |
 | 动力学与采集 | 120个transition；全部关节/夹爪运动、三路RGB、30 Hz仿真时间通过 |
@@ -109,6 +119,10 @@ bash scripts/run_mujoco.sh --mode sim-to-real --enable_cameras \
 [640×480投影](../outputs/mujoco_validation/projection_vga/projection.json)、
 [偏心内参投影](../outputs/mujoco_validation/projection_asymmetric/projection.json)、
 [独立包检查](../outputs/mujoco_validation/portable_smoke.json)。
+夹爪改动后的新检查：[MuJoCo联动](../outputs/gripper_coupling/mujoco_gripper.json)、
+[Isaac联动](../outputs/gripper_coupling/isaac_gripper.json)、
+[MuJoCo采集](../outputs/gripper_coupling/mujoco/report.json)、
+[Isaac采集](../outputs/gripper_coupling/isaac/report.json)。
 
 ```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv-mujoco/bin/python -m pytest -q
@@ -116,6 +130,8 @@ PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv-mujoco/bin/python -m pytest -q
   --output outputs/mujoco_check_new
 MUJOCO_GL=egl .venv-mujoco/bin/python scripts/verify_mujoco_projection.py \
   --output outputs/mujoco_projection_new
+.venv-mujoco/bin/python scripts/verify_gripper.py --backend mujoco \
+  --output outputs/mujoco_gripper_new.json
 ```
 
 几何转换与渲染投影通过表示仿真实现忠于输入设计及K；并不等于已经拿到每台真机的出厂标定。

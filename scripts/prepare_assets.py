@@ -29,12 +29,16 @@ def prepare(cfg):
         ET.SubElement(joint, "axis", xyz="0 0 1")
         ET.SubElement(joint, "limit", lower="0", upper="0.035", effort="10", velocity="0.1")
         ET.SubElement(joint, "dynamics", damping="1", friction="0")
+    # One physical gripper motor: finger 8 follows finger 7. Their local axes
+    # already point in opposite world directions, so the multiplier is +1.
+    ET.SubElement(root.find("joint[@name='joint8']"), "mimic",
+                  joint="joint7", multiplier="1", offset="0")
     ET.indent(tree)
     tree.write(output, encoding="utf-8", xml_declaration=True)
     provenance = {
         "source": str(original), "source_sha256": hashlib.sha256(original.read_bytes()).hexdigest(),
         "changes": ["remove empty dummy_link", "absolute mesh paths",
-                    "restore independently driven prismatic fingers; width=joint7+joint8"],
+                    "restore prismatic fingers; joint8 mimics joint7; width=2*joint7"],
         "calibration": "URDF effort and dynamics not identified on hardware; mount calibration pending",
     }
     (output.parent / "provenance.json").write_text(json.dumps(provenance, indent=2))

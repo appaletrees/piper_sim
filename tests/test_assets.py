@@ -17,7 +17,10 @@ def test_prepared_fingers_open_outward_and_meshes_exist():
     for mesh in root.iter("mesh"):
         assert Path(mesh.get("filename")).is_file()
     shut = forward(urdf, {})
-    opened = forward(urdf, {"joint7": .02, "joint8": .02})
+    assert root.find("joint[@name='joint8']/mimic").get("joint") == "joint7"
+    opened = forward(urdf, {"joint7": .02})
     delta7 = opened["link7"][:3, 3]-shut["link7"][:3, 3]
     delta8 = opened["link8"][:3, 3]-shut["link8"][:3, 3]
     np.testing.assert_allclose(np.linalg.norm(delta7-delta8), .04, atol=1e-6)
+    with pytest.raises(ValueError, match="mimic"):
+        forward(urdf, {"joint7": .02, "joint8": .01})

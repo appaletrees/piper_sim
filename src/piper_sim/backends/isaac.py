@@ -70,9 +70,9 @@ class IsaacBackend:
             raise ValueError("Simulation target exceeds joint bounds")
         for i, (side, arm) in enumerate(self.arms.items()):
             a = q[7*i:7*i+7]
-            target = torch.tensor([[*a[:6], a[6]/2, a[6]/2]],
+            target = torch.tensor([[*a[:6], a[6]/2]],
                                   device=self.sim.device, dtype=torch.float32)
-            arm.set_joint_position_target(target, joint_ids=self.indices[side])
+            arm.set_joint_position_target(target, joint_ids=self.indices[side][:7])
         return command
 
     def step(self):

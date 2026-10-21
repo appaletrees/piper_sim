@@ -16,6 +16,9 @@ def piper_config(cfg, side):
         asset_path=str(urdf), usd_dir=str(urdf.parent / "usd"),
         usd_file_name="piper.usd", fix_base=True, root_link_name="base_link", merge_fixed_joints=True,
         self_collision=True, collider_type="convex_decomposition",
+        # Lab 2.3.0 passes this field directly to importer.set_parse_mimic;
+        # despite the field name, True is required to create PhysX mimic joints.
+        convert_mimic_joints_to_normal_joints=True,
         joint_drive=sim_utils.UrdfFileCfg.JointDriveCfg(
             gains=sim_utils.UrdfFileCfg.JointDriveCfg.PDGainsCfg(stiffness=0., damping=0.)),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
@@ -30,5 +33,8 @@ def piper_config(cfg, side):
         actuators={
             "arm": ImplicitActuatorCfg(joint_names_expr=["joint[1-6]"],
                 effort_limit_sim=100., velocity_limit_sim=2., stiffness=400., damping=40.),
-            "fingers": ImplicitActuatorCfg(joint_names_expr=["joint[78]"],
-                effort_limit_sim=10., velocity_limit_sim=.1, stiffness=2000., damping=50.)})
+            "gripper": ImplicitActuatorCfg(joint_names_expr=["joint7"],
+                effort_limit_sim=20., velocity_limit_sim=.1, stiffness=4000., damping=100.),
+            # The follower retains state for geometry/feedback but has no drive.
+            "gripper_follower": ImplicitActuatorCfg(joint_names_expr=["joint8"],
+                effort_limit_sim=0., velocity_limit_sim=.1, stiffness=0., damping=0.)})

@@ -3,7 +3,7 @@
   "source_cad_sha256": "6c7f1281549c60c1f634d6e99a0b886dca66c7cd0305109f3e4cc6d735399e2d",
   "units": "metres",
   "geometry_policy": "authoritative_source_CAD_no_visual_fitting",
-  "urdf_sha256": "2cd42400c0cfe0250be65665c22be2f6212f60b25c45a6da7a972c29f4a0070b",
+  "urdf_sha256": "ddaf7f8ebddb03e72012e664b6c6c7b820c55cfcae21ed4d457249a387869624",
   "rgb_profiles_sha256": "8f26fa0804b58faa3890345419c40c372810cd744710326e7cd036c920f4bbaf",
   "substeps": 4,
   "camera_rig": {
@@ -2743,7 +2743,7 @@
   "collision_model": "individual CAD part convex hulls; URDF link convex hulls; exact tabletop box",
   "inertia_model": "source URDF; camera/bracket masses not identified",
   "inputs": {
-    "assets/generated/piper/piper.urdf": "2cd42400c0cfe0250be65665c22be2f6212f60b25c45a6da7a972c29f4a0070b",
+    "assets/generated/piper/piper.urdf": "ddaf7f8ebddb03e72012e664b6c6c7b820c55cfcae21ed4d457249a387869624",
     "assets/generated/workcell/workcell.json": "f39f50ad88262de901f5c27587601fc1211038803a527ab673550dfdda2e9105",
     "assets/generated/workcell/camera_rig.json": "02df284fa993b81c158d7b90b19a246b9ac217c1a2dca48bd065470691558aea",
     "assets/generated/cad_gripper/manifest.json": "16f26249818f5e17739ba2d7e4305539976c8cea417308f8d7908b24013b104b",
@@ -2806,10 +2806,16 @@
     "right/joint7",
     "right/joint8"
   ],
+  "gripper_control": {
+    "independent_dof_per_arm": 1,
+    "target": "full opening in metres",
+    "actuator": "{side}/gripper",
+    "coupling": "joint8=joint7; tendon=joint7+joint8"
+  },
   "configuration_sha256": "07325f42c0f000a6494d676e25ffcd7bd6039df98ce7a294c472e430f823640c",
-  "builder_sha256": "57b4ca6e61513dce094b8c48e7dba01ea771adbbd7f75da18aba93359cffe0b6",
-  "kinematics_sha256": "e6c2590cce3ad183e8ff4e1443beb00c66a57a9dec0103bc60150ce1def07cdf",
-  "model_sha256": "4a9ea5382f3ada8930e388f2a2becc92496b04aca88d60517300314daa0a208e",
+  "builder_sha256": "b3b2dbf13d457941485aaa10f55c9244f9f6e1c8e267be4b59fd4fd884224bee",
+  "kinematics_sha256": "19e0967e6a573d355690dd0bfa3c24dbf4029d0dbd922bd31afcae3b39c5423b",
+  "model_sha256": "c37d12a1de57171d761e55eb63c019c89c222ad750c6a3560528dc92e0d096b4",
   "mesh_sha256": {
     "base_link.STL": "fd4a3d6d0266205fe3f725f048645be66592c23564db22e08b0807d5569b2c64",
     "cad_left_103.obj": "5059bde5393465a58e99a0275d706b34571f09d119d0dbdd647ca3b470ba2275",

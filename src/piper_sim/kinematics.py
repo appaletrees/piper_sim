@@ -24,6 +24,18 @@ def origin(element):
 
 def forward(urdf, positions, base=None):
     root = ET.parse(urdf).getroot()
+    joints = {j.get("name"): j for j in root.findall("joint")}
+    def joint_position(name, seen=()):
+        if name in seen:
+            raise ValueError("Cyclic mimic joints")
+        mimic = joints[name].find("mimic")
+        if mimic is None:
+            return positions.get(name, 0.)
+        value = (float(mimic.get("multiplier", "1"))*joint_position(mimic.get("joint"), (*seen, name))
+                 + float(mimic.get("offset", "0")))
+        if name in positions and not np.isclose(positions[name], value, atol=1e-9):
+            raise ValueError(f"{name} must follow its mimic joint")
+        return value
     children = {j.find("child").get("link") for j in root.findall("joint")}
     roots = {link.get("name") for link in root.findall("link")} - children
     transforms = {name: np.eye(4) if base is None else base.copy() for name in roots}
@@ -35,7 +47,7 @@ def forward(urdf, positions, base=None):
             if parent not in transforms:
                 continue
             motion = np.eye(4)
-            q = positions.get(joint.get("name"), 0)
+            q = joint_position(joint.get("name"))
             axis = joint.find("axis")
             if joint.get("type") != "fixed":
                 axis = np.fromstring(axis.get("xyz"), sep=" ")

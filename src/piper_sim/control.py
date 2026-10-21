@@ -7,7 +7,7 @@ from .contracts import Command, vector
 
 
 class CommandServer:
-    def __init__(self, port):
+    def __init__(self, port, *, allow_commands=True):
         self.lock = threading.Lock()
         self.latest = None
         self.state = None
@@ -17,6 +17,9 @@ class CommandServer:
             def do_POST(self):
                 if self.path != "/target":
                     self.send_error(404)
+                    return
+                if not allow_commands:
+                    self.send_error(403, "This connection is read-only")
                     return
                 try:
                     length = int(self.headers.get("Content-Length", "0"))

@@ -32,8 +32,11 @@ VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个�
 
 ![MuJoCo 双臂 Piper 与原 CAD 三相机工作站](outputs/mujoco_validation/overview.png)
 
-MuJoCo 启动：`bash scripts/run_mujoco.sh --enable_cameras`。
+MuJoCo 手动控制：`bash scripts/run_mujoco.sh --interactive --enable_cameras`。
+每臂为6个关节目标及1个夹爪开口；`Control` 面板中的 `left/gripper`、`right/gripper`
+分别驱动一整只夹爪，两根手指由约束联动。
 详见 [独立安装、采集、回放与验证](docs/mujoco.md)。
+真实双臂的独立连接、只读状态和控制API见 [真机接口说明](docs/piper_connection.md)。
 
 总览和近景采用原 CAD 夹爪视觉网格及参考照片配色。后面的全幅 RGB 保留此前公开光学规格验收版本，
 不代表640×480真机标定已完成。
@@ -76,6 +79,7 @@ src/piper_sim/
   mujoco_asset.py              同源 URDF / CAD 到 MJCF 的转换及哈希校验
   backends/piper.py            Piper SDK 真机适配器
   backends/sdk_tracking.py     每组 CAN 帧独立的新鲜度检查
+  piper_connection.py          独立真机连接API：六关节＋单夹爪开口，默认只读
   backends/mock.py             离线测试后端
   control.py                  本机 HTTP 指令入口，与具体控制设备解耦
   safety.py                   交接对齐、限位、限速和时效检查
@@ -86,6 +90,8 @@ scripts/
   install_runtime.sh          独立 Isaac 环境安装
   install_mujoco.sh            独立 MuJoCo 环境安装
   run_mujoco.sh                MuJoCo 场景、采集、回放、双向主从入口
+  connect_piper.py             无仿真依赖的真机状态读取 / 本机HTTP控制服务
+  verify_gripper.py            两引擎单输入夹爪联动验收
   prepare_mujoco.py            导出自包含 MJCF 和 OBJ / STL 网格
   run.sh / run_scene.py        场景、采集、回放、双向主从入口
   prepare_assets.py           从原描述派生可运动夹爪的仿真 URDF
@@ -139,7 +145,8 @@ flowchart LR
   腕部附件使用零位变换的逆矩阵转入 `link6`，使附件在参考姿态下保持原 CAD 世界坐标。
 - RGB 投影位置由 CAD 前表面坐标与官方标称镜头偏移组合，内参按对应型号的 RGB FOV 推导。
   几何安装位姿、公开光学规格与每台真机的出厂标定分别记录。
-- 从 `example_agilex/piper_description` 复制 URDF 和 STL。原 URDF 中 `joint7`、`joint8` 为 IK 而固定，派生版本恢复两个相反空间方向的滑动手指，每指行程 35 mm，两指目标为开口宽度的一半。
+- 从 `example_agilex/piper_description` 复制 URDF 和 STL。派生版本恢复滑动手指，`joint8` 跟随 `joint7`。
+  每指行程35 mm，只有一个独立夹爪自由度。MuJoCo用总开口驱动同一条联动tendon；Isaac仅驱动主指。
 - 所有关节通过名称映射，不依赖 USD 的关节排列。两臂使用同一资产实例。
 - 夹爪采用原 STEP 的164.003 mm宽型组件。Isaac 保留旧URDF碰撞模型，MuJoCo 使用分部件 CAD 凸包碰撞；
   两者均保留源 URDF 惯量与70 mm行程，真实接触参数尚未辨识。`appearance` 配置控制CAD视觉和参考材质。

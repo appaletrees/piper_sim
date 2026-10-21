@@ -30,7 +30,7 @@ class MujocoBackend:
             self.indices[side] = {
                 "qpos": [self.model.joint(n).qposadr[0] for n in names],
                 "dof": [self.model.joint(n).dofadr[0] for n in names],
-                "ctrl": [self.model.actuator(n).id for n in names]}
+                "ctrl": [self.model.actuator(f"{side}/{n}").id for n in (*JOINT_NAMES, "gripper")]}
         self.reset()
         try:
             if viewer:
@@ -64,7 +64,7 @@ class MujocoBackend:
             ids = self.indices[side]
             self.data.qpos[ids["qpos"]] = values
             self.data.qvel[ids["dof"]] = 0
-            self.data.ctrl[ids["ctrl"]] = values
+            self.data.ctrl[ids["ctrl"]] = a
         mujoco.mj_forward(self.model, self.data)
         self._images = None
 
@@ -74,8 +74,12 @@ class MujocoBackend:
             raise ValueError("Simulation target exceeds joint bounds")
         for i, side in enumerate(ARMS):
             a = q[7*i:7*i+7]
-            self.data.ctrl[self.indices[side]["ctrl"]] = [*a[:6], a[6]/2, a[6]/2]
+            self.data.ctrl[self.indices[side]["ctrl"]] = a
         return command
+
+    def control_targets(self):
+        """Native Control panel targets, including one full-width slider per arm."""
+        return np.concatenate([self.data.ctrl[self.indices[side]["ctrl"]] for side in ARMS]).copy()
 
     def step(self):
         mujoco.mj_step(self.model, self.data, nstep=self.decimation*self.substeps)

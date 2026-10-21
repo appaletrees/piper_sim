@@ -32,7 +32,12 @@ def main():
     else:
         parser.add_argument("--headless", action="store_true")
         parser.add_argument("--enable_cameras", action="store_true")
+        parser.add_argument("--interactive", action="store_true",
+                            help="MuJoCo native Control panel drives the simulation")
     args = parser.parse_args()
+    interactive = getattr(args, "interactive", False)
+    if interactive and (args.headless or args.mode != "sim" or args.demo or args.command_port or args.trajectory):
+        parser.error("--interactive requires a MuJoCo GUI in sim mode without demo, trajectory or command-port")
     if args.mode == "sim-to-real" and not args.allow_actuation:
         parser.error("sim-to-real requires --allow-actuation and physically enabled, aligned arms")
     if args.mode == "sim-to-real" and not args.command_port:
@@ -115,6 +120,8 @@ def main():
                 target = before.position
             elif args.mode == "replay":
                 target = trajectory[index % len(trajectory)]
+            elif interactive:
+                target = sim.control_targets()
             elif args.demo:
                 amplitudes = np.array([.12, .04, -.05, .08, .06, .08, .01])
                 frequencies = np.array([1., .7, .9, .8, .6, 1.1, .8])
