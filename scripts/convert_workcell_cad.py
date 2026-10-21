@@ -134,8 +134,8 @@ def cylinder_features(shape, radius):
     return result
 
 
-def optical_reference(shape, model):
-    """Virtual projection frame at stereo aperture midpoint, NOT RGB calibration."""
+def optical_reference(shape, model, profile):
+    """CAD front frame plus official nominal RGB offset, not factory calibration."""
     # Radii measured from the supplied CAD; wrist hardware is D435i even though
     # the source STEP product is named REALSENSE_D435.
     aperture_radius = {"D435i": 8.105, "D455": 9.35}[model]
@@ -146,7 +146,7 @@ def optical_reference(shape, model):
         if not any(np.linalg.norm(entrance-p) < .001 for p in apertures):
             apertures.append(entrance)
     if len(apertures) != 2:
-        raise ValueError(f"{model}: expected two stereo apertures, got {len(apertures)}")
+        raise ValueError(f"{model}: expected two outer apertures, got {len(apertures)}")
     # Image right is toward negative CAD X / negative world Y.
     apertures.sort(key=lambda p: p[0])
     x_axis = apertures[0]-apertures[1]
@@ -161,9 +161,21 @@ def optical_reference(shape, model):
     pose = np.eye(4)
     pose[:3, :3] = rotation
     pose[:3, 3] = CAD_ROTATION @ np.mean(apertures, axis=0)*.001 + CAD_TRANSLATION
-    return pose, {"stereo_aperture_centers_cad_mm": [p.tolist() for p in apertures],
-                  "stereo_aperture_spacing_mm": float(np.linalg.norm(apertures[0]-apertures[1])),
-                  "front_normal_cad": z_axis.tolist()}
+    spacing = float(np.linalg.norm(apertures[0]-apertures[1]))
+    if abs(spacing-profile["outer_aperture_spacing_mm"]) > .01:
+        raise ValueError(f"{model}: CAD aperture spacing differs from selected optical model")
+    evidence = {
+        "outer_aperture_centers_cad_mm": [p.tolist() for p in apertures],
+        "outer_aperture_spacing_mm": spacing,
+        "outer_aperture_labels": ["right_ir", "rgb" if model == "D435i" else "left_ir"],
+        "stereo_baseline_mm": profile["stereo_baseline_mm"],
+        "front_normal_cad": z_axis.tolist(),
+        "front_reference_world_pose": pose.tolist(),
+        "rgb_from_front_center_optical_mm": profile["rgb_from_front_center_optical_mm"],
+        "extrinsic_source": profile["extrinsic_source"],
+    }
+    pose[:3, 3] += rotation @ np.array(profile["rgb_from_front_center_optical_mm"])*.001
+    return pose, evidence
 
 
 def quaternion(rotation):
@@ -221,7 +233,9 @@ def convert(step, output, tolerance=.1, config=None):
     from piper_sim.config import ROOT, load
     from piper_sim.kinematics import forward
     from piper_sim.transforms import pose_matrix, transform_points
+    from piper_sim.camera_models import load_profiles, nominal_rgb
     cfg = load(config)
+    profiles, profile_digest = load_profiles(cfg)
     if not 0 < tolerance <= .1:
         raise ValueError("The source-alignment export requires 0 < tessellation tolerance <= 0.1 mm")
     digest = hashlib.sha256(step.read_bytes()).hexdigest()
@@ -234,14 +248,13 @@ def convert(step, output, tolerance=.1, config=None):
     stages = {"static": new_stage(output, "Workcell")}
     reference_poses = {}
     rig = {
-        "schema_version": 1, "source_sha256": digest,
+        "schema_version": 2, "source_sha256": digest,
         "selection": {"overhead": "D455", "left_wrist": "D435i", "right_wrist": "D435i"},
         "reference_joint_positions_rad": [0.]*6,
         "geometry_units": "metres", "geometry_scale_from_cad_mm": .001,
-        "calibration_status": "CAD geometry aligned; RGB optics uncalibrated",
-        "projection_reference": "midpoint of stereo entrance apertures; +Z front, +X image right (ROS)",
-        "intrinsics": {"focal_length_mm": 24., "horizontal_aperture_mm": 36.,
-                       "status": "generic pinhole placeholder, not RealSense calibration"},
+        "calibration_status": "CAD aligned; public nominal RGB optics, not per-device calibration",
+        "projection_reference": "RGB optical frame; +Z front, +X image right, +Y down (ROS)",
+        "rgb_profiles_sha256": profile_digest, "optics_sources": profiles["sources"],
         "cameras": {}, "mounts": {}, "alignment": {},
     }
     for side in ("left", "right"):
@@ -319,13 +332,15 @@ def convert(step, output, tolerance=.1, config=None):
         counts[target] += 1
         if camera_body:
             model = "D455" if index == 124 else "D435i"
-            world_pose, evidence = optical_reference(shape, model)
+            profile = profiles["models"][model]
+            world_pose, evidence = optical_reference(shape, model, profile)
             local_pose = np.linalg.inv(reference_poses[side]) @ world_pose if side else world_pose
             name = f"{side}_wrist" if side else "overhead"
             # Measure housing in its analytic front frame (bounding box is rotated in CAD).
             camera_points = transform_points(world, np.linalg.inv(world_pose))
             rig["cameras"][name] = {
                 "model": model, "manufacturer": "Intel RealSense",
+                "rgb": nominal_rgb(profile, cfg["cameras"].get("image_scale", 1.0)),
                 "source_cad_path": path, "source_occurrence": index,
                 "prim_path": f"/World/{side}/link6/CameraRig/Camera" if side else "/World/Overhead",
                 "position": local_pose[:3, 3].tolist(), "rotation_wxyz_ros": quaternion(local_pose[:3, :3]),

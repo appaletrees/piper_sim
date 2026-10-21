@@ -22,4 +22,12 @@ def load_camera_rig(cfg):
     path = ROOT / cfg["cameras"]["rig_manifest"]
     if not path.is_file():
         raise FileNotFoundError(f"{path}; run scripts/convert_workcell_cad.py")
-    return json.loads(path.read_text())
+    rig = json.loads(path.read_text())
+    from .camera_models import load_profiles, nominal_rgb
+    profiles, digest = load_profiles(cfg)
+    if rig.get("rgb_profiles_sha256") != digest:
+        raise ValueError("RGB profiles changed or old camera rig; run scripts/convert_workcell_cad.py")
+    for camera in rig["cameras"].values():
+        camera["rgb"] = nominal_rgb(profiles["models"][camera["model"]],
+                                    cfg["cameras"].get("image_scale", 1.0))
+    return rig

@@ -24,9 +24,54 @@ class WorkcellCamera(Camera):
         self._data.quat_w_world[env_ids] = convert_camera_frame_orientation_convention(
             orientations, origin="opengl", target="world")
 
-    def __init__(self, cfg, *, use_fabric):
+    def _update_intrinsic_matrices(self, env_ids):
+        # Output images are sampled at these rays, independent of the engine's
+        # square-pixel raw render product. Record the output calibration.
+        k = torch.tensor(self._rgb["intrinsic_matrix"], device=self._device)
+        self._data.intrinsic_matrices[env_ids] = k
+
+    def _update_buffers_impl(self, env_ids):
+        super()._update_buffers_impl(env_ids)
+        # Sim 5.1/Lab 2.3 ignores independent fy on this render path. A covering
+        # pinhole followed by a calibrated ray resample avoids clipped borders
+        # and keeps the public horizontal AND vertical FOV in the final RGB.
+        pixels = self._data.output["rgb"][env_ids]
+        height, width = pixels.shape[1:3]
+        if self._projection_grid is None:
+            k = self._rgb["intrinsic_matrix"]
+            focal = self._rgb["render_focal_px"]
+            y, x = torch.meshgrid(torch.arange(height, device=self._device)+.5,
+                                  torch.arange(width, device=self._device)+.5, indexing="ij")
+            u = (x-k[0][2])*focal/k[0][0] + width/2
+            v = (y-k[1][2])*focal/k[1][1] + height/2
+            self._projection_grid = torch.stack((2*u/width-1, 2*v/height-1), dim=-1)[None]
+        sampled = torch.nn.functional.grid_sample(
+            pixels.permute(0, 3, 1, 2).float(),
+            self._projection_grid.expand(len(env_ids), -1, -1, -1),
+            mode="bilinear", padding_mode="border", align_corners=False)
+        self._data.output["rgb"][env_ids] = sampled.permute(0, 2, 3, 1).round().clamp(0, 255).to(pixels.dtype)
+
+    def __init__(self, cfg, *, use_fabric, rgb):
+        if cfg.data_types != ["rgb"]:
+            raise ValueError("RGB ray resampling supports RGB only; depth needs a separate adapter")
         self._use_fabric = use_fabric
+        self._rgb = rgb
+        self._projection_grid = None
         super().__init__(cfg)
+        from pxr import Sdf
+        from isaacsim.core.utils.stage import get_current_stage
+        prim = get_current_stage().GetPrimAtPath(cfg.prim_path)
+        # Use Kit 107.3.3's native OpenCV projection attributes for the covering
+        # render. Both focal axes match here; the output ray grid supplies K.
+        prim.CreateAttribute("cameraProjectionType", Sdf.ValueTypeNames.Token).Set("pinholeOpenCV")
+        values = {"fthetaWidth": float(cfg.width), "fthetaHeight": float(cfg.height),
+                  "fthetaCx": cfg.width/2., "fthetaCy": cfg.height/2.,
+                  "openCVFx": rgb["render_focal_px"], "openCVFy": rgb["render_focal_px"],
+                  "fthetaMaxFov": 180.}
+        values.update(dict.fromkeys(("fthetaPolyA", "fthetaPolyB", "fthetaPolyC", "fthetaPolyD",
+                                     "fthetaPolyE", "fthetaPolyF", "p0", "p1", "s0", "s1", "s2", "s3"), 0.))
+        for key, value in values.items():
+            prim.CreateAttribute(key, Sdf.ValueTypeNames.Float).Set(value)
         if use_fabric:
             import usdrt
             from isaacsim.core.utils.stage import get_current_stage
@@ -50,23 +95,32 @@ def spawn_camera_mounts(cfg):
 
 
 def spawn_cameras(cfg):
-    cam = cfg["cameras"]
     rig = load_camera_rig(cfg)
+    period = cfg["runtime"]["physics_dt"]*cfg["runtime"]["decimation"]
     common = dict(
-        update_period=cfg["runtime"]["physics_dt"]*cfg["runtime"]["decimation"],
+        update_period=period,
         update_latest_camera_pose=True,
-        height=cam["height"], width=cam["width"], data_types=["rgb"],
-        spawn=sim_utils.PinholeCameraCfg(
-            focal_length=rig["intrinsics"]["focal_length_mm"],
-            horizontal_aperture=rig["intrinsics"]["horizontal_aperture_mm"],
-            clipping_range=(.001, 10.)))
+        data_types=["rgb"])
     use_fabric = cfg["runtime"].get("use_fabric", True)
     cameras = {}
     for name, mount in rig["cameras"].items():
+        rgb = mount["rgb"]
+        if not any(abs(1/period-fps) < 1e-5 for fps in rgb["native_fps"]):
+            raise ValueError(f"{name}: capture rate is not a supported native RGB frame rate")
+        width, height = rgb["resolution"]
+        horizontal, vertical = rgb["render_aperture_mm"]
         cameras[name] = WorkcellCamera(CameraCfg(
             prim_path=mount["prim_path"],
+            width=width, height=height,
+            spawn=sim_utils.PinholeCameraCfg(
+                # USD lens lengths are tenths of a stage unit (cm on metre stage).
+                focal_length=rgb["focal_length_mm"]*.1,
+                horizontal_aperture=horizontal*.1, vertical_aperture=vertical*.1,
+                # Nominal optical origin lies behind the CAD front glass. Clip
+                # that opaque CAD surface, without moving camera or housing.
+                clipping_range=(.01, 10.), f_stop=0.),
             offset=CameraCfg.OffsetCfg(
                 pos=tuple(mount["position"]),
                 rot=tuple(mount["rotation_wxyz_ros"]), convention="ros"), **common),
-                use_fabric=use_fabric)
+                use_fabric=use_fabric, rgb=rgb)
     return cameras

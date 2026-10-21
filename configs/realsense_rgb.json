@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "datasheet": {
+      "url": "https://www.realsenseai.com/wp-content/uploads/2026/03/RealSense-D400-Series-Datasheet-Mar-2026.pdf",
+      "revision": "023, March 2026",
+      "pages": [43, 44, 65, 74, 75, 86, 139, 142]
+    },
+    "d435_rgb_fov": "https://simplecore.intel.com/realsensehub/wp-content/uploads/sites/63/D435_Series_ProductBrief_111207.pdf",
+    "d435_rgb_lens": "https://support.realsenseai.com/hc/en-us/community/posts/42873111326611-Issues-regarding-the-RGB-sensor-of-the-D435?page=1",
+    "d435i_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d435i.urdf.xacro",
+    "d435_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d435.urdf.xacro",
+    "d455_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d455.urdf.xacro"
+  },
+  "models": {
+    "D435i": {
+      "sensor": "OmniVision OV2740",
+      "native_resolution": [1920, 1080],
+      "native_fps": [6, 15, 30],
+      "fov_deg": [69.4, 42.5],
+      "focal_length_mm": 1.88,
+      "f_number": 2.0,
+      "focus": "fixed",
+      "filter": "IR cut",
+      "shutter": "rolling",
+      "imu_dof": 6,
+      "stereo_baseline_mm": 50.0,
+      "outer_aperture_spacing_mm": 65.0,
+      "rgb_from_front_center_optical_mm": [-32.5, 0.0, -4.3],
+      "extrinsic_source": "d435_description",
+      "lens_source": "d435_rgb_lens",
+      "fov_source": "d435_rgb_fov"
+    },
+    "D455": {
+      "sensor": "OmniVision OV9782",
+      "native_resolution": [1280, 800],
+      "native_fps": [5, 15, 30],
+      "fov_deg": [90.0, 65.0],
+      "focal_length_mm": 1.93,
+      "f_number": 2.0,
+      "focus": "fixed",
+      "filter": "IR cut",
+      "shutter": "global",
+      "imu_dof": 6,
+      "stereo_baseline_mm": 95.0,
+      "outer_aperture_spacing_mm": 95.0,
+      "rgb_from_front_center_optical_mm": [11.5, 0.0, -4.65],
+      "extrinsic_source": "d455_description",
+      "lens_source": "datasheet",
+      "fov_source": "datasheet"
+    }
+  }
+}

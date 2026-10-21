@@ -8,6 +8,7 @@ VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个�
 相机配置为 **中央 Intel RealSense D455 × 1、腕部 Intel RealSense D435i × 2**，
 外壳、支架和紧固件按提供的 STEP 装配坐标恢复。
 详见 [相机与支架还原说明](docs/camera_restore.md)、
+[RealSense RGB 参数与来源](docs/realsense_rgb.md)、
 [验证记录](docs/validation.md)。
 
 ## 双臂 Piper 场景
@@ -20,15 +21,31 @@ VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个�
 |---|---|---|
 | ![左腕相机与原始支架](outputs/cad_restore_acceptance/left_mount.png) | ![右腕相机与原始支架](outputs/cad_restore_acceptance/right_mount.png) | ![中央相机与立柱支架](outputs/cad_restore_acceptance/central_mount.png) |
 
+RGB 已使用官方公开光学规格及标称镜头偏移：
+
+| 相机 | 默认 RGB 分辨率 | 水平 × 垂直 FOV | 焦距 |
+|---|---|---|---|
+| 左、右腕部 D435i | 1920×1080 | 69.4° × 42.5° | 1.88 mm |
+| 中央 D455 | 1280×800 | 90° × 65° | 1.93 mm |
+
+三路仿真均以 30 Hz 采样；按公开 FOV 推导标称 K，并将 RGB 光心从原开孔中点移到官方
+坐标定义的位置。公开值不等于每台设备的出厂标定，畸变、滚动曝光和景深的当前边界见上述参数说明。
+
+| 左腕 RGB | 右腕 RGB | 中央 RGB |
+|---|---|---|
+| ![D435i 左腕实际 RGB](outputs/realsense_rgb_acceptance/left_wrist.png) | ![D435i 右腕实际 RGB](outputs/realsense_rgb_acceptance/right_wrist.png) | ![D455 中央实际 RGB](outputs/realsense_rgb_acceptance/overhead.png) |
+
 ## 项目结构
 
 ```text
 configs/workcell.yaml          布局、时步、相机和硬件通道配置
+configs/realsense_rgb.json     官方 RGB 规格、镜头偏移及来源
 src/piper_sim/
   contracts.py                观测 / 动作统一契约，SI 单位
   robot_asset.py              Piper articulation、关节驱动配置
   scene.py                    桌面、立柱、任务物体
   sensors.py                  三路相机配置
+  camera_models.py            独立 RGB 光学模型与等比例缩放
   backends/isaac.py            Isaac 仿真步进与状态接口
   backends/piper.py            Piper SDK 真机适配器
   backends/sdk_tracking.py     每组 CAN 帧独立的新鲜度检查
@@ -49,6 +66,7 @@ scripts/
   preview_layout.py           离线几何布局预览
   check_episode.py            数据完整性检查
   verify_simulation.py        关节跟踪、落桌接触、三路图像验收
+  verify_rgb_projection.py    三维标记与实际渲染像素的投影核对
   doctor.py                  无硬件副作用的环境检查
   download_runtime_wheels.py  网络中断时按哈希校验并续传安装包
 assets/generated/             自动生成的 URDF、网格、USD、CAD 元数据
@@ -79,8 +97,8 @@ flowchart LR
 - 原尺寸只进行毫米到米的单位转换，网格化公差为 0.1 mm。默认双臂六关节为零，与 CAD 装配参考姿态对应。
 - CAD 基座底面比桌面高 11 mm，当前保留原位置。源 URDF 与 CAD 法兰中心相差约 0.205 mm，
   腕部附件使用零位变换的逆矩阵转入 `link6`，使附件在参考姿态下保持原 CAD 世界坐标。
-- 投影参考点由 CAD 的双目开孔中心及前表面法线推导，真实 RGB 光学中心和内参仍未标定。
-  几何安装位姿与光学标定分别记录，不把 STEP 零件原点当作光心。
+- RGB 投影位置由 CAD 前表面坐标与官方标称镜头偏移组合，内参按对应型号的 RGB FOV 推导。
+  几何安装位姿、公开光学规格与每台真机的出厂标定分别记录。
 - 从 `example_agilex/piper_description` 复制 URDF 和 STL。原 URDF 中 `joint7`、`joint8` 为 IK 而固定，派生版本恢复两个相反空间方向的滑动手指，每指行程 35 mm，两指目标为开口宽度的一半。
 - 所有关节通过名称映射，不依赖 USD 的关节排列。两臂使用同一资产实例。
 - 源 URDF 中的 100 Nm 等参数未经真机辨识；默认驱动参数用于初步仿真，不代表实际 Piper 动力学。
@@ -125,7 +143,9 @@ bash scripts/run.sh --enable_cameras --mode replay \
 ```
 
 仿真时钟中物理频率 120 Hz、控制和采集频率 30 Hz。真实图像渲染需 `--enable_cameras`。
-本机三路 640×480 RGB 同步落盘实测约 16.5 帧/墙钟秒，不能把仿真采样频率当成实时性能保证。
+默认采集两路 1920×1080 和一路 1280×800。`cameras.image_scale: 0.5` 可将完整画幅
+等比例缩小，降低渲染和落盘开销。本机原始画幅同步采集实测约 8.53 帧/墙钟秒；
+仿真采样频率不代表墙钟实时性能保证。
 硬件模式会按控制周期限速，实际频率仍受渲染、记录和通信开销影响。
 首次运行涉及 USD 转换、扩展缓存和着色器编译，可能明显慢于后续运行。
 初次启动遵循 NVIDIA 的 EULA 提示。启动脚本隔离桌面 shell 的 ROS Python 3.12 路径，

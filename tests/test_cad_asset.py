@@ -51,12 +51,16 @@ def test_selected_camera_bodies_brackets_and_reference_dimensions():
                         "right_wrist": [.09384029, -.32999065, .32523133]}
     for name, camera in rig["cameras"].items():
         world = np.array(camera["reference_world_pose"])
-        np.testing.assert_allclose(world[:3, 3], expected_centers[name], atol=2e-6)
+        front = np.array(camera["front_reference_world_pose"])
+        np.testing.assert_allclose(front[:3, 3], expected_centers[name], atol=2e-6)
+        offset = np.array([11.5, 0, -4.65] if name == "overhead" else [-32.5, 0, -4.3])*.001
+        np.testing.assert_allclose(world[:3, 3], front[:3, 3]+front[:3, :3]@offset, atol=1e-10)
         depression = 60 if name == "overhead" else 15
         np.testing.assert_allclose(world[2, 2], -np.sin(np.deg2rad(depression)), atol=1e-5)
         expected_width = 124 if name == "overhead" else 90
         assert abs(camera["housing_dimensions_in_camera_frame_mm"][0]-expected_width) < .1
-        assert abs(camera["stereo_aperture_spacing_mm"]-(95 if name == "overhead" else 65)) < .01
+        assert abs(camera["outer_aperture_spacing_mm"]-(95 if name == "overhead" else 65)) < .01
+        assert camera["stereo_baseline_mm"] == (95 if name == "overhead" else 50)
     for side in ("left", "right"):
         mount = rig["mounts"][side]
         stage = Usd.Stage.Open(str(ROOT/mount["usd"]))

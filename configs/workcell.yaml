@@ -32,11 +32,13 @@ scene:
     size: [0.04, 0.04, 0.04]
     position: [0.35, 0.0, 0.05]
 cameras:
-  width: 640
-  height: 480
+  rgb_profiles: configs/realsense_rgb.json
+  # 1.0 uses D435i 1920x1080 and D455 1280x800. 0.5 is uniform
+  # downsampling at the same FOV, not a RealSense hardware crop mode.
+  image_scale: 1.0
   # Hardware: two Intel RealSense D435i wrists + central Intel RealSense D455.
   # The supplied STEP names wrist geometry REALSENSE_D435; preserve its provenance.
-  # Projection frames come from CAD stereo apertures; real RGB calibration is separate.
+  # RGB projection combines CAD mounting geometry with official nominal extrinsics.
   rig_manifest: assets/generated/workcell/camera_rig.json
 hardware:
   sdk_path: /home/midea/Desktop/piper_tele/sink-bot-control_bk/example_agilex/piper_sdk

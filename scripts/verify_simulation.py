@@ -57,10 +57,22 @@ with h5py.File(args.episode, "r") as f:
     # A nonuniform image can still show the inside of a mount or an incorrect pose.
     # Verify the recorded poses against scene configuration and actual joint feedback.
     rig = info["metadata"]["camera_rig"]
+    optics = {}
+    for name, mount in rig["cameras"].items():
+        if "rgb" not in mount:  # Older historical recordings used a generic pinhole.
+            continue
+        rgb = mount["rgb"]
+        width, height = rgb["resolution"]
+        assert f[f"next_observation/images/{name}"].shape[1:] == (height, width, 3)
+        optics[name] = {"model": mount["model"], "resolution": [width, height],
+                        "fov_deg": rgb["fov_deg"], "intrinsic_matrix": rgb["intrinsic_matrix"],
+                        "calibration_status": rgb["calibration_status"]}
     position_errors, rotation_errors = [], []
     for states, raw_extra in zip(f["next_observation/state"][:], f["next_observation/extras_json"][:]):
         poses = json.loads(raw_extra)["cameras"]
         for name, mount in rig["cameras"].items():
+            if name in optics:
+                np.testing.assert_allclose(poses[name]["intrinsics"], optics[name]["intrinsic_matrix"], atol=1e-4)
             expected = pose_matrix(mount["position"], mount["rotation_wxyz_ros"])
             if name != "overhead":
                 side = name.split("_")[0]
@@ -88,7 +100,12 @@ with h5py.File(args.episode, "r") as f:
               "camera_max_position_error_m": max(position_errors),
               "camera_max_rotation_error_rad": max(rotation_errors),
               "camera_source_sha256": rig["source_sha256"]}
+    if optics:
+        result["rgb_optics"] = optics
     result["action_range"] = action_range.tolist()
     result["physics_time_matches_control_clock"] = True
+    wall_times = f["observation/timestamp"][:]
+    result["wall_fps_including_rgb_recording"] = float((len(wall_times)-1)/(wall_times[-1]-wall_times[0]))
+    result["wall_frame_interval_p95_ms"] = float(np.percentile(np.diff(wall_times), 95)*1000)
     (output / "report.json").write_text(json.dumps(result, indent=2))
     print(json.dumps(result, indent=2))
