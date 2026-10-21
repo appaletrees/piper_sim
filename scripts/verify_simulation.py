@@ -17,8 +17,8 @@ parser.add_argument("episode")
 parser.add_argument("--output", default="outputs/sim_validation")
 args = parser.parse_args()
 info = validate_episode(args.episode)
-if info["metadata"].get("mode") != "sim" or info["metadata"].get("source") != "isaaclab":
-    raise ValueError("This check requires a pure Isaac simulation recording")
+if info["metadata"].get("mode") != "sim" or info["metadata"].get("source") not in ("isaaclab", "mujoco"):
+    raise ValueError("This check requires a pure Isaac or MuJoCo simulation recording")
 if info["transitions"] < 60:
     raise ValueError("Record at least 60 transitions")
 if set(info["cameras"]) != {"overhead", "left_wrist", "right_wrist"}:
@@ -41,6 +41,9 @@ with h5py.File(args.episode, "r") as f:
                             for value in f["next_observation/extras_json"][:]])
     np.testing.assert_allclose(np.diff(engine_time), 1/info["metadata"]["fps"], atol=1e-6)
     cfg = info["metadata"]["config"]
+    urdf = ROOT/cfg["robot"]["urdf"]
+    if not urdf.is_file() and info["metadata"]["source"] == "mujoco":
+        urdf = ROOT/"assets/mujoco/kinematics.urdf"
     extra = json.loads(f["next_observation/extras_json"][-1])
     expected_z = cfg["scene"]["table"]["position"][2] + cfg["scene"]["table"]["size"][2]/2 \
         + cfg["scene"]["object"]["size"][2]/2
@@ -79,7 +82,7 @@ with h5py.File(args.episode, "r") as f:
                 index = ("left", "right").index(side)
                 base = pose_matrix(cfg["robot"][side]["position"], cfg["robot"][side]["rotation"])
                 q = dict(zip(JOINT_NAMES, states[7*index:7*index+6]))
-                expected = forward(ROOT/cfg["robot"]["urdf"], q, base)["link6"] @ expected
+                expected = forward(urdf, q, base)["link6"] @ expected
             actual = pose_matrix(poses[name]["position_world"], poses[name]["quaternion_wxyz_ros"])
             distance = float(np.linalg.norm(actual[:3, 3]-expected[:3, 3]))
             angle = float(np.arccos(np.clip((np.trace(actual[:3, :3].T @ expected[:3, :3])-1)/2, -1, 1)))
@@ -93,7 +96,8 @@ with h5py.File(args.episode, "r") as f:
                       (pixels[..., 0] > 1.5*pixels[..., 2])).sum())
     if red_pixels < 10:
         raise ValueError("Overhead camera cannot see the red test object; inspect exported PNGs")
-    result = {"episode": str(Path(args.episode).resolve()), "transitions": info["transitions"],
+    result = {"episode": str(Path(args.episode).resolve()), "source": info["metadata"]["source"],
+              "transitions": info["transitions"],
               "tracking_error_p95": np.quantile(errors, .95, axis=0).tolist(),
               "object_z": object_z, "expected_object_z": expected_z, "image_std": variances,
               "overhead_red_pixels": red_pixels, "camera_positions_match_fk": True,

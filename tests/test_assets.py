@@ -1,6 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import numpy as np
+import pytest
 from piper_sim.config import ROOT, load
 from piper_sim.kinematics import forward
 
@@ -8,6 +9,8 @@ from piper_sim.kinematics import forward
 def test_prepared_fingers_open_outward_and_meshes_exist():
     cfg = load()
     urdf = ROOT / cfg["robot"]["urdf"]
+    if not urdf.is_file():
+        pytest.skip("Source URDF preparation test requires generated robot assets")
     root = ET.parse(urdf).getroot()
     assert [j.get("name") for j in root.findall("joint") if j.get("type") == "revolute"] == [
         f"joint{i}" for i in range(1, 7)]

@@ -1,10 +1,14 @@
 # 双臂 Piper 仿真工作站
 
-本项目以 **Isaac Lab v2.3.0 + Isaac Sim 5.1.0 + Python 3.11** 为固定基线，
-在本机独立环境中运行。两臂、场景、传感器、真机通信、指令入口、数据记录分别实现。
+本项目提供 **Isaac Lab v2.3.0 / Isaac Sim 5.1.0** 和 **MuJoCo 3.3.7** 两个版本，
+各自在本机独立 Python 3.11 环境中运行，共享控制与数据接口。
+两臂、场景、传感器、真机通信、指令入口、数据记录分别实现。
 VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个模型的训练代码。
 
-**已在本机通过带三路相机的物理仿真、120 帧采集和 GUI 回放验收；真机联调待接入 CAN。**
+**原始资源设计为尺寸与安装位置的权威基准。** 两个引擎均直接继承该设计；
+后续核对用于检查坐标转换、数据解释和光学参数，不依据照片残差移动或缩放 CAD。
+
+**两个版本均已通过三路相机物理仿真、120 帧采集和 GUI 回放检查；真机联调待接入 CAN。**
 相机配置为 **中央 Intel RealSense D455 × 1、腕部 Intel RealSense D435i × 2**，
 外壳、支架和紧固件按提供的 STEP 装配坐标恢复。
 详见 [相机与支架还原说明](docs/camera_restore.md)、
@@ -13,8 +17,8 @@ VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个�
 
 **真机核对更新：** 已检查 `connector_plugin_lerobot_v2` 的 210 集、630 路视频，
 修正度/弧度和夹爪字段转换，并替换为原 STEP 的宽型夹爪视觉网格。
-数据三路均为640×480。当前仍有约39–46 px桌边、58–67 px腕部指尖的投影偏差，
-**尚未通过真机一比一视角验收**；设备内参、安装标定及实体开口测量缺失。
+数据三路均为640×480。以假设内参投影时，历史检查记录了桌边约39–46 px、腕部指尖约58–67 px的残差。
+这些残差不用于否定或更改原始设计；真实设备内参及 SDK 行程映射仍需补充，才能完成真机像素级视角验收。
 见 [真机对照、已修正项与剩余差异](docs/real_alignment.md)。
 
 ## 双臂 Piper 场景
@@ -22,6 +26,14 @@ VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个�
 下图为本项目在 Isaac Lab / Isaac Sim 中的实际零位场景截图。
 
 ![双臂 Piper：原CAD夹爪网格、灰黑Piper、三台RealSense和原支架](outputs/real_alignment_summary/overview.png)
+
+下图为相同 CAD 布局在 **MuJoCo** 中的实际渲染。机械臂使用原 Piper STL，
+夹爪、三台相机、支架、立柱与桌面使用原 CAD 网格。
+
+![MuJoCo 双臂 Piper 与原 CAD 三相机工作站](outputs/mujoco_validation/overview.png)
+
+MuJoCo 启动：`bash scripts/run_mujoco.sh --enable_cameras`。
+详见 [独立安装、采集、回放与验证](docs/mujoco.md)。
 
 总览和近景采用原 CAD 夹爪视觉网格及参考照片配色。后面的全幅 RGB 保留此前公开光学规格验收版本，
 不代表640×480真机标定已完成。
@@ -60,6 +72,8 @@ src/piper_sim/
   appearance.py              CAD夹爪视觉替换和材质绑定
   lerobot_alignment.py        connector_plugin专用单位与帧索引核对
   backends/isaac.py            Isaac 仿真步进与状态接口
+  backends/mujoco.py           独立 MuJoCo 物理、三路 RGB、相同状态接口
+  mujoco_asset.py              同源 URDF / CAD 到 MJCF 的转换及哈希校验
   backends/piper.py            Piper SDK 真机适配器
   backends/sdk_tracking.py     每组 CAN 帧独立的新鲜度检查
   backends/mock.py             离线测试后端
@@ -70,6 +84,9 @@ src/piper_sim/
   kinematics.py               离线 URDF 正运动学
 scripts/
   install_runtime.sh          独立 Isaac 环境安装
+  install_mujoco.sh            独立 MuJoCo 环境安装
+  run_mujoco.sh                MuJoCo 场景、采集、回放、双向主从入口
+  prepare_mujoco.py            导出自包含 MJCF 和 OBJ / STL 网格
   run.sh / run_scene.py        场景、采集、回放、双向主从入口
   prepare_assets.py           从原描述派生可运动夹爪的仿真 URDF
   inspect_step.py             STEP 装配层级与变换提取
@@ -85,9 +102,11 @@ scripts/
   check_episode.py            数据完整性检查
   verify_simulation.py        关节跟踪、落桌接触、三路图像验收
   verify_rgb_projection.py    三维标记与实际渲染像素的投影核对
+  verify_mujoco_projection.py  MuJoCo 实际 RGB 投影及偏心内参核对
   doctor.py                  无硬件副作用的环境检查
   download_runtime_wheels.py  网络中断时按哈希校验并续传安装包
 assets/generated/             自动生成的 URDF、网格、USD、CAD 元数据
+assets/mujoco/                随仓库分发的自包含 MJCF、网格、FK 参考与来源清单
 outputs/                      日志、预览、episode、环境版本记录
 ```
 
@@ -96,12 +115,15 @@ flowchart LR
   T[遥操作设备 / 策略 / 回放] --> C[统一 Command]
   C --> G[对齐、限位、限速、时效检查]
   G --> S[Isaac 后端]
+  G --> M[MuJoCo 后端]
   G --> R[Piper 后端]
   S --> O[统一 Observation]
+  M --> O
   R --> O
   O --> D[Episode 记录器]
   D --> E[VLA 导出器 / WAM 时序窗口]
   S --- A[场景 / 机器人资产 / 相机配置]
+  M --- A
 ```
 
 ## 布局与资产
@@ -119,16 +141,23 @@ flowchart LR
   几何安装位姿、公开光学规格与每台真机的出厂标定分别记录。
 - 从 `example_agilex/piper_description` 复制 URDF 和 STL。原 URDF 中 `joint7`、`joint8` 为 IK 而固定，派生版本恢复两个相反空间方向的滑动手指，每指行程 35 mm，两指目标为开口宽度的一半。
 - 所有关节通过名称映射，不依赖 USD 的关节排列。两臂使用同一资产实例。
-- 视觉夹爪采用原 STEP 的164.003 mm宽型组件；碰撞、惯量和70 mm行程仍为旧URDF，
-  尚未完成真实夹爪接触模型标定。`appearance` 配置独立控制CAD视觉和照片参考材质。
+- 夹爪采用原 STEP 的164.003 mm宽型组件。Isaac 保留旧URDF碰撞模型，MuJoCo 使用分部件 CAD 凸包碰撞；
+  两者均保留源 URDF 惯量与70 mm行程，真实接触参数尚未辨识。`appearance` 配置控制CAD视觉和参考材质。
 - 源 URDF 中的 100 Nm 等参数未经真机辨识；默认驱动参数用于初步仿真，不代表实际 Piper 动力学。
 - 旧控制器将夹爪字段叫作 degrees，SDK 实际定义为 **0.001 mm**。这里转换为米。旧代码允许 95 mm，而原 URDF 的行程是 70 mm；本项目采用后者，超出范围报错，待实机行程确认后统一校准。
 
 ## 安装与启动
 
-版本库包含源码、配置、原始 STEP / 布局图和选定的验收截图、数值报告。
+版本库包含源码、配置、原始 STEP / 布局图、独立 MuJoCo 模型包和选定的验收截图、数值报告。
 虚拟环境、运行缓存、生成的 USD / URDF、HDF5 采集数据和调试输出保留在本机，不上传。
-在另一台机器使用时，先准备原始 `example_agilex/piper_description` 资料，
+**MuJoCo 快速启动**不需要 Isaac 或外部机器人资产目录：
+
+```bash
+bash scripts/install_mujoco.sh
+bash scripts/run_mujoco.sh --enable_cameras
+```
+
+以下为 **Isaac 安装流程**。在另一台机器使用 Isaac 或重新转换资产时，先准备原始 `example_agilex/piper_description` 资料，
 修改 `configs/workcell.yaml` 的 `robot.source`；需要连接真机时再配置 `hardware.sdk_path`
 及 CAN 通道。当前配置中的绝对路径对应开发机器，原始 SDK 和机器人描述不在本仓库中。
 安装脚本会据此重新生成机器人资产及 CAD 场景。文档中的 episode / 日志路径是本地验证记录，
@@ -198,7 +227,8 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/capture_cad_reference.py --output 
 
 ## 双向主从控制
 
-每次只选择一个主从方向，防止互相追随形成反馈环路。软件桥运行在本机；
+下面命令默认使用 Isaac；将 `scripts/run.sh` 换成 `scripts/run_mujoco.sh` 即使用 MuJoCo，
+参数、SDK适配器、指令检查和数据格式相同。每次只选择一个主从方向，防止互相追随形成反馈环路。软件桥运行在本机；
 跨机器通信需要另外实现时钟同步和通信适配器，不应暴露当前本机 HTTP 端口。
 
 ### 真机 → 仿真
@@ -289,7 +319,7 @@ metadata 明确标记这种混合来源，不能当作真实相机数据训练�
 
 ## 后续扩展边界
 
-1. 标定基座间变换、TCP、夹爪行程、相机内外参，辨识真实关节驱动参数。
+1. 以源 CAD 尺寸和装配位置为固定基准，核对坐标/SDK行程映射、设备RGB内参与镜头坐标，辨识真实关节驱动参数。
 2. 为具体任务添加物体、重置条件、成功判定和域随机化。
 3. 将单工作站后端封装为 Isaac Lab 的向量化任务环境，再做批量训练；当前启动器是单工作站。
 4. 选择具体 VLA / WAM 后增加对应数据导出器与策略客户端。

@@ -10,6 +10,7 @@ from piper_sim.contracts import Command, LOWER, UPPER
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--backend", choices=["isaac", "mujoco"], default="isaac")
     parser.add_argument("--config")
     parser.add_argument("--mode", choices=["sim", "real-to-sim", "sim-to-real", "replay"],
                         default="sim")
@@ -21,8 +22,16 @@ def main():
     parser.add_argument("--allow-actuation", action="store_true")
     parser.add_argument("--command-port", type=int, help="Loopback HTTP /target and /state port")
     parser.add_argument("--overview-image", type=Path, help="Save the final overview viewport as PNG")
-    from isaaclab.app import AppLauncher
-    AppLauncher.add_app_launcher_args(parser)
+    # Probe only the backend; let the complete parser handle --help afterwards.
+    selection = argparse.ArgumentParser(add_help=False)
+    selection.add_argument("--backend", choices=["isaac", "mujoco"], default="isaac")
+    selected, _ = selection.parse_known_args()
+    if selected.backend == "isaac":
+        from isaaclab.app import AppLauncher
+        AppLauncher.add_app_launcher_args(parser)
+    else:
+        parser.add_argument("--headless", action="store_true")
+        parser.add_argument("--enable_cameras", action="store_true")
     args = parser.parse_args()
     if args.mode == "sim-to-real" and not args.allow_actuation:
         parser.error("sim-to-real requires --allow-actuation and physically enabled, aligned arms")
@@ -35,14 +44,19 @@ def main():
     if args.mode == "replay" and not args.trajectory:
         parser.error("--trajectory is required for replay")
     cfg = load(args.config)
-    launcher = AppLauncher(args)
-    app = launcher.app
+    app = AppLauncher(args).app if args.backend == "isaac" else None
     hardware = writer = sim = server = None
     complete = False
     try:
-        from piper_sim.backends.isaac import IsaacBackend
         from piper_sim.recording import EpisodeWriter
-        sim = IsaacBackend(cfg, args.device, args.enable_cameras)
+        if args.backend == "isaac":
+            from piper_sim.backends.isaac import IsaacBackend
+            sim = IsaacBackend(cfg, args.device, args.enable_cameras)
+            is_running = app.is_running
+        else:
+            from piper_sim.backends.mujoco import MujocoBackend
+            sim = MujocoBackend(cfg, cameras=args.enable_cameras, viewer=not args.headless)
+            is_running = sim.is_running
         if args.command_port:
             from piper_sim.control import CommandServer
             server = CommandServer(args.command_port)
@@ -79,15 +93,17 @@ def main():
             writer = EpisodeWriter(args.record, {
                 "task": args.task, "mode": args.mode, "config": cfg,
                 "demo": args.demo,
-                "camera_rig": load_camera_rig(cfg),
-                "fps": 1/(sim.dt*sim.decimation), "source": "isaaclab",
+                "camera_rig": sim.rig if args.backend == "mujoco" else load_camera_rig(cfg),
+                "fps": 1/(sim.dt*sim.decimation),
+                "source": "isaaclab" if args.backend == "isaac" else "mujoco",
+                "backend": args.backend,
                 "image_timestamp_clock": "simulation",
                 "state_timestamp_clock": "host_monotonic",
                 "state_source": "hardware" if args.mode == "sim-to-real" else "simulation",
                 "image_source": "simulation",
                 "action_semantics": "absolute joint position targets and gripper width"})
         index = 0
-        while app.is_running() and (args.steps == 0 or index < args.steps):
+        while is_running() and (args.steps == 0 or index < args.steps):
             start = time.monotonic()
             before = sim.read()
             if server:
@@ -145,7 +161,7 @@ def main():
             if writer:
                 writer.append(before, action, after)
             index += 1
-            if hardware or server:
+            if hardware or server or (args.backend == "mujoco" and not args.headless):
                 time.sleep(max(0., sim.dt*sim.decimation - (time.monotonic()-start)))
         if args.overview_image:
             sim.save_overview(args.overview_image)
@@ -165,7 +181,7 @@ def main():
             server.close()
         if sim:
             sim.close()
-        else:
+        elif args.backend == "isaac":
             # Construction can fail after SimulationContext registers its STOP handler.
             from isaaclab.sim import SimulationContext
             context = SimulationContext.instance()
@@ -173,7 +189,8 @@ def main():
                 context._disable_app_control_on_stop_handle = True
         # Images are read synchronously and our HDF5 writer is already closed.
         # No asynchronous Replicator writer needs draining here.
-        app.close(wait_for_replicator=False)
+        if app:
+            app.close(wait_for_replicator=False)
 
 
 if __name__ == "__main__":

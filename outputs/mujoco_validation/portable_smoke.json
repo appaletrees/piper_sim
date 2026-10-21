@@ -1,0 +1,914 @@
+{
+  "passed": true,
+  "generated_assets_present": false,
+  "blocked_imports_during_capture": [
+    "pxr",
+    "torch",
+    "isaaclab",
+    "isaacsim",
+    "piper_sdk"
+  ],
+  "recording": "Recorded 3 transitions to episode.h5",
+  "episode_check": {
+    "transitions": 3,
+    "metadata": {
+      "task": "dual Piper workcell demonstration",
+      "mode": "sim",
+      "config": {
+        "schema_version": 1,
+        "geometry_authority": "provided_design",
+        "runtime": {
+          "isaac_lab": "v2.3.0",
+          "isaac_sim": "5.1.0",
+          "physics_dt": 0.008333333333333333,
+          "decimation": 4,
+          "use_fabric": true
+        },
+        "robot": {
+          "source": "/home/midea/Desktop/piper_tele/sink-bot-control_bk/example_agilex/piper_description",
+          "urdf": "assets/generated/piper/piper.urdf",
+          "home": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.04
+          ],
+          "left": {
+            "position": [
+              0.0,
+              0.3,
+              0.036
+            ],
+            "rotation": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "right": {
+            "position": [
+              0.0,
+              -0.3,
+              0.036
+            ],
+            "rotation": [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "scene": {
+          "geometry": "cad",
+          "cad_usd": "assets/generated/workcell/workcell.usda",
+          "table": {
+            "size": [
+              0.7,
+              1.4,
+              0.025
+            ],
+            "position": [
+              0.295,
+              0.0,
+              0.0125
+            ]
+          },
+          "mast": {
+            "size": [
+              0.016,
+              0.04,
+              1.0
+            ],
+            "position": [
+              -0.0315,
+              0.0,
+              0.536
+            ]
+          },
+          "object": {
+            "size": [
+              0.04,
+              0.04,
+              0.04
+            ],
+            "position": [
+              0.35,
+              0.0,
+              0.05
+            ]
+          }
+        },
+        "cameras": {
+          "rgb_profiles": "configs/realsense_rgb.json",
+          "image_scale": 1.0,
+          "rig_manifest": "assets/generated/workcell/camera_rig.json"
+        },
+        "appearance": {
+          "cad_gripper": true,
+          "photo_materials": true
+        },
+        "hardware": {
+          "sdk_path": "/home/midea/Desktop/piper_tele/sink-bot-control_bk/example_agilex/piper_sdk",
+          "can_left": "can_left",
+          "can_right": "can_right",
+          "feedback_max_age": 0.15,
+          "command_max_age": 0.15,
+          "joint_speed": 0.5,
+          "gripper_speed": 0.03,
+          "speed_percent": 10,
+          "gripper_effort": 500
+        },
+        "_config_path": "/tmp/piper-mujoco-portable-j_nxpmx3/configs/workcell.yaml"
+      },
+      "demo": false,
+      "camera_rig": {
+        "schema_version": 2,
+        "source_sha256": "6c7f1281549c60c1f634d6e99a0b886dca66c7cd0305109f3e4cc6d735399e2d",
+        "selection": {
+          "overhead": "D455",
+          "left_wrist": "D435i",
+          "right_wrist": "D435i"
+        },
+        "reference_joint_positions_rad": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "geometry_units": "metres",
+        "geometry_scale_from_cad_mm": 0.001,
+        "calibration_status": "CAD aligned; public nominal RGB optics, not per-device calibration",
+        "projection_reference": "RGB optical frame; +Z front, +X image right, +Y down (ROS)",
+        "rgb_profiles_sha256": "8f26fa0804b58faa3890345419c40c372810cd744710326e7cd036c920f4bbaf",
+        "optics_sources": {
+          "datasheet": {
+            "url": "https://www.realsenseai.com/wp-content/uploads/2026/03/RealSense-D400-Series-Datasheet-Mar-2026.pdf",
+            "revision": "023, March 2026",
+            "pages": [
+              43,
+              44,
+              65,
+              74,
+              75,
+              86,
+              139,
+              142
+            ]
+          },
+          "d435_rgb_fov": "https://simplecore.intel.com/realsensehub/wp-content/uploads/sites/63/D435_Series_ProductBrief_111207.pdf",
+          "d435_rgb_lens": "https://support.realsenseai.com/hc/en-us/community/posts/42873111326611-Issues-regarding-the-RGB-sensor-of-the-D435?page=1",
+          "d435i_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d435i.urdf.xacro",
+          "d435_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d435.urdf.xacro",
+          "d455_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d455.urdf.xacro"
+        },
+        "cameras": {
+          "right_wrist": {
+            "model": "D435i",
+            "manufacturer": "Intel RealSense",
+            "rgb": {
+              "sensor": "OmniVision OV2740",
+              "native_resolution": [
+                1920,
+                1080
+              ],
+              "native_fps": [
+                6,
+                15,
+                30
+              ],
+              "fov_deg": [
+                69.4,
+                42.5
+              ],
+              "focal_length_mm": 1.88,
+              "f_number": 2.0,
+              "focus": "fixed",
+              "filter": "IR cut",
+              "shutter": "rolling",
+              "imu_dof": 6,
+              "stereo_baseline_mm": 50.0,
+              "outer_aperture_spacing_mm": 65.0,
+              "rgb_from_front_center_optical_mm": [
+                -32.5,
+                0.0,
+                -4.3
+              ],
+              "extrinsic_source": "d435_description",
+              "lens_source": "d435_rgb_lens",
+              "fov_source": "d435_rgb_fov",
+              "resolution": [
+                1920,
+                1080
+              ],
+              "image_scale": 1.0,
+              "intrinsic_matrix": [
+                [
+                  1386.4160696188935,
+                  0.0,
+                  960.0
+                ],
+                [
+                  0.0,
+                  1388.6076963554276,
+                  540.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "pixel_coordinates": "opencv_integer_centers",
+              "effective_aperture_mm": [
+                2.603547433630244,
+                1.462184031767241
+              ],
+              "render_focal_px": 1386.4160696188935,
+              "render_aperture_mm": [
+                2.603547433630244,
+                1.4644954314170122
+              ],
+              "projection_implementation": "covering_pinhole_then_gpu_ray_resampling",
+              "calibration_status": "public_nominal_fov_not_device_calibration",
+              "distortion_model": "opencv_pinhole",
+              "distortion_coefficients": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "distortion_status": "ideal_pinhole; factory coefficients unavailable",
+              "exposure_model": "instantaneous; hardware shutter type is metadata only",
+              "depth_of_field": "disabled; factory focus distance unavailable"
+            },
+            "source_cad_path": [
+              "DEMOA_ASM",
+              "PIPER202501060002_ASM",
+              "REALSENSE_D435"
+            ],
+            "source_occurrence": 47,
+            "prim_path": "/World/right/link6/CameraRig/Camera",
+            "position": [
+              -0.0739307289487684,
+              0.0025097676402531244,
+              0.040136182802043355
+            ],
+            "rotation_wxyz_ros": [
+              -0.6963074301901566,
+              0.1227569642423109,
+              -0.12277116928637821,
+              0.6964294152202704
+            ],
+            "reference_world_pose": [
+              [
+                -1.5480053980617062e-05,
+                -0.2588138469647915,
+                0.9659272189868414,
+                0.08968730690179724
+              ],
+              [
+                -0.9999999842286275,
+                -0.00016689201518091908,
+                -6.074372588309338e-05,
+                -0.29749038503348946
+              ],
+              [
+                0.00017692685746959304,
+                -0.9659272046931595,
+                -0.25881384029944443,
+                0.326338477591731
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "housing_brep_dimensions_mm": [
+              89.90412971547983,
+              25.000611848573367,
+              25.050513066880356
+            ],
+            "housing_dimensions_in_camera_frame_mm": [
+              89.90325071043182,
+              25.000415708029745,
+              25.050799353728948
+            ],
+            "outer_aperture_centers_cad_mm": [
+              [
+                -362.4906452063762,
+                300.23707832417944,
+                148.83978773993
+              ],
+              [
+                -297.4906462315061,
+                300.2255780784429,
+                148.84079394344258
+              ]
+            ],
+            "outer_aperture_spacing_mm": 65.00000000000932,
+            "outer_aperture_labels": [
+              "right_ir",
+              "rgb"
+            ],
+            "stereo_baseline_mm": 50.0,
+            "front_normal_cad": [
+              -6.074372588309338e-05,
+              -0.25881384029944443,
+              0.9659272189868414
+            ],
+            "front_reference_world_pose": [
+              [
+                -1.5480053980617062e-05,
+                -0.2588138469647915,
+                0.9659272189868414,
+                0.0938402908416863
+              ],
+              [
+                -0.9999999842286275,
+                -0.00016689201518091908,
+                -6.074372588309338e-05,
+                -0.32999064571894116
+              ],
+              [
+                0.00017692685746959304,
+                -0.9659272046931595,
+                -0.25881384029944443,
+                0.3252313282013112
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "rgb_from_front_center_optical_mm": [
+              -32.5,
+              0.0,
+              -4.3
+            ],
+            "extrinsic_source": "d435_description"
+          },
+          "left_wrist": {
+            "model": "D435i",
+            "manufacturer": "Intel RealSense",
+            "rgb": {
+              "sensor": "OmniVision OV2740",
+              "native_resolution": [
+                1920,
+                1080
+              ],
+              "native_fps": [
+                6,
+                15,
+                30
+              ],
+              "fov_deg": [
+                69.4,
+                42.5
+              ],
+              "focal_length_mm": 1.88,
+              "f_number": 2.0,
+              "focus": "fixed",
+              "filter": "IR cut",
+              "shutter": "rolling",
+              "imu_dof": 6,
+              "stereo_baseline_mm": 50.0,
+              "outer_aperture_spacing_mm": 65.0,
+              "rgb_from_front_center_optical_mm": [
+                -32.5,
+                0.0,
+                -4.3
+              ],
+              "extrinsic_source": "d435_description",
+              "lens_source": "d435_rgb_lens",
+              "fov_source": "d435_rgb_fov",
+              "resolution": [
+                1920,
+                1080
+              ],
+              "image_scale": 1.0,
+              "intrinsic_matrix": [
+                [
+                  1386.4160696188935,
+                  0.0,
+                  960.0
+                ],
+                [
+                  0.0,
+                  1388.6076963554276,
+                  540.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "pixel_coordinates": "opencv_integer_centers",
+              "effective_aperture_mm": [
+                2.603547433630244,
+                1.462184031767241
+              ],
+              "render_focal_px": 1386.4160696188935,
+              "render_aperture_mm": [
+                2.603547433630244,
+                1.4644954314170122
+              ],
+              "projection_implementation": "covering_pinhole_then_gpu_ray_resampling",
+              "calibration_status": "public_nominal_fov_not_device_calibration",
+              "distortion_model": "opencv_pinhole",
+              "distortion_coefficients": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "distortion_status": "ideal_pinhole; factory coefficients unavailable",
+              "exposure_model": "instantaneous; hardware shutter type is metadata only",
+              "depth_of_field": "disabled; factory focus distance unavailable"
+            },
+            "source_cad_path": [
+              "DEMOA_ASM",
+              "PIPER202501060002_ASM",
+              "REALSENSE_D435"
+            ],
+            "source_occurrence": 103,
+            "prim_path": "/World/left/link6/CameraRig/Camera",
+            "position": [
+              -0.0739307289487684,
+              0.00250976764025318,
+              0.04013618280204334
+            ],
+            "rotation_wxyz_ros": [
+              -0.6963074301901566,
+              0.1227569642423109,
+              -0.12277116928637821,
+              0.6964294152202704
+            ],
+            "reference_world_pose": [
+              [
+                -1.5480053980617062e-05,
+                -0.2588138469647915,
+                0.9659272189868414,
+                0.08968730690179724
+              ],
+              [
+                -0.9999999842286275,
+                -0.00016689201518091908,
+                -6.074372588309338e-05,
+                0.3025096149665106
+              ],
+              [
+                0.00017692685746959304,
+                -0.9659272046931595,
+                -0.25881384029944443,
+                0.326338477591731
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "housing_brep_dimensions_mm": [
+              89.90412971547983,
+              25.000611848573367,
+              25.050513066880356
+            ],
+            "housing_dimensions_in_camera_frame_mm": [
+              89.9032507104317,
+              25.000415708029745,
+              25.050799353728962
+            ],
+            "outer_aperture_centers_cad_mm": [
+              [
+                237.5093547936238,
+                300.23707832417944,
+                148.83978773993
+              ],
+              [
+                302.5093537684939,
+                300.2255780784429,
+                148.84079394344258
+              ]
+            ],
+            "outer_aperture_spacing_mm": 65.00000000000932,
+            "outer_aperture_labels": [
+              "right_ir",
+              "rgb"
+            ],
+            "stereo_baseline_mm": 50.0,
+            "front_normal_cad": [
+              -6.074372588309338e-05,
+              -0.25881384029944443,
+              0.9659272189868414
+            ],
+            "front_reference_world_pose": [
+              [
+                -1.5480053980617062e-05,
+                -0.2588138469647915,
+                0.9659272189868414,
+                0.0938402908416863
+              ],
+              [
+                -0.9999999842286275,
+                -0.00016689201518091908,
+                -6.074372588309338e-05,
+                0.2700093542810589
+              ],
+              [
+                0.00017692685746959304,
+                -0.9659272046931595,
+                -0.25881384029944443,
+                0.3252313282013112
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "rgb_from_front_center_optical_mm": [
+              -32.5,
+              0.0,
+              -4.3
+            ],
+            "extrinsic_source": "d435_description"
+          },
+          "overhead": {
+            "model": "D455",
+            "manufacturer": "Intel RealSense",
+            "rgb": {
+              "sensor": "OmniVision OV9782",
+              "native_resolution": [
+                1280,
+                800
+              ],
+              "native_fps": [
+                5,
+                15,
+                30
+              ],
+              "fov_deg": [
+                90.0,
+                65.0
+              ],
+              "focal_length_mm": 1.93,
+              "f_number": 2.0,
+              "focus": "fixed",
+              "filter": "IR cut",
+              "shutter": "global",
+              "imu_dof": 6,
+              "stereo_baseline_mm": 95.0,
+              "outer_aperture_spacing_mm": 95.0,
+              "rgb_from_front_center_optical_mm": [
+                11.5,
+                0.0,
+                -4.65
+              ],
+              "extrinsic_source": "d455_description",
+              "lens_source": "datasheet",
+              "fov_source": "datasheet",
+              "resolution": [
+                1280,
+                800
+              ],
+              "image_scale": 1.0,
+              "intrinsic_matrix": [
+                [
+                  640.0000000000001,
+                  0.0,
+                  640.0
+                ],
+                [
+                  0.0,
+                  627.8742308469962,
+                  400.0
+                ],
+                [
+                  0.0,
+                  0.0,
+                  1.0
+                ]
+              ],
+              "pixel_coordinates": "opencv_integer_centers",
+              "effective_aperture_mm": [
+                3.8599999999999994,
+                2.4590912067169235
+              ],
+              "render_focal_px": 627.8742308469962,
+              "render_aperture_mm": [
+                3.9345459307470776,
+                2.4590912067169235
+              ],
+              "projection_implementation": "covering_pinhole_then_gpu_ray_resampling",
+              "calibration_status": "public_nominal_fov_not_device_calibration",
+              "distortion_model": "opencv_pinhole",
+              "distortion_coefficients": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "distortion_status": "ideal_pinhole; factory coefficients unavailable",
+              "exposure_model": "instantaneous; hardware shutter type is metadata only",
+              "depth_of_field": "disabled; factory focus distance unavailable"
+            },
+            "source_cad_path": [
+              "DEMOA_ASM",
+              "1640_1M000_ASM",
+              "REALSENSE_D455",
+              "SOLID"
+            ],
+            "source_occurrence": 124,
+            "prim_path": "/World/Overhead",
+            "position": [
+              0.016575000000520805,
+              -0.011500000000000008,
+              0.7576946590244765
+            ],
+            "rotation_wxyz_ros": [
+              0.18301270189222774,
+              -0.6830127018922011,
+              0.6830127018922356,
+              -0.18301270189221858
+            ],
+            "reference_world_pose": [
+              [
+                -4.383207724772551e-14,
+                -0.866025403784433,
+                0.5000000000000099,
+                0.016575000000520805
+              ],
+              [
+                -1.0000000000000002,
+                5.0612923196228465e-14,
+                -2.5085776786028175e-27,
+                -0.011500000000000008
+              ],
+              [
+                -2.530646159811256e-14,
+                -0.5000000000000099,
+                -0.866025403784433,
+                0.7576946590244765
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "housing_brep_dimensions_mm": [
+              123.99906727208003,
+              29.084533220994025,
+              26.55500015272404
+            ],
+            "housing_dimensions_in_camera_frame_mm": [
+              123.9440662751929,
+              29.084533120994017,
+              26.555000034337194
+            ],
+            "outer_aperture_centers_cad_mm": [
+              [
+                -47.50000000000001,
+                728.6676408969291,
+                73.90000000048977
+              ],
+              [
+                47.49999999999999,
+                728.6676408968293,
+                73.90000000055295
+              ]
+            ],
+            "outer_aperture_spacing_mm": 95.0,
+            "outer_aperture_labels": [
+              "right_ir",
+              "left_ir"
+            ],
+            "stereo_baseline_mm": 95.0,
+            "front_normal_cad": [
+              -2.5085776786028175e-27,
+              -0.866025403784433,
+              0.5000000000000099
+            ],
+            "front_reference_world_pose": [
+              [
+                -4.383207724772551e-14,
+                -0.866025403784433,
+                0.5000000000000099,
+                0.018900000000521354
+              ],
+              [
+                -1.0000000000000002,
+                5.0612923196228465e-14,
+                -2.5085776786028175e-27,
+                -7.105427357601002e-18
+              ],
+              [
+                -2.530646159811256e-14,
+                -0.5000000000000099,
+                -0.866025403784433,
+                0.7536676408968792
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "rgb_from_front_center_optical_mm": [
+              11.5,
+              0.0,
+              -4.65
+            ],
+            "extrinsic_source": "d455_description"
+          }
+        },
+        "mounts": {
+          "left": {
+            "usd": "assets/generated/workcell/left_wrist.usda",
+            "parent_prim": "/World/left/link6",
+            "source_occurrences": [
+              103,
+              104,
+              105,
+              106,
+              108,
+              109,
+              110,
+              111,
+              112,
+              113
+            ],
+            "reference_link6_world": [
+              [
+                0.08709319208610836,
+                1.0508004327710142e-05,
+                0.9962001685313217,
+                0.056142471634949606
+              ],
+              [
+                -4.221988634334039e-06,
+                0.9999999999392815,
+                -1.0178976254246505e-05,
+                0.29999994373696415
+              ],
+              [
+                -0.9962001685777948,
+                -3.3194262549098668e-06,
+                0.0870931921251848,
+                0.2491930930009274
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ]
+          },
+          "right": {
+            "usd": "assets/generated/workcell/right_wrist.usda",
+            "parent_prim": "/World/right/link6",
+            "source_occurrences": [
+              47,
+              48,
+              49,
+              50,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57
+            ],
+            "reference_link6_world": [
+              [
+                0.08709319208610836,
+                1.0508004327710142e-05,
+                0.9962001685313217,
+                0.056142471634949606
+              ],
+              [
+                -4.221988634334039e-06,
+                0.9999999999392815,
+                -1.0178976254246505e-05,
+                -0.30000005626303583
+              ],
+              [
+                -0.9962001685777948,
+                -3.3194262549098668e-06,
+                0.0870931921251848,
+                0.2491930930009274
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ]
+          }
+        },
+        "alignment": {
+          "left": {
+            "cad_flange_world_m": [
+              0.05612883149055994,
+              0.2999965214862167,
+              0.24939748782692459
+            ],
+            "urdf_flange_world_m": [
+              0.056142471634949606,
+              0.29999994373696415,
+              0.2491930930009274
+            ],
+            "source_urdf_flange_difference_mm": 0.2048780374602621
+          },
+          "right": {
+            "cad_flange_world_m": [
+              0.05612883149055994,
+              -0.30000347851378334,
+              0.24939748782692459
+            ],
+            "urdf_flange_world_m": [
+              0.056142471634949606,
+              -0.30000005626303583,
+              0.2491930930009274
+            ],
+            "source_urdf_flange_difference_mm": 0.20487803746026306
+          }
+        },
+        "max_geometry_roundtrip_error_m": 2.985703997914792e-08
+      },
+      "fps": 30.0,
+      "source": "mujoco",
+      "backend": "mujoco",
+      "image_timestamp_clock": "simulation",
+      "state_timestamp_clock": "host_monotonic",
+      "state_source": "simulation",
+      "image_source": "simulation",
+      "action_semantics": "absolute joint position targets and gripper width"
+    },
+    "cameras": [
+      "left_wrist",
+      "overhead",
+      "right_wrist"
+    ],
+    "features": [
+      "left.joint1",
+      "left.joint2",
+      "left.joint3",
+      "left.joint4",
+      "left.joint5",
+      "left.joint6",
+      "left.gripper_width",
+      "right.joint1",
+      "right.joint2",
+      "right.joint3",
+      "right.joint4",
+      "right.joint5",
+      "right.joint6",
+      "right.gripper_width"
+    ]
+  },
+  "isolated_checkout_tests": ".sssssss.................................                                [100%]\n34 passed, 7 skipped in 2.89s",
+  "mujoco_version": "3.3.7"
+}

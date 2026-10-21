@@ -8,6 +8,9 @@ from piper_sim.transforms import load_camera_rig, pose_matrix, transform_points
 Usd = pytest.importorskip("pxr.Usd")
 UsdGeom = pytest.importorskip("pxr.UsdGeom")
 UsdPhysics = pytest.importorskip("pxr.UsdPhysics")
+pytestmark = pytest.mark.skipif(
+    not (ROOT/load()["scene"]["cad_usd"]).is_file(),
+    reason="Source CAD conversion tests require generated USD assets")
 
 
 def test_static_cad_topology_collision_and_units():

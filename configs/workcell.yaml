@@ -1,4 +1,6 @@
 schema_version: 1
+# Source design is authoritative for dimensions and assembly transforms.
+geometry_authority: provided_design
 runtime:
   isaac_lab: v2.3.0
   isaac_sim: 5.1.0
@@ -11,7 +13,7 @@ robot:
   urdf: assets/generated/piper/piper.urdf
   # Arm zero pose matches the source STEP assembly reference.
   home: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.04]
-  # CAD J12 base envelope: 11 mm above tabletop. Physical mounting remains to be checked.
+  # Preserve the source CAD J12 base envelope, 11 mm above the tabletop.
   left:
     position: [0.0, 0.3, 0.036]
     rotation: [1.0, 0.0, 0.0, 0.0]
@@ -41,7 +43,8 @@ cameras:
   # RGB projection combines CAD mounting geometry with official nominal extrinsics.
   rig_manifest: assets/generated/workcell/camera_rig.json
 appearance:
-  # Original STEP gripper visuals; collision/inertia remain the source URDF.
+  # Original STEP gripper visuals. Isaac retains URDF collision; MuJoCo uses
+  # per-part CAD convex hulls. Both retain the source URDF inertia.
   cad_gripper: true
   photo_materials: true
 hardware:

@@ -1,0 +1,2921 @@
+{
+  "schema_version": 1,
+  "source_cad_sha256": "6c7f1281549c60c1f634d6e99a0b886dca66c7cd0305109f3e4cc6d735399e2d",
+  "units": "metres",
+  "geometry_policy": "authoritative_source_CAD_no_visual_fitting",
+  "urdf_sha256": "2cd42400c0cfe0250be65665c22be2f6212f60b25c45a6da7a972c29f4a0070b",
+  "rgb_profiles_sha256": "8f26fa0804b58faa3890345419c40c372810cd744710326e7cd036c920f4bbaf",
+  "substeps": 4,
+  "camera_rig": {
+    "schema_version": 2,
+    "source_sha256": "6c7f1281549c60c1f634d6e99a0b886dca66c7cd0305109f3e4cc6d735399e2d",
+    "selection": {
+      "overhead": "D455",
+      "left_wrist": "D435i",
+      "right_wrist": "D435i"
+    },
+    "reference_joint_positions_rad": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "geometry_units": "metres",
+    "geometry_scale_from_cad_mm": 0.001,
+    "calibration_status": "CAD aligned; public nominal RGB optics, not per-device calibration",
+    "projection_reference": "RGB optical frame; +Z front, +X image right, +Y down (ROS)",
+    "rgb_profiles_sha256": "8f26fa0804b58faa3890345419c40c372810cd744710326e7cd036c920f4bbaf",
+    "optics_sources": {
+      "datasheet": {
+        "url": "https://www.realsenseai.com/wp-content/uploads/2026/03/RealSense-D400-Series-Datasheet-Mar-2026.pdf",
+        "revision": "023, March 2026",
+        "pages": [
+          43,
+          44,
+          65,
+          74,
+          75,
+          86,
+          139,
+          142
+        ]
+      },
+      "d435_rgb_fov": "https://simplecore.intel.com/realsensehub/wp-content/uploads/sites/63/D435_Series_ProductBrief_111207.pdf",
+      "d435_rgb_lens": "https://support.realsenseai.com/hc/en-us/community/posts/42873111326611-Issues-regarding-the-RGB-sensor-of-the-D435?page=1",
+      "d435i_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d435i.urdf.xacro",
+      "d435_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d435.urdf.xacro",
+      "d455_description": "https://github.com/realsenseai/realsense-ros/blob/7a87097c499e3b0b69518d54a8e7a9ac1924e87c/realsense2_description/urdf/_d455.urdf.xacro"
+    },
+    "cameras": {
+      "right_wrist": {
+        "model": "D435i",
+        "manufacturer": "Intel RealSense",
+        "rgb": {
+          "sensor": "OmniVision OV2740",
+          "native_resolution": [
+            1920,
+            1080
+          ],
+          "native_fps": [
+            6,
+            15,
+            30
+          ],
+          "fov_deg": [
+            69.4,
+            42.5
+          ],
+          "focal_length_mm": 1.88,
+          "f_number": 2.0,
+          "focus": "fixed",
+          "filter": "IR cut",
+          "shutter": "rolling",
+          "imu_dof": 6,
+          "stereo_baseline_mm": 50.0,
+          "outer_aperture_spacing_mm": 65.0,
+          "rgb_from_front_center_optical_mm": [
+            -32.5,
+            0.0,
+            -4.3
+          ],
+          "extrinsic_source": "d435_description",
+          "lens_source": "d435_rgb_lens",
+          "fov_source": "d435_rgb_fov",
+          "resolution": [
+            1920,
+            1080
+          ],
+          "image_scale": 1.0,
+          "intrinsic_matrix": [
+            [
+              1386.4160696188935,
+              0.0,
+              960.0
+            ],
+            [
+              0.0,
+              1388.6076963554276,
+              540.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "pixel_coordinates": "opencv_integer_centers",
+          "effective_aperture_mm": [
+            2.603547433630244,
+            1.462184031767241
+          ],
+          "render_focal_px": 1386.4160696188935,
+          "render_aperture_mm": [
+            2.603547433630244,
+            1.4644954314170122
+          ],
+          "projection_implementation": "covering_pinhole_then_gpu_ray_resampling",
+          "calibration_status": "public_nominal_fov_not_device_calibration",
+          "distortion_model": "opencv_pinhole",
+          "distortion_coefficients": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "distortion_status": "ideal_pinhole; factory coefficients unavailable",
+          "exposure_model": "instantaneous; hardware shutter type is metadata only",
+          "depth_of_field": "disabled; factory focus distance unavailable"
+        },
+        "source_cad_path": [
+          "DEMOA_ASM",
+          "PIPER202501060002_ASM",
+          "REALSENSE_D435"
+        ],
+        "source_occurrence": 47,
+        "prim_path": "/World/right/link6/CameraRig/Camera",
+        "position": [
+          -0.0739307289487684,
+          0.0025097676402531244,
+          0.040136182802043355
+        ],
+        "rotation_wxyz_ros": [
+          -0.6963074301901566,
+          0.1227569642423109,
+          -0.12277116928637821,
+          0.6964294152202704
+        ],
+        "reference_world_pose": [
+          [
+            -1.5480053980617062e-05,
+            -0.2588138469647915,
+            0.9659272189868414,
+            0.08968730690179724
+          ],
+          [
+            -0.9999999842286275,
+            -0.00016689201518091908,
+            -6.074372588309338e-05,
+            -0.29749038503348946
+          ],
+          [
+            0.00017692685746959304,
+            -0.9659272046931595,
+            -0.25881384029944443,
+            0.326338477591731
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "housing_brep_dimensions_mm": [
+          89.90412971547983,
+          25.000611848573367,
+          25.050513066880356
+        ],
+        "housing_dimensions_in_camera_frame_mm": [
+          89.90325071043182,
+          25.000415708029745,
+          25.050799353728948
+        ],
+        "outer_aperture_centers_cad_mm": [
+          [
+            -362.4906452063762,
+            300.23707832417944,
+            148.83978773993
+          ],
+          [
+            -297.4906462315061,
+            300.2255780784429,
+            148.84079394344258
+          ]
+        ],
+        "outer_aperture_spacing_mm": 65.00000000000932,
+        "outer_aperture_labels": [
+          "right_ir",
+          "rgb"
+        ],
+        "stereo_baseline_mm": 50.0,
+        "front_normal_cad": [
+          -6.074372588309338e-05,
+          -0.25881384029944443,
+          0.9659272189868414
+        ],
+        "front_reference_world_pose": [
+          [
+            -1.5480053980617062e-05,
+            -0.2588138469647915,
+            0.9659272189868414,
+            0.0938402908416863
+          ],
+          [
+            -0.9999999842286275,
+            -0.00016689201518091908,
+            -6.074372588309338e-05,
+            -0.32999064571894116
+          ],
+          [
+            0.00017692685746959304,
+            -0.9659272046931595,
+            -0.25881384029944443,
+            0.3252313282013112
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "rgb_from_front_center_optical_mm": [
+          -32.5,
+          0.0,
+          -4.3
+        ],
+        "extrinsic_source": "d435_description"
+      },
+      "left_wrist": {
+        "model": "D435i",
+        "manufacturer": "Intel RealSense",
+        "rgb": {
+          "sensor": "OmniVision OV2740",
+          "native_resolution": [
+            1920,
+            1080
+          ],
+          "native_fps": [
+            6,
+            15,
+            30
+          ],
+          "fov_deg": [
+            69.4,
+            42.5
+          ],
+          "focal_length_mm": 1.88,
+          "f_number": 2.0,
+          "focus": "fixed",
+          "filter": "IR cut",
+          "shutter": "rolling",
+          "imu_dof": 6,
+          "stereo_baseline_mm": 50.0,
+          "outer_aperture_spacing_mm": 65.0,
+          "rgb_from_front_center_optical_mm": [
+            -32.5,
+            0.0,
+            -4.3
+          ],
+          "extrinsic_source": "d435_description",
+          "lens_source": "d435_rgb_lens",
+          "fov_source": "d435_rgb_fov",
+          "resolution": [
+            1920,
+            1080
+          ],
+          "image_scale": 1.0,
+          "intrinsic_matrix": [
+            [
+              1386.4160696188935,
+              0.0,
+              960.0
+            ],
+            [
+              0.0,
+              1388.6076963554276,
+              540.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "pixel_coordinates": "opencv_integer_centers",
+          "effective_aperture_mm": [
+            2.603547433630244,
+            1.462184031767241
+          ],
+          "render_focal_px": 1386.4160696188935,
+          "render_aperture_mm": [
+            2.603547433630244,
+            1.4644954314170122
+          ],
+          "projection_implementation": "covering_pinhole_then_gpu_ray_resampling",
+          "calibration_status": "public_nominal_fov_not_device_calibration",
+          "distortion_model": "opencv_pinhole",
+          "distortion_coefficients": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "distortion_status": "ideal_pinhole; factory coefficients unavailable",
+          "exposure_model": "instantaneous; hardware shutter type is metadata only",
+          "depth_of_field": "disabled; factory focus distance unavailable"
+        },
+        "source_cad_path": [
+          "DEMOA_ASM",
+          "PIPER202501060002_ASM",
+          "REALSENSE_D435"
+        ],
+        "source_occurrence": 103,
+        "prim_path": "/World/left/link6/CameraRig/Camera",
+        "position": [
+          -0.0739307289487684,
+          0.00250976764025318,
+          0.04013618280204334
+        ],
+        "rotation_wxyz_ros": [
+          -0.6963074301901566,
+          0.1227569642423109,
+          -0.12277116928637821,
+          0.6964294152202704
+        ],
+        "reference_world_pose": [
+          [
+            -1.5480053980617062e-05,
+            -0.2588138469647915,
+            0.9659272189868414,
+            0.08968730690179724
+          ],
+          [
+            -0.9999999842286275,
+            -0.00016689201518091908,
+            -6.074372588309338e-05,
+            0.3025096149665106
+          ],
+          [
+            0.00017692685746959304,
+            -0.9659272046931595,
+            -0.25881384029944443,
+            0.326338477591731
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "housing_brep_dimensions_mm": [
+          89.90412971547983,
+          25.000611848573367,
+          25.050513066880356
+        ],
+        "housing_dimensions_in_camera_frame_mm": [
+          89.9032507104317,
+          25.000415708029745,
+          25.050799353728962
+        ],
+        "outer_aperture_centers_cad_mm": [
+          [
+            237.5093547936238,
+            300.23707832417944,
+            148.83978773993
+          ],
+          [
+            302.5093537684939,
+            300.2255780784429,
+            148.84079394344258
+          ]
+        ],
+        "outer_aperture_spacing_mm": 65.00000000000932,
+        "outer_aperture_labels": [
+          "right_ir",
+          "rgb"
+        ],
+        "stereo_baseline_mm": 50.0,
+        "front_normal_cad": [
+          -6.074372588309338e-05,
+          -0.25881384029944443,
+          0.9659272189868414
+        ],
+        "front_reference_world_pose": [
+          [
+            -1.5480053980617062e-05,
+            -0.2588138469647915,
+            0.9659272189868414,
+            0.0938402908416863
+          ],
+          [
+            -0.9999999842286275,
+            -0.00016689201518091908,
+            -6.074372588309338e-05,
+            0.2700093542810589
+          ],
+          [
+            0.00017692685746959304,
+            -0.9659272046931595,
+            -0.25881384029944443,
+            0.3252313282013112
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "rgb_from_front_center_optical_mm": [
+          -32.5,
+          0.0,
+          -4.3
+        ],
+        "extrinsic_source": "d435_description"
+      },
+      "overhead": {
+        "model": "D455",
+        "manufacturer": "Intel RealSense",
+        "rgb": {
+          "sensor": "OmniVision OV9782",
+          "native_resolution": [
+            1280,
+            800
+          ],
+          "native_fps": [
+            5,
+            15,
+            30
+          ],
+          "fov_deg": [
+            90.0,
+            65.0
+          ],
+          "focal_length_mm": 1.93,
+          "f_number": 2.0,
+          "focus": "fixed",
+          "filter": "IR cut",
+          "shutter": "global",
+          "imu_dof": 6,
+          "stereo_baseline_mm": 95.0,
+          "outer_aperture_spacing_mm": 95.0,
+          "rgb_from_front_center_optical_mm": [
+            11.5,
+            0.0,
+            -4.65
+          ],
+          "extrinsic_source": "d455_description",
+          "lens_source": "datasheet",
+          "fov_source": "datasheet",
+          "resolution": [
+            1280,
+            800
+          ],
+          "image_scale": 1.0,
+          "intrinsic_matrix": [
+            [
+              640.0000000000001,
+              0.0,
+              640.0
+            ],
+            [
+              0.0,
+              627.8742308469962,
+              400.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "pixel_coordinates": "opencv_integer_centers",
+          "effective_aperture_mm": [
+            3.8599999999999994,
+            2.4590912067169235
+          ],
+          "render_focal_px": 627.8742308469962,
+          "render_aperture_mm": [
+            3.9345459307470776,
+            2.4590912067169235
+          ],
+          "projection_implementation": "covering_pinhole_then_gpu_ray_resampling",
+          "calibration_status": "public_nominal_fov_not_device_calibration",
+          "distortion_model": "opencv_pinhole",
+          "distortion_coefficients": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "distortion_status": "ideal_pinhole; factory coefficients unavailable",
+          "exposure_model": "instantaneous; hardware shutter type is metadata only",
+          "depth_of_field": "disabled; factory focus distance unavailable"
+        },
+        "source_cad_path": [
+          "DEMOA_ASM",
+          "1640_1M000_ASM",
+          "REALSENSE_D455",
+          "SOLID"
+        ],
+        "source_occurrence": 124,
+        "prim_path": "/World/Overhead",
+        "position": [
+          0.016575000000520805,
+          -0.011500000000000008,
+          0.7576946590244765
+        ],
+        "rotation_wxyz_ros": [
+          0.18301270189222774,
+          -0.6830127018922011,
+          0.6830127018922356,
+          -0.18301270189221858
+        ],
+        "reference_world_pose": [
+          [
+            -4.383207724772551e-14,
+            -0.866025403784433,
+            0.5000000000000099,
+            0.016575000000520805
+          ],
+          [
+            -1.0000000000000002,
+            5.0612923196228465e-14,
+            -2.5085776786028175e-27,
+            -0.011500000000000008
+          ],
+          [
+            -2.530646159811256e-14,
+            -0.5000000000000099,
+            -0.866025403784433,
+            0.7576946590244765
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "housing_brep_dimensions_mm": [
+          123.99906727208003,
+          29.084533220994025,
+          26.55500015272404
+        ],
+        "housing_dimensions_in_camera_frame_mm": [
+          123.9440662751929,
+          29.084533120994017,
+          26.555000034337194
+        ],
+        "outer_aperture_centers_cad_mm": [
+          [
+            -47.50000000000001,
+            728.6676408969291,
+            73.90000000048977
+          ],
+          [
+            47.49999999999999,
+            728.6676408968293,
+            73.90000000055295
+          ]
+        ],
+        "outer_aperture_spacing_mm": 95.0,
+        "outer_aperture_labels": [
+          "right_ir",
+          "left_ir"
+        ],
+        "stereo_baseline_mm": 95.0,
+        "front_normal_cad": [
+          -2.5085776786028175e-27,
+          -0.866025403784433,
+          0.5000000000000099
+        ],
+        "front_reference_world_pose": [
+          [
+            -4.383207724772551e-14,
+            -0.866025403784433,
+            0.5000000000000099,
+            0.018900000000521354
+          ],
+          [
+            -1.0000000000000002,
+            5.0612923196228465e-14,
+            -2.5085776786028175e-27,
+            -7.105427357601002e-18
+          ],
+          [
+            -2.530646159811256e-14,
+            -0.5000000000000099,
+            -0.866025403784433,
+            0.7536676408968792
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "rgb_from_front_center_optical_mm": [
+          11.5,
+          0.0,
+          -4.65
+        ],
+        "extrinsic_source": "d455_description"
+      }
+    },
+    "mounts": {
+      "left": {
+        "usd": "assets/generated/workcell/left_wrist.usda",
+        "parent_prim": "/World/left/link6",
+        "source_occurrences": [
+          103,
+          104,
+          105,
+          106,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113
+        ],
+        "reference_link6_world": [
+          [
+            0.08709319208610836,
+            1.0508004327710142e-05,
+            0.9962001685313217,
+            0.056142471634949606
+          ],
+          [
+            -4.221988634334039e-06,
+            0.9999999999392815,
+            -1.0178976254246505e-05,
+            0.29999994373696415
+          ],
+          [
+            -0.9962001685777948,
+            -3.3194262549098668e-06,
+            0.0870931921251848,
+            0.2491930930009274
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      },
+      "right": {
+        "usd": "assets/generated/workcell/right_wrist.usda",
+        "parent_prim": "/World/right/link6",
+        "source_occurrences": [
+          47,
+          48,
+          49,
+          50,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57
+        ],
+        "reference_link6_world": [
+          [
+            0.08709319208610836,
+            1.0508004327710142e-05,
+            0.9962001685313217,
+            0.056142471634949606
+          ],
+          [
+            -4.221988634334039e-06,
+            0.9999999999392815,
+            -1.0178976254246505e-05,
+            -0.30000005626303583
+          ],
+          [
+            -0.9962001685777948,
+            -3.3194262549098668e-06,
+            0.0870931921251848,
+            0.2491930930009274
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    },
+    "alignment": {
+      "left": {
+        "cad_flange_world_m": [
+          0.05612883149055994,
+          0.2999965214862167,
+          0.24939748782692459
+        ],
+        "urdf_flange_world_m": [
+          0.056142471634949606,
+          0.29999994373696415,
+          0.2491930930009274
+        ],
+        "source_urdf_flange_difference_mm": 0.2048780374602621
+      },
+      "right": {
+        "cad_flange_world_m": [
+          0.05612883149055994,
+          -0.30000347851378334,
+          0.24939748782692459
+        ],
+        "urdf_flange_world_m": [
+          0.056142471634949606,
+          -0.30000005626303583,
+          0.2491930930009274
+        ],
+        "source_urdf_flange_difference_mm": 0.20487803746026306
+      }
+    },
+    "max_geometry_roundtrip_error_m": 2.985703997914792e-08
+  },
+  "cad_meshes": [
+    {
+      "name": "cad_static_0",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.054999999701976776,
+          -0.699999988079071,
+          0.0
+        ],
+        [
+          0.6449999809265137,
+          0.699999988079071,
+          0.02500000037252903
+        ]
+      ],
+      "vertices": 24,
+      "triangles": 12,
+      "source": "/Workcell/part_000_TABLE_DEMOA",
+      "obj_sha256": "1d85cc5655cd0f9058a9a447b1e51f849bcbbf3cea951d9bf9aa6c0cab690732"
+    },
+    {
+      "name": "cad_static_1",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.054999999701976776,
+          -0.08799999952316284,
+          0.02500000037252903
+        ],
+        [
+          0.0949999988079071,
+          0.08799999952316284,
+          0.11100000143051147
+        ]
+      ],
+      "vertices": 1820,
+      "triangles": 1728,
+      "source": "/Workcell/part_001_CAMERA_BOTTOM_MOUNT_BRACKET",
+      "obj_sha256": "aebede8198eb7dcca376912b21703f120cc53788f48e13efb782b2e464537dae"
+    },
+    {
+      "name": "cad_static_114",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.039500001817941666,
+          -0.019999999552965164,
+          0.035999998450279236
+        ],
+        [
+          -0.023499999195337296,
+          0.019999999552965164,
+          1.0360000133514404
+        ]
+      ],
+      "vertices": 888,
+      "triangles": 804,
+      "source": "/Workcell/part_114_1640_1M000",
+      "obj_sha256": "2528bbfbbaa31d85560f102d15553869a6789c192b003049fef5024e180070ef"
+    },
+    {
+      "name": "cad_static_115",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.03135000169277191,
+          -0.032999999821186066,
+          0.7799999713897705
+        ],
+        [
+          0.012149999849498272,
+          0.032999999821186066,
+          0.8199999928474426
+        ]
+      ],
+      "vertices": 4068,
+      "triangles": 3956,
+      "source": "/Workcell/part_115_CAMERA_BRACKET_M_1",
+      "obj_sha256": "86634d58dfb245d218b5ac60a3fc2e3c197aaa3da8b54494e725d8d140950fb6"
+    },
+    {
+      "name": "cad_static_116",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.009750000201165676,
+          0.8059999942779541
+        ],
+        [
+          -0.02449999935925007,
+          0.009750000201165676,
+          0.8140000104904175
+        ]
+      ],
+      "vertices": 272,
+      "triangles": 248,
+      "source": "/Workcell/part_116_SOLID",
+      "obj_sha256": "94a2c0e43b4ec072de3d53e8e8934c27418a49cc678e30c192541de2f9454ff9"
+    },
+    {
+      "name": "cad_static_117",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.003000000026077032,
+          0.8069999814033508
+        ],
+        [
+          -0.02449999935925007,
+          0.003000000026077032,
+          0.8130000233650208
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_117_SHELL",
+      "obj_sha256": "b026b3e7adf9bb94bbadd036c681f311bbb26bc619ab8f5190c8f4dcabf874c4"
+    },
+    {
+      "name": "cad_static_118",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.0328500010073185,
+          -0.004900000058114529,
+          0.8051000237464905
+        ],
+        [
+          -0.01484999991953373,
+          0.004900000058114529,
+          0.8148999810218811
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_118_HEX_SOCKET_SCREW_M6X12",
+      "obj_sha256": "6796c7833307fa310949b33a1e932e0bf3b4df1225b1b265bd976bc6eed9fbd4"
+    },
+    {
+      "name": "cad_static_119",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.009750000201165676,
+          0.7860000133514404
+        ],
+        [
+          -0.02449999935925007,
+          0.009750000201165676,
+          0.7940000295639038
+        ]
+      ],
+      "vertices": 272,
+      "triangles": 248,
+      "source": "/Workcell/part_119_SOLID",
+      "obj_sha256": "51a07a31669bc5f110c72baa5563af632f071d7bcae4030b315cf495aa74f44b"
+    },
+    {
+      "name": "cad_static_120",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.003000000026077032,
+          0.7870000004768372
+        ],
+        [
+          -0.02449999935925007,
+          0.003000000026077032,
+          0.7929999828338623
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_120_SHELL",
+      "obj_sha256": "1a24cf101bbe0399feb753623ff4d69e6ca5ca018351f33cd9b8b4bc6a2b0688"
+    },
+    {
+      "name": "cad_static_121",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.0328500010073185,
+          -0.004900000058114529,
+          0.785099983215332
+        ],
+        [
+          -0.01484999991953373,
+          0.004900000058114529,
+          0.7949000000953674
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_121_HEX_SOCKET_SCREW_M6X12",
+      "obj_sha256": "69ba21276bf0e035a7bb34f1a4c28933a1c3587ef2f812018c57f90bc7831ccb"
+    },
+    {
+      "name": "cad_static_123",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.022844821214675903,
+          -0.06199999898672104,
+          0.7686843276023865
+        ],
+        [
+          0.018890380859375,
+          0.06199999898672104,
+          0.8149972558021545
+        ]
+      ],
+      "vertices": 2948,
+      "triangles": 2856,
+      "source": "/Workcell/part_123_CAMERA_BRACKET_M_3",
+      "obj_sha256": "36cf0f86243aeade4151eff442b7698a8dda605d282e23ddddc42080deea4714"
+    },
+    {
+      "name": "cad_static_124",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.005657368339598179,
+          -0.061972033232450485,
+          0.7486169934272766
+        ],
+        [
+          0.028632113710045815,
+          0.061972033232450485,
+          0.7815123200416565
+        ]
+      ],
+      "vertices": 32470,
+      "triangles": 37771,
+      "source": "/Workcell/part_124_SOLID",
+      "obj_sha256": "4cb87c0a98400db07a4f3c7188562c0fe8c0ae3f1285de01a3edac0ba4e94b67"
+    },
+    {
+      "name": "cad_static_126",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          0.0007551948656328022,
+          0.04464999958872795,
+          0.7725031971931458
+        ],
+        [
+          0.008849037811160088,
+          0.05034999921917915,
+          0.7822991013526917
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_126_HEX_SOCKET_SCREW_M3X6",
+      "obj_sha256": "dc00ccbea4543f2091f52c0c7242608a7403cfc508964ceaec41fcda75c8f4ea"
+    },
+    {
+      "name": "cad_static_127",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          0.0007551948656328022,
+          -0.05034999921917915,
+          0.7725031971931458
+        ],
+        [
+          0.008849037811160088,
+          -0.04464999958872795,
+          0.7822991013526917
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_127_HEX_SOCKET_SCREW_M3X6",
+      "obj_sha256": "fbed4db315cc6476c90cea0cfa6c764d0c20a2900762f234688dda2bc1b998f9"
+    },
+    {
+      "name": "cad_static_128",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.01069988775998354,
+          0.02565000019967556,
+          0.7971501350402832
+        ],
+        [
+          -0.0050001125782728195,
+          0.03864999860525131,
+          0.8028498888015747
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_128_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "d39bac62265df218fd44606772a98d86b5ac36f5611a640a2273ad9051d656b4"
+    },
+    {
+      "name": "cad_static_129",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.01069988775998354,
+          -0.03864999860525131,
+          0.7971501350402832
+        ],
+        [
+          -0.0050001125782728195,
+          -0.02565000019967556,
+          0.8028498888015747
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_129_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "ac1f07e4abb3619d4a5c7512c46c1433a44e3c92b357bb6a3150e2b6087b268a"
+    },
+    {
+      "name": "cad_static_130",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.005324887577444315,
+          0.02565000019967556,
+          0.7878403663635254
+        ],
+        [
+          0.0003748876042664051,
+          0.03864999860525131,
+          0.7935401201248169
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_130_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "b428f9db2e0776aa2475eea4f28eaebd2367d0723e62e8723ff288f096562e0a"
+    },
+    {
+      "name": "cad_static_131",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.005324887577444315,
+          -0.03864999860525131,
+          0.7878403663635254
+        ],
+        [
+          0.00037488742964342237,
+          -0.02565000019967556,
+          0.7935401201248169
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_131_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "05bf9cdf23372844f0780c3909d224f5262377bc80f17fd3e417d65742515703"
+    },
+    {
+      "name": "cad_static_132",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.007474999874830246,
+          -0.030500000342726707,
+          0.7856902480125427
+        ],
+        [
+          0.002524999901652336,
+          -0.029999999329447746,
+          0.7956902384757996
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/Workcell/part_132_DIANPIAN_M3",
+      "obj_sha256": "a8ea8bc97e6be71fd98fd3686153ca4e82d9bf88c8c56c5e3198a4415dcebf9e"
+    },
+    {
+      "name": "cad_static_133",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.012849999591708183,
+          -0.030500000342726707,
+          0.7950000166893005
+        ],
+        [
+          -0.002850000048056245,
+          -0.029999999329447746,
+          0.8050000071525574
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/Workcell/part_133_DIANPIAN_M3",
+      "obj_sha256": "2692b9a01257a46a175c216c96c36eb86eb7fb02434ddbd1660607f80a882ed2"
+    },
+    {
+      "name": "cad_static_134",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.007474802900105715,
+          0.029999999329447746,
+          0.785690426826477
+        ],
+        [
+          0.002524802926927805,
+          0.030500000342726707,
+          0.7956900000572205
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/Workcell/part_134_DIANPIAN_M3",
+      "obj_sha256": "1a964c2a59ad744c9e60084a0bfbe534a3be2f9bac6a26480d1a0cca2ab0570d"
+    },
+    {
+      "name": "cad_static_135",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.01284980308264494,
+          0.029999999329447746,
+          0.7950001955032349
+        ],
+        [
+          -0.0028501972556114197,
+          0.030500000342726707,
+          0.804999828338623
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/Workcell/part_135_DIANPIAN_M3",
+      "obj_sha256": "ea81475f3d665a7318f9e53841f24a17050e58d761945f8c6b2afb15a080bf50"
+    },
+    {
+      "name": "cad_static_136",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.011649999767541885,
+          0.02630000002682209,
+          0.7961999773979187
+        ],
+        [
+          -0.004050000105053186,
+          0.029999999329447746,
+          0.8037999868392944
+        ]
+      ],
+      "vertices": 596,
+      "triangles": 584,
+      "source": "/Workcell/part_136_SOLID",
+      "obj_sha256": "fd61d7ad9049fc77af9acb68238ed540d927b3c2e703a9056b5addf065c38e41"
+    },
+    {
+      "name": "cad_static_137",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.009349999949336052,
+          0.02630000002682209,
+          0.7985000014305115
+        ],
+        [
+          -0.00634999992325902,
+          0.029999999329447746,
+          0.8015000224113464
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_137_SHELL",
+      "obj_sha256": "cbfdde5993f4f6fa4094acf51b9eb6983c8e143a3443251b8381d09035aebfbb"
+    },
+    {
+      "name": "cad_static_138",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.006275000050663948,
+          0.02630000002682209,
+          0.7868902087211609
+        ],
+        [
+          0.0013249999610707164,
+          0.029999999329447746,
+          0.7944902181625366
+        ]
+      ],
+      "vertices": 596,
+      "triangles": 584,
+      "source": "/Workcell/part_138_SOLID",
+      "obj_sha256": "68b263e0bd60db256b219e0696187fc646ea8aa45eabda0f712edc0c294ee3d2"
+    },
+    {
+      "name": "cad_static_139",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.003975000232458115,
+          0.02630000002682209,
+          0.7891902327537537
+        ],
+        [
+          -0.0009749999735504389,
+          0.029999999329447746,
+          0.7921902537345886
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_139_SHELL",
+      "obj_sha256": "a7d2f943415ee11eea4b63fb6860e90171f0143693213d0c386c4f19c3db94d8"
+    },
+    {
+      "name": "cad_static_140",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.011649849824607372,
+          -0.029999999329447746,
+          0.796200156211853
+        ],
+        [
+          -0.004050149582326412,
+          -0.02630000002682209,
+          0.8037998676300049
+        ]
+      ],
+      "vertices": 596,
+      "triangles": 584,
+      "source": "/Workcell/part_140_SOLID",
+      "obj_sha256": "9cfc87c7aa95d37379f6efed59780e5bfe438520f05d874ffdfcd51bff7242a3"
+    },
+    {
+      "name": "cad_static_141",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.009349941276013851,
+          -0.029999999329447746,
+          0.7985000610351562
+        ],
+        [
+          -0.006350059062242508,
+          -0.02630000002682209,
+          0.8014999628067017
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_141_SHELL",
+      "obj_sha256": "53bd33fde24d22b3e8cfc49bd956613653e50377e0a31d54be322344cd45c89a"
+    },
+    {
+      "name": "cad_static_142",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.006274850107729435,
+          -0.029999999329447746,
+          0.7868903875350952
+        ],
+        [
+          0.001324850250966847,
+          -0.02630000002682209,
+          0.7944900989532471
+        ]
+      ],
+      "vertices": 596,
+      "triangles": 584,
+      "source": "/Workcell/part_142_SOLID",
+      "obj_sha256": "1574974790e8ab49c21098f3ba4eadc6108f961920ee306129485e79ca64a846"
+    },
+    {
+      "name": "cad_static_143",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.003974940627813339,
+          -0.029999999329447746,
+          0.7891902923583984
+        ],
+        [
+          -0.0009750591707415879,
+          -0.02630000002682209,
+          0.7921901941299438
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_143_SHELL",
+      "obj_sha256": "999863b5dabbe649bc2d0a8094d1f19ac5b8f928b8acb77a6fd937be8c5fa592"
+    },
+    {
+      "name": "cad_static_144",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.009750000201165676,
+          0.0949999988079071
+        ],
+        [
+          -0.02449999935925007,
+          0.009750000201165676,
+          0.10300000011920929
+        ]
+      ],
+      "vertices": 272,
+      "triangles": 248,
+      "source": "/Workcell/part_144_SOLID",
+      "obj_sha256": "c0caf27cd8a9350f618a364e0a85108343355dcb5b01dd458823bc05e1cd9422"
+    },
+    {
+      "name": "cad_static_145",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.003000000026077032,
+          0.09600000083446503
+        ],
+        [
+          -0.02449999935925007,
+          0.003000000026077032,
+          0.10199999809265137
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_145_SHELL",
+      "obj_sha256": "2e757b70cd7537aa56c42d08fc8c0cc682d158772b8b7288aea749a904de4b94"
+    },
+    {
+      "name": "cad_static_146",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.009750000201165676,
+          0.039000000804662704
+        ],
+        [
+          -0.02449999935925007,
+          0.009750000201165676,
+          0.04699999839067459
+        ]
+      ],
+      "vertices": 272,
+      "triangles": 248,
+      "source": "/Workcell/part_146_SOLID",
+      "obj_sha256": "cae38e1bc4ed8e5795df6591064f32ecee28af0cb4bdf5874214c54276e7a8f6"
+    },
+    {
+      "name": "cad_static_147",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.003000000026077032,
+          0.03999999910593033
+        ],
+        [
+          -0.02449999935925007,
+          0.003000000026077032,
+          0.04600000008940697
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_147_SHELL",
+      "obj_sha256": "0d9f9e0136dc53592c02ce36b1cc0f3d889797bad4616262e8decb723869765a"
+    },
+    {
+      "name": "cad_static_148",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.03200000151991844,
+          -0.004900000058114529,
+          0.038100000470876694
+        ],
+        [
+          -0.006000000052154064,
+          0.004900000058114529,
+          0.0478999987244606
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_148_HEX_SOCKET_SCREW_M6X20",
+      "obj_sha256": "2269604ecd86aaab5ecf4976386867bc49424ee075982452814d473b7d6ebd84"
+    },
+    {
+      "name": "cad_static_149",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032999999821186066,
+          -0.004900000058114529,
+          0.0940999984741211
+        ],
+        [
+          -0.007000000216066837,
+          0.004900000058114529,
+          0.1039000004529953
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_149_HEX_SOCKET_SCREW_M6X20",
+      "obj_sha256": "6510b7ad4fc0436233da7ee0b86d1bd6a42ac682ca3f322e694c1b90ca56baf9"
+    },
+    {
+      "name": "cad_static_150",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.013000000268220901,
+          -0.009999999776482582,
+          0.032999999821186066
+        ],
+        [
+          -0.012000000104308128,
+          0.009999999776482582,
+          0.05299999937415123
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/Workcell/part_150_DIANPIAN_M6",
+      "obj_sha256": "b08c08bcdfc402ad24bffe90b1f67da7995ed8cbcdeab8333f9a817465ebc1ea"
+    },
+    {
+      "name": "cad_static_151",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.013000000268220901,
+          -0.009999999776482582,
+          0.08900000154972076
+        ],
+        [
+          -0.012000000104308128,
+          0.009999999776482582,
+          0.10899999737739563
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/Workcell/part_151_DIANPIAN_M6",
+      "obj_sha256": "cc1faa0d7026af58ac4dc9c40abd14c77357a4e641c5fd76ef4c243d0beb8fb9"
+    },
+    {
+      "name": "cad_static_155",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.023499999195337296,
+          -0.019999999552965164,
+          0.035999998450279236
+        ],
+        [
+          0.09500002861022949,
+          0.019999999552965164,
+          0.5236829519271851
+        ]
+      ],
+      "vertices": 1278,
+      "triangles": 1182,
+      "source": "/Workcell/part_155_1640LVXINGCAI_1M_3",
+      "obj_sha256": "9bcb03110e03af2dfc8beeebcdc14c12df88094e887220c00dc1f058e8cdd648"
+    },
+    {
+      "name": "cad_static_156",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.023499999195337296,
+          -0.017999999225139618,
+          0.4824824929237366
+        ],
+        [
+          -0.00984329916536808,
+          0.017999999225139618,
+          0.5559999942779541
+        ]
+      ],
+      "vertices": 924,
+      "triangles": 888,
+      "source": "/Workcell/part_156_GUANJIEPIAN_1",
+      "obj_sha256": "c181e609b950d56ccbcb46b3bad477cb167e1e17636d66ddf2ce92c4a9056b76"
+    },
+    {
+      "name": "cad_static_157",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.0228023249655962,
+          -0.009750000201165676,
+          0.4862452447414398
+        ],
+        [
+          -0.013173062354326248,
+          0.009750000201165676,
+          0.4958745241165161
+        ]
+      ],
+      "vertices": 272,
+      "triangles": 248,
+      "source": "/Workcell/part_157_SOLID",
+      "obj_sha256": "18c07cbdda87aadebdab6834b1e8bc9203adeb6dfdcb4bd218ebdaaded9460c5"
+    },
+    {
+      "name": "cad_static_158",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.022571712732315063,
+          -0.003000000026077032,
+          0.48721829056739807
+        ],
+        [
+          -0.013403674587607384,
+          0.003000000026077032,
+          0.49490147829055786
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_158_SHELL",
+      "obj_sha256": "94ce2cf6745140f5b174aa449b80a52eb5042168a7af86281fa39589b78b9f7c"
+    },
+    {
+      "name": "cad_static_159",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.009750000201165676,
+          0.5419999957084656
+        ],
+        [
+          -0.02449999935925007,
+          0.009750000201165676,
+          0.550000011920929
+        ]
+      ],
+      "vertices": 272,
+      "triangles": 248,
+      "source": "/Workcell/part_159_SOLID",
+      "obj_sha256": "d705e297203efdaff144227f69afa6df389d409201b171bd79d30e4f71e62b15"
+    },
+    {
+      "name": "cad_static_160",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.032499998807907104,
+          -0.003000000026077032,
+          0.5429999828338623
+        ],
+        [
+          -0.02449999935925007,
+          0.003000000026077032,
+          0.5490000247955322
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_160_SHELL",
+      "obj_sha256": "6150beeba45cc2405c240e33cb06e8b9a78cad4851ea83be5c1068eb06beb789"
+    },
+    {
+      "name": "cad_static_161",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.024402497336268425,
+          -0.004900000058114529,
+          0.4868723750114441
+        ],
+        [
+          -0.005282993894070387,
+          0.004900000058114529,
+          0.4984932839870453
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_161_HEX_SOCKET_SCREW_M6X12",
+      "obj_sha256": "b99d2c599e59c300a732c951cb6a29d0c9b3eb9cd7cff1e439275bd59027f9b8"
+    },
+    {
+      "name": "cad_static_162",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          -0.03449999913573265,
+          -0.004900000058114529,
+          0.541100025177002
+        ],
+        [
+          -0.016499999910593033,
+          0.004900000058114529,
+          0.5508999824523926
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_162_HEX_SOCKET_SCREW_M6X12",
+      "obj_sha256": "04394e2bf7c86a86fc878cb8b28a3f42e489ac52217d088a75e1566931374444"
+    },
+    {
+      "name": "cad_static_163",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          0.07691431045532227,
+          -0.009750000201165676,
+          0.05249118059873581
+        ],
+        [
+          0.08654357492923737,
+          0.009750000201165676,
+          0.06212044134736061
+        ]
+      ],
+      "vertices": 272,
+      "triangles": 248,
+      "source": "/Workcell/part_163_SOLID",
+      "obj_sha256": "6a5c9ad5ca0ed82b0678a6560b5b397b2b1eb94eee3d9de9bde8e30fee298771"
+    },
+    {
+      "name": "cad_static_164",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          0.07714492082595825,
+          -0.003000000026077032,
+          0.05346422642469406
+        ],
+        [
+          0.08631295710802078,
+          0.003000000026077032,
+          0.06114739552140236
+        ]
+      ],
+      "vertices": 108,
+      "triangles": 104,
+      "source": "/Workcell/part_164_SHELL",
+      "obj_sha256": "920b2a15cf0f85ff4a9504c3b58c3c3a38830e9016385d8a45f9ff38d6c3aa2d"
+    },
+    {
+      "name": "cad_static_165",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          0.04855681210756302,
+          -0.017999999225139618,
+          0.035999998450279236
+        ],
+        [
+          0.07802735269069672,
+          0.017999999225139618,
+          0.07005660235881805
+        ]
+      ],
+      "vertices": 832,
+      "triangles": 788,
+      "source": "/Workcell/part_165_GUANJIEPIAN_2",
+      "obj_sha256": "26a4cfac7ed2538be9b246651c4fca375935105cde87549e40cdf50d905cfc96"
+    },
+    {
+      "name": "cad_static_166",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          0.05860000103712082,
+          -0.004900000058114529,
+          0.02500000037252903
+        ],
+        [
+          0.06840000301599503,
+          0.004900000058114529,
+          0.0430000014603138
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_166_HEX_SOCKET_SCREW_M6X12",
+      "obj_sha256": "cbf2247a290ec46b3755650914c520e6ec1d948cb7b5a60b4c15abed00beb3bd"
+    },
+    {
+      "name": "cad_static_167",
+      "parent": "world",
+      "bounds_local_m": [
+        [
+          0.06610510498285294,
+          -0.004900000058114529,
+          0.04918055608868599
+        ],
+        [
+          0.08522460609674454,
+          0.004900000058114529,
+          0.06080147996544838
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/Workcell/part_167_HEX_SOCKET_SCREW_M6X12",
+      "obj_sha256": "84a9222d93bcecee1fb2c73206c2d58494e83bb2acbd1495e1a7f6be6a3a7316"
+    },
+    {
+      "name": "cad_left_103",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.0913071557879448,
+          -0.07489338517189026,
+          0.017801016569137573
+        ],
+        [
+          -0.06344256550073624,
+          0.015010048635303974,
+          0.04743229225277901
+        ]
+      ],
+      "vertices": 35907,
+      "triangles": 41870,
+      "source": "/CameraRig/part_103_REALSENSE_D435",
+      "obj_sha256": "5059bde5393465a58e99a0275d706b34571f09d119d0dbdd647ca3b470ba2275"
+    },
+    {
+      "name": "cad_left_104",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.08923938125371933,
+          -0.06447461247444153,
+          0.002501165261492133
+        ],
+        [
+          -0.0003503148618619889,
+          0.03911907598376274,
+          0.05050421506166458
+        ]
+      ],
+      "vertices": 16533,
+      "triangles": 23316,
+      "source": "/CameraRig/part_104_SOLID",
+      "obj_sha256": "f897616868396ca005d6f201aaeac4c9703a9ea4b60a806f0a4419b7c9aa1cdc"
+    },
+    {
+      "name": "cad_left_105",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.005363488104194403,
+          -0.03640265390276909,
+          0.03300350531935692
+        ],
+        [
+          -0.000350827700458467,
+          0.03639742732048035,
+          0.03600455820560455
+        ]
+      ],
+      "vertices": 216,
+      "triangles": 208,
+      "source": "/CameraRig/part_105_COMPOUND",
+      "obj_sha256": "a4d841ce2e9558db2da2c905daa2e88824d71f352d2c155aca17b2a6932d1f47"
+    },
+    {
+      "name": "cad_left_106",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -6.391228089341894e-05,
+          -0.03909773752093315,
+          0.01850421540439129
+        ],
+        [
+          0.035394784063100815,
+          0.03909117728471756,
+          0.050506602972745895
+        ]
+      ],
+      "vertices": 5807,
+      "triangles": 8402,
+      "source": "/CameraRig/part_106_PIPER_CAMERA_BRACKET_A2_2",
+      "obj_sha256": "393c8ccf22f3daca06470188e369d13fafe11b75f9171c3945c9dda647b8b350"
+    },
+    {
+      "name": "cad_left_108",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.006051348987966776,
+          0.032045330852270126,
+          0.031654153019189835
+        ],
+        [
+          0.0069493865594267845,
+          0.03774578124284744,
+          0.03735433146357536
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_108_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "e00ff150916f601b45556d8d7e1bffc1dcaa316b2e5860e1a03d0ea86d4ec846"
+    },
+    {
+      "name": "cad_left_109",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.006063451059162617,
+          -0.0377538837492466,
+          0.03165486454963684
+        ],
+        [
+          0.006937284488230944,
+          -0.03205343335866928,
+          0.03735504299402237
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_109_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "76811141a89cef28032d1da50a6f60f47931f56a777de3d5e6990796154dc012"
+    },
+    {
+      "name": "cad_left_110",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.04105691984295845,
+          0.0031536102760583162,
+          0.04350137710571289
+        ],
+        [
+          -0.03535674512386322,
+          0.008853636682033539,
+          0.05650164932012558
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_110_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "05d480d88f75aa117c0502a36e09afb5ef1ae3f8f6a59018271184070b7d2328"
+    },
+    {
+      "name": "cad_left_111",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.04105900228023529,
+          -0.008846390061080456,
+          0.04350150004029274
+        ],
+        [
+          -0.03535882383584976,
+          -0.0031463634222745895,
+          0.05650177225470543
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_111_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "3600a988e50fa1296bc2980928408dea1da3bc2b7e79188cdd2e51240b55566c"
+    },
+    {
+      "name": "cad_left_112",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.08598018437623978,
+          -0.05533900484442711,
+          0.013115493580698967
+        ],
+        [
+          -0.07893955707550049,
+          -0.04963887482881546,
+          0.02293570153415203
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_112_HEX_SOCKET_SCREW_M3X6",
+      "obj_sha256": "590310235c270fd2fea856a27f42c4c07bca5f6803b6799ce804c8bccf68b26a"
+    },
+    {
+      "name": "cad_left_113",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.0859723836183548,
+          -0.01033900398761034,
+          0.01311503630131483
+        ],
+        [
+          -0.07893175631761551,
+          -0.004638874437659979,
+          0.02293524518609047
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_113_HEX_SOCKET_SCREW_M3X6",
+      "obj_sha256": "49a2094b8ab7da312ebcf6bf2a409fb41d2a2461e089d19313f2ef12a33a3026"
+    },
+    {
+      "name": "gripper_left_93",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.02870595082640648,
+          -0.028503309935331345,
+          0.0045029474422335625
+        ],
+        [
+          0.028294047340750694,
+          0.02849668823182583,
+          0.01700616255402565
+        ]
+      ],
+      "vertices": 8488,
+      "triangles": 8554,
+      "source": "/CadGripper/part_093",
+      "obj_sha256": "51c22ac78301d46ec62a8cad6fbe538188d82b5051b445b93c95e73428235b13"
+    },
+    {
+      "name": "gripper_left_94",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.0422096885740757,
+          -0.08200446516275406,
+          0.050501320511102676
+        ],
+        [
+          0.03275345265865326,
+          0.08199883997440338,
+          0.0695057213306427
+        ]
+      ],
+      "vertices": 19697,
+      "triangles": 23463,
+      "source": "/CadGripper/part_094",
+      "obj_sha256": "908183bfc6ac3e5cbe018c59c3ea13b988b14bdd39e8ceb0f0ab4835b90bec33"
+    },
+    {
+      "name": "gripper_left_95",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.02870062179863453,
+          -0.02850325033068657,
+          0.017002249136567116
+        ],
+        [
+          0.028283989056944847,
+          0.02849714085459709,
+          0.05650541931390762
+        ]
+      ],
+      "vertices": 7124,
+      "triangles": 7748,
+      "source": "/CadGripper/part_095",
+      "obj_sha256": "783a9dba900627c55868777c45ad75b4db502de2faa7d2d6426684c517b5f440"
+    },
+    {
+      "name": "gripper_left_96",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.0037229538429528475,
+          -0.07750336825847626,
+          0.06450320035219193
+        ],
+        [
+          0.003304220037534833,
+          0.07749788463115692,
+          0.06930522620677948
+        ]
+      ],
+      "vertices": 5416,
+      "triangles": 5300,
+      "source": "/CadGripper/part_096",
+      "obj_sha256": "26989bf94ea96a75c3616c42e7645ca741bd6188399a43e2e4addee268257ba3"
+    },
+    {
+      "name": "gripper_left_97",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.017700916156172752,
+          -0.024915313348174095,
+          0.056503042578697205
+        ],
+        [
+          0.017283258959650993,
+          0.024909717962145805,
+          0.06300514191389084
+        ]
+      ],
+      "vertices": 4808,
+      "triangles": 5362,
+      "source": "/CadGripper/part_097",
+      "obj_sha256": "2209c59ae53967422ba02cc721097a5bad2d3176683f320c0a540619f340b579"
+    },
+    {
+      "name": "gripper_left_98",
+      "parent": "left/link6",
+      "bounds_local_m": [
+        [
+          -0.028705133125185966,
+          -0.02849973365664482,
+          2.2491192339657573e-06
+        ],
+        [
+          0.02828327752649784,
+          0.028484482318162918,
+          0.01050617452710867
+        ]
+      ],
+      "vertices": 5516,
+      "triangles": 5904,
+      "source": "/CadGripper/part_098",
+      "obj_sha256": "49e886b6bed9c0ffdf90438adea468b0694f48a88181dc62d9c45f72a9a8162e"
+    },
+    {
+      "name": "gripper_left_99",
+      "parent": "left/link7",
+      "bounds_local_m": [
+        [
+          -0.028217874467372894,
+          -0.06429602205753326,
+          0.002002088585868478
+        ],
+        [
+          0.027784530073404312,
+          0.006705383770167828,
+          0.02650824934244156
+        ]
+      ],
+      "vertices": 3000,
+      "triangles": 3514,
+      "source": "/CadGripper/part_099",
+      "obj_sha256": "9783a90222f404810eba22a5520152fedcf21be589f4f29ce6b9c0f2c3a0ab3d"
+    },
+    {
+      "name": "gripper_left_100",
+      "parent": "left/link7",
+      "bounds_local_m": [
+        [
+          0.009932730346918106,
+          -0.06829448789358139,
+          0.010757791809737682
+        ],
+        [
+          0.018932770937681198,
+          -0.06429386138916016,
+          0.01975761540234089
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/CadGripper/part_100",
+      "obj_sha256": "12393a42c70a632388edc09d75fb38c6f0f46c780729285fde15cbb1ac9fe529"
+    },
+    {
+      "name": "gripper_left_101",
+      "parent": "left/link7",
+      "bounds_local_m": [
+        [
+          -0.00871918722987175,
+          -0.06979592144489288,
+          0.002753648441284895
+        ],
+        [
+          0.00828515738248825,
+          -0.06329445540904999,
+          0.0252566859126091
+        ]
+      ],
+      "vertices": 1924,
+      "triangles": 2256,
+      "source": "/CadGripper/part_101",
+      "obj_sha256": "f89f342b1183027b9df425ca7c20d4b1ed1a161691d56d849d73717199f7f8d4"
+    },
+    {
+      "name": "gripper_left_102",
+      "parent": "left/link7",
+      "bounds_local_m": [
+        [
+          -0.02821570634841919,
+          -0.06429604440927505,
+          2.086811491608387e-06
+        ],
+        [
+          0.02778487838804722,
+          0.0067053260281682014,
+          0.004009983502328396
+        ]
+      ],
+      "vertices": 212,
+      "triangles": 164,
+      "source": "/CadGripper/part_102",
+      "obj_sha256": "6dbc8a5d983b0504cb486e05e9f3e6e7f4e59ea2db21af1fa0849ed00022bea8"
+    },
+    {
+      "name": "gripper_left_89",
+      "parent": "left/link8",
+      "bounds_local_m": [
+        [
+          -0.027797700837254524,
+          -0.06429795920848846,
+          0.001998032908886671
+        ],
+        [
+          0.02820444293320179,
+          0.006704691797494888,
+          0.026502754539251328
+        ]
+      ],
+      "vertices": 3000,
+      "triangles": 3514,
+      "source": "/CadGripper/part_089",
+      "obj_sha256": "4acdb58597fad065c8243ec6b7fd3bb2b29ae480e55ec1d26ad374378636a32e"
+    },
+    {
+      "name": "gripper_left_90",
+      "parent": "left/link8",
+      "bounds_local_m": [
+        [
+          0.010352144949138165,
+          -0.068297378718853,
+          0.010752266272902489
+        ],
+        [
+          0.01935218647122383,
+          -0.06429676711559296,
+          0.019752060994505882
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/CadGripper/part_090",
+      "obj_sha256": "e2d8646c12994a11f967c9c89357ff65713ae3f827702da3161aa43b31080471"
+    },
+    {
+      "name": "gripper_left_91",
+      "parent": "left/link8",
+      "bounds_local_m": [
+        [
+          -0.008299732580780983,
+          -0.06979671865701675,
+          0.0027482968289405107
+        ],
+        [
+          0.008704445324838161,
+          -0.06329541653394699,
+          0.02525116130709648
+        ]
+      ],
+      "vertices": 1924,
+      "triangles": 2256,
+      "source": "/CadGripper/part_091",
+      "obj_sha256": "c3ab7c0288784b17616b4a6d463295ca13bc9bf388757f673f298af14f97ed46"
+    },
+    {
+      "name": "gripper_left_92",
+      "parent": "left/link8",
+      "bounds_local_m": [
+        [
+          -0.02779562585055828,
+          -0.0642978772521019,
+          -1.9705626073118765e-06
+        ],
+        [
+          0.028204774484038353,
+          0.006704704836010933,
+          0.004004418849945068
+        ]
+      ],
+      "vertices": 212,
+      "triangles": 164,
+      "source": "/CadGripper/part_092",
+      "obj_sha256": "a883a4d1fa2ce6d0885a4ef4ec61597f314bec3b11794a57d498a75d8eb6cf49"
+    },
+    {
+      "name": "cad_right_47",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.0913071557879448,
+          -0.07489338517189026,
+          0.017801016569137573
+        ],
+        [
+          -0.06344256550073624,
+          0.015010048635303974,
+          0.04743229225277901
+        ]
+      ],
+      "vertices": 35907,
+      "triangles": 41870,
+      "source": "/CameraRig/part_047_REALSENSE_D435",
+      "obj_sha256": "5059bde5393465a58e99a0275d706b34571f09d119d0dbdd647ca3b470ba2275"
+    },
+    {
+      "name": "cad_right_48",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.08923938125371933,
+          -0.06447461247444153,
+          0.002501165261492133
+        ],
+        [
+          -0.0003503148618619889,
+          0.03911907598376274,
+          0.05050421506166458
+        ]
+      ],
+      "vertices": 16533,
+      "triangles": 23316,
+      "source": "/CameraRig/part_048_SOLID",
+      "obj_sha256": "f897616868396ca005d6f201aaeac4c9703a9ea4b60a806f0a4419b7c9aa1cdc"
+    },
+    {
+      "name": "cad_right_49",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.005363488104194403,
+          -0.03640265390276909,
+          0.03300350531935692
+        ],
+        [
+          -0.000350827700458467,
+          0.03639742732048035,
+          0.03600455820560455
+        ]
+      ],
+      "vertices": 216,
+      "triangles": 208,
+      "source": "/CameraRig/part_049_COMPOUND",
+      "obj_sha256": "a4d841ce2e9558db2da2c905daa2e88824d71f352d2c155aca17b2a6932d1f47"
+    },
+    {
+      "name": "cad_right_50",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -6.391228089341894e-05,
+          -0.03909773752093315,
+          0.01850421540439129
+        ],
+        [
+          0.035394784063100815,
+          0.03909117728471756,
+          0.050506602972745895
+        ]
+      ],
+      "vertices": 5807,
+      "triangles": 8402,
+      "source": "/CameraRig/part_050_PIPER_CAMERA_BRACKET_A2_2",
+      "obj_sha256": "393c8ccf22f3daca06470188e369d13fafe11b75f9171c3945c9dda647b8b350"
+    },
+    {
+      "name": "cad_right_52",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.006051348987966776,
+          0.032045330852270126,
+          0.031654153019189835
+        ],
+        [
+          0.0069493865594267845,
+          0.03774578124284744,
+          0.03735433146357536
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_052_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "e00ff150916f601b45556d8d7e1bffc1dcaa316b2e5860e1a03d0ea86d4ec846"
+    },
+    {
+      "name": "cad_right_53",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.006063451059162617,
+          -0.0377538837492466,
+          0.03165486454963684
+        ],
+        [
+          0.006937284488230944,
+          -0.03205343335866928,
+          0.03735504299402237
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_053_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "76811141a89cef28032d1da50a6f60f47931f56a777de3d5e6990796154dc012"
+    },
+    {
+      "name": "cad_right_54",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.04105691984295845,
+          0.0031536102760583162,
+          0.04350137710571289
+        ],
+        [
+          -0.03535674512386322,
+          0.008853636682033539,
+          0.05650164932012558
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_054_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "05d480d88f75aa117c0502a36e09afb5ef1ae3f8f6a59018271184070b7d2328"
+    },
+    {
+      "name": "cad_right_55",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.04105900228023529,
+          -0.008846390061080456,
+          0.04350150004029274
+        ],
+        [
+          -0.03535882383584976,
+          -0.0031463634222745895,
+          0.05650177225470543
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_055_HEX_SOCKET_SCREW_M3X10",
+      "obj_sha256": "3600a988e50fa1296bc2980928408dea1da3bc2b7e79188cdd2e51240b55566c"
+    },
+    {
+      "name": "cad_right_56",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.08598018437623978,
+          -0.05533900484442711,
+          0.013115493580698967
+        ],
+        [
+          -0.07893955707550049,
+          -0.04963887482881546,
+          0.02293570153415203
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_056_HEX_SOCKET_SCREW_M3X6",
+      "obj_sha256": "590310235c270fd2fea856a27f42c4c07bca5f6803b6799ce804c8bccf68b26a"
+    },
+    {
+      "name": "cad_right_57",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.0859723836183548,
+          -0.01033900398761034,
+          0.01311503630131483
+        ],
+        [
+          -0.07893175631761551,
+          -0.004638874437659979,
+          0.02293524518609047
+        ]
+      ],
+      "vertices": 2080,
+      "triangles": 3244,
+      "source": "/CameraRig/part_057_HEX_SOCKET_SCREW_M3X6",
+      "obj_sha256": "49a2094b8ab7da312ebcf6bf2a409fb41d2a2461e089d19313f2ef12a33a3026"
+    },
+    {
+      "name": "gripper_right_37",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.02870595082640648,
+          -0.028503309935331345,
+          0.0045029474422335625
+        ],
+        [
+          0.028294047340750694,
+          0.02849668823182583,
+          0.01700616255402565
+        ]
+      ],
+      "vertices": 8488,
+      "triangles": 8554,
+      "source": "/CadGripper/part_037",
+      "obj_sha256": "51c22ac78301d46ec62a8cad6fbe538188d82b5051b445b93c95e73428235b13"
+    },
+    {
+      "name": "gripper_right_38",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.0422096885740757,
+          -0.08200446516275406,
+          0.050501320511102676
+        ],
+        [
+          0.03275345265865326,
+          0.08199883997440338,
+          0.0695057213306427
+        ]
+      ],
+      "vertices": 19697,
+      "triangles": 23463,
+      "source": "/CadGripper/part_038",
+      "obj_sha256": "908183bfc6ac3e5cbe018c59c3ea13b988b14bdd39e8ceb0f0ab4835b90bec33"
+    },
+    {
+      "name": "gripper_right_39",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.02870062179863453,
+          -0.02850325033068657,
+          0.017002249136567116
+        ],
+        [
+          0.028283989056944847,
+          0.02849714085459709,
+          0.05650541931390762
+        ]
+      ],
+      "vertices": 7124,
+      "triangles": 7748,
+      "source": "/CadGripper/part_039",
+      "obj_sha256": "783a9dba900627c55868777c45ad75b4db502de2faa7d2d6426684c517b5f440"
+    },
+    {
+      "name": "gripper_right_40",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.0037229538429528475,
+          -0.07750336825847626,
+          0.06450320035219193
+        ],
+        [
+          0.003304220037534833,
+          0.07749788463115692,
+          0.06930522620677948
+        ]
+      ],
+      "vertices": 5416,
+      "triangles": 5300,
+      "source": "/CadGripper/part_040",
+      "obj_sha256": "26989bf94ea96a75c3616c42e7645ca741bd6188399a43e2e4addee268257ba3"
+    },
+    {
+      "name": "gripper_right_41",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.017700916156172752,
+          -0.024915313348174095,
+          0.056503042578697205
+        ],
+        [
+          0.017283258959650993,
+          0.024909717962145805,
+          0.06300514191389084
+        ]
+      ],
+      "vertices": 4808,
+      "triangles": 5362,
+      "source": "/CadGripper/part_041",
+      "obj_sha256": "2209c59ae53967422ba02cc721097a5bad2d3176683f320c0a540619f340b579"
+    },
+    {
+      "name": "gripper_right_42",
+      "parent": "right/link6",
+      "bounds_local_m": [
+        [
+          -0.028705133125185966,
+          -0.02849973365664482,
+          2.2491192339657573e-06
+        ],
+        [
+          0.02828327752649784,
+          0.028484482318162918,
+          0.01050617452710867
+        ]
+      ],
+      "vertices": 5516,
+      "triangles": 5904,
+      "source": "/CadGripper/part_042",
+      "obj_sha256": "49e886b6bed9c0ffdf90438adea468b0694f48a88181dc62d9c45f72a9a8162e"
+    },
+    {
+      "name": "gripper_right_43",
+      "parent": "right/link7",
+      "bounds_local_m": [
+        [
+          -0.028217874467372894,
+          -0.06429602205753326,
+          0.002002088585868478
+        ],
+        [
+          0.027784530073404312,
+          0.006705383770167828,
+          0.02650824934244156
+        ]
+      ],
+      "vertices": 3000,
+      "triangles": 3514,
+      "source": "/CadGripper/part_043",
+      "obj_sha256": "9783a90222f404810eba22a5520152fedcf21be589f4f29ce6b9c0f2c3a0ab3d"
+    },
+    {
+      "name": "gripper_right_44",
+      "parent": "right/link7",
+      "bounds_local_m": [
+        [
+          0.009932730346918106,
+          -0.06829448789358139,
+          0.010757791809737682
+        ],
+        [
+          0.018932770937681198,
+          -0.06429386138916016,
+          0.01975761540234089
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/CadGripper/part_044",
+      "obj_sha256": "12393a42c70a632388edc09d75fb38c6f0f46c780729285fde15cbb1ac9fe529"
+    },
+    {
+      "name": "gripper_right_45",
+      "parent": "right/link7",
+      "bounds_local_m": [
+        [
+          -0.00871918722987175,
+          -0.06979592144489288,
+          0.002753648441284895
+        ],
+        [
+          0.00828515738248825,
+          -0.06329445540904999,
+          0.0252566859126091
+        ]
+      ],
+      "vertices": 1924,
+      "triangles": 2256,
+      "source": "/CadGripper/part_045",
+      "obj_sha256": "f89f342b1183027b9df425ca7c20d4b1ed1a161691d56d849d73717199f7f8d4"
+    },
+    {
+      "name": "gripper_right_46",
+      "parent": "right/link7",
+      "bounds_local_m": [
+        [
+          -0.02821570634841919,
+          -0.06429604440927505,
+          2.086811491608387e-06
+        ],
+        [
+          0.02778487838804722,
+          0.0067053260281682014,
+          0.004009983502328396
+        ]
+      ],
+      "vertices": 212,
+      "triangles": 164,
+      "source": "/CadGripper/part_046",
+      "obj_sha256": "6dbc8a5d983b0504cb486e05e9f3e6e7f4e59ea2db21af1fa0849ed00022bea8"
+    },
+    {
+      "name": "gripper_right_33",
+      "parent": "right/link8",
+      "bounds_local_m": [
+        [
+          -0.027797700837254524,
+          -0.06429795920848846,
+          0.001998032908886671
+        ],
+        [
+          0.02820444293320179,
+          0.006704691797494888,
+          0.026502754539251328
+        ]
+      ],
+      "vertices": 3000,
+      "triangles": 3514,
+      "source": "/CadGripper/part_033",
+      "obj_sha256": "4acdb58597fad065c8243ec6b7fd3bb2b29ae480e55ec1d26ad374378636a32e"
+    },
+    {
+      "name": "gripper_right_34",
+      "parent": "right/link8",
+      "bounds_local_m": [
+        [
+          0.010352144949138165,
+          -0.068297378718853,
+          0.010752266272902489
+        ],
+        [
+          0.01935218647122383,
+          -0.06429676711559296,
+          0.019752060994505882
+        ]
+      ],
+      "vertices": 424,
+      "triangles": 416,
+      "source": "/CadGripper/part_034",
+      "obj_sha256": "e2d8646c12994a11f967c9c89357ff65713ae3f827702da3161aa43b31080471"
+    },
+    {
+      "name": "gripper_right_35",
+      "parent": "right/link8",
+      "bounds_local_m": [
+        [
+          -0.008299732580780983,
+          -0.06979671865701675,
+          0.0027482968289405107
+        ],
+        [
+          0.008704445324838161,
+          -0.06329541653394699,
+          0.02525116130709648
+        ]
+      ],
+      "vertices": 1924,
+      "triangles": 2256,
+      "source": "/CadGripper/part_035",
+      "obj_sha256": "c3ab7c0288784b17616b4a6d463295ca13bc9bf388757f673f298af14f97ed46"
+    },
+    {
+      "name": "gripper_right_36",
+      "parent": "right/link8",
+      "bounds_local_m": [
+        [
+          -0.02779562585055828,
+          -0.0642978772521019,
+          -1.9705626073118765e-06
+        ],
+        [
+          0.028204774484038353,
+          0.006704704836010933,
+          0.004004418849945068
+        ]
+      ],
+      "vertices": 212,
+      "triangles": 164,
+      "source": "/CadGripper/part_036",
+      "obj_sha256": "a883a4d1fa2ce6d0885a4ef4ec61597f314bec3b11794a57d498a75d8eb6cf49"
+    }
+  ],
+  "collision_model": "individual CAD part convex hulls; URDF link convex hulls; exact tabletop box",
+  "inertia_model": "source URDF; camera/bracket masses not identified",
+  "inputs": {
+    "assets/generated/piper/piper.urdf": "2cd42400c0cfe0250be65665c22be2f6212f60b25c45a6da7a972c29f4a0070b",
+    "assets/generated/workcell/workcell.json": "f39f50ad88262de901f5c27587601fc1211038803a527ab673550dfdda2e9105",
+    "assets/generated/workcell/camera_rig.json": "02df284fa993b81c158d7b90b19a246b9ac217c1a2dca48bd065470691558aea",
+    "assets/generated/cad_gripper/manifest.json": "16f26249818f5e17739ba2d7e4305539976c8cea417308f8d7908b24013b104b",
+    "assets/generated/workcell/workcell.usda": "10a85b69d841f010fad0abf653172d499123492f39f20c2e8d1a968ce9420b01",
+    "assets/generated/piper/meshes/base_link.STL": "fd4a3d6d0266205fe3f725f048645be66592c23564db22e08b0807d5569b2c64",
+    "assets/generated/piper/meshes/link1.STL": "9ee6e1d67c0241f42a0dbaf5c676d19230375ed078ee1943bb8c4c37ab303d14",
+    "assets/generated/piper/meshes/link2.STL": "0d37675b699b643f2e15348de99aed535fac10dc5f09a79b8e4b0acfaf4e0378",
+    "assets/generated/piper/meshes/link3.STL": "e8ae51f17c0c7f6d67b753922e2cc269f5e8372a65734f859231639a64fe8fad",
+    "assets/generated/piper/meshes/link4.STL": "efa33022976218f246f736a6133494b5d0e5486e8b50b52900c42f285ae85558",
+    "assets/generated/piper/meshes/link5.STL": "a1c69d1c7f6f8c60e2c82331c0f444725200ed4053d3e5ec23aa82cb5db5b29f",
+    "assets/generated/piper/meshes/link6.STL": "88374973bc3bd9e7389b5853cd6e555af9731c30b658b1ee6f85be34a126cb92",
+    "assets/generated/workcell/left_wrist.usda": "cca733f52f31aa54d9ae77f7516749e3121ba7bbb86a70f522e3a73201ce3794",
+    "assets/generated/cad_gripper/left_link6.usda": "48382b337f702921b5c24bbac3cb1b3cbdea3e323239e4b7bed29ea2188233cf",
+    "assets/generated/cad_gripper/left_link7.usda": "13d14d8973930ca83843df5dc81e51cfd3d03ed0f445e2b15086cea00ce7fe06",
+    "assets/generated/cad_gripper/left_link8.usda": "b9fb8887dea67b4cce4051e2fbca7af09fd9ea32ee87ab827e4f4f611571f275",
+    "assets/generated/workcell/right_wrist.usda": "9da4457a78ee51d62142653d58b00924a0232c4ad4c5e0e17de6027d4cfa2240",
+    "assets/generated/cad_gripper/right_link6.usda": "3930bc403981e6f2502e21f06bceb34c32d9d249c92c03868498b0b245a6c1f9",
+    "assets/generated/cad_gripper/right_link7.usda": "6da3ff7281bc5e0bd5bb2aa7e5b9be30be77d787245d73c3405408ac9027b2b2",
+    "assets/generated/cad_gripper/right_link8.usda": "9e3c66420f131dbc4355e02753fe005d7182622459f288682abc339e57ff63ef"
+  },
+  "robot_bodies": {
+    "left/base_link": "base_link",
+    "left/link1": "link1",
+    "left/link2": "link2",
+    "left/link3": "link3",
+    "left/link4": "link4",
+    "left/link5": "link5",
+    "left/link6": "link6",
+    "left/gripper_base": "gripper_base",
+    "left/gripper_center": "gripper_center",
+    "left/link7": "link7",
+    "left/link8": "link8",
+    "right/base_link": "base_link",
+    "right/link1": "link1",
+    "right/link2": "link2",
+    "right/link3": "link3",
+    "right/link4": "link4",
+    "right/link5": "link5",
+    "right/link6": "link6",
+    "right/gripper_base": "gripper_base",
+    "right/gripper_center": "gripper_center",
+    "right/link7": "link7",
+    "right/link8": "link8"
+  },
+  "joint_names": [
+    "left/joint1",
+    "left/joint2",
+    "left/joint3",
+    "left/joint4",
+    "left/joint5",
+    "left/joint6",
+    "left/joint7",
+    "left/joint8",
+    "right/joint1",
+    "right/joint2",
+    "right/joint3",
+    "right/joint4",
+    "right/joint5",
+    "right/joint6",
+    "right/joint7",
+    "right/joint8"
+  ],
+  "configuration_sha256": "07325f42c0f000a6494d676e25ffcd7bd6039df98ce7a294c472e430f823640c",
+  "builder_sha256": "57b4ca6e61513dce094b8c48e7dba01ea771adbbd7f75da18aba93359cffe0b6",
+  "kinematics_sha256": "e6c2590cce3ad183e8ff4e1443beb00c66a57a9dec0103bc60150ce1def07cdf",
+  "model_sha256": "4a9ea5382f3ada8930e388f2a2becc92496b04aca88d60517300314daa0a208e",
+  "mesh_sha256": {
+    "base_link.STL": "fd4a3d6d0266205fe3f725f048645be66592c23564db22e08b0807d5569b2c64",
+    "cad_left_103.obj": "5059bde5393465a58e99a0275d706b34571f09d119d0dbdd647ca3b470ba2275",
+    "cad_left_104.obj": "f897616868396ca005d6f201aaeac4c9703a9ea4b60a806f0a4419b7c9aa1cdc",
+    "cad_left_105.obj": "a4d841ce2e9558db2da2c905daa2e88824d71f352d2c155aca17b2a6932d1f47",
+    "cad_left_106.obj": "393c8ccf22f3daca06470188e369d13fafe11b75f9171c3945c9dda647b8b350",
+    "cad_left_108.obj": "e00ff150916f601b45556d8d7e1bffc1dcaa316b2e5860e1a03d0ea86d4ec846",
+    "cad_left_109.obj": "76811141a89cef28032d1da50a6f60f47931f56a777de3d5e6990796154dc012",
+    "cad_left_110.obj": "05d480d88f75aa117c0502a36e09afb5ef1ae3f8f6a59018271184070b7d2328",
+    "cad_left_111.obj": "3600a988e50fa1296bc2980928408dea1da3bc2b7e79188cdd2e51240b55566c",
+    "cad_left_112.obj": "590310235c270fd2fea856a27f42c4c07bca5f6803b6799ce804c8bccf68b26a",
+    "cad_left_113.obj": "49a2094b8ab7da312ebcf6bf2a409fb41d2a2461e089d19313f2ef12a33a3026",
+    "cad_right_47.obj": "5059bde5393465a58e99a0275d706b34571f09d119d0dbdd647ca3b470ba2275",
+    "cad_right_48.obj": "f897616868396ca005d6f201aaeac4c9703a9ea4b60a806f0a4419b7c9aa1cdc",
+    "cad_right_49.obj": "a4d841ce2e9558db2da2c905daa2e88824d71f352d2c155aca17b2a6932d1f47",
+    "cad_right_50.obj": "393c8ccf22f3daca06470188e369d13fafe11b75f9171c3945c9dda647b8b350",
+    "cad_right_52.obj": "e00ff150916f601b45556d8d7e1bffc1dcaa316b2e5860e1a03d0ea86d4ec846",
+    "cad_right_53.obj": "76811141a89cef28032d1da50a6f60f47931f56a777de3d5e6990796154dc012",
+    "cad_right_54.obj": "05d480d88f75aa117c0502a36e09afb5ef1ae3f8f6a59018271184070b7d2328",
+    "cad_right_55.obj": "3600a988e50fa1296bc2980928408dea1da3bc2b7e79188cdd2e51240b55566c",
+    "cad_right_56.obj": "590310235c270fd2fea856a27f42c4c07bca5f6803b6799ce804c8bccf68b26a",
+    "cad_right_57.obj": "49a2094b8ab7da312ebcf6bf2a409fb41d2a2461e089d19313f2ef12a33a3026",
+    "cad_static_0.obj": "1d85cc5655cd0f9058a9a447b1e51f849bcbbf3cea951d9bf9aa6c0cab690732",
+    "cad_static_1.obj": "aebede8198eb7dcca376912b21703f120cc53788f48e13efb782b2e464537dae",
+    "cad_static_114.obj": "2528bbfbbaa31d85560f102d15553869a6789c192b003049fef5024e180070ef",
+    "cad_static_115.obj": "86634d58dfb245d218b5ac60a3fc2e3c197aaa3da8b54494e725d8d140950fb6",
+    "cad_static_116.obj": "94a2c0e43b4ec072de3d53e8e8934c27418a49cc678e30c192541de2f9454ff9",
+    "cad_static_117.obj": "b026b3e7adf9bb94bbadd036c681f311bbb26bc619ab8f5190c8f4dcabf874c4",
+    "cad_static_118.obj": "6796c7833307fa310949b33a1e932e0bf3b4df1225b1b265bd976bc6eed9fbd4",
+    "cad_static_119.obj": "51a07a31669bc5f110c72baa5563af632f071d7bcae4030b315cf495aa74f44b",
+    "cad_static_120.obj": "1a24cf101bbe0399feb753623ff4d69e6ca5ca018351f33cd9b8b4bc6a2b0688",
+    "cad_static_121.obj": "69ba21276bf0e035a7bb34f1a4c28933a1c3587ef2f812018c57f90bc7831ccb",
+    "cad_static_123.obj": "36cf0f86243aeade4151eff442b7698a8dda605d282e23ddddc42080deea4714",
+    "cad_static_124.obj": "4cb87c0a98400db07a4f3c7188562c0fe8c0ae3f1285de01a3edac0ba4e94b67",
+    "cad_static_126.obj": "dc00ccbea4543f2091f52c0c7242608a7403cfc508964ceaec41fcda75c8f4ea",
+    "cad_static_127.obj": "fbed4db315cc6476c90cea0cfa6c764d0c20a2900762f234688dda2bc1b998f9",
+    "cad_static_128.obj": "d39bac62265df218fd44606772a98d86b5ac36f5611a640a2273ad9051d656b4",
+    "cad_static_129.obj": "ac1f07e4abb3619d4a5c7512c46c1433a44e3c92b357bb6a3150e2b6087b268a",
+    "cad_static_130.obj": "b428f9db2e0776aa2475eea4f28eaebd2367d0723e62e8723ff288f096562e0a",
+    "cad_static_131.obj": "05bf9cdf23372844f0780c3909d224f5262377bc80f17fd3e417d65742515703",
+    "cad_static_132.obj": "a8ea8bc97e6be71fd98fd3686153ca4e82d9bf88c8c56c5e3198a4415dcebf9e",
+    "cad_static_133.obj": "2692b9a01257a46a175c216c96c36eb86eb7fb02434ddbd1660607f80a882ed2",
+    "cad_static_134.obj": "1a964c2a59ad744c9e60084a0bfbe534a3be2f9bac6a26480d1a0cca2ab0570d",
+    "cad_static_135.obj": "ea81475f3d665a7318f9e53841f24a17050e58d761945f8c6b2afb15a080bf50",
+    "cad_static_136.obj": "fd61d7ad9049fc77af9acb68238ed540d927b3c2e703a9056b5addf065c38e41",
+    "cad_static_137.obj": "cbfdde5993f4f6fa4094acf51b9eb6983c8e143a3443251b8381d09035aebfbb",
+    "cad_static_138.obj": "68b263e0bd60db256b219e0696187fc646ea8aa45eabda0f712edc0c294ee3d2",
+    "cad_static_139.obj": "a7d2f943415ee11eea4b63fb6860e90171f0143693213d0c386c4f19c3db94d8",
+    "cad_static_140.obj": "9cfc87c7aa95d37379f6efed59780e5bfe438520f05d874ffdfcd51bff7242a3",
+    "cad_static_141.obj": "53bd33fde24d22b3e8cfc49bd956613653e50377e0a31d54be322344cd45c89a",
+    "cad_static_142.obj": "1574974790e8ab49c21098f3ba4eadc6108f961920ee306129485e79ca64a846",
+    "cad_static_143.obj": "999863b5dabbe649bc2d0a8094d1f19ac5b8f928b8acb77a6fd937be8c5fa592",
+    "cad_static_144.obj": "c0caf27cd8a9350f618a364e0a85108343355dcb5b01dd458823bc05e1cd9422",
+    "cad_static_145.obj": "2e757b70cd7537aa56c42d08fc8c0cc682d158772b8b7288aea749a904de4b94",
+    "cad_static_146.obj": "cae38e1bc4ed8e5795df6591064f32ecee28af0cb4bdf5874214c54276e7a8f6",
+    "cad_static_147.obj": "0d9f9e0136dc53592c02ce36b1cc0f3d889797bad4616262e8decb723869765a",
+    "cad_static_148.obj": "2269604ecd86aaab5ecf4976386867bc49424ee075982452814d473b7d6ebd84",
+    "cad_static_149.obj": "6510b7ad4fc0436233da7ee0b86d1bd6a42ac682ca3f322e694c1b90ca56baf9",
+    "cad_static_150.obj": "b08c08bcdfc402ad24bffe90b1f67da7995ed8cbcdeab8333f9a817465ebc1ea",
+    "cad_static_151.obj": "cc1faa0d7026af58ac4dc9c40abd14c77357a4e641c5fd76ef4c243d0beb8fb9",
+    "cad_static_155.obj": "9bcb03110e03af2dfc8beeebcdc14c12df88094e887220c00dc1f058e8cdd648",
+    "cad_static_156.obj": "c181e609b950d56ccbcb46b3bad477cb167e1e17636d66ddf2ce92c4a9056b76",
+    "cad_static_157.obj": "18c07cbdda87aadebdab6834b1e8bc9203adeb6dfdcb4bd218ebdaaded9460c5",
+    "cad_static_158.obj": "94ce2cf6745140f5b174aa449b80a52eb5042168a7af86281fa39589b78b9f7c",
+    "cad_static_159.obj": "d705e297203efdaff144227f69afa6df389d409201b171bd79d30e4f71e62b15",
+    "cad_static_160.obj": "6150beeba45cc2405c240e33cb06e8b9a78cad4851ea83be5c1068eb06beb789",
+    "cad_static_161.obj": "b99d2c599e59c300a732c951cb6a29d0c9b3eb9cd7cff1e439275bd59027f9b8",
+    "cad_static_162.obj": "04394e2bf7c86a86fc878cb8b28a3f42e489ac52217d088a75e1566931374444",
+    "cad_static_163.obj": "6a5c9ad5ca0ed82b0678a6560b5b397b2b1eb94eee3d9de9bde8e30fee298771",
+    "cad_static_164.obj": "920b2a15cf0f85ff4a9504c3b58c3c3a38830e9016385d8a45f9ff38d6c3aa2d",
+    "cad_static_165.obj": "26a4cfac7ed2538be9b246651c4fca375935105cde87549e40cdf50d905cfc96",
+    "cad_static_166.obj": "cbf2247a290ec46b3755650914c520e6ec1d948cb7b5a60b4c15abed00beb3bd",
+    "cad_static_167.obj": "84a9222d93bcecee1fb2c73206c2d58494e83bb2acbd1495e1a7f6be6a3a7316",
+    "gripper_left_100.obj": "12393a42c70a632388edc09d75fb38c6f0f46c780729285fde15cbb1ac9fe529",
+    "gripper_left_101.obj": "f89f342b1183027b9df425ca7c20d4b1ed1a161691d56d849d73717199f7f8d4",
+    "gripper_left_102.obj": "6dbc8a5d983b0504cb486e05e9f3e6e7f4e59ea2db21af1fa0849ed00022bea8",
+    "gripper_left_89.obj": "4acdb58597fad065c8243ec6b7fd3bb2b29ae480e55ec1d26ad374378636a32e",
+    "gripper_left_90.obj": "e2d8646c12994a11f967c9c89357ff65713ae3f827702da3161aa43b31080471",
+    "gripper_left_91.obj": "c3ab7c0288784b17616b4a6d463295ca13bc9bf388757f673f298af14f97ed46",
+    "gripper_left_92.obj": "a883a4d1fa2ce6d0885a4ef4ec61597f314bec3b11794a57d498a75d8eb6cf49",
+    "gripper_left_93.obj": "51c22ac78301d46ec62a8cad6fbe538188d82b5051b445b93c95e73428235b13",
+    "gripper_left_94.obj": "908183bfc6ac3e5cbe018c59c3ea13b988b14bdd39e8ceb0f0ab4835b90bec33",
+    "gripper_left_95.obj": "783a9dba900627c55868777c45ad75b4db502de2faa7d2d6426684c517b5f440",
+    "gripper_left_96.obj": "26989bf94ea96a75c3616c42e7645ca741bd6188399a43e2e4addee268257ba3",
+    "gripper_left_97.obj": "2209c59ae53967422ba02cc721097a5bad2d3176683f320c0a540619f340b579",
+    "gripper_left_98.obj": "49e886b6bed9c0ffdf90438adea468b0694f48a88181dc62d9c45f72a9a8162e",
+    "gripper_left_99.obj": "9783a90222f404810eba22a5520152fedcf21be589f4f29ce6b9c0f2c3a0ab3d",
+    "gripper_right_33.obj": "4acdb58597fad065c8243ec6b7fd3bb2b29ae480e55ec1d26ad374378636a32e",
+    "gripper_right_34.obj": "e2d8646c12994a11f967c9c89357ff65713ae3f827702da3161aa43b31080471",
+    "gripper_right_35.obj": "c3ab7c0288784b17616b4a6d463295ca13bc9bf388757f673f298af14f97ed46",
+    "gripper_right_36.obj": "a883a4d1fa2ce6d0885a4ef4ec61597f314bec3b11794a57d498a75d8eb6cf49",
+    "gripper_right_37.obj": "51c22ac78301d46ec62a8cad6fbe538188d82b5051b445b93c95e73428235b13",
+    "gripper_right_38.obj": "908183bfc6ac3e5cbe018c59c3ea13b988b14bdd39e8ceb0f0ab4835b90bec33",
+    "gripper_right_39.obj": "783a9dba900627c55868777c45ad75b4db502de2faa7d2d6426684c517b5f440",
+    "gripper_right_40.obj": "26989bf94ea96a75c3616c42e7645ca741bd6188399a43e2e4addee268257ba3",
+    "gripper_right_41.obj": "2209c59ae53967422ba02cc721097a5bad2d3176683f320c0a540619f340b579",
+    "gripper_right_42.obj": "49e886b6bed9c0ffdf90438adea468b0694f48a88181dc62d9c45f72a9a8162e",
+    "gripper_right_43.obj": "9783a90222f404810eba22a5520152fedcf21be589f4f29ce6b9c0f2c3a0ab3d",
+    "gripper_right_44.obj": "12393a42c70a632388edc09d75fb38c6f0f46c780729285fde15cbb1ac9fe529",
+    "gripper_right_45.obj": "f89f342b1183027b9df425ca7c20d4b1ed1a161691d56d849d73717199f7f8d4",
+    "gripper_right_46.obj": "6dbc8a5d983b0504cb486e05e9f3e6e7f4e59ea2db21af1fa0849ed00022bea8",
+    "link1.STL": "9ee6e1d67c0241f42a0dbaf5c676d19230375ed078ee1943bb8c4c37ab303d14",
+    "link2.STL": "0d37675b699b643f2e15348de99aed535fac10dc5f09a79b8e4b0acfaf4e0378",
+    "link3.STL": "e8ae51f17c0c7f6d67b753922e2cc269f5e8372a65734f859231639a64fe8fad",
+    "link4.STL": "efa33022976218f246f736a6133494b5d0e5486e8b50b52900c42f285ae85558",
+    "link5.STL": "a1c69d1c7f6f8c60e2c82331c0f444725200ed4053d3e5ec23aa82cb5db5b29f",
+    "link6.STL": "88374973bc3bd9e7389b5853cd6e555af9731c30b658b1ee6f85be34a126cb92"
+  }
+}
