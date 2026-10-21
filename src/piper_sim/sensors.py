@@ -40,8 +40,11 @@ class WorkcellCamera(Camera):
         if self._projection_grid is None:
             k = self._rgb["intrinsic_matrix"]
             focal = self._rgb["render_focal_px"]
-            y, x = torch.meshgrid(torch.arange(height, device=self._device)+.5,
-                                  torch.arange(width, device=self._device)+.5, indexing="ij")
+            # RealSense/OpenCV K uses integer pixel centres: [0,0] is the
+            # first pixel centre. The raw renderer uses edge coordinates;
+            # grid_sample's normalization below performs that conversion.
+            y, x = torch.meshgrid(torch.arange(height, device=self._device),
+                                  torch.arange(width, device=self._device), indexing="ij")
             u = (x-k[0][2])*focal/k[0][0] + width/2
             v = (y-k[1][2])*focal/k[1][1] + height/2
             self._projection_grid = torch.stack((2*u/width-1, 2*v/height-1), dim=-1)[None]

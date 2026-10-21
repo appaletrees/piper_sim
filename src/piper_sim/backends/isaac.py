@@ -29,6 +29,14 @@ class IsaacBackend:
         self.object = spawn_workcell(cfg)
         self.arms = {side: Articulation(piper_config(cfg, side)) for side in ARMS}
         spawn_camera_mounts(cfg)
+        if cfg.get("appearance", {}).get("cad_gripper", False):
+            from isaacsim.core.utils.stage import get_current_stage
+            from ..appearance import apply_cad_gripper_visuals
+            apply_cad_gripper_visuals(get_current_stage())
+        if cfg.get("appearance", {}).get("photo_materials", False):
+            from isaacsim.core.utils.stage import get_current_stage
+            from ..appearance import apply_workcell_materials
+            self.appearance_report = apply_workcell_materials(get_current_stage())
         self.cameras = spawn_cameras(cfg) if cameras else {}
         self.sim.reset()
         self.indices = {}

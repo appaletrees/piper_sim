@@ -93,3 +93,9 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/capture_cad_reference.py --output 
 参考截图在六关节精确复位后渲染，不推进重力积分：
 `overview.png`、`left_mount.png`、`right_mount.png`、`central_mount.png`。
 因此可以直接对照原装配位置；运行时的关节跟踪误差另由动态 episode 检查。
+# 真机核对补充（2026-10-21）
+
+本文原72个网格检查只覆盖场景和相机附件，不代表被URDF替代的机械臂全部几何相同。
+后续真机核对发现宽型夹爪与旧URDF不一致，现从同一STEP追加28个夹爪视觉部件，
+按link6/7/8随动并校正参考开口。真实安装长板、桌夹及相机视角仍未全部对齐，
+详见 [真机数据核对](real_alignment.md)。

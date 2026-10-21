@@ -35,12 +35,14 @@ uv pip install --python "$PIPER_PYTHON" -e "$PIPER_LAB/source/isaaclab" -e "$PIP
   -c requirements/runtime-linux-py311.lock --build-constraint requirements/build-constraints.txt \
   --torch-backend cu128
 PYTHONPATH="$PIPER_ROOT/src" "$PIPER_PYTHON" scripts/prepare_assets.py
-if ! test -f "$PIPER_ROOT/assets/generated/workcell/camera_rig.json"; then
+if ! test -f "$PIPER_ROOT/assets/generated/workcell/camera_rig.json" || \
+   ! test -f "$PIPER_ROOT/assets/generated/cad_gripper/manifest.json"; then
   test -x .venv/bin/python || uv venv --python 3.11 .venv
   mkdir -p .runtime/cad-wheels
   uv pip install --python .venv/bin/python -e "$PIPER_ROOT" \
     'cadquery-ocp==7.7.2' 'usd-core==26.8' --find-links "$PIPER_ROOT/.runtime/cad-wheels"
   .venv/bin/python scripts/convert_workcell_cad.py
+  .venv/bin/python scripts/prepare_cad_gripper.py
 fi
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH="$PIPER_ROOT/src" "$PIPER_PYTHON" -m pytest -q
 mkdir -p outputs

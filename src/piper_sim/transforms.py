@@ -23,11 +23,15 @@ def load_camera_rig(cfg):
     if not path.is_file():
         raise FileNotFoundError(f"{path}; run scripts/convert_workcell_cad.py")
     rig = json.loads(path.read_text())
-    from .camera_models import load_profiles, nominal_rgb
+    from .camera_models import load_profiles, nominal_rgb, stream_rgb
     profiles, digest = load_profiles(cfg)
     if rig.get("rgb_profiles_sha256") != digest:
         raise ValueError("RGB profiles changed or old camera rig; run scripts/convert_workcell_cad.py")
-    for camera in rig["cameras"].values():
-        camera["rgb"] = nominal_rgb(profiles["models"][camera["model"]],
-                                    cfg["cameras"].get("image_scale", 1.0))
+    streams = cfg["cameras"].get("streams", {})
+    if set(streams)-set(rig["cameras"]):
+        raise ValueError("Unknown camera in stream overrides")
+    for name, camera in rig["cameras"].items():
+        profile = profiles["models"][camera["model"]]
+        camera["rgb"] = (stream_rgb(profile, streams[name]) if name in streams else
+                          nominal_rgb(profile, cfg["cameras"].get("image_scale", 1.0)))
     return rig

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "dataset": "connector_plugin_lerobot_v2",
+  "annotation_status": "manual_diagnostic_associations_not_calibration",
+  "resolution": [640, 480],
+  "pixel_coordinates": "opencv_integer_centers",
+  "limitations": [
+    "Device intrinsics, lens distortion and hand-eye calibration were not recorded in this dataset.",
+    "These annotations test the supplied CAD with the explicitly configured camera model; they do not fit camera poses or change physical dimensions.",
+    "Manual uncertainty describes image annotation, not unknown camera or geometry error.",
+    "No real photograph or video frame is embedded in this file. Optional hashes identify local reference PNG files only."
+  ],
+  "reference_images": [
+    {
+      "camera": "overhead",
+      "stream": "observation.images.cam_external_rgb",
+      "episode": 0,
+      "frame": 0,
+      "local_basename": "ep0_f0_cam_external_rgb.png",
+      "sha256": "de88088aa16e1a0193fed371b76bf26ede78c3ec1fa3b794a35a23f988dcf1ba"
+    },
+    {
+      "camera": "left_wrist",
+      "stream": "observation.images.cam_left_wrist_rgb",
+      "episode": 0,
+      "frame": 0,
+      "local_basename": "ep0_f0_cam_left_wrist_rgb.png",
+      "sha256": "0e114e346ed6d3584714822ccd7de73325cbd2ba584a9d2dbd4c1c9da716d569"
+    }
+  ],
+  "overhead_table_edges": {
+    "camera": "overhead",
+    "stream": "observation.images.cam_external_rgb",
+    "episode": 0,
+    "frame": 0,
+    "uncertainty_px": 2.0,
+    "method": "Manually associated horizontal desk edges; absolute row-gradient maxima within the stated unoccluded image ROIs.",
+    "edges": [
+      {
+        "name": "far",
+        "world_table_axis": "positive_x",
+        "observed_y_px": 130.5,
+        "roi_xyxy": [60, 123, 135, 140]
+      },
+      {
+        "name": "near",
+        "world_table_axis": "negative_x",
+        "observed_y_px": 463.5,
+        "roi_xyxy": [220, 457, 257, 472]
+      }
+    ],
+    "additional_observation_frames": [
+      {"episode": 0, "frame": 100, "far_y_px": 130.5, "near_y_px": 463.5},
+      {"episode": 0, "frame": 200, "far_y_px": 130.5, "near_y_px": 463.5},
+      {"episode": 100, "frame": 0, "far_y_px": 130.5, "near_y_px": 463.5},
+      {"episode": 209, "frame": 100, "far_y_px": 130.5, "near_y_px": 463.5}
+    ],
+    "association_limits": [
+      "The real desk has rounded corners; the CAD desk has sharp corners. No exact corner correspondence is claimed.",
+      "Only a small unobstructed portion of the near edge is visible.",
+      "Black robot mounting plates and desk clamps have no identified matching source CAD geometry; their corners are not calibration points."
+    ]
+  },
+  "wrist_gripper_tips": {
+    "camera": "left_wrist",
+    "stream": "observation.images.cam_left_wrist_rgb",
+    "episode": 0,
+    "frame": 0,
+    "arm": "left",
+    "gripper_width_m": 0.0752,
+    "width_source": "Diagnostic 75.2 mm opening from the collector's normalized gripper convention; not a measured hardware travel limit.",
+    "uncertainty_px": 4.0,
+    "method": "Manual uppermost visible fingertip silhouette positions, checked in an enlarged view.",
+    "tips": [
+      {"name": "image_right", "link": "link7", "observed_pixel": [469.0, 303.0]},
+      {"name": "image_left", "link": "link8", "observed_pixel": [173.0, 312.0]}
+    ],
+    "association_limits": [
+      "Visible silhouettes are not fiducials. Actual finger geometry, rounded edges and partial occlusion may affect the association.",
+      "Only the vertical silhouette residual is scored; lateral coordinates are reported for inspection, not used to infer gripper travel.",
+      "The six arm joints transform the camera and fingers together and cannot explain a camera-relative fingertip projection discrepancy.",
+      "One static wrist view cannot distinguish intrinsic calibration error, hand-eye pose error and finger shape mismatch."
+    ]
+  }
+}

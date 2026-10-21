@@ -52,7 +52,10 @@ try:
         UsdGeom.Xform.Define(stage, group)
         for i, point in enumerate(points):
             color = tuple(float(i == channel) for channel in range(3))
-            shape = sim_utils.SphereCfg(radius=.0015,
+            # Keep a >=5 px radius even in VGA and covering-frustum renders;
+            # subpixel markers lose chroma to DLSS and ray resampling.
+            radius = max(.0015, 5*.2/min(k[0, 0], k[1, 1]))
+            shape = sim_utils.SphereCfg(radius=radius,
                 visual_material=sim_utils.PreviewSurfaceCfg(diffuse_color=color, emissive_color=color))
             shape.func(f"{group}/marker_{i}", shape, translation=tuple(point))
         for _ in range(16):

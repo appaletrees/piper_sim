@@ -128,3 +128,15 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/check_episode.py outputs/new_accep
 PYTHONPATH=src .venv-isaac/bin/python scripts/verify_simulation.py outputs/new_acceptance.h5 \
   --output outputs/new_acceptance_report
 ```
+## 2026-10-21 真机数据核对补充
+
+详见 [真机对照说明](real_alignment.md)。全部35项离线测试通过；
+Isaac独立环境中28项通过、4项依赖独立USD/CAD环境的检查跳过，后者在轻量环境已验证。
+实际静态渲染第0集0/100/200/300帧的三路640×480图像，未裁剪SDK行程。
+120帧完整RGB仿真回归通过，最大相机位置/FK误差约3.64×10⁻⁷ m。
+640×480投影标记测试最大误差0.539 px；非居中主点测试最大误差1.009 px。
+这里验证的是渲染器和模型内的一致性；真实桌边/腕部指尖仍存在明显残差，
+**真机一比一视角对齐未通过**。
+
+可复现数字报告位于 `outputs/real_alignment_summary/`；
+包含真实画面的对照位于本地 `outputs/real_alignment_audit/review.md`，不上传。

@@ -11,15 +11,24 @@ VLA / WAM 是后续用途，本阶段提供通用数据契约，不绑定某个�
 [RealSense RGB 参数与来源](docs/realsense_rgb.md)、
 [验证记录](docs/validation.md)。
 
+**真机核对更新：** 已检查 `connector_plugin_lerobot_v2` 的 210 集、630 路视频，
+修正度/弧度和夹爪字段转换，并替换为原 STEP 的宽型夹爪视觉网格。
+数据三路均为640×480。当前仍有约39–46 px桌边、58–67 px腕部指尖的投影偏差，
+**尚未通过真机一比一视角验收**；设备内参、安装标定及实体开口测量缺失。
+见 [真机对照、已修正项与剩余差异](docs/real_alignment.md)。
+
 ## 双臂 Piper 场景
 
 下图为本项目在 Isaac Lab / Isaac Sim 中的实际零位场景截图。
 
-![双臂 Piper 仿真场景：中央 Intel RealSense D455，左右腕部 Intel RealSense D435i](outputs/cad_restore_acceptance/overview.png)
+![双臂 Piper：原CAD夹爪网格、灰黑Piper、三台RealSense和原支架](outputs/real_alignment_summary/overview.png)
+
+总览和近景采用原 CAD 夹爪视觉网格及参考照片配色。后面的全幅 RGB 保留此前公开光学规格验收版本，
+不代表640×480真机标定已完成。
 
 | 左腕 Intel RealSense D435i | 右腕 Intel RealSense D435i | 中央 Intel RealSense D455 |
 |---|---|---|
-| ![左腕相机与原始支架](outputs/cad_restore_acceptance/left_mount.png) | ![右腕相机与原始支架](outputs/cad_restore_acceptance/right_mount.png) | ![中央相机与立柱支架](outputs/cad_restore_acceptance/central_mount.png) |
+| ![左腕相机与原始支架](outputs/real_alignment_summary/left_mount.png) | ![右腕相机与原始支架](outputs/real_alignment_summary/right_mount.png) | ![中央相机与立柱支架](outputs/real_alignment_summary/central_mount.png) |
 
 RGB 已使用官方公开光学规格及标称镜头偏移：
 
@@ -40,12 +49,16 @@ RGB 已使用官方公开光学规格及标称镜头偏移：
 ```text
 configs/workcell.yaml          布局、时步、相机和硬件通道配置
 configs/realsense_rgb.json     官方 RGB 规格、镜头偏移及来源
+configs/connector_alignment.yaml  历史数据640×480诊断模式（K为未标定假设）
+configs/appearance.json        独立外观材质配置
 src/piper_sim/
   contracts.py                观测 / 动作统一契约，SI 单位
   robot_asset.py              Piper articulation、关节驱动配置
   scene.py                    桌面、立柱、任务物体
   sensors.py                  三路相机配置
   camera_models.py            独立 RGB 光学模型与等比例缩放
+  appearance.py              CAD夹爪视觉替换和材质绑定
+  lerobot_alignment.py        connector_plugin专用单位与帧索引核对
   backends/isaac.py            Isaac 仿真步进与状态接口
   backends/piper.py            Piper SDK 真机适配器
   backends/sdk_tracking.py     每组 CAN 帧独立的新鲜度检查
@@ -61,6 +74,11 @@ scripts/
   prepare_assets.py           从原描述派生可运动夹爪的仿真 URDF
   inspect_step.py             STEP 装配层级与变换提取
   convert_workcell_cad.py      STEP 桌面、立柱、三相机及腕部支架转换
+  prepare_cad_gripper.py       原CAD夹爪按link6/7/8拆分，可随关节运动
+  extract_lerobot_alignment.py 只读抽帧、状态转换与来源核对
+  render_lerobot_alignment.py  观测姿态下的三路实虚同帧对照
+  measure_real_alignment.py   从CAD与数字标注复现投影残差
+  export_realsense_rgb_calibration.py 只读导出设备RGB模式内参
   verify_cad_alignment.py     重新读取 STEP，逐顶点和尺寸核对导出几何
   capture_cad_reference.py    Isaac 零位总览和相机支架近景
   preview_layout.py           离线几何布局预览
@@ -101,6 +119,8 @@ flowchart LR
   几何安装位姿、公开光学规格与每台真机的出厂标定分别记录。
 - 从 `example_agilex/piper_description` 复制 URDF 和 STL。原 URDF 中 `joint7`、`joint8` 为 IK 而固定，派生版本恢复两个相反空间方向的滑动手指，每指行程 35 mm，两指目标为开口宽度的一半。
 - 所有关节通过名称映射，不依赖 USD 的关节排列。两臂使用同一资产实例。
+- 视觉夹爪采用原 STEP 的164.003 mm宽型组件；碰撞、惯量和70 mm行程仍为旧URDF，
+  尚未完成真实夹爪接触模型标定。`appearance` 配置独立控制CAD视觉和照片参考材质。
 - 源 URDF 中的 100 Nm 等参数未经真机辨识；默认驱动参数用于初步仿真，不代表实际 Piper 动力学。
 - 旧控制器将夹爪字段叫作 degrees，SDK 实际定义为 **0.001 mm**。这里转换为米。旧代码允许 95 mm，而原 URDF 的行程是 70 mm；本项目采用后者，超出范围报错，待实机行程确认后统一校准。
 
@@ -167,6 +187,7 @@ CAD 转换需要资产准备环境中的 `cadquery-ocp==7.7.2`、`usd-core==26.8
 
 ```bash
 PYTHONPATH=src .venv/bin/python scripts/convert_workcell_cad.py
+PYTHONPATH=src .venv/bin/python scripts/prepare_cad_gripper.py
 PYTHONPATH=src .venv/bin/python scripts/verify_cad_alignment.py
 # 输出目录使用新名称，避免覆盖已有截图
 PYTHONPATH=src .venv-isaac/bin/python scripts/capture_cad_reference.py --output outputs/reference_new
