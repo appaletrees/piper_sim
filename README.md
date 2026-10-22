@@ -87,6 +87,7 @@ src/piper_sim/
   camera_models.py            独立 RGB 光学模型与等比例缩放
   appearance.py              CAD夹爪视觉替换和材质绑定
   lerobot_alignment.py        connector_plugin专用单位与帧索引核对
+  lerobot_export.py           原始HDF5可选导出LeRobot v2.1，与仿真后端解耦
   backends/isaac.py            Isaac 仿真步进与状态接口
   backends/mujoco.py           独立 MuJoCo 物理、三路 RGB、相同状态接口
   mujoco_asset.py              同源 URDF / CAD 到 MJCF 的转换及哈希校验
@@ -112,6 +113,7 @@ scripts/
   convert_workcell_cad.py      STEP 桌面、立柱、三相机及腕部支架转换
   prepare_cad_gripper.py       原CAD夹爪按link6/7/8拆分，可随关节运动
   extract_lerobot_alignment.py 只读抽帧、状态转换与来源核对
+  export_lerobot.py            已完成episode离线导出Parquet、三路视频和元数据
   render_lerobot_alignment.py  观测姿态下的三路实虚同帧对照
   measure_real_alignment.py   从CAD与数字标注复现投影残差
   export_realsense_rgb_calibration.py 只读导出设备RGB模式内参
@@ -346,8 +348,20 @@ metadata 明确标记这种混合来源，不能当作真实相机数据训练�
 记录先写 `.h5.partial`，正常结束后原子重命名；异常时保留 partial 便于诊断。
 不覆盖既有 episode。不自动把测试动作标为任务成功。
 `dataset.sequence_windows()` 返回连续状态、动作、图像序列，窗口不跨 episode；
-可作为后续 WAM 数据入口。当前格式是项目原始格式，**不是开箱即用的 LeRobot 数据集**。
-接入具体 VLA 时，应独立实现其图像处理、动作空间与归一化导出，保留原始 episode。
+可作为后续 WAM 数据入口。原始HDF5可选转换为 **LeRobot Dataset v2.1**，保留原episode：
+
+```bash
+# 新采集：结束后自动导出；不加该选项仍只录制HDF5
+PYTHONPATH=src .venv-mujoco/bin/python examples/external_agilex.py \
+  --lerobot-output outputs/lerobot_v2/demo_001 --lerobot-image-size 640 480
+
+# 已有数据：独立离线转换
+PYTHONPATH=src .venv-mujoco/bin/python scripts/export_lerobot.py \
+  --input outputs/api_episodes --output outputs/lerobot_v2/my_dataset --image-size 640 480
+```
+
+导出为Parquet＋三路MP4＋v2.1元数据/统计，关节度和夹爪0–1与原工程一致；
+默认保留分辨率，指定尺寸时等比例补边并记录更新后的K。详见 [LeRobot导出说明](docs/lerobot_export.md)。
 
 ## 后续扩展边界
 

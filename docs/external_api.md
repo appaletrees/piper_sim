@@ -154,7 +154,9 @@ HTTP录制只在纯仿真且未使用CLI `--record` 时开放；CLI固定录制�
 `next_observation/state`，以及前后帧RGB、相机时间和extras_json。内部单位rad/m，
 每个文件metadata保存原始任务配置、采样布局、seed、相机配置、控制频率与时钟定义。
 它与旧PiperRecorder的分目录H5+MP4不是相同磁盘格式；两者的字段/单位映射已由适配层明确提供，
-策略输入使用相同14维度/归一化顺序和相机名称，不直接冒充LeRobot数据集。
+策略输入使用相同14维度/归一化顺序和相机名称。
+可选添加 `examples/external_agilex.py --lerobot-output outputs/lerobot_v2/demo_001`，
+采集结束后生成LeRobot v2.1；已有HDF5也支持独立转换，见 [导出说明](lerobot_export.md)。
 时间戳：state.timestamp为本机monotonic，RGB及sim_time为仿真秒；reset后sim_time重新从0开始。
 
 ## 本次验证

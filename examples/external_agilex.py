@@ -17,12 +17,26 @@ def main():
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--episodes', type=int, default=2)
     parser.add_argument('--output', type=Path, default=Path('outputs/external_client'))
+    parser.add_argument('--lerobot-output', type=Path, help='Optional NEW LeRobot v2.1 dataset directory after collection')
+    parser.add_argument('--lerobot-image-size', type=int, nargs=2, metavar=('WIDTH','HEIGHT'),
+                        help='Optional letterbox size for exported videos; default preserves native resolution')
     args = parser.parse_args()
+    if args.episodes < 1:
+        parser.error('--episodes must be positive')
+    if args.lerobot_image_size and not args.lerobot_output:
+        parser.error('--lerobot-image-size requires --lerobot-output')
+    if args.lerobot_image_size and any(x <= 0 or x % 2 for x in args.lerobot_image_size):
+        parser.error('--lerobot-image-size needs positive even width and height')
+    if args.lerobot_output:
+        from piper_sim.lerobot_export import check_dependencies
+        check_dependencies()
+        if args.lerobot_output.exists(): raise FileExistsError(args.lerobot_output)
     client = SimulationClient(args.url, timeout=15.)
     meta = client.metadata()
     if meta['mode'] != 'sim' or not meta['allow_commands']:
         raise RuntimeError('This example requires pure simulation with external command control')
     robot = AgilexAdapter(client)
+    recorded = []
     for episode in range(args.episodes):
         name = f'{args.name}_{episode:03d}'
         robot.reset(seed=args.seed+episode, randomize=True)
@@ -40,6 +54,7 @@ def main():
         finally:
             result = robot.stop_recording(success=False)  # Gripper demo is not insertion success.
             print(json.dumps(result), flush=True)
+        recorded.append(result['path'])
         robot.refresh()
         out = args.output/name
         out.mkdir(parents=True, exist_ok=False)
@@ -47,6 +62,12 @@ def main():
             Image.fromarray(pixels).save(out/(camera+'.png'))
         (out/'state.json').write_text(json.dumps(client.state(), indent=2)+'\n')
         print('Measured grippers:', {a: robot.get_current_gripper_open_value(a) for a in ('left', 'right')})
+    if args.lerobot_output:
+        from piper_sim.lerobot_export import export_lerobot_v2
+        # Convert only after all control/recording is finished. Paths refer to this host.
+        report = export_lerobot_v2(recorded, args.lerobot_output, image_size=args.lerobot_image_size,
+                                  progress=lambda s:print(s,flush=True))
+        print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
 if __name__ == '__main__': main()
