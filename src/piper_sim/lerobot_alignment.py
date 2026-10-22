@@ -13,7 +13,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .contracts import FEATURE_NAMES, LOWER, UPPER, vector
+from .contracts import FEATURE_NAMES, LOWER, UPPER, GRIPPER_MAX_WIDTH_M, vector
 
 
 CONNECTOR_PLUGIN_NAMES = tuple(
@@ -95,7 +95,7 @@ def connector_plugin_state_to_si(value) -> np.ndarray:
     return result
 
 
-def bounds_violations(value, gripper_limit_m: float = .07) -> list[dict]:
+def bounds_violations(value, gripper_limit_m: float = GRIPPER_MAX_WIDTH_M) -> list[dict]:
     """Report, rather than silently clamp, incompatibility with the sim model."""
     if not math.isfinite(gripper_limit_m) or gripper_limit_m <= 0:
         raise ValueError("gripper_limit_m must be finite and positive")
@@ -162,7 +162,7 @@ def _load_episode(dataset: Path, episode: int, pq):
 
 
 def extract_connector_plugin_alignment(
-    dataset_root, output_dir, samples, *, gripper_limit_m: float = .07, source_root=None,
+    dataset_root, output_dir, samples, *, gripper_limit_m: float = GRIPPER_MAX_WIDTH_M, source_root=None,
 ) -> dict:
     """Export selected measured states and identically indexed decoded RGB frames.
 

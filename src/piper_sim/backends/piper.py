@@ -6,7 +6,7 @@ import sys
 import threading
 import time
 import numpy as np
-from ..contracts import Observation, ARMS
+from ..contracts import Observation, ARMS, LOWER, UPPER, GRIPPER_MAX_WIDTH_M
 from ..safety import CommandGuard
 
 
@@ -31,12 +31,28 @@ class PiperBackend:
             from .sdk_tracking import tracked_sdk
             sdk_factory = tracked_sdk(C_PiperInterface_V2)
         self.arms = {}
+        self.lower, self.upper = LOWER.copy(), UPPER.copy()
+        self.sdk_gripper_ranges = {}
         try:
             for side in ARMS:
                 sdk = sdk_factory(cfg[f"can_{side}"], start_sdk_joint_limit=True,
                                   start_sdk_gripper_limit=True)
                 self.arms[side] = sdk
+                requested = cfg.get("gripper_max_width_m")
+                if requested is not None:
+                    if not np.isfinite(requested) or not 0 < requested <= GRIPPER_MAX_WIDTH_M:
+                        raise ValueError("Hardware gripper_max_width_m must be in (0, 0.095]")
+                    # Only changes this SDK instance's software clamp; no CAN/firmware command.
+                    sdk.SetSDKGripperRangeParam(0., requested)
+                low, high = sdk.GetSDKGripperRangeParam()
+                if not np.isfinite([low, high]).all() or not 0 <= low < high:
+                    raise RuntimeError(f"{side}: invalid SDK gripper range")
+                self.sdk_gripper_ranges[side] = [float(low), float(high)]
+                index = 6 if side == "left" else 13
+                self.lower[index], self.upper[index] = low, min(high, GRIPPER_MAX_WIDTH_M)
                 sdk.ConnectPort(piper_init=False)
+            self.guard = CommandGuard(max_age=cfg["command_max_age"], joint_speed=cfg["joint_speed"],
+                                      gripper_speed=cfg["gripper_speed"], lower=self.lower, upper=self.upper)
         except BaseException:
             self.close()
             raise

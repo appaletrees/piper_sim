@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 
 from piper_sim.lerobot_alignment import extract_connector_plugin_alignment
+from piper_sim.contracts import GRIPPER_MAX_WIDTH_M
 
 
 def parse_sample(value):
@@ -21,7 +22,7 @@ def main():
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True, help="New local output directory")
     parser.add_argument("--sample", type=parse_sample, action="append", required=True)
-    parser.add_argument("--gripper-limit-m", type=float, default=.07,
+    parser.add_argument("--gripper-limit-m", type=float, default=GRIPPER_MAX_WIDTH_M,
                         help="Report violations of this sim limit; never clips measured values")
     parser.add_argument("--source-root", type=Path,
                         help="Optional example_agilex checkout to hash producer evidence")

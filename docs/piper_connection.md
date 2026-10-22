@@ -19,8 +19,12 @@
 
 例如0.04 m开口发送 `GripperCtrl(40000, ...)`，只发送一次，不分别给手指发送20000。
 原控制器把夹爪字段叫作degrees，但SDK定义是长度；旧归一化0–1对应0–95 mm。
-当前项目沿用已存在的0–70 mm控制限位，不在这次控制自由度修正中扩大行程。
-读反馈不截断；超出当前模型限位的目标会明确拒绝。
+仿真现在使用0–95 mm总开口。原控制器开启了SDK限位，但随附SDK的默认范围为0–70 mm，
+因此旧控制器请求95 mm仍可能被SDK裁到70 mm。真机接口通过 `GetSDKGripperRangeParam()`
+读取实际软件范围；`robot.limits()` 和HTTP `/metadata` 返回左右范围，超限目标明确拒绝，读反馈不截断。
+`hardware.gripper_max_width_m: null` 保留SDK当前范围；设备可用行程确认后可显式配置 `0.095`，
+通过 `SetSDKGripperRangeParam(0, .095)` 修改当前SDK实例的软件限位，不修改固件或机械行程。
+仿真范围与实际指尖开口的标定仍需真机测量。
 
 MuJoCo使用一个总开口驱动及双指等量约束，Control只提供每臂一个gripper滑条；
 Isaac使用 `joint8` mimic `joint7`，只给主指设置驱动目标。
@@ -55,6 +59,7 @@ from piper_sim.piper_connection import PiperConnection, state_dict
 with PiperConnection(can_left="can0", can_right="can1") as robot:
     state = robot.read()
     print(state_dict(state))
+    print(robot.limits())
     # state.position: 左6关节、左夹爪、右6关节、右夹爪
 ```
 

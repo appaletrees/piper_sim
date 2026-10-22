@@ -18,7 +18,8 @@ def main():
     parser.add_argument("--samples", type=int, default=1, help="Read-only samples; 0 continues until Ctrl+C")
     parser.add_argument("--rate", type=float, default=30.)
     parser.add_argument("--timeout", type=float, default=5.)
-    parser.add_argument("--command-port", type=int, help="Loopback HTTP /state and /target")
+    parser.add_argument("--api-port", "--command-port", dest="command_port", type=int,
+                        help="Loopback HTTP /metadata, /state and /target")
     parser.add_argument("--allow-actuation", action="store_true")
     args = parser.parse_args()
     if args.list_can:
@@ -37,7 +38,11 @@ def main():
                              timeout_s=args.timeout, allow_actuation=args.allow_actuation) as robot:
             if args.command_port:
                 from piper_sim.control import CommandServer
-                server = CommandServer(args.command_port, allow_commands=args.allow_actuation)
+                limits = robot.limits()
+                server = CommandServer(args.command_port, allow_commands=args.allow_actuation,
+                    lower=limits["lower"], upper=limits["upper"], metadata={
+                        "backend": "piper", "mode": "hardware", "control_hz": args.rate,
+                        "sdk_gripper_ranges_m": limits["sdk_gripper_ranges_m"]})
                 print(f"Connected: http://127.0.0.1:{args.command_port}/state", flush=True)
             index = 0
             last_sequence = -1
@@ -45,7 +50,6 @@ def main():
                 start = time.monotonic()
                 observation = robot.read()
                 if server:
-                    server.publish(observation)
                     incoming = server.sample(cfg["hardware"]["command_max_age"]) if args.allow_actuation else None
                     if incoming is not None and incoming.sequence != last_sequence:
                         if not robot.armed:
@@ -54,6 +58,8 @@ def main():
                         # stale command as "new" would hide a stopped control source.
                         robot.apply(incoming)
                         last_sequence = incoming.sequence
+                    server.publish(observation, {"status": "active" if robot.armed else "read_only",
+                                                 "applied_sequence": last_sequence})
                 else:
                     print(json.dumps(state_dict(observation)), flush=True)
                 index += 1

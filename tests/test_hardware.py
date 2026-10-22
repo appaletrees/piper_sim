@@ -17,6 +17,8 @@ class FakeSDK:
         self.stale = False
         self.fail_joint = False
         self.enabled = True
+        self.gripper_range = (0., .07)
+        self.gripper_feedback = 40000
         self.feedback_lock = threading.RLock()
         self.frame_times = {i: time.monotonic()
                             for i in [0x2A5, 0x2A6, 0x2A7, 0x2A8, *range(0x261, 0x267)]}
@@ -34,7 +36,13 @@ class FakeSDK:
                                  joint_4=0, joint_5=0, joint_6=0))
 
     def GetArmGripperMsgs(self):
-        return NS(time_stamp=time.time(), gripper_state=NS(grippers_angle=40000))
+        return NS(time_stamp=time.time(), gripper_state=NS(grippers_angle=self.gripper_feedback))
+
+    def GetSDKGripperRangeParam(self):
+        return self.gripper_range
+
+    def SetSDKGripperRangeParam(self, low, high):
+        self.gripper_range = (low, high)
 
     def GetArmLowSpdInfoMsgs(self):
         return NS(time_stamp=time.time(), **{
@@ -119,3 +127,31 @@ def test_one_joint_pair_missing_blocks_even_if_aggregate_is_fresh():
     with pytest.raises(RuntimeError, match="individual"):
         p.arm()
     p.close()
+
+
+def test_sdk_range_is_reported_and_oversized_target_rejected():
+    p = create(True)
+    try:
+        assert p.upper[6] == p.upper[13] == .07
+        assert p.sdk_gripper_ranges == {'left': [0., .07], 'right': [0., .07]}
+        p.arm()
+        q = p.read().position
+        q[[6,13]] = .095
+        with pytest.raises(ValueError, match='bounds'):
+            p.apply(Command(q, time.monotonic(), 0))
+        assert not any(c[0] == 'joints' for a in FakeSDK.instances for c in a.calls)
+    finally:
+        p.close()
+
+
+def test_explicit_confirmed_95mm_sdk_range_and_units():
+    cfg = load()['hardware']; cfg['gripper_max_width_m'] = .095
+    p = PiperBackend(cfg, allow_actuation=True, sdk_factory=FakeSDK)
+    try:
+        for sdk in p.arms.values(): sdk.gripper_feedback = 95000
+        p.arm()
+        p.apply(Command(p.read().position, time.monotonic(), 0))
+        assert p.upper[6] == .095
+        assert all(('gripper', 95000, 500, 1, 0) in a.calls for a in p.arms.values())
+    finally:
+        p.close()

@@ -81,7 +81,7 @@ def test_dynamics_record_contract_and_target_rejection(backend):
     np.testing.assert_array_equal(backend.data.ctrl, previous)
 
 
-@pytest.mark.parametrize("width", [.01, .04, .06])
+@pytest.mark.parametrize("width", [.01, .04, .07, .085, .095])
 def test_single_gripper_control_keeps_fingers_coupled_under_one_sided_load(backend, width):
     backend.reset()
     assert backend.model.nu == 14

@@ -10,7 +10,10 @@ JOINT_NAMES = tuple(f"joint{i}" for i in range(1, 7))
 FEATURE_NAMES = tuple(f"{side}.{name}" for side in ARMS
                       for name in (*JOINT_NAMES, "gripper_width"))
 LOWER = np.array([-2.618, 0, -2.967, -1.745, -1.22, -2.0944, 0] * 2)
-UPPER = np.array([2.618, 3.14, 0, 1.745, 1.22, 2.0944, .07] * 2)
+# The supplied controller and LeRobot producer normalize 0..1 over 0..95 mm.
+# Hardware may expose a smaller SDK range; PiperBackend validates it separately.
+GRIPPER_MAX_WIDTH_M = .095
+UPPER = np.array([2.618, 3.14, 0, 1.745, 1.22, 2.0944, GRIPPER_MAX_WIDTH_M] * 2)
 
 
 def vector(value) -> np.ndarray:

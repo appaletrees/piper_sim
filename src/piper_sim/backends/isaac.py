@@ -72,9 +72,15 @@ class IsaacBackend:
         else:
             self.object.write_root_state_to_sim(self.object.data.default_root_state.clone())
             self.object.reset()
-        for camera in self.cameras.values():
-            camera.reset()
         self.sim_time = 0.
+        # A synchronous reset/read must see the new layout, not the previous
+        # episode's pixels. Refresh kinematics/Fabric without advancing physics.
+        self.sim.forward()
+        if self.cameras:
+            self.sim.render()
+            for camera in self.cameras.values():
+                camera.reset()
+                camera.update(0., force_recompute=True)
 
     def apply(self, command):
         q = vector(command.position)

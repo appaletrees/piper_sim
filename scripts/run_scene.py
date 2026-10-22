@@ -16,6 +16,8 @@ def main():
                         default="sim")
     parser.add_argument("--steps", type=int, default=0, help="0 runs until window closes")
     parser.add_argument("--record", type=Path)
+    parser.add_argument("--record-dir", type=Path, default=Path("outputs/api_episodes"),
+                        help="Directory for episodes started through the HTTP API")
     parser.add_argument("--task", default="dual Piper workcell demonstration")
     parser.add_argument("--task-scene", type=Path, help="Independent task YAML, e.g. configs/tasks/connector.yaml")
     parser.add_argument("--seed", type=int, help="Reproducible task object placement")
@@ -23,7 +25,8 @@ def main():
     parser.add_argument("--trajectory", type=Path, help="HDF5 episode to replay as simulation targets")
     parser.add_argument("--demo", action="store_true", help="Small joint motion in pure simulation")
     parser.add_argument("--allow-actuation", action="store_true")
-    parser.add_argument("--command-port", type=int, help="Loopback HTTP /target and /state port")
+    parser.add_argument("--api-port", "--command-port", dest="command_port", type=int,
+                        help="Loopback HTTP control, state, RGB and reset API")
     parser.add_argument("--overview-image", type=Path, help="Save the final overview viewport as PNG")
     # Probe only the backend; let the complete parser handle --help afterwards.
     selection = argparse.ArgumentParser(add_help=False)
@@ -39,14 +42,16 @@ def main():
                             help="MuJoCo native Control panel drives the simulation")
     args = parser.parse_args()
     interactive = getattr(args, "interactive", False)
-    if interactive and (args.headless or args.mode != "sim" or args.demo or args.command_port or args.trajectory):
-        parser.error("--interactive requires a MuJoCo GUI in sim mode without demo, trajectory or command-port")
+    if interactive and (args.headless or args.mode != "sim" or args.demo or args.trajectory):
+        parser.error("--interactive requires a MuJoCo GUI in sim mode without demo or trajectory")
+    if args.command_port is not None and not 1 <= args.command_port <= 65535:
+        parser.error("api-port must be between 1 and 65535")
+    if args.command_port and args.demo:
+        parser.error("Choose either --demo or the external API as the control source")
     if args.mode == "sim-to-real" and not args.allow_actuation:
         parser.error("sim-to-real requires --allow-actuation and physically enabled, aligned arms")
     if args.mode == "sim-to-real" and not args.command_port:
         parser.error("sim-to-real requires a live --command-port stream")
-    if args.command_port and args.mode not in ("sim", "sim-to-real"):
-        parser.error("command ingress is supported in sim or sim-to-real")
     if args.demo and args.mode != "sim":
         parser.error("--demo is available only in pure simulation")
     if args.mode == "replay" and not args.trajectory:
@@ -74,14 +79,12 @@ def main():
             from piper_sim.backends.mujoco import MujocoBackend
             sim = MujocoBackend(cfg, cameras=args.enable_cameras, viewer=not args.headless)
             is_running = sim.is_running
-        if args.command_port:
-            from piper_sim.control import CommandServer
-            server = CommandServer(args.command_port)
-            server.publish(sim.read())
         from piper_sim.safety import CommandGuard
         input_guard = CommandGuard()
         last_input_sequence = -1
         initial = np.array(cfg["robot"]["home"]*2)
+        control = {"status": "waiting", "applied_sequence": -1, "rejected_sequence": -1,
+                   "error": None, "applied_target": initial.tolist()}
         trajectory = None
         if args.trajectory:
             import h5py
@@ -105,10 +108,33 @@ def main():
             for index in range(90):
                 sim.apply(Command(initial, time.monotonic(), index))
                 sim.step()
-        if args.record:
+        api_controls = not interactive and args.mode in ("sim", "sim-to-real")
+        if args.command_port:
+            from piper_sim.control import CommandServer
             from piper_sim.transforms import load_camera_rig
-            writer = EpisodeWriter(args.record, {
-                "task": args.task, "mode": args.mode, "config": cfg,
+            lower, upper = (hardware.lower, hardware.upper) if hardware else (LOWER, UPPER)
+            input_guard = CommandGuard(lower=lower, upper=upper)
+            server = CommandServer(args.command_port, allow_commands=api_controls,
+                allow_reset=args.mode == "sim" and not args.record,
+                allow_recording=args.mode == "sim" and not args.record,
+                lower=lower, upper=upper, metadata={
+                    "backend": args.backend, "mode": args.mode,
+                    "control_source": "http" if api_controls else ("viewer" if interactive else args.mode),
+                    "control_hz": 1/(sim.dt*sim.decimation),
+                    "command_max_age_s": input_guard.max_age,
+                    "joint_speed_rad_s": .5, "gripper_speed_m_s": .03,
+                    "state_timestamp_clock": "host_monotonic", "image_timestamp_clock": "simulation",
+                    "camera_rig": sim.rig if args.backend == "mujoco" else load_camera_rig(cfg),
+                    "task_scene": sim.task.metadata() if sim.task else None,
+                    "sdk_gripper_ranges_m": hardware.sdk_gripper_ranges if hardware else None})
+            control["applied_target"] = initial.tolist()
+            if not api_controls: control["status"] = "read_only"
+            server.publish(sim.read(), control)
+            print(f"API ready: http://127.0.0.1:{args.command_port}/metadata", flush=True)
+        def recording_metadata(task):
+            from piper_sim.transforms import load_camera_rig
+            return {
+                "task": task, "mode": args.mode, "config": cfg,
                 "task_scene": sim.task.metadata() if sim.task else None,
                 "demo": args.demo,
                 "camera_rig": sim.rig if args.backend == "mujoco" else load_camera_rig(cfg),
@@ -119,13 +145,43 @@ def main():
                 "state_timestamp_clock": "host_monotonic",
                 "state_source": "hardware" if args.mode == "sim-to-real" else "simulation",
                 "image_source": "simulation",
-                "action_semantics": "absolute joint position targets and gripper width"})
+                "action_semantics": "absolute joint position targets and gripper width"}
+        if args.record:
+            writer = EpisodeWriter(args.record, recording_metadata(args.task))
+            if server: server.update_recording(active=True, path=str(args.record.resolve()))
         index = 0
         while is_running() and (args.steps == 0 or index < args.steps):
             start = time.monotonic()
-            before = sim.read()
             if server:
-                server.publish(before)
+                request = server.poll_recording()
+                if request:
+                    try:
+                        if request["operation"] == "start":
+                            path = args.record_dir.resolve()/(request["name"]+".h5")
+                            writer = EpisodeWriter(path, recording_metadata(request["task"]))
+                            server.update_recording(request_id=request["request_id"], active=True,
+                                                    path=str(path), frames=0, error=None)
+                        else:
+                            writer.close(success=request["success"])
+                            # Empty episodes remain .partial and are not training data.
+                            path = writer.path if writer.count else writer.partial
+                            server.update_recording(request_id=request["request_id"], active=False,
+                                                    path=str(path), frames=writer.count, error=None)
+                            writer = None
+                    except (OSError, ValueError) as error:
+                        server.update_recording(request_id=request["request_id"], error=str(error))
+                reset = server.poll_reset()
+                if reset:
+                    sim.reset(seed=reset["seed"], randomize=reset["randomize"])
+                    initial = np.array(cfg["robot"]["home"]*2)
+                    input_guard = CommandGuard()
+                    last_input_sequence = -1
+                    control = {"status": "waiting" if api_controls else "read_only",
+                               "applied_sequence": -1, "rejected_sequence": -1,
+                               "error": None, "applied_target": initial.tolist()}
+                    server.update_metadata(task_scene=sim.task.metadata() if sim.task else None)
+                    server.complete_reset(reset["reset_id"])
+            before = sim.read()
             target = initial.copy()
             if args.mode == "real-to-sim":
                 target = hardware.read().position
@@ -142,17 +198,29 @@ def main():
                 target[:7] += motion
                 target[7:] += motion*np.array([-1., 1., 1., 1., 1., 1., 1.])
                 target = np.clip(target, LOWER, UPPER)
-            if server:
-                incoming = server.sample()
+            if server and api_controls:
+                try:
+                    incoming = server.sample()
+                except TimeoutError:
+                    if hardware: raise
+                    incoming = None
+                    control.update(status="timed_out", error="Command stream expired; holding last target")
                 if incoming is None and args.mode == "sim-to-real":
                     # Wait in simulation; no actuator command before the first aligned input.
                     sim.step()
+                    server.publish(sim.read(), control)
                     time.sleep(.01)
                     continue
                 if incoming and incoming.sequence != last_input_sequence:
-                    accepted = input_guard.accept(incoming, before.position, time.monotonic())
-                    initial = accepted.position.copy()
                     last_input_sequence = incoming.sequence
+                    try:
+                        accepted = input_guard.accept(incoming, before.position, time.monotonic())
+                        initial = accepted.position.copy()
+                        control.update(status="active", applied_sequence=incoming.sequence,
+                                       applied_target=initial.tolist(), error=None)
+                    except ValueError as error:
+                        if hardware: raise
+                        control.update(status="rejected", rejected_sequence=incoming.sequence, error=str(error))
                 target = initial.copy()
             action = Command(target, time.monotonic(), index)
             if args.mode == "sim-to-real":
@@ -180,6 +248,10 @@ def main():
                 after = physical_after
             if writer:
                 writer.append(before, action, after)
+                if server: server.update_recording(frames=writer.count)
+            if server:
+                if not api_controls: control["applied_target"] = target.tolist()
+                server.publish(after, control)
             index += 1
             if hardware or server or (args.backend == "mujoco" and not args.headless):
                 time.sleep(max(0., sim.dt*sim.decimation - (time.monotonic()-start)))

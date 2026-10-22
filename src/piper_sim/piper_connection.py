@@ -114,6 +114,11 @@ class PiperConnection:
     def read(self):
         return self._require_connection().read()
 
+    def limits(self):
+        backend = self._require_connection()
+        return {"lower": backend.lower.tolist(), "upper": backend.upper.tolist(),
+                "sdk_gripper_ranges_m": copy.deepcopy(backend.sdk_gripper_ranges)}
+
     def arm(self):
         """Allow commands after fresh feedback and physical enable are verified."""
         self._require_connection().arm()

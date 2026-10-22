@@ -42,7 +42,7 @@ try:
         assert backend.model.nu == 14 and backend.model.neq == 2
         mimic = ["left/gripper_coupling", "right/gripper_coupling"]
     trials = []
-    for sequence, width in enumerate((.01, .04, .06)):
+    for sequence, width in enumerate((.01, .04, .07, .085, .095)):
         target = np.array(load()["robot"]["home"]*2)
         target[[6, 13]] = width
         backend.apply(Command(target, time.monotonic(), sequence))

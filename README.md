@@ -159,12 +159,12 @@ flowchart LR
 - RGB 投影位置由 CAD 前表面坐标与官方标称镜头偏移组合，内参按对应型号的 RGB FOV 推导。
   几何安装位姿、公开光学规格与每台真机的出厂标定分别记录。
 - 从 `example_agilex/piper_description` 复制 URDF 和 STL。派生版本恢复滑动手指，`joint8` 跟随 `joint7`。
-  每指行程35 mm，只有一个独立夹爪自由度。MuJoCo用总开口驱动同一条联动tendon；Isaac仅驱动主指。
+  每指行程47.5 mm，总开口0–95 mm，只有一个独立夹爪自由度。MuJoCo用总开口驱动同一条联动tendon；Isaac仅驱动主指。
 - 所有关节通过名称映射，不依赖 USD 的关节排列。两臂使用同一资产实例。
 - 夹爪采用原 STEP 的164.003 mm宽型组件。Isaac 保留旧URDF碰撞模型，MuJoCo 使用分部件 CAD 凸包碰撞；
-  两者均保留源 URDF 惯量与70 mm行程，真实接触参数尚未辨识。`appearance` 配置控制CAD视觉和参考材质。
+  两者保留源 URDF 惯量；行程按原控制器0–95 mm映射统一，真实接触参数尚未辨识。`appearance` 配置控制CAD视觉和参考材质。
 - 源 URDF 中的 100 Nm 等参数未经真机辨识；默认驱动参数用于初步仿真，不代表实际 Piper 动力学。
-- 旧控制器将夹爪字段叫作 degrees，SDK 实际定义为 **0.001 mm**。这里转换为米。旧代码允许 95 mm，而原 URDF 的行程是 70 mm；本项目采用后者，超出范围报错，待实机行程确认后统一校准。
+- 旧控制器将夹爪字段叫作 degrees，SDK 实际定义为 **0.001 mm**。这里转换为米。原控制器0–1映射为0–95 mm，仿真已采用95 mm总开口。源URDF与随附SDK默认限位为70 mm；真机接口读取SDK实际限位，超限明确报错，不能把仿真95 mm当成真机行程认证。
 
 ## 安装与启动
 
@@ -283,15 +283,27 @@ bash scripts/run.sh --mode sim-to-real --enable_cameras \
 
 ### 控制入口
 
-纯仿真可先用 `bash scripts/run.sh --command-port 8765` 验证控制源。
+已提供与 `example_agilex` 类似的读取、关节控制、夹爪控制、三相机采集、episode启停和场景随机化接口，见 **[外部控制与数据接口](docs/external_api.md)**。
+
+```bash
+# 同时出现黑色充电器、黄色插头；外部程序控制
+bash scripts/run_mujoco.sh --task-scene configs/tasks/connector.yaml --api-port 8765 --enable_cameras
+# 另一终端：度/归一化夹爪接口，随机两个场景并采集两个episode
+PYTHONPATH=src .venv-mujoco/bin/python examples/external_agilex.py
+```
+
+Isaac用 `scripts/run.sh` 替换启动脚本。`--command-port` 是 `--api-port` 的兼容别名。
 
 ```python
 import json, time, urllib.request
+import numpy as np
 
 base = "http://127.0.0.1:8765"
 state = json.load(urllib.request.urlopen(base + "/state"))
-q = state["position"]  # 从当前姿态起步；14 维，顺序见下文
-for sequence in range(300):
+limits = json.load(urllib.request.urlopen(base + "/metadata"))["limits"]
+q = np.clip(state["position"], limits["lower"], limits["upper"]).tolist()
+start_sequence = state["last_received_sequence"] + 1
+for sequence in range(start_sequence, start_sequence+300):
     body = json.dumps({"position": q, "sequence": sequence}).encode()
     request = urllib.request.Request(base + "/target", data=body,
                                      headers={"Content-Type": "application/json"})
@@ -299,7 +311,7 @@ for sequence in range(300):
     time.sleep(1/30)
 ```
 
-控制源退出或 150 ms 无更新会终止控制会话。每次会话 sequence 递增。
+控制源150 ms无更新时，纯仿真保持最后目标并报告timed_out，API继续可用；涉及真机的会话停止。sequence在整个服务生命周期（包括reset后）递增。
 时间戳由接收端的 monotonic 时钟生成；该接口不是远程网络协议。
 后续可把 Quest、实体主臂、键盘、IK 或策略输出接到同一契约，核心记录器无需改动。
 

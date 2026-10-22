@@ -6,6 +6,7 @@ from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
 from piper_sim.config import ROOT, load
+from piper_sim.contracts import GRIPPER_MAX_WIDTH_M
 
 
 def prepare(cfg):
@@ -27,7 +28,7 @@ def prepare(cfg):
         joint.set("type", "prismatic")
         # Finger origins differ by pi around local Z: +local Z moves them apart.
         ET.SubElement(joint, "axis", xyz="0 0 1")
-        ET.SubElement(joint, "limit", lower="0", upper="0.035", effort="10", velocity="0.1")
+        ET.SubElement(joint, "limit", lower="0", upper=str(GRIPPER_MAX_WIDTH_M/2), effort="10", velocity="0.1")
         ET.SubElement(joint, "dynamics", damping="1", friction="0")
     # One physical gripper motor: finger 8 follows finger 7. Their local axes
     # already point in opposite world directions, so the multiplier is +1.
@@ -38,7 +39,10 @@ def prepare(cfg):
     provenance = {
         "source": str(original), "source_sha256": hashlib.sha256(original.read_bytes()).hexdigest(),
         "changes": ["remove empty dummy_link", "absolute mesh paths",
-                    "restore prismatic fingers; joint8 mimics joint7; width=2*joint7"],
+                    "restore prismatic fingers; joint8 mimics joint7; width=2*joint7",
+                    "95 mm total travel matches supplied controller normalization, replacing legacy 70 mm URDF range"],
+        "gripper_max_width_m": GRIPPER_MAX_WIDTH_M,
+        "hardware_note": "SDK default software range is 70 mm; hardware adapter reads actual SDK bounds",
         "calibration": "URDF effort and dynamics not identified on hardware; mount calibration pending",
     }
     (output.parent / "provenance.json").write_text(json.dumps(provenance, indent=2))
