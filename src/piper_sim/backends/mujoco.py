@@ -18,8 +18,16 @@ class MujocoBackend:
         self.renderers = {}
         self._images = None
         self._closed = False
+        self.task = None
+        if cfg.get("task_scene"):
+            from ..tasks import create_task, engine_adapter
+            self.task = create_task(cfg["task_scene"], cfg)
+            self.task_adapter = engine_adapter(self.task, "mujoco")
         path, self.manifest = resolve_model(cfg)
-        self.model = mujoco.MjModel.from_xml_path(str(path))
+        if self.task:
+            self.model = mujoco.MjModel.from_xml_string(self.task_adapter.compose_model(path, self.task))
+        else:
+            self.model = mujoco.MjModel.from_xml_path(str(path))
         self.data = mujoco.MjData(self.model)
         self.substeps = self.manifest["substeps"]
         self.rig = self.manifest["camera_rig"]
@@ -48,8 +56,11 @@ class MujocoBackend:
     def sim_time(self):
         return float(self.data.time)
 
-    def reset(self):
+    def reset(self, seed=None, randomize=None):
         mujoco.mj_resetData(self.model, self.data)
+        if self.task:
+            self.task.reset(seed, randomize)
+            self.task_adapter.reset_task(self.model, self.data, self.task)
         home = np.array(self.cfg["robot"]["home"]*2)
         self.set_observation_state(home)
 
@@ -87,6 +98,8 @@ class MujocoBackend:
         # evaluation. Refresh so RGB, poses and qpos describe the same state.
         mujoco.mj_forward(self.model, self.data)
         self._images = None
+        if self.task:
+            self.task.metrics(self.task_adapter.task_poses(self.data, self.task), self.dt*self.decimation)
         if not np.isfinite(self.data.qpos).all() or not np.isfinite(self.data.qvel).all():
             raise RuntimeError("Non-finite MuJoCo physics state")
         if self.viewer:
@@ -122,12 +135,18 @@ class MujocoBackend:
                                "quaternion_wxyz_ros": quat.tolist(),
                                "intrinsics": mount["rgb"]["intrinsic_matrix"]}
         images = {k: v.copy() for k, v in (self._images or {}).items()}
-        obj = self.data.body("object")
+        if self.task:
+            objects = self.task_adapter.task_poses(self.data, self.task)
+            extras = {"objects": objects, "task": {"name": self.task.config["name"],
+                      "seed": self.task.layout["seed"], "metrics": self.task.metrics(objects)}}
+        else:
+            obj = self.data.body("object")
+            extras = {"object": {"position_world": obj.xpos.tolist(), "quaternion_wxyz": obj.xquat.tolist()}}
         return Observation(q, time.monotonic(), self.sim_time, images,
             {name: self.sim_time for name in images},
             {"image_timestamp_clock": "simulation", "cameras": poses, "physics_time": self.sim_time,
              "engine": "mujoco", "engine_version": mujoco.__version__,
-             "object": {"position_world": obj.xpos.tolist(), "quaternion_wxyz": obj.xquat.tolist()}})
+             **extras})
 
     def save_overview(self, path):
         from PIL import Image

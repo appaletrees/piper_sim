@@ -4,7 +4,7 @@ from isaaclab.assets import RigidObject, RigidObjectCfg
 from .config import ROOT
 
 
-def spawn_workcell(cfg):
+def spawn_workcell(cfg, *, spawn_object=True):
     # Local geometry avoids a network dependency on the standard Nucleus ground USD.
     ground = sim_utils.CuboidCfg(
         size=(6., 6., .05),
@@ -30,6 +30,8 @@ def spawn_workcell(cfg):
             visual_material=sim_utils.PreviewSurfaceCfg(
                 diffuse_color=(.3, .35, .4) if name == "table" else (.5, .5, .5)))
         shape.func(f"/World/{name}", shape, translation=tuple(part["position"]))
+    if not spawn_object:
+        return None
     part = cfg["scene"]["object"]
     return RigidObject(RigidObjectCfg(
         prim_path="/World/Object",

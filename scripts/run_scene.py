@@ -17,6 +17,9 @@ def main():
     parser.add_argument("--steps", type=int, default=0, help="0 runs until window closes")
     parser.add_argument("--record", type=Path)
     parser.add_argument("--task", default="dual Piper workcell demonstration")
+    parser.add_argument("--task-scene", type=Path, help="Independent task YAML, e.g. configs/tasks/connector.yaml")
+    parser.add_argument("--seed", type=int, help="Reproducible task object placement")
+    parser.add_argument("--no-randomization", action="store_true", help="Use the task's nominal layout")
     parser.add_argument("--trajectory", type=Path, help="HDF5 episode to replay as simulation targets")
     parser.add_argument("--demo", action="store_true", help="Small joint motion in pure simulation")
     parser.add_argument("--allow-actuation", action="store_true")
@@ -49,6 +52,15 @@ def main():
     if args.mode == "replay" and not args.trajectory:
         parser.error("--trajectory is required for replay")
     cfg = load(args.config)
+    if args.task_scene:
+        import yaml
+        cfg["task_scene"] = yaml.safe_load(args.task_scene.read_text())
+        if args.seed is not None:
+            cfg["task_scene"]["seed"] = args.seed
+        if args.no_randomization:
+            cfg["task_scene"]["randomization"]["enabled"] = False
+    elif args.seed is not None or args.no_randomization:
+        parser.error("--seed / --no-randomization require --task-scene")
     app = AppLauncher(args).app if args.backend == "isaac" else None
     hardware = writer = sim = server = None
     complete = False
@@ -97,6 +109,7 @@ def main():
             from piper_sim.transforms import load_camera_rig
             writer = EpisodeWriter(args.record, {
                 "task": args.task, "mode": args.mode, "config": cfg,
+                "task_scene": sim.task.metadata() if sim.task else None,
                 "demo": args.demo,
                 "camera_rig": sim.rig if args.backend == "mujoco" else load_camera_rig(cfg),
                 "fps": 1/(sim.dt*sim.decimation),

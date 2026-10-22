@@ -26,7 +26,15 @@ class IsaacBackend:
             from isaacsim.core.simulation_manager import SimulationManager
             SimulationManager.enable_fabric(False)
         self.sim.set_camera_view([1.8, 1.7, 1.5], [.25, 0., .35])
-        self.object = spawn_workcell(cfg)
+        self.task = None
+        self.task_objects = {}
+        if cfg.get("task_scene"):
+            from ..tasks import create_task, engine_adapter
+            self.task = create_task(cfg["task_scene"], cfg)
+            self.task_adapter = engine_adapter(self.task, "isaac")
+        self.object = spawn_workcell(cfg, spawn_object=self.task is None)
+        if self.task:
+            self.task_objects = self.task_adapter.spawn_task(self.task)
         self.arms = {side: Articulation(piper_config(cfg, side)) for side in ARMS}
         spawn_camera_mounts(cfg)
         if cfg.get("appearance", {}).get("cad_gripper", False):
@@ -50,7 +58,7 @@ class IsaacBackend:
         for _ in range(8):
             self.step()
 
-    def reset(self):
+    def reset(self, seed=None, randomize=None):
         """Reset physical state and drive targets together before starting an episode."""
         for arm in self.arms.values():
             positions = arm.data.default_joint_pos.clone()
@@ -58,8 +66,12 @@ class IsaacBackend:
             arm.write_joint_state_to_sim(positions, velocities)
             arm.set_joint_position_target(positions)
             arm.reset()
-        self.object.write_root_state_to_sim(self.object.data.default_root_state.clone())
-        self.object.reset()
+        if self.task:
+            self.task.reset(seed, randomize)
+            self.task_adapter.reset_task(self.task_objects, self.task)
+        else:
+            self.object.write_root_state_to_sim(self.object.data.default_root_state.clone())
+            self.object.reset()
         for camera in self.cameras.values():
             camera.reset()
         self.sim_time = 0.
@@ -84,12 +96,17 @@ class IsaacBackend:
             self.sim.step(render=False)
             for arm in self.arms.values():
                 arm.update(self.dt)
-            self.object.update(self.dt)
+            if self.object:
+                self.object.update(self.dt)
+            for obj in self.task_objects.values():
+                obj.update(self.dt)
             self.sim_time += self.dt
         # Flush live physics transforms to Fabric and render once per control tick.
         self.sim.render()
         for camera in self.cameras.values():
             camera.update(self.dt*self.decimation)
+        if self.task:
+            self.task.metrics(self.task_adapter.task_poses(self.task_objects), self.dt*self.decimation)
 
     def read(self):
         q = []
@@ -103,12 +120,18 @@ class IsaacBackend:
                    "quaternion_wxyz_ros": camera.data.quat_w_ros[0].cpu().tolist(),
                    "intrinsics": camera.data.intrinsic_matrices[0].cpu().tolist()}
             for name, camera in self.cameras.items()}
+        if self.task:
+            objects = self.task_adapter.task_poses(self.task_objects)
+            extras = {"objects": objects, "task": {"name": self.task.config["name"],
+                      "seed": self.task.layout["seed"], "metrics": self.task.metrics(objects)}}
+        else:
+            extras = {"object": {"position_world": self.object.data.root_pos_w[0].cpu().tolist(),
+                                 "quaternion_wxyz": self.object.data.root_quat_w[0].cpu().tolist()}}
         return Observation(q, time.monotonic(), self.sim_time, images,
                            {name: self.sim_time for name in images},
                            {"image_timestamp_clock": "simulation", "cameras": camera_poses,
                             "physics_time": self.sim.current_time,
-                            "object": {"position_world": self.object.data.root_pos_w[0].cpu().tolist(),
-                                       "quaternion_wxyz": self.object.data.root_quat_w[0].cpu().tolist()}})
+                            **extras})
 
     def close(self):
         # Lab 2.3.0's STOP callback renders indefinitely while the timeline is stopped.

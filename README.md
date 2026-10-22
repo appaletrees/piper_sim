@@ -38,6 +38,19 @@ MuJoCo 手动控制：`bash scripts/run_mujoco.sh --interactive --enable_cameras
 详见 [独立安装、采集、回放与验证](docs/mujoco.md)。
 真实双臂的独立连接、只读状态和控制API见 [真机接口说明](docs/piper_connection.md)。
 
+**充电器插插座任务：** 原型板按提供STL的170 × 60 × 33 mm尺寸还原，
+默认同时放置黑色两脚充电器与黄色三脚插头，插头尺寸按照片估算并可配置。
+支持独立任务配置、种子控制的摆放随机化、真实孔洞碰撞与逐物体插入判定。
+
+```bash
+bash scripts/run_mujoco.sh --task-scene configs/tasks/connector.yaml \
+  --seed 42 --interactive --enable_cameras
+```
+
+![插接任务：原型板和两种插头](outputs/connector_scene/mujoco/layout.png)
+
+Isaac同样支持 `--task-scene`。见 [任务使用、尺寸来源和模块设计](docs/connector_scene.md)。
+
 总览和近景采用原 CAD 夹爪视觉网格及参考照片配色。后面的全幅 RGB 保留此前公开光学规格验收版本，
 不代表640×480真机标定已完成。
 

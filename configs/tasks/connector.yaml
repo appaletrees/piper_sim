@@ -1,0 +1,51 @@
+schema_version: 1
+name: charger_socket
+asset_manifest: assets/tasks/connector/manifest.json
+objects: [black_charger, yellow_plug]
+seed: 42
+# This task is independent of robot joints, camera placement and CAN control.
+randomization:
+  enabled: true
+  # Rejection sampling keeps the complete footprints on the table and separated.
+  board_xy: [[0.30, 0.40], [-0.06, 0.06]]
+  board_yaw_deg: [-25, 25]
+  black_charger_xy: [[0.28, 0.48], [-0.23, -0.13]]
+  yellow_plug_xy: [[0.28, 0.48], [0.13, 0.23]]
+  plug_yaw_deg: [-180, 180]
+  clearance_m: 0.015
+nominal:
+  board_xy: [0.35, 0.0]
+  board_yaw_deg: 0
+  black_charger_xy: [0.37, -0.17]
+  yellow_plug_xy: [0.37, 0.17]
+  plug_yaw_deg: 0
+# Mass, friction, housing and pin dimensions are estimates, not identified real dynamics.
+plugs:
+  black_charger:
+    housing_size_m: [0.044, 0.030, 0.034]
+    corner_radius_m: 0.004
+    mass_kg: 0.065
+    pin_size_m: [0.0013, 0.0063, 0.016]
+    pin_spacing_m: 0.0127
+  yellow_plug:
+    face_radius_m: 0.023
+    rim_height_m: 0.006
+    handle_radius_m: 0.013
+    housing_height_m: 0.030
+    mass_kg: 0.040
+    pin_width_m: 0.0063
+    pin_thickness_m: 0.0015
+    pin_length_m: 0.017
+    pin_spacing_m: 0.015
+    earth_offset_m: 0.013
+    earth_extra_length_m: 0.002
+    angled_pin_deg: 30
+contact:
+  friction: 0.6
+  # Thin prongs need small contact offsets; these do not enlarge the physical holes.
+  contact_offset_m: 0.00015
+success:
+  lateral_tolerance_m: 0.001
+  tilt_tolerance_deg: 5
+  seated_gap_m: 0.001
+  hold_seconds: 0.3
