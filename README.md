@@ -38,6 +38,18 @@ MuJoCo 手动控制：`bash scripts/run_mujoco.sh --interactive --enable_cameras
 详见 [独立安装、采集、回放与验证](docs/mujoco.md)。
 真实双臂的独立连接、只读状态和控制API见 [真机接口说明](docs/piper_connection.md)。
 
+**视频餐桌收拾场景：** 新增独立 `clean_table` 任务，包含餐具篮、垃圾筐、盘碗汤匙、筷子、方碟、
+毛巾、纸团和带编织纹理的餐垫。两种引擎共享物体尺寸、摆放随机化、外部控制和录制接口。
+
+```bash
+bash scripts/run_mujoco.sh --config configs/clean_table_workcell.yaml \
+  --task-scene configs/tasks/clean_table.yaml --interactive --enable_cameras
+```
+
+![视频餐桌收拾场景](outputs/clean_table_scene/mujoco/tabletop.png)
+
+尺寸按视频估算；布料/餐垫目前是刚体代理。见 [使用、材质、接口与验收](docs/clean_table_scene.md)。
+
 **充电器插插座任务：** 原型板按提供STL的170 × 60 × 33 mm尺寸还原，
 默认同时放置黑色两脚充电器与黄色三脚插头，插头尺寸按照片估算并可配置。
 支持独立任务配置、种子控制的摆放随机化、真实孔洞碰撞与逐物体插入判定。

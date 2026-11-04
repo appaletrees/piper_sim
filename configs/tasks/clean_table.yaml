@@ -1,0 +1,135 @@
+schema_version: 1
+name: clean_table
+seed: 42
+instruction: put the tableware into the basket and the trash into the trash bin
+# Video-derived estimates in metres. Original robot/table/camera CAD stays authoritative.
+materials: assets/tasks/clean_table/materials.json
+environment:
+  # Adjacent white tabletop visible beyond the workcell in the source video.
+  # An independent background prop, not a change to the authoritative CAD table.
+  rear_table:
+    size_m: [0.75, 1.4, 0.025]
+    position_m: [1.020, 0.0, 0.0125]
+    material: white_table
+    supports_placement: true
+reference:
+  video: /home/midea/phoenix-mwa/datasets/piper_clean_table_lerobot/videos/chunk-000/image/episode_000000.mp4
+  resolution: [640, 480]
+  fps: 30
+  frames: 1645
+  evidence: [image, wrist_image_l, wrist_image_r]
+  dimension_status: estimated_from_video_relative_to_original_workcell
+  # For an optional comparison still only; NOT a reset pose or automatic policy.
+  # Dataset docs declare first 14 entries = left6/grip/right6/grip, radians/fraction.
+  joint14_rad_fraction: [-0.70186669, 1.63450086, -1.34254217, 0.09501573, 1.20598757, -0.62519437, 0.99578947, 0.56573105, 1.75037324, -1.36524892, -0.07080801, 1.15059090, 0.47356018, 0.99473685]
+randomization:
+  enabled: false
+  # The place setting moves as a group, preserving the bowl/spoon stack.
+  setting_xy_m: [0.018, 0.025]
+  setting_yaw_deg: 6
+  container_xy_m: [0.015, 0.020]
+  container_yaw_deg: 5
+  table_clearance_m: 0.008
+objects:
+  placemat:
+    kind: placemat
+    size_m: [0.30, 0.44, 0.002]
+    mass_kg: 0.075
+    position_xy_m: [0.325, 0.0]
+    yaw_deg: 0
+    target: basket
+  plate:
+    kind: plate
+    diameter_m: 0.190
+    height_m: 0.016
+    mass_kg: 0.240
+    position_xy_m: [0.365, -0.025]
+    support: placemat
+    support_height_m: 0.002
+    target: basket
+  bowl:
+    kind: bowl
+    diameter_m: 0.105
+    height_m: 0.052
+    mass_kg: 0.120
+    position_xy_m: [0.375, -0.020]
+    support: plate
+    support_height_m: 0.006
+    target: basket
+  spoon:
+    kind: spoon
+    size_m: [0.145, 0.038, 0.014]
+    mass_kg: 0.025
+    position_xy_m: [0.350, -0.020]
+    support: bowl
+    support_height_m: 0.053
+    yaw_deg: -12
+    target: basket
+  chopstick_a:
+    kind: chopstick
+    size_m: [0.225, 0.006, 0.006]
+    mass_kg: 0.008
+    position_xy_m: [0.355, -0.155]
+    support: placemat
+    support_height_m: 0.002
+    yaw_deg: 0
+    target: basket
+  chopstick_b:
+    kind: chopstick
+    size_m: [0.225, 0.006, 0.006]
+    mass_kg: 0.008
+    position_xy_m: [0.354, -0.171]
+    support: placemat
+    support_height_m: 0.002
+    yaw_deg: 1
+    target: basket
+  side_dish:
+    kind: side_dish
+    size_m: [0.165, 0.105, 0.018]
+    mass_kg: 0.130
+    position_xy_m: [0.355, 0.145]
+    support: placemat
+    support_height_m: 0.002
+    yaw_deg: 4
+    target: basket
+  towel:
+    kind: towel
+    size_m: [0.140, 0.118, 0.023]
+    mass_kg: 0.025
+    position_xy_m: [0.340, 0.145]
+    support: side_dish
+    support_height_m: 0.020
+    yaw_deg: -8
+    target: trash_bin
+  paper:
+    kind: paper
+    size_m: [0.065, 0.070, 0.032]
+    mass_kg: 0.004
+    position_xy_m: [0.205, -0.085]
+    support: placemat
+    support_height_m: 0.002
+    yaw_deg: 20
+    target: trash_bin
+  basket:
+    kind: basket
+    size_m: [0.290, 0.235, 0.115]
+    wall_m: 0.003
+    mass_kg: 0.280
+    position_xy_m: [0.600, -0.410]
+    yaw_deg: 0
+  trash_bin:
+    kind: trash_bin
+    size_m: [0.150, 0.145, 0.100]
+    wall_m: 0.0025
+    mass_kg: 0.160
+    position_xy_m: [0.560, 0.330]
+    yaw_deg: -3
+contact:
+  friction: 0.65
+  contact_offset_m: 0.0005
+success:
+  hold_seconds: 0.5
+  containment_tolerance_m: 0.003
+  # Cloth and mat have a rigid collision proxy in this first version.
+  # A rigid mat cannot fold into the smaller basket: exclude it from success.
+  required: [plate, bowl, spoon, chopstick_a, chopstick_b, side_dish, towel, paper]
