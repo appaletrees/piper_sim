@@ -33,10 +33,11 @@ class CleanTableTask:
         if not set(c['success']['required']).issubset(self.names):
             raise ValueError('Unknown required sorting object')
         self.parts={n:build_parts(s) for n,s in self.specs.items()}
-        self.bounds={}
+        self.bounds={};self.surface_points={}
         for n,parts in self.parts.items():
             p=np.concatenate([p['points'] for p in parts if not p.get('hidden')])
             self.bounds[n]=np.array([p.min(0),p.max(0)])
+            self.surface_points[n]=np.unique(p,axis=0)
         self.material_path=ROOT/c['materials']
         materials=json.loads(self.material_path.read_text())
         self.materials=materials['materials']
@@ -121,7 +122,7 @@ class CleanTableTask:
         return copy.deepcopy(self.layout)
 
     def metrics(self,poses,dt=0.):
-        """Full bounding-volume containment in a moving bin frame, with dwell time.
+        """Full visible-mesh containment in a moving bin frame, with dwell time.
 
         A centre over a bin, a wrong bin, or an object still above the rim is not
         success. This geometric metric does not assert an autonomous policy.
@@ -130,7 +131,9 @@ class CleanTableTask:
         for n in self.hold:
             target=self.specs[n]['target'];s=self.specs[target]
             t=pose_matrix(poses[target]['position'],poses[target]['quaternion_wxyz'])
-            points=(self.corners(n,poses[n])-t[:3,3])@t[:3,:3]
+            obj=pose_matrix(poses[n]['position'],poses[n]['quaternion_wxyz'])
+            world=self.surface_points[n]@obj[:3,:3].T+obj[:3,3]
+            points=(world-t[:3,3])@t[:3,:3]
             size=np.array(s['size_m']);wall=s['wall_m']
             inside=bool(np.all(abs(points[:,:2])<=size[:2]/2-wall+tol)
                         and points[:,2].min()>=wall-tol and points[:,2].max()<=size[2]+tol)

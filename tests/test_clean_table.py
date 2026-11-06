@@ -19,7 +19,7 @@ def test_video_objects_scale_stacks_and_reproducible_randomization():
     assert t.specs['basket']['size_m']==[.290,.235,.115]
     assert t.original_table_bounds[1,0]==pytest.approx(.645)
     assert t.table_bounds[1,0]==pytest.approx(1.395)
-    assert len(t.parts['bowl'])==17  # visual + open-cavity contact sectors
+    assert len(t.parts['bowl'])>17  # both radial and angular convex decomposition
     original=copy.deepcopy(t.layout)
     p=original['poses']
     assert p['plate']['position'][2]<p['bowl']['position'][2]<p['spoon']['position'][2]
@@ -96,3 +96,18 @@ def test_mujoco_stability_open_containers_and_recording(tmp_path):
         b.reset(18,True);a=copy.deepcopy(b.task.layout)
         b.reset(18,True);assert b.task.layout==a
     finally:b.close()
+
+
+def test_vessel_contact_sections_leave_inner_cavity_empty():
+    from piper_sim.tasks.clean_table_meshes import convex_profile_parts
+    profile=np.array([(.01,0),(.48,0),(.54,.06),(.58,.15),(.80,.54),(.98,.93),
+                      (1,.98),(.99,1),(.94,1),(.91,.93),(.72,.51),(.48,.13),(.01,.13)])
+    parts=convex_profile_parts(profile)
+    def inside(point,polygon):
+        d=np.roll(polygon,-1,axis=0)-polygon
+        p=point-polygon
+        return np.all(d[:,0]*p[:,1]-d[:,1]*p[:,0]>=-1e-10)
+    assert len(parts)>1
+    # A single full-section hull fills this interior point above the bowl floor.
+    assert not any(inside(np.array([.5,.5]),profile[ids]) for ids in parts)
+    assert any(inside(np.array([.3,.05]),profile[ids]) for ids in parts)

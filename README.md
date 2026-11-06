@@ -50,6 +50,20 @@ bash scripts/run_mujoco.sh --config configs/clean_table_workcell.yaml \
 
 尺寸按视频估算；布料/餐垫目前是刚体代理。见 [使用、材质、接口与验收](docs/clean_table_scene.md)。
 
+**特权信息分拣 demo：** 纸团/白色纸巾进左盒，六件餐具进右篮，餐垫留桌面。
+默认使用明确标记的接触辅助抓取，可录制视频、HDF5，并选转 LeRobot v2.1；
+辅助模式不代表纯物理抓取通过。见 [运行方式与数据标记](docs/privileged_clean_table_demo.md)。
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/demo_clean_table.py \
+  --video --record --output outputs/my_sort_demo
+```
+
+![特权分拣 demo 最终画面](outputs/clean_table_demo/final.png)
+
+[4 倍速演示视频（接触辅助模式）](outputs/clean_table_demo/preview_4x.mp4) ·
+[8/8 完成报告](outputs/clean_table_demo/report.json)
+
 **充电器插插座任务：** 原型板按提供STL的170 × 60 × 33 mm尺寸还原，
 默认同时放置黑色两脚充电器与黄色三脚插头，插头尺寸按照片估算并可配置。
 支持独立任务配置、种子控制的摆放随机化、真实孔洞碰撞与逐物体插入判定。

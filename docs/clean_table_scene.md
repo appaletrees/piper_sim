@@ -122,7 +122,7 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/export_lerobot.py \
 这沿用本项目的 14 维、角度/归一化夹爪导出契约，不复制原视频数据集的 15 维 `state/actions` 命名。
 原数据第 15 个辅助字段含义尚未确定。详见 [导出说明](lerobot_export.md)。
 
-分类判定在**移动筐体的局部坐标系**中检查整个物体的包围体，要求位于内壁之间、底板上方和筐口下方，
+分类判定在**移动筐体的局部坐标系**中检查整个物体的可见网格，要求位于内壁之间、底板上方和筐口下方，
 持续 0.5 秒。中心在筐口上方、只进入一部分、放错筐均不算成功。默认要求盘、碗、匙、两根筷子、方碟进餐具篮，
 毛巾和纸团进垃圾筐。`success.required` 不含当前无法折叠的刚性餐垫。
 
@@ -149,6 +149,9 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/verify_clean_table.py \
 
 每次使用新输出目录。已有 [MuJoCo 报告](../outputs/clean_table_scene/mujoco/report.json) 和
 [Isaac 报告](../outputs/clean_table_scene/isaac/report.json)；物体投放是接触测试夹具，不是自动清桌策略。
+
+自动分拣的独立入口见 [特权信息 demo](privileged_clean_table_demo.md)。该入口默认使用明确标注的
+接触辅助抓取，保留纯接触实验模式；其结果与上述场景/自由落体验收分开记录。
 
 ## 模块边界
 

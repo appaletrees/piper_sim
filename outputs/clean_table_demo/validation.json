@@ -1,0 +1,34 @@
+{
+  "demo": {
+    "backend": "mujoco",
+    "mode": "assisted",
+    "seed": 42,
+    "randomized": false,
+    "contained": 8,
+    "required": 8,
+    "sim_seconds": 273.7333333333674,
+    "frame_count": 8212,
+    "rgb_recorded": false,
+    "h5": "/home/midea/Desktop/piper_sim/outputs/privileged_clean_table/full03/episode.h5",
+    "full_video": "/home/midea/Desktop/piper_sim/outputs/privileged_clean_table/full03/demo.mp4",
+    "preview_speed": 4
+  },
+  "lerobot_v2": {
+    "frames": 8212,
+    "videos": 0,
+    "teacher_mode_preserved": true,
+    "path": "/home/midea/Desktop/piper_sim/outputs/privileged_clean_table/full03/lerobot_v2"
+  },
+  "regression": {
+    "pytest_passed": 79,
+    "isaac_geometry_passed": true,
+    "isaac_random_seeds": 100,
+    "scope": "Isaac geometry, free-body drops and recording only; expert demo is MuJoCo"
+  },
+  "limitations": [
+    "Contact-assisted, not a physical-only success benchmark",
+    "Rigid tissue geometry, no cloth deformation",
+    "Nominal layout only; not a validated general random-scene expert",
+    "Recorded episode has states/privileged metadata; enable --rgb for camera streams"
+  ]
+}

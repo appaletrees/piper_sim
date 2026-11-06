@@ -39,11 +39,53 @@ def transform(part, *, scale=(1,1,1), offset=(0,0,0)):
     return part
 
 
+def convex_profile_parts(profile):
+    """Ear-clip a radial section, then merge adjacent triangles if still convex.
+
+    A hull of an entire rim-to-floor section bridges the concave inside of a
+    dish. Splitting only by azimuth does not fix that radial overfill.
+    """
+    p=np.asarray(profile,float)
+    def cross(a,b,c):
+        u=b-a;v=c-a
+        return u[0]*v[1]-u[1]*v[0]
+    def area(ids):
+        a=p[ids];return abs(np.sum(a[:,0]*np.roll(a[:,1],-1)-a[:,1]*np.roll(a[:,0],-1)))/2
+    remaining=list(range(len(p)));triangles=[]
+    while len(remaining)>3:
+        for k,b in enumerate(remaining):
+            a,c=remaining[k-1],remaining[(k+1)%len(remaining)]
+            if cross(p[a],p[b],p[c])<=1e-12:continue
+            if any(all(cross(p[u],p[v],p[j])>=-1e-12 for u,v in ((a,b),(b,c),(c,a)))
+                   for j in remaining if j not in (a,b,c)):continue
+            triangles.append([a,b,c]);remaining.pop(k);break
+        else:raise ValueError('Vessel profile must be a simple counterclockwise polygon')
+    triangles.append(remaining)
+    def hull(ids):
+        ids=sorted(set(ids),key=lambda i:tuple(p[i]));lower=[];upper=[]
+        for chain,order in ((lower,ids),(upper,ids[::-1])):
+            for i in order:
+                while len(chain)>1 and cross(p[chain[-2]],p[chain[-1]],p[i])<=1e-12:chain.pop()
+                chain.append(i)
+        return lower[:-1]+upper[:-1]
+    while True:
+        merged=False
+        for i,a in enumerate(triangles):
+            for j in range(i+1,len(triangles)):
+                b=triangles[j]
+                if len(set(a)&set(b))<2:continue
+                h=hull(a+b)
+                if abs(area(h)-area(a)-area(b))<1e-10:
+                    triangles[i]=h;triangles.pop(j);merged=True;break
+            if merged:break
+        if not merged:return triangles
+
+
 def vessel(name, profile, material='porcelain', *, scale=(1,1,1), exponent=2, segments=64):
     """Closed radial section, ordered from outer bottom through rim to inner floor.
 
     The profile uses normalized radii for both round and rounded-rectangle dishes.
-    Twelve separate contact sectors leave the central cavity open.
+    Convex radial pieces in each angular sector leave the cavity and rim open.
     """
     profile = np.asarray(profile)
     angle = np.arange(segments)*2*np.pi/segments
@@ -59,19 +101,20 @@ def vessel(name, profile, material='porcelain', *, scale=(1,1,1), exponent=2, se
                           (i*segments+j,ni*segments+nj,ni*segments+j)])
     parts = [mesh(name,points,faces,material)]
     # Small angular sectors bound the convex approximation error at the inner wall.
-    for k, ids in enumerate(np.array_split(np.arange(segments),16)):
-        ids = np.r_[ids, (ids[-1]+1)%segments]
-        count = len(ids)
-        p = points.reshape(len(profile),segments,3)[:,ids,:].reshape(-1,3)
-        f = []
-        for i in range(len(profile)):
-            ni = (i+1)%len(profile)
-            for j in range(count-1):
-                f.extend([(i*count+j,i*count+j+1,ni*count+j+1),
-                          (i*count+j,ni*count+j+1,ni*count+j)])
-        for j in (0,count-1):
-            f.extend([(j,i*count+j,(i+1)*count+j) for i in range(1,len(profile)-1)])
-        parts.append(mesh(f'{name}_contact_{k}',p,f,material,collision=True,hidden=True))
+    for radial,indices in enumerate(convex_profile_parts(profile)):
+        for k, ids in enumerate(np.array_split(np.arange(segments),16)):
+            ids = np.r_[ids, (ids[-1]+1)%segments]
+            count = len(ids);rings=len(indices)
+            p = points.reshape(len(profile),segments,3)[indices][:,ids,:].reshape(-1,3)
+            f = []
+            for i in range(rings):
+                ni = (i+1)%rings
+                for j in range(count-1):
+                    f.extend([(i*count+j,i*count+j+1,ni*count+j+1),
+                              (i*count+j,ni*count+j+1,ni*count+j)])
+            for j in (0,count-1):
+                f.extend([(j,i*count+j,(i+1)*count+j) for i in range(1,rings-1)])
+            parts.append(mesh(f'{name}_contact_{radial}_{k}',p,f,material,collision=True,hidden=True))
     return parts
 
 
@@ -164,9 +207,23 @@ def fabric(size, *, paper=False):
         faces.extend([(a,b+n*n,b),(a,a+n*n,b+n*n)])
     uv = np.tile(np.column_stack([(u.ravel()+1)/2,(v.ravel()+1)/2]),(2,1))
     p=mesh('folds',points,faces,'paper' if paper else 'terry',uv=uv)
-    # No fake deformable dynamics: this convex proxy is declared in metadata.
-    contact=box('fabric_contact',[x*.85,y*.85,h*.6],[0,0,h*.38],p['material'],collision=True,hidden=True)
-    parts=[p,contact]
+    # Contact geometry follows the folds, including their outermost points.
+    # An inset box lets a turned-over scrap sink visually through the bin floor
+    # and leaves no raised fold for a parallel gripper to pinch. These are still
+    # rigid convex patches, not a cloth/deformation model.
+    parts=[p]
+    if paper:
+        parts.append(mesh('fabric_contact',points,faces,p['material'],collision=True,hidden=True))
+    else:
+        for j in range(0,n-1,4):
+            for i in range(0,n-1,4):
+                ids=np.array([r*n+c for r in range(j,min(j+4,n-1)+1)
+                              for c in range(i,min(i+4,n-1)+1)])
+                ids=np.r_[ids,ids+n*n]
+                remap={old:new for new,old in enumerate(ids)}
+                f=[[remap[v] for v in face] for face in faces if all(v in remap for v in face)]
+                parts.append(mesh(f'fold_contact_{j}_{i}',points[ids],f,p['material'],
+                                  collision=True,hidden=True))
     if not paper:
         seams=[]
         for a,b in zip(edge,edge[1:]+edge[:1]):

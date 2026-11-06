@@ -10,7 +10,7 @@ from ..mujoco_asset import resolve_model
 
 
 class MujocoBackend:
-    def __init__(self, cfg, cameras=False, viewer=False):
+    def __init__(self, cfg, cameras=False, viewer=False, model_xml_transform=None):
         self.cfg = cfg
         self.dt = cfg["runtime"]["physics_dt"]
         self.decimation = cfg["runtime"]["decimation"]
@@ -24,8 +24,11 @@ class MujocoBackend:
             self.task = create_task(cfg["task_scene"], cfg)
             self.task_adapter = engine_adapter(self.task, "mujoco")
         path, self.manifest = resolve_model(cfg)
-        if self.task:
-            self.model = mujoco.MjModel.from_xml_string(self.task_adapter.compose_model(path, self.task))
+        if self.task or model_xml_transform is not None:
+            xml = self.task_adapter.compose_model(path, self.task) if self.task else Path(path).read_text()
+            if model_xml_transform is not None:
+                xml = model_xml_transform(xml)
+            self.model = mujoco.MjModel.from_xml_string(xml)
         else:
             self.model = mujoco.MjModel.from_xml_path(str(path))
         self.data = mujoco.MjData(self.model)
