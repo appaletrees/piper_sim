@@ -185,3 +185,7 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/verify_clean_table.py \
 机器人驱动、相机 CAD、真机连接、记录器和 LeRobot 导出器没有因新任务产生专用分支。
 
 真实记录的逐帧回放、三路实拍对照和当前对齐偏差见 [清桌数据回放](clean_table_replay.md)。
+
+## 域随机化采集
+
+摆放、视觉、质量／摩擦和 RGB 扰动可通过独立配置启用；平滑特权教师、批量录制、质量筛选与 LeRobot 导出见[域随机化采集说明](domain_randomization_collection.md)。

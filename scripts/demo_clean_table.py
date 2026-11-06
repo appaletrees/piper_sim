@@ -16,7 +16,9 @@ def main():
     parser.add_argument('--output', type=Path, default=Path('outputs/clean_table_demo')/time.strftime('%Y%m%d_%H%M%S'))
     parser.add_argument('--grasp-mode', choices=['assisted','physical'], default='assisted')
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--randomize', action='store_true', help='Experimental; not a validated random-scene expert')
+    parser.add_argument('--randomize', action='store_true', help='Enable reproducible task/domain randomization')
+    parser.add_argument('--domain-randomization', help='Episode randomization YAML, e.g. configs/domain_randomization/clean_table.yaml')
+    parser.add_argument('--collection-profile', default='configs/collection/clean_table.yaml')
     parser.add_argument('--viewer', action='store_true')
     parser.add_argument('--video', action='store_true')
     parser.add_argument('--record', action='store_true', help='Record 30 Hz transitions and privileged state to HDF5')
@@ -24,6 +26,10 @@ def main():
     parser.add_argument('--lerobot', action='store_true', help='Export the completed HDF5 episode to LeRobot v2.1')
     parser.add_argument('--objects', nargs='+', help='Diagnostic subset; full demo sorts eight objects')
     args = parser.parse_args()
+    if args.domain_randomization:
+        args.randomize = True
+    if args.lerobot and (not args.rgb or args.objects):
+        parser.error('--lerobot requires all RGB streams and a complete task (no --objects)')
     if args.lerobot and not args.record:
         parser.error('--lerobot requires --record')
     if args.output.exists():
@@ -32,6 +38,7 @@ def main():
     if not args.viewer:
         os.environ.setdefault('MUJOCO_GL', 'egl')
     import mujoco
+    import numpy as np
     from PIL import Image, ImageDraw, ImageFont
     from piper_sim.config import load
     from piper_sim.backends.mujoco import MujocoBackend
@@ -44,14 +51,26 @@ def main():
         def read(self):
             obs = super().read()
             if self.teacher:
-                obs.extras['teacher'] = {'name': 'clean_table_privileged_v1', 'grasp_mode': self.teacher.mode,
+                obs.extras['teacher'] = {'name': 'clean_table_privileged_v2', 'grasp_mode': self.teacher.mode,
                     'phase': self.teacher.phase, 'object': self.teacher.current,
                     'active_assist': self.teacher.assist.active[1:] if self.teacher.assist and self.teacher.assist.active else None}
             return obs
         def metadata(self):
-            return {**super().metadata(), 'teacher': self.teacher.metadata()}
+            return {**super().metadata(), 'teacher': self.teacher.metadata(), 'provenance': provenance,
+                    'software': {'python': sys.version, 'numpy': np.__version__, 'mujoco': mujoco.__version__}}
 
-    cfg = load(args.config);cfg['task_scene'] = args.task_scene
+    import yaml
+    cfg = load(args.config);cfg['task_scene'] = yaml.safe_load(Path(args.task_scene).read_text())
+    if args.domain_randomization:
+        cfg['task_scene']['domain_randomization'] = args.domain_randomization
+    settings = yaml.safe_load(Path(args.collection_profile).read_text())
+    import hashlib
+    from piper_sim.config import ROOT
+    source_files = [p for p in (ROOT/'src/piper_sim').rglob('*.py') if 'rl' not in p.parts]
+    source_files += [Path(__file__), Path(args.task_scene), Path(args.collection_profile)]
+    source_files += list((ROOT/'assets/tasks/clean_table').glob('*'))
+    provenance = {str(p.resolve().relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                  for p in source_files if p.is_file() and p.resolve().is_relative_to(ROOT)}
     backend = None;session = None;teacher = None;encoder = None;error = None;recording = None;summary = None
     camera = mujoco.MjvCamera()
     camera.lookat[:] = [.40,0,.10];camera.distance = 1.40
@@ -80,24 +99,54 @@ def main():
                 count = obs.extras['task']['metrics']['summary']['sorted_count']
                 draw.text((18,37),f'{t.current or "settling"}: {t.phase} | contained: {count}/8 | placemat stays on table',fill=(255,210,100),font=font)
                 encoder.stdin.write(im.tobytes())
-        teacher = CleanTableTeacher(session, grasp_mode=args.grasp_mode, frame_hook=frame_hook)
+        teacher = CleanTableTeacher(session, grasp_mode=args.grasp_mode, frame_hook=frame_hook, settings=settings)
         session.teacher = teacher
+        teacher.prepare(args.objects)
         if args.record:
             session.start_recording('episode', '纸巾放左盒；全部餐具放右篮；餐垫留桌面')
         summary = teacher.run(args.objects)
-    except Exception as exc:
+    except (Exception, KeyboardInterrupt) as exc:
         error = f'{type(exc).__name__}: {exc}'
         print(error, file=sys.stderr, flush=True)
     finally:
         if teacher and teacher.assist:
             teacher.assist.release()
+        if encoder:
+            encoder.stdin.close()
+            if encoder.wait(timeout=30):
+                error = error or 'Video encoding failed'
         if backend:
             obs = backend.read()
             if summary is None:
                 summary = obs.extras['task']['metrics']['summary']
             if args.video:
                 Image.fromarray(backend._render(camera,1000,800)).save(args.output/'final.png')
-            report = {'completed': error is None, 'error': error, 'summary': summary,
+            quality = teacher.quality.report() if teacher else {'passed': False, 'violations': ['no teacher']}
+            quality['cameras'] = teacher.camera_quality if teacher else {}
+            if args.rgb:
+                for name, stats in quality['cameras'].items():
+                    if stats['low_contrast_frames']/max(stats['frames'], 1) > .98:
+                        quality['violations'].append('uninformative_camera/'+name)
+                if set(quality['cameras']) != {'overhead', 'left_wrist', 'right_wrist'}:
+                    quality['violations'].append('missing_camera_frames')
+                quality['passed'] = quality['passed'] and not quality['violations']
+            if error is None and not quality['passed']:
+                error = 'QualityRejected: '+', '.join(quality['violations'])
+            accepted = bool(error is None and summary['success'] and not args.objects)
+            if session and session.writer:
+                session.writer.f.attrs['quality'] = json.dumps(quality)
+                session.writer.f.attrs['accepted'] = accepted
+                metadata = json.loads(session.writer.f.attrs['metadata'])
+                metadata['collection_outcome'] = {'accepted': accepted, 'error': error,
+                    'teacher_events': teacher.events if teacher else [],
+                    'object_results': teacher.results if teacher else []}
+                session.writer.f.attrs['metadata'] = json.dumps(metadata)
+            report = {'accepted': accepted, 'quality': quality,
+                      'robot_collision_peak': teacher.collision_peak if teacher else None,
+                      'provenance': provenance,
+                      'domain_randomization': backend.task.domain_parameters,
+                      'collection_profile': settings, 'rgb': args.rgb,
+                      'completed': error is None, 'error': error, 'summary': summary,
                       'teacher': teacher.metadata() if teacher else None,
                       'results': teacher.results if teacher else [],
                       'events': teacher.events if teacher else [],
@@ -107,10 +156,6 @@ def main():
             (args.output/'report.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
         if session and session.writer:
             recording = session.stop_recording(success=error is None and summary['success'])
-        if encoder:
-            encoder.stdin.close()
-            if encoder.wait(timeout=30):
-                error = error or 'Video encoding failed'
         if session:
             session.close()
         elif backend:

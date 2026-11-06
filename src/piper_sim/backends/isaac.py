@@ -49,6 +49,10 @@ class IsaacBackend:
             self.task_adapter.configure_appearance(self.task)
         self.cameras = spawn_cameras(cfg) if cameras else {}
         self.sim.reset()
+        self.randomizer = None
+        if self.task and getattr(self.task, 'domain_profile', None):
+            from ..randomization.isaac import IsaacRandomizer
+            self.randomizer = IsaacRandomizer(self.task_objects, self.task)
         self.indices = {}
         for side, arm in self.arms.items():
             ids, names = arm.find_joints([*JOINT_NAMES, "joint7", "joint8"], preserve_order=True)
@@ -70,6 +74,8 @@ class IsaacBackend:
             arm.reset()
         if self.task:
             self.task.reset(seed, randomize)
+            if self.randomizer:
+                self.randomizer.apply(self.task.domain_parameters)
             self.task_adapter.reset_task(self.task_objects, self.task)
         else:
             self.object.write_root_state_to_sim(self.object.data.default_root_state.clone())
@@ -123,6 +129,10 @@ class IsaacBackend:
             q.extend([*p[:6], p[6]+p[7]])
         images = {name: camera.data.output["rgb"][0, ..., :3].detach().cpu().numpy().copy()
                   for name, camera in self.cameras.items()}
+        if self.randomizer:
+            from ..randomization import sensor_images
+            images = sensor_images(images, self.task.domain_parameters,
+                                   round(self.sim_time/(self.dt*self.decimation)))
         camera_poses = {
             name: {"position_world": camera.data.pos_w[0].cpu().tolist(),
                    "quaternion_wxyz_ros": camera.data.quat_w_ros[0].cpu().tolist(),

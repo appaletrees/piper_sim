@@ -1,7 +1,8 @@
 """Explicit contact-triggered demo assistance, never a hidden physics success.
 
 The optional weld starts at the observed relative pose (no state placement),
-and is removed once the pads have opened clear. Its use must be recorded as assisted.
+and is removed after the finger servo is unloaded during opening. The teacher
+then finishes opening without the constraint. Its use is recorded as assisted.
 """
 import xml.etree.ElementTree as ET
 import numpy as np

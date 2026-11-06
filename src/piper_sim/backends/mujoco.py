@@ -41,6 +41,10 @@ class MujocoBackend:
         self.model.opt.timestep = self.dt/self.substeps
         self.rig = self.manifest["camera_rig"]
         self.enable_cameras = cameras
+        self.randomizer = None
+        if self.task and getattr(self.task, 'domain_profile', None):
+            from ..randomization.mujoco import MujocoRandomizer
+            self.randomizer = MujocoRandomizer(self.model, self.task)
         self.indices = {}
         for side in ARMS:
             names = [f"{side}/{name}" for name in (*JOINT_NAMES, "joint7", "joint8")]
@@ -69,6 +73,8 @@ class MujocoBackend:
         mujoco.mj_resetData(self.model, self.data)
         if self.task:
             self.task.reset(seed, randomize)
+            if self.randomizer:
+                self.randomizer.apply(self.task.domain_parameters)
             self.task_adapter.reset_task(self.model, self.data, self.task)
         home = np.array(self.cfg["robot"]["home"]*2)
         self.set_observation_state(home)
@@ -138,6 +144,10 @@ class MujocoBackend:
         if self.enable_cameras and self._images is None:
             self._images = {name: self._render(name, *mount["rgb"]["resolution"])
                             for name, mount in self.rig["cameras"].items()}
+            if self.randomizer:
+                from ..randomization import sensor_images
+                self._images = sensor_images(self._images, self.task.domain_parameters,
+                                              round(self.sim_time/(self.dt*self.decimation)))
         poses = {}
         if self.enable_cameras:
             for name, mount in self.rig["cameras"].items():

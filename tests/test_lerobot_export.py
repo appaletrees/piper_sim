@@ -86,6 +86,18 @@ def test_native_resolution_and_state_only(tmp_path):
     np.testing.assert_array_equal(native['pixel_transform'],np.eye(3))
 
 
+def test_preserves_final_collection_quality_and_rejection(tmp_path):
+    src=episode(tmp_path/'quality.h5',cameras=False)
+    quality={'passed':False,'violations':['measured_arm_jerk']}
+    with h5py.File(src,'r+') as f:
+        f.attrs['quality']=json.dumps(quality)
+        f.attrs['accepted']=False
+    export_lerobot_v2(src,tmp_path/'dataset')
+    metadata=json.loads((tmp_path/'dataset/meta/sim_episodes.jsonl').read_text())['metadata']
+    assert metadata['collection_quality']==quality
+    assert metadata['collection_accepted'] is False
+
+
 def test_refuses_overwrite_partial_duplicate_and_mismatched_episodes(tmp_path):
     src=episode(tmp_path/'good.h5')
     dest=tmp_path/'existing';dest.mkdir(); (dest/'keep').write_text('keep')

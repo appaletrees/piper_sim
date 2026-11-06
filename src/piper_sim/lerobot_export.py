@@ -69,6 +69,11 @@ def _inspect(path):
         if tuple(json.loads(f.attrs['features'])) != FEATURE_NAMES or json.loads(f.attrs['units']) != ['rad']*6+['m']+['rad']*6+['m']:
             raise ValueError(f'Unexpected input feature order/units: {path}')
         meta = json.loads(f.attrs['metadata'])
+        # Preserve final collection gates as well as reset-time metadata.
+        if 'quality' in f.attrs:
+            meta['collection_quality'] = json.loads(f.attrs['quality'])
+        if 'accepted' in f.attrs:
+            meta['collection_accepted'] = bool(f.attrs['accepted'])
         fps = float(meta['fps'])
         if not math.isfinite(fps) or fps <= 0: raise ValueError('Invalid episode fps')
         n = int(f.attrs['num_transitions'])

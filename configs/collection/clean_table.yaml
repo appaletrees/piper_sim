@@ -1,0 +1,29 @@
+schema_version: 1
+controller:
+  gripper_kp_N_per_m: 1000.0
+  gripper_kv_Ns_per_m: 120.0
+  gripper_force_limit_N: 5.0
+  finger_contact_time_constant_s: 0.01
+motion:
+  joint_velocity_rad_s: 0.5
+  joint_acceleration_rad_s2: 1.2
+  joint_jerk_rad_s3: 8.0
+  gripper_velocity_m_s: 0.04
+  gripper_acceleration_m_s2: 0.12
+  gripper_jerk_m_s3: 1.0
+  settle_error_rad: 0.035
+  settle_velocity_rad_s: 0.04
+  settle_hold_s: 0.2
+  settle_timeout_s: 2.0
+quality:
+  # Applied targets AND measured robot motion are checked separately at 30 Hz.
+  measured_velocity_rad_s: 0.8
+  measured_acceleration_rad_s2: 8.0
+  measured_jerk_rad_s3: 200.0
+  measured_gripper_velocity_m_s: 0.08
+  measured_gripper_acceleration_m_s2: 1.0
+  measured_gripper_jerk_m_s3: 50.0
+  tracking_error_rad: 0.10
+  hold_velocity_rms_rad_s: 0.025
+  hold_gripper_velocity_rms_m_s: 0.003
+  max_robot_penetration_m: 0.004

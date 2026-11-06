@@ -41,6 +41,10 @@ class CleanTableTask:
         self.material_path=ROOT/c['materials']
         materials=json.loads(self.material_path.read_text())
         self.materials=materials['materials']
+        self.domain_profile=None
+        if c.get('domain_randomization'):
+            from ..randomization import load_profile
+            self.domain_profile=load_profile(c['domain_randomization'])
         for spec in self.materials.values():
             if 'texture' in spec and not (self.material_path.parent/spec['texture']).is_file():
                 raise FileNotFoundError('Run scripts/prepare_clean_table_textures.py')
@@ -89,7 +93,9 @@ class CleanTableTask:
     def reset(self,seed=None,randomize=None):
         seed=self.config['seed'] if seed is None else int(seed)
         if seed<0: raise ValueError('Seed must be nonnegative')
-        r=self.config['randomization']
+        r=copy.deepcopy(self.config['randomization'])
+        if self.domain_profile:
+            r.update(self.domain_profile.get('layout',{}))
         randomize=r['enabled'] if randomize is None else bool(randomize)
         rng=np.random.default_rng(seed)
         origin=np.array(self.specs['placemat']['position_xy_m'])
@@ -118,6 +124,11 @@ class CleanTableTask:
             if self._valid_layout(poses): break
         else: raise ValueError('Cannot fit clean-table objects on the supporting tables; check dimensions/ranges')
         self.layout={'seed':seed,'randomized':randomize,'poses':poses}
+        self.domain_parameters=None
+        if self.domain_profile and randomize:
+            from ..randomization import sample
+            self.domain_parameters=sample(self.domain_profile,seed,self.names,self.materials)
+        self.layout['domain_randomization']=copy.deepcopy(self.domain_parameters)
         self.hold={n:0. for n in self.names if self.specs[n].get('target')}
         return copy.deepcopy(self.layout)
 
@@ -153,6 +164,7 @@ class CleanTableTask:
                 'placement_bounds_xy_m':self.table_bounds.tolist(),
                 'original_table_bounds_xy_m':self.original_table_bounds.tolist(),
                 'materials':copy.deepcopy(self.materials),
+                'domain_profile':copy.deepcopy(self.domain_profile),
                 'geometry_authority':'original workcell CAD; task object sizes estimated from video',
                 'approximations':['rigid towel, crumpled paper and placemat; no cloth deformation',
                     'basket perforations are visual; collisions use separate solid walls and floor',
