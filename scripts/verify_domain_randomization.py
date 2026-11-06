@@ -14,6 +14,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--backend', choices=['mujoco', 'isaac'], default='mujoco')
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--task-scene',default='configs/tasks/clean_table_rigid.yaml')
     selected, _ = parser.parse_known_args()
     if selected.backend == 'isaac':
         from isaaclab.app import AppLauncher
@@ -27,7 +28,7 @@ def main():
         from piper_sim.simulation import SimulationSession
         from PIL import Image
         cfg = load('configs/clean_table_workcell.yaml')
-        cfg['task_scene'] = yaml.safe_load((ROOT/'configs/tasks/clean_table.yaml').read_text())
+        cfg['task_scene'] = yaml.safe_load((ROOT/args.task_scene).read_text())
         cfg['task_scene']['domain_randomization'] = 'configs/domain_randomization/clean_table.yaml'
         if args.backend == 'mujoco':
             os.environ.setdefault('MUJOCO_GL', 'egl')
@@ -73,9 +74,19 @@ def main():
                   'scope': 'live properties, absolute reset, deterministic repeated reads, RGB/recording; no teacher validation'}
         (args.output/'report.json').write_text(json.dumps(report, indent=2)+'\n')
         print(json.dumps({'passed': True, 'output': str(args.output)}), flush=True)
+    except BaseException:
+        import traceback
+        traceback.print_exc()
+        raise
     finally:
         if backend: backend.close()
-        if app: app.close(wait_for_replicator=False)
+        if app:
+            # Constructor failures still leave a context with Lab 2.3's STOP
+            # callback. Do not let shutdown hide the original exception forever.
+            from isaaclab.sim import SimulationContext
+            context=SimulationContext.instance()
+            if context:context._disable_app_control_on_stop_handle=True
+            app.close(wait_for_replicator=False)
 
 
 if __name__ == '__main__': main()

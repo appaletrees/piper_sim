@@ -1,0 +1,196 @@
+"""Rigid clearing with physical cup nesting, then whole-stack transport.
+
+All live motion goes through the existing position-control interface. No welds,
+object state assignments or scripted attachments are used by this teacher.
+"""
+import numpy as np
+from .clean_table import CleanTableTeacher, SortFailure
+from .mujoco_ik import grasp_rotation
+from .grasp_assist import finger_contacts
+from ..transforms import pose_matrix
+
+
+class RigidTableTeacher(CleanTableTeacher):
+    name = 'rigid_table_privileged_v1'
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        if self.mode!='physical': raise ValueError('Rigid stacking requires physical grasps')
+        self.stack_carried=False
+
+    def metadata(self):
+        return {**super().metadata(),'name':'rigid_table_privileged_v1',
+                'task_sequence':'nest cups on table, transport entire stack, clear remaining rigid props',
+                'per_kind_gripper_force_limits_N':{'pen':.35,'chopstick':.30,'plate':30.,'side_dish':15.,'other':5.},
+                'plate_pad_rolling_friction_m':.008,
+                'plate_gripper_kp_N_per_m':10000.,
+                'noslip_iterations_loaded_rim_grasp':10,
+                'placemat':'removed with all flexible objects','attachments':False}
+
+    @property
+    def cups(self):
+        return [n for n in self.b.task.active_names if self.b.task.specs[n]['kind']=='cup']
+
+    def plan_grasp(self,name):
+        spec=self.b.task.specs[name];kind=spec['kind']
+        if kind not in ('cup','pen','charger','chopstick'): return super().plan_grasp(name)
+        pose=self.object_pose(name);t=pose_matrix(pose['position'],pose['quaternion_wxyz'])
+        if kind=='chopstick':
+            # A stick may roll onto another face when its neighbour is picked.
+            # Follow its long axis, not the arbitrary roll of its local frame.
+            axis=t[:3,0]
+            yaw=(np.rad2deg(np.arctan2(axis[1],axis[0]))+90)%180-90
+            center=t[:3,3]+t[:3,:3]@np.array([0,0,spec['size_m'][2]/2])
+            return 'right',center+[0,0,.002],grasp_rotation(0,yaw-spec.get('yaw_deg',0)),.012
+        if kind=='cup':
+            # Axisymmetric cup: choose jaw yaw for arm reach, independent of print.
+            p=t[:3,3]+t[:3,:3]@np.array([0,0,.080])
+            side='right' if name=='cup_00' else 'left'
+            return side,p,grasp_rotation(45,40 if side=='right' else -40),.095
+        if kind=='pen':offset=[-.025,0,.008];width=.025
+        else:offset=[0,0,.022];width=.095
+        # Align with opposed flat faces, not diagonally across the corners.
+        return 'right',t[:3,3]+t[:3,:3]@offset,t[:3,:3]@grasp_rotation(20 if kind=='charger' else 0,0),width
+
+    def sort_one(self,name):
+        aid=self.b.model.actuator('right/gripper').id
+        kind=self.b.task.specs[name]['kind']
+        force={'pen':.35,'chopstick':.30,'plate':30.,'side_dish':15.}.get(kind,self.settings['controller']['gripper_force_limit_N'])
+        self.b.model.actuator_forcerange[aid]=[-force,force]
+        kp=10000. if kind in ('plate','side_dish') else self.settings['controller']['gripper_kp_N_per_m']
+        self.b.model.actuator_gainprm[aid,0]=kp
+        self.b.model.actuator_biasprm[aid,1]=-kp
+        for g in range(self.b.model.ngeom):
+            if self.b.model.body(self.b.model.geom_bodyid[g]).name in ('right/link7','right/link8'):
+                self.b.model.geom_friction[g,2]=.008 if kind in ('plate','side_dish') else .002
+                self.b.model.geom_solref[g,0]=.0042 if kind=='side_dish' else self.settings['controller']['finger_contact_time_constant_s']
+                self.b.model.geom_solimp[g,:2]=[.99,.999] if kind=='side_dish' else [.95,.99]
+        return super().sort_one(name)
+
+    def step(self):
+        # Refine friction constraints for a loaded thin rim. The physical
+        # contact model still decides whether it can stick or slips/falls.
+        self.b.model.opt.noslip_iterations = (10 if self.carried and
+            self.b.task.specs[self.carried[1]]['kind'] in ('plate','side_dish') else 0)
+        obs=super().step()
+        if self.stack_carried:
+            metric=self.b.task.stack_metrics(obs.extras['objects'])
+            if not metric['nested']:
+                raise SortFailure('Cup stack separated/tilted during transport: '+str(metric))
+        return obs
+
+    def carried_objects(self):
+        return self.cups if self.stack_carried else super().carried_objects()
+
+    def straight(self,side,position,rotation,spacing=.025):
+        """Short bounded IK segments maintain the vertical hand during nesting."""
+        start,_=self.tcp(side);target=np.asarray(position)
+        count=max(1,int(np.ceil(np.linalg.norm(target-start)/spacing)))
+        for fraction in np.linspace(0,1,count+1)[1:]:
+            self.pose(side,start+(target-start)*fraction,rotation,seconds=.35)
+
+    def pick_cup(self,name):
+        self.current=name
+        side,p,r,width=self.reachable_grasp(name)
+        self.event('approach',side=side,target='cup_stack')
+        self.grip(side,width)
+        self.pose(side,p+[0,0,.10],r)
+        side,p,r,width=self.reachable_grasp(name)
+        self.straight(side,p,r)
+        self.event('grasp')
+        self.grip(side,0.)
+        if len(finger_contacts(self.b,side,name))!=2:
+            raise SortFailure(f'{name}: missing bilateral cup contact')
+        self.track_grasp(side,name)
+        self.wait(.25)
+        initial=self.object_pose(name)['position'][2]
+        self.event('lift',contact_fingers=finger_contacts(self.b,side,name))
+        self.straight(side,p+[0,0,.10],r)
+        if self.object_pose(name)['position'][2]-initial<.07:raise SortFailure('Cup did not lift')
+        return side,r
+
+    def cup_target(self,side,rotation,object_position):
+        tcp,hand_r=self.tcp(side)
+        obj=self.b.data.body('task/'+self.current)
+        offset=hand_r.T@(obj.xpos-tcp)
+        return np.asarray(object_position)-rotation@offset
+
+    def stack_cups(self):
+        base=self.cups[0]
+        for upper in self.cups[1:]:
+            side,r=self.pick_cup(upper)
+            lower=self.cups[self.cups.index(upper)-1]
+            p=np.array(self.object_pose(lower)['position'])
+            # Hold the upper cup above the lower rim, align axes, then descend.
+            high=self.cup_target(side,r,p+[0,0,.115])
+            current,_=self.tcp(side)
+            self.straight(side,[current[0],current[1],max(high[2],current[2],.22)],r)
+            self.straight(side,[high[0],high[1],max(high[2],current[2],.22)],r)
+            self.straight(side,high,r)
+            self.event('nest',base=lower)
+            low=self.cup_target(side,r,p+[0,0,.026])
+            self.straight(side,low,r,spacing=.010)
+            self.carried=None
+            self.event('release_for_nesting',base=lower)
+            self.grip(side,.095)
+            self.straight(side,high+[0,0,.04],r)
+            self.wait(1.)
+            names=self.cups[:self.cups.index(upper)+1]
+            check=self.b.task.stack_metrics(self.session.read().extras['objects'],names)
+            self.event('stack_checked',**check)
+            if not check['nested']:raise SortFailure('Cups did not nest: '+str(check))
+        self.wait(.8)
+        if not self.b.task.stack_on_table_verified:
+            raise SortFailure('No stable complete stack on table')
+        self.event('stack_ready',cups=self.cups)
+        self.pose('left',[.27,.32,.26],grasp_rotation(30,0))
+        side,r=self.pick_cup(base)
+        self.stack_carried=True
+        self.current=base
+        binpose=self.object_pose('basket');t=pose_matrix(binpose['position'],binpose['quaternion_wxyz'])
+        goal=t[:3,3]+t[:3,:3]@np.array([-.105,.085,.035])
+        start_obj=np.array(self.object_pose(base)['position'])
+        transit_z=max(start_obj[2],t[2,3]+self.b.task.specs['basket']['size_m'][2]+.035)
+        high_obj=np.array([goal[0],goal[1],transit_z])
+        self.event('transfer_stack',target='basket')
+        self.straight(side,self.cup_target(side,r,[start_obj[0],start_obj[1],transit_z]),r)
+        # Change only world yaw; the nested cups remain upright throughout.
+        for fraction in np.linspace(0,1,21)[1:]:
+            angle=np.deg2rad(-40*fraction)
+            rz=np.array([[np.cos(angle),-np.sin(angle),0],[np.sin(angle),np.cos(angle),0],[0,0,1]])
+            place_r=rz@r
+            pos=(1-fraction)*np.array([start_obj[0],start_obj[1],transit_z])+fraction*high_obj
+            self.straight(side,self.cup_target(side,place_r,pos),place_r)
+        r=place_r
+        high=self.cup_target(side,r,high_obj)
+        low=self.cup_target(side,r,goal)
+        self.straight(side,low,r,spacing=.02)
+        self.carried=None;self.stack_carried=False
+        self.event('release_stack',target='basket')
+        self.grip(side,.095)
+        self.straight(side,high,r)
+        self.wait(1.5)
+        metrics=self.session.read().extras['task']['metrics']
+        for n in self.cups:
+            self.results.append({'name':n,'target':'basket','grasp_mode':'physical',**metrics[n]})
+        if not all(metrics[n]['success'] for n in self.cups) or not metrics['cup_stack']['nested']:
+            raise SortFailure('Stack not fully nested and contained after release')
+        self.event('stack_placed',success=True)
+        self.pose(side,[.27,-.30,.30],grasp_rotation(30,0))
+
+    def run(self,objects=None):
+        try:
+            if not self.prepared:self.prepare(None if objects==['cup_stack'] else objects)
+            if objects is None or objects==['cup_stack']:
+                self.stack_cups()
+            if objects is None:
+                for n in ('pen','charger','spoon','bowl','plate','side_dish','chopstick_a','chopstick_b'):
+                    if n in self.b.task.active_names:self.sort_one(n)
+            elif objects!=['cup_stack']:
+                for n in objects:self.sort_one(n)
+            self.wait(2.)
+            summary=self.session.read().extras['task']['metrics']['summary']
+            self.event('finished',**summary)
+            if objects is None and not summary['success']:raise SortFailure('Rigid clearing final check failed')
+            return summary
+        finally:
+            self.carried=None;self.stack_carried=False

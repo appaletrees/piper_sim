@@ -1,20 +1,73 @@
 schema_version: 1
-name: clean_table_mild_v1
-# Conservative trial ranges, not measured hardware uncertainty. CAD stays fixed.
+name: rigid_table_curriculum_v1
+content:
+  cup_count:
+  - 2
+  - 3
+  cup_palette:
+  - - 0.94
+    - 0.94
+    - 0.9
+  - - 0.65
+    - 0.43
+    - 0.23
+  - - 0.32
+    - 0.63
+    - 0.82
+  - - 0.82
+    - 0.4
+    - 0.48
 layout:
-  setting_xy_m: [0.018, 0.025]
+  setting_xy_m:
+  - 0.018
+  - 0.025
   setting_yaw_deg: 6
-  container_xy_m: [0.015, 0.020]
+  container_xy_m:
+  - 0.015
+  - 0.02
   container_yaw_deg: 5
+  object_xy_m:
+  - 0.012
+  - 0.012
+  object_yaw_deg: 12.0
 appearance:
-  light_scale: [0.85, 1.15]
-  light_position_delta_m: 0.04
-  color_scale: [0.94, 1.03]
-  roughness_delta: [-0.06, 0.06]
+  light_scale:
+  - 0.75
+  - 1.25
+  light_position_delta_m: 0.12
+  color_scale:
+  - 0.78
+  - 1.1
+  roughness_delta:
+  - -0.12
+  - 0.12
+  light_color_scale:
+  - 0.85
+  - 1.1
+  tabletop_materials:
+  - white_table
+  - table_gray
+  - table_wood
 physics:
-  mass_scale: [0.9, 1.1]
-  friction_scale: [0.85, 1.15]
+  mass_scale:
+  - 0.85
+  - 1.15
+  friction_scale:
+  - 0.8
+  - 1.2
 sensor:
-  gain: [0.97, 1.03]
-  white_balance: [0.98, 1.02]
-  noise_std_uint8: [0.0, 1.0]
+  gain:
+  - 0.97
+  - 1.03
+  white_balance:
+  - 0.98
+  - 1.02
+  noise_std_uint8:
+  - 0.0
+  - 1.0
+  gamma:
+  - 0.92
+  - 1.08
+  blur_sigma_px:
+  - 0.0
+  - 0.45

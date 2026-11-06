@@ -239,6 +239,9 @@ def fabric(size, *, paper=False):
 
 def build_parts(spec):
     kind=spec['kind']
+    if kind in ('cup','pen','charger'):
+        from .rigid_table_meshes import build_prop
+        return build_prop(spec)
     if kind in ('basket','trash_bin'):
         parts=container(spec['size_m'],spec['wall_m'],'basket' if kind=='basket' else 'bin')
         if kind=='trash_bin':

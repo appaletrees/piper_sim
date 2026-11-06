@@ -1,0 +1,488 @@
+schema_version: 1
+name: clean_table
+seed: 42
+instruction: Stack all cups first, put the entire nested stack into the basket, then
+  clear the other rigid objects into the basket.
+materials: assets/tasks/clean_table/rigid_materials.json
+environment:
+  rear_table:
+    size_m:
+    - 0.75
+    - 1.4
+    - 0.025
+    position_m:
+    - 1.02
+    - 0.0
+    - 0.0125
+    material: white_table
+    supports_placement: true
+  apron_front:
+    size_m:
+    - 0.025
+    - 1.3
+    - 0.055
+    position_m:
+    - -0.015
+    - 0.0
+    - -0.035
+    material: aluminum
+  apron_back:
+    size_m:
+    - 0.025
+    - 1.3
+    - 0.055
+    position_m:
+    - 0.605
+    - 0.0
+    - -0.035
+    material: aluminum
+  leg_fl:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 0.02
+    - 0.6
+    - -0.37
+    material: aluminum
+  leg_fr:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 0.02
+    - -0.6
+    - -0.37
+    material: aluminum
+  leg_bl:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 0.57
+    - 0.6
+    - -0.37
+    material: aluminum
+  leg_br:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 0.57
+    - -0.6
+    - -0.37
+    material: aluminum
+  foot_fl:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 0.02
+    - 0.6
+    - -0.73
+    material: rubber
+  foot_fr:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 0.02
+    - -0.6
+    - -0.73
+    material: rubber
+  foot_bl:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 0.57
+    - 0.6
+    - -0.73
+    material: rubber
+  foot_br:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 0.57
+    - -0.6
+    - -0.73
+    material: rubber
+  back_wall:
+    size_m:
+    - 0.04
+    - 4.5
+    - 2.5
+    position_m:
+    - 2.4
+    - 0.0
+    - 0.51
+    material: wall
+  side_wall:
+    size_m:
+    - 4.8
+    - 0.04
+    - 2.5
+    position_m:
+    - 0.0
+    - 2.25
+    - 0.51
+    material: wall
+  blue_panel:
+    size_m:
+    - 0.02
+    - 1.3
+    - 1.2
+    position_m:
+    - 2.37
+    - 0.4
+    - 0.6
+    material: glass_panel
+  rear_leg_fl:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 0.68
+    - 0.6
+    - -0.37
+    material: aluminum
+  rear_foot_fl:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 0.68
+    - 0.6
+    - -0.73
+    material: rubber
+  rear_leg_fr:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 0.68
+    - -0.6
+    - -0.37
+    material: aluminum
+  rear_foot_fr:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 0.68
+    - -0.6
+    - -0.73
+    material: rubber
+  rear_leg_bl:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 1.36
+    - 0.6
+    - -0.37
+    material: aluminum
+  rear_foot_bl:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 1.36
+    - 0.6
+    - -0.73
+    material: rubber
+  rear_leg_br:
+    size_m:
+    - 0.032
+    - 0.032
+    - 0.7
+    position_m:
+    - 1.36
+    - -0.6
+    - -0.37
+    material: aluminum
+  rear_foot_br:
+    size_m:
+    - 0.04
+    - 0.04
+    - 0.02
+    position_m:
+    - 1.36
+    - -0.6
+    - -0.73
+    material: rubber
+  rear_apron:
+    size_m:
+    - 0.025
+    - 1.3
+    - 0.055
+    position_m:
+    - 1.37
+    - 0.0
+    - -0.035
+    material: aluminum
+appearance:
+  preset: indoor_lab
+  ground_height_m: -0.74
+  tabletop_material: white_table
+  dome_intensity: 700.0
+  rect_light_intensity: 1800.0
+  mujoco_light_scale: 0.75
+reference:
+  video: /home/midea/phoenix-mwa/datasets/piper_clean_table_lerobot/videos/chunk-000/image/episode_000000.mp4
+  resolution:
+  - 640
+  - 480
+  fps: 30
+  frames: 1645
+  evidence:
+  - image
+  - wrist_image_l
+  - wrist_image_r
+  dimension_status: estimated_from_video_relative_to_original_workcell
+  joint14_rad_fraction:
+  - -0.70186669
+  - 1.63450086
+  - -1.34254217
+  - 0.09501573
+  - 1.20598757
+  - -0.62519437
+  - 0.99578947
+  - 0.56573105
+  - 1.75037324
+  - -1.36524892
+  - -0.07080801
+  - 1.1505909
+  - 0.47356018
+  - 0.99473685
+randomization:
+  enabled: false
+  setting_xy_m:
+  - 0.018
+  - 0.025
+  setting_yaw_deg: 6
+  container_xy_m:
+  - 0.015
+  - 0.02
+  container_yaw_deg: 5
+  table_clearance_m: 0.008
+objects:
+  plate:
+    kind: plate
+    diameter_m: 0.19
+    height_m: 0.016
+    mass_kg: 0.24
+    position_xy_m:
+    - 0.365
+    - -0.025
+    target: basket
+  bowl:
+    kind: bowl
+    diameter_m: 0.105
+    height_m: 0.052
+    mass_kg: 0.12
+    position_xy_m:
+    - 0.375
+    - -0.02
+    support: plate
+    support_height_m: 0.006
+    target: basket
+  spoon:
+    kind: spoon
+    size_m:
+    - 0.145
+    - 0.038
+    - 0.014
+    mass_kg: 0.025
+    position_xy_m:
+    - 0.35
+    - -0.02
+    support: bowl
+    support_height_m: 0.053
+    yaw_deg: -12
+    target: basket
+  chopstick_a:
+    kind: chopstick
+    size_m:
+    - 0.225
+    - 0.006
+    - 0.006
+    mass_kg: 0.008
+    position_xy_m:
+    - 0.355
+    - -0.155
+    yaw_deg: 0
+    target: basket
+    layout_jitter_scale: 0.1
+  chopstick_b:
+    kind: chopstick
+    size_m:
+    - 0.225
+    - 0.006
+    - 0.006
+    mass_kg: 0.008
+    position_xy_m:
+    - 0.354
+    - -0.171
+    yaw_deg: 1
+    target: basket
+    layout_jitter_scale: 0.1
+  side_dish:
+    kind: side_dish
+    size_m:
+    - 0.165
+    - 0.105
+    - 0.018
+    mass_kg: 0.13
+    position_xy_m:
+    - 0.355
+    - 0.145
+    yaw_deg: 4
+    target: basket
+  basket:
+    kind: basket
+    size_m:
+    - 0.36
+    - 0.31
+    - 0.14
+    wall_m: 0.003
+    mass_kg: 0.28
+    position_xy_m:
+    - 0.61
+    - -0.43
+    yaw_deg: 0
+  cup_00:
+    height_m: 0.095
+    top_diameter_m: 0.08
+    bottom_diameter_m: 0.056
+    wall_m: 0.0006
+    rim_radius_m: 0.0012
+    floor_height_m: 0.005
+    mass_kg: 0.008
+    kind: cup
+    target: basket
+    position_xy_m:
+    - 0.215
+    - 0
+    yaw_deg: 180.0
+  cup_01:
+    height_m: 0.095
+    top_diameter_m: 0.08
+    bottom_diameter_m: 0.056
+    wall_m: 0.0006
+    rim_radius_m: 0.0012
+    floor_height_m: 0.005
+    mass_kg: 0.008
+    kind: cup
+    target: basket
+    position_xy_m:
+    - 0.25
+    - 0.27
+    yaw_deg: 180.0
+  cup_02:
+    height_m: 0.095
+    top_diameter_m: 0.08
+    bottom_diameter_m: 0.056
+    wall_m: 0.0006
+    rim_radius_m: 0.0012
+    floor_height_m: 0.005
+    mass_kg: 0.008
+    kind: cup
+    target: basket
+    position_xy_m:
+    - 0.46
+    - 0.29
+    yaw_deg: 180.0
+  pen:
+    kind: pen
+    size_m:
+    - 0.15
+    - 0.01
+    - 0.012
+    mass_kg: 0.012
+    position_xy_m:
+    - 0.32
+    - -0.24
+    yaw_deg: 3.0
+    target: basket
+  charger:
+    kind: charger
+    size_m:
+    - 0.065
+    - 0.065
+    - 0.028
+    mass_kg: 0.1
+    position_xy_m:
+    - 0.28
+    - -0.35
+    yaw_deg: -5.0
+    target: basket
+contact:
+  friction: 0.65
+  contact_offset_m: 0.0005
+  mujoco_substeps: 8
+success:
+  hold_seconds: 0.5
+  containment_tolerance_m: 0.003
+  required:
+  - plate
+  - bowl
+  - spoon
+  - chopstick_a
+  - chopstick_b
+  - side_dish
+  - cup_00
+  - cup_01
+  - cup_02
+  - pen
+  - charger
+variant: rigid_stack_v1
+nominal_cup_count: 2
+stacking:
+  base: cup_00
+  max_axis_offset_m: 0.006
+  max_tilt_deg: 8.0
+  settle_seconds: 0.75
+  nesting_pitch_range_m:
+  - 0.005
+  - 0.018
+drop_slots_m:
+  bowl:
+  - -0.105
+  - -0.06
+  plate:
+  - 0.065
+  - 0.0
+  side_dish:
+  - 0.06
+  - 0.0
+  spoon:
+  - 0.04
+  - -0.1
+  chopstick_a:
+  - 0.0
+  - -0.11
+  chopstick_b:
+  - 0.0
+  - -0.125
+  pen:
+  - 0.0
+  - 0.11
+  charger:
+  - 0.08
+  - 0.07

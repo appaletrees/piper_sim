@@ -42,7 +42,7 @@ def main():
         robot.reset(seed=args.seed+episode, randomize=True)
         robot.send()  # Align initial target with measured state before sending new targets.
         start = [robot.get_current_gripper_open_value(arm) for arm in ('left', 'right')]
-        robot.start_recording(name, task='open both grippers to 95 mm in a randomized connector scene')
+        robot.start_recording(name, task='open both grippers to 95 mm in the currently loaded randomized scene')
         try:
             for frame in range(180):
                 tick = time.monotonic()
@@ -52,7 +52,7 @@ def main():
                 robot.send()
                 time.sleep(max(0., 1/30-(time.monotonic()-tick)))
         finally:
-            result = robot.stop_recording(success=False)  # Gripper demo is not insertion success.
+            result = robot.stop_recording(success=False)  # This is an interface demo, not task completion.
             print(json.dumps(result), flush=True)
         recorded.append(result['path'])
         robot.refresh()

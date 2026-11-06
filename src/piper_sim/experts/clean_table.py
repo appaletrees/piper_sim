@@ -22,7 +22,8 @@ class SortFailure(RuntimeError):
 
 
 class CleanTableTeacher:
-    def __init__(self, session, *, grasp_mode='assisted', frame_hook=None, settings=None):
+    name = 'clean_table_privileged_v2'
+    def __init__(self, session, *, grasp_mode='physical', frame_hook=None, settings=None):
         if grasp_mode not in ('assisted', 'physical'):
             raise ValueError('grasp_mode must be assisted or physical')
         self.session = session
@@ -49,12 +50,17 @@ class CleanTableTeacher:
         self.prepared = False
         self.collision_peak = {'depth_m': 0., 'pair': None}
         self.camera_quality = {}
+        self.carried = None
+        self.carried_anchor = np.zeros(3)
+        self.grasps = []
         self.configure_contact_control()
 
     def configure_contact_control(self):
         """Explicit simulation controller settings, not identified hardware values."""
         m = self.b.model
         m.opt.impratio = 10
+        m.opt.enableflags |= int(mujoco.mjtEnableBit.mjENBL_MULTICCD)
+        m.opt.noslip_iterations = 0
         for i in range(m.ngeom):
             name = m.body(int(m.geom_bodyid[i])).name
             if name in ('left/link7', 'left/link8', 'right/link7', 'right/link8'):
@@ -73,12 +79,14 @@ class CleanTableTeacher:
             m.actuator_forcerange[a] = [-force, force]
 
     def metadata(self):
-        return {'name': 'clean_table_privileged_v2', 'grasp_mode': self.mode,
+        return {'name': self.name, 'grasp_mode': self.mode,
                 'privileged_inputs': ['object poses', 'container poses', 'geometry', 'contacts', 'robot kinematics'],
                 'physical_only': self.mode == 'physical', 'training_ready': False,
                 'training_note': 'Scripted demo; assisted mode is not a physical grasp-success benchmark.',
                 'arm_bias_feedforward': True, **self.settings['controller'],
                 'finger_friction': [1., .015, .002],
+                'multiccd': True,
+                'noslip_iterations': 0,
                 'tcp_in_link6_m': [0, 0, .1375], 'placemat': 'left on table',
                 'motion_and_quality': copy.deepcopy(self.settings),
                 'trajectory': 'septic C3 rest-to-rest; per-joint velocity/acceleration/jerk duration limits',
@@ -95,6 +103,19 @@ class CleanTableTeacher:
         for ids in self.b.indices.values():
             self.b.data.qfrc_applied[ids['dof']] = self.b.data.qfrc_bias[ids['dof']]
         obs = self.session.step(self.q)
+        if self.carried:
+            side, name, relative = self.carried
+            hand, obj = self.b.data.body(side+'/link6'), self.b.data.body('task/'+name)
+            measured = hand.xmat.reshape(3, 3).T@(obj.xpos+obj.xmat.reshape(3,3)@self.carried_anchor-hand.xpos)
+            slip = float(np.linalg.norm(measured-relative))
+            record = self.grasps[-1]
+            contacts = finger_contacts(self.b, side, name)
+            record['samples'] += 1
+            record['bilateral_samples'] += int(len(contacts) == 2)
+            record['max_slip_m'] = max(record['max_slip_m'], slip)
+            record['lost_contact_s'] = 0. if len(contacts) == 2 else record['lost_contact_s']+1/self.fps
+            if slip > .012 or record['lost_contact_s'] > .20:
+                raise SortFailure(f'{name} lost physical grasp: slip={slip:.4f} m, fingers={contacts}')
         if obs.images:
             if set(obs.images) != {'overhead', 'left_wrist', 'right_wrist'}:
                 raise SortFailure('Collection requires all three RGB streams')
@@ -114,7 +135,7 @@ class CleanTableTeacher:
                          context={'phase': self.phase, 'object': self.current})
         if self.armed and self.assist and self.assist.active is None:
             side, name = self.armed
-            if finger_contacts(self.b, side, name):
+            if len(finger_contacts(self.b, side, name)) == 2:
                 activation = self.assist.engage(side, name)
                 self.events.append({'phase': 'assist_engaged', **activation})
                 self.armed = None
@@ -130,6 +151,22 @@ class CleanTableTeacher:
         for _ in range(round(seconds*self.fps)):
             self.step()
         self.holding = previous
+
+    def track_grasp(self,side,name):
+        """Track material at the pad contact, not the COM of a long rim grasp."""
+        m,d=self.b.model,self.b.data
+        hand,obj=d.body(side+'/link6'),d.body('task/'+name)
+        points=[]
+        for contact in d.contact:
+            names=[m.body(int(m.geom_bodyid[g])).name for g in contact.geom]
+            if 'task/'+name in names and any(n in (side+'/link7',side+'/link8') for n in names):
+                points.append(contact.pos.copy())
+        if not points:raise SortFailure('No physical grasp contact anchor')
+        point=np.mean(points,axis=0)
+        self.carried_anchor=obj.xmat.reshape(3,3).T@(point-obj.xpos)
+        self.carried=(side,name,hand.xmat.reshape(3,3).T@(point-hand.xpos))
+        self.grasps.append({'name':name,'assisted':self.mode!='physical','samples':0,
+            'bilateral_samples':0,'max_slip_m':0.,'lost_contact_s':0.,'anchor':'mean initial pad contact in object frame'})
 
     def settle(self):
         """Bounded feedback wait; do not carry tracking oscillation into a new phase."""
@@ -149,9 +186,9 @@ class CleanTableTeacher:
     def prepare(self, objects=None):
         """Settle and reject unreachable grasp frames BEFORE starting a recorder."""
         self.wait(1.)
-        for name in objects or self.b.task.config['success']['required']:
+        for name in objects or self.b.task.required:
             side, p, r, _ = self.reachable_grasp(name)
-            q = self.solve(side, p-r[:, 2]*.035, r)
+            q = self.solve(side, self.approach_position(name,p,r,.035), r)
             self.solve(side, p, r, q)
         self.prepared = True
         self.quality.reset()
@@ -182,19 +219,21 @@ class CleanTableTeacher:
         remain covered only by live physics/outcome checks.
         """
         ik = self.ik[side]
-        carried = self.assist.active[2] if self.assist and self.assist.active else None
-        if carried:
+        carried = self.carried_objects()
+        transforms=[]
+        for name in carried:
             hand = self.b.data.body(side+'/link6')
-            obj = self.b.data.body('task/'+carried)
+            obj = self.b.data.body('task/'+name)
             rel_p = hand.xmat.reshape(3, 3).T@(obj.xpos-hand.xpos)
             rel_r = hand.xmat.reshape(3, 3).T@obj.xmat.reshape(3, 3)
-            obj_q = self.b.model.joint('task/'+carried+'/free').qposadr[0]
+            obj_q = self.b.model.joint('task/'+name+'/free').qposadr[0]
+            transforms.append((obj_q,rel_p,rel_r))
         steps = max(2, int(np.ceil(np.max(abs(np.asarray(end)-start))/.08)))
         for t in np.linspace(0, 1, steps+1):
             ik.data.qpos[:] = self.b.data.qpos
             ik.data.qpos[ik.qids] = (1-t)*np.asarray(start)+t*np.asarray(end)
             mujoco.mj_kinematics(self.b.model, ik.data)
-            if carried:
+            for obj_q,rel_p,rel_r in transforms:
                 hand = ik.data.body(side+'/link6')
                 r = hand.xmat.reshape(3, 3)
                 quat = np.zeros(4)
@@ -205,6 +244,9 @@ class CleanTableTeacher:
             depth, pair = robot_penetration(self.b.model, ik.data, self.current)
             if depth > self.settings['quality']['max_robot_penetration_m']:
                 raise SortFailure(f'Planned path obstructed ({depth*1000:.2f} mm): {pair}')
+
+    def carried_objects(self):
+        return [self.carried[1]] if self.carried else []
 
     def solve(self, side, position, rotation, seed=None):
         offset = 0 if side == 'left' else 7
@@ -251,8 +293,9 @@ class CleanTableTeacher:
         a = np.deg2rad(self.b.task.specs[name].get('yaw_deg', 0))
         nominal_r = np.array([[np.cos(a), -np.sin(a), 0], [np.sin(a), np.cos(a), 0], [0, 0, 1]])
         p = np.zeros(3)
-        side = 'left' if name in ('paper', 'towel') else 'right'
-        if name == 'paper':
+        kind = self.b.task.specs[name]['kind']
+        side = 'left' if kind in ('paper', 'towel') else 'right'
+        if kind == 'paper':
             p += [0, 0, .009];r = grasp_rotation(0, 20);width = .095
         elif name == 'towel':
             p += [0, 0, .014];r = grasp_rotation(0, -8);width = .095
@@ -261,13 +304,18 @@ class CleanTableTeacher:
         elif name == 'bowl':
             p += [0, -.045, .043];r = grasp_rotation(10, 0);width = .045
         elif name == 'plate':
-            p += [0, -.089, .018];r = grasp_rotation(0, 0);width = .025
+            p += [-.0687, -.0518, .014];r = grasp_rotation(45, 37, 90);width = .025
         elif name == 'side_dish':
-            p += [-.063, -.025, .018];r = grasp_rotation(25, 60);width = .035
+            p += [-.040, -.049, .022];r = grasp_rotation(30, 0);width = .050
         else:
             p += [0, 0, .005];r = grasp_rotation(0, 0);width = .012
         delta_r = actual[:3, :3]@nominal_r.T
         return side, actual[:3, 3]+delta_r@p, delta_r@r, width
+
+    def approach_position(self,name,p,r,distance):
+        # The broad charger can be approached vertically. An oblique approach
+        # can pass too close to the base even when its final grasp is reachable.
+        return p+np.array([0,0,distance]) if self.b.task.specs[name]['kind'] in ('charger','cup') else p-r[:,2]*distance
 
     def contact_approach(self, side, p, r, name):
         """Short smooth descent segments stop at the first contact-assisted grasp.
@@ -278,7 +326,7 @@ class CleanTableTeacher:
         if self.assist:
             self.armed = (side, name)
         for remaining in np.linspace(.030, 0., 11):
-            self.pose(side, p-r[:, 2]*remaining, r, seconds=.35)
+            self.pose(side, self.approach_position(name,p,r,remaining), r, seconds=.35)
             if self.assist and self.assist.active is not None:
                 return
 
@@ -292,20 +340,18 @@ class CleanTableTeacher:
             ry = np.array([[np.cos(a), 0, np.sin(a)], [0, 1, 0], [-np.sin(a), 0, np.cos(a)]])
             candidate = r@ry
             try:
-                q = self.solve(side, p-candidate[:, 2]*.035, candidate)
-                q = self.solve(side, p, candidate, q)
-                self.solve(side, p+[0, 0, .035], candidate, q)
+                q = self.solve(side, self.approach_position(name,p,candidate,.035), candidate)
+                for remaining in np.linspace(.030,0.,11):
+                    q = self.solve(side,self.approach_position(name,p,candidate,remaining),candidate,q)
+                q = self.solve(side, p+[0, 0, .035], candidate, q)
+                if self.b.task.specs[name]['kind']=='plate':
+                    self.solve(side,p+[0,0,.15],candidate,q)
+                elif self.b.task.specs[name]['kind']=='cup':
+                    self.solve(side,p+[0,0,.10],candidate,q)
                 return side, p, candidate, width
             except SortFailure as exc:
                 failures.append(str(exc))
         raise SortFailure(f'No reachable grasp for {name}: {failures[-1]}')
-
-    def staging_position(self):
-        pose = self.object_pose('placemat')
-        t = pose_matrix(pose['position'], pose['quaternion_wxyz'])
-        p = t[:3, 3]+t[:3, :3]@np.array([.015, -.25, 0.])
-        p[2] = self.b.task.table_top
-        return p
 
     def placement(self, side, name, target):
         """Search upright/tilted placement frames using the measured grasp offset."""
@@ -313,22 +359,17 @@ class CleanTableTeacher:
         obj = self.b.data.body('task/'+name)
         offset = hand_r.T@(obj.xpos-tcp)
         relative_r = hand_r.T@obj.xmat.reshape(3, 3)
-        staging = target == 'staging_table'
-        if staging:
-            bin_r = np.eye(3)
-            bin_p = self.staging_position()
-            size, wall, rim = np.array([.20,.20,.10]), 0., self.b.task.table_top
-        else:
-            bin_body = self.b.data.body('task/'+target)
-            bin_r = bin_body.xmat.reshape(3, 3)
-            bin_p = bin_body.xpos.copy()
-            size = np.array(self.b.task.specs[target]['size_m'])
-            wall = self.b.task.specs[target]['wall_m']
-            rim = bin_p[2]+size[2]
+        bin_body = self.b.data.body('task/'+target)
+        bin_r = bin_body.xmat.reshape(3, 3)
+        bin_p = bin_body.xpos.copy()
+        size = np.array(self.b.task.specs[target]['size_m'])
+        wall = self.b.task.specs[target]['wall_m']
+        rim = bin_p[2]+size[2]
         # Reserve room for the fingers as well as the utensil itself. The old
         # +/-65 mm slots left too little clearance to open beside the rim.
         lateral = .025 if name == 'chopstick_a' else -.025 if name == 'chopstick_b' else 0.
-        goal_p = bin_p+bin_r@np.array([0.,lateral,0.])
+        slot = np.array(self.b.task.config.get('drop_slots_m',{}).get(name,[0.,lateral])+[0.])
+        goal_p = bin_p+bin_r@slot
         points = self.b.task.surface_points[name]
         choices = []
         for pitch in (0, 15, -15, 30, -30, 45, -45, 60, -60):
@@ -340,17 +381,19 @@ class CleanTableTeacher:
                 object_r = bin_r@rz@ry
                 desired_r = object_r@relative_r.T
                 rotated = points@object_r.T
-                local = rotated@bin_r+np.array([0,lateral,0])
+                local = rotated@bin_r+slot
                 if np.any(abs(local[:,:2]).max(0)>size[:2]/2-wall+.001):
                     continue
                 # Entire item clears the rim before entering the basket footprint.
                 high_obj = goal_p+np.array([0,0,rim-bin_p[2]+.035-rotated[:,2].min()])
-                low_obj = high_obj.copy();low_obj[2] -= .020 if staging else .045
+                low_obj = high_obj.copy();low_obj[2] -= .045
                 high = high_obj-desired_r@offset
                 low = low_obj-desired_r@offset
                 try:
                     q_high = self.solve(side, high, desired_r)
                     q_low = self.solve(side, low, desired_r, q_high)
+                    self.check_joint_path(side, self.q[(0 if side=='left' else 7):][:6], q_high)
+                    self.check_joint_path(side, q_high, q_low)
                 except SortFailure:
                     continue
                 choices.append((abs(pitch)+.1*abs(yaw), high, low, desired_r, q_high, q_low))
@@ -363,16 +406,18 @@ class CleanTableTeacher:
                 for yaw in (-20,-10,0,15,30):
                     desired_r = grasp_rotation(tilt,yaw)
                     object_r = desired_r@relative_r
-                    local = points@object_r.T@bin_r+np.array([0,lateral,0])
+                    local = points@object_r.T@bin_r+slot
                     if np.any(abs(local[:,:2]).max(0)>size[:2]/2-wall):
                         continue
                     rotated = points@object_r.T
                     high_obj = goal_p+np.array([0,0,rim-bin_p[2]+.035-rotated[:,2].min()])
-                    low_obj = high_obj.copy();low_obj[2]-=.020 if staging else .045
+                    low_obj = high_obj.copy();low_obj[2]-=.045
                     high,low = high_obj-desired_r@offset,low_obj-desired_r@offset
                     try:
                         q_high = self.solve(side,high,desired_r)
                         q_low = self.solve(side,low,desired_r,q_high)
+                        self.check_joint_path(side, self.q[(0 if side=='left' else 7):][:6], q_high)
+                        self.check_joint_path(side, q_high, q_low)
                     except SortFailure:
                         continue
                     choices.append((100+tilt,high,low,desired_r,q_high,q_low))
@@ -380,11 +425,11 @@ class CleanTableTeacher:
                 raise SortFailure(f'No reachable container placement for {name}')
         return min(choices, key=lambda c:c[0])
 
-    def sort_one(self, name, staging=False):
+    def sort_one(self, name):
         self.current = name
         side, p, r, width = self.reachable_grasp(name)
         initial_z = self.object_pose(name)['position'][2]
-        target = 'staging_table' if staging else self.b.task.specs[name]['target']
+        target = self.b.task.specs[name]['target']
         yaw = np.rad2deg(np.arctan2(p[1]-(.3 if side == 'left' else -.3), p[0]))
         raised_r = grasp_rotation(30, yaw)
         self.event('approach', side=side, target=target)
@@ -392,27 +437,34 @@ class CleanTableTeacher:
         self.pose(side, p+[0,0,.15], raised_r)
         # Objects may shift while approaching a stack; refresh from live truth.
         side, p, r, _ = self.reachable_grasp(name)
-        self.pose(side, p-r[:,2]*.035, r)
+        self.pose(side, self.approach_position(name,p,r,.035), r)
         self.event('grasp')
         self.contact_approach(side, p, r, name)
         self.grip(side, 0.)
         if self.assist and self.assist.active is None:
             raise SortFailure(f'No finger contact with {name}; no assisted grasp was made')
         contacts = finger_contacts(self.b, side, name)
+        if len(contacts) != 2:
+            raise SortFailure(f'{name} not pinched by both fingers: {contacts}')
+        self.track_grasp(side,name)
+        self.wait(.25)
         self.event('lift', contact_fingers=contacts)
         self.pose(side, p+[0,0,.035], r)
-        self.pose(side, p+[0,0,.15], raised_r)
+        rim_grasp=self.b.task.specs[name]['kind']=='plate'
+        self.pose(side,p+[0,0,.15],r if rim_grasp else raised_r)
         lifted = self.object_pose(name)['position'][2]-initial_z
         if lifted < .06:
             raise SortFailure(f'{name} did not lift: {lifted:.3f} m')
         self.event('transfer', lift_m=lifted)
-        self.pose(side, [.35,.12,.28] if side == 'left' else [.38,-.20,.32],
-                  grasp_rotation(40,-25) if side == 'left' else grasp_rotation(45,15))
+        if not rim_grasp:
+            self.pose(side, [.35,.12,.28] if side == 'left' else [.38,-.20,.32],
+                      grasp_rotation(40,-25) if side == 'left' else grasp_rotation(45,15))
         _, high, low, place_r, q_high, q_low = self.placement(side, name, target)
         self.move_joints(side, q_high, 2.5)
         self.event('lower')
         self.move_joints(side, q_low, 1.5)
         self.event('open_gripper', object_pose=self.object_pose(name))
+        self.carried = None
         self.armed = None
         # Slender utensils need only a small release gap. Full opening beside
         # the basket wall unnecessarily sweeps the outer finger into its rim.
@@ -445,12 +497,7 @@ class CleanTableTeacher:
         for t in np.linspace(0, 1, 5)[1:]:
             self.pose(side, (1-t)*retreat_start+t*high, place_r, seconds=.4)
         self.wait(2.)
-        if staging:
-            pos = np.array(self.object_pose(name)['position'])
-            metric = {'success': bool(np.linalg.norm(pos[:2]-self.staging_position()[:2])<.03
-                                      and abs(pos[2]-self.b.task.table_top)<.01)}
-        else:
-            metric = self.session.read().extras['task']['metrics'][name]
+        metric = self.session.read().extras['task']['metrics'][name]
         result = {'name': name, 'target': target, 'grasp_mode': self.mode,
                   'lift_m': lifted, **metric}
         self.results.append(result)
@@ -464,12 +511,9 @@ class CleanTableTeacher:
             if not self.prepared:
                 self.prepare(objects)
             if objects is None:
-                # Put the large plate on the basket floor before restoring the
-                # bowl. Both staging moves are real recorded arm trajectories.
-                for name in ('paper','towel','spoon'):
-                    self.sort_one(name)
-                self.sort_one('bowl',staging=True)
-                for name in ('plate','side_dish','chopstick_a','chopstick_b','bowl'):
+                # Each object travels directly from the setting to its bin.
+                for name in (*[n for n in self.b.task.active_names if self.b.task.specs[n]['kind'] == 'paper'],
+                             'towel','spoon','bowl','plate','side_dish','chopstick_a','chopstick_b'):
                     self.sort_one(name)
             else:
                 for name in objects:
@@ -478,7 +522,7 @@ class CleanTableTeacher:
             summary = self.session.read().extras['task']['metrics']['summary']
             self.event('finished', **summary)
             if objects is None and not summary['success']:
-                raise SortFailure('Final eight-object containment check failed')
+                raise SortFailure('Final active-inventory containment check failed')
             return summary
         except BaseException:
             self.armed=None

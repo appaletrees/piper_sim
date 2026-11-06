@@ -20,8 +20,11 @@ def test_assist_requires_contact_and_preserves_activation_pose():
     mujoco.mj_forward(model,data)
     with pytest.raises(RuntimeError,match='No finger contact'):assist.engage('left','paper')
     assert not data.eq_active[0]
+    data.qpos[:2]=[0,.02];mujoco.mj_forward(model,data)
+    with pytest.raises(RuntimeError,match='both sides'):assist.engage('left','paper')
+    assert not data.eq_active[0]  # touching one finger is not a pinch
     # Test fixture creates an actual opposed-finger contact, outside any episode.
-    data.qpos[0]=0;mujoco.mj_forward(model,data)
+    data.qpos[:2]=0;mujoco.mj_forward(model,data)
     q,v=data.qpos.copy(),data.qvel.copy()
     result=assist.engage('left','paper')
     assert result['contact_fingers']==['7','8']

@@ -20,6 +20,7 @@ def main():
                         help="Directory for episodes started through the HTTP API")
     parser.add_argument("--task", default="dual Piper workcell demonstration")
     parser.add_argument("--task-scene", type=Path, help="Independent task YAML, e.g. configs/tasks/connector.yaml")
+    parser.add_argument("--domain-randomization",type=Path,help="Episode appearance/layout/physics/sensor profile")
     parser.add_argument("--seed", type=int, help="Reproducible task object placement")
     parser.add_argument("--no-randomization", action="store_true", help="Use the task's nominal layout")
     parser.add_argument("--trajectory", type=Path, help="HDF5 episode to replay as simulation targets")
@@ -60,12 +61,15 @@ def main():
     if args.task_scene:
         import yaml
         cfg["task_scene"] = yaml.safe_load(args.task_scene.read_text())
+        if args.domain_randomization:
+            cfg['task_scene']['domain_randomization']=str(args.domain_randomization)
+            cfg['task_scene']['randomization']['enabled']=True
         if args.seed is not None:
             cfg["task_scene"]["seed"] = args.seed
         if args.no_randomization:
             cfg["task_scene"]["randomization"]["enabled"] = False
-    elif args.seed is not None or args.no_randomization:
-        parser.error("--seed / --no-randomization require --task-scene")
+    elif args.seed is not None or args.no_randomization or args.domain_randomization:
+        parser.error("--seed / --no-randomization / --domain-randomization require --task-scene")
     app = AppLauncher(args).app if args.backend == "isaac" else None
     hardware = writer = sim = server = None
     complete = False

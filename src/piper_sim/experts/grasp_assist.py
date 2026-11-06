@@ -15,7 +15,10 @@ def add_grasp_constraints(xml):
     if equality is None:
         equality = ET.SubElement(root, 'equality')
     for side in ('left', 'right'):
-        for name in ('paper', 'towel', 'spoon', 'bowl', 'plate', 'side_dish', 'chopstick_a', 'chopstick_b'):
+        for body in root.findall('.//body'):
+            name = body.get('name','').removeprefix('task/')
+            if not body.get('name','').startswith('task/') or name in ('basket','trash_bin','placemat'):
+                continue
             ET.SubElement(equality, 'weld', name=f'demo_grasp/{side}/{name}',
                           body1=side+'/link6', body2='task/'+name, active='false',
                           solref='.006 1', solimp='.999 .9999 .001', torquescale='.1')
@@ -51,8 +54,8 @@ class ContactGraspAssist:
             raise RuntimeError('Release the current grasp before engaging another')
         b = self.backend
         contacts = finger_contacts(b, side, name)
-        if not contacts:
-            raise RuntimeError(f'No finger contact with {name}; assistance refused')
+        if len(contacts) != 2:
+            raise RuntimeError(f'No finger contact on both sides of {name}; assistance refused')
         hand, obj = b.data.body(side+'/link6'), b.data.body('task/'+name)
         rotation = hand.xmat.reshape(3, 3)
         relative_rotation = rotation.T @ obj.xmat.reshape(3, 3)

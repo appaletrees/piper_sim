@@ -38,7 +38,8 @@ def configure_mujoco(root,task,prefix):
 
 
 def configure_isaac(stage,root,task):
-    from pxr import Gf,Usd,UsdGeom,UsdLux,UsdShade
+    import numpy as np
+    from pxr import Gf,Sdf,Usd,UsdGeom,UsdLux,UsdShade
     c=task.config['appearance']
     dome=UsdLux.DomeLight(stage.GetPrimAtPath('/World/Light'))
     if dome:
@@ -64,3 +65,8 @@ def configure_isaac(stage,root,task):
         for prim in Usd.PrimRange(workcell):
             if prim.IsA(UsdGeom.Mesh) and prim.GetName().startswith('part_000_'):
                 UsdShade.MaterialBindingAPI.Apply(prim).Bind(mat,bindingStrength=UsdShade.Tokens.strongerThanDescendants)
+                points=np.asarray(UsdGeom.Mesh(prim).GetPointsAttr().Get())
+                axes=np.argsort(np.ptp(points,axis=0))[-2:]
+                uv=(points[:,axes]-points[:,axes].min(0))/np.ptp(points[:,axes],axis=0)
+                UsdGeom.PrimvarsAPI(prim).CreatePrimvar('st',Sdf.ValueTypeNames.TexCoord2fArray,
+                    UsdGeom.Tokens.vertex).Set(uv.tolist())

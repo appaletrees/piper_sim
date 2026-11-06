@@ -1,3 +1,5 @@
+> 当前收桌采集已切换为去除柔性物体的刚体叠杯版本，见 [当前采集说明](domain_randomization_collection.md)。本文保留旧视频场景/辅助演示背景，不作为纯物理抓取验收。
+
 # 视频餐桌收拾场景
 
 新增独立任务 `clean_table`，支持 **MuJoCo 和 Isaac Lab**，复用原双臂 Piper、三台 RealSense、

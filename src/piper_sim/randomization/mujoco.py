@@ -8,7 +8,7 @@ class MujocoRandomizer:
         self.model, self.task = model, task
         self.baseline = {key: getattr(model, key).copy() for key in (
             'body_mass', 'body_inertia', 'geom_friction', 'mat_rgba', 'mat_shininess',
-            'mat_specular', 'light_pos', 'light_diffuse', 'light_ambient', 'light_specular')}
+            'mat_specular', 'light_pos', 'light_diffuse', 'light_ambient', 'light_specular', 'geom_matid')}
 
     def apply(self, parameters):
         m, base = self.model, self.baseline
@@ -21,14 +21,19 @@ class MujocoRandomizer:
                 m.body_inertia[body] *= p['mass_scale']
                 m.geom_friction[m.geom_bodyid == body] *= p['friction_scale']
             prefix = 'clean' if self.task.config['name'] == 'clean_table' else self.task.config['name']
+            if parameters.get('tabletop_material'):
+                material=m.material(prefix+'/'+parameters['tabletop_material']).id
+                for name in ('cad_static_0',prefix+'_environment/rear_table'):
+                    gid=mujoco.mj_name2id(m,mujoco.mjtObj.mjOBJ_GEOM,name)
+                    if gid>=0:m.geom_matid[gid]=material
             for name, p in parameters['materials'].items():
                 mid = m.material(prefix+'/'+name).id
-                m.mat_rgba[mid, :3] = np.clip(base['mat_rgba'][mid, :3]*p['color_scale'], 0, 1)
+                m.mat_rgba[mid, :3] = np.clip(p.get('color_rgb',base['mat_rgba'][mid, :3]*p['color_scale']), 0, 1)
                 # Keep renderer-specific nominal specular values at delta=0.
                 m.mat_shininess[mid] = np.clip(base['mat_shininess'][mid]-p['roughness_delta'], 0, 1)
                 m.mat_specular[mid] = np.clip(base['mat_specular'][mid]-.3*p['roughness_delta'], 0, 1)
             for key in ('light_diffuse', 'light_ambient', 'light_specular'):
-                getattr(m, key)[:] *= parameters['light_scale']
+                getattr(m, key)[:] *= parameters['light_scale']*np.array(parameters['light_color_scale'])
             m.light_pos[:] += parameters['light_position_delta_m']
         # Mass changes need dependent constants refreshed; scratch data avoids
         # changing any live state. Called only at reset, before episode recording.

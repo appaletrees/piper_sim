@@ -12,9 +12,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--seeds', type=int, nargs='+', default=list(range(10)))
+    parser.add_argument('--config', default='configs/clean_table_workcell.yaml')
+    parser.add_argument('--task-scene', default='configs/tasks/clean_table_rigid.yaml')
     parser.add_argument('--domain-randomization', default='configs/domain_randomization/clean_table.yaml')
     parser.add_argument('--collection-profile', default='configs/collection/clean_table.yaml')
-    parser.add_argument('--grasp-mode', choices=['assisted', 'physical'], default='assisted')
+    parser.add_argument('--grasp-mode', choices=['assisted', 'physical'], default='physical')
     parser.add_argument('--states-only', action='store_true', help='Fast motion audit; not an RGB training dataset')
     parser.add_argument('--video', action='store_true')
     parser.add_argument('--lerobot', action='store_true', help='Export accepted RGB episodes only')
@@ -38,6 +40,7 @@ def main():
         output = args.output/f'episode_{index:06d}_seed_{seed}'
         command = [sys.executable, str(Path(__file__).with_name('demo_clean_table.py')),
                    '--record', '--seed', str(seed), '--output', str(output),
+                   '--config', args.config, '--task-scene', args.task_scene,
                    '--grasp-mode', args.grasp_mode,
                    '--collection-profile', args.collection_profile]
         if not nominal:
@@ -63,7 +66,7 @@ def main():
             f.write(json.dumps(result, ensure_ascii=False)+'\n')
         summary = {'attempted': len(results), 'accepted': sum(x['accepted'] for x in results),
                    'elapsed_seconds': time.monotonic()-start, 'episodes': results,
-                   'note': 'Quality pass applies to selected grasp mode; assisted is not physical transfer validation.'}
+                   'note': 'Only physical bilateral grasps, direct placements and full inventory/quality passes are accepted.'}
         (args.output/'summary.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2)+'\n')
         print(json.dumps(result, ensure_ascii=False), flush=True)
     paths = [r['path'] for r in results if r['accepted']]

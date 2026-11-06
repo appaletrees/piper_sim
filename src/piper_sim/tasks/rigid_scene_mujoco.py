@@ -10,6 +10,11 @@ def nums(values):
 
 def compose_model(path,task):
     path=Path(path);root=ET.parse(path).getroot()
+    if task.config.get('variant')=='rigid_stack_v1':
+        size=root.find('size')
+        if size is None: size=ET.SubElement(root,'size')
+        size.attrib.pop('njmax',None);size.attrib.pop('nconmax',None)
+        size.set('memory','128M')
     compiler=root.find('compiler')
     compiler.set('meshdir',str((path.parent/compiler.get('meshdir','.')).resolve()))
     asset=root.find('asset');world=root.find('worldbody')
@@ -37,6 +42,8 @@ def compose_model(path,task):
             ET.SubElement(asset,'texture',name=prefix+'/'+name,type='2d',file=str(task.material_path.parent/m['texture']),
                           vflip=str(m.get('mujoco_vflip',False)).lower())
             attrs.update(texture=prefix+'/'+name,texuniform='false',texrepeat='1 1')
+            if name in ('white_table','table_gray','table_wood'):
+                attrs.update(texuniform='true',texrepeat='1 1')
         ET.SubElement(asset,'material',**attrs)
     for n,s in task.config.get('environment',{}).items():
         ET.SubElement(world,'geom',name=prefix+'_environment/'+n,type='box',
@@ -45,6 +52,17 @@ def compose_model(path,task):
     if task.config.get('appearance',{}).get('preset')=='indoor_lab':
         from .indoor_lab import configure_mujoco
         configure_mujoco(root,task,prefix)
+        # Original CAD OBJ has no UVs. Add planar coordinates without changing
+        # any vertex, face, dimension or pose; otherwise 2D albedo is invisible.
+        table_mesh=asset.find("mesh[@name='cad_static_0']")
+        if table_mesh is not None and table_mesh.get('file'):
+            lines=(Path(compiler.get('meshdir'))/table_mesh.get('file')).read_text().splitlines()
+            vertices=np.array([[float(v) for v in line.split()[1:4]] for line in lines if line.startswith('v ')])
+            faces=[[int(v.split('/')[0])-1 for v in line.split()[1:4]] for line in lines if line.startswith('f ')]
+            axes=np.argsort(np.ptp(vertices,axis=0))[-2:]
+            uv=(vertices[:,axes]-vertices[:,axes].min(0))/np.ptp(vertices[:,axes],axis=0)
+            table_mesh.attrib.pop('file')
+            table_mesh.attrib.update(vertex=nums(vertices),face=nums(faces),texcoord=nums(uv))
     mesh_names={}
     for n,parts in task.parts.items():
         pose=task.layout['poses'][n]
@@ -85,8 +103,18 @@ def reset_task(model,data,task):
     for n,p in task.layout['poses'].items():
         j=model.joint(f'task/{n}/free');q=j.qposadr[0];v=j.dofadr[0]
         data.qpos[q:q+7]=[*p['position'],*p['quaternion_wxyz']];data.qvel[v:v+6]=0
+        # Slots are allocated once; only active inventory participates in an
+        # episode. Restore exactly from source parts on every reset.
+        active=n in getattr(task,'active_names',task.names)
+        bid=model.body('task/'+n).id
+        model.body_gravcomp[bid]=0 if active else 1
+        for part in task.parts[n]:
+            gid=model.geom(f'task/{n}/{part["name"]}').id
+            model.geom_contype[gid]=model.geom_conaffinity[gid]=int(active and part['collision'])
+            model.geom_rgba[gid,3]=float(active and not part['hidden'])
 
 
 def task_poses(data,task):
     return {n:{'position':data.body('task/'+n).xpos.tolist(),
-               'quaternion_wxyz':data.body('task/'+n).xquat.tolist()} for n in task.names}
+               'quaternion_wxyz':data.body('task/'+n).xquat.tolist()}
+            for n in getattr(task,'active_names',task.names)}

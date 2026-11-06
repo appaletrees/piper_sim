@@ -124,8 +124,12 @@ def reset_task(objects,task):
         p=task.layout['poses'][name];state=obj.data.default_root_state.clone()
         state[0,:7]=state.new_tensor([*p['position'],*p['quaternion_wxyz']]);state[0,7:]=0
         obj.write_root_state_to_sim(state);obj.reset()
+        obj._task_active=name in getattr(task,'active_names',task.names)
+        prim=get_current_stage().GetPrimAtPath('/World/Task/'+name)
+        UsdGeom.Imageable(prim).GetVisibilityAttr().Set('inherited' if obj._task_active else 'invisible')
 
 
 def task_poses(objects):
     return {n:{'position':obj.data.root_pos_w[0].cpu().tolist(),
-               'quaternion_wxyz':obj.data.root_quat_w[0].cpu().tolist()} for n,obj in objects.items()}
+               'quaternion_wxyz':obj.data.root_quat_w[0].cpu().tolist()}
+            for n,obj in objects.items() if getattr(obj,'_task_active',True)}

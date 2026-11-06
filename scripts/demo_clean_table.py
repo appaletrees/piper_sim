@@ -12,19 +12,21 @@ import time
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', default='configs/clean_table_workcell.yaml')
-    parser.add_argument('--task-scene', default='configs/tasks/clean_table.yaml')
+    parser.add_argument('--task-scene', default='configs/tasks/clean_table_rigid.yaml')
     parser.add_argument('--output', type=Path, default=Path('outputs/clean_table_demo')/time.strftime('%Y%m%d_%H%M%S'))
-    parser.add_argument('--grasp-mode', choices=['assisted','physical'], default='assisted')
+    parser.add_argument('--grasp-mode', choices=['assisted','physical'], default='physical')
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--randomize', action='store_true', help='Enable reproducible task/domain randomization')
     parser.add_argument('--domain-randomization', help='Episode randomization YAML, e.g. configs/domain_randomization/clean_table.yaml')
     parser.add_argument('--collection-profile', default='configs/collection/clean_table.yaml')
     parser.add_argument('--viewer', action='store_true')
     parser.add_argument('--video', action='store_true')
+    parser.add_argument('--video-speed', type=int, default=1, choices=range(1,17),
+                        help='Preview playback speed; does not change physics/control/recording rate')
     parser.add_argument('--record', action='store_true', help='Record 30 Hz transitions and privileged state to HDF5')
     parser.add_argument('--rgb', action='store_true', help='Also capture all three camera streams (larger HDF5)')
     parser.add_argument('--lerobot', action='store_true', help='Export the completed HDF5 episode to LeRobot v2.1')
-    parser.add_argument('--objects', nargs='+', help='Diagnostic subset; full demo sorts eight objects')
+    parser.add_argument('--objects', nargs='+', help='Diagnostic subset; cup_stack tests nesting and stack transport')
     args = parser.parse_args()
     if args.domain_randomization:
         args.randomize = True
@@ -51,7 +53,7 @@ def main():
         def read(self):
             obs = super().read()
             if self.teacher:
-                obs.extras['teacher'] = {'name': 'clean_table_privileged_v2', 'grasp_mode': self.teacher.mode,
+                obs.extras['teacher'] = {'name': self.teacher.name, 'grasp_mode': self.teacher.mode,
                     'phase': self.teacher.phase, 'object': self.teacher.current,
                     'active_assist': self.teacher.assist.active[1:] if self.teacher.assist and self.teacher.assist.active else None}
             return obs
@@ -68,6 +70,8 @@ def main():
     from piper_sim.config import ROOT
     source_files = [p for p in (ROOT/'src/piper_sim').rglob('*.py') if 'rl' not in p.parts]
     source_files += [Path(__file__), Path(args.task_scene), Path(args.collection_profile)]
+    if args.domain_randomization:
+        source_files.append(Path(args.domain_randomization))
     source_files += list((ROOT/'assets/tasks/clean_table').glob('*'))
     provenance = {str(p.resolve().relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                   for p in source_files if p.is_file() and p.resolve().is_relative_to(ROOT)}
@@ -82,6 +86,9 @@ def main():
         backend = MujocoBackend(cfg, cameras=args.rgb, viewer=args.viewer,
             model_xml_transform=add_grasp_constraints if args.grasp_mode == 'assisted' else None)
         session = DemoSession(backend, record_dir=args.output)
+        if backend.task.config.get('variant')=='rigid_stack_v1':
+            from piper_sim.experts.rigid_table import RigidTableTeacher
+            CleanTableTeacher=RigidTableTeacher
         session.reset(args.seed, args.randomize)
         if args.video:
             encoder = subprocess.Popen(['ffmpeg','-hide_banner','-loglevel','error','-nostdin',
@@ -91,19 +98,24 @@ def main():
         def frame_hook(t, obs):
             nonlocal frame_count
             frame_count += 1
-            if encoder is not None and frame_count % 2 == 0:
+            if encoder is not None and frame_count % (2*args.video_speed) == 0:
                 im = Image.fromarray(backend._render(camera,1000,800))
                 draw = ImageDraw.Draw(im)
                 draw.rectangle((0,0,1000,66),fill=(15,20,28))
-                draw.text((18,10),f'PRIVILEGED SORTING DEMO | {args.grasp_mode.upper()} GRASP | t={obs.sim_time:.1f}s',fill='white',font=font)
+                draw.text((18,10),f'PRIVILEGED SORTING | {args.grasp_mode.upper()} | {args.video_speed}x PREVIEW | t={obs.sim_time:.1f}s',fill='white',font=font)
                 count = obs.extras['task']['metrics']['summary']['sorted_count']
-                draw.text((18,37),f'{t.current or "settling"}: {t.phase} | contained: {count}/8 | placemat stays on table',fill=(255,210,100),font=font)
+                required = obs.extras['task']['metrics']['summary']['required_count']
+                scene_note = 'rigid props; cups stacked first' if backend.task.config.get('variant') == 'rigid_stack_v1' else 'placemat stays on table'
+                draw.text((18,37),f'{t.current or "settling"}: {t.phase} | contained: {count}/{required} | {scene_note}',fill=(255,210,100),font=font)
                 encoder.stdin.write(im.tobytes())
         teacher = CleanTableTeacher(session, grasp_mode=args.grasp_mode, frame_hook=frame_hook, settings=settings)
         session.teacher = teacher
-        teacher.prepare(args.objects)
+        teacher.prepare(teacher.cups if args.objects==['cup_stack'] and hasattr(teacher,'cups') else args.objects)
         if args.record:
-            session.start_recording('episode', '纸巾放左盒；全部餐具放右篮；餐垫留桌面')
+            instruction = ('先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮'
+                           if backend.task.config.get('variant') == 'rigid_stack_v1'
+                           else '纸巾放左盒；全部餐具放右篮；餐垫留桌面')
+            session.start_recording('episode', instruction)
         summary = teacher.run(args.objects)
     except (Exception, KeyboardInterrupt) as exc:
         error = f'{type(exc).__name__}: {exc}'
@@ -122,6 +134,10 @@ def main():
             if args.video:
                 Image.fromarray(backend._render(camera,1000,800)).save(args.output/'final.png')
             quality = teacher.quality.report() if teacher else {'passed': False, 'violations': ['no teacher']}
+            quality['physical_grasps'] = teacher.grasps if teacher else []
+            if args.grasp_mode != 'physical':
+                quality['violations'].append('assisted_grasp_not_accepted')
+                quality['passed'] = False
             quality['cameras'] = teacher.camera_quality if teacher else {}
             if args.rgb:
                 for name, stats in quality['cameras'].items():
@@ -142,9 +158,11 @@ def main():
                     'object_results': teacher.results if teacher else []}
                 session.writer.f.attrs['metadata'] = json.dumps(metadata)
             report = {'accepted': accepted, 'quality': quality,
+                      'video_playback_speed':args.video_speed if args.video else None,
                       'robot_collision_peak': teacher.collision_peak if teacher else None,
                       'provenance': provenance,
                       'domain_randomization': backend.task.domain_parameters,
+                      'inventory': backend.task.layout['content'],
                       'collection_profile': settings, 'rgb': args.rgb,
                       'completed': error is None, 'error': error, 'summary': summary,
                       'teacher': teacher.metadata() if teacher else None,
