@@ -45,6 +45,8 @@ class IsaacBackend:
             from isaacsim.core.utils.stage import get_current_stage
             from ..appearance import apply_workcell_materials
             self.appearance_report = apply_workcell_materials(get_current_stage())
+        if self.task and hasattr(self.task_adapter, "configure_appearance"):
+            self.task_adapter.configure_appearance(self.task)
         self.cameras = spawn_cameras(cfg) if cameras else {}
         self.sim.reset()
         self.indices = {}

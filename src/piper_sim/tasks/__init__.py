@@ -6,6 +6,8 @@ from ..config import ROOT
 
 # Entries are trusted project code, never arbitrary import paths from task YAML.
 REGISTRY = {
+    'paper_cups': ('piper_sim.tasks.paper_cups', 'PaperCupsTask', {
+        'mujoco': 'piper_sim.tasks.rigid_scene_mujoco', 'isaac': 'piper_sim.tasks.rigid_scene_isaac'}),
     'clean_table': ('piper_sim.tasks.clean_table', 'CleanTableTask', {
         'mujoco': 'piper_sim.tasks.clean_table_mujoco', 'isaac': 'piper_sim.tasks.clean_table_isaac'}),
     'charger_socket': ('piper_sim.tasks.connector', 'ConnectorTask', {

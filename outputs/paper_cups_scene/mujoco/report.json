@@ -1,0 +1,528 @@
+{
+  "passed": true,
+  "backend": "mujoco",
+  "cameras_enabled": true,
+  "random_seeds_checked": 1000,
+  "settling": [
+    {
+      "seed": 42,
+      "objects": {
+        "cup_00": {
+          "position": [
+            0.4444472540812205,
+            -0.031783211328943156,
+            0.02499940213782331
+          ],
+          "quaternion_wxyz": [
+            0.2915691583605625,
+            -2.5264467702269806e-17,
+            4.9572729886315855e-17,
+            -0.9565497508718057
+          ]
+        },
+        "cup_01": {
+          "position": [
+            0.46899339677431684,
+            0.10263137511084124,
+            0.02499940213782331
+          ],
+          "quaternion_wxyz": [
+            0.07650979882957284,
+            -3.2742957566015383e-18,
+            -5.359175043633243e-17,
+            0.9970688294611654
+          ]
+        }
+      },
+      "metrics": {
+        "cup_count": 2,
+        "upright_count": 2,
+        "on_table_count": 2,
+        "success": false,
+        "success_defined": false
+      }
+    },
+    {
+      "seed": 7,
+      "objects": {
+        "cup_00": {
+          "position": [
+            0.4012776853153717,
+            0.20655117650418792,
+            0.024999402137823312
+          ],
+          "quaternion_wxyz": [
+            0.8093239426658861,
+            -4.6865997775621e-17,
+            2.7662799645244315e-17,
+            -0.5873625420706922
+          ]
+        },
+        "cup_01": {
+          "position": [
+            0.4449488501710912,
+            -0.14289226120490373,
+            0.024999402137823316
+          ],
+          "quaternion_wxyz": [
+            0.3868780232341066,
+            -2.616081213859403e-17,
+            -5.073139769872363e-17,
+            0.9221308991344287
+          ]
+        }
+      },
+      "metrics": {
+        "cup_count": 2,
+        "upright_count": 2,
+        "on_table_count": 2,
+        "success": false,
+        "success_defined": false
+      }
+    },
+    {
+      "seed": 23,
+      "objects": {
+        "cup_00": {
+          "position": [
+            0.4212405933817659,
+            0.07355827484479484,
+            0.02499939766386109
+          ],
+          "quaternion_wxyz": [
+            0.8861858391092163,
+            -2.844230694330124e-08,
+            5.440004160080962e-08,
+            0.46332996726122794
+          ]
+        },
+        "cup_01": {
+          "position": [
+            0.2573068250634833,
+            -0.20087181392126288,
+            0.024999398144056897
+          ],
+          "quaternion_wxyz": [
+            0.44428685457259476,
+            -1.1653632721761812e-08,
+            -6.257186753056915e-08,
+            0.8958845856771877
+          ]
+        }
+      },
+      "metrics": {
+        "cup_count": 2,
+        "upright_count": 2,
+        "on_table_count": 2,
+        "success": false,
+        "success_defined": false
+      }
+    }
+  ],
+  "cavity_probe": {
+    "passed": true,
+    "ball_position_m": [
+      0.36499999999938565,
+      -0.057500826841866005,
+      0.03397900005435518
+    ],
+    "expected_center_height_m": 0.034
+  },
+  "recording": {
+    "path": "outputs/paper_cups/mujoco_final/episodes/paper_cups_smoke.h5",
+    "frames": 5
+  },
+  "metadata": {
+    "name": "paper_cups",
+    "instruction": "Manipulate the randomly placed paper cups on the table.",
+    "config": {
+      "schema_version": 1,
+      "name": "paper_cups",
+      "instruction": "Manipulate the randomly placed paper cups on the table.",
+      "seed": 42,
+      "materials": "assets/tasks/paper_cups/materials.json",
+      "cup": {
+        "count": 2,
+        "height_m": 0.095,
+        "top_diameter_m": 0.08,
+        "bottom_diameter_m": 0.056,
+        "wall_m": 0.0006,
+        "rim_radius_m": 0.0012,
+        "floor_height_m": 0.005,
+        "mass_kg": 0.008
+      },
+      "randomization": {
+        "enabled": true,
+        "center_bounds_xy_m": [
+          [
+            0.22,
+            -0.26
+          ],
+          [
+            0.51,
+            0.26
+          ]
+        ],
+        "yaw_degrees": [
+          -180.0,
+          180.0
+        ],
+        "min_gap_m": 0.035,
+        "table_clearance_m": 0.025,
+        "max_attempts": 3000
+      },
+      "contact": {
+        "friction": 0.6,
+        "contact_offset_m": 0.001,
+        "mujoco_priority": 1
+      },
+      "appearance": {
+        "preset": "indoor_lab",
+        "ground_height_m": -0.74,
+        "tabletop_material": "laminate",
+        "dome_intensity": 700.0,
+        "rect_light_intensity": 1800.0
+      },
+      "environment": {
+        "apron_front": {
+          "size_m": [
+            0.025,
+            1.3,
+            0.055
+          ],
+          "position_m": [
+            -0.015,
+            0.0,
+            -0.035
+          ],
+          "material": "aluminum"
+        },
+        "apron_back": {
+          "size_m": [
+            0.025,
+            1.3,
+            0.055
+          ],
+          "position_m": [
+            0.605,
+            0.0,
+            -0.035
+          ],
+          "material": "aluminum"
+        },
+        "leg_fl": {
+          "size_m": [
+            0.032,
+            0.032,
+            0.7
+          ],
+          "position_m": [
+            0.02,
+            0.6,
+            -0.37
+          ],
+          "material": "aluminum"
+        },
+        "leg_fr": {
+          "size_m": [
+            0.032,
+            0.032,
+            0.7
+          ],
+          "position_m": [
+            0.02,
+            -0.6,
+            -0.37
+          ],
+          "material": "aluminum"
+        },
+        "leg_bl": {
+          "size_m": [
+            0.032,
+            0.032,
+            0.7
+          ],
+          "position_m": [
+            0.57,
+            0.6,
+            -0.37
+          ],
+          "material": "aluminum"
+        },
+        "leg_br": {
+          "size_m": [
+            0.032,
+            0.032,
+            0.7
+          ],
+          "position_m": [
+            0.57,
+            -0.6,
+            -0.37
+          ],
+          "material": "aluminum"
+        },
+        "foot_fl": {
+          "size_m": [
+            0.04,
+            0.04,
+            0.02
+          ],
+          "position_m": [
+            0.02,
+            0.6,
+            -0.73
+          ],
+          "material": "rubber"
+        },
+        "foot_fr": {
+          "size_m": [
+            0.04,
+            0.04,
+            0.02
+          ],
+          "position_m": [
+            0.02,
+            -0.6,
+            -0.73
+          ],
+          "material": "rubber"
+        },
+        "foot_bl": {
+          "size_m": [
+            0.04,
+            0.04,
+            0.02
+          ],
+          "position_m": [
+            0.57,
+            0.6,
+            -0.73
+          ],
+          "material": "rubber"
+        },
+        "foot_br": {
+          "size_m": [
+            0.04,
+            0.04,
+            0.02
+          ],
+          "position_m": [
+            0.57,
+            -0.6,
+            -0.73
+          ],
+          "material": "rubber"
+        },
+        "back_wall": {
+          "size_m": [
+            0.04,
+            4.5,
+            2.5
+          ],
+          "position_m": [
+            2.4,
+            0.0,
+            0.51
+          ],
+          "material": "wall"
+        },
+        "side_wall": {
+          "size_m": [
+            4.8,
+            0.04,
+            2.5
+          ],
+          "position_m": [
+            0.0,
+            2.25,
+            0.51
+          ],
+          "material": "wall"
+        },
+        "blue_panel": {
+          "size_m": [
+            0.02,
+            1.3,
+            1.2
+          ],
+          "position_m": [
+            2.37,
+            0.4,
+            0.6
+          ],
+          "material": "glass_panel"
+        }
+      }
+    },
+    "layout": {
+      "seed": 12,
+      "randomized": true,
+      "poses": {
+        "cup_00": {
+          "position": [
+            0.2927390928514494,
+            0.23231153028690077,
+            0.025300000000000003
+          ],
+          "quaternion_wxyz": [
+            0.8908484992949169,
+            0.0,
+            0.0,
+            -0.4543005077082728
+          ]
+        },
+        "cup_01": {
+          "position": [
+            0.2749029115165308,
+            -0.16676846658258404,
+            0.025300000000000003
+          ],
+          "quaternion_wxyz": [
+            0.6625863797836467,
+            0.0,
+            0.0,
+            -0.7489855067524345
+          ]
+        }
+      }
+    },
+    "bounds_m": {
+      "cup_00": [
+        [
+          -0.04,
+          -0.04,
+          0.0
+        ],
+        [
+          0.04,
+          0.04,
+          0.095
+        ]
+      ],
+      "cup_01": [
+        [
+          -0.04,
+          -0.04,
+          0.0
+        ],
+        [
+          0.04,
+          0.04,
+          0.095
+        ]
+      ]
+    },
+    "materials": {
+      "print": {
+        "color": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "roughness": 0.68,
+        "metallic": 0.0,
+        "texture": "cup_print.png",
+        "mujoco_vflip": true
+      },
+      "seam": {
+        "color": [
+          0.14,
+          0.19,
+          0.28
+        ],
+        "roughness": 0.7,
+        "metallic": 0.0
+      },
+      "paper": {
+        "color": [
+          0.91,
+          0.9,
+          0.84
+        ],
+        "roughness": 0.63,
+        "metallic": 0.0
+      },
+      "lining": {
+        "color": [
+          0.88,
+          0.865,
+          0.76
+        ],
+        "roughness": 0.38,
+        "metallic": 0.0
+      },
+      "rim": {
+        "color": [
+          0.94,
+          0.935,
+          0.88
+        ],
+        "roughness": 0.46,
+        "metallic": 0.0
+      },
+      "laminate": {
+        "color": [
+          0.81,
+          0.81,
+          0.79
+        ],
+        "roughness": 0.42,
+        "metallic": 0.0
+      },
+      "aluminum": {
+        "color": [
+          0.55,
+          0.57,
+          0.59
+        ],
+        "roughness": 0.3,
+        "metallic": 0.75
+      },
+      "floor": {
+        "color": [
+          0.48,
+          0.5,
+          0.51
+        ],
+        "roughness": 0.87,
+        "metallic": 0.0
+      },
+      "wall": {
+        "color": [
+          0.77,
+          0.78,
+          0.77
+        ],
+        "roughness": 0.9,
+        "metallic": 0.0
+      },
+      "glass_panel": {
+        "color": [
+          0.27,
+          0.43,
+          0.51
+        ],
+        "roughness": 0.23,
+        "metallic": 0.15
+      },
+      "rubber": {
+        "color": [
+          0.06,
+          0.065,
+          0.07
+        ],
+        "roughness": 0.95,
+        "metallic": 0.0
+      }
+    },
+    "geometry_authority": "CAD workcell unchanged; paper-cup dimensions estimated from user photographs",
+    "approximations": [
+      "rigid empty paper cups; no crushing, liquid or deformation",
+      "sector contacts approximate thin curved paper walls and rolled rims",
+      "mass, friction, appearance and room dimensions estimated",
+      "generated print texture follows supplied photographs; not scanned albedo"
+    ]
+  },
+  "scope": "randomization, appearance, rigid-body stability, state recording and optional RGB; no grasp policy"
+}

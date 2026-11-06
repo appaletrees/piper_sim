@@ -38,6 +38,18 @@ MuJoCo 手动控制：`bash scripts/run_mujoco.sh --interactive --enable_cameras
 详见 [独立安装、采集、回放与验证](docs/mujoco.md)。
 真实双臂的独立连接、只读状态和控制API见 [真机接口说明](docs/piper_connection.md)。
 
+**随机纸杯场景：** 新增独立 `paper_cups` 任务，按照片重建蓝色 Midea 纸杯的印刷、开口内壁、卷边和杯底，
+支持数量配置、种子控制的随机摆放，以及独立的室内材质和照明。两个引擎均可控制、读取和录制。
+
+```bash
+bash scripts/run_mujoco.sh --config configs/paper_cups_workcell.yaml \
+  --task-scene configs/tasks/paper_cups.yaml --seed 42 --interactive --enable_cameras
+```
+
+![纸杯场景：Isaac Lab 实际近景渲染](outputs/paper_cups_scene/isaac/detail.png)
+
+尺寸按照片估算，当前为空杯刚体。见 [场景设置、接口与验收](docs/paper_cups_scene.md)。
+
 **视频餐桌收拾场景：** 新增独立 `clean_table` 任务，包含餐具篮、垃圾筐、盘碗汤匙、筷子、方碟、
 毛巾、纸团和带编织纹理的餐垫。两种引擎共享物体尺寸、摆放随机化、外部控制和录制接口。
 

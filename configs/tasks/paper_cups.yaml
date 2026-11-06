@@ -1,0 +1,47 @@
+schema_version: 1
+name: paper_cups
+instruction: Manipulate the randomly placed paper cups on the table.
+seed: 42
+materials: assets/tasks/paper_cups/materials.json
+cup:
+  count: 2                  # 1..12; change before scene creation
+  height_m: 0.095          # Estimated from user photos; no ruler in images
+  top_diameter_m: 0.080    # Includes the rolled lip
+  bottom_diameter_m: 0.056
+  wall_m: 0.0006
+  rim_radius_m: 0.0012
+  floor_height_m: 0.005
+  mass_kg: 0.008
+randomization:
+  enabled: true
+  center_bounds_xy_m: [[0.22, -0.26], [0.51, 0.26]]
+  yaw_degrees: [-180.0, 180.0]
+  min_gap_m: 0.035
+  table_clearance_m: 0.025
+  max_attempts: 3000
+contact:
+  friction: 0.60
+  contact_offset_m: 0.001
+  mujoco_priority: 1       # Thin walls/floor retain their stiff contact settings
+appearance:
+  preset: indoor_lab
+  ground_height_m: -0.74
+  tabletop_material: laminate
+  dome_intensity: 700.0
+  rect_light_intensity: 1800.0
+# Support and room details are estimates for appearance; CAD robot/cameras/table
+# remain unchanged. Decoration is outside the manipulation surface.
+environment:
+  apron_front: {size_m: [0.025, 1.30, 0.055], position_m: [-0.015, 0.0, -0.035], material: aluminum}
+  apron_back: {size_m: [0.025, 1.30, 0.055], position_m: [0.605, 0.0, -0.035], material: aluminum}
+  leg_fl: {size_m: [0.032, 0.032, 0.70], position_m: [0.02, 0.60, -0.37], material: aluminum}
+  leg_fr: {size_m: [0.032, 0.032, 0.70], position_m: [0.02, -0.60, -0.37], material: aluminum}
+  leg_bl: {size_m: [0.032, 0.032, 0.70], position_m: [0.57, 0.60, -0.37], material: aluminum}
+  leg_br: {size_m: [0.032, 0.032, 0.70], position_m: [0.57, -0.60, -0.37], material: aluminum}
+  foot_fl: {size_m: [0.040, 0.040, 0.02], position_m: [0.02, 0.60, -0.73], material: rubber}
+  foot_fr: {size_m: [0.040, 0.040, 0.02], position_m: [0.02, -0.60, -0.73], material: rubber}
+  foot_bl: {size_m: [0.040, 0.040, 0.02], position_m: [0.57, 0.60, -0.73], material: rubber}
+  foot_br: {size_m: [0.040, 0.040, 0.02], position_m: [0.57, -0.60, -0.73], material: rubber}
+  back_wall: {size_m: [0.04, 4.5, 2.5], position_m: [2.4, 0.0, 0.51], material: wall}
+  side_wall: {size_m: [4.8, 0.04, 2.5], position_m: [0.0, 2.25, 0.51], material: wall}
+  blue_panel: {size_m: [0.02, 1.3, 1.2], position_m: [2.37, 0.4, 0.6], material: glass_panel}
