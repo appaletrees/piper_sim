@@ -12,6 +12,102 @@ environment:
     position_m: [1.020, 0.0, 0.0125]
     material: white_table
     supports_placement: true
+  # Estimated indoor surroundings; no changes to robot/table/camera CAD.
+  apron_front:
+    size_m: [0.025, 1.3, 0.055]
+    position_m: [-0.015, 0.0, -0.035]
+    material: aluminum
+  apron_back:
+    size_m: [0.025, 1.3, 0.055]
+    position_m: [0.605, 0.0, -0.035]
+    material: aluminum
+  leg_fl:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [0.02, 0.6, -0.37]
+    material: aluminum
+  leg_fr:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [0.02, -0.6, -0.37]
+    material: aluminum
+  leg_bl:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [0.57, 0.6, -0.37]
+    material: aluminum
+  leg_br:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [0.57, -0.6, -0.37]
+    material: aluminum
+  foot_fl:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [0.02, 0.6, -0.73]
+    material: rubber
+  foot_fr:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [0.02, -0.6, -0.73]
+    material: rubber
+  foot_bl:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [0.57, 0.6, -0.73]
+    material: rubber
+  foot_br:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [0.57, -0.6, -0.73]
+    material: rubber
+  back_wall:
+    size_m: [0.04, 4.5, 2.5]
+    position_m: [2.4, 0.0, 0.51]
+    material: wall
+  side_wall:
+    size_m: [4.8, 0.04, 2.5]
+    position_m: [0.0, 2.25, 0.51]
+    material: wall
+  blue_panel:
+    size_m: [0.02, 1.3, 1.2]
+    position_m: [2.37, 0.4, 0.6]
+    material: glass_panel
+  rear_leg_fl:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [0.68, 0.6, -0.37]
+    material: aluminum
+  rear_foot_fl:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [0.68, 0.6, -0.73]
+    material: rubber
+  rear_leg_fr:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [0.68, -0.6, -0.37]
+    material: aluminum
+  rear_foot_fr:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [0.68, -0.6, -0.73]
+    material: rubber
+  rear_leg_bl:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [1.36, 0.6, -0.37]
+    material: aluminum
+  rear_foot_bl:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [1.36, 0.6, -0.73]
+    material: rubber
+  rear_leg_br:
+    size_m: [0.032, 0.032, 0.7]
+    position_m: [1.36, -0.6, -0.37]
+    material: aluminum
+  rear_foot_br:
+    size_m: [0.04, 0.04, 0.02]
+    position_m: [1.36, -0.6, -0.73]
+    material: rubber
+  rear_apron:
+    size_m: [0.025, 1.3, 0.055]
+    position_m: [1.37, 0.0, -0.035]
+    material: aluminum
+appearance:
+  preset: indoor_lab
+  ground_height_m: -0.74
+  tabletop_material: white_table
+  dome_intensity: 700.0
+  rect_light_intensity: 1800.0
+  mujoco_light_scale: 0.75  # Retain white textile/ceramic detail in native lighting
 reference:
   video: /home/midea/phoenix-mwa/datasets/piper_clean_table_lerobot/videos/chunk-000/image/episode_000000.mp4
   resolution: [640, 480]
@@ -127,6 +223,7 @@ objects:
 contact:
   friction: 0.65
   contact_offset_m: 0.0005
+  mujoco_substeps: 8  # 960 Hz internal integration; observations/actions stay 30 Hz
 success:
   hold_seconds: 0.5
   containment_tolerance_m: 0.003

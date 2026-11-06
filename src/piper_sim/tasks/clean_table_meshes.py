@@ -187,9 +187,12 @@ def fabric(size, *, paper=False):
     u,v = np.meshgrid(np.linspace(-1,1,n),np.linspace(-1,1,n))
     if paper:
         radius = np.maximum(abs(u),abs(v))
-        px = x/2*u*(1+.14*np.sin(19*v+3*u))
-        py = y/2*v*(1+.12*np.sin(21*u-4*v))
-        z = .45*(1-radius**2) + .11*np.sin(8*u+4*v) + .07*np.sin(11*v-6*u)
+        # Broad intersecting creases and irregular soft edges, instead of a
+        # high-frequency saw-toothed outline. Still a closed rigid paper proxy.
+        px = x/2*u*(1+.06*np.sin(4*v+2*u))
+        py = y/2*v*(1+.06*np.sin(5*u-v))
+        z = (.40*(1-radius**2) + .09*abs(np.sin(5*u+3*v))
+             + .08*abs(np.sin(6*v-2*u)) + .05*np.sin(4*u-5*v))
     else:
         px = x/2*u*(1+.035*np.sin(4*v))
         py = y/2*v*(1+.04*np.sin(5*u))
@@ -229,8 +232,8 @@ def fabric(size, *, paper=False):
         for a,b in zip(edge,edge[1:]+edge[:1]):
             mid=(top[a]+top[b])/2; length=np.linalg.norm(top[b]-top[a])
             s=[length,.001,.001] if abs(top[b,0]-top[a,0])>abs(top[b,1]-top[a,1]) else [.001,length,.001]
-            seams.append(box('stitch',s,mid+[0,0,.0003],'porcelain'))
-        parts.append(merge('stitched_hem',seams,'porcelain'))
+            seams.append(box('stitch',s,mid+[0,0,.0003],'cotton_hem'))
+        parts.append(merge('stitched_hem',seams,'cotton_hem'))
     return parts
 
 

@@ -58,7 +58,10 @@ bash scripts/run_mujoco.sh --config configs/clean_table_workcell.yaml \
   --task-scene configs/tasks/clean_table.yaml --interactive --enable_cameras
 ```
 
-![视频餐桌收拾场景](outputs/clean_table_scene/mujoco/tabletop.png)
+![增强版餐桌收拾场景：Isaac Lab 实际渲染](outputs/clean_table_enhanced/isaac/tabletop.png)
+
+增强版加入纸巾纤维、自然废纸折痕、陶瓷/篮筐材质、完整桌体与室内照明；MuJoCo 使用更细的内部积分，
+保持 30 Hz 控制和录制。原 CAD 与任务摆放、分类目标保持一致。
 
 尺寸按视频估算；布料/餐垫目前是刚体代理。见 [使用、材质、接口与验收](docs/clean_table_scene.md)。
 
@@ -71,10 +74,10 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/demo_clean_table.py \
   --video --record --output outputs/my_sort_demo
 ```
 
-![特权分拣 demo 最终画面](outputs/clean_table_demo/final.png)
+![增强版特权分拣 demo 最终画面](outputs/clean_table_enhanced/demo/final.png)
 
-[4 倍速演示视频（接触辅助模式）](outputs/clean_table_demo/preview_4x.mp4) ·
-[8/8 完成报告](outputs/clean_table_demo/report.json)
+[4 倍速演示视频（接触辅助模式）](outputs/clean_table_enhanced/demo/preview_4x.mp4) ·
+[8/8 完成报告](outputs/clean_table_enhanced/demo/report.json)
 
 **充电器插插座任务：** 原型板按提供STL的170 × 60 × 33 mm尺寸还原，
 默认同时放置黑色两脚充电器与黄色三脚插头，插头尺寸按照片估算并可配置。

@@ -45,6 +45,8 @@ def main():
         nominal=copy.deepcopy(t.layout)
         for _ in range(60): b.step()
         obs=b.read();settled=copy.deepcopy(obs.extras)
+        if args.enable_cameras:
+            assert set(obs.images)=={'overhead','left_wrist','right_wrist'}
         assert not settled['task']['metrics']['summary']['success']
         for n in ('placemat','basket','trash_bin'):
             assert abs(settled['objects'][n]['position'][2]-t.table_top)<.003,(n,settled['objects'][n])
@@ -54,15 +56,36 @@ def main():
         if args.backend=='mujoco' and args.enable_cameras:
             import mujoco
             # Independent close-up camera avoids the overhead housing/mast.
-            cam=mujoco.MjvCamera();cam.lookat[:]=[.40,0,.035]
-            cam.distance=1.0;cam.azimuth=8;cam.elevation=-83
+            cam=mujoco.MjvCamera();cam.lookat[:]=[.44,0,.045]
+            cam.distance=1.2;cam.azimuth=8;cam.elevation=-67
             Image.fromarray(b._render(cam,1280,900)).save(args.output/'tabletop.png')
+            cam.lookat[:]=[.335,0,.055];cam.distance=.65;cam.azimuth=40;cam.elevation=-56
+            Image.fromarray(b._render(cam,1280,900)).save(args.output/'detail.png')
             # Same real frame-0 joint vector, only fractions converted to metres.
             q=np.array(t.config['reference']['joint14_rad_fraction']);q[[6,13]]*=.095
             b.set_observation_state(q)
             Image.fromarray(b.read().images['overhead']).save(args.output/'reference_pose.png')
             b.reset(42,False)
             for _ in range(30):b.step()
+        if args.backend=='isaac' and args.enable_cameras:
+            # Extra evidence camera; it never replaces or moves the CAD sensors.
+            from isaaclab.sensors import Camera,CameraCfg
+            import isaaclab.sim as sim_utils
+            import torch
+            camera=Camera(CameraCfg(prim_path='/World/CleanTableInspection',height=900,width=1280,
+                data_types=['rgb'],spawn=sim_utils.PinholeCameraCfg(focal_length=30.,horizontal_aperture=36.,
+                clipping_range=(.005,20.))))
+            b.sim.reset();b.reset(42,False)
+            for _ in range(60):b.step()
+            camera.reset()
+            for filename,eye,target in [
+                ('tabletop.png',[.02,-.06,1.12],[.44,0.,.045]),
+                ('detail.png',[.02,-.30,.58],[.335,0.,.055])]:
+                camera.set_world_poses_from_view(torch.tensor([eye],device=b.sim.device),
+                                                 torch.tensor([target],device=b.sim.device))
+                for _ in range(24):b.sim.render()
+                camera.update(.033,force_recompute=True)
+                Image.fromarray(camera.data.output['rgb'][0,:,:,:3].cpu().numpy()).save(args.output/filename)
         # Drop items into open containers; never attach, weld or teleport as a policy.
         for name,target in [('plate','basket'),('paper','trash_bin')]:
             p=b.read().extras['objects'][target]
@@ -95,9 +118,10 @@ def main():
                 'scope':'scene rendering, stability, free-body container drops and recording; no autonomous clearing policy'}
         (args.output/'report.json').write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps({'passed':True,'report':str(args.output/'report.json')}),flush=True)
-    except BaseException:
+    except BaseException as exc:
         import traceback
         traceback.print_exc()
+        (args.output/'failure.json').write_text(json.dumps({'passed':False,'error':repr(exc)})+'\n')
         raise
     finally:
         if b:b.close()

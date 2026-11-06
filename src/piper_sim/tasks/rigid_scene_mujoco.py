@@ -31,8 +31,8 @@ def compose_model(path,task):
     prefix='clean' if task.config['name']=='clean_table' else task.config['name']
     for name,m in task.materials.items():
         attrs={'name':prefix+'/'+name,'rgba':nums([*m['color'],1]),
-               'specular':str(.06+.50*(1-m['roughness'])),
-               'shininess':str(1-m['roughness']), 'reflectance':str(m['metallic']*.15)}
+               'specular':str(m.get('mujoco_specular',.06+.50*(1-m['roughness']))),
+               'shininess':str(m.get('mujoco_shininess',1-m['roughness'])), 'reflectance':str(m['metallic']*.15)}
         if 'texture' in m:
             ET.SubElement(asset,'texture',name=prefix+'/'+name,type='2d',file=str(task.material_path.parent/m['texture']),
                           vflip=str(m.get('mujoco_vflip',False)).lower())

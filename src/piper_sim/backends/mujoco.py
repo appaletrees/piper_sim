@@ -32,7 +32,13 @@ class MujocoBackend:
         else:
             self.model = mujoco.MjModel.from_xml_path(str(path))
         self.data = mujoco.MjData(self.model)
-        self.substeps = self.manifest["substeps"]
+        # Task-local numerical resolution does not require rebuilding CAD assets.
+        # The public physics tick and control/recording rate stay unchanged.
+        self.substeps = (self.task.config.get("contact", {}).get("mujoco_substeps", self.manifest["substeps"])
+                         if self.task else self.manifest["substeps"])
+        if type(self.substeps) is not int or self.substeps < 1:
+            raise ValueError("mujoco_substeps must be a positive integer")
+        self.model.opt.timestep = self.dt/self.substeps
         self.rig = self.manifest["camera_rig"]
         self.enable_cameras = cameras
         self.indices = {}
@@ -96,7 +102,12 @@ class MujocoBackend:
         return np.concatenate([self.data.ctrl[self.indices[side]["ctrl"]] for side in ARMS]).copy()
 
     def step(self):
+        expected_time = float(self.data.time)+self.dt*self.decimation
         mujoco.mj_step(self.model, self.data, nstep=self.decimation*self.substeps)
+        # MuJoCo can auto-reset on huge acceleration, leaving finite qpos/qvel.
+        # Reject that discontinuity before a recorder sees a restarted episode.
+        if not np.isclose(self.data.time, expected_time, atol=1e-7, rtol=0):
+            raise RuntimeError("MuJoCo physics reset after instability; episode time is discontinuous")
         # mj_step leaves position-dependent buffers at the last integration
         # evaluation. Refresh so RGB, poses and qpos describe the same state.
         mujoco.mj_forward(self.model, self.data)

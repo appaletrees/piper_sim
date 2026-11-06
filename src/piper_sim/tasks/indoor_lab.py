@@ -19,6 +19,12 @@ def configure_mujoco(root,task,prefix):
                       diffuse=' '.join(map(str,color)),specular='.12 .12 .12',
                       ambient='.15 .15 .15' if i==0 else '.04 .04 .04',
                       attenuation='1 0 0',cutoff='85',castshadow=str(shadow).lower())
+    # Native MuJoCo sums ambient/diffuse terms without the RTX tone mapping.
+    # Keep this task-local so a white tableware scene need not clip its texture.
+    scale=float(c.get('mujoco_light_scale',1.0))
+    for element in [head,*world.findall('light')]:
+        for attr in ('ambient','diffuse','specular'):
+            element.set(attr,' '.join(str(float(v)*scale) for v in element.get(attr,'0 0 0').split()))
     ground=world.find("geom[@name='ground']")
     if ground is not None:
         ground.set('pos',f"0 0 {c['ground_height_m']}")

@@ -4,7 +4,13 @@
 外部控制、观测、HDF5 录制与可选 LeRobot v2.1 导出。任务物体、材质、随机摆放和分类判定
 位于独立模块，不依赖插接任务，也不调用真机 SDK。
 
-![餐桌场景实际渲染](../outputs/clean_table_scene/mujoco/tabletop.png)
+![增强版餐桌场景：Isaac Lab 实际渲染](../outputs/clean_table_enhanced/isaac/tabletop.png)
+
+当前默认配置已增强：瓷器高光和篮筐颜色重新调整，白色纸巾增加细棉纤维纹理与哑光缝边，
+废纸改为较宽的折痕和不规则软边，补充两张桌子的支撑、地面、墙面和室内面光源。
+这些新增外观参数是估算值。原 CAD 桌面、双臂、相机、任务物体摆放以及分类规则继续沿用原配置。
+
+![增强版近景：纸巾纤维、折痕和陶瓷](../outputs/clean_table_enhanced/isaac/detail.png)
 
 ## 直接运行
 
@@ -68,12 +74,24 @@ bash scripts/run.sh --config configs/clean_table_workcell.yaml \
 - [`materials.json`](../assets/tasks/clean_table/materials.json) 独立管理颜色、粗糙度、金属度与纹理；
   Isaac 使用 USD Preview Surface 和 sRGB→linear 转换，MuJoCo 使用其支持的材质/光照近似。
   两个渲染器不保证逐像素一致。
-- 纹理由 [`prepare_clean_table_textures.py`](../scripts/prepare_clean_table_textures.py) 确定性生成，
-  已随仓库保存。模型启动不需要原始视频、CAD 软件或纹理下载。
+- 餐垫编织纹理和旧纸巾纹理由 [`prepare_clean_table_textures.py`](../scripts/prepare_clean_table_textures.py)
+  确定性生成；增强版纸巾使用内置 imagegen 生成的
+  [`terry_albedo_v2.png`](../assets/tasks/clean_table/terry_albedo_v2.png)，
+  [完整提示词与来源](../assets/tasks/clean_table/texture_provenance_v2.json) 随仓库保存。
+  生成的是纤维颜色纹理，褶皱和缝边仍来自三维几何。启动不需要图像生成服务、原始视频或纹理下载。
+- `appearance.preset: indoor_lab` 启用共享室内外观模块；`dome_intensity` 和 `rect_light_intensity`
+  控制 Isaac 光照，`mujoco_light_scale` 单独控制 MuJoCo 亮度，避免白色餐具和织物过曝。
+  各材质的 `mujoco_specular` / `mujoco_shininess` 是原生渲染近似参数，不是实测 PBR 参数。
 
 当前**毛巾、纸团、餐垫使用刚体碰撞代理**，可移动、抓取、投放，但不能复现柔性折叠。
 筐壁碰撞使用连续薄墙，不能通过视觉镂空孔穿入手指。质量、摩擦、颜色与灯光为估算参数。
 视频后半段折叠餐垫并放入较小篮筐，需要后续的柔性模型；不将这部分算作当前任务成功条件。
+
+清桌任务的 `contact.mujoco_substeps: 8` 使用 **960 Hz 内部积分**，公共物理节拍仍为 120 Hz，
+外部控制和记录仍为 30 Hz。这缓解了细筷子落入多件餐具时的数值不稳定；代价是增加计算量。
+它在运行时调整积分步长，不要求重新转换原 CAD。MuJoCo 若因异常自动重置，接口会报告时间不连续并中止该步，
+避免把重置后的有限数值误当作正常采集数据。积分稳定性的背景见
+[MuJoCo 官方说明](https://mujoco.readthedocs.io/en/3.3.7/modeling.html#simulation-stability)。
 
 ## 摆放随机化、状态与采集
 
@@ -147,8 +165,14 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/verify_clean_table.py \
   --backend isaac --headless --enable_cameras --output outputs/clean_table_check_isaac
 ```
 
-每次使用新输出目录。已有 [MuJoCo 报告](../outputs/clean_table_scene/mujoco/report.json) 和
-[Isaac 报告](../outputs/clean_table_scene/isaac/report.json)；物体投放是接触测试夹具，不是自动清桌策略。
+每次使用新输出目录。增强版的 [MuJoCo 报告](../outputs/clean_table_enhanced/mujoco/report.json) 和
+[Isaac 报告](../outputs/clean_table_enhanced/isaac/report.json) 记录了随机布局、稳定落桌、盘/纸团落入容器和录制检查；
+物体投放是接触测试夹具，不是自动清桌策略。
+
+增强版还重新运行了完整八件物品分拣：
+[4 倍速演示](../outputs/clean_table_enhanced/demo/preview_4x.mp4) ·
+[结果报告](../outputs/clean_table_enhanced/demo/report.json)。
+它仍为**接触辅助模式**，不代表纯物理抓取或随机场景策略已经验证。餐垫留在桌面。
 
 自动分拣的独立入口见 [特权信息 demo](privileged_clean_table_demo.md)。该入口默认使用明确标注的
 接触辅助抓取，保留纯接触实验模式；其结果与上述场景/自由落体验收分开记录。
@@ -156,7 +180,8 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/verify_clean_table.py \
 ## 模块边界
 
 `clean_table.py` 管理配置、布局与指标；`clean_table_meshes.py` 管理米制几何；
-`clean_table_mujoco.py` / `clean_table_isaac.py` 负责引擎转换。注册表只增加一个任务项。
+`clean_table_mujoco.py` / `clean_table_isaac.py` 保留兼容入口，使用共享 `rigid_scene_*` 引擎适配器；
+室内外观在独立 `indoor_lab.py` 中管理。任务和策略不依赖其他场景的配置或素材目录。
 机器人驱动、相机 CAD、真机连接、记录器和 LeRobot 导出器没有因新任务产生专用分支。
 
 真实记录的逐帧回放、三路实拍对照和当前对齐偏差见 [清桌数据回放](clean_table_replay.md)。

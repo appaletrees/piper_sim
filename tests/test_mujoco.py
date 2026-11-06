@@ -127,3 +127,13 @@ def test_portable_bundle_needs_no_generated_cad_or_external_source(tmp_path, mon
     mesh.write_bytes(mesh.read_bytes()+b"\n")
     with pytest.raises(ValueError, match="Mesh changed"):
         assets.resolve_model(load())
+
+
+def test_instability_autoreset_is_not_silently_exposed_as_valid_state():
+    b=MujocoBackend(load())
+    try:
+        b.step()
+        b.data.qvel[0]=1e20  # Forces MuJoCo's native bad-velocity reset.
+        with pytest.raises(RuntimeError,match='physics reset'):
+            b.step()
+    finally:b.close()

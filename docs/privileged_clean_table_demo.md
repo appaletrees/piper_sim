@@ -14,10 +14,12 @@
 没有布料变形。视频叠字、HDF5 元数据、每帧 `teacher` 字段和报告均标注模式；
 `training_ready=false`，用于先验证任务流程、接口和录制链路。
 
-固定布局 seed 42 的辅助演示已完成 8/8：仿真时长约 273.7 秒，记录 8212 帧状态，
-并验证 LeRobot v2.1 状态数据导出。此示例未录制三相机 RGB；采集 RGB 使用下方 `--rgb` 选项。
-见 [4 倍速视频](../outputs/clean_table_demo/preview_4x.mp4)、
-[逐物体报告](../outputs/clean_table_demo/report.json)、[验证记录](../outputs/clean_table_demo/validation.json)。
+增强版固定布局 seed 42 的辅助演示已重新完成 8/8，并录制 30 Hz 状态与特权信息。
+新版本使用纸巾纤维、较自然的废纸折痕和室内材质/照明；清桌任务的 MuJoCo 内部积分提高到 960 Hz，
+控制与记录保持 30 Hz。此演示未录制三相机 RGB；采集 RGB 使用下方 `--rgb` 选项。
+见 [增强版 4 倍速视频](../outputs/clean_table_enhanced/demo/preview_4x.mp4)、
+[逐物体报告](../outputs/clean_table_enhanced/demo/report.json)、
+[验证记录](../outputs/clean_table_enhanced/validation.json)。
 
 ## 运行
 

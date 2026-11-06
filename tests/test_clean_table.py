@@ -111,3 +111,20 @@ def test_vessel_contact_sections_leave_inner_cavity_empty():
     # A single full-section hull fills this interior point above the bowl floor.
     assert not any(inside(np.array([.5,.5]),profile[ids]) for ids in parts)
     assert any(inside(np.array([.3,.05]),profile[ids]) for ids in parts)
+
+
+def test_refined_contacts_keep_external_timestamps_and_portable_geometry():
+    pytest.importorskip('mujoco')
+    from piper_sim.backends.mujoco import MujocoBackend
+    cfg=load('configs/clean_table_workcell.yaml');cfg['task_scene']='configs/tasks/clean_table.yaml'
+    b=MujocoBackend(cfg)
+    try:
+        assert b.substeps==8
+        assert b.model.opt.timestep==pytest.approx(1/960)
+        times=[b.read().sim_time]
+        for _ in range(3):
+            b.step();times.append(b.read().sim_time)
+        np.testing.assert_allclose(np.diff(times),1/30,atol=1e-9)
+        # Extra room supports must not expand the allowed manipulation surface.
+        np.testing.assert_allclose(b.task.table_bounds,[[ -.055,-.7],[1.395,.7]])
+    finally:b.close()
