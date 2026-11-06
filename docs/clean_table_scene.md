@@ -158,3 +158,5 @@ PYTHONPATH=src .venv-isaac/bin/python scripts/verify_clean_table.py \
 `clean_table.py` 管理配置、布局与指标；`clean_table_meshes.py` 管理米制几何；
 `clean_table_mujoco.py` / `clean_table_isaac.py` 负责引擎转换。注册表只增加一个任务项。
 机器人驱动、相机 CAD、真机连接、记录器和 LeRobot 导出器没有因新任务产生专用分支。
+
+真实记录的逐帧回放、三路实拍对照和当前对齐偏差见 [清桌数据回放](clean_table_replay.md)。
