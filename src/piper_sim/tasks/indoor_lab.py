@@ -13,12 +13,19 @@ def configure_mujoco(root,task,prefix):
     lights=[([.3,-.25,1.2],[0,.15,-1],[.28,.27,.25],True),
             ([.8,.9,1.6],[-.2,-.4,-1],[.28,.29,.31],False),
             ([-.8,0,1.2],[.8,0,-1],[.24,.24,.24],False)]
+    directional_profile=c.get('lighting_profile')=='reference_lab_v2'
+    if directional_profile:
+        head.attrib.update(ambient='.30 .30 .30',diffuse='.14 .14 .14',specular='.03 .03 .03')
+        lights=[([.2,-.65,1.62],[.05,.15,-1],[.34,.33,.31],True),
+                ([.2,2.10,1.0],[.1,-1,-.5],[.27,.29,.32],False),
+                ([-.8,-.6,1.2],[.8,.3,-1],[.16,.16,.16],False)]
     for i,(pos,direction,color,shadow) in enumerate(lights):
         ET.SubElement(world,'light',name=f'{prefix}/ceiling_{i}',pos=' '.join(map(str,pos)),
                       dir=' '.join(map(str,direction)),directional='false',
                       diffuse=' '.join(map(str,color)),specular='.12 .12 .12',
-                      ambient='.15 .15 .15' if i==0 else '.04 .04 .04',
-                      attenuation='1 0 0',cutoff='85',castshadow=str(shadow).lower())
+                      ambient=('.08 .08 .08' if i==0 else '.05 .05 .05') if directional_profile else
+                              ('.15 .15 .15' if i==0 else '.04 .04 .04'),
+                      attenuation='1 0 0',cutoff='60' if directional_profile and shadow else '85',castshadow=str(shadow).lower())
     # Native MuJoCo sums ambient/diffuse terms without the RTX tone mapping.
     # Keep this task-local so a white tableware scene need not clip its texture.
     scale=float(c.get('mujoco_light_scale',1.0))
@@ -45,13 +52,20 @@ def configure_isaac(stage,root,task):
     if dome:
         dome.CreateIntensityAttr(c['dome_intensity']);dome.CreateColorAttr(Gf.Vec3f(1.,1.,1.))
     # RectLight local -Z points down for the default orientation.
-    for i,(position,size,intensity,color) in enumerate([
+    lights=[
         ([.1,-.6,1.8],[1.2,.5],c['rect_light_intensity'],[1.,.98,.95]),
-        ([.8,.8,1.6],[.8,.8],c['rect_light_intensity']*.55,[.94,.97,1.])]):
+        ([.8,.8,1.6],[.8,.8],c['rect_light_intensity']*.55,[.94,.97,1.])]
+    directional_profile=c.get('lighting_profile')=='reference_lab_v2'
+    if directional_profile:
+        lights=[([.2,-.65,1.63],[1.2,.28],c['rect_light_intensity'],[1.,.97,.92]),
+                ([.2,2.12,1.0],[1.5,1.0],c['rect_light_intensity']*.70,[.89,.95,1.])]
+    for i,(position,size,intensity,color) in enumerate(lights):
         light=UsdLux.RectLight.Define(stage,root+f'/Lighting/Ceiling_{i}')
         light.CreateWidthAttr(size[0]);light.CreateHeightAttr(size[1])
         light.CreateIntensityAttr(intensity);light.CreateColorAttr(Gf.Vec3f(*color))
         xf=UsdGeom.Xformable(light);xf.ClearXformOpOrder();xf.AddTranslateOp().Set(Gf.Vec3d(*position))
+        if directional_profile and i==1:
+            xf.AddRotateXOp().Set(-63.435)
     ground=stage.GetPrimAtPath('/World/Ground')
     if ground:
         for op in UsdGeom.Xformable(ground).GetOrderedXformOps():

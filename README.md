@@ -52,7 +52,9 @@ bash scripts/run_mujoco.sh --config configs/paper_cups_workcell.yaml \
 
 **Blender 刚体收桌场景：** 当前 `configs/tasks/clean_table_rigid.yaml` 默认启用 Blender 制作的纸杯、笔、充电头、餐具和篮筐外观，包含可编辑 `.blend`、UV、法线和材质贴图。保留原 CAD、相机、碰撞和控制采集接口；纸杯先叠放再整摞入篮。见 [Blender 编辑、仿真运行与验证](docs/blender_assets.md) 和 [域随机化采集](docs/domain_randomization_collection.md)。
 
-![Blender 资产在 Isaac RTX 仿真中的实际画面](outputs/blender_clean_table/isaac/scene.png)
+最新版本另加入 Blender 实验室背景、Piper 面板与线缆、RealSense 镜头外观，并修正 MuJoCo 硬件材质颜色转换。以 LIBERO/RoboTwin 为质量参照，实际三路相机、物理一致性和数据接口分别验收，详见 [视觉质量要求、运行方式与验证](docs/visual_quality.md)。
+
+![Blender 资产与实验室背景在 Isaac RTX 中的实际画面](outputs/lab_visual_quality/final_isaac/context.png)
 
 **视频餐桌收拾场景：** 新增独立 `clean_table` 任务，包含餐具篮、垃圾筐、盘碗汤匙、筷子、方碟、
 毛巾、纸团和带编织纹理的餐垫。两种引擎共享物体尺寸、摆放随机化、外部控制和录制接口。

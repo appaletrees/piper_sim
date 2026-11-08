@@ -141,6 +141,8 @@ def configure_appearance(task,root_path='/World/Task'):
     if task.config.get('appearance',{}).get('preset')=='indoor_lab':
         from .indoor_lab import configure_isaac
         configure_isaac(get_current_stage(),root_path,task)
+    from .stage_visuals import spawn_isaac
+    spawn_isaac(get_current_stage(),root_path,task)
 
 
 def reset_task(objects,task):

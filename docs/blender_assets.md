@@ -2,6 +2,8 @@
 
 当前 `clean_table_rigid.yaml` 默认加载 Blender 4.5.15 LTS 制作的视觉资产。物体的放置、任务逻辑、域随机化、控制和采集接口仍由现有 Python/YAML 模块管理。
 
+2026-11-08：另增加了独立的实验室背景与机器人/相机细节库。最新实际引擎画面、LIBERO/RoboTwin 参照要求和验收边界见 [视觉质量与采集验收](visual_quality.md)。下文保留物体资产制作说明与该版本的验证记录。
+
 ![Blender 场景展示；不是仿真相机输出](../outputs/blender_clean_table/blender_scene.png)
 
 ![Blender 纸杯材质近景](../outputs/blender_clean_table/blender_details.png)

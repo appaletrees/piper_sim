@@ -1,0 +1,158 @@
+{
+  "date": "2026-11-08",
+  "scope": "visual stage and data-path compatibility; not a new autonomous policy evaluation",
+  "automated_checks_passed": true,
+  "visual_benchmark_equivalence": "not certified; benchmark practices adopted; remaining gaps documented",
+  "tests": {
+    "regression": "37 passed in 77.16s",
+    "final_stage_asset_recheck": "2 passed in 23.80s",
+    "files": [
+      "test_stage_visuals.py",
+      "test_blender_assets.py",
+      "test_rigid_table.py",
+      "test_clean_table.py",
+      "test_appearance.py",
+      "test_domain_collection.py",
+      "test_external_api.py",
+      "test_recording.py",
+      "test_lerobot_export.py"
+    ]
+  },
+  "unchanged": [
+    "original CAD vertices and poses",
+    "collisions",
+    "mass/inertia",
+    "joint ranges and actuators",
+    "camera installation and intrinsics",
+    "existing named randomization streams",
+    "control/recording interfaces"
+  ],
+  "stage": {
+    "parts": 45,
+    "generator": "Blender 4.5.15 LTS",
+    "manifest_sha256": "e78d4e325be4812a19651b79ab7e097dc69741aba9275b3bd3e4d32602163a92",
+    "mesh_sha256": "35cf8262d7c2f29c91a0eec7623512e568da2666581397956a33bc7e992c30ba",
+    "source_files": {
+      "assets/mujoco/workcell.xml": "6ff7dcab8fa5fa7317de7d90f3bd1cbf2657741d3b257d69ebea29921fc0375c",
+      "assets/mujoco/meshes/cad_static_124.obj": "4cb87c0a98400db07a4f3c7188562c0fe8c0ae3f1285de01a3edac0ba4e94b67",
+      "assets/mujoco/meshes/cad_left_103.obj": "5059bde5393465a58e99a0275d706b34571f09d119d0dbdd647ca3b470ba2275",
+      "assets/mujoco/meshes/cad_right_47.obj": "5059bde5393465a58e99a0275d706b34571f09d119d0dbdd647ca3b470ba2275",
+      "assets/mujoco/meshes/link2.STL": "0d37675b699b643f2e15348de99aed535fac10dc5f09a79b8e4b0acfaf4e0378",
+      "assets/mujoco/meshes/link3.STL": "e8ae51f17c0c7f6d67b753922e2cc269f5e8372a65734f859231639a64fe8fad",
+      "configs/appearance.json": "2514098f051a9430aab300ff8a68ec95835206bc129aa7ed3e0ba687eaf981ef"
+    }
+  },
+  "runtime_captures": {
+    "mujoco": {
+      "report": "final_mujoco/report.json",
+      "report_sha256": "9e13b7876c7ac5755987350ab2af50d7b67e846f4e5ca18987dcec95ab5dbc7b",
+      "max_reference_target_deviation_si": 0.0,
+      "camera_position_fk_error_m": {}
+    },
+    "isaac": {
+      "report": "final_isaac/report.json",
+      "report_sha256": "36ad2666c9c16232686d58d806911aee0da33e838f35bb9b1d0923c366e567b3",
+      "max_reference_target_deviation_si": 0.06518828440307622,
+      "camera_position_fk_error_m": {
+        "right_wrist": 4.4126697904041753e-07,
+        "left_wrist": 3.8870062542820705e-07,
+        "overhead": 2.6813439424490667e-09
+      }
+    }
+  },
+  "domain_randomization_and_recording": {
+    "mujoco": {
+      "passed": true,
+      "seeds": [
+        42,
+        43,
+        42
+      ],
+      "frames": 5,
+      "rgb_shapes": {
+        "left_wrist": [
+          5,
+          480,
+          640,
+          3
+        ],
+        "overhead": [
+          5,
+          480,
+          640,
+          3
+        ],
+        "right_wrist": [
+          5,
+          480,
+          640,
+          3
+        ]
+      },
+      "asset_manifest_recorded": "e78d4e325be4812a19651b79ab7e097dc69741aba9275b3bd3e4d32602163a92",
+      "checks": [
+        "different seeds vary properties",
+        "same seed restores exactly",
+        "nominal reset restores baseline",
+        "repeated reads at one tick return identical RGB",
+        "three-camera HDF5 recording and asset provenance"
+      ]
+    },
+    "isaac": {
+      "passed": true,
+      "seeds": [
+        42,
+        43,
+        42
+      ],
+      "frames": 5,
+      "rgb_shapes": {
+        "left_wrist": [
+          5,
+          480,
+          640,
+          3
+        ],
+        "overhead": [
+          5,
+          480,
+          640,
+          3
+        ],
+        "right_wrist": [
+          5,
+          480,
+          640,
+          3
+        ]
+      },
+      "asset_manifest_recorded": "e78d4e325be4812a19651b79ab7e097dc69741aba9275b3bd3e4d32602163a92",
+      "checks": [
+        "different seeds vary properties",
+        "same seed restores exactly",
+        "nominal reset restores baseline",
+        "repeated reads at one tick return identical RGB",
+        "three-camera HDF5 recording and asset provenance"
+      ]
+    }
+  },
+  "visual_review": {
+    "reviewed": [
+      "actual engine overview/context/hardware",
+      "overhead and both wrists at home and changed joint state"
+    ],
+    "remaining": [
+      "estimated room and object appearance",
+      "approximate rather than exact logos/coatings/cables",
+      "native MuJoCo hard shadows and RTX material response differ",
+      "per-device camera/lighting calibration absent"
+    ]
+  },
+  "development_fixes": [
+    "native MuJoCo material color override removed",
+    "linear vs sRGB hardware color conversion corrected",
+    "camera front details derived from CAD local frame",
+    "stale Isaac static reference captures rejected; actual post-step state checked against independent URDF FK"
+  ],
+  "full_teacher_rollout": "not rerun; no new success-rate claim"
+}

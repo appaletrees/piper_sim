@@ -99,6 +99,8 @@ def compose_model(path,task):
                 c=p['cylinder']
                 attrs.update(type='cylinder',size=nums([c['radius'],c['height']/2]),pos=nums(c['center']))
             ET.SubElement(body,'geom',**attrs)
+    from .stage_visuals import compose_mujoco
+    compose_mujoco(root,task,prefix)
     return ET.tostring(root,encoding='unicode')
 
 
