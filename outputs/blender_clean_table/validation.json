@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "blender_version": "Blender 4.5.15 LTS",
+  "tests": "35 passed",
+  "scope": "visual asset integration; original contact geometry/inertia/cameras preserved; 20-tick matching physics trajectory and independent nesting test; no new full teacher rollout",
+  "max_visual_envelope_error_m": 7.152557379708213e-09,
+  "geometry_accuracy_note": "Export precision relative to existing model, not measured real-world accuracy. Prop dimensions remain photo estimates.",
+  "engines": {
+    "mujoco": {
+      "passed": true,
+      "reset_seeds": [
+        42,
+        43,
+        42
+      ],
+      "recorded_frames": 5,
+      "scope": "live properties, absolute reset, deterministic repeated reads, RGB/recording; no teacher validation"
+    },
+    "isaac": {
+      "passed": true,
+      "reset_seeds": [
+        42,
+        43,
+        42
+      ],
+      "recorded_frames": 5,
+      "scope": "live properties, absolute reset, deterministic repeated reads, RGB/recording; no teacher validation"
+    }
+  },
+  "isaac_pbr_connections_verified": true,
+  "source_files": {
+    "assets/blender/clean_table/manifest.json": "e94dedbe3977d65fcca13a33f2a23344a2ae332583d403abf0c921fe4aa72560",
+    "assets/blender/clean_table/props.blend": "d251b55ed78c53900c4d15e7467b048efc96cde4f47cdb1a7d1df08ccb57d4f7",
+    "assets/blender/clean_table/visual_meshes.npz": "4c12307c8554b5cb27ca9a55cddf67eebec68c74c9e1e7ac1829131cb2ba8250",
+    "assets/blender/clean_table/props.usdc": "23aa3576f23d2a710cd80becf5e8ff0764c8a9941fa4926e112138c8ce770560"
+  },
+  "texture_files": {
+    "assets/blender/clean_table/textures/cup_print.png": "484c59d7d4988f6231fd756382c4bd49e683f0e908ead8b082771a56a0fdf0d2",
+    "assets/blender/clean_table/textures/metal_albedo.png": "a767b1723970b2f6bd68e4d903716ad29b62b2b5be084e73145aecda99e1d734",
+    "assets/blender/clean_table/textures/metal_normal.png": "08fd1c811e8c6eafa666125d224e49e1bf1fd555b6f46bec79ece005f475a617",
+    "assets/blender/clean_table/textures/metal_roughness.png": "6cf7ba039039210065c02febf8c7285d16f7ac6f34bf3bdb169d4e94e00f6bfb",
+    "assets/blender/clean_table/textures/paper_albedo.png": "bab1e9145653365cf4a5ecc47ff03ef809c6b15fbf8b47cd5dae40fd9590892e",
+    "assets/blender/clean_table/textures/paper_normal.png": "3d704faa591b03f9d048a4f4453b8ebe41e8ad0cc5da278fd3e141b3e2910a9f",
+    "assets/blender/clean_table/textures/paper_roughness.png": "0e85245fafcb473ebf3ab65dde1b4e6a0e7d604dfb0ae359c66d5fa248360cea",
+    "assets/blender/clean_table/textures/plastic_albedo.png": "2c821790ab42c227ea4786aaf22405bb65258e0c5a1ab52aa0089512fd2947ac",
+    "assets/blender/clean_table/textures/plastic_normal.png": "66f63735f9d7b486a5dade86f76a99b7a0bcaf61b4a271ca9705ce10bd4c6a32",
+    "assets/blender/clean_table/textures/plastic_roughness.png": "b41d34da62f62e9722907ebe9e8982d74f80e5bec2f287f9a98f9e382a799c8a",
+    "assets/blender/clean_table/textures/porcelain_albedo.png": "7b9c0190ce143e1edbbd6d52b853d0f67f25d9ecc9fb0b82f67e52db18b9cb57",
+    "assets/blender/clean_table/textures/porcelain_normal.png": "a7c385e9983c4d44849a5fe0cbc62917f864d040441d5095899b04c6af188ace",
+    "assets/blender/clean_table/textures/porcelain_roughness.png": "4d7f93f953f99d97d7a9adfd05315f0bbea52fd9c89f1acd5e0b26df2f55f98e",
+    "assets/blender/clean_table/textures/rubber_albedo.png": "3a0bc7c5eaa7826d86ee291b566c3669f4679db6c7be95ef6b41e90da5384442",
+    "assets/blender/clean_table/textures/rubber_normal.png": "09f2325712feaaa3f0f8bdf7a72f739bdb2b50fe5e84f962a0edb9987273fbee",
+    "assets/blender/clean_table/textures/rubber_roughness.png": "e24be671424cfb6ae031ec2feaddae77d4a7af4abe6935e5db97ef0fa495844f",
+    "assets/blender/clean_table/textures/table_albedo.png": "e61f8438226159beb3aea0880070fec8e2a862916087f48057c2e2241100c1e7",
+    "assets/blender/clean_table/textures/table_normal.png": "b6391db1223254bc0bf027db6caabf40b36e425b3a95a4ffb53de29341d89ac9",
+    "assets/blender/clean_table/textures/table_roughness.png": "a041b9a2843b6d268401b56aa037866456b3c50da91ea0669c7954b7ebbbf052"
+  },
+  "images": {
+    "blender": "blender_scene.png",
+    "isaac": "isaac/scene.png",
+    "mujoco": "mujoco_comparison.jpg"
+  },
+  "rendering_note": "Blender Cycles presentation, Isaac RTX and native MuJoCo images use different renderers; only runtime sensors are training observations."
+}

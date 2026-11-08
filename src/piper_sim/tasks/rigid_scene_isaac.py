@@ -17,16 +17,38 @@ def _materials(stage,root,task):
         shader.CreateInput('diffuseColor',Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(*color))
         shader.CreateInput('roughness',Sdf.ValueTypeNames.Float).Set(s['roughness'])
         shader.CreateInput('metallic',Sdf.ValueTypeNames.Float).Set(s['metallic'])
-        if 'texture' in s:
+        shader.CreateInput('opacity',Sdf.ValueTypeNames.Float).Set(s.get('opacity',1.))
+        shader.CreateInput('ior',Sdf.ValueTypeNames.Float).Set(s.get('ior',1.5))
+        base_texture=s.get('texture',s.get('detail_texture'))
+        if base_texture or s.get('roughness_texture') or s.get('normal_texture'):
             reader=UsdShade.Shader.Define(stage,path+'/UV');reader.CreateIdAttr('UsdPrimvarReader_float2')
             reader.CreateInput('varname',Sdf.ValueTypeNames.Token).Set('st')
+        if base_texture:
             tex=UsdShade.Shader.Define(stage,path+'/Texture');tex.CreateIdAttr('UsdUVTexture')
-            tex.CreateInput('file',Sdf.ValueTypeNames.Asset).Set(str(task.material_path.parent/s['texture']))
+            tex.CreateInput('file',Sdf.ValueTypeNames.Asset).Set(str(task.material_path.parent/base_texture))
             tex.CreateInput('sourceColorSpace',Sdf.ValueTypeNames.Token).Set('sRGB')
             tex.CreateInput('wrapS',Sdf.ValueTypeNames.Token).Set('repeat')
             tex.CreateInput('wrapT',Sdf.ValueTypeNames.Token).Set('repeat')
             tex.CreateInput('st',Sdf.ValueTypeNames.Float2).ConnectToSource(reader.ConnectableAPI(),'result')
+            tex.CreateInput('scale',Sdf.ValueTypeNames.Float4).Set(Gf.Vec4f(*color,1.))
             shader.GetInput('diffuseColor').ConnectToSource(tex.ConnectableAPI(),'rgb')
+        for field,node_name,input_name in [('roughness_texture','RoughnessTexture','roughness'),
+                                            ('normal_texture','NormalTexture','normal')]:
+            if field not in s:continue
+            tex=UsdShade.Shader.Define(stage,path+'/'+node_name);tex.CreateIdAttr('UsdUVTexture')
+            tex.CreateInput('file',Sdf.ValueTypeNames.Asset).Set(str(task.material_path.parent/s[field]))
+            tex.CreateInput('sourceColorSpace',Sdf.ValueTypeNames.Token).Set('raw')
+            tex.CreateInput('wrapS',Sdf.ValueTypeNames.Token).Set('repeat')
+            tex.CreateInput('wrapT',Sdf.ValueTypeNames.Token).Set('repeat')
+            tex.CreateInput('st',Sdf.ValueTypeNames.Float2).ConnectToSource(reader.ConnectableAPI(),'result')
+            if input_name=='roughness':
+                tex.CreateInput('scale',Sdf.ValueTypeNames.Float4).Set(Gf.Vec4f(*([2*s['roughness']]*3),1.))
+                shader.GetInput('roughness').ConnectToSource(tex.ConnectableAPI(),'r')
+            else:
+                strength=s.get('normal_strength',1.)
+                tex.CreateInput('scale',Sdf.ValueTypeNames.Float4).Set(Gf.Vec4f(2*strength,2*strength,2.,1.))
+                tex.CreateInput('bias',Sdf.ValueTypeNames.Float4).Set(Gf.Vec4f(-strength,-strength,-1.,0.))
+                shader.CreateInput('normal',Sdf.ValueTypeNames.Normal3f).ConnectToSource(tex.ConnectableAPI(),'rgb')
         mat.CreateSurfaceOutput().ConnectToSource(shader.ConnectableAPI(),'surface')
         result[name]=mat
     contact=UsdShade.Material.Define(stage,root+'/Materials/Contact')
@@ -76,7 +98,9 @@ def spawn_task(task,root_path='/World/Task',object_root_path=None):
                 if 'uv' in part:
                     UsdGeom.PrimvarsAPI(mesh).CreatePrimvar('st',Sdf.ValueTypeNames.TexCoord2fArray,
                         UsdGeom.Tokens.vertex).Set(part['uv'])
-                if part.get('smooth',name!='paper'):
+                if 'normals' in part:
+                    mesh.CreateNormalsAttr(part['normals']);mesh.SetNormalsInterpolation('vertex')
+                elif part.get('smooth',name!='paper'):
                     normals=np.zeros_like(points)
                     fn=np.cross(points[faces[:,1]]-points[faces[:,0]],points[faces[:,2]]-points[faces[:,0]])
                     for i in range(3):np.add.at(normals,faces[:,i],fn)

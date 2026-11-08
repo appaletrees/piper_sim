@@ -50,6 +50,10 @@ bash scripts/run_mujoco.sh --config configs/paper_cups_workcell.yaml \
 
 尺寸按照片估算，当前为空杯刚体。见 [场景设置、接口与验收](docs/paper_cups_scene.md)。
 
+**Blender 刚体收桌场景：** 当前 `configs/tasks/clean_table_rigid.yaml` 默认启用 Blender 制作的纸杯、笔、充电头、餐具和篮筐外观，包含可编辑 `.blend`、UV、法线和材质贴图。保留原 CAD、相机、碰撞和控制采集接口；纸杯先叠放再整摞入篮。见 [Blender 编辑、仿真运行与验证](docs/blender_assets.md) 和 [域随机化采集](docs/domain_randomization_collection.md)。
+
+![Blender 资产在 Isaac RTX 仿真中的实际画面](outputs/blender_clean_table/isaac/scene.png)
+
 **视频餐桌收拾场景：** 新增独立 `clean_table` 任务，包含餐具篮、垃圾筐、盘碗汤匙、筷子、方碟、
 毛巾、纸团和带编织纹理的餐垫。两种引擎共享物体尺寸、摆放随机化、外部控制和录制接口。
 

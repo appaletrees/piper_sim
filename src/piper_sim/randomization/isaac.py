@@ -51,8 +51,12 @@ class IsaacRandomizer:
                 color = np.where(color <= .04045, color/12.92, ((color+.055)/1.055)**2.4)
             root = '/World/Task/Materials/'+name
             shader = UsdShade.Shader(self.stage.GetPrimAtPath(root+'/Surface'))
-            shader.GetInput('roughness').Set(float(np.clip(nominal['roughness']+p['roughness_delta'], 0, 1)))
-            if 'texture' in nominal:
+            roughness=float(np.clip(nominal['roughness']+p['roughness_delta'], 0, 1))
+            shader.GetInput('roughness').Set(roughness)
+            if 'roughness_texture' in nominal:
+                texture=UsdShade.Shader(self.stage.GetPrimAtPath(root+'/RoughnessTexture'))
+                texture.GetInput('scale').Set(Gf.Vec4f(*([2*roughness]*3),1.))
+            if 'texture' in nominal or 'detail_texture' in nominal:
                 texture = UsdShade.Shader(self.stage.GetPrimAtPath(root+'/Texture'))
                 texture.CreateInput('scale', Sdf.ValueTypeNames.Float4).Set(Gf.Vec4f(*color, 1.))
             else:

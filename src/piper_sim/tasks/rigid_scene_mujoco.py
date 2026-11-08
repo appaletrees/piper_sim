@@ -35,11 +35,12 @@ def compose_model(path,task):
         light.set('ambient','.08 .08 .08' if i==0 else '0 0 0')
     prefix='clean' if task.config['name']=='clean_table' else task.config['name']
     for name,m in task.materials.items():
-        attrs={'name':prefix+'/'+name,'rgba':nums([*m['color'],1]),
+        attrs={'name':prefix+'/'+name,'rgba':nums([*m['color'],m.get('opacity',1)]),
                'specular':str(m.get('mujoco_specular',.06+.50*(1-m['roughness']))),
                'shininess':str(m.get('mujoco_shininess',1-m['roughness'])), 'reflectance':str(m['metallic']*.15)}
-        if 'texture' in m:
-            ET.SubElement(asset,'texture',name=prefix+'/'+name,type='2d',file=str(task.material_path.parent/m['texture']),
+        texture=m.get('texture',m.get('detail_texture'))
+        if texture:
+            ET.SubElement(asset,'texture',name=prefix+'/'+name,type='2d',file=str(task.material_path.parent/texture),
                           vflip=str(m.get('mujoco_vflip',False)).lower())
             attrs.update(texture=prefix+'/'+name,texuniform='false',texrepeat='1 1')
             if name in ('white_table','table_gray','table_wood'):
@@ -75,6 +76,8 @@ def compose_model(path,task):
             full=f'task/{n}/{p["name"]}'
             attrs=dict(name=full,vertex=nums(p['points']),face=nums(p['faces']),inertia='shell')
             if 'uv' in p: attrs['texcoord']=nums(p['uv'])
+            if 'normals' in p:
+                attrs['normal']=nums(p['normals'])
             # Identical cups share one immutable geometry asset, not a body.
             if id(p) not in mesh_names:
                 ET.SubElement(asset,'mesh',**attrs)

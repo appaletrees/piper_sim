@@ -45,6 +45,9 @@ class CleanTableTask:
         self.material_path=ROOT/c['materials']
         materials=json.loads(self.material_path.read_text())
         self.materials=materials['materials']
+        # Authoring/appearance assets are independent of physical geometry above.
+        from .visual_assets import apply_visual_library
+        apply_visual_library(self)
         for n,spec in self.specs.items():
             if spec['kind']=='cup':
                 self.materials[n+'_print']=copy.deepcopy(self.materials['cup_body'])
@@ -246,6 +249,7 @@ class CleanTableTask:
                 'placement_bounds_xy_m':self.table_bounds.tolist(),
                 'original_table_bounds_xy_m':self.original_table_bounds.tolist(),
                 'materials':copy.deepcopy(self.materials),
+                'visual_assets':copy.deepcopy(self.visual_asset_metadata),
                 'domain_profile':copy.deepcopy(self.domain_profile),
                 'geometry_authority':'original workcell CAD; task object sizes estimated from video/photos',
                 'approximations':(['rigid towel, crumpled paper and placemat; no cloth deformation'] if 'towel' in self.specs else ['rigid empty cups; no crushing or liquid'])+[

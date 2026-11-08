@@ -1,0 +1,1343 @@
+{
+  "schema_version": 1,
+  "generator": "Blender 4.5.15 LTS",
+  "units": "metres",
+  "up_axis": "Z",
+  "mesh_archive": "visual_meshes.npz",
+  "objects": {
+    "plate": {
+      "prototype": "plate",
+      "spec": {
+        "kind": "plate",
+        "diameter_m": 0.19,
+        "height_m": 0.016,
+        "mass_kg": 0.24,
+        "position_xy_m": [
+          0.365,
+          -0.025
+        ],
+        "target": "basket"
+      }
+    },
+    "bowl": {
+      "prototype": "bowl",
+      "spec": {
+        "kind": "bowl",
+        "diameter_m": 0.105,
+        "height_m": 0.052,
+        "mass_kg": 0.12,
+        "position_xy_m": [
+          0.375,
+          -0.02
+        ],
+        "support": "plate",
+        "support_height_m": 0.006,
+        "target": "basket"
+      }
+    },
+    "spoon": {
+      "prototype": "spoon",
+      "spec": {
+        "kind": "spoon",
+        "size_m": [
+          0.145,
+          0.038,
+          0.014
+        ],
+        "mass_kg": 0.025,
+        "position_xy_m": [
+          0.35,
+          -0.02
+        ],
+        "support": "bowl",
+        "support_height_m": 0.053,
+        "yaw_deg": -12,
+        "target": "basket"
+      }
+    },
+    "chopstick_a": {
+      "prototype": "chopstick_a",
+      "spec": {
+        "kind": "chopstick",
+        "size_m": [
+          0.225,
+          0.006,
+          0.006
+        ],
+        "mass_kg": 0.008,
+        "position_xy_m": [
+          0.355,
+          -0.155
+        ],
+        "yaw_deg": 0,
+        "target": "basket",
+        "layout_jitter_scale": 0.1
+      }
+    },
+    "chopstick_b": {
+      "prototype": "chopstick_a",
+      "spec": {
+        "kind": "chopstick",
+        "size_m": [
+          0.225,
+          0.006,
+          0.006
+        ],
+        "mass_kg": 0.008,
+        "position_xy_m": [
+          0.354,
+          -0.171
+        ],
+        "yaw_deg": 1,
+        "target": "basket",
+        "layout_jitter_scale": 0.1
+      }
+    },
+    "side_dish": {
+      "prototype": "side_dish",
+      "spec": {
+        "kind": "side_dish",
+        "size_m": [
+          0.165,
+          0.105,
+          0.018
+        ],
+        "mass_kg": 0.13,
+        "position_xy_m": [
+          0.355,
+          0.145
+        ],
+        "yaw_deg": 4,
+        "target": "basket"
+      }
+    },
+    "basket": {
+      "prototype": "basket",
+      "spec": {
+        "kind": "basket",
+        "size_m": [
+          0.36,
+          0.31,
+          0.14
+        ],
+        "wall_m": 0.003,
+        "mass_kg": 0.28,
+        "position_xy_m": [
+          0.61,
+          -0.43
+        ],
+        "yaw_deg": 0
+      }
+    },
+    "cup_00": {
+      "prototype": "cup_00",
+      "spec": {
+        "height_m": 0.095,
+        "top_diameter_m": 0.08,
+        "bottom_diameter_m": 0.056,
+        "wall_m": 0.0006,
+        "rim_radius_m": 0.0012,
+        "floor_height_m": 0.005,
+        "mass_kg": 0.008,
+        "kind": "cup",
+        "target": "basket",
+        "position_xy_m": [
+          0.215,
+          0
+        ],
+        "yaw_deg": 180.0
+      }
+    },
+    "cup_01": {
+      "prototype": "cup_00",
+      "spec": {
+        "height_m": 0.095,
+        "top_diameter_m": 0.08,
+        "bottom_diameter_m": 0.056,
+        "wall_m": 0.0006,
+        "rim_radius_m": 0.0012,
+        "floor_height_m": 0.005,
+        "mass_kg": 0.008,
+        "kind": "cup",
+        "target": "basket",
+        "position_xy_m": [
+          0.25,
+          0.27
+        ],
+        "yaw_deg": 180.0
+      }
+    },
+    "cup_02": {
+      "prototype": "cup_00",
+      "spec": {
+        "height_m": 0.095,
+        "top_diameter_m": 0.08,
+        "bottom_diameter_m": 0.056,
+        "wall_m": 0.0006,
+        "rim_radius_m": 0.0012,
+        "floor_height_m": 0.005,
+        "mass_kg": 0.008,
+        "kind": "cup",
+        "target": "basket",
+        "position_xy_m": [
+          0.46,
+          0.29
+        ],
+        "yaw_deg": 180.0
+      }
+    },
+    "pen": {
+      "prototype": "pen",
+      "spec": {
+        "kind": "pen",
+        "size_m": [
+          0.15,
+          0.01,
+          0.012
+        ],
+        "mass_kg": 0.012,
+        "position_xy_m": [
+          0.32,
+          -0.24
+        ],
+        "yaw_deg": 3.0,
+        "target": "basket"
+      }
+    },
+    "charger": {
+      "prototype": "charger",
+      "spec": {
+        "kind": "charger",
+        "size_m": [
+          0.065,
+          0.065,
+          0.028
+        ],
+        "mass_kg": 0.1,
+        "position_xy_m": [
+          0.28,
+          -0.35
+        ],
+        "yaw_deg": -5.0,
+        "target": "basket"
+      }
+    }
+  },
+  "prototypes": {
+    "plate": [
+      {
+        "key": "plate_0",
+        "name": "blender_glazed_shell",
+        "material": "porcelain",
+        "vertices": 3362,
+        "triangles": 4096
+      },
+      {
+        "key": "plate_1",
+        "name": "blender_unglazed_foot_ring",
+        "material": "cup_paper",
+        "vertices": 1677,
+        "triangles": 3072
+      }
+    ],
+    "bowl": [
+      {
+        "key": "bowl_0",
+        "name": "blender_glazed_shell",
+        "material": "porcelain",
+        "vertices": 3581,
+        "triangles": 4352
+      },
+      {
+        "key": "bowl_1",
+        "name": "blender_unglazed_foot_ring",
+        "material": "cup_paper",
+        "vertices": 1677,
+        "triangles": 3072
+      }
+    ],
+    "spoon": [
+      {
+        "key": "spoon_0",
+        "name": "blender_spoon_cup",
+        "material": "porcelain",
+        "vertices": 1981,
+        "triangles": 2200
+      },
+      {
+        "key": "spoon_1",
+        "name": "blender_spoon_handle",
+        "material": "porcelain",
+        "vertices": 1499,
+        "triangles": 1694
+      }
+    ],
+    "chopstick_a": [
+      {
+        "key": "chopstick_a_0",
+        "name": "blender_gold_band",
+        "material": "gold",
+        "vertices": 160,
+        "triangles": 188
+      },
+      {
+        "key": "chopstick_a_1",
+        "name": "blender_lacquer",
+        "material": "chopstick",
+        "vertices": 159,
+        "triangles": 188
+      }
+    ],
+    "side_dish": [
+      {
+        "key": "side_dish_0",
+        "name": "blender_glazed_shell",
+        "material": "porcelain",
+        "vertices": 2725,
+        "triangles": 3336
+      }
+    ],
+    "basket": [
+      {
+        "key": "basket_0",
+        "name": "blender_perforated_shell",
+        "material": "basket",
+        "vertices": 335499,
+        "triangles": 370400
+      }
+    ],
+    "cup_00": [
+      {
+        "key": "cup_00_0",
+        "name": "blender_bottom_print_line",
+        "material": "cup_paper",
+        "vertices": 264,
+        "triangles": 256
+      },
+      {
+        "key": "cup_00_1",
+        "name": "blender_glued_seam",
+        "material": "cup_seam",
+        "vertices": 4,
+        "triangles": 2
+      },
+      {
+        "key": "cup_00_2",
+        "name": "blender_inner_floor",
+        "material": "cup_lining",
+        "vertices": 128,
+        "triangles": 126
+      },
+      {
+        "key": "cup_00_3",
+        "name": "blender_inner_wall",
+        "material": "cup_lining",
+        "vertices": 264,
+        "triangles": 256
+      },
+      {
+        "key": "cup_00_4",
+        "name": "blender_printed_badge",
+        "material": "cup_print",
+        "vertices": 66,
+        "triangles": 64
+      },
+      {
+        "key": "cup_00_5",
+        "name": "blender_printed_wall",
+        "material": "cup_body",
+        "vertices": 258,
+        "triangles": 256
+      },
+      {
+        "key": "cup_00_6",
+        "name": "blender_recess_wall",
+        "material": "cup_paper",
+        "vertices": 520,
+        "triangles": 512
+      },
+      {
+        "key": "cup_00_7",
+        "name": "blender_rolled_lip",
+        "material": "cup_rim",
+        "vertices": 2700,
+        "triangles": 4096
+      },
+      {
+        "key": "cup_00_8",
+        "name": "blender_underside",
+        "material": "cup_paper",
+        "vertices": 128,
+        "triangles": 126
+      },
+      {
+        "key": "cup_00_9",
+        "name": "blender_white_foot",
+        "material": "cup_paper",
+        "vertices": 264,
+        "triangles": 256
+      }
+    ],
+    "pen": [
+      {
+        "key": "pen_0",
+        "name": "blender_barcode_0",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_1",
+        "name": "blender_barcode_1",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_2",
+        "name": "blender_barcode_10",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_3",
+        "name": "blender_barcode_11",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_4",
+        "name": "blender_barcode_12",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_5",
+        "name": "blender_barcode_13",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_6",
+        "name": "blender_barcode_14",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_7",
+        "name": "blender_barcode_15",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_8",
+        "name": "blender_barcode_2",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_9",
+        "name": "blender_barcode_3",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_10",
+        "name": "blender_barcode_4",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_11",
+        "name": "blender_barcode_5",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_12",
+        "name": "blender_barcode_6",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_13",
+        "name": "blender_barcode_7",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_14",
+        "name": "blender_barcode_8",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_15",
+        "name": "blender_barcode_9",
+        "material": "rubber",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_16",
+        "name": "blender_barrel_label",
+        "material": "pen_label",
+        "vertices": 20,
+        "triangles": 12
+      },
+      {
+        "key": "pen_17",
+        "name": "blender_black_cap",
+        "material": "rubber",
+        "vertices": 756,
+        "triangles": 860
+      },
+      {
+        "key": "pen_18",
+        "name": "blender_button",
+        "material": "pen_metal",
+        "vertices": 700,
+        "triangles": 764
+      },
+      {
+        "key": "pen_19",
+        "name": "blender_cap_mould_ring_0",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_20",
+        "name": "blender_cap_mould_ring_1",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_21",
+        "name": "blender_cap_mould_ring_2",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_22",
+        "name": "blender_clear_barrel",
+        "material": "pen_barrel",
+        "vertices": 704,
+        "triangles": 764
+      },
+      {
+        "key": "pen_23",
+        "name": "blender_ink_reservoir",
+        "material": "pen_ink",
+        "vertices": 644,
+        "triangles": 1020
+      },
+      {
+        "key": "pen_24",
+        "name": "blender_metal_tip",
+        "material": "pen_metal",
+        "vertices": 408,
+        "triangles": 478
+      },
+      {
+        "key": "pen_25",
+        "name": "blender_pocket_clip",
+        "material": "rubber",
+        "vertices": 160,
+        "triangles": 188
+      },
+      {
+        "key": "pen_26",
+        "name": "blender_rubber_grip",
+        "material": "rubber",
+        "vertices": 703,
+        "triangles": 764
+      },
+      {
+        "key": "pen_27",
+        "name": "blender_rubber_grip_ring_0",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_28",
+        "name": "blender_rubber_grip_ring_1",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_29",
+        "name": "blender_rubber_grip_ring_2",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_30",
+        "name": "blender_rubber_grip_ring_3",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_31",
+        "name": "blender_rubber_grip_ring_4",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_32",
+        "name": "blender_rubber_grip_ring_5",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_33",
+        "name": "blender_rubber_grip_ring_6",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_34",
+        "name": "blender_rubber_grip_ring_7",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      },
+      {
+        "key": "pen_35",
+        "name": "blender_rubber_grip_ring_8",
+        "material": "rubber",
+        "vertices": 1677,
+        "triangles": 3072
+      }
+    ],
+    "charger": [
+      {
+        "key": "charger_0",
+        "name": "blender_abs_lower_half",
+        "material": "charger_white",
+        "vertices": 246,
+        "triangles": 428
+      },
+      {
+        "key": "charger_1",
+        "name": "blender_abs_upper_half",
+        "material": "charger_white",
+        "vertices": 246,
+        "triangles": 428
+      },
+      {
+        "key": "charger_2",
+        "name": "blender_adhesive_trace_0",
+        "material": "label_wear",
+        "vertices": 24,
+        "triangles": 22
+      },
+      {
+        "key": "charger_3",
+        "name": "blender_adhesive_trace_1",
+        "material": "label_wear",
+        "vertices": 24,
+        "triangles": 22
+      },
+      {
+        "key": "charger_4",
+        "name": "blender_adhesive_trace_2",
+        "material": "label_wear",
+        "vertices": 24,
+        "triangles": 22
+      },
+      {
+        "key": "charger_5",
+        "name": "blender_folded_prong_insert",
+        "material": "charger_white",
+        "vertices": 246,
+        "triangles": 428
+      },
+      {
+        "key": "charger_6",
+        "name": "blender_folded_prong_panel",
+        "material": "charger_panel",
+        "vertices": 246,
+        "triangles": 428
+      },
+      {
+        "key": "charger_7",
+        "name": "blender_mould_split_line",
+        "material": "charger_panel",
+        "vertices": 246,
+        "triangles": 428
+      },
+      {
+        "key": "charger_8",
+        "name": "blender_usb_port_opening",
+        "material": "rubber",
+        "vertices": 246,
+        "triangles": 428
+      },
+      {
+        "key": "charger_9",
+        "name": "blender_usb_port_surround",
+        "material": "pen_metal",
+        "vertices": 246,
+        "triangles": 428
+      },
+      {
+        "key": "charger_10",
+        "name": "blender_usb_port_tongue",
+        "material": "charger_panel",
+        "vertices": 246,
+        "triangles": 428
+      }
+    ]
+  },
+  "materials": {
+    "white_table": {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.43,
+      "metallic": 0.0,
+      "mujoco_specular": 0.06,
+      "texture": "textures/table_albedo.png",
+      "normal_texture": "textures/table_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/table_roughness.png"
+    },
+    "porcelain": {
+      "color": [
+        0.92,
+        0.925,
+        0.9
+      ],
+      "roughness": 0.23,
+      "metallic": 0.0,
+      "mujoco_specular": 0.18,
+      "mujoco_shininess": 0.3,
+      "normal_texture": "textures/porcelain_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/porcelain_roughness.png",
+      "detail_texture": "textures/porcelain_albedo.png"
+    },
+    "basket": {
+      "color": [
+        0.77,
+        0.7,
+        0.57
+      ],
+      "roughness": 0.54,
+      "metallic": 0.0,
+      "mujoco_specular": 0.1,
+      "normal_texture": "textures/plastic_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/plastic_roughness.png",
+      "detail_texture": "textures/plastic_albedo.png"
+    },
+    "bin": {
+      "color": [
+        0.32,
+        0.37,
+        0.37
+      ],
+      "roughness": 0.57,
+      "metallic": 0.12,
+      "mujoco_specular": 0.12
+    },
+    "chopstick": {
+      "color": [
+        0.025,
+        0.022,
+        0.018
+      ],
+      "roughness": 0.28,
+      "metallic": 0.0,
+      "normal_texture": "textures/plastic_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/plastic_roughness.png",
+      "detail_texture": "textures/plastic_albedo.png"
+    },
+    "gold": {
+      "color": [
+        0.65,
+        0.43,
+        0.13
+      ],
+      "roughness": 0.29,
+      "metallic": 0.72,
+      "normal_texture": "textures/metal_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/metal_roughness.png",
+      "detail_texture": "textures/metal_albedo.png"
+    },
+    "woven": {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.85,
+      "metallic": 0.0,
+      "texture": "../../tasks/clean_table/woven.png",
+      "mujoco_specular": 0.015
+    },
+    "mat_edge": {
+      "color": [
+        0.3,
+        0.22,
+        0.15
+      ],
+      "roughness": 0.85,
+      "metallic": 0.0,
+      "mujoco_specular": 0.01
+    },
+    "terry": {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.98,
+      "metallic": 0.0,
+      "texture": "../../tasks/clean_table/terry_albedo_v2.png",
+      "mujoco_specular": 0.0
+    },
+    "paper": {
+      "color": [
+        0.88,
+        0.88,
+        0.85
+      ],
+      "roughness": 0.97,
+      "metallic": 0.0,
+      "mujoco_specular": 0.0
+    },
+    "cotton_hem": {
+      "color": [
+        0.87,
+        0.87,
+        0.84
+      ],
+      "roughness": 0.96,
+      "metallic": 0.0,
+      "mujoco_specular": 0.0
+    },
+    "aluminum": {
+      "color": [
+        0.55,
+        0.57,
+        0.59
+      ],
+      "roughness": 0.3,
+      "metallic": 0.75,
+      "normal_texture": "textures/metal_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/metal_roughness.png",
+      "detail_texture": "textures/metal_albedo.png"
+    },
+    "rubber": {
+      "color": [
+        0.06,
+        0.065,
+        0.07
+      ],
+      "roughness": 0.95,
+      "metallic": 0.0,
+      "normal_texture": "textures/rubber_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/rubber_roughness.png",
+      "detail_texture": "textures/rubber_albedo.png"
+    },
+    "floor": {
+      "color": [
+        0.48,
+        0.5,
+        0.51
+      ],
+      "roughness": 0.87,
+      "metallic": 0.0
+    },
+    "wall": {
+      "color": [
+        0.77,
+        0.78,
+        0.77
+      ],
+      "roughness": 0.9,
+      "metallic": 0.0
+    },
+    "glass_panel": {
+      "color": [
+        0.27,
+        0.43,
+        0.51
+      ],
+      "roughness": 0.23,
+      "metallic": 0.15
+    },
+    "cup_print": {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.68,
+      "metallic": 0.0,
+      "texture": "../../tasks/paper_cups/cup_print.png",
+      "mujoco_vflip": true,
+      "normal_texture": "textures/paper_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/paper_roughness.png"
+    },
+    "cup_seam": {
+      "color": [
+        0.14,
+        0.19,
+        0.28
+      ],
+      "roughness": 0.7,
+      "metallic": 0.0,
+      "normal_texture": "textures/paper_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/paper_roughness.png",
+      "detail_texture": "textures/paper_albedo.png"
+    },
+    "cup_paper": {
+      "color": [
+        0.96,
+        0.95,
+        0.9
+      ],
+      "roughness": 0.63,
+      "metallic": 0.0,
+      "normal_texture": "textures/paper_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/paper_roughness.png",
+      "detail_texture": "textures/paper_albedo.png"
+    },
+    "cup_lining": {
+      "color": [
+        0.94,
+        0.925,
+        0.86
+      ],
+      "roughness": 0.46,
+      "metallic": 0.0,
+      "normal_texture": "textures/paper_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/paper_roughness.png",
+      "detail_texture": "textures/paper_albedo.png"
+    },
+    "cup_rim": {
+      "color": [
+        0.97,
+        0.965,
+        0.92
+      ],
+      "roughness": 0.46,
+      "metallic": 0.0,
+      "normal_texture": "textures/paper_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/paper_roughness.png",
+      "detail_texture": "textures/paper_albedo.png"
+    },
+    "charger_white": {
+      "color": [
+        0.95,
+        0.945,
+        0.92
+      ],
+      "roughness": 0.28,
+      "metallic": 0,
+      "normal_texture": "textures/plastic_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/plastic_roughness.png",
+      "detail_texture": "textures/plastic_albedo.png"
+    },
+    "charger_panel": {
+      "color": [
+        0.74,
+        0.73,
+        0.69
+      ],
+      "roughness": 0.48,
+      "metallic": 0,
+      "normal_texture": "textures/plastic_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/plastic_roughness.png",
+      "detail_texture": "textures/plastic_albedo.png"
+    },
+    "label_wear": {
+      "color": [
+        0.65,
+        0.66,
+        0.54
+      ],
+      "roughness": 0.8,
+      "metallic": 0
+    },
+    "pen_metal": {
+      "color": [
+        0.65,
+        0.67,
+        0.69
+      ],
+      "roughness": 0.2,
+      "metallic": 0.85,
+      "normal_texture": "textures/metal_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/metal_roughness.png",
+      "detail_texture": "textures/metal_albedo.png"
+    },
+    "pen_barrel": {
+      "color": [
+        0.82,
+        0.87,
+        0.89
+      ],
+      "roughness": 0.17,
+      "metallic": 0.0,
+      "normal_texture": "textures/plastic_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/plastic_roughness.png",
+      "detail_texture": "textures/plastic_albedo.png",
+      "opacity": 0.32,
+      "transmission": 0.65,
+      "ior": 1.46
+    },
+    "pen_label": {
+      "color": [
+        0.84,
+        0.84,
+        0.79
+      ],
+      "roughness": 0.8,
+      "metallic": 0,
+      "normal_texture": "textures/paper_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/paper_roughness.png",
+      "detail_texture": "textures/paper_albedo.png"
+    },
+    "table_gray": {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.55,
+      "metallic": 0.0,
+      "mujoco_specular": 0.06,
+      "texture": "../../tasks/clean_table/table_gray.png",
+      "normal_texture": "textures/table_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/table_roughness.png"
+    },
+    "table_wood": {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "roughness": 0.55,
+      "metallic": 0.0,
+      "mujoco_specular": 0.06,
+      "texture": "../../tasks/clean_table/table_wood.png",
+      "normal_texture": "textures/table_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/table_roughness.png"
+    },
+    "cup_body": {
+      "color": [
+        0.14,
+        0.19,
+        0.28
+      ],
+      "roughness": 0.68,
+      "metallic": 0.0,
+      "normal_texture": "textures/paper_normal.png",
+      "normal_strength": 0.45,
+      "roughness_texture": "textures/paper_roughness.png",
+      "detail_texture": "textures/paper_albedo.png"
+    },
+    "pen_ink": {
+      "color": [
+        0.025,
+        0.028,
+        0.03
+      ],
+      "roughness": 0.35,
+      "metallic": 0.0
+    }
+  },
+  "geometry_checks": {
+    "plate": {
+      "source_bounds_m": [
+        [
+          -0.095,
+          -0.095,
+          0.0
+        ],
+        [
+          0.095,
+          0.095,
+          0.016
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.0949999988079071,
+          -0.0949999988079071,
+          0.0
+        ],
+        [
+          0.0949999988079071,
+          0.0949999988079071,
+          0.01600000075995922
+        ]
+      ],
+      "max_bound_error_m": 1.1920928966180355e-09
+    },
+    "bowl": {
+      "source_bounds_m": [
+        [
+          -0.0525,
+          -0.0525,
+          0.0
+        ],
+        [
+          0.0525,
+          0.0525,
+          0.052
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.05249999836087227,
+          -0.05249999836087227,
+          0.0
+        ],
+        [
+          0.05249999836087227,
+          0.05249999836087227,
+          0.052000001072883606
+        ]
+      ],
+      "max_bound_error_m": 1.6391277293803519e-09
+    },
+    "spoon": {
+      "source_bounds_m": [
+        [
+          -0.0725,
+          -0.019,
+          0.0
+        ],
+        [
+          0.0725,
+          0.019,
+          0.014980000000000002
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.07249999791383743,
+          -0.01899999938905239,
+          0.0
+        ],
+        [
+          0.07249999791383743,
+          0.01899999938905239,
+          0.01498000044375658
+        ]
+      ],
+      "max_bound_error_m": 2.0861625621426683e-09
+    },
+    "chopstick_a": {
+      "source_bounds_m": [
+        [
+          -0.1125,
+          -0.0031,
+          -9.999999999999983e-05
+        ],
+        [
+          0.1125,
+          0.0031,
+          0.0060999999999999995
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.11249999701976776,
+          -0.003100000089034438,
+          -9.999999747378752e-05
+        ],
+        [
+          0.11249999701976776,
+          0.003100000089034438,
+          0.006099999882280827
+        ]
+      ],
+      "max_bound_error_m": 2.980232241545089e-09
+    },
+    "side_dish": {
+      "source_bounds_m": [
+        [
+          -0.0825,
+          -0.0525,
+          0.0
+        ],
+        [
+          0.0825,
+          0.0525,
+          0.018
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.08250000327825546,
+          -0.05249999836087227,
+          0.0
+        ],
+        [
+          0.08250000327825546,
+          0.05249999836087227,
+          0.017999999225139618
+        ]
+      ],
+      "max_bound_error_m": 3.2782554587607038e-09
+    },
+    "basket": {
+      "source_bounds_m": [
+        [
+          -0.18,
+          -0.155,
+          0.0
+        ],
+        [
+          0.18,
+          0.155,
+          0.14
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.18000000715255737,
+          -0.1550000011920929,
+          0.0
+        ],
+        [
+          0.18000000715255737,
+          0.1550000011920929,
+          0.14000000059604645
+        ]
+      ],
+      "max_bound_error_m": 7.152557379708213e-09
+    },
+    "cup_00": {
+      "source_bounds_m": [
+        [
+          -0.04,
+          -0.04,
+          0.0
+        ],
+        [
+          0.04,
+          0.04,
+          0.095
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.03999999910593033,
+          -0.03999999910593033,
+          0.0
+        ],
+        [
+          0.03999999910593033,
+          0.03999999910593033,
+          0.0949999988079071
+        ]
+      ],
+      "max_bound_error_m": 1.1920928966180355e-09
+    },
+    "pen": {
+      "source_bounds_m": [
+        [
+          -0.075,
+          -0.005,
+          0.0
+        ],
+        [
+          0.075,
+          0.005,
+          0.012
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.07500000298023224,
+          -0.004999999888241291,
+          0.0
+        ],
+        [
+          0.07500000298023224,
+          0.004999999888241291,
+          0.012000000104308128
+        ]
+      ],
+      "max_bound_error_m": 2.980232241545089e-09
+    },
+    "charger": {
+      "source_bounds_m": [
+        [
+          -0.0325,
+          -0.0325,
+          0.0
+        ],
+        [
+          0.0335,
+          0.0325,
+          0.028
+        ]
+      ],
+      "visual_bounds_m": [
+        [
+          -0.032499998807907104,
+          -0.032499998807907104,
+          0.0
+        ],
+        [
+          0.03350000083446503,
+          0.032499998807907104,
+          0.02800000086426735
+        ]
+      ],
+      "max_bound_error_m": 1.1920928966180355e-09
+    }
+  },
+  "collision_policy": "Use original task collision geometry and inertial bounds unchanged",
+  "material_status": "Photo-inspired estimated materials; not measured spectral response",
+  "source_sha256": "f97822b5a03b93549431c64086b2886d72ec555a4105e7667f986292f7f2ebc1",
+  "edited_blend_sha256": "d251b55ed78c53900c4d15e7467b048efc96cde4f47cdb1a7d1df08ccb57d4f7"
+}
