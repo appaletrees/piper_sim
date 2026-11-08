@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import shutil
 import sys
 import time
 
@@ -53,12 +54,11 @@ def main():
         def read(self):
             obs = super().read()
             if self.teacher:
-                obs.extras['teacher'] = {'name': self.teacher.name, 'grasp_mode': self.teacher.mode,
-                    'phase': self.teacher.phase, 'object': self.teacher.current,
-                    'active_assist': self.teacher.assist.active[1:] if self.teacher.assist and self.teacher.assist.active else None}
+                obs.extras['teacher'] = self.teacher.telemetry()
             return obs
         def metadata(self):
             return {**super().metadata(), 'teacher': self.teacher.metadata(), 'provenance': provenance,
+                    'collection_initial_target': self.teacher.q.tolist(),
                     'software': {'python': sys.version, 'numpy': np.__version__, 'mujoco': mujoco.__version__}}
 
     import yaml
@@ -98,6 +98,10 @@ def main():
         def frame_hook(t, obs):
             nonlocal frame_count
             frame_count += 1
+            if args.record and frame_count % 30 == 0:
+                reserve = settings.get('dataset', {}).get('min_free_disk_gib', 5.) * 1024**3
+                if shutil.disk_usage(args.output).free < reserve:
+                    raise OSError('RecordingStopped: free disk space fell below the configured reserve')
             if encoder is not None and frame_count % (2*args.video_speed) == 0:
                 im = Image.fromarray(backend._render(camera,1000,800))
                 draw = ImageDraw.Draw(im)
@@ -112,6 +116,9 @@ def main():
         session.teacher = teacher
         teacher.prepare(teacher.cups if args.objects==['cup_stack'] and hasattr(teacher,'cups') else args.objects)
         if args.record:
+            reserve = settings.get('dataset', {}).get('min_free_disk_gib', 5.) * 1024**3
+            if shutil.disk_usage(args.output).free < reserve:
+                raise OSError('RecordingStopped: insufficient free disk space for the configured reserve')
             instruction = ('先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮'
                            if backend.task.config.get('variant') == 'rigid_stack_v1'
                            else '纸巾放左盒；全部餐具放右篮；餐垫留桌面')
@@ -151,13 +158,15 @@ def main():
             accepted = bool(error is None and summary['success'] and not args.objects)
             if session and session.writer:
                 session.writer.f.attrs['quality'] = json.dumps(quality)
-                session.writer.f.attrs['accepted'] = accepted
+                session.writer.f.attrs['rollout_accepted'] = accepted
+                session.writer.f.attrs['accepted'] = False  # closed-file audit has not run yet
+                session.writer.f.attrs['training_ready'] = False
                 metadata = json.loads(session.writer.f.attrs['metadata'])
-                metadata['collection_outcome'] = {'accepted': accepted, 'error': error,
+                metadata['collection_outcome'] = {'accepted': False, 'rollout_accepted': accepted, 'error': error,
                     'teacher_events': teacher.events if teacher else [],
                     'object_results': teacher.results if teacher else []}
                 session.writer.f.attrs['metadata'] = json.dumps(metadata)
-            report = {'accepted': accepted, 'quality': quality,
+            report = {'accepted': False, 'training_ready': False, 'rollout_accepted': accepted, 'quality': quality,
                       'video_playback_speed':args.video_speed if args.video else None,
                       'robot_collision_peak': teacher.collision_peak if teacher else None,
                       'provenance': provenance,
@@ -178,9 +187,24 @@ def main():
             session.close()
         elif backend:
             backend.close()
-    if args.lerobot and recording and error is None:
+    # Re-open the CLOSED recording: a successful script is not sufficient to
+    # publish training data. State-only runs remain motion/task diagnostics.
+    if recording and Path(recording['path']).suffix == '.h5':
+        from piper_sim.collection_audit import audit_episode, save_audit
+        audit = audit_episode(recording['path'], require_rgb=args.rgb)
+        save_audit(recording['path'], audit, args.output/'audit.json')
+        report['accepted'] = audit['training_ready']
+        report['training_ready'] = audit['training_ready']
+        report['audit_passed'] = audit['passed']
+        report['audit_violations'] = audit['violations']
+        report['diagnostic_only'] = bool(args.objects or not args.rgb)
+        if not audit['passed'] and not args.objects:
+            error = error or 'DatasetRejected: '+', '.join(audit['violations'])
+            report['error'] = error
+        (args.output/'report.json').write_text(json.dumps(report, indent=2, ensure_ascii=False)+'\n')
+    if args.lerobot and recording and error is None and report.get('training_ready'):
         from piper_sim.lerobot_export import export_lerobot_v2
-        export_lerobot_v2([recording['path']], args.output/'lerobot_v2')
+        export_lerobot_v2([recording['path']], args.output/'lerobot_v2', require_quality=True)
     print(json.dumps({'output':str(args.output.resolve()), 'error':error, 'summary':summary},ensure_ascii=False),flush=True)
     return 2 if error else 0
 

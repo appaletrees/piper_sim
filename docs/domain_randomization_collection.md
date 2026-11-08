@@ -35,7 +35,8 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_clean_table.py \
 
 不传随机化配置时，教师使用固定两杯基准场景。`--nominal-fraction 0.2` 可在批次中按 seed
 混入基准场景。先用 `--states-only` 审计运动，再录制 RGB；状态审计不输出视觉训练集。
-`--objects` 只用于诊断，不能导出为完整任务合格样本。
+`--objects` 只用于诊断，不能导出为完整任务合格样本。v2 独立审计只接受完整刚体任务，
+所以子任务报告的 `audit_passed=false` 是预期结果；单件诊断可根据 `quality`、`results` 和 `error` 检查。
 
 ## 当前随机化维度
 
@@ -120,9 +121,9 @@ print(robot.meta['task_scene']['layout'])        # 本轮采样参数
 | --- | --- |
 | `episode.h5` | 30 Hz 状态/实际动作/下一状态、可选三路 RGB、物体真值和策略阶段 |
 | `report.json` | 成功与拒收原因、套叠事件、物理抓取统计、运动质检、配置/源码/素材 SHA-256 |
-| `audit.json` | 可用 `scripts/audit_rigid_sequence.py episode.h5 --output audit.json` 独立复核记录中的叠杯顺序；不改原数据 |
-| `accepted.jsonl` / `rejected.jsonl` | 全部采集尝试的分类，失败不混入合格清单 |
-| `lerobot_v2/` | 可选，只从合格完整 RGB episode 转换；继续保留质量与仿真来源信息 |
+| `audit.json` | v2 自动复检：文件、三路 RGB、运动、接触与任务；旧 `audit_rigid_sequence.py` 仅检查记录位姿 |
+| `accepted.jsonl` / `rejected.jsonl` / `diagnostics.jsonl` | 合格 RGB、拒收与仅状态诊断分开列出 |
+| `lerobot_v2_train/` / `lerobot_v2_validation/` | 可选，只从合格完整 RGB episode 转换；继续保留质量与仿真来源信息 |
 
 真值单独保存在 extras，视觉策略训练时应明确选择输入字段，避免把部署拿不到的真值混入观测。
 训练/验证按 seed 和场景组合切分，同轨迹的外观变体不要跨训练/验证集合。
@@ -153,9 +154,133 @@ print(robot.meta['task_scene']['layout'])        # 本轮采样参数
 运行时属性复位、三路成像和 HDF5 检查；HTTP 接口完成 0→42→0、2→3→2 杯切换，
 控制指令确认与三路 640×480 RGB 录制。这些接口检查不计作教师任务成功。
 
-完整教师复测使用状态记录；尚未批量生成完整 RGB 训练集。`nominal/demo.mp4` 为此前通过的
+上述上一轮教师复测使用状态记录；本轮完整 RGB 复检见文末。`nominal/demo.mp4` 为此前通过的
 固定两杯参考回合，4 倍速预览，早于充电头抓取和滚转筷子修复；报告保留当时源码指纹。
 新回合的 `final.png` 由记录末帧位姿离线渲染，用于核对摆放，不计作额外物理回合。
 
 开发中的充电头接近失败、滚转筷子 IK 失败都保留在报告中。不能把单件诊断或“10/11 件入篮”
 记为完整成功，也不能将有限 seed 的复测结果解释为整个随机分布的成功率。
+
+## 采集质量 v2：训练样本必须经过独立复检
+
+本项目参考 [LIBERO 的采集实现](https://github.com/Lifelong-Robot-Learning/LIBERO/blob/master/scripts/collect_demonstration.py)
+中的连续成功判定与状态/动作记录，以及 [RoboTwin 的采集流程](https://robotwin-platform.github.io/doc/usage/collect-data.html)
+中先筛选 seed、再采集的方式。**下面的数值阈值是 Piper 项目的验收配置，不是 LIBERO/RoboTwin
+公布的通用标准，也不代表已经取得相同的策略训练效果或真机成功率。**
+
+`configs/collection/clean_table.yaml` 的 `dataset` 与现有 `motion`、`quality` 一起决定验收。
+运行中的成功标志只叫 `rollout_accepted`；录制关闭后由 `piper_sim.collection_audit` 重新打开
+HDF5，从保存的动作、状态、物体位姿、接触证据和图像复检。只有完整 RGB 回合通过后，
+才设置 HDF5 和报告中的 `accepted=true, training_ready=true`。
+同目录的 `audit.json` 保存最终 HDF5 的 SHA-256；移动回合时需一起保留该审计文件。
+导出前与导出结束时都核对文件指纹，质检后被修改的文件必须重新审计，不能沿用旧的成功标志。
+
+| 门槛 | v2 检查 |
+| --- | --- |
+| 真正完成任务 | 按记录的全部物体位姿重算完整几何入篮；杯子必须先在桌面稳定套叠，再整摞入篮；全部物体结果齐全 |
+| 放置后稳定 | 末尾连续 ≥1 s 全部成功且未被夹持；各物体速度 ≤0.01 m/s、角速度 ≤0.10 rad/s |
+| 真实抓取 | 每件物体都有逐帧物理接触记录；双指接触比例 ≥98%、最长连续丢接触 ≤0.20 s、接触锚点滑移 ≤12 mm；拒绝辅助约束 |
+| 碰撞 | 记录的最大机器人障碍穿透 ≤4 mm；这是控制周期采样检查，不声称覆盖每个物理子步 |
+| 平滑 | 从实际写盘的动作和测量状态重算速度、加速度、jerk、跟踪误差和保持段抖动；不通过后期平滑伪造合格轨迹 |
+| 状态/动作连续 | 每段 `(obs_t, action_t, obs_t+1)` 时长为 1/30 s；相邻状态严格衔接、动作序号无缺口、SI 单位及通道顺序固定 |
+| 三路 RGB | 原生分辨率、RGB uint8、每帧相机时刻与状态一致；读取全部 before/after 图像，逐帧核对跨 transition 的像素连续性；核对内参和相机位姿格式 |
+| 图像可用性 | 空白/极端曝光图像占比 ≤1%，全回合完全重复图像比例 ≤98%；空间亮度标准差检查可以拒绝纯色帧。这是基础异常筛选，不是完整感知质量评分 |
+| 回合完整性 | 至少 150 帧、最长 900 s；缺字段、NaN、截断文件、子任务、失败回合、未完成独立审计一律不能进入训练集 |
+
+每帧接触证据保存在 `extras.teacher`；特权真值仍与部署用的 RGB/机器人状态分开。
+自动教师目前只支持 MuJoCo 的刚体收桌任务。记录包含仿真接触和近似物理参数，
+不会因为 `training_ready=true` 就被标成真机数据。
+
+默认批量流程：状态预检 → 同 seed 重新执行并录制完整 RGB → 文件复检 → 比较两遍的动作、
+机器人状态和物体轨迹指纹 → 接受或拒收。渲染速度不改变仿真采样周期；不同软件/硬件版本
+可能改变接触轨迹，此时应保留差异并重新验证。`--skip-preflight` 只跳过第一遍，不能跳过最后的验收。
+
+```bash
+# 默认质量流程；输出目录必须不存在。每阶段超时默认 7200 s。
+PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_clean_table.py \
+  --output outputs/curated_batch_001 --seeds 0 1 2 3 4 --lerobot
+
+# 快速诊断完整物理任务；只进入 diagnostics.jsonl，不进入 accepted.jsonl
+PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_clean_table.py \
+  --states-only --output outputs/motion_audit_001 --seeds 0 42
+
+# 对已关闭的原始文件重新审计；命令不修改原文件
+PYTHONPATH=src .venv-mujoco/bin/python scripts/audit_collected_episode.py \
+  outputs/curated_batch_001/episode_000000_seed_0/episode.h5 \
+  --output outputs/recheck_001.json
+
+# 从真正记录的三路 RGB 制作审阅图和视频，不重新摆姿态渲染
+PYTHONPATH=src .venv-mujoco/bin/python scripts/preview_collected_episode.py \
+  outputs/curated_batch_001/episode_000000_seed_0/episode.h5 \
+  --output outputs/review_001 --video --speed 4
+
+# 可选：无损合并相邻 transition 重复的 RGB 存储，保留原文件
+# 输出需要重新完整审计；同时保留生成的 compact.audit.json。
+PYTHONPATH=src .venv-mujoco/bin/python scripts/compact_collected_episode.py \
+  outputs/curated_batch_001/episode_000000_seed_0/episode.h5 \
+  --output outputs/compact.h5
+```
+
+合并存储采用 HDF5 虚拟数据集，`observation` / `next_observation` 的名字、形状、类型和像素值保持一致，
+在项目 h5py 读取、序列读取和 LeRobot 转换中验证过。复制时逐帧核对相邻图像完全相同；
+非连续相机流会拒绝合并。完整原生无损 RGB 体积很大，采集过程每 30 个控制帧检查磁盘余量，
+低于配置中的 5 GiB 预留空间就停止并拒收，保留原因和已完成的记录前缀。
+合并存储的命令需要额外的输出空间，并不会自动删除原文件。
+
+清单分为 `accepted.jsonl`、`rejected.jsonl`、`diagnostics.jsonl`，汇总保留全部尝试和失败原因。
+状态预检通过不算一个 RGB 成功样本。`--lerobot` 仅转换 accepted 回合，按固定 seed 家族分成
+`lerobot_v2_train` 与 `lerobot_v2_validation`；默认验证比例 0.2，不保证小批次一定两边都有样本。
+固定 nominal 场景无论用哪个 seed 都属于同一划分；同一随机布局的外观变体应复用 seed，
+且不同批次应保持同一个 `--validation-fraction`。真实项目若另行改变布局/资产生成规则，应按来源
+重新制定划分，不应仅依赖随机帧切分。
+
+导出器遇到带 `teacher` 的脚本数据会要求最终 RGB 验收；通用外部录制仍可做诊断转换。
+原始 HDF5 保留无损 RGB；LeRobot 视频采用 H.264 / CRF 18 / yuv420p，是有损编码，
+不是原始像素的无损替代。导出逐路解码核对帧数和尺寸，并保留源文件指纹、相机标定及 SI 单位旁路数据。
+要对外部输入使用相同导出门槛，可显式调用 `export_lerobot_v2(..., require_quality=True)`，
+但需要先提供当前审核器所要求的任务、接触和完整 RGB 证据。不会把普通遥操作录制自动认证为专家数据。
+
+当前策略仍由分段运动组成，完整收桌约需数百仿真秒；低抖动不等于人类动作效率。
+正式扩大采集规模前还需检查不同随机布局的失败分布，并用这些数据训练策略、做留出场景评估。
+
+### v2 实际采集验收（2026-11-08）
+
+本轮保留全部 5 个不同 seed 的物理诊断结果，没有调整阈值让失败回合过关。
+状态诊断通过 3/5；这不是随机分布的成功率估计，也不是 3 个 RGB 训练样本。
+
+| Seed | 实际物体入篮 | 质量结果 | 原因 |
+| --- | --- | --- | --- |
+| 0 | 10/10，两杯 | 状态诊断通过；同 seed 完整 RGB 复跑通过 | 两遍机器人动作/状态与物体轨迹指纹完全相同 |
+| 42 | 11/11，三杯 | 状态诊断通过 | 接触、运动、套叠顺序与最终稳定性通过 |
+| 1 | 11/11，三杯 | 状态诊断通过 | 接触、运动、套叠顺序与最终稳定性通过 |
+| 7 | 11/11，三杯 | 拒收 | 抓取第一根筷子时实测夹爪加速度 1.788 m/s²、jerk 57.402 m/s³，超过 1.0 与 50.0 的阈值 |
+| 43 | 10/11，三杯 | 拒收 | 后续搬运规划检测到右腕与篮筐的路径干涉 9.98 mm，停止任务 |
+
+seed 0 的完整 RGB 回合包含 **16,968 个 transition、565.6 s、三路 640×480 / 30 Hz RGB**。
+独立审计读取了全部 **101,808 张 before/after 图像**，没有发现像素衔接错误或基础图像异常。
+无损共享存储将本次 HDF5 从 61,778,705,522 B 减至 30,980,304,740 B（审计元数据追加前），
+三个相机的逐像素哈希及机器人/物体轨迹哈希均保持一致，合并后再次完整审计通过。
+原始 HDF5 只保存在本机；Git 保存小体积报告与实际记录画面的审阅图。
+
+同一完整回合已导出为 LeRobot v2.1，输出位于本机
+`outputs/collection_quality_v2/lerobot_v2_verified`。独立读回逐项核对全部 16,968 行状态、
+动作、帧序号和时间戳；三路视频均解码得到 16,968 帧、640×480、30 fps。
+每路抽查首、中、末三帧，压缩后的 RGB PSNR 为 38.93–45.01 dB；这是 9 帧压缩误差抽查，
+不是整个数据集的感知质量认证。HDF5 的无损原图继续保留。
+
+另对成功回合的**副本**进行故障注入：保留成功标志、将末帧碗移出篮筐，独立审计正确拒收
+`incomplete_final_inventory` 和 `unstable_final_placement`，原文件未修改。
+磁盘预留检查也通过单独的故障注入验证。回归测试 **129 项通过**，不包括正在独立开发的 PPO 测试。
+
+- [本轮汇总与局限](../outputs/collection_quality_v2/validation.json)
+- [完整 RGB 审计](../outputs/collection_quality_v2/rgb_seed_0/audit.json)
+- [LeRobot 转换与独立读回](../outputs/collection_quality_v2/lerobot_verified_report.json)
+- [失败回合清单](../outputs/collection_quality_v2/batch_holdout/rejected.jsonl)
+- [故障注入证据](../outputs/collection_quality_v2/fault_injection.json)
+
+![实际录制的三路 RGB，六个采样时刻，无重新渲染](../outputs/collection_quality_v2/rgb_review/camera_review.jpg)
+
+审阅图确认了杯子整摞搬运、碗直接放入篮筐以及最终桌面清空；中后段主要由右臂搬运，
+左腕画面大部分为桌面。这不是相机丢帧，但也不代表三路画面始终具有相同的信息量。
+目前只完整验证了 **1 个 RGB seed**，尚未以这些样本完成策略训练、留出任务评估或真机验证，
+因此不能宣称已经达到 LIBERO/RoboTwin 的整体训练质量。

@@ -1,4 +1,4 @@
-schema_version: 1
+schema_version: 2
 controller:
   gripper_kp_N_per_m: 1000.0
   gripper_kv_Ns_per_m: 120.0
@@ -27,3 +27,20 @@ quality:
   hold_velocity_rms_rad_s: 0.025
   hold_gripper_velocity_rms_m_s: 0.003
   max_robot_penetration_m: 0.004
+dataset:
+  # Project acceptance thresholds, not thresholds claimed by LIBERO/RoboTwin.
+  min_free_disk_gib: 5.0
+  required_cameras: [overhead, left_wrist, right_wrist]
+  min_frames: 150
+  max_duration_s: 900.0
+  timestamp_tolerance_s: 0.000001
+  max_grasp_slip_m: 0.012
+  max_contact_loss_s: 0.20
+  min_bilateral_contact_fraction: 0.98
+  final_stable_hold_s: 1.0
+  final_object_speed_m_s: 0.01
+  final_object_angular_speed_rad_s: 0.10
+  min_image_luma_std: 1.0
+  max_image_clipped_fraction: 0.995
+  max_bad_image_fraction: 0.01
+  max_identical_image_fraction: 0.98

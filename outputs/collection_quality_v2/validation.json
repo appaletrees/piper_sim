@@ -1,0 +1,440 @@
+{
+  "date": "2026-11-08",
+  "schema_version": "piper.collection.validation.v2",
+  "scope": "Closed-file quality gates for physical rigid-table scripted demonstrations; not a benchmark equivalence certification",
+  "state_diagnostics": {
+    "unique_seeds_attempted": 5,
+    "passed": 3,
+    "rejected": 2,
+    "episodes": [
+      {
+        "seed": 0,
+        "rgb": false,
+        "cup_count": 2,
+        "geometric_task_success": true,
+        "sorted_objects": 10,
+        "required_objects": 10,
+        "audit_passed": true,
+        "training_ready": false,
+        "simulation_end_s": 566.5999999970142,
+        "error": null,
+        "online_quality_violations": [],
+        "audit_violations": [],
+        "report": "outputs/collection_quality_v2/batch_state_0/episode_000000_seed_0/report.json",
+        "audit": "outputs/collection_quality_v2/batch_state_0/episode_000000_seed_0/audit.json",
+        "frames": 16968,
+        "final_stable_seconds": 18.766666666666758,
+        "max_robot_penetration_m": 0.0004969969668950705,
+        "max_grasp_slip_m": 0.003107614215768098,
+        "min_bilateral_contact_fraction": 1.0
+      },
+      {
+        "seed": 42,
+        "rgb": false,
+        "cup_count": 3,
+        "geometric_task_success": true,
+        "sorted_objects": 11,
+        "required_objects": 11,
+        "audit_passed": true,
+        "training_ready": false,
+        "simulation_end_s": 630.1666666627558,
+        "error": null,
+        "online_quality_violations": [],
+        "audit_violations": [],
+        "report": "outputs/collection_quality_v2/state_seed_42/report.json",
+        "audit": "outputs/collection_quality_v2/state_seed_42/audit.json",
+        "frames": 18875,
+        "final_stable_seconds": 15.633333333333288,
+        "max_robot_penetration_m": 0.0009171743719153366,
+        "max_grasp_slip_m": 0.0033231743953182446,
+        "min_bilateral_contact_fraction": 1.0
+      },
+      {
+        "seed": 1,
+        "rgb": false,
+        "cup_count": 3,
+        "geometric_task_success": true,
+        "sorted_objects": 11,
+        "required_objects": 11,
+        "audit_passed": true,
+        "training_ready": false,
+        "simulation_end_s": 637.3333333293182,
+        "error": null,
+        "online_quality_violations": [],
+        "audit_violations": [],
+        "report": "outputs/collection_quality_v2/batch_holdout/episode_000000_seed_1/report.json",
+        "audit": "outputs/collection_quality_v2/batch_holdout/episode_000000_seed_1/audit.json",
+        "frames": 19090,
+        "final_stable_seconds": 17.200000000000014,
+        "max_robot_penetration_m": 0.0005894677307007696,
+        "max_grasp_slip_m": 0.0035028442225690836,
+        "min_bilateral_contact_fraction": 1.0
+      },
+      {
+        "seed": 7,
+        "rgb": false,
+        "cup_count": 3,
+        "geometric_task_success": true,
+        "sorted_objects": 11,
+        "required_objects": 11,
+        "audit_passed": false,
+        "training_ready": false,
+        "simulation_end_s": 636.7666666626598,
+        "error": "QualityRejected: measured_gripper_acceleration, measured_gripper_jerk",
+        "online_quality_violations": [
+          "measured_gripper_acceleration",
+          "measured_gripper_jerk"
+        ],
+        "audit_violations": [
+          "ValueError: unsuccessful_episode"
+        ],
+        "report": "outputs/collection_quality_v2/batch_holdout/episode_000001_seed_7/report.json",
+        "audit": "outputs/collection_quality_v2/batch_holdout/episode_000001_seed_7/audit.json"
+      },
+      {
+        "seed": 43,
+        "rgb": false,
+        "cup_count": 3,
+        "geometric_task_success": false,
+        "sorted_objects": 10,
+        "required_objects": 11,
+        "audit_passed": false,
+        "training_ready": false,
+        "simulation_end_s": 585.0333333300792,
+        "error": "SortFailure: Planned path obstructed (9.98 mm): ['task/basket', 'right/link6']",
+        "online_quality_violations": [],
+        "audit_violations": [
+          "ValueError: unsuccessful_episode"
+        ],
+        "report": "outputs/collection_quality_v2/batch_holdout/episode_000002_seed_43/report.json",
+        "audit": "outputs/collection_quality_v2/batch_holdout/episode_000002_seed_43/audit.json"
+      }
+    ]
+  },
+  "rgb_validation": {
+    "unique_seeds": 1,
+    "seed": 0,
+    "passed": true,
+    "training_ready": true,
+    "frames": 16968,
+    "fps": 30.0,
+    "duration_s": 565.6,
+    "checked_before_after_images": 101808,
+    "cameras": {
+      "left_wrist": {
+        "shape": [
+          16968,
+          480,
+          640,
+          3
+        ],
+        "checked_images": 33936,
+        "bad_image_fraction": 0.0,
+        "identical_transition_fraction": 0.0,
+        "discontinuous_transitions": 0,
+        "rgb_sha256": "118bfdb0324892a4b6ed72171ad812e5f1c7fa453f50a639507c45e2ad2f8418"
+      },
+      "overhead": {
+        "shape": [
+          16968,
+          480,
+          640,
+          3
+        ],
+        "checked_images": 33936,
+        "bad_image_fraction": 0.0,
+        "identical_transition_fraction": 0.0,
+        "discontinuous_transitions": 0,
+        "rgb_sha256": "6cfcc4ef3d48865338ac5d7d2e577fff1b6bc21e8dab4330ffd7444f3c1975a5"
+      },
+      "right_wrist": {
+        "shape": [
+          16968,
+          480,
+          640,
+          3
+        ],
+        "checked_images": 33936,
+        "bad_image_fraction": 0.0,
+        "identical_transition_fraction": 0.0,
+        "discontinuous_transitions": 0,
+        "rgb_sha256": "a41ab9143a7ed9aa50afd24e8b542312a60d07a7eefe8fe916ded8e32036944e"
+      }
+    },
+    "source_sha256": "bf8860839830271c2623e4870ee74405d22ab5e8e79ef8da61f83e6ae4a97bc3",
+    "same_seed_state_and_rgb_joint_trajectory_identical": true,
+    "same_seed_state_and_rgb_object_trajectory_identical": true,
+    "trajectory_sha256": "c9fc5e952d1925a7be380b415118e788e6175c99682a8d6a77dd4533b59e8f9e",
+    "objects_sha256": "fed131b4037dabf0bc193636fde15fd6e103d64033dbd9c8333e89140b5c2c90",
+    "note": "RGB seed 0 repeats a state-only seed; not counted as an additional independent seed."
+  },
+  "lossless_storage": {
+    "frames": 16968,
+    "cameras": [
+      "left_wrist",
+      "overhead",
+      "right_wrist"
+    ],
+    "lossless": true,
+    "source_bytes": 61778705522,
+    "output_bytes": 30980304740,
+    "verified": "Every RGB chunk copied exactly; every shared frame checked for byte/pixel equality",
+    "original_source_sha256": "4de043bf69576f9bbf589f6eac014a0fc4f63d43937c11a0adbfee0289fa4ce2",
+    "compacted_source_sha256": "bf8860839830271c2623e4870ee74405d22ab5e8e79ef8da61f83e6ae4a97bc3",
+    "public_data_hashes_identical": true,
+    "audit_passed": true
+  },
+  "fault_injection": {
+    "test": "Last bowl pose moved outside basket in a copied successful recording; original success flags/metrics retained",
+    "source_unmodified_sha256": "42dc3a66fe4b5b166b504715b8aaa0ff137d5f68f0e9a09040a365380dd65115",
+    "saved_success_flag": true,
+    "rejected": true,
+    "violations": [
+      "task/incomplete_final_inventory",
+      "task/unstable_final_placement"
+    ],
+    "auditor_sha256": "1706d3de24e95272736ca34f0af27284828f4748746f0f4280ef8719348cc526"
+  },
+  "storage_guard_injection": {
+    "rejected": true,
+    "method": "Deliberately configured a 1000000 GiB reserve in an isolated profile, checked the fail-closed path before recording",
+    "error": "OSError: RecordingStopped: free disk space fell below the configured reserve",
+    "source": "outputs/collection_quality_v2/storage_guard/report.json",
+    "note": "The original full RGB run started before the storage guard was added; this guard is verified separately."
+  },
+  "regression": {
+    "passed": 129,
+    "elapsed_seconds": 81.08,
+    "command": "PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python -m pytest -q tests --ignore=tests/test_rl_geometry.py --ignore=tests/test_rl_policy.py",
+    "excluded": "Unrelated in-progress PPO tests",
+    "warning": "MuJoCo QVEL warning is from test_instability_autoreset_is_not_silently_exposed_as_valid_state; expected rejection path."
+  },
+  "visual_review": {
+    "source": "Actual recorded RGB, no rerender or repositioned objects",
+    "path": "outputs/collection_quality_v2/rgb_review/camera_review.jpg",
+    "observations": [
+      "Cup stack transfer, bowl released directly into basket, final table cleared are visible in the sampled frames.",
+      "Left wrist is mostly viewing the tabletop during the later right-arm transfers; stream integrity does not imply equal task information in every camera."
+    ]
+  },
+  "lerobot_export": {
+    "status": "passed",
+    "format": "LeRobot Dataset v2.1",
+    "output": "/home/midea/Desktop/piper_sim/outputs/collection_quality_v2/lerobot_v2_verified",
+    "episodes": 1,
+    "frames": 16968,
+    "videos": 3,
+    "fps": 30.0,
+    "units": "joint degrees; gripper width / 0.095 m",
+    "action_semantics": "applied absolute joint position targets, not next-state or desired user targets",
+    "timestamp_clock": "episode simulation time, frame_index/fps",
+    "source_timestamp_clock": "source host monotonic; not Unix time",
+    "sim_timestamp_clock": "original episode simulation clock",
+    "image_statistics": "all pre-encoding output RGB pixels, normalized 0..1",
+    "video_validation": "all encoded streams decoded with ffprobe; frame counts and shapes match",
+    "image_transforms": {
+      "left_wrist": {
+        "source_size": [
+          640,
+          480
+        ],
+        "output_size": [
+          640,
+          480
+        ],
+        "resized_size": [
+          640,
+          480
+        ],
+        "pad_left_top": [
+          0,
+          0
+        ],
+        "pixel_transform": [
+          [
+            1.0,
+            0,
+            0.0
+          ],
+          [
+            0,
+            1.0,
+            0.0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "mode": "native"
+      },
+      "overhead": {
+        "source_size": [
+          640,
+          480
+        ],
+        "output_size": [
+          640,
+          480
+        ],
+        "resized_size": [
+          640,
+          480
+        ],
+        "pad_left_top": [
+          0,
+          0
+        ],
+        "pixel_transform": [
+          [
+            1.0,
+            0,
+            0.0
+          ],
+          [
+            0,
+            1.0,
+            0.0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "mode": "native"
+      },
+      "right_wrist": {
+        "source_size": [
+          640,
+          480
+        ],
+        "output_size": [
+          640,
+          480
+        ],
+        "resized_size": [
+          640,
+          480
+        ],
+        "pad_left_top": [
+          0,
+          0
+        ],
+        "pixel_transform": [
+          [
+            1.0,
+            0,
+            0.0
+          ],
+          [
+            0,
+            1.0,
+            0.0
+          ],
+          [
+            0,
+            0,
+            1
+          ]
+        ],
+        "mode": "native"
+      }
+    },
+    "source_h5_preserved": true,
+    "uploaded": false,
+    "independent_readback": {
+      "cameras": {
+        "overhead": {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 480,
+          "pix_fmt": "yuv420p",
+          "avg_frame_rate": "30/1",
+          "nb_read_frames": "16968",
+          "compression_samples": [
+            {
+              "frame": 0,
+              "rgb_psnr_db": 41.77053936792709
+            },
+            {
+              "frame": 8484,
+              "rgb_psnr_db": 41.75596168999756
+            },
+            {
+              "frame": 16967,
+              "rgb_psnr_db": 42.169527304442276
+            }
+          ]
+        },
+        "left_wrist": {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 480,
+          "pix_fmt": "yuv420p",
+          "avg_frame_rate": "30/1",
+          "nb_read_frames": "16968",
+          "compression_samples": [
+            {
+              "frame": 0,
+              "rgb_psnr_db": 42.89672359066385
+            },
+            {
+              "frame": 8484,
+              "rgb_psnr_db": 44.804194889516005
+            },
+            {
+              "frame": 16967,
+              "rgb_psnr_db": 45.011005934074205
+            }
+          ]
+        },
+        "right_wrist": {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 480,
+          "pix_fmt": "yuv420p",
+          "avg_frame_rate": "30/1",
+          "nb_read_frames": "16968",
+          "compression_samples": [
+            {
+              "frame": 0,
+              "rgb_psnr_db": 41.14974337944193
+            },
+            {
+              "frame": 8484,
+              "rgb_psnr_db": 38.92745368150364
+            },
+            {
+              "frame": 16967,
+              "rgb_psnr_db": 44.041146305439355
+            }
+          ]
+        }
+      },
+      "sampled_video_frames": [
+        0,
+        8484,
+        16967
+      ],
+      "state_action_readback_exact": true,
+      "all_frames_aligned": true,
+      "encoding": "H.264 CRF 18 yuv420p; lossy, original RGB retained in lossless HDF5",
+      "compression_review_scope": "Three decoded frames per camera; PSNR is reported, not a complete perceptual quality score."
+    }
+  },
+  "limitations": [
+    "Only one complete native RGB seed validated; five state seeds do not establish the distribution-wide success rate.",
+    "Teacher is smooth but segmented and slow (approximately 9-10.6 simulated minutes per completed episode).",
+    "Seeds 7 and 43 are rejected, not repaired or silently removed from the evaluation denominator.",
+    "Camera checks cover synchronization, integrity and basic blank/frozen/exposure anomalies, not semantic visibility or perceptual realism scores.",
+    "Contact evidence is sampled at 30 Hz, not at every physics substep.",
+    "No policy training, held-out policy success measurement, or real-robot transfer evaluation was performed.",
+    "Physical rigid-object teacher and audit are MuJoCo-specific; general external recordings are not automatically expert-certified."
+  ],
+  "references": [
+    "https://github.com/Lifelong-Robot-Learning/LIBERO/blob/master/scripts/collect_demonstration.py",
+    "https://robotwin-platform.github.io/doc/usage/collect-data.html"
+  ]
+}

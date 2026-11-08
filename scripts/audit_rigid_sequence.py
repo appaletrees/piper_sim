@@ -56,7 +56,7 @@ def main():
                   'all_cups_nested_and_contained': bool(final_cups),
                   'all_required_objects_contained': bool(full_containment),
                   'source_episode_accepted': bool(source.attrs.get('accepted', False)),
-                  'passed': bool(uniform and sequence and final_cups)}
+                  'passed': bool(uniform and sequence and final_cups and full_containment)}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False)+'\n')
     print(json.dumps(result, ensure_ascii=False))

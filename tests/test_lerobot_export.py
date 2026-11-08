@@ -11,7 +11,7 @@ pytest.importorskip('pyarrow')
 import pyarrow.parquet as pq
 from piper_sim.contracts import Command, Observation
 from piper_sim.recording import EpisodeWriter
-from piper_sim.lerobot_export import export_lerobot_v2, _image_transform
+from piper_sim.lerobot_export import export_lerobot_v2, _image_transform, _inspect, _sha256
 from piper_sim.lerobot_alignment import CONNECTOR_PLUGIN_NAMES
 
 pytestmark = pytest.mark.skipif(not shutil.which('ffmpeg'), reason='ffmpeg is an optional export dependency')
@@ -84,6 +84,33 @@ def test_native_resolution_and_state_only(tmp_path):
     assert transform['resized_size']==[640,360] and transform['pad_left_top']==[0,60]
     native=_image_transform((32,64,3),None)
     np.testing.assert_array_equal(native['pixel_transform'],np.eye(3))
+
+
+def test_scripted_or_curated_export_requires_final_quality_gate(tmp_path):
+    src = episode(tmp_path/'source.h5')
+    with pytest.raises(ValueError, match='passed RGB dataset audit'):
+        export_lerobot_v2(src, tmp_path/'curated', require_quality=True)
+    with h5py.File(src, 'r+') as f:
+        meta = json.loads(f.attrs['metadata'])
+        meta['teacher'] = {'physical_only': True}
+        f.attrs['metadata'] = json.dumps(meta)
+        f.attrs['accepted'] = True  # an old success flag alone cannot bypass the gate
+    with pytest.raises(ValueError, match='passed RGB dataset audit'):
+        export_lerobot_v2(src, tmp_path/'scripted')
+
+
+def test_export_rejects_data_changed_after_audit(tmp_path):
+    src = episode(tmp_path/'source.h5')
+    audit = {'passed': True, 'training_ready': True, 'violations': []}
+    with h5py.File(src, 'r+') as f:
+        f.attrs.update(accepted=True, training_ready=True, success=True,
+                       dataset_audit=json.dumps(audit), dataset_audit_sidecar='audit.json')
+    (tmp_path/'audit.json').write_text(json.dumps({**audit, 'source_sha256': _sha256(src)}))
+    assert _inspect(src, require_quality=True)['audited_sha256']
+    with h5py.File(src, 'r+') as f:
+        f['observation/images/overhead'][0] = 0  # Shape and timestamps still look valid.
+    with pytest.raises(ValueError, match='changed after its dataset audit'):
+        _inspect(src, require_quality=True)
 
 
 def test_preserves_final_collection_quality_and_rejection(tmp_path):

@@ -81,8 +81,8 @@ class CleanTableTeacher:
     def metadata(self):
         return {'name': self.name, 'grasp_mode': self.mode,
                 'privileged_inputs': ['object poses', 'container poses', 'geometry', 'contacts', 'robot kinematics'],
-                'physical_only': self.mode == 'physical', 'training_ready': False,
-                'training_note': 'Scripted demo; assisted mode is not a physical grasp-success benchmark.',
+                'physical_only': self.mode == 'physical',
+                'training_note': 'Training acceptance is determined only by the final closed-file dataset audit.',
                 'arm_bias_feedforward': True, **self.settings['controller'],
                 'finger_friction': [1., .015, .002],
                 'multiccd': True,
@@ -97,6 +97,23 @@ class CleanTableTeacher:
         record = {'phase': phase, 'object': self.current, 'sim_time': self.b.sim_time, **fields}
         self.events.append(record)
         print(record, flush=True)
+
+    def telemetry(self):
+        """Read-only evidence captured with each state, before the writer appends it."""
+        depth, pair = robot_penetration(self.b.model, self.b.data, self.current)
+        grasp = None
+        if self.carried:
+            side, name, relative = self.carried
+            hand, obj = self.b.data.body(side+'/link6'), self.b.data.body('task/'+name)
+            anchor = hand.xmat.reshape(3, 3).T @ (
+                obj.xpos + obj.xmat.reshape(3, 3) @ self.carried_anchor - hand.xpos)
+            grasp = {'object': name, 'side': side,
+                     'contact_fingers': sorted(finger_contacts(self.b, side, name)),
+                     'slip_m': float(np.linalg.norm(anchor-relative))}
+        return {'name': self.name, 'grasp_mode': self.mode, 'phase': self.phase,
+                'object': self.current, 'holding': self.holding, 'grasp': grasp,
+                'robot_penetration_m': depth, 'robot_collision_pair': pair,
+                'active_assist': self.assist.active[1:] if self.assist and self.assist.active else None}
 
     def step(self):
         # Robot feedforward only; free task objects always obey the physics solver.

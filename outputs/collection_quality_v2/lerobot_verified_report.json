@@ -1,0 +1,206 @@
+{
+  "format": "LeRobot Dataset v2.1",
+  "output": "/home/midea/Desktop/piper_sim/outputs/collection_quality_v2/lerobot_v2_verified",
+  "episodes": 1,
+  "frames": 16968,
+  "videos": 3,
+  "fps": 30.0,
+  "units": "joint degrees; gripper width / 0.095 m",
+  "action_semantics": "applied absolute joint position targets, not next-state or desired user targets",
+  "timestamp_clock": "episode simulation time, frame_index/fps",
+  "source_timestamp_clock": "source host monotonic; not Unix time",
+  "sim_timestamp_clock": "original episode simulation clock",
+  "image_statistics": "all pre-encoding output RGB pixels, normalized 0..1",
+  "video_validation": "all encoded streams decoded with ffprobe; frame counts and shapes match",
+  "image_transforms": {
+    "left_wrist": {
+      "source_size": [
+        640,
+        480
+      ],
+      "output_size": [
+        640,
+        480
+      ],
+      "resized_size": [
+        640,
+        480
+      ],
+      "pad_left_top": [
+        0,
+        0
+      ],
+      "pixel_transform": [
+        [
+          1.0,
+          0,
+          0.0
+        ],
+        [
+          0,
+          1.0,
+          0.0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "mode": "native"
+    },
+    "overhead": {
+      "source_size": [
+        640,
+        480
+      ],
+      "output_size": [
+        640,
+        480
+      ],
+      "resized_size": [
+        640,
+        480
+      ],
+      "pad_left_top": [
+        0,
+        0
+      ],
+      "pixel_transform": [
+        [
+          1.0,
+          0,
+          0.0
+        ],
+        [
+          0,
+          1.0,
+          0.0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "mode": "native"
+    },
+    "right_wrist": {
+      "source_size": [
+        640,
+        480
+      ],
+      "output_size": [
+        640,
+        480
+      ],
+      "resized_size": [
+        640,
+        480
+      ],
+      "pad_left_top": [
+        0,
+        0
+      ],
+      "pixel_transform": [
+        [
+          1.0,
+          0,
+          0.0
+        ],
+        [
+          0,
+          1.0,
+          0.0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "mode": "native"
+    }
+  },
+  "source_h5_preserved": true,
+  "uploaded": false,
+  "independent_readback": {
+    "cameras": {
+      "overhead": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "avg_frame_rate": "30/1",
+        "nb_read_frames": "16968",
+        "compression_samples": [
+          {
+            "frame": 0,
+            "rgb_psnr_db": 41.77053936792709
+          },
+          {
+            "frame": 8484,
+            "rgb_psnr_db": 41.75596168999756
+          },
+          {
+            "frame": 16967,
+            "rgb_psnr_db": 42.169527304442276
+          }
+        ]
+      },
+      "left_wrist": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "avg_frame_rate": "30/1",
+        "nb_read_frames": "16968",
+        "compression_samples": [
+          {
+            "frame": 0,
+            "rgb_psnr_db": 42.89672359066385
+          },
+          {
+            "frame": 8484,
+            "rgb_psnr_db": 44.804194889516005
+          },
+          {
+            "frame": 16967,
+            "rgb_psnr_db": 45.011005934074205
+          }
+        ]
+      },
+      "right_wrist": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "avg_frame_rate": "30/1",
+        "nb_read_frames": "16968",
+        "compression_samples": [
+          {
+            "frame": 0,
+            "rgb_psnr_db": 41.14974337944193
+          },
+          {
+            "frame": 8484,
+            "rgb_psnr_db": 38.92745368150364
+          },
+          {
+            "frame": 16967,
+            "rgb_psnr_db": 44.041146305439355
+          }
+        ]
+      }
+    },
+    "sampled_video_frames": [
+      0,
+      8484,
+      16967
+    ],
+    "state_action_readback_exact": true,
+    "all_frames_aligned": true,
+    "encoding": "H.264 CRF 18 yuv420p; lossy, original RGB retained in lossless HDF5",
+    "compression_review_scope": "Three decoded frames per camera; PSNR is reported, not a complete perceptual quality score."
+  }
+}
