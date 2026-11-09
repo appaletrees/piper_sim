@@ -60,3 +60,67 @@ def test_linear_candidate_preserves_endpoints_and_joint_limits_without_clipping(
     np.testing.assert_allclose(np.diff(np.vstack([start,targets]),axis=0),np.tile((end-start)/32,(32,1)),atol=1e-16)
     assert np.all(targets >= np.minimum(start,end)) and np.all(targets <= np.maximum(start,end))
     assert targets.shape == (32,3)
+
+
+@pytest.mark.parametrize('tendon', [False, True])
+@pytest.mark.parametrize('reference', [0., .4, 100., -100.])
+def test_velocity_reference_has_analytic_pd_force_inside_original_actuator_limit(tendon, reference):
+    bodies = '<body><joint name="a" type="slide"/><geom size=".05" mass="1"/></body>'
+    transmission = 'joint="a"'
+    extra = ''
+    if tendon:
+        bodies += '<body pos=".2 0 0"><joint name="b" type="slide"/><geom size=".05" mass="1"/></body>'
+        extra = '<tendon><fixed name="width"><joint joint="a" coef="1"/><joint joint="b" coef="1"/></fixed></tendon>'
+        transmission = 'tendon="width"'
+    original = mujoco.MjModel.from_xml_string(f'''<mujoco><option gravity="0 0 0"/>
+        <worldbody>{bodies}</worldbody>{extra}<actuator>
+        <position {transmission} kp="40" kv="4" forcerange="-10 10"/>
+        </actuator></mujoco>''')
+    model = copy.copy(original); data = mujoco.MjData(model)
+    data.qpos[:] = .05/model.nq; data.qvel[:] = .3/model.nv; data.ctrl[:] = .2
+    module.set_velocity_reference(model, [0], [reference])
+    mujoco.mj_forward(model, data)
+    assert data.actuator_force[0] == pytest.approx(np.clip(40*(.2-.05)+4*(reference-.3),-10,10))
+    np.testing.assert_array_equal(data.qfrc_applied, np.zeros(model.nv))
+    assert original.actuator_biasprm[0,0] == 0  # no mutation of the baseline model
+
+
+@pytest.mark.parametrize('actuator,ids,velocity', [('motor',[0],[.1]),('position',[0],[np.nan]),
+    ('position',[-1],[0.]),('position',[0,0],[0.,0.])])
+def test_invalid_velocity_reference_preserves_model(actuator,ids,velocity):
+    model=mujoco.MjModel.from_xml_string(f'''<mujoco><worldbody><body><joint name="a"/>
+        <geom size=".05"/></body></worldbody><actuator><{actuator} joint="a"/></actuator></mujoco>''')
+    original = model.actuator_biasprm.copy()
+    with pytest.raises(ValueError): module.set_velocity_reference(model, ids, velocity)
+    np.testing.assert_array_equal(model.actuator_biasprm, original)
+
+
+def test_hermite_linear_motion_matches_exact_position_and_velocity():
+    q=np.array([.2,.03]);v=np.array([.5,-.1]);dt=1/30
+    targets,speeds=module.hermite_targets(q,q+dt*v,v,v,dt,32)
+    np.testing.assert_allclose(targets,q+np.arange(1,33)[:,None]*dt/32*v,atol=1e-15)
+    np.testing.assert_allclose(speeds,np.tile(v,(32,1)),atol=1e-14)
+    np.testing.assert_array_equal(targets[-1],q+dt*v)
+    np.testing.assert_array_equal(speeds[-1],v)
+
+
+def test_hermite_stop_keeps_overshoot_visible_instead_of_clipping():
+    q,v=module.hermite_targets([0.],[0.],[1.],[0.],1/30,32)
+    assert q.max()>0 and v.min()<0  # constant endpoints do not imply a constant path
+    assert q[-1,0] == v[-1,0] == 0
+
+
+def test_bounded_hermite_explicitly_limits_derivatives_at_stop():
+    q,v=module.bounded_hermite_targets([0.],[0.],[1.],[0.],1/30,32)
+    np.testing.assert_array_equal(q,np.zeros((32,1)))
+    np.testing.assert_array_equal(v,np.zeros((32,1)))
+
+
+@pytest.mark.parametrize('start_speed,end_speed', [(-100,100),(100,100),(100,-100),(-100,-100),(1,0)])
+def test_bounded_hermite_keeps_all_applied_targets_monotone(start_speed,end_speed):
+    a=np.array([-.4,.095]);b=np.array([.3,0.])
+    q,v=module.bounded_hermite_targets(a,b,[start_speed]*2,[end_speed]*2,1/30,32)
+    assert np.all(q >= np.minimum(a,b)) and np.all(q <= np.maximum(a,b))
+    assert np.all(np.diff(np.vstack([a,q]),axis=0)[:,0]>=0)
+    assert np.all(np.diff(np.vstack([a,q]),axis=0)[:,1]<=0)
+    np.testing.assert_array_equal(q[-1],b)

@@ -1,0 +1,23 @@
+{
+  "status": "short_window_passed_full_task_unverified",
+  "training_ready": false,
+  "production_modified": false,
+  "diagnostic_report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/substep_bounded_hermite_seed0_v1/report.json",
+  "diagnostic_report_sha256": "52e1b75df837a66f7578a765c2a5c94f4c91b6e67d488a94c88778f54d5f37a5",
+  "tests": {
+    "command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q tests/test_substep_observer.py",
+    "passed": 32,
+    "seconds": 0.23
+  },
+  "controller_force": "kp*(position_reference-actuator_length)+kv*(velocity_reference-actuator_velocity), inside original actuator force clamp",
+  "implementation_reference": "https://mujoco.readthedocs.io/en/3.3.7/XMLreference.html#actuator-general-biastype",
+  "source_and_candidate_timing_unchanged": true,
+  "limitations": [
+    "Full task contact/lift/release and new dataset audit remain unverified.",
+    "Existing gravity bias compensation is unchanged and is outside the actuator force clamp; no hardware total-torque claim.",
+    "Only reference generation is checked over complete stored action sequences; those are not new closed-loop trajectories.",
+    "Derivative limiter can break C1 continuity: maximum observed reference jump across these stored action sequences is about 0.0573 rad/s or 0.000491 m/s.",
+    "Real hardware controller response is not calibrated. Substep derivatives and the 30 Hz motion gate use different bandwidths."
+  ],
+  "required_next_step": "Finish frozen throughput comparison before changing production inputs; test an explicit optional controller over complete tasks with original audit gates and recorded controller semantics."
+}

@@ -1,0 +1,554 @@
+{
+  "scope": "Check candidate internal targets over stored actions without running physics.\n\nThis is an offline feasibility check, not a closed-loop rollout or quality grant.\nThe controller receives only the current and previous accepted target. Existing\nfloat32 source quantization and any additional interpolation overshoot are both\nreported, without silently clipping either input or internal target.\n",
+  "training_ready": false,
+  "physics_run": false,
+  "implementation_sha256": "b649ba478f3fec4474dd4231102aee03e48f7131f1a45519753f3d5893ee4187",
+  "interpolator_sha256": "6f7f04e8556da62b0655dce137c44496969079f461650bce917da805d1971926",
+  "lower_bounds": [
+    -2.618,
+    0.0,
+    -2.967,
+    -1.745,
+    -1.22,
+    -2.0944,
+    0.0,
+    -2.618,
+    0.0,
+    -2.967,
+    -1.745,
+    -1.22,
+    -2.0944,
+    0.0
+  ],
+  "upper_bounds": [
+    2.618,
+    3.14,
+    0.0,
+    1.745,
+    1.22,
+    2.0944,
+    0.095,
+    2.618,
+    3.14,
+    0.0,
+    1.745,
+    1.22,
+    2.0944,
+    0.095
+  ],
+  "candidate": "hermite_velocity",
+  "runs": [
+    {
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000000_seed_0/episode.h5",
+      "source_sha256": "2420b5d60870adc66407e31ab908c1833227e707b4b93388a148c6d05b6d05a1",
+      "seed": 0,
+      "frames": 6930,
+      "control_dt": 0.03333333333333144,
+      "substeps": 32,
+      "stored_input_max_excess_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "candidate_max_excess_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        9.630905697111114e-07,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.2319041416075649e-05,
+        0.0,
+        9.769236408718738e-07
+      ],
+      "frames_with_any_excess": 27,
+      "first_examples": [
+        {
+          "frame": 98,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 4.279166666666504,
+          "target": 0.09500002987624612,
+          "excess_si": 2.987624611594519e-08,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 99,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 4.311458333333169,
+          "target": 0.0950000010138865,
+          "excess_si": 1.013886502532202e-09,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 571,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 20.045833333335654,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 572,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 20.07812500000229,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 863,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 29.779166666660135,
+          "target": 0.09500004566507414,
+          "excess_si": 4.566507413872323e-08,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 864,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 29.811458333326772,
+          "target": 0.0950000032198659,
+          "excess_si": 3.2198659016824394e-09,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1315,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 44.845833333313095,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1316,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 44.87812499997973,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1617,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 54.912499999970606,
+          "target": -3.4301280538162615e-07,
+          "excess_si": 3.4301280538162615e-07,
+          "current_accepted_target": 0.0
+        },
+        {
+          "frame": 1618,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 54.944791666637244,
+          "target": -3.929673876145595e-08,
+          "excess_si": 3.929673876145595e-08,
+          "current_accepted_target": 0.0
+        },
+        {
+          "frame": 2005,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 67.84583333329219,
+          "target": 0.09500003911671229,
+          "excess_si": 3.9116712285958144e-08,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 2006,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 67.87812499995883,
+          "target": 0.0950000032198659,
+          "excess_si": 3.2198659016824394e-09,
+          "current_accepted_target": 0.0949999988079071
+        }
+      ],
+      "all_internal_targets_within_bounds": false,
+      "frames_with_derivative_limiter": 0,
+      "max_limiter_velocity_jump_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/transit_clearance_states_v8/worker_00/episode_000000_seed_2/episode.h5",
+      "source_sha256": "b6dd68e1e4cad5a7966e42cb2d552838ea5caed64fd4e6dff4081cf9002d72df",
+      "seed": 2,
+      "frames": 7748,
+      "control_dt": 0.03333333333335986,
+      "substeps": 32,
+      "stored_input_max_excess_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "candidate_max_excess_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        9.630905697111114e-07,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        9.76923640871874e-07
+      ],
+      "frames_with_any_excess": 28,
+      "first_examples": [
+        {
+          "frame": 100,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 4.345833333333178,
+          "target": 0.09500002660206519,
+          "excess_si": 2.660206518956265e-08,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 101,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 4.378124999999842,
+          "target": 0.0950000010138865,
+          "excess_si": 1.013886502532202e-09,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 585,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 20.512500000001907,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 586,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 20.544791666668544,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1406,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 47.879166666643684,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1407,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 47.91145833331032,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1698,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 57.612499999968165,
+          "target": 0.0950000497396104,
+          "excess_si": 4.9739610402665946e-08,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1699,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 57.6447916666348,
+          "target": 0.0950000043228556,
+          "excess_si": 4.322855601257558e-09,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 2154,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 72.81249999995435,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 2155,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 72.84479166662098,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 2476,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 83.54583333327793,
+          "target": -3.4301280538162615e-07,
+          "excess_si": 3.4301280538162615e-07,
+          "current_accepted_target": 0.0
+        },
+        {
+          "frame": 2477,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 83.57812499994455,
+          "target": -3.929673876145595e-08,
+          "excess_si": 3.929673876145595e-08,
+          "current_accepted_target": 0.0
+        }
+      ],
+      "all_internal_targets_within_bounds": false,
+      "frames_with_derivative_limiter": 0,
+      "max_limiter_velocity_jump_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/transit_clearance_states_v8/worker_00/episode_000001_seed_7/episode.h5",
+      "source_sha256": "d6096461a9101aef8233844c73f3b901e51daedc7b1107ade32ed8e8ddfc5910",
+      "seed": 7,
+      "frames": 7861,
+      "control_dt": 0.03333333333335986,
+      "substeps": 32,
+      "stored_input_max_excess_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "candidate_max_excess_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        9.630905697111114e-07,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.424455083909315e-05,
+        0.0,
+        9.76923640871874e-07
+      ],
+      "frames_with_any_excess": 29,
+      "first_examples": [
+        {
+          "frame": 104,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 4.4791666666665035,
+          "target": 0.09500002005370334,
+          "excess_si": 2.0053703336797568e-08,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 105,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 4.5114583333331675,
+          "target": 0.0950000010138865,
+          "excess_si": 1.013886502532202e-09,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 602,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 21.07916666666806,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 603,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 21.111458333334696,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1402,
+          "substep": 12,
+          "channel": 6,
+          "sim_time": 47.74583333331047,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1403,
+          "substep": 11,
+          "channel": 6,
+          "sim_time": 47.77812499997711,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1689,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 57.31249999996844,
+          "target": 0.09500003911671229,
+          "excess_si": 3.9116712285958144e-08,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 1690,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 57.344791666635075,
+          "target": 0.0950000032198659,
+          "excess_si": 3.2198659016824394e-09,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 2163,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 73.11249999995408,
+          "target": 0.09500096309056971,
+          "excess_si": 9.630905697111114e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 2164,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 73.1447916666207,
+          "target": 0.09500011241584616,
+          "excess_si": 1.1241584615961919e-07,
+          "current_accepted_target": 0.0949999988079071
+        },
+        {
+          "frame": 2472,
+          "substep": 12,
+          "channel": 13,
+          "sim_time": 83.41249999994471,
+          "target": -3.4301280538162615e-07,
+          "excess_si": 3.4301280538162615e-07,
+          "current_accepted_target": 0.0
+        },
+        {
+          "frame": 2473,
+          "substep": 11,
+          "channel": 13,
+          "sim_time": 83.44479166661134,
+          "target": -3.929673876145595e-08,
+          "excess_si": 3.929673876145595e-08,
+          "current_accepted_target": 0.0
+        }
+      ],
+      "all_internal_targets_within_bounds": false,
+      "frames_with_derivative_limiter": 0,
+      "max_limiter_velocity_jump_per_channel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "limitations": [
+    "Stored actions are float32; quantify input excess separately.",
+    "A new controller changes observations and future teacher commands in a closed-loop run.",
+    "Passing targets does not validate state limits, forces, contacts, task success or a dataset."
+  ]
+}
