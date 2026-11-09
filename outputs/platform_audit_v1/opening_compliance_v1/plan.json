@@ -1,0 +1,14 @@
+{
+  "scope": "Fresh full seed 1 state-only physical rollout; experimental direction-dependent closing stiffness with unchanged velocity damping and original force limits. Not hardware-calibrated or training-ready.",
+  "git_base": "d05f1a2e51aaa218d4eb8c23f517c34a5ea53a09",
+  "baseline": "/dev/shm/piper_contact_substeps_v1/episode/episode.h5",
+  "baseline_sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+  "raw_output": "/dev/shm/piper_opening_compliance_v1/episode",
+  "controller_inputs": "Only native actuator reference and history, measured jaw opening, existing gains; no object labels, task phase, privileged pose or contacts. Applies to both grippers during all opening movements.",
+  "stiffness_floor": 0.1,
+  "time_constant_s": 0.06,
+  "physical_mutation": "Only affine actuator force bias, within unchanged force clamps; zero force added outside the motor. Two cascaded exact filters blend a reduction of the negative position-error spring term. Velocity feedback retained.",
+  "hypothesis": "Previous force-limit ramp released the object while a large closing reference error remained; lowering only that error gain retains velocity damping instead of clipping it.",
+  "acceptance": "Existing independent TCP policy, all physical grasps/targets and unchanged motion thresholds. Preserve failures. Full-task native extrema, not only selected release windows.",
+  "tests": "17 passed: 8 new formula/state/filter/hook tests plus 9 previous trace/force-limit tests."
+}

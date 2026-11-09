@@ -1,0 +1,31 @@
+{
+  "scope": "Read-only reconstruction of experimental opening compliance from recordings.\n\nUses only reference history, native joint feedback and declared servo parameters;\nnever reads object geometry, labels, target placements or contact membership.\nThis verifies controller evidence, not task success or training acceptance.\n",
+  "source": "/dev/shm/piper_opening_compliance_v1/episode/episode.h5",
+  "source_sha256": "237dca7f530b1c44381e7fec364ff95f2335b24693e6fd96416e2f290852ad60",
+  "script_sha256": "8228a6076d73754c0b457a02fa0f86cf9c6e0ffa64dcf59d91b5d59828a522a7",
+  "source_unchanged": true,
+  "checked_transitions": 8598,
+  "maximum_reconstruction_error": {
+    "filter": 0.0,
+    "position_error_m": 1.3877787807814457e-17,
+    "bias_N": 1.249000902703301e-13,
+    "post_forward_force_N": 2.28872476526476e-13
+  },
+  "error": null,
+  "passed": true,
+  "training_ready": false,
+  "controller_profile": {
+    "mode": "opening_negative_error_compliance_v1",
+    "stiffness_floor": 0.1,
+    "time_constant_s": 0.06,
+    "script_sha256": "c093325a80488042deeb97a71c362accc2ad5e3af9313514c5a0a1cfa08abd30",
+    "hardware_calibration": "unidentified",
+    "inputs": [
+      "native actuator position reference and its history",
+      "measured full gripper opening",
+      "existing kp/kv and motor force bounds"
+    ],
+    "force_semantics": "For negative position error only, kp is scaled by 1-(1-floor)*alpha. kv*(vref-v) and original two-sided force limits remain unchanged.",
+    "filter": "Exact two cascaded first-order filters; direction latch holds through zero command increments."
+  }
+}

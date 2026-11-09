@@ -1,0 +1,64 @@
+{
+  "status": "progress_only_goal_active",
+  "decision": "reject_opening_compliance_as_smoothing_fix_no_production_promotion",
+  "baseline_seed": 1,
+  "candidate_seed": 1,
+  "sorted": 11,
+  "required": 11,
+  "transitions": 8598,
+  "independent_tcp_audit_passed": true,
+  "training_ready": false,
+  "recorded_duration_s": 286.6000000010741,
+  "worsened_native_release_phases": [
+    "plate/release",
+    "side_dish/release"
+  ],
+  "next_investigation": "Reachable supported placement with full jaw-opening clearance and measured load support; no relaxed collision or motion limits. Geometric gaps are not force evidence.",
+  "tests": {
+    "command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q tests/test_release_support.py tests/test_opening_compliance.py tests/test_opening_compliance_evidence.py tests/test_contact_trace.py tests/test_release_force_probe.py",
+    "result": "23 passed in 0.60s"
+  },
+  "raw_local_only": {
+    "episode": "/dev/shm/piper_opening_compliance_v1/episode/episode.h5",
+    "episode_sha256": "237dca7f530b1c44381e7fec364ff95f2335b24693e6fd96416e2f290852ad60",
+    "trace": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/opening_compliance_v1/native/trace.npz",
+    "trace_sha256": "949104431fba8ae2f265a358c9e8767526889d80a9d0a25b4b0d8745955d6b23"
+  },
+  "artifacts": {
+    "outputs/platform_audit_v1/opening_compliance_v1/plan.json": "1ab7e0124faa8c574f3e4384d17f05da99daec12f110c67f7872808daf46b588",
+    "outputs/platform_audit_v1/opening_compliance_v1/identity.json": "73144a651ce4faa6351b338aa6a6ff1731ed286365878c9a5f08a36f564da412",
+    "outputs/platform_audit_v1/opening_compliance_v1/run.log": "f7ebf85ec9adac57e5905319a7e6a956f720ca2e38e019a768cc1e14edc8ebf1",
+    "outputs/platform_audit_v1/opening_compliance_v1/analysis_verified.json": "5cf7d67b6a8437b17ddb27001b1a100667835d61a1fa70ac8951f236631834a6",
+    "outputs/platform_audit_v1/opening_compliance_v1/comparison_verified.json": "e8ec924e033d7c0c35f7a1ff8ee2c14157c172deeb55d1959f7dcacf9220cf1a",
+    "outputs/platform_audit_v1/opening_compliance_v1/compliance_audit.json": "184e35804197ee84377139fb3701b6666295f1d95f10a28c3f076602afc860d8",
+    "outputs/platform_audit_v1/opening_compliance_v1/recorded_dynamics.json": "0dcc1df59ef69553eb911007f9c4e358db4195d429ef4b299eb966110c9fd4d7",
+    "outputs/platform_audit_v1/opening_compliance_v1/baseline_release_support.json": "abb658dda8a596749570269243ce434a2c993a357de97884e91a87a4ba87287a",
+    "outputs/platform_audit_v1/opening_compliance_v1/candidate_release_support.json": "653e05e582ab9539a470b8241a442ccfe0f176cc8c14393c1309709274cc22b7",
+    "outputs/platform_audit_v1/opening_compliance_v1/force_windows_v2.png": "80093f7460f41f88fc1c600b4dcd49ccd7923a938d9ca24432557d1a4088af08",
+    "outputs/platform_audit_v1/opening_compliance_v1/native/trace.json": "801fee6f69bb1e265848a1eee95b04a25175e8c6f050cf5b4e5a4949d956315f",
+    "outputs/platform_audit_v1/opening_compliance_v1/episode_evidence/report.json": "1fc2202fc2b7a9a0ac723640a587fc6611bfddd733ebf0780dff37477dc65d04",
+    "outputs/platform_audit_v1/opening_compliance_v1/episode_evidence/audit.json": "4028e1e795b4ca1f59d96941ba18c327b931d81463acbb30e0f194ddde337dac"
+  },
+  "code": {
+    "scripts/probe_opening_compliance.py": "c093325a80488042deeb97a71c362accc2ad5e3af9313514c5a0a1cfa08abd30",
+    "scripts/audit_opening_compliance.py": "8228a6076d73754c0b457a02fa0f86cf9c6e0ffa64dcf59d91b5d59828a522a7",
+    "scripts/audit_release_support.py": "829e0a858894a9d6456d28c1fa364714f86998018cd41d6db01f7cd437381080",
+    "scripts/compare_opening_compliance.py": "8382e7352af180e503927225098caa5d9b070128e15305678e249eceecb37978",
+    "scripts/trace_contact_substeps.py": "81f5769e7a7a43f71341505c8aa6ef90918a29a1ac97337170ac04d4dd45044d",
+    "scripts/analyze_contact_trace.py": "9de4708d786e22db251f138e9d1cc183ae7dc8dead31b75c8dbc95b2663b2bb4",
+    "scripts/plot_contact_trace.py": "fc74fa307f7c56748261415eb3064013c8e7cbaf953e6d4a603146044edd6dac",
+    "tests/test_opening_compliance.py": "e33ad004f0d39badca2c26d14333761f7832ae40708fec09891cdbfdfb46e3ef",
+    "tests/test_opening_compliance_evidence.py": "85255bdf0ed38beb3d3f84276c43d994d73e2498ff4b7aac839e245bc51c8c1c",
+    "tests/test_release_support.py": "e1dd731f0977f4dc740e9e39d373c994e209c5c580d7b5284f4756004bb32328",
+    "docs/platform_audit.md": "314574375155c14891405aabe42aa954e81710898e9f1f2d37d68ce546a4561f"
+  },
+  "limitations": [
+    "one known seed; no population success-rate estimate",
+    "no new RGB or LeRobot output",
+    "hardware dynamics uncalibrated",
+    "volatile HDF5 storage; no raw recordings in Git",
+    "prior per-object teacher drive settings remain; public position action alone does not encode these",
+    "geometry sampling is not exact collision certification or measured support force",
+    "old local force_windows.png has an invalid inferred velocity reference; force_windows_v2.png is the reviewed delivery"
+  ]
+}

@@ -34,8 +34,9 @@ def main():
             axes[0, column].plot(t, z['control'][ids, 6]*1000, label='Command opening')
             axes[0, column].plot(t, z['qpos_before'][ids, 6:].sum(axis=1)*1000, label='Measured opening')
             axes[1, column].plot(t, z['qvel_before'][ids, 6:].sum(axis=1), label='Native opening velocity')
-            reference = z['bias'][ids, 6, 0]/-z['bias'][ids, 6, 2]
-            axes[1, column].plot(t, reference, label='Servo velocity reference')
+            # bias[0] can contain an experimental compliance force as well as
+            # kv*vref. Dividing it by kv would invent a velocity reference.
+            # Only the measured velocity is unambiguous in this trace format.
             axes[2, column].plot(t, z['actuator_force'][ids, 6], label='Tendon actuator force')
             axes[2, column].plot(t, z['constraint_force_by_type'][ids, 7, 6:].mean(axis=1),
                                  label='Mean jaw contact force')

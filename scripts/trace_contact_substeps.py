@@ -112,7 +112,9 @@ class ContactTrace:
         atomic_json(directory/'trace.json', metadata)
 
 
-def main():
+def main(*, before_step=None, extra_metadata=None):
+    if before_step is not None and not isinstance(extra_metadata, dict):
+        raise ValueError('A mutating experimental hook requires explicit experiment metadata')
     parser = argparse.ArgumentParser(description=__doc__, add_help=False)
     parser.add_argument('--trace-output', type=Path, required=True)
     parser.add_argument('--trace-objects', default='bowl,plate,side_dish')
@@ -126,6 +128,9 @@ def main():
     metadata = {'command': forwarded, 'selected_objects': sorted(objects),
                 'selected_phases': sorted(phases), 'script_sha256': sha256(Path(__file__)),
                 'scope': 'Read-only force diagnostic of fresh physical rollout; no additional forwards or state writes.'}
+    if extra_metadata is not None:
+        metadata['experiment'] = extra_metadata
+        metadata['scope'] = 'Force trace of an explicit controller experiment; see experiment metadata for changes.'
 
     def teacher_step(teacher, *a, **kw):
         nonlocal current
@@ -137,8 +142,12 @@ def main():
 
     def physics_step(model, data, *a, **kw):
         nonlocal tracer
-        selected = (current is not None and model is current.b.model and data is current.b.data
-                    and current.current in objects and current.phase in phases)
+        live = current is not None and model is current.b.model and data is current.b.data
+        if live and before_step is not None:
+            if a or kw.get('nstep', 1) != 1:
+                raise ValueError('Experimental hook requires native single-step calls')
+            before_step(model, data)
+        selected = live and current.current in objects and current.phase in phases
         if not selected:
             return original_step(model, data, *a, **kw)
         if a or kw.get('nstep', 1) != 1:

@@ -49,7 +49,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('trace', type=Path)
     parser.add_argument('--recording', type=Path, required=True)
-    parser.add_argument('--baseline', type=Path, required=True)
+    parser.add_argument('--baseline', type=Path,
+                        help='Optional distinct recording for an exact noninterference comparison')
     parser.add_argument('--identity', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
@@ -60,9 +61,11 @@ def main():
         raise ValueError('Trace hash mismatch')
     identity = json.loads(args.identity.read_text())
     changed = [name for name, digest in identity['files'].items() if sha256(name) != digest]
-    baseline, observed = evidence(args.baseline), evidence(args.recording)
-    same_streams = baseline['streams'] == observed['streams']
-    same_physics = baseline['privileged_sha256'] == observed['privileged_sha256']
+    observed = evidence(args.recording)
+    comparison = args.baseline is not None and args.baseline.resolve() != args.recording.resolve()
+    baseline = evidence(args.baseline) if comparison else None
+    same_streams = baseline['streams'] == observed['streams'] if comparison else None
+    same_physics = baseline['privileged_sha256'] == observed['privileged_sha256'] if comparison else None
     with np.load(args.trace/'trace.npz', allow_pickle=False) as z:
         dt = meta['integration_dt']
         v0, v1 = z['qvel_before'][:, 6:].sum(axis=1), z['qvel_after'][:, 6:].sum(axis=1)
@@ -94,7 +97,7 @@ def main():
                     'acceleration_m_s2': float(acceleration[i]),
                     'jerk_m_s3': float(jerk[i]) if np.isfinite(jerk[i]) else None,
                     'position_gain_N_m': float(z['gain'][i, 6, 0]),
-                    'velocity_bias_N': float(z['bias'][i, 6, 0]),
+                    'affine_force_bias_N': float(z['bias'][i, 6, 0]),
                     'force_range_N': z['force_range'][i, 6].tolist(),
                     'actuator_force_N': float(z['actuator_force'][i, 6]),
                     'jaw_constraint_force_N': z['qfrc_constraint'][i, 6:].tolist(),
@@ -117,6 +120,7 @@ def main():
                            'acceleration_window': [snapshot(i) for i in range(max(ids[0], peak-5), min(ids[-1]+1, peak+6))]}
     result = {'schema_version': 1, 'scope': __doc__, 'script_sha256': sha256(__file__),
               'trace_sha256': meta['trace_sha256'], 'frozen_inputs_changed': changed,
+              'comparison_scope': 'distinct_recording_noninterference' if comparison else 'single_recording_trace_consistency_only',
               'baseline': baseline, 'observed': observed, 'public_streams_exact': same_streams,
               'objects_native_physics_controller_tcp_exact': same_physics,
               'constraint_attribution_max_abs_error': float(force_error),
@@ -126,7 +130,9 @@ def main():
     print(json.dumps({k: result[k] for k in ('frozen_inputs_changed', 'public_streams_exact',
         'objects_native_physics_controller_tcp_exact', 'constraint_attribution_max_abs_error',
         'bounded_affine_actuator_max_abs_error')}, indent=2))
-    if changed or not same_streams or not same_physics or force_error > 1e-8 or actuator_error > 1e-8:
+    intervals_match = all(g['recorded_interval_acceleration_matches'] and g['recorded_interval_jerk_matches']
+                          for g in groups.values())
+    if changed or not intervals_match or (comparison and (not same_streams or not same_physics)) or force_error > 1e-8 or actuator_error > 1e-8:
         raise SystemExit('Diagnostic integrity check failed; report preserved')
 
 
