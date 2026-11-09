@@ -1,0 +1,37 @@
+# Production acceptance policy. The auditor loads this independently of HDF5
+# metadata; a collector cannot grant itself acceptance by declaring looser gates.
+# Simulation quality limits, NOT identified hardware capabilities.
+schema_version: 1
+motion:
+  joint_velocity_rad_s: 1.0
+  joint_acceleration_rad_s2: 2.5
+  joint_jerk_rad_s3: 20.0
+  gripper_velocity_m_s: 0.06
+  gripper_acceleration_m_s2: 0.18
+  gripper_jerk_m_s3: 1.5
+quality:
+  measured_velocity_rad_s: 1.2
+  measured_acceleration_rad_s2: 8.0
+  measured_jerk_rad_s3: 200.0
+  measured_gripper_velocity_m_s: 0.08
+  measured_gripper_acceleration_m_s2: 1.0
+  measured_gripper_jerk_m_s3: 50.0
+  tracking_error_rad: 0.1
+  hold_velocity_rms_rad_s: 0.025
+  hold_gripper_velocity_rms_m_s: 0.003
+  max_robot_penetration_m: 0.004
+dataset:
+  required_cameras: [overhead, left_wrist, right_wrist]
+  min_frames: 150
+  max_duration_s: 300.0
+  timestamp_tolerance_s: 1.0e-06
+  max_grasp_slip_m: 0.012
+  max_contact_loss_s: 0.2
+  min_bilateral_contact_fraction: 0.98
+  final_stable_hold_s: 1.0
+  final_object_speed_m_s: 0.01
+  final_object_angular_speed_rad_s: 0.1
+  min_image_luma_std: 1.0
+  max_image_clipped_fraction: 0.995
+  max_bad_image_fraction: 0.01
+  max_identical_image_fraction: 0.98

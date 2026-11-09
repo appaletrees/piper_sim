@@ -1,0 +1,60 @@
+{
+  "status": "in_progress",
+  "scope": "First audit/optimization iteration, not completion of the VLA platform objective",
+  "baseline_commit": "798d398a8893bde98e73a36a142d858e29f08328",
+  "source_datasets_unchanged": true,
+  "real_hardware_accessed": false,
+  "historical_findings": {
+    "seed0_current_state_run": "10/10, 226.0667 simulation seconds, independent state audit passes; same motion/object hashes as existing RGB",
+    "seed1_current_state_run": "11/11 but reject: right gripper acceleration 1.0461066 m/s^2 at side_dish release; limit remains 1.0",
+    "seed7_and_seed43": "not yet rerun in this audit",
+    "isaac_native_fps": "not yet rerun in this audit; old 8.53 FPS is not a new result",
+    "existing_full_rgb": "read-only v3 policy audit passes, original HDF5 and sidecar unchanged",
+    "calibration": "manual landmark diagnostic still unvalidated, max vertical residual 67.1003 pixels; no device calibration acquired"
+  },
+  "verified_changes": [
+    "online shared RGB storage remains pixel-exact for identical input, maintains transition API and self-contained movable file",
+    "append/finalize errors quarantine partial episodes even if exceptions are caught",
+    "independent production policy governs audit and training export, unchanged thresholds",
+    "stage/resource profiling wrapper and lossless writer benchmark"
+  ],
+  "measurements": {
+    "writer": "writer_benchmark.json",
+    "physical_rgb_diagnostic": "rgb_pipeline_comparison.json",
+    "full_state_profile": "seed1_profile.json",
+    "physics_parameters": "physics_model.json",
+    "real_alignment": "alignment/alignment_measurements.json"
+  },
+  "evidence_limits": [
+    "One pair of 553-frame physical RGB diagnostics is not qualified full-task episode/hour.",
+    "Separate EGL runs differ in sparse pixel channel values up to 2; cause still under investigation.",
+    "GPU samples include unrelated applications; per-process VRAM not yet measured.",
+    "Full state profiling overlapped read-only tests/auditing, so wall times are diagnostic.",
+    "The full objective includes substantial remaining physics, planning, engine, scheduling, diversity, and training checks."
+  ],
+  "tests": {
+    "full_suite": {
+      "passed": 152,
+      "wall_s": 79.99,
+      "log": "pytest_final.log"
+    },
+    "unrelated_excluded": [
+      "tests/test_rl_geometry.py",
+      "tests/test_rl_policy.py"
+    ],
+    "final_storage_policy_followup": {
+      "passed": 44,
+      "new_tests_after_full_suite": 3,
+      "wall_s": 1.67,
+      "log": "pytest_storage_policy_final.log"
+    },
+    "expected_warning": "Existing MuJoCo instability fault-injection test deliberately sets qvel[0]=1e20; no instability occurred in physical diagnostic runs."
+  },
+  "default_collection_storage": {
+    "compression": "gzip level 1",
+    "layout": "shared",
+    "flush_every": 1
+  },
+  "available_disk_gib_at_end": 6.0,
+  "remaining_work_manifest": "docs/platform_audit.md"
+}

@@ -1,0 +1,1126 @@
+{
+  "status": "parameter_audit_only",
+  "hardware_calibrated": false,
+  "inputs": {
+    "/home/midea/Desktop/piper_sim/assets/generated/piper/piper.urdf": "68c54bf409cab82e4b5724d1bd9ca59e21c74e0d20fc8494b23da22dea35a72c",
+    "configs/clean_table_workcell.yaml": "b432f48cc4b03630f896880fa9a56e366bd450ac7cfc22b01a5711642a277aee",
+    "configs/tasks/clean_table_rigid.yaml": "a7b8a078798c77086a5baed61a64490802b05001168f8043cb61ea06525dc627",
+    "configs/collection/clean_table.yaml": "0ac798ca3d3b1667052e0f5aff0b2f013b2a8a540886e430e152b3adda59c72d",
+    "/home/midea/Desktop/piper_sim/src/piper_sim/mujoco_asset.py": "b3b2dbf13d457941485aaa10f55c9244f9f6e1c8e267be4b59fd4fd884224bee",
+    "/home/midea/Desktop/piper_sim/src/piper_sim/robot_asset.py": "bc409ca752aa55674cb95969e3fa38fc2301a107cab746b7fa4fce7618da5307"
+  },
+  "urdf_joints": [
+    {
+      "name": "joint1",
+      "type": "revolute",
+      "limit": {
+        "lower": "-2.618",
+        "upper": "2.618",
+        "effort": "100",
+        "velocity": "10"
+      },
+      "dynamics": null
+    },
+    {
+      "name": "joint2",
+      "type": "revolute",
+      "limit": {
+        "lower": "0",
+        "upper": "3.14",
+        "effort": "100",
+        "velocity": "10"
+      },
+      "dynamics": null
+    },
+    {
+      "name": "joint3",
+      "type": "revolute",
+      "limit": {
+        "lower": "-2.967",
+        "upper": "0",
+        "effort": "100",
+        "velocity": "10"
+      },
+      "dynamics": null
+    },
+    {
+      "name": "joint4",
+      "type": "revolute",
+      "limit": {
+        "lower": "-1.745",
+        "upper": "1.745",
+        "effort": "100",
+        "velocity": "10"
+      },
+      "dynamics": null
+    },
+    {
+      "name": "joint5",
+      "type": "revolute",
+      "limit": {
+        "lower": "-1.22",
+        "upper": "1.22",
+        "effort": "100",
+        "velocity": "10"
+      },
+      "dynamics": null
+    },
+    {
+      "name": "joint6",
+      "type": "revolute",
+      "limit": {
+        "lower": "-2.0944",
+        "upper": "2.0944",
+        "effort": "100",
+        "velocity": "10"
+      },
+      "dynamics": null
+    },
+    {
+      "name": "joint6_to_gripper_base",
+      "type": "fixed",
+      "limit": null,
+      "dynamics": null
+    },
+    {
+      "name": "gripper_base_to_gripper_center",
+      "type": "fixed",
+      "limit": null,
+      "dynamics": null
+    },
+    {
+      "name": "joint7",
+      "type": "prismatic",
+      "limit": {
+        "lower": "0",
+        "upper": "0.0475",
+        "effort": "10",
+        "velocity": "0.1"
+      },
+      "dynamics": {
+        "damping": "1",
+        "friction": "0"
+      }
+    },
+    {
+      "name": "joint8",
+      "type": "prismatic",
+      "limit": {
+        "lower": "0",
+        "upper": "0.0475",
+        "effort": "10",
+        "velocity": "0.1"
+      },
+      "dynamics": {
+        "damping": "1",
+        "friction": "0"
+      }
+    }
+  ],
+  "robot_bodies": [
+    {
+      "name": "left/base_link",
+      "source_mass_kg": 1.02,
+      "compiled_mass_kg": 1.02,
+      "source_principal_inertia_kg_m2": [
+        0.0008793938122210311,
+        0.0026911717940235505,
+        0.002826124393755416
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0008793938122229388,
+        0.002691171794021646,
+        0.002826124393755418
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link1",
+      "source_mass_kg": 0.71,
+      "compiled_mass_kg": 0.71,
+      "source_principal_inertia_kg_m2": [
+        0.0004045508271784398,
+        0.00043988694626692144,
+        0.000489262226554639
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0004045508271784394,
+        0.00043988694626692117,
+        0.0004892622265546388
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link2",
+      "source_mass_kg": 1.17,
+      "compiled_mass_kg": 1.17,
+      "source_principal_inertia_kg_m2": [
+        0.001119661059288249,
+        0.06774502186685818,
+        0.06790322707385352
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0011196610593155831,
+        0.0677450218668581,
+        0.06790322707382634
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link3",
+      "source_mass_kg": 0.5,
+      "compiled_mass_kg": 0.5,
+      "source_principal_inertia_kg_m2": [
+        0.00024468526711533714,
+        0.013803205481884954,
+        0.013822679250999706
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.00024468526712358965,
+        0.013803205481884953,
+        0.013822679250991452
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link4",
+      "source_mass_kg": 0.38,
+      "compiled_mass_kg": 0.38,
+      "source_principal_inertia_kg_m2": [
+        0.00015286287035327798,
+        0.0001850515514245453,
+        0.00019158557822217677
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0001528628703532779,
+        0.00018505155142454517,
+        0.00019158557822217655
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link5",
+      "source_mass_kg": 0.383,
+      "compiled_mass_kg": 0.383,
+      "source_principal_inertia_kg_m2": [
+        0.00018502780654295253,
+        0.0016432819280056009,
+        0.0016616902654514466
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.00018502780654298845,
+        0.0016432819280055647,
+        0.0016616902654514466
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link6",
+      "source_mass_kg": 0.007,
+      "compiled_mass_kg": 0.007,
+      "source_principal_inertia_kg_m2": [
+        5.730155405421549e-07,
+        5.730155405421553e-07,
+        1.0673886913892598e-06
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        5.73015540542e-07,
+        5.73015540542e-07,
+        1.06738869139e-06
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/gripper_base",
+      "source_mass_kg": 0.45,
+      "compiled_mass_kg": 0.45,
+      "source_principal_inertia_kg_m2": [
+        0.00039431819219030946,
+        0.0007144694738782975,
+        0.0009294423339313929
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.00039431819219032334,
+        0.0007144694738782972,
+        0.0009294423339313782
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link7",
+      "source_mass_kg": 0.025,
+      "compiled_mass_kg": 0.025,
+      "source_principal_inertia_kg_m2": [
+        5.0885983909256115e-06,
+        7.367825673196152e-05,
+        7.745314487711288e-05
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        5.088598390925605e-06,
+        7.36782567319615e-05,
+        7.745314487711288e-05
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "left/link8",
+      "source_mass_kg": 0.025,
+      "compiled_mass_kg": 0.025,
+      "source_principal_inertia_kg_m2": [
+        5.0885983909256115e-06,
+        7.367825673196152e-05,
+        7.745314487711288e-05
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        5.088598390925605e-06,
+        7.36782567319615e-05,
+        7.745314487711288e-05
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/base_link",
+      "source_mass_kg": 1.02,
+      "compiled_mass_kg": 1.02,
+      "source_principal_inertia_kg_m2": [
+        0.0008793938122210311,
+        0.0026911717940235505,
+        0.002826124393755416
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0008793938122229388,
+        0.002691171794021646,
+        0.002826124393755418
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link1",
+      "source_mass_kg": 0.71,
+      "compiled_mass_kg": 0.71,
+      "source_principal_inertia_kg_m2": [
+        0.0004045508271784398,
+        0.00043988694626692144,
+        0.000489262226554639
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0004045508271784394,
+        0.00043988694626692117,
+        0.0004892622265546388
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link2",
+      "source_mass_kg": 1.17,
+      "compiled_mass_kg": 1.17,
+      "source_principal_inertia_kg_m2": [
+        0.001119661059288249,
+        0.06774502186685818,
+        0.06790322707385352
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0011196610593155831,
+        0.0677450218668581,
+        0.06790322707382634
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link3",
+      "source_mass_kg": 0.5,
+      "compiled_mass_kg": 0.5,
+      "source_principal_inertia_kg_m2": [
+        0.00024468526711533714,
+        0.013803205481884954,
+        0.013822679250999706
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.00024468526712358965,
+        0.013803205481884953,
+        0.013822679250991452
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link4",
+      "source_mass_kg": 0.38,
+      "compiled_mass_kg": 0.38,
+      "source_principal_inertia_kg_m2": [
+        0.00015286287035327798,
+        0.0001850515514245453,
+        0.00019158557822217677
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.0001528628703532779,
+        0.00018505155142454517,
+        0.00019158557822217655
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link5",
+      "source_mass_kg": 0.383,
+      "compiled_mass_kg": 0.383,
+      "source_principal_inertia_kg_m2": [
+        0.00018502780654295253,
+        0.0016432819280056009,
+        0.0016616902654514466
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.00018502780654298845,
+        0.0016432819280055647,
+        0.0016616902654514466
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link6",
+      "source_mass_kg": 0.007,
+      "compiled_mass_kg": 0.007,
+      "source_principal_inertia_kg_m2": [
+        5.730155405421549e-07,
+        5.730155405421553e-07,
+        1.0673886913892598e-06
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        5.73015540542e-07,
+        5.73015540542e-07,
+        1.06738869139e-06
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/gripper_base",
+      "source_mass_kg": 0.45,
+      "compiled_mass_kg": 0.45,
+      "source_principal_inertia_kg_m2": [
+        0.00039431819219030946,
+        0.0007144694738782975,
+        0.0009294423339313929
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        0.00039431819219032334,
+        0.0007144694738782972,
+        0.0009294423339313782
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link7",
+      "source_mass_kg": 0.025,
+      "compiled_mass_kg": 0.025,
+      "source_principal_inertia_kg_m2": [
+        5.0885983909256115e-06,
+        7.367825673196152e-05,
+        7.745314487711288e-05
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        5.088598390925605e-06,
+        7.36782567319615e-05,
+        7.745314487711288e-05
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    },
+    {
+      "name": "right/link8",
+      "source_mass_kg": 0.025,
+      "compiled_mass_kg": 0.025,
+      "source_principal_inertia_kg_m2": [
+        5.0885983909256115e-06,
+        7.367825673196152e-05,
+        7.745314487711288e-05
+      ],
+      "compiled_principal_inertia_kg_m2": [
+        5.088598390925605e-06,
+        7.36782567319615e-05,
+        7.745314487711288e-05
+      ],
+      "mass_matches_source": true,
+      "inertia_matches_source": true,
+      "positive_and_triangle_valid": true
+    }
+  ],
+  "actuators": [
+    {
+      "name": "left/joint1",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -2.618,
+        2.618
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "left/joint2",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        0.0,
+        3.14
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "left/joint3",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -2.967,
+        0.0
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "left/joint4",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -1.745,
+        1.745
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "left/joint5",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -1.22,
+        1.22
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "left/joint6",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -2.0944,
+        2.0944
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "left/gripper",
+      "gainprm": [
+        1000.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -1000.0,
+        -120.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        0.0,
+        0.095
+      ],
+      "forcerange": [
+        -5.0,
+        5.0
+      ]
+    },
+    {
+      "name": "right/joint1",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -2.618,
+        2.618
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "right/joint2",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        0.0,
+        3.14
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "right/joint3",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -2.967,
+        0.0
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "right/joint4",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -1.745,
+        1.745
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "right/joint5",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -1.22,
+        1.22
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "right/joint6",
+      "gainprm": [
+        400.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -400.0,
+        -40.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -2.0944,
+        2.0944
+      ],
+      "forcerange": [
+        -100.0,
+        100.0
+      ]
+    },
+    {
+      "name": "right/gripper",
+      "gainprm": [
+        1000.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "biasprm": [
+        0.0,
+        -1000.0,
+        -120.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        0.0,
+        0.095
+      ],
+      "forcerange": [
+        -5.0,
+        5.0
+      ]
+    }
+  ],
+  "equalities": [
+    {
+      "name": "left/gripper_coupling",
+      "type": 2,
+      "active": true
+    },
+    {
+      "name": "right/gripper_coupling",
+      "type": 2,
+      "active": true
+    }
+  ],
+  "teacher": {
+    "name": "clean_table_privileged_v2",
+    "grasp_mode": "physical",
+    "privileged_inputs": [
+      "object poses",
+      "container poses",
+      "geometry",
+      "contacts",
+      "robot kinematics"
+    ],
+    "physical_only": true,
+    "training_note": "Training acceptance is determined only by the final closed-file dataset audit.",
+    "arm_bias_feedforward": true,
+    "gripper_kp_N_per_m": 1000.0,
+    "gripper_kv_Ns_per_m": 120.0,
+    "gripper_force_limit_N": 5.0,
+    "finger_contact_time_constant_s": 0.01,
+    "finger_friction": [
+      1.0,
+      0.015,
+      0.002
+    ],
+    "multiccd": true,
+    "noslip_iterations": 0,
+    "tcp_in_link6_m": [
+      0,
+      0,
+      0.1375
+    ],
+    "placemat": "left on table",
+    "motion_and_quality": {
+      "schema_version": 2,
+      "controller": {
+        "gripper_kp_N_per_m": 1000.0,
+        "gripper_kv_Ns_per_m": 120.0,
+        "gripper_force_limit_N": 5.0,
+        "finger_contact_time_constant_s": 0.01
+      },
+      "motion": {
+        "joint_velocity_rad_s": 1.0,
+        "joint_acceleration_rad_s2": 2.5,
+        "joint_jerk_rad_s3": 20.0,
+        "gripper_velocity_m_s": 0.06,
+        "gripper_acceleration_m_s2": 0.18,
+        "gripper_jerk_m_s3": 1.5,
+        "settle_error_rad": 0.035,
+        "settle_velocity_rad_s": 0.04,
+        "settle_hold_s": 0.1,
+        "settle_timeout_s": 2.0
+      },
+      "pacing": {
+        "continuous_paths": true,
+        "direct_transfer": true,
+        "direct_next_object": true,
+        "minimum_move_s": 0.15,
+        "minimum_grip_s": 0.2,
+        "cartesian_speed_m_s": 0.25,
+        "contact_speed_m_s": 0.06,
+        "grip_hold_s": 0.15,
+        "grasp_hold_s": 0.1,
+        "release_hold_s": 0.15,
+        "placement_hold_s": 0.35,
+        "rim_load_limits": {
+          "joint_velocity_rad_s": 0.5,
+          "joint_acceleration_rad_s2": 1.2,
+          "joint_jerk_rad_s3": 8.0
+        },
+        "closing_limits": {
+          "velocity": 0.04,
+          "acceleration": 0.12,
+          "jerk": 1.0
+        },
+        "loaded_limits_by_kind": {
+          "side_dish": {
+            "joint_velocity_rad_s": 0.3,
+            "joint_acceleration_rad_s2": 0.6,
+            "joint_jerk_rad_s3": 4
+          }
+        }
+      },
+      "quality": {
+        "measured_velocity_rad_s": 1.2,
+        "measured_acceleration_rad_s2": 8.0,
+        "measured_jerk_rad_s3": 200.0,
+        "measured_gripper_velocity_m_s": 0.08,
+        "measured_gripper_acceleration_m_s2": 1.0,
+        "measured_gripper_jerk_m_s3": 50.0,
+        "tracking_error_rad": 0.1,
+        "hold_velocity_rms_rad_s": 0.025,
+        "hold_gripper_velocity_rms_m_s": 0.003,
+        "max_robot_penetration_m": 0.004
+      },
+      "dataset": {
+        "image_compression": "gzip",
+        "min_free_disk_gib": 5.0,
+        "required_cameras": [
+          "overhead",
+          "left_wrist",
+          "right_wrist"
+        ],
+        "min_frames": 150,
+        "max_duration_s": 300.0,
+        "timestamp_tolerance_s": 1e-06,
+        "max_grasp_slip_m": 0.012,
+        "max_contact_loss_s": 0.2,
+        "min_bilateral_contact_fraction": 0.98,
+        "final_stable_hold_s": 1.0,
+        "final_object_speed_m_s": 0.01,
+        "final_object_angular_speed_rad_s": 0.1,
+        "min_image_luma_std": 1.0,
+        "max_image_clipped_fraction": 0.995,
+        "max_bad_image_fraction": 0.01,
+        "max_identical_image_fraction": 0.98
+      }
+    },
+    "trajectory": "C2 pass-through joint splines with C3 time law and sampled derivative retiming",
+    "grasp_frames": "measured object SE(3) relative to nominal object grasp frame"
+  },
+  "runtime": {
+    "control_hz": 30.0,
+    "physics_tick_hz": 120.0,
+    "integration_hz": 960.0,
+    "substeps_per_physics_tick": 8,
+    "integration_steps_per_action": 32,
+    "nq": 100,
+    "nv": 88,
+    "ngeom": 732,
+    "contact_count_at_reset": 0
+  },
+  "collision_model": "individual CAD part convex hulls; URDF link convex hulls; exact tabletop box",
+  "inertia_model": "source URDF; camera/bracket masses not identified",
+  "unidentified_or_incomplete": [
+    "URDF values are source declarations, not measurements of this robot.",
+    "CAD camera/bracket mass and inertia are not included in the declared robot inertia model.",
+    "MuJoCo joint damping/armature and teacher contact friction/control gains are simulation choices.",
+    "URDF arm velocity=10 rad/s is not a verified device capability; collection command/measured gates are lower.",
+    "Teacher applies robot bias feedforward through qfrc_applied; actuator force ranges alone do not bound total joint drive.",
+    "Current online penetration gate skips same-arm contacts; source adjacent body exclusions and convex hulls need separate self-collision validation.",
+    "Isaac runtime parameters/dynamic responses are not measured by this MuJoCo-only script."
+  ]
+}

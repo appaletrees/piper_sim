@@ -100,8 +100,10 @@ def test_scripted_or_curated_export_requires_final_quality_gate(tmp_path):
 
 
 def test_export_rejects_data_changed_after_audit(tmp_path):
+    from piper_sim.collection_audit import AUDIT_VERSION, load_acceptance_policy
     src = episode(tmp_path/'source.h5')
-    audit = {'passed': True, 'training_ready': True, 'violations': []}
+    audit = {'passed': True, 'training_ready': True, 'violations': [],
+             'schema_version': AUDIT_VERSION, 'acceptance_policy': load_acceptance_policy()[1]}
     with h5py.File(src, 'r+') as f:
         f.attrs.update(accepted=True, training_ready=True, success=True,
                        dataset_audit=json.dumps(audit), dataset_audit_sidecar='audit.json')
@@ -110,6 +112,24 @@ def test_export_rejects_data_changed_after_audit(tmp_path):
     with h5py.File(src, 'r+') as f:
         f['observation/images/overhead'][0] = 0  # Shape and timestamps still look valid.
     with pytest.raises(ValueError, match='changed after its dataset audit'):
+        _inspect(src, require_quality=True)
+
+
+@pytest.mark.parametrize('defect', ['legacy_policy', 'different_policy', 'sidecar_disagreement'])
+def test_training_export_requires_current_independent_policy(tmp_path, defect):
+    from piper_sim.collection_audit import AUDIT_VERSION, load_acceptance_policy
+    src = episode(tmp_path/'source.h5')
+    audit = {'passed': True, 'training_ready': True, 'violations': [],
+             'schema_version': AUDIT_VERSION, 'acceptance_policy': load_acceptance_policy()[1]}
+    if defect == 'legacy_policy': audit.pop('acceptance_policy')
+    if defect == 'different_policy': audit['acceptance_policy']['sha256'] = 'untrusted'
+    with h5py.File(src, 'r+') as f:
+        f.attrs.update(accepted=True, training_ready=True, success=True,
+                       dataset_audit=json.dumps(audit), dataset_audit_sidecar='audit.json')
+    evidence = {**audit, 'source_sha256': _sha256(src)}
+    if defect == 'sidecar_disagreement': evidence['extra_claim'] = 'different'
+    (tmp_path/'audit.json').write_text(json.dumps(evidence))
+    with pytest.raises(ValueError, match='acceptance policy|audits disagree'):
         _inspect(src, require_quality=True)
 
 

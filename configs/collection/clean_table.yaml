@@ -56,6 +56,9 @@ quality:
 dataset:
   # Lossless RGB compression; no rescaling, skipped frames or pixel changes.
   image_compression: gzip
+  # Store each contiguous RGB frame once; next_obs remains a lossless shifted view.
+  image_storage: shared
+  flush_every: 1
   min_free_disk_gib: 5.0
   required_cameras:
   - overhead

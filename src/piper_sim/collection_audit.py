@@ -13,8 +13,34 @@ import numpy as np
 
 from .contracts import FEATURE_NAMES, LOWER, UPPER
 from .experts.quality import MotionQuality
+from .config import ROOT
 
-AUDIT_VERSION = 'piper.collection.v2'
+AUDIT_VERSION = 'piper.collection.v3'
+
+
+def load_acceptance_policy(path=None):
+    """Only an operator-supplied file, never a path/config from the recording."""
+    import yaml
+    path = Path(path) if path is not None else ROOT/'configs/collection/quality_policy.yaml'
+    raw = path.read_bytes()
+    try:
+        settings = yaml.safe_load(raw)
+    except yaml.YAMLError as exc:
+        raise ValueError('Malformed production acceptance policy') from exc
+    if not isinstance(settings, dict) or settings.get('schema_version') != 1:
+        raise ValueError('Unsupported production acceptance policy')
+    for name in ('motion', 'quality', 'dataset'):
+        if not isinstance(settings.get(name), dict):
+            raise ValueError('Missing policy section: '+name)
+        for key, value in settings[name].items():
+            if key == 'required_cameras':
+                if (not isinstance(value, list) or len(value) != 3 or
+                        set(value) != {'overhead', 'left_wrist', 'right_wrist'}):
+                    raise ValueError('Production policy requires the three workcell cameras')
+            elif (isinstance(value, bool) or not isinstance(value, (int, float))
+                  or not np.isfinite(value) or value < 0):
+                raise ValueError('Non-finite or invalid policy limit: '+name+'/'+key)
+    return settings, {'source': str(path.resolve()), 'sha256': hashlib.sha256(raw).hexdigest()}
 
 
 def _need(condition, reason):
@@ -236,7 +262,7 @@ def audit_task(f, metadata, settings):
             'final_peak_object_angular_speed_rad_s': peak_final_angular}
 
 
-def audit_episode(path, *, require_rgb=True):
+def audit_episode(path, *, require_rgb=True, policy=None):
     """Failures produce a rejected report; no missing field means 'pass'."""
     result = {'schema_version': AUDIT_VERSION, 'episode': str(Path(path).resolve()),
               'require_rgb': require_rgb, 'passed': False, 'training_ready': False,
@@ -249,7 +275,11 @@ def audit_episode(path, *, require_rgb=True):
             _need(f.attrs.get('success', False), 'unsuccessful_episode')
             meta = json.loads(f.attrs['metadata'])
             _need(np.isfinite(meta['fps']) and meta['fps'] > 0, 'invalid_fps')
-            settings = meta['teacher']['motion_and_quality']
+            settings, policy_evidence = load_acceptance_policy(policy)
+            result['acceptance_policy'] = policy_evidence
+            # Retain the declared settings as provenance, but acceptance uses
+            # the separately supplied policy even if the producer relaxed its gates.
+            result['declared_settings'] = meta['teacher']['motion_and_quality']
             result['settings'] = settings
             for name, check in [('streams', lambda: audit_streams(f, meta, settings, require_rgb)),
                                 ('task', lambda: audit_task(f, meta, settings))]:

@@ -62,7 +62,7 @@ def collect_episodes(inputs):
     return paths
 
 
-def _inspect(path, *, require_quality=False):
+def _inspect(path, *, require_quality=False, policy=None):
     with h5py.File(path, 'r') as f:
         if f.attrs.get('schema_version') != 'piper.transitions.v1' or not f.attrs.get('complete', False):
             raise ValueError(f'Not a complete piper.transitions.v1 episode: {path}')
@@ -86,6 +86,13 @@ def _inspect(path, *, require_quality=False):
             if (not evidence.get('training_ready') or not evidence.get('passed') or evidence.get('violations')
                     or audited_sha256 != _sha256(path)):
                 raise ValueError('Episode changed after its dataset audit: '+str(path))
+            from .collection_audit import AUDIT_VERSION, load_acceptance_policy
+            _, expected_policy = load_acceptance_policy(policy)
+            if (audit.get('schema_version') != AUDIT_VERSION or
+                    audit.get('acceptance_policy', {}).get('sha256') != expected_policy['sha256']):
+                raise ValueError('Re-audit this episode with the selected production acceptance policy: '+str(path))
+            if {k: v for k, v in evidence.items() if k != 'source_sha256'} != audit:
+                raise ValueError('Embedded and detached dataset audits disagree: '+str(path))
             meta['dataset_audit'] = audit
         # Preserve final collection gates as well as reset-time metadata.
         if 'quality' in f.attrs:
@@ -215,7 +222,7 @@ def _aggregate(items):
     return result
 
 
-def export_lerobot_v2(inputs, output, *, image_size=None, progress=None, require_quality=False):
+def export_lerobot_v2(inputs, output, *, image_size=None, progress=None, require_quality=False, policy=None):
     """Create a NEW local v2.1 dataset from completed H5 episodes; never upload.
 
     image_size=(width,height) optionally letterboxes RGB and records adjusted K.
@@ -229,7 +236,7 @@ def export_lerobot_v2(inputs, output, *, image_size=None, progress=None, require
             raise ValueError('image_size must be two positive integers')
     output = Path(output).expanduser().resolve()
     if output.exists(): raise FileExistsError(output)
-    episodes = [_inspect(p, require_quality=require_quality) for p in collect_episodes(inputs)]
+    episodes = [_inspect(p, require_quality=require_quality, policy=policy) for p in collect_episodes(inputs)]
     first = episodes[0]
     transforms = {name:_image_transform(shape,image_size) for name,shape in first['shapes'].items()}
     for ep in episodes:

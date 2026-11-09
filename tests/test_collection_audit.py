@@ -70,8 +70,12 @@ def test_solid_coloured_and_frozen_camera_are_rejected(tmp_path):
 
 
 def test_success_flag_without_task_evidence_does_not_pass(tmp_path):
-    path, _, _ = fixture_episode(tmp_path)
-    result = audit_episode(path)
+    path, _, settings = fixture_episode(tmp_path)
+    policy = yaml.safe_load((ROOT/'configs/collection/quality_policy.yaml').read_text())
+    policy['dataset']['min_frames'] = settings['dataset']['min_frames']
+    policy_path = tmp_path/'test_policy.yaml'
+    policy_path.write_text(yaml.safe_dump(policy))
+    result = audit_episode(path, policy=policy_path)
     assert not result['passed'] and not result['training_ready']
     assert result['checks']['streams']['passed']
     assert any(v.startswith('task/KeyError') for v in result['violations'])
@@ -93,3 +97,37 @@ def test_incomplete_and_state_only_cannot_be_training_ready(tmp_path):
     assert not audit_episode(path, require_rgb=False)['training_ready']
     with h5py.File(path, 'r+') as f: f.attrs['complete'] = False
     assert 'incomplete_or_unknown_episode' in audit_episode(path)['violations'][0]
+
+
+def test_episode_cannot_lower_its_own_production_acceptance_threshold(tmp_path):
+    path, meta, _ = fixture_episode(tmp_path)
+    # The source declares six frames sufficient. The separate production
+    # policy still requires 150 and must reject it regardless of its success flag.
+    with h5py.File(path, 'r+') as f:
+        meta['teacher']['motion_and_quality']['dataset']['min_frames'] = 1
+        meta['teacher']['motion_and_quality']['quality']['measured_jerk_rad_s3'] = 1e20
+        f.attrs['metadata'] = json.dumps(meta)
+    result = audit_episode(path)
+    assert not result['training_ready']
+    assert 'streams/ValueError: insufficient_frames' in result['violations']
+    assert result['settings']['quality']['measured_jerk_rad_s3'] == 200
+    assert result['acceptance_policy']['sha256']
+
+
+def test_nonfinite_external_policy_is_rejected(tmp_path):
+    path, _, _ = fixture_episode(tmp_path)
+    policy = yaml.safe_load((ROOT/'configs/collection/quality_policy.yaml').read_text())
+    policy['quality']['measured_jerk_rad_s3'] = float('inf')
+    supplied = tmp_path/'bad_policy.yaml'; supplied.write_text(yaml.safe_dump(policy))
+    result = audit_episode(path, policy=supplied)
+    assert not result['passed']
+    assert 'invalid policy limit' in result['violations'][0]
+
+
+@pytest.mark.parametrize('content', ['', '- wrong schema', 'dataset: [unclosed'])
+def test_malformed_policy_returns_rejection(tmp_path, content):
+    path, _, _ = fixture_episode(tmp_path)
+    policy = tmp_path/'malformed.yaml'; policy.write_text(content)
+    result = audit_episode(path, policy=policy)
+    assert not result['passed'] and not result['training_ready']
+    assert result['violations'][0].startswith('ValueError:')

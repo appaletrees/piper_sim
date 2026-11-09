@@ -1,0 +1,163 @@
+{
+  "schema_version": "piper.pipeline_profile.v1",
+  "pid": 677388,
+  "wall_seconds": 126.96955930104014,
+  "process_cpu_seconds": 129.442054594,
+  "mean_cpu_percent_one_core": 101.94731343998579,
+  "stages": {
+    "imports": {
+      "calls": 1,
+      "inclusive_s": 0.10584407497663051,
+      "exclusive_s": 0.10584407497663051,
+      "max_call_s": 0.10584407497663051
+    },
+    "physics_forward": {
+      "calls": 585,
+      "inclusive_s": 0.48624316917266697,
+      "exclusive_s": 0.48624316917266697,
+      "max_call_s": 0.0014564968878403306
+    },
+    "scene_load": {
+      "calls": 1,
+      "inclusive_s": 6.137740770005621,
+      "exclusive_s": 6.137511362088844,
+      "max_call_s": 6.137740770005621
+    },
+    "render_scene_update": {
+      "calls": 1755,
+      "inclusive_s": 0.08982794743496925,
+      "exclusive_s": 0.08982794743496925,
+      "max_call_s": 8.575909305363894e-05
+    },
+    "render_and_readback": {
+      "calls": 1755,
+      "inclusive_s": 38.486593166016974,
+      "exclusive_s": 38.486593166016974,
+      "max_call_s": 0.042812378029339015
+    },
+    "camera_render": {
+      "calls": 1755,
+      "inclusive_s": 38.96626015403308,
+      "exclusive_s": 0.38983904058113694,
+      "max_call_s": 0.3756748699815944
+    },
+    "observation_read": {
+      "calls": 1179,
+      "inclusive_s": 70.22186351753771,
+      "exclusive_s": 31.255603363504633,
+      "max_call_s": 0.421137172030285
+    },
+    "control_apply": {
+      "calls": 583,
+      "inclusive_s": 0.009664906770922244,
+      "exclusive_s": 0.009664906770922244,
+      "max_call_s": 2.7122092433273792e-05
+    },
+    "physics_integration": {
+      "calls": 583,
+      "inclusive_s": 15.578357164165936,
+      "exclusive_s": 15.578357164165936,
+      "max_call_s": 0.03683027101214975
+    },
+    "backend_step": {
+      "calls": 583,
+      "inclusive_s": 16.606266201939434,
+      "exclusive_s": 0.5421844195807353,
+      "max_call_s": 0.03923128510359675
+    },
+    "expert_ik": {
+      "calls": 121,
+      "inclusive_s": 0.08041411684826016,
+      "exclusive_s": 0.08041411684826016,
+      "max_call_s": 0.0016825629863888025
+    },
+    "expert_collision_plan": {
+      "calls": 72,
+      "inclusive_s": 0.7731641804566607,
+      "exclusive_s": 0.7731641804566607,
+      "max_call_s": 0.07493651797994971
+    },
+    "expert_time_parameterization": {
+      "calls": 10,
+      "inclusive_s": 0.0019070811104029417,
+      "exclusive_s": 0.0019070811104029417,
+      "max_call_s": 0.0005037570372223854
+    },
+    "metadata_write": {
+      "calls": 9401,
+      "inclusive_s": 1.7693779300898314,
+      "exclusive_s": 1.7693779300898314,
+      "max_call_s": 0.0037999419728294015
+    },
+    "rgb_compress_write": {
+      "calls": 3318,
+      "inclusive_s": 25.311951506650075,
+      "exclusive_s": 25.311951506650075,
+      "max_call_s": 0.011016020900569856
+    },
+    "hdf5_flush": {
+      "calls": 553,
+      "inclusive_s": 0.06930167390964925,
+      "exclusive_s": 0.06930167390964925,
+      "max_call_s": 0.000288801034912467
+    },
+    "recording_append": {
+      "calls": 553,
+      "inclusive_s": 28.101568722515367,
+      "exclusive_s": 0.950937611865811,
+      "max_call_s": 0.057636043056845665
+    },
+    "recording_close": {
+      "calls": 1,
+      "inclusive_s": 0.00035486998967826366,
+      "exclusive_s": 0.00035486998967826366,
+      "max_call_s": 0.00035486998967826366
+    },
+    "audit_total": {
+      "calls": 1,
+      "inclusive_s": 0.0006847881013527513,
+      "exclusive_s": 0.0006847881013527513,
+      "max_call_s": 0.0006847881013527513
+    },
+    "audit_save_and_checksum": {
+      "calls": 1,
+      "inclusive_s": 0.46444439596962184,
+      "exclusive_s": 0.46444439596962184,
+      "max_call_s": 0.46444439596962184
+    }
+  },
+  "resources": {
+    "samples": 62,
+    "peak_rss_bytes": 2440318976,
+    "cpu_percent_one_core": {
+      "mean": 101.94445813757092,
+      "peak": 154.21320191026817
+    },
+    "gpus": {
+      "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+        "name": "NVIDIA GeForce RTX 5090 D",
+        "samples": 62,
+        "utilization_sum_percent": 1741.0,
+        "peak_utilization_percent": 66.0,
+        "peak_used_bytes": 20859322368
+      }
+    },
+    "gpu_sampling_errors": 0
+  },
+  "scope": "Single synchronous process; GPU totals include unrelated applications. Exclusive stage time excludes nested measured calls; unwrapped work remains unattributed. RSS is process lifetime high-water mark. Rendering includes GPU synchronization/readback.",
+  "unattributed_wall_seconds": 4.465352531755343,
+  "returncode": 0,
+  "command": [
+    "--record",
+    "--rgb",
+    "--objects",
+    "pen",
+    "--seed",
+    "0",
+    "--domain-randomization",
+    "configs/domain_randomization/clean_table.yaml",
+    "--output",
+    "outputs/platform_audit_v1/rgb_pen_duplicated"
+  ],
+  "training_note": "Instrumentation alone does not establish acceptance; see the closed-file audit."
+}

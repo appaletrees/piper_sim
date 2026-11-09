@@ -123,7 +123,9 @@ def main():
                            if backend.task.config.get('variant') == 'rigid_stack_v1'
                            else '纸巾放左盒；全部餐具放右篮；餐垫留桌面')
             session.start_recording('episode', instruction,
-                image_compression=settings.get('dataset', {}).get('image_compression', 'lzf'))
+                image_compression=settings.get('dataset', {}).get('image_compression', 'lzf'),
+                image_storage=settings.get('dataset', {}).get('image_storage', 'duplicated'),
+                flush_every=settings.get('dataset', {}).get('flush_every', 1))
         summary = teacher.run(args.objects)
     except (Exception, KeyboardInterrupt) as exc:
         error = f'{type(exc).__name__}: {exc}'

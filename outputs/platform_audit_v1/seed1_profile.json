@@ -1,0 +1,136 @@
+{
+  "schema_version": "piper.pipeline_profile.v1",
+  "pid": 666222,
+  "wall_seconds": 511.19473571900744,
+  "process_cpu_seconds": 540.986813219,
+  "mean_cpu_percent_one_core": 105.82793120083471,
+  "stages": {
+    "imports": {
+      "calls": 1,
+      "inclusive_s": 0.10513873910531402,
+      "exclusive_s": 0.10513873910531402,
+      "max_call_s": 0.10513873910531402
+    },
+    "physics_forward": {
+      "calls": 7687,
+      "inclusive_s": 11.99444458191283,
+      "exclusive_s": 11.99444458191283,
+      "max_call_s": 0.008458775002509356
+    },
+    "scene_load": {
+      "calls": 1,
+      "inclusive_s": 6.043801457039081,
+      "exclusive_s": 6.043570715002716,
+      "max_call_s": 6.043801457039081
+    },
+    "observation_read": {
+      "calls": 15461,
+      "inclusive_s": 12.891242015175521,
+      "exclusive_s": 12.891242015175521,
+      "max_call_s": 0.003864342928864062
+    },
+    "control_apply": {
+      "calls": 7685,
+      "inclusive_s": 0.12224144046194851,
+      "exclusive_s": 0.12224144046194851,
+      "max_call_s": 4.064105451107025e-05
+    },
+    "physics_integration": {
+      "calls": 7685,
+      "inclusive_s": 384.226848365739,
+      "exclusive_s": 384.226848365739,
+      "max_call_s": 0.20395665802061558
+    },
+    "backend_step": {
+      "calls": 7685,
+      "inclusive_s": 404.62996303953696,
+      "exclusive_s": 8.409192722872831,
+      "max_call_s": 0.2115538640646264
+    },
+    "expert_ik": {
+      "calls": 2044,
+      "inclusive_s": 5.7856757940026,
+      "exclusive_s": 5.7856757940026,
+      "max_call_s": 0.028206484974361956
+    },
+    "expert_collision_plan": {
+      "calls": 2082,
+      "inclusive_s": 21.067538881557994,
+      "exclusive_s": 21.067538881557994,
+      "max_call_s": 0.08310335606802255
+    },
+    "expert_time_parameterization": {
+      "calls": 107,
+      "inclusive_s": 0.08796286617871374,
+      "exclusive_s": 0.08796286617871374,
+      "max_call_s": 0.027029590914025903
+    },
+    "metadata_write": {
+      "calls": 84205,
+      "inclusive_s": 11.703570679528639,
+      "exclusive_s": 11.703570679528639,
+      "max_call_s": 0.023041701992042363
+    },
+    "hdf5_flush": {
+      "calls": 7655,
+      "inclusive_s": 0.6677146430592984,
+      "exclusive_s": 0.6677146430592984,
+      "max_call_s": 0.0001952380407601595
+    },
+    "recording_append": {
+      "calls": 7655,
+      "inclusive_s": 19.83385920606088,
+      "exclusive_s": 7.462573883472942,
+      "max_call_s": 0.0451326840557158
+    },
+    "recording_close": {
+      "calls": 1,
+      "inclusive_s": 0.0005406419513747096,
+      "exclusive_s": 0.0005406419513747096,
+      "max_call_s": 0.0005406419513747096
+    },
+    "audit_total": {
+      "calls": 1,
+      "inclusive_s": 0.0004649379989132285,
+      "exclusive_s": 0.0004649379989132285,
+      "max_call_s": 0.0004649379989132285
+    },
+    "audit_save_and_checksum": {
+      "calls": 1,
+      "inclusive_s": 0.06715946702752262,
+      "exclusive_s": 0.06715946702752262,
+      "max_call_s": 0.06715946702752262
+    }
+  },
+  "resources": {
+    "samples": 251,
+    "peak_rss_bytes": 2288701440,
+    "cpu_percent_one_core": {
+      "mean": 105.84462361203718,
+      "peak": 191.23955508877285
+    },
+    "gpus": {
+      "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+        "name": "NVIDIA GeForce RTX 5090 D",
+        "samples": 251,
+        "utilization_sum_percent": 1492.0,
+        "peak_utilization_percent": 22.0,
+        "peak_used_bytes": 19754123264
+      }
+    },
+    "gpu_sampling_errors": 0
+  },
+  "scope": "Single synchronous process; GPU totals include unrelated applications. Exclusive stage time excludes nested measured calls; unwrapped work remains unattributed. RSS is process lifetime high-water mark. Rendering includes GPU synchronization/readback.",
+  "unattributed_wall_seconds": 40.558855343959294,
+  "returncode": 2,
+  "command": [
+    "--record",
+    "--seed",
+    "1",
+    "--domain-randomization",
+    "configs/domain_randomization/clean_table.yaml",
+    "--output",
+    "outputs/platform_audit_v1/seed1"
+  ],
+  "training_note": "Instrumentation alone does not establish acceptance; see the closed-file audit."
+}
