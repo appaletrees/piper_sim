@@ -28,8 +28,10 @@ def result(seed):
         'phase_wall_seconds': {'collection': 3.}, 'error': None if good else 'quality rejection'}
 
 
-def test_shards_start_concurrently_validate_all_outcomes_and_resume_does_not_claim_throughput(tmp_path, monkeypatch):
+@pytest.mark.parametrize('workers', [1, 2, 3])
+def test_shards_start_concurrently_validate_all_outcomes_and_resume_does_not_claim_throughput(tmp_path, monkeypatch, workers):
     args = args_fixture(tmp_path/'batch')
+    args.workers = workers
     processes, checked = [], []
     class Process:
         def __init__(self, command, **kwargs):
@@ -44,7 +46,7 @@ def test_shards_start_concurrently_validate_all_outcomes_and_resume_does_not_cla
             processes.append(self)
             self.code = None
         def wait(self, **kwargs):
-            assert len(processes) % 2 == 0  # Both workers were launched before waiting.
+            assert len(processes) % workers == 0  # Every shard launched before waiting.
             self.code = 0 if any(s != 9 for s in self.seeds) else 2
             return self.code
         def poll(self): return self.code
@@ -54,8 +56,9 @@ def test_shards_start_concurrently_validate_all_outcomes_and_resume_does_not_cla
     monkeypatch.setattr(jobs, 'validate_completed', lambda r: None)
     with BatchJournal(args.output, {'same': 'identity'}) as journal:
         assert cli.collect(args, journal) == 0
-    assert [p.seeds for p in processes] == [[7, 43], [9]]
-    assert checked == [7, 43, 9]
+    expected = [args.seeds[index::workers] for index in range(workers)]
+    assert [p.seeds for p in processes] == expected
+    assert checked == [seed for shard in expected for seed in shard]
     summary = json.loads((args.output/'summary.json').read_text())
     assert [r['seed'] for r in summary['episodes']] == [7, 9, 43]
     assert summary['diagnostic_passed'] == 2 and summary['accepted'] == 0 and summary['rejected'] == 1

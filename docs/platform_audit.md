@@ -681,3 +681,16 @@ PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py
 QVEL 警告为既有故障注入。各回合、失败原因、源码与政策哈希汇总为
 `outputs/platform_audit_v1/round5_validation.json`。本轮新增数据均无 RGB，不进入视觉训练
 接受清单；没有新增合格 RGB 吞吐量基准，也没有证明 2 倍有效产能。
+
+### 端到端同组吞吐量基准准备
+
+基准入口新增独立的 worker 上限和顺序执行的同组对照，生产并行入口也支持最多三个
+worker（默认仍为两个）。已通过 **224 项非 PPO 测试，101.41 s**，覆盖 1/2/3 worker 队列、
+超时、输入改动拒绝、对照哈希条件，以及生产/基准两个入口的真实 SIGTERM 后代清理。
+中断的 partial 与失败记录保留，不把不完整比较发布为成功速率。
+
+下一组实测固定默认物理配置和种子 0/2/7，先 1 worker，后 3 workers；每组完整三路 RGB
+录制、独立审计、导出与父进程复核。代码、资产、依赖和编码器在每次启动与组结束时校验。
+CLI 使用方式见 [同组吞吐量对照](domain_randomization_collection.md#同版本同种子的完整吞吐量对照)。
+准备记录为 `outputs/platform_audit_v1/round6_benchmark_setup.json`，计划结果目录为
+`outputs/platform_audit_v1/qualified_pair_v9`。**准备验证不等于性能实测；此处尚无新的加速结论。**

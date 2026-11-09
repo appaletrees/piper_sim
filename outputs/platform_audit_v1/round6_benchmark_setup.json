@@ -1,0 +1,52 @@
+{
+  "schema_version": "piper.paired_benchmark_setup.v1",
+  "status": "ready_to_run_not_a_throughput_result",
+  "created_at": "2026-11-09T07:57:33.352028+00:00",
+  "base_commit": "d286cfaad33a0b5cf87dca263fce79980d242a34",
+  "planned_output": "outputs/platform_audit_v1/qualified_pair_v9",
+  "seeds": [
+    0,
+    2,
+    7
+  ],
+  "sequential_worker_counts": [
+    1,
+    3
+  ],
+  "scope": "Six full RGB attempts in two sequential groups; all independent audits, LeRobot exports and parent checks included per cohort. No state preflight.",
+  "tests": {
+    "passed": 224,
+    "wall_seconds": 101.41,
+    "log": "outputs/platform_audit_v1/round6_tests_final.log",
+    "excluded": [
+      "tests/test_rl_geometry.py",
+      "tests/test_rl_policy.py"
+    ],
+    "coverage": [
+      "bounded pools 1/2/3",
+      "frozen inputs",
+      "same-cohort hashes",
+      "worker timeout",
+      "real SIGTERM process-group cleanup in both production collector and benchmark"
+    ]
+  },
+  "estimated_disk_allowance_gib": 65,
+  "observed_free_disk_gib": 70.37824630737305,
+  "policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "source_sha256": {
+    "scripts/benchmark_qualified_collection.py": "9462234ffae0f89b9dc8107b8df35f535dffb47ef934715d17bf6d54085951c1",
+    "scripts/collect_parallel_clean_table.py": "239c189f99bca3b85e90cab1453a5ff74cf1e8e1599b5c572128aa0d6db05947",
+    "src/piper_sim/process_lifecycle.py": "09fe624d22ad57bd02d92f4c52731d072a460d53529799a1249e80ad13d1e51b",
+    "tests/test_qualified_benchmark.py": "42d632df773e77d2b984cf7eeb0d268a5ad5c9f7769a16469fa249c57a485b25",
+    "tests/test_parallel_collection.py": "7fdb2544ac08e03a578349f0e5eb316c802a15fc16634e1161ae68cc66a139e3",
+    "tests/test_parallel_signals.py": "2fc6e3f89601fd86b27b27f47e7c1861a7a3738278762bb9e169f055a801d239"
+  },
+  "hardware_observation": "NVIDIA GeForce RTX 5090 D, 580.178.04, 1970 MiB, 12 %",
+  "simulation_or_policy_changed": false,
+  "qualified_speedup": null,
+  "limitations": [
+    "Benchmark has not run yet. No effective throughput claim.",
+    "Use only one repeated-seed cohort when curating training data.",
+    "PPO worktree edits preserved and excluded from this task commit."
+  ]
+}

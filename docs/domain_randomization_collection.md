@@ -409,7 +409,7 @@ seed 0 随后用最终配置完整复跑并录制三路 **640×480、30 Hz RGB**
 
 ## 并行批采集与恢复（平台审计阶段新增）
 
-`collect_parallel_clean_table.py` 将种子分给最多两个独立串行采集进程。每个 worker 有自己的
+`collect_parallel_clean_table.py` 将种子分给最多三个独立串行采集进程，默认两个。每个 worker 有自己的
 journal、日志和录制目录；相机、物理、控制时钟不共享。父进程重新校验结果后，按输入种子
 顺序发布统一的 accepted / diagnostics / rejected / unverified 清单。可选 LeRobot 导出
 在全部 worker 结束后执行，按 train / validation 汇总；特权信息仍在独立 extras 中。
@@ -435,7 +435,36 @@ PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/collect_parallel_cl
 `invocation_*.json` 单独记录本次启动到校验/导出结束的墙钟时间；首次运行的合格回合/小时
 包括失败尝试，恢复运行不报告这个比率，以免把复用结果伪装成新采集速度。普通 `summary.json`
 中的累计 phase 时间相加包含并发重叠，不能作为并行产能。完整三路 RGB 回合实测约需
-6–10 GB HDF5，预留空间需覆盖两个 worker 的总量与至少 5 GiB 运行余量；图像熵会改变体积。
+6–10 GB HDF5，预留空间需覆盖整个批次的总量与至少 5 GiB 运行余量；图像熵会改变体积。
 
 并行入口不提高专家本身的成功率。当前仍有被审核拒收的布局，版本和完整证据见
 [平台审计](platform_audit.md)；不能仅凭可并行运行就视为已达到稳定批量生产标准。
+
+### 同版本、同种子的完整吞吐量对照
+
+基准入口将 seed 数量和并发数解耦。下面先以一个 worker 顺序跑三个种子，再以三个 worker
+同时跑同一组；两组不会彼此重叠：
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/benchmark_qualified_collection.py \
+  --seeds 0 2 7 --compare-workers 1 3 \
+  --output outputs/qualified_pair_new --min-free-gib 65 --expected-episode-gib 10
+```
+
+每个回合包含完整三路 RGB、独立闭文件审计、LeRobot 导出和父进程再次验证。基准不做状态
+预检，也不生成额外总览视频；失败尝试与所有这些阶段均计入 cohort 墙钟时间。它不改变
+物理步长、30 Hz 记录频率或验收门槛。生产入口仍可保留预检，两种流程的产能不能混报。
+
+`inputs.json` 保存源码、配置、资产、依赖、编码器可执行文件与运行环境指纹；每条回合启动
+前以及 cohort 结束时重新校验，变更会中止比较。`workers_*/report.json` 保存当前所属 PID、
+每个种子的通过/失败和速率；`comparison.json` 仅在两组完整通过、动作/状态、物体位姿、帧数
+和验收策略匹配时给出加速比。它不据此声称 RGB 逐像素一致或分布总体成功率。
+
+`seed_*_profile.json` 记录阶段耗时和资源峰值。单组使用 `--workers 1`、`2` 或 `3`。
+`--timeout-s` 默认每回合 7200 s，包含审核与导出；超时或 SIGTERM 会清理本次拥有的进程组，
+保存中断记录且不发布成功速率。基准目录必须是新目录；生产批采集另有 journal 恢复机制。
+
+磁盘预算为 `max(min_free_gib, 5 + 组数 × 种子数 × expected_episode_gib)`，默认每回合
+10 GiB，属于规划估计，不是硬上限。运行时 recorder 的空闲磁盘门槛继续生效。这里两组
+刻意重复相同 seed 家族，不能把六个文件当六条独立轨迹拼入训练集，更不能将复制的家族
+分别放进训练和验证集；整理数据时选择一组并应用生产采集的固定家族划分。

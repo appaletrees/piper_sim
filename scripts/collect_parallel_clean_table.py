@@ -6,7 +6,6 @@ parent owns process groups, so interruption stops only its collectors/recorders.
 No frame, time, physics, quality-policy or split semantics are changed.
 """
 import argparse
-from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
@@ -17,30 +16,7 @@ import time
 
 from piper_sim.collection_jobs import BatchJournal, atomic_json, batch_identity, sha256, validate_completed
 from piper_sim.config import ROOT
-
-
-class CollectionTerminated(SystemExit):
-    def __init__(self, signum):
-        super().__init__(128+signum)
-        self.signum = signum
-
-    def __str__(self):
-        return signal.Signals(self.signum).name
-
-
-@contextmanager
-def termination_guard():
-    """Let SIGTERM unwind journals and owned process groups, just like Ctrl-C."""
-    previous = signal.getsignal(signal.SIGTERM)
-    def terminate(signum, _frame):
-        # A repeated termination request must not interrupt descendant cleanup.
-        signal.signal(signal.SIGTERM, signal.SIG_IGN)
-        raise CollectionTerminated(signum)
-    signal.signal(signal.SIGTERM, terminate)
-    try:
-        yield
-    finally:
-        signal.signal(signal.SIGTERM, previous)
+from piper_sim.process_lifecycle import CollectionTerminated, termination_guard, stop_process_groups
 
 
 def worker_command(args, seeds, output):
@@ -57,20 +33,7 @@ def worker_command(args, seeds, output):
 
 def stop_owned_workers(jobs):
     """Workers start new sessions; signal their own group including recorder children."""
-    # A failed group leader may have exited while its recorder is still alive.
-    owned = [process for _, _, _, process in jobs if process.poll() not in (0, 2)]
-    for process in owned:
-        try: os.killpg(process.pid, signal.SIGTERM)
-        except ProcessLookupError: pass
-    for process in owned:
-        if process.poll() is None:
-            try: process.wait(timeout=10)
-            except subprocess.TimeoutExpired: pass
-        # Waiting for the leader alone misses descendants which ignore SIGTERM.
-        # Only groups created by this invocation are addressed.
-        try: os.killpg(process.pid, signal.SIGKILL)
-        except ProcessLookupError: pass
-        process.wait()
+    stop_process_groups([process for _, _, _, process in jobs])
 
 
 def export_completed(args, results):
@@ -160,7 +123,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--resume', action='store_true')
-    parser.add_argument('--workers', type=int, choices=(1, 2), default=2)
+    parser.add_argument('--workers', type=int, choices=(1, 2, 3), default=2)
     parser.add_argument('--seeds', type=int, nargs='+', default=list(range(10)))
     parser.add_argument('--config', default='configs/clean_table_workcell.yaml')
     parser.add_argument('--task-scene', default='configs/tasks/clean_table_rigid.yaml')

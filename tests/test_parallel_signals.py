@@ -13,7 +13,8 @@ from piper_sim.config import ROOT
 
 
 @pytest.mark.skipif(sys.platform != 'linux', reason='Linux process-group supervision')
-def test_sigterm_records_interruption_and_stops_owned_descendants(tmp_path):
+@pytest.mark.parametrize('supervisor', ['collector', 'benchmark'])
+def test_sigterm_records_interruption_and_stops_owned_descendants(tmp_path, supervisor):
     child = tmp_path/'child.py'
     ready = tmp_path/'ready.json'
     child.write_text('''import json, os, signal, subprocess, sys, time
@@ -25,7 +26,8 @@ with open(sys.argv[1], 'w') as f: json.dump([os.getpid(), grandchild.pid], f)
 time.sleep(60)
 ''')
     parent = tmp_path/'parent.py'
-    parent.write_text(f'''import importlib.util, pathlib, sys
+    if supervisor == 'collector':
+        parent.write_text(f'''import importlib.util, pathlib, sys
 from types import SimpleNamespace
 from piper_sim.collection_jobs import BatchJournal
 spec=importlib.util.spec_from_file_location('cli', {str(ROOT/'scripts/collect_parallel_clean_table.py')!r})
@@ -35,6 +37,16 @@ args=SimpleNamespace(output=pathlib.Path({str(tmp_path/'batch')!r}), workers=1,
     seeds=[7], resume=False, validation_fraction=.2, lerobot=False)
 with cli.termination_guard():
     with BatchJournal(args.output, {{}}) as journal: cli.collect(args,journal)
+''')
+    else:
+        parent.write_text(f'''import importlib.util, sys
+spec=importlib.util.spec_from_file_location('cli', {str(ROOT/'scripts/benchmark_qualified_collection.py')!r})
+cli=importlib.util.module_from_spec(spec); spec.loader.exec_module(cli)
+cli.worker_command=lambda *a: [sys.executable, {str(child)!r}, {str(ready)!r}]
+cli.capture_identity=lambda *a: {{'frozen': True}}
+sys.argv=['benchmark', '--seeds', '7', '--workers', '1', '--output', {str(tmp_path/'batch')!r},
+    '--min-free-gib', '.001', '--expected-episode-gib', '.001']
+cli.main()
 ''')
     process = subprocess.Popen([sys.executable, str(parent)], env={**os.environ, 'PYTHONPATH': str(ROOT/'src')})
     unrelated = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])
@@ -47,7 +59,8 @@ with cli.termination_guard():
         owned = json.loads(ready.read_text())
         process.send_signal(signal.SIGTERM)
         assert process.wait(timeout=15) == 128+signal.SIGTERM
-        evidence = json.loads((tmp_path/'batch/invocation_001.json').read_text())
+        evidence_name = 'invocation_001.json' if supervisor == 'collector' else 'report.json'
+        evidence = json.loads((tmp_path/'batch'/evidence_name).read_text())
         assert evidence['status'] == 'interrupted_or_failed'
         assert 'SIGTERM' in evidence['error']
         assert not (tmp_path/'batch/jobs/000000.json').exists()
