@@ -13,6 +13,8 @@ from ..camera_cache import CameraSnapshotCache
 
 class IsaacBackend:
     def __init__(self, cfg, device="cuda:0", cameras=False):
+        from ..mujoco_contact import require_contact_engine
+        require_contact_engine(cfg, 'isaac')
         self.cfg = cfg
         runtime = cfg["runtime"]
         self.dt = runtime["physics_dt"]

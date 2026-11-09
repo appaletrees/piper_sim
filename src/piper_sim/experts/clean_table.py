@@ -47,12 +47,16 @@ class CleanTableTeacher:
             (ROOT/'configs/collection/clean_table.yaml').read_text())
         self.motion = self.settings['motion']
         self.pacing = self.settings.get('pacing', {})
+        self.release_preload_m = float(self.pacing.get('release_preload_threshold_m', .003))
+        if not np.isfinite(self.release_preload_m) or not 0 <= self.release_preload_m <= .095:
+            raise ValueError('Release preload threshold must be finite and within the gripper stroke')
         self.quality = MotionQuality(self.settings, 1/self.fps)
         self.holding = False
         self.prepared = False
         self.collision_peak = {'depth_m': 0., 'pair': None}
         self.camera_quality = {}
         self.carried = None
+        self.releasing = None
         self.carried_anchor = np.zeros(3)
         self.grasps = []
         self.configure_contact_control()
@@ -65,7 +69,8 @@ class CleanTableTeacher:
         m.opt.noslip_iterations = 0
         for i in range(m.ngeom):
             name = m.body(int(m.geom_bodyid[i])).name
-            if name in ('left/link7', 'left/link8', 'right/link7', 'right/link8'):
+            if (getattr(self.b, 'finger_contact', None) is None and
+                    name in ('left/link7', 'left/link8', 'right/link7', 'right/link8')):
                 m.geom_condim[i] = 6
                 m.geom_friction[i] = [1., .015, .002]
                 m.geom_priority[i] = 1
@@ -81,7 +86,7 @@ class CleanTableTeacher:
             m.actuator_forcerange[a] = [-force, force]
 
     def metadata(self):
-        return {'name': self.name, 'grasp_mode': self.mode,
+        value = {'name': self.name, 'grasp_mode': self.mode,
                 'privileged_inputs': ['object poses', 'container poses', 'geometry', 'contacts', 'robot kinematics'],
                 'physical_only': self.mode == 'physical',
                 'collision_gate': 'all robot bodies, including nonadjacent same-arm contacts; model adjacent exclusions retained',
@@ -105,6 +110,13 @@ class CleanTableTeacher:
                     'C3 time law and sampled derivative retiming'
                     if self.pacing.get('continuous_paths') else 'septic C3 rest-to-rest per segment'),
                 'grasp_frames': 'measured object SE(3) relative to nominal object grasp frame'}
+        profile = getattr(self.b, 'finger_contact', None)
+        value['contact_material_source'] = 'backend_episode_profile' if profile else 'legacy_teacher_parameters'
+        if profile:
+            value.pop('finger_friction')
+            value.pop('finger_contact_time_constant_s', None)
+            value['finger_contact'] = profile.metadata()
+        return value
 
     def event(self, phase, **fields):
         self.phase = phase
@@ -691,6 +703,7 @@ class CleanTableTeacher:
         self.event('lower')
         self.move_joints(side, q_low, None if self.pacing else 1.5)
         self.event('open_gripper', object_pose=self.object_pose(name))
+        self.releasing = (side, name)
         self.carried = None
         self.armed = None
         # Slender utensils need only a small release gap. Full opening beside
@@ -704,7 +717,7 @@ class CleanTableTeacher:
         ids = self.b.indices[side]['qpos']
         measured_width = float(self.b.data.qpos[ids[6:]].sum())
         index = 6 if side == 'left' else 13
-        if self.assist or measured_width-self.q[index] > .003:
+        if self.assist or measured_width-self.q[index] > self.release_preload_m:
             self.event('unload_gripper', measured_width_m=measured_width,
                        command_width_m=float(self.q[index]))
             self.grip(side, min(release_width, measured_width+.002))
@@ -719,6 +732,7 @@ class CleanTableTeacher:
             self.assist.release()
         self.event('release', object_pose=self.object_pose(name))
         self.grip(side, release_width)
+        self.releasing = None
         self.wait(self.pacing.get('release_hold_s', .5))
         # Preserve a vertical retreat, avoiding a bowed joint-space path.
         # Continuous mode passes through its IK knots without intermediate stops.

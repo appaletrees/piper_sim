@@ -39,6 +39,10 @@ class MujocoBackend:
         if type(self.substeps) is not int or self.substeps < 1:
             raise ValueError("mujoco_substeps must be a positive integer")
         self.model.opt.timestep = self.dt/self.substeps
+        self.finger_contact = None
+        if cfg.get('mujoco', {}).get('finger_contact') is not None:
+            from ..mujoco_contact import MujocoFingerContact
+            self.finger_contact = MujocoFingerContact(self.model, cfg['mujoco']['finger_contact'])
         self.rig = self.manifest["camera_rig"]
         self.enable_cameras = cameras
         self.randomizer = None
@@ -76,6 +80,10 @@ class MujocoBackend:
             if self.randomizer:
                 self.randomizer.apply(self.task.domain_parameters)
             self.task_adapter.reset_task(self.model, self.data, self.task)
+        if self.finger_contact:
+            layout = self.task.layout if self.task else {}
+            self.finger_contact.apply(layout.get('seed', 0 if seed is None else seed),
+                                      layout.get('randomized', bool(randomize)))
         home = np.array(self.cfg["robot"]["home"]*2)
         self.set_observation_state(home)
 
@@ -108,6 +116,8 @@ class MujocoBackend:
         return np.concatenate([self.data.ctrl[self.indices[side]["ctrl"]] for side in ARMS]).copy()
 
     def step(self):
+        if self.finger_contact:
+            self.finger_contact.assert_unchanged()
         expected_time = float(self.data.time)+self.dt*self.decimation
         mujoco.mj_step(self.model, self.data, nstep=self.decimation*self.substeps)
         # MuJoCo can auto-reset on huge acceleration, leaving finite qpos/qvel.
@@ -127,6 +137,9 @@ class MujocoBackend:
 
     def is_running(self):
         return not self._closed and (self.viewer is None or self.viewer.is_running())
+
+    def physics_metadata(self):
+        return {'finger_contact': self.finger_contact.metadata()} if self.finger_contact else {}
 
     def _render(self, name, width, height):
         key = (width, height)

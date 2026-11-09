@@ -16,15 +16,23 @@ class RigidTableTeacher(CleanTableTeacher):
         super().__init__(*args,**kwargs)
         if self.mode!='physical': raise ValueError('Rigid stacking requires physical grasps')
         self.stack_carried=False
+        self.rim_release_noslip_iterations = self.pacing.get('rim_release_noslip_iterations', 0)
+        if type(self.rim_release_noslip_iterations) is not int or self.rim_release_noslip_iterations < 0:
+            raise ValueError('Rim release noslip iterations must be a nonnegative integer')
 
     def metadata(self):
-        return {**super().metadata(),'name':'rigid_table_privileged_v1',
+        value = {**super().metadata(),'name':'rigid_table_privileged_v1',
                 'task_sequence':'nest cups on table, transport entire stack, clear remaining rigid props',
                 'per_kind_gripper_force_limits_N':{'pen':.35,'chopstick':.30,'plate':30.,'side_dish':15.,'other':5.},
                 'plate_pad_rolling_friction_m':.008,
                 'plate_gripper_kp_N_per_m':10000.,
                 'noslip_iterations_loaded_rim_grasp':10,
+                'noslip_iterations_rim_release':self.rim_release_noslip_iterations,
                 'placemat':'removed with all flexible objects','attachments':False}
+        value['per_target_contact_material_switching'] = getattr(self.b, 'finger_contact', None) is None
+        if not value['per_target_contact_material_switching']:
+            value.pop('plate_pad_rolling_friction_m')
+        return value
 
     @property
     def cups(self):
@@ -81,7 +89,8 @@ class RigidTableTeacher(CleanTableTeacher):
         self.b.model.actuator_gainprm[aid,0]=kp
         self.b.model.actuator_biasprm[aid,1]=-kp
         for g in range(self.b.model.ngeom):
-            if self.b.model.body(self.b.model.geom_bodyid[g]).name in ('right/link7','right/link8'):
+            if (getattr(self.b, 'finger_contact', None) is None and
+                    self.b.model.body(self.b.model.geom_bodyid[g]).name in ('right/link7','right/link8')):
                 self.b.model.geom_friction[g,2]=.008 if kind in ('plate','side_dish') else .002
                 self.b.model.geom_solref[g,0]=.0042 if kind=='side_dish' else self.settings['controller']['finger_contact_time_constant_s']
                 self.b.model.geom_solimp[g,:2]=[.99,.999] if kind=='side_dish' else [.95,.99]
@@ -90,8 +99,14 @@ class RigidTableTeacher(CleanTableTeacher):
     def step(self):
         # Refine friction constraints for a loaded thin rim. The physical
         # contact model still decides whether it can stick or slips/falls.
-        self.b.model.opt.noslip_iterations = (10 if self.carried and
+        iterations = (10 if self.carried and
             self.b.task.specs[self.carried[1]]['kind'] in ('plate','side_dish') else 0)
+        # Tracking may stop before the pads physically separate. A configured
+        # release keeps the solver resolution through unloading/opening, without
+        # retaining a grasp constraint, contact force or object pose.
+        if self.releasing and self.b.task.specs[self.releasing[1]]['kind'] in ('plate', 'side_dish'):
+            iterations = max(iterations, self.rim_release_noslip_iterations)
+        self.b.model.opt.noslip_iterations = iterations
         obs=super().step()
         if self.stack_carried:
             metric=self.b.task.stack_metrics(obs.extras['objects'])

@@ -30,6 +30,7 @@ class SimulationSession:
 
     def metadata(self):
         b = self.backend
+        physics = b.physics_metadata() if hasattr(b, 'physics_metadata') else {}
         from .transforms import load_camera_rig
         return {"backend": type(b).__name__, "mode": "sim", "features": list(FEATURE_NAMES),
                 "units": ["rad"]*6+["m"]+["rad"]*6+["m"],
@@ -37,7 +38,8 @@ class SimulationSession:
                 "fps": 1/(b.dt*b.decimation), "config": b.cfg,
                 "camera_rig": b.rig if hasattr(b, "rig") else load_camera_rig(b.cfg),
                 "task_scene": b.task.metadata() if b.task else None,
-                "state_timestamp_clock": "host_monotonic", "image_timestamp_clock": "simulation"}
+                "state_timestamp_clock": "host_monotonic", "image_timestamp_clock": "simulation",
+                **({'physics_model': physics} if physics else {})}
 
     def read(self):
         return self.backend.read()

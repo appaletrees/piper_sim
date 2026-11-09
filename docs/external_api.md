@@ -153,6 +153,34 @@ HTTP录制只在纯仿真且未使用CLI `--record` 时开放；CLI固定录制�
 记录器保留项目的 `piper.transitions.v1`：`observation/state`、实际 `action/position`、
 `next_observation/state`，以及前后帧RGB、相机时间和extras_json。内部单位rad/m，
 每个文件metadata保存原始任务配置、采样布局、seed、相机配置、控制频率与时钟定义。
+
+### 可选的固定指垫材质（MuJoCo，未标定实验配置）
+
+自动教师和外部控制可共用后端管理的指垫材质。显式选择
+`configs/clean_table_fixed_contact.yaml`；默认配置仍保留历史接触行为。
+
+```bash
+bash scripts/run_mujoco.sh --headless \
+  --config configs/clean_table_fixed_contact.yaml \
+  --task-scene configs/tasks/clean_table_rigid.yaml \
+  --domain-randomization configs/domain_randomization/clean_table.yaml \
+  --enable_cameras --api-port 8765 --record-dir outputs/api_fixed_contact
+```
+
+材料参数在 `configs/physics/mujoco_fixed_fingers.yaml`。`reset(seed=42, randomize=True)`
+分别为左右指垫采样 0.8–1.2 倍摩擦；同一 seed 可复现，回合内固定，抓盘子、笔或小碟不会
+更换材料。`randomize=False` 使用名义材料。三个摩擦分量按同一倍率缩放，属于相关随机化，
+并非三个独立辨识参数。指垫采用较高 geom priority，抓取的实际接触系数由指垫决定；
+物体/桌面的接触仍按各自参数与 MuJoCo 混合规则处理。
+
+实际材料通过 `client.metadata()['physics_model']['finger_contact']` 读取，包括左右倍率、
+完整参数、seed 与配置 SHA256；HTTP reset 确认后更新，录制开始时写入 HDF5 元数据。
+LeRobot 导出保留在 `meta/sim_episodes.jsonl`，不加入普通视觉策略的 observation 特征。
+Python 直接使用 `SimulationSession` 也返回同一字段。
+
+回合内若指垫参数被改写、全局 contact override 开启或其他 geom priority 覆盖指垫，
+后端会拒绝继续步进。该配置没有硬件辨识依据，不能作为稳定生产配置或实机等价证明；
+完整回合验证结果见 [平台审计](platform_audit.md)。Isaac 暂不支持此材料配置，显式报错。
 它与旧PiperRecorder的分目录H5+MP4不是相同磁盘格式；两者的字段/单位映射已由适配层明确提供，
 策略输入使用相同14维度/归一化顺序和相机名称。
 可选添加 `examples/external_agilex.py --lerobot-output outputs/lerobot_v2/demo_001`，

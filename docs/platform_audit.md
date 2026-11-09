@@ -595,3 +595,89 @@ solver contact 的摩擦向量均正确反映设定倍率，例如 0.8 得到 `[
 均未消除，不宣称达到真实部署成功率或稳定的大规模生产水平。
 
 ![种子 2 原速中央相机末帧](../outputs/platform_audit_v1/qualified_v8_seed2_frame_7747.png)
+
+### 固定指垫后端配置与释放阶段诊断（v9 候选）
+
+新增可选 `mujoco.finger_contact`，由 MuJoCo 后端加载独立材料配置、在 reset 时采样并保持
+整回合不变。左右指垫使用独立、可复现的 RNG 子流；名义滑动/扭转/滚动系数为
+`[1, .015, .002]`，三分量共同乘以各自的 0.8–1.2 倍率，接触时间常数 10 ms。
+这是未标定范围，不能理解为真机辨识结果。默认 `clean_table_workcell.yaml` 未启用候选。
+
+`clean_table_fixed_contact.yaml` 启用同一套材料供自动教师和外部 HTTP 控制使用；材料不再
+随笔、盘子、小碟切换，目标相关电机力/增益仍属于明确记录的控制策略。独立文件的 SHA256、
+完整参数与实际左右倍率写入会话/HTTP/HDF5 元数据，并由 LeRobot 旁路元数据保留。
+运行中若材料被改写、全局 contact override 开启或其他 geom priority 覆盖指垫，拒绝继续
+步进。Isaac 显式拒绝该 MuJoCo 专用配置；未实现的物理等价关系不作隐式回退。
+
+测试通过实际 solver contact 检查摩擦、solref、solimp，覆盖重复 reset、不累乘、教师
+切换对象和真实 HTTP 服务录制。阻抗与时间常数还避免依赖隐式截断；相关依据见
+[MuJoCo 接触参数](https://mujoco.readthedocs.io/en/stable/modeling.html#contact-parameters)与
+[求解器参数](https://mujoco.readthedocs.io/en/stable/modeling.html#solver-parameters)。
+本项只覆盖指垫接触，不能证明原有物体/桌面摩擦随机化都有效。
+
+`backend_fixed_contact_v1` 从初始化运行三条完整状态回合，保持原采样率与独立质量策略：
+
+| seed | 左/右指垫倍率 | 任务完成 | 独立状态审计 |
+| --- | --- | --- | --- |
+| 0 | 0.841388 / 1.105694 | 10/10 | 通过 |
+| 1 | 0.915474 / 0.819715 | 11/11 | 拒收：夹爪加速度/jerk |
+| 43 | 0.862813 / 0.864211 | 11/11 | 通过 |
+
+种子 1 的右夹爪在小碟释放阶段达到 1.2116 m/s²、68.9949 m/s³，超过原来的 1/50 门槛。
+任务完成没有覆盖拒收结果。释放开始时实际开度约 1.62 mm、目标为 0：尚有接触，却因为
+教师清空 `carried` 而将全局 NoSlip 后处理从 10 次迭代切到 0；旧 3 mm 预载阈值也未触发
+短行程卸载。独立审计首先检查到 unsuccessful_episode，在线质量报告保留具体超限原因。
+
+`diagnose_contact_release.py` 从该帧恢复状态做四组局部对照（`fixed_release_probe_v3.json`）：
+
+| 短行程卸载 | 释放时 NoSlip 迭代 | 开度加速度峰值 m/s² | jerk 峰值 m/s³ | 在线运动检查 |
+| --- | ---: | ---: | ---: | --- |
+| 无 | 0 | 1.2072 | 68.2106 | 拒收 |
+| 有 | 0 | 1.1311 | 67.5672 | 拒收 |
+| 无 | 10 | 0.6394 | 35.9565 | 通过 |
+| 有 | 10 | 0.7119 | 33.8950 | 通过 |
+
+这支持“释放时切换 NoSlip 对该失效有影响”，不证明所有抖动来自同一原因。NoSlip 是去除
+摩擦方向正则化的后处理，并非简单提高主求解器精度；它影响当前模型的所有接触、增加成本，
+也不能代替实机接触辨识。见 [MuJoCo NoSlip 说明](https://mujoco.readthedocs.io/en/latest/computation/)。
+诊断未恢复原物体速度与 warm start，不是精确历史回放或训练合格证据。
+
+![局部释放对照：原门槛不变，30 Hz 实测开度导数](../outputs/platform_audit_v1/release_diagnostic_comparison.png)
+
+图中保留真实仿真时间，没有对齐成等长动作；短行程卸载会增加耗时。四组对照也显示仅保留
+NoSlip 已能通过此局部检查，因此不能声称新增卸载是必要条件，后续需要比较其完整回合
+稳定性与时间成本。
+
+新增可选控制配置 `configs/collection/clean_table_fixed_contact.yaml`：预载阈值 0.5 mm，
+盘/碟松夹期间保留 10 次 NoSlip，打开完成后退出释放状态。CAD、材料、验收门槛均不随之
+改变。它显式区分“停止追踪携带物”与“指垫已完成松开”，没有增加附着或位姿锁定。
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py \
+  --config configs/clean_table_fixed_contact.yaml \
+  --collection-profile configs/collection/clean_table_fixed_contact.yaml \
+  --domain-randomization configs/domain_randomization/clean_table.yaml \
+  --record --seed 1 --output outputs/fixed_contact_trial
+```
+
+抓取几何另有独立诊断 `fixed_rim_geometry_v1.json`：在同一固定名义材料、30° 抓取倾角下，
+小碟原 x=-40 mm 抓点复现 27.4 mm 滑脱；x=-20/0 mm 均完成单件搬运并通过在线检查。
+这些局部结果未直接替换全任务抓点，也未作为布局分布上的成功率；需继续完整回合验证。
+
+释放候选的完整状态复测 `backend_fixed_release_v2` 已完成：
+
+| seed | 任务完成 | transitions | 独立审计 | 结论 |
+| --- | --- | ---: | --- | --- |
+| 0 | 8/10 | 5,957 | 拒收 | 小碟松夹后的撤离路径预测 `right/link6` 与篮筐穿透 4.44 mm，被原碰撞门槛拦截 |
+| 1 | 11/11 | 8,053 | 通过 | 原释放超限消除；整回合夹爪加速度/jerk 峰值降至 0.8995 m/s²、33.9679 m/s³ |
+| 43 | 11/11 | 7,771 | 通过 | 原有完整收纳仍通过 |
+
+候选种子 1 比固定材料原控制增加 32 帧（1.0667 s），这是实际控制过程增长，没有压缩
+时间戳或修改视频速率。种子 0 的失败保留，不能将这组结果描述成总体成功率提升，也没有
+提升为默认配置。下一步需验证仅保留释放 NoSlip 的方案，并处理松夹后的安全撤离规划。
+
+最终源码下的默认配置种子 0 回归为 6,930 transitions、10/10，通过独立审计；动作/状态
+轨迹 SHA256 与物体位姿 SHA256 均和 v8 完全一致。最终 **218 项非 PPO 测试通过，100.27 s**；
+QVEL 警告为既有故障注入。各回合、失败原因、源码与政策哈希汇总为
+`outputs/platform_audit_v1/round5_validation.json`。本轮新增数据均无 RGB，不进入视觉训练
+接受清单；没有新增合格 RGB 吞吐量基准，也没有证明 2 倍有效产能。

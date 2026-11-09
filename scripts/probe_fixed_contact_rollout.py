@@ -36,6 +36,8 @@ def main():
         def metadata(self):
             value = super().metadata()
             value.pop('plate_pad_rolling_friction_m', None)
+            value['contact_material_source'] = 'diagnostic_constant_teacher_parameters'
+            value['per_target_contact_material_switching'] = False
             value['name'] = 'rigid_table_fixed_material_diagnostic_v1'
             value['finger_friction'] = [args.scale, .015*args.scale, args.rolling_m*args.scale]
             value['experimental_contact_profile'] = {

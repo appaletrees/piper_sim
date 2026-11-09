@@ -1,0 +1,782 @@
+{
+  "status": "completed_diagnostic_only",
+  "training_ready": false,
+  "scope": "Scratch-only physical sorting with constant, uncalibrated finger material.\n\nRestore one recorded approach state per trial, then use normal dynamics/control.\nObject velocities and solver warm starts were not recorded and are initialized\nto zero: this is neither an exact replay nor a training/acceptance certificate.\nNo changes are made to the production teacher, assets, source recording or gates.\n",
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/fixed_material_seed1_scale10/episode.h5",
+  "source_trajectory_sha256": null,
+  "source_file_sha256": "4e931ca394dc703d54d25a6753ab33bbc9e6cab637796aa829753eae4a206afb",
+  "source_audit_passed": false,
+  "finger_material_nominal": {
+    "sliding": 1.0,
+    "torsional_m": 0.015,
+    "rolling_m": 0.002,
+    "solref": [
+      0.01,
+      1.0
+    ],
+    "solimp": [
+      0.95,
+      0.99,
+      0.001,
+      0.5,
+      2.0
+    ],
+    "calibrated": false
+  },
+  "source_snapshot_limitations": "Native arm position/velocity and object poses restored once; unrecorded object velocity/warm start initialized to zero. Single-object diagnostic, not exact replay.",
+  "control_and_solver": "Original target-specific motor force/kp; original loaded-rim noslip refinement.",
+  "implementation_sha256": "ca29cdfc9e5e65403a94daec5262007752e918dbad3d760745525f5820c47b43",
+  "expert_source_sha256": {
+    "src/piper_sim/experts/collision.py": "db8697281a42fee99d772be35e486258231a627a7e463e3a4d4e52d3e736f943",
+    "src/piper_sim/experts/__init__.py": "31e219adb39c7d1dc04bf2996b746e91030ff2ea25b71a32c547a3794bac5d89",
+    "src/piper_sim/experts/grasp_assist.py": "22d27c310c1c39397e0308878d075004fbd135c114284c153a2af6ac063c6c08",
+    "src/piper_sim/experts/mujoco_ik.py": "0b51e622f58fc20b09ea269c2566abdee6b354247f7d7be2e9fa83b533d94c9f",
+    "src/piper_sim/experts/trajectory.py": "ce55e8c156a17a5536b9ae3da5b86406e3b4088c0c216b6ea11e8b897a609d99",
+    "src/piper_sim/experts/rigid_table.py": "1ff15d13d750ffccf036f0c6b0c0ccde657f02ca43869f7885355208ab79099a",
+    "src/piper_sim/experts/quality.py": "962db5cb0f5c0c7c658d7574289d2bb0d020569627c624fa1dc920cacb26eb25",
+    "src/piper_sim/experts/physics_evidence.py": "311c37db0614129be0a97c0f670b18b4916e8f66b86c87f2055f9634c26f2872",
+    "src/piper_sim/experts/clean_table.py": "3a78de527302fcbbc6962e0548d583929954f5b3428762fc2ccdf091463e7079"
+  },
+  "mujoco_version": "3.3.7",
+  "trials": [
+    {
+      "object": "side_dish",
+      "source_frame": 5327,
+      "friction_scale": 1.0,
+      "completed": false,
+      "rim_x_m": -0.04,
+      "rim_tilt_deg": 30.0,
+      "error": "side_dish lost physical grasp: slip=0.0274 m, fingers=[]",
+      "wall_seconds": 202.07984736491926,
+      "sim_seconds": 40.8000000005195,
+      "motion": {
+        "passed": true,
+        "violations": [],
+        "frames": 1224,
+        "metrics": {
+          "command_arm_velocity": 0.991959495463246,
+          "command_gripper_velocity": 0.03952739444193689,
+          "command_arm_acceleration": 1.197246555969289,
+          "command_gripper_acceleration": 0.04904699200922388,
+          "command_arm_jerk": 3.7581125433996387,
+          "command_gripper_jerk": 0.12384557636166763,
+          "measured_arm_velocity": 0.9814779290945252,
+          "measured_gripper_velocity": 0.03952249750305687,
+          "measured_arm_acceleration": 1.161959029034998,
+          "measured_gripper_acceleration": 0.8838538491738757,
+          "measured_arm_jerk": 23.21188484392911,
+          "measured_gripper_jerk": 25.562729338435098,
+          "tracking_error_rad": 0.08580320068408065,
+          "hold_velocity_rms_rad_s": 0.0013856596883727317,
+          "hold_gripper_velocity_rms_m_s": 0.00028342617116644054
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 183.23333333394075,
+            "channel": 12,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 187.83333333399932,
+            "channel": 13,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 180.6666666672414,
+            "channel": 9,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 187.23333333399168,
+            "channel": 13,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 190.00000000069357,
+            "channel": 11,
+            "context": {
+              "phase": "lift",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 187.86666666733308,
+            "channel": 13,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 183.33333333394202,
+            "channel": 12,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 187.83333333399932,
+            "channel": 13,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 180.73333333390892,
+            "channel": 9,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 219.3333333344004,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 188.4000000006732,
+            "channel": 8,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 219.3333333344004,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "side_dish"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 11
+      },
+      "collision_peak": {
+        "depth_m": 0.0,
+        "pair": null
+      },
+      "events": [
+        {
+          "phase": "approach",
+          "object": "side_dish",
+          "sim_time": 178.56666666721466,
+          "side": "right",
+          "target": "basket"
+        },
+        {
+          "phase": "grasp_candidate_selected",
+          "object": "side_dish",
+          "sim_time": 181.50000000058535,
+          "height_offset_m": 0.0,
+          "local_tilt_deg": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "phase": "grasp",
+          "object": "side_dish",
+          "sim_time": 185.03333333396367
+        },
+        {
+          "phase": "lift",
+          "object": "side_dish",
+          "sim_time": 189.4333333340197,
+          "contact_fingers": [
+            "7",
+            "8"
+          ]
+        },
+        {
+          "phase": "transfer",
+          "object": "side_dish",
+          "sim_time": 201.6666666675088,
+          "lift_m": 0.11809786939115154
+        }
+      ],
+      "grasps": [
+        {
+          "name": "side_dish",
+          "assisted": false,
+          "samples": 901,
+          "bilateral_samples": 899,
+          "max_slip_m": 0.027448872518948224,
+          "lost_contact_s": 0.06666666666666667,
+          "anchor": "mean initial pad contact in object frame"
+        }
+      ],
+      "effective_contact_friction": [
+        [
+          1.0,
+          1.0,
+          0.015,
+          0.002,
+          0.002
+        ]
+      ]
+    },
+    {
+      "object": "side_dish",
+      "source_frame": 5327,
+      "friction_scale": 1.0,
+      "completed": true,
+      "rim_x_m": -0.02,
+      "rim_tilt_deg": 30.0,
+      "wall_seconds": 218.97357145207934,
+      "sim_seconds": 47.166666667267236,
+      "motion": {
+        "passed": true,
+        "violations": [],
+        "frames": 1416,
+        "metrics": {
+          "command_arm_velocity": 0.9982640087942496,
+          "command_gripper_velocity": 0.05964902967552699,
+          "command_arm_acceleration": 1.5851369758046907,
+          "command_gripper_acceleration": 0.07975028893116125,
+          "command_arm_jerk": 19.44404385300391,
+          "command_gripper_jerk": 0.21712477186017903,
+          "measured_arm_velocity": 0.9855943862488248,
+          "measured_gripper_velocity": 0.059639670154242944,
+          "measured_arm_acceleration": 1.241527238463025,
+          "measured_gripper_acceleration": 0.43353668319680283,
+          "measured_arm_jerk": 14.15981538595279,
+          "measured_gripper_jerk": 17.818646857049522,
+          "tracking_error_rad": 0.0861630732395835,
+          "hold_velocity_rms_rad_s": 0.0010229931810186255,
+          "hold_gripper_velocity_rms_m_s": 0.00015264512264333621
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 179.90000000056497,
+            "channel": 9,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 222.20000000110358,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 224.83333333447044,
+            "channel": 9,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 221.6333333344297,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 224.7000000011354,
+            "channel": 9,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 222.23333333443733,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 183.10000000060572,
+            "channel": 12,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 222.20000000110358,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 179.43333333389236,
+            "channel": 9,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 221.4666666677609,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 188.03333333400187,
+            "channel": 8,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 221.4666666677609,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 30
+      },
+      "collision_peak": {
+        "depth_m": 0.0,
+        "pair": null
+      },
+      "events": [
+        {
+          "phase": "approach",
+          "object": "side_dish",
+          "sim_time": 178.56666666721466,
+          "side": "right",
+          "target": "basket"
+        },
+        {
+          "phase": "grasp_candidate_selected",
+          "object": "side_dish",
+          "sim_time": 181.33333333391656,
+          "height_offset_m": 0.0,
+          "local_tilt_deg": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "phase": "grasp",
+          "object": "side_dish",
+          "sim_time": 184.73333333395985
+        },
+        {
+          "phase": "lift",
+          "object": "side_dish",
+          "sim_time": 189.13333333401587,
+          "contact_fingers": [
+            "7",
+            "8"
+          ]
+        },
+        {
+          "phase": "transfer",
+          "object": "side_dish",
+          "sim_time": 200.96666666749988,
+          "lift_m": 0.11928651442059847
+        },
+        {
+          "phase": "lower",
+          "object": "side_dish",
+          "sim_time": 218.73333333439277
+        },
+        {
+          "phase": "open_gripper",
+          "object": "side_dish",
+          "sim_time": 220.90000000108702,
+          "object_pose": {
+            "position": [
+              0.6874032641012591,
+              -0.41952643001474643,
+              0.17821205775059373
+            ],
+            "quaternion_wxyz": [
+              0.7125778462056115,
+              -0.2878491549024635,
+              -0.16467403579853476,
+              -0.6182702799364791
+            ]
+          }
+        },
+        {
+          "phase": "release",
+          "object": "side_dish",
+          "sim_time": 220.90000000108702,
+          "object_pose": {
+            "position": [
+              0.6874032641012591,
+              -0.41952643001474643,
+              0.17821205775059373
+            ],
+            "quaternion_wxyz": [
+              0.7125778462056115,
+              -0.2878491549024635,
+              -0.16467403579853476,
+              -0.6182702799364791
+            ]
+          }
+        },
+        {
+          "phase": "bounded_path_selected",
+          "object": "side_dish",
+          "sim_time": 223.73333333445643,
+          "interpolation": "convex",
+          "command_samples": 47
+        },
+        {
+          "phase": "placed",
+          "object": "side_dish",
+          "sim_time": 225.7333333344819,
+          "success": true
+        }
+      ],
+      "grasps": [
+        {
+          "name": "side_dish",
+          "assisted": false,
+          "samples": 956,
+          "bilateral_samples": 956,
+          "max_slip_m": 0.0028704483489576244,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        }
+      ],
+      "effective_contact_friction": [
+        [
+          1.0,
+          1.0,
+          0.015,
+          0.002,
+          0.002
+        ]
+      ]
+    },
+    {
+      "object": "side_dish",
+      "source_frame": 5327,
+      "friction_scale": 1.0,
+      "completed": true,
+      "rim_x_m": 0.0,
+      "rim_tilt_deg": 30.0,
+      "wall_seconds": 203.14882491901517,
+      "sim_seconds": 45.700000000581895,
+      "motion": {
+        "passed": true,
+        "violations": [],
+        "frames": 1372,
+        "metrics": {
+          "command_arm_velocity": 0.9927773246291383,
+          "command_gripper_velocity": 0.05964902967552699,
+          "command_arm_acceleration": 2.1982488995713645,
+          "command_gripper_acceleration": 0.07975028893116125,
+          "command_arm_jerk": 17.552121233240126,
+          "command_gripper_jerk": 0.21712477186017903,
+          "measured_arm_velocity": 0.9812948960495482,
+          "measured_gripper_velocity": 0.05963967015418507,
+          "measured_arm_acceleration": 1.5549213667602757,
+          "measured_gripper_acceleration": 0.37721597837347304,
+          "measured_arm_jerk": 13.54708142736527,
+          "measured_gripper_jerk": 10.274513444334387,
+          "tracking_error_rad": 0.08578790593130647,
+          "hold_velocity_rms_rad_s": 0.0012421050266805634,
+          "hold_gripper_velocity_rms_m_s": 0.0001590133995573409
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 182.8000000006019,
+            "channel": 12,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 220.96666666775454,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 223.3666666677851,
+            "channel": 9,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 220.40000000108066,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 223.23333333445007,
+            "channel": 9,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 221.0000000010883,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 182.90000000060317,
+            "channel": 12,
+            "context": {
+              "phase": "approach",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 220.96666666775454,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 223.40000000111885,
+            "channel": 9,
+            "context": {
+              "phase": "release",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 187.83333333399932,
+            "channel": 13,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 187.83333333399932,
+            "channel": 8,
+            "context": {
+              "phase": "grasp",
+              "object": "side_dish"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 210.1000000009495,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "side_dish"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 30
+      },
+      "collision_peak": {
+        "depth_m": 0.0,
+        "pair": null
+      },
+      "events": [
+        {
+          "phase": "approach",
+          "object": "side_dish",
+          "sim_time": 178.56666666721466,
+          "side": "right",
+          "target": "basket"
+        },
+        {
+          "phase": "grasp_candidate_selected",
+          "object": "side_dish",
+          "sim_time": 181.20000000058153,
+          "height_offset_m": 0.0,
+          "local_tilt_deg": 0,
+          "rejected_candidates": 0
+        },
+        {
+          "phase": "grasp",
+          "object": "side_dish",
+          "sim_time": 184.50000000062354
+        },
+        {
+          "phase": "lift",
+          "object": "side_dish",
+          "sim_time": 188.90000000067957,
+          "contact_fingers": [
+            "7",
+            "8"
+          ]
+        },
+        {
+          "phase": "transfer",
+          "object": "side_dish",
+          "sim_time": 200.33333333415848,
+          "lift_m": 0.11966337338867648
+        },
+        {
+          "phase": "lower",
+          "object": "side_dish",
+          "sim_time": 217.40000000104246
+        },
+        {
+          "phase": "open_gripper",
+          "object": "side_dish",
+          "sim_time": 219.66666666773799,
+          "object_pose": {
+            "position": [
+              0.6831860388687551,
+              -0.4221326514199334,
+              0.17647445512158436
+            ],
+            "quaternion_wxyz": [
+              0.7061518876252907,
+              -0.2815242841859892,
+              -0.15754122331360154,
+              -0.6302970347174883
+            ]
+          }
+        },
+        {
+          "phase": "release",
+          "object": "side_dish",
+          "sim_time": 219.66666666773799,
+          "object_pose": {
+            "position": [
+              0.6831860388687551,
+              -0.4221326514199334,
+              0.17647445512158436
+            ],
+            "quaternion_wxyz": [
+              0.7061518876252907,
+              -0.2815242841859892,
+              -0.15754122331360154,
+              -0.6302970347174883
+            ]
+          }
+        },
+        {
+          "phase": "bounded_path_selected",
+          "object": "side_dish",
+          "sim_time": 222.5000000011074,
+          "interpolation": "convex",
+          "command_samples": 40
+        },
+        {
+          "phase": "placed",
+          "object": "side_dish",
+          "sim_time": 224.26666666779656,
+          "success": true
+        }
+      ],
+      "grasps": [
+        {
+          "name": "side_dish",
+          "assisted": false,
+          "samples": 926,
+          "bilateral_samples": 926,
+          "max_slip_m": 0.00282229614863132,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        }
+      ],
+      "effective_contact_friction": [
+        [
+          1.0,
+          1.0,
+          0.015,
+          0.002,
+          0.002
+        ]
+      ]
+    }
+  ]
+}

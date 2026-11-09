@@ -113,6 +113,9 @@ def main():
                 sim.apply(Command(initial, time.monotonic(), index))
                 sim.step()
         api_controls = not interactive and args.mode in ("sim", "sim-to-real")
+        def physics_metadata_fields():
+            value = sim.physics_metadata() if hasattr(sim, 'physics_metadata') else {}
+            return {'physics_model': value} if value else {}
         if args.command_port:
             from piper_sim.control import CommandServer
             from piper_sim.transforms import load_camera_rig
@@ -130,6 +133,7 @@ def main():
                     "state_timestamp_clock": "host_monotonic", "image_timestamp_clock": "simulation",
                     "camera_rig": sim.rig if args.backend == "mujoco" else load_camera_rig(cfg),
                     "task_scene": sim.task.metadata() if sim.task else None,
+                    **physics_metadata_fields(),
                     "sdk_gripper_ranges_m": hardware.sdk_gripper_ranges if hardware else None})
             control["applied_target"] = initial.tolist()
             if not api_controls: control["status"] = "read_only"
@@ -140,6 +144,7 @@ def main():
             return {
                 "task": task, "mode": args.mode, "config": cfg,
                 "task_scene": sim.task.metadata() if sim.task else None,
+                **physics_metadata_fields(),
                 "demo": args.demo,
                 "camera_rig": sim.rig if args.backend == "mujoco" else load_camera_rig(cfg),
                 "fps": 1/(sim.dt*sim.decimation),
@@ -183,7 +188,8 @@ def main():
                     control = {"status": "waiting" if api_controls else "read_only",
                                "applied_sequence": -1, "rejected_sequence": -1,
                                "error": None, "applied_target": initial.tolist()}
-                    server.update_metadata(task_scene=sim.task.metadata() if sim.task else None)
+                    server.update_metadata(task_scene=sim.task.metadata() if sim.task else None,
+                                           **physics_metadata_fields())
                     server.complete_reset(reset["reset_id"])
             before = sim.read()
             target = initial.copy()
