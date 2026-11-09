@@ -1,0 +1,109 @@
+{
+  "schema_version": "piper.consumer_contract_validation.v2",
+  "observed_unix": 1794214795.6117115,
+  "scope": "Independent consumer public schema and every numeric row; official reader samples. No task or image-quality acceptance grant.",
+  "training_ready": null,
+  "tests": {
+    "new_consumer_tests": 23,
+    "combined_diagnostic_tests": 70,
+    "wall_seconds": 0.5,
+    "command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q tests/test_lerobot_consumer_contract.py tests/test_sensor_color_candidate.py tests/test_recorded_dynamics.py"
+  },
+  "implementation_sha256": {
+    "scripts/check_lerobot_reader.py": "2fdfd94e9d4b35ce32e99d0beab5c2eeed457eca5c7b87ede0e35eb4126381e0",
+    "tests/test_lerobot_consumer_contract.py": "e8a446df077d779a45e91c8a30bb87a133a841e6dad8b24f87b5772f978e9838"
+  },
+  "results": [
+    {
+      "seed": 0,
+      "report": "outputs/platform_audit_v1/qualified_v9_workers1_seed0_reader_v2.json",
+      "report_sha256": "4f8cb9568d43ccfc7190a0ac0ddf4262ff0ba1ecf321b023faafde348d2c4fbc",
+      "status": "consumer_check_passed",
+      "frames": 6930,
+      "tabular": {
+        "checked_rows": 6930,
+        "checked_columns": [
+          "action",
+          "episode_index",
+          "frame_index",
+          "index",
+          "observation.state",
+          "sim_timestamp",
+          "source_timestamp",
+          "task_index",
+          "timestamp"
+        ],
+        "max_vector_absolute_error": {
+          "observation.state": 0.0,
+          "action": 0.0
+        },
+        "unexpected_public_columns": []
+      },
+      "consumer_sample_indices": [
+        0,
+        3465,
+        6928,
+        6929
+      ],
+      "source_file_identity": {
+        "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_pair_v9/workers_1/seed_0/episode.h5",
+        "bytes": 9396549624,
+        "mtime_ns": 1794212604209801010
+      },
+      "source_sha256_from_completed_worker_audit": "aa6c97c9e28fb8cda6ab425b53e40f29599e71cf3e5d20e9ea302abc2e2a86c8",
+      "export_numeric_inputs_sha256": {
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_pair_v9/workers_1/seed_0/lerobot_v2/meta/info.json": "c7e8586323158bc7aa75a84dae33547713f42a34fc38de77c108a74c7ae546e1",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_pair_v9/workers_1/seed_0/lerobot_v2/data/chunk-000/episode_000000.parquet": "a8be20068602f1d208d5e7c5e527d648e640809de0ac403712801d14f6282922"
+      }
+    },
+    {
+      "seed": 2,
+      "report": "outputs/platform_audit_v1/qualified_v9_workers1_seed2_reader_v2.json",
+      "report_sha256": "500cda502f50e21f707772f9e6fbee72ac70c83b0b3e247ad17facd57ab140da",
+      "status": "consumer_check_passed",
+      "frames": 7748,
+      "tabular": {
+        "checked_rows": 7748,
+        "checked_columns": [
+          "action",
+          "episode_index",
+          "frame_index",
+          "index",
+          "observation.state",
+          "sim_timestamp",
+          "source_timestamp",
+          "task_index",
+          "timestamp"
+        ],
+        "max_vector_absolute_error": {
+          "observation.state": 0.0,
+          "action": 0.0
+        },
+        "unexpected_public_columns": []
+      },
+      "consumer_sample_indices": [
+        0,
+        3874,
+        7746,
+        7747
+      ],
+      "source_file_identity": {
+        "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_pair_v9/workers_1/seed_2/episode.h5",
+        "bytes": 8439887417,
+        "mtime_ns": 1794214384918794331
+      },
+      "source_sha256_from_completed_worker_audit": "a03f88f7db58bb276fef09440237b2f70226dfa06691cf488ae058bd04963d5c",
+      "export_numeric_inputs_sha256": {
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_pair_v9/workers_1/seed_2/lerobot_v2/meta/info.json": "4e1e4534334ef06d2b548def9412b35d8e888801a85fc90302c667c5f8dd55e0",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_pair_v9/workers_1/seed_2/lerobot_v2/data/chunk-000/episode_000000.parquet": "3d0866a5304a5f9e12205a1b1bdca2da05a883362d8191a878fd8660b187a02e"
+      }
+    }
+  ],
+  "benchmark_inputs_observed_unchanged": true,
+  "limitations": [
+    "Source HDF5 SHA256 is copied from the completed worker audit, not recomputed by this consumer check.",
+    "Actual official-reader image/action-chunk checks sample four indices per episode; numeric columns are checked in full.",
+    "Consumer runs use niceness 19, OMP/MKL/OPENBLAS threads 1, CUDA_VISIBLE_DEVICES empty on the shared benchmark host.",
+    "No throughput ratio is inferred from consumer checks."
+  ]
+}
