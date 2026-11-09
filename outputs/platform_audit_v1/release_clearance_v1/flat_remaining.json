@@ -1,0 +1,376 @@
+{
+  "scope": "Experimental flat plate placement search, retaining existing collision gates.\n\nCLI performs isolated pose queries only. A candidate is not a physical success.\nThe search function can be used by an explicitly labelled fresh-rollout probe.\n",
+  "source": "/dev/shm/piper_supported_release_v2/episode/episode.h5",
+  "source_sha256": "fa383d4dcf47a98083fa2c8773a17abbf9277cc54ab98b3f0916973a101b4169",
+  "script_sha256": "4344b06cdd1ae66cd4ff0371708e63f9ae5f5e877055d15af79d9520e6a68f41",
+  "source_index": 6541,
+  "sim_time": 219.0333333343966,
+  "error": "No flat plate placement in bounded search; checked=32",
+  "training_ready": false,
+  "continuation": {
+    "script_sha256": "1506779abef5326bec381ba311cbd286b9f7b8960a5a189a66464a30c8e8162f",
+    "prior_path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/release_clearance_v1/flat_routes.json",
+    "prior_sha256": "91f418651a41b457a133645c6e2b6f6647ef81d4206b4c06c191f29f0b40109f",
+    "skipped_exact_ranking_prefix": 256,
+    "scope": "Check the remaining 32 grid candidates without repeating the first 256.\n\nVerifies the complete ranking prefix against the previous checked order. This\nextends the isolated geometric diagnostic, never a live rollout or gate bypass.\n"
+  },
+  "route_probe": {
+    "scope": "Query alternative Cartesian routes for the flat plate placement experiment.\n\nNever approves the obstructed original joint path. Each alternate command curve\nis checked by the original collision gates and returned explicitly in evidence.\nThis CLI restores isolated poses only and does not execute any trajectory.\n",
+    "script_sha256": "fb354d6fab73d96fd61806a7bc0410b6b504f74c134576e9d3ecdb5dd319daf5",
+    "rise_m": 0.06,
+    "curve_source": "original plan_pose_path and original collision gates"
+  },
+  "profile": {
+    "mode": "flat_plate_placement_probe_v1",
+    "support_gap_m": 0.003,
+    "wall_margin_m": 0.012,
+    "surface_spacing_m": 0.005,
+    "slot_radius_m": 0.075,
+    "slot_step_m": 0.025,
+    "yaw_step_deg": 15,
+    "max_candidates": 256,
+    "release_width_m": 0.045,
+    "calibration": "unidentified experimental planning budgets"
+  },
+  "geometric_candidates": 288,
+  "attempts": [
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -60,
+      "stage": "lowering_path",
+      "error": "Planned path obstructed (51.57 mm): ['task/basket', 'right/link5']",
+      "alternate_routes": [
+        {
+          "stage": "lowering_path",
+          "original_joint_path_error": "Planned path obstructed (13.12 mm): ['right/link6', 'task/cup_01']"
+        }
+      ]
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -60,
+      "stage": "lowering_path",
+      "error": "Planned path obstructed (51.54 mm): ['task/basket', 'right/link5']",
+      "alternate_routes": [
+        {
+          "stage": "lowering_path",
+          "original_joint_path_error": "Planned path obstructed (10.21 mm): ['right/link6', 'task/cup_02']"
+        }
+      ]
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -30,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.5992, -0.4582, 0.2138]: 0.0 mm, 16.5 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -30,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6005, -0.4082, 0.2138]: 0.0 mm, 6.5 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -15,
+      "stage": "low_IK",
+      "error": "right IK failed at [0.6043, -0.481, 0.0679]: 0.0 mm, 15.9 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -15,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6057, -0.431, 0.2138]: 5.0 mm, 1.7 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 30,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6507, -0.5313, 0.2139]: 40.5 mm, 33.5 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 30,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6521, -0.4813, 0.2139]: 31.2 mm, 28.6 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 75,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7191, -0.534, 0.2139]: 96.8 mm, 77.9 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 75,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7205, -0.484, 0.2139]: 95.1 mm, 71.6 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 150,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7772, -0.442, 0.2139]: 141.3 mm, 114.6 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 150,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7786, -0.392, 0.2139]: 129.1 mm, 126.6 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 165,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7721, -0.4192, 0.2139]: 133.2 mm, 101.8 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 165,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7735, -0.3692, 0.2139]: 120.3 mm, 112.9 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -105,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6573, -0.3662, 0.2139]: 14.8 mm, 15.0 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -105,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6587, -0.3162, 0.2139]: 26.3 mm, 20.4 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -135,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7034, -0.362, 0.2139]: 57.5 mm, 47.1 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -135,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7048, -0.312, 0.2139]: 57.3 mm, 49.5 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -45,
+      "stage": "lowering_path",
+      "error": "Planned path obstructed (29.17 mm): ['task/basket', 'right/link5']",
+      "alternate_routes": [
+        {
+          "stage": "lowering_path",
+          "original_joint_path_error": "Planned path obstructed (8.35 mm): ['task/basket', 'right/link5']"
+        }
+      ]
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -45,
+      "stage": "lowering_path",
+      "error": "Planned path obstructed (29.18 mm): ['task/basket', 'right/link5']",
+      "alternate_routes": [
+        {
+          "stage": "lowering_path",
+          "original_joint_path_error": "Planned path obstructed (12.94 mm): ['right/link6', 'task/cup_02']"
+        }
+      ]
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 45,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.673, -0.5382, 0.2139]: 58.5 mm, 49.2 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 45,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6744, -0.4882, 0.2139]: 51.8 mm, 43.7 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 135,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7763, -0.4653, 0.2139]: 152.4 mm, 124.0 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 135,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7777, -0.4153, 0.2139]: 143.9 mm, 121.0 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -180,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7612, -0.3985, 0.2139]: 119.3 mm, 88.1 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -180,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7626, -0.3485, 0.2139]: 116.0 mm, 90.8 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": -90,
+      "stage": "lowering_path",
+      "error": "Planned path obstructed (28.21 mm): ['task/basket', 'right/link6']",
+      "alternate_routes": [
+        {
+          "stage": "lowering_path",
+          "original_joint_path_error": "Planned path obstructed (19.33 mm): ['right/link6', 'task/cup_02']"
+        }
+      ]
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": -90,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.638, -0.3271, 0.2138]: 4.5 mm, 3.2 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 0,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.6151, -0.5017, 0.2138]: 3.2 mm, 2.4 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 0,
+      "stage": "transfer_path",
+      "error": "Planned path obstructed (5.69 mm): ['task/basket', 'right/link6']",
+      "alternate_routes": [
+        {
+          "stage": "transfer_path",
+          "original_joint_path_error": "Planned payload path obstructed (17.95 mm): ['task/basket', 'task/plate']"
+        }
+      ]
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        -0.025
+      ],
+      "yaw_deg": 90,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7398, -0.5231, 0.2139]: 113.1 mm, 91.1 deg"
+    },
+    {
+      "slot_xy_m": [
+        0.065,
+        0.025
+      ],
+      "yaw_deg": 90,
+      "stage": "high_IK",
+      "error": "right IK failed at [0.7412, -0.4732, 0.2139]: 104.8 mm, 86.9 deg"
+    }
+  ],
+  "support_obstacles": [
+    "bowl",
+    "spoon",
+    "chopstick_a",
+    "chopstick_b",
+    "side_dish",
+    "basket",
+    "cup_00",
+    "cup_01",
+    "cup_02",
+    "pen",
+    "charger"
+  ],
+  "isolated_state_unchanged": true
+}

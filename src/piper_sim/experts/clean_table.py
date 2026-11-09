@@ -70,6 +70,7 @@ class CleanTableTeacher:
         self.carried = None
         self.releasing = None
         self.carried_anchor = np.zeros(3)
+        self.carried_rotation = np.eye(3)
         self.grasps = []
         self.configure_contact_control()
 
@@ -110,6 +111,8 @@ class CleanTableTeacher:
                     'generalized_force_units': ['N*m']*6+['N', 'N'],
                     'combined_drive': 'qfrc_actuator + qfrc_applied; constraint and passive forces are separate',
                 },
+                'grasp_rotation_evidence': 'Object orientation relative to link6, compared with contact-anchor establishment; '
+                    'reported in privileged evidence only, without a calibrated acceptance threshold.',
                 'training_note': 'Training acceptance is determined only by the final closed-file dataset audit.',
                 'arm_bias_feedforward': True, **self.settings['controller'],
                 'finger_friction': [1., .015, .002],
@@ -164,7 +167,8 @@ class CleanTableTeacher:
                 obj.xpos + obj.xmat.reshape(3, 3) @ self.carried_anchor - hand.xpos)
             grasp = {'object': name, 'side': side,
                      'contact_fingers': sorted(finger_contacts(self.b, side, name)),
-                     'slip_m': float(np.linalg.norm(anchor-relative))}
+                     'slip_m': float(np.linalg.norm(anchor-relative)),
+                     'rotation_change_rad': self.grasp_rotation_change()}
         return {'name': self.name, 'grasp_mode': self.mode, 'phase': self.phase,
                 'object': self.current, 'holding': self.holding, 'grasp': grasp,
                 'robot_penetration_m': depth, 'robot_collision_pair': pair,
@@ -190,6 +194,7 @@ class CleanTableTeacher:
             record['samples'] += 1
             record['bilateral_samples'] += int(len(contacts) == 2)
             record['max_slip_m'] = max(record['max_slip_m'], slip)
+            record['max_rotation_change_rad'] = max(record['max_rotation_change_rad'], self.grasp_rotation_change())
             record['lost_contact_s'] = 0. if len(contacts) == 2 else record['lost_contact_s']+1/self.fps
             if slip > .012 or record['lost_contact_s'] > .20:
                 raise SortFailure(f'{name} lost physical grasp: slip={slip:.4f} m, fingers={contacts}')
@@ -242,8 +247,17 @@ class CleanTableTeacher:
         point=np.mean(points,axis=0)
         self.carried_anchor=obj.xmat.reshape(3,3).T@(point-obj.xpos)
         self.carried=(side,name,hand.xmat.reshape(3,3).T@(point-hand.xpos))
+        self.carried_rotation=hand.xmat.reshape(3,3).T@obj.xmat.reshape(3,3)
         self.grasps.append({'name':name,'assisted':self.mode!='physical','samples':0,
-            'bilateral_samples':0,'max_slip_m':0.,'lost_contact_s':0.,'anchor':'mean initial pad contact in object frame'})
+            'bilateral_samples':0,'max_slip_m':0.,'max_rotation_change_rad':0.,
+            'lost_contact_s':0.,'anchor':'mean initial pad contact in object frame'})
+
+    def grasp_rotation_change(self):
+        """Observe turning about the contact anchor, which translation misses."""
+        side, name, _ = self.carried
+        hand, obj = self.b.data.body(side+'/link6'), self.b.data.body('task/'+name)
+        relative = hand.xmat.reshape(3, 3).T@obj.xmat.reshape(3, 3)
+        return float(np.linalg.norm(rotation_error(relative, self.carried_rotation)))
 
     def settle(self):
         """Bounded feedback wait; do not carry tracking oscillation into a new phase."""
@@ -711,6 +725,7 @@ class CleanTableTeacher:
         goal_p = bin_p+bin_r@slot
         points = self.b.task.surface_points[name]
         choices = []
+        frame_mode = 'object_orientation_search'
         for pitch in (0, 15, -15, 30, -30, 45, -45, 60, -60):
             for yaw in ((0, 15, -15, 30, -30, 45, -45, 90, -90, 180)
                         if name in ('towel','chopstick_a','chopstick_b','spoon') else (0, 90, 180, -90)):
@@ -741,6 +756,7 @@ class CleanTableTeacher:
         if not choices:
             # Slender utensils can roll in the jaw. Do not force their local
             # "up" axis to world +Z: search reachable hand frames directly.
+            frame_mode = 'hand_frame_fallback'
             for tilt in (35,45,55,65):
                 for yaw in (-20,-10,0,15,30):
                     desired_r = grasp_rotation(tilt,yaw)
@@ -762,7 +778,15 @@ class CleanTableTeacher:
                     choices.append((100+tilt,high,low,desired_r,q_high,q_low))
             if not choices:
                 raise SortFailure(f'No reachable container placement for {name}')
-        return min(choices, key=lambda c:c[0])
+        selected = min(choices, key=lambda c:c[0])
+        predicted_r = selected[3]@relative_r
+        self.events.append({'phase': 'placement_pose_selected', 'object': name,
+            'sim_time': self.b.sim_time, 'strategy': frame_mode,
+            'predicted_object_up_world': predicted_r[:, 2].tolist(),
+            'predicted_tilt_from_container_up_rad': float(np.arccos(np.clip(
+                predicted_r[:, 2]@bin_r[:, 2], -1., 1.))),
+            'scope': 'Rigid grasp geometry prediction; not measured placement or stability proof'})
+        return selected
 
     def sort_one(self, name):
         self.current = name

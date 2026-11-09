@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "scope": "Progress toward the full platform goal: diagnose release geometry and grasp rotation; add verified observational evidence. No new physical placement policy promoted.",
+  "git_base": "b8e5cbd9b99674fea244255274c65361acaf47df",
+  "goal_status": "active",
+  "motion_policy_changed": false,
+  "new_observational_fields": [
+    "teacher.grasp.rotation_change_rad",
+    "quality.physical_grasps[].max_rotation_change_rad",
+    "placement_pose_selected strategy and predicted tilt"
+  ],
+  "static_query_provenance": "Queries were run against the b8e5cbd teacher before the observational additions. Diagnostic source checksums are embedded in their reports. All queries use isolated pose restoration, never physics replay or live rollout.",
+  "static_findings": {
+    "original_planned_plate_tilt_world_deg": 84.22990358104882,
+    "original_strategy": "hand_frame_fallback",
+    "grid_candidates": 288,
+    "checked_without_repeating": 288,
+    "accepted": 0,
+    "rejection_stages": {
+      "high_IK": 229,
+      "transfer_path": 32,
+      "lowering_path": 21,
+      "low_IK": 6
+    },
+    "cartesian_detours_checked": 22,
+    "cartesian_detours_accepted": 0,
+    "limitations": "All candidates in this particular discrete grid checked; not an impossibility proof over continuous poses, alternate grasps or packing layouts."
+  },
+  "fresh_regression": {
+    "source_sha256": "e6c282e972830727de959ff706d6935a38e52a5bc7cb33f099534dde2e0442b5",
+    "summary": {
+      "success": true,
+      "sorted_count": 11,
+      "required_count": 11
+    },
+    "transitions": 8502,
+    "recorded_sim_duration_s": 283.40000000112065,
+    "independent_tcp_audit_passed": true,
+    "training_ready": false,
+    "public_streams_exact_to_baseline": true,
+    "objects_native_physics_controller_tcp_exact_to_baseline": true,
+    "frozen_inputs_checked": 441,
+    "frozen_inputs_changed": []
+  },
+  "rotation_verification": {
+    "segments": 11,
+    "observed_and_next_observed_samples": 7774,
+    "max_reconstruction_error_rad": 9.884312124119404e-08,
+    "reported_segment_maxima_match": true,
+    "max_rotation_deg_by_object": {
+      "cup_01": 0.7463284687673988,
+      "cup_02": 1.376063885541499,
+      "cup_00": 1.860654159333731,
+      "chopstick_a": 0.41595476018229,
+      "chopstick_b": 1.1581897064171789,
+      "pen": 0.833128806759108,
+      "charger": 0.46355123641718216,
+      "spoon": 4.47407872505667,
+      "bowl": 24.78010738307659,
+      "plate": 34.4800804008797,
+      "side_dish": 45.544974028320276
+    },
+    "hardware_angle_acceptance_threshold": null
+  },
+  "validation": {
+    "pytest": "23 passed in 0.38s",
+    "command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q tests/test_grasp_rotation_evidence.py tests/test_grasp_path_planning.py tests/test_placement_search.py tests/test_contact_trace.py",
+    "full_test_suite_rerun": false,
+    "full_physical_known_seed_rerun": true
+  },
+  "next_work": "Jointly change and physically validate dish grasp orientation and basket packing/placement space. Large rotation can coexist with small contact-anchor translation. Do not promote wider opening or a rejected static path.",
+  "limitations": [
+    "Single known seed for noninterference, not a population success rate.",
+    "Release contact peaks remain unresolved.",
+    "New angles are privileged evidence and are not calibrated hardware failure limits.",
+    "No RGB training episode or throughput improvement claimed.",
+    "Raw HDF5 is in volatile storage; source files preserved and not uploaded."
+  ],
+  "raw_local_only": {
+    "/dev/shm/piper_rotation_evidence_v1/episode/episode.h5": {
+      "sha256": "e6c282e972830727de959ff706d6935a38e52a5bc7cb33f099534dde2e0442b5",
+      "bytes": 88495292,
+      "in_git": false,
+      "volatile": true
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/native_regression/trace.npz": {
+      "sha256": "5d97cf6cf801a65e123d87273d5d9950655616db9bdf28b10d88e7bb1ac395a0",
+      "bytes": 9940261,
+      "in_git": false,
+      "volatile": false
+    },
+    "/dev/shm/piper_supported_release_v2/episode/episode.h5": {
+      "sha256": "fa383d4dcf47a98083fa2c8773a17abbf9277cc54ab98b3f0916973a101b4169",
+      "bytes": 94681454,
+      "in_git": false,
+      "volatile": true
+    },
+    "/dev/shm/piper_contact_substeps_v1/episode/episode.h5": {
+      "sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+      "bytes": 88310708,
+      "in_git": false,
+      "volatile": true
+    }
+  },
+  "delivery_files_sha256": {
+    "docs/platform_audit.md": {
+      "sha256": "0d52814a712a03f3e38fa79b6e5abd3b2227e5c7182ba4ee10a7375e287e7dce",
+      "bytes": 180103
+    },
+    "src/piper_sim/experts/clean_table.py": {
+      "sha256": "75110aac4fc07fc685f06395b7a959f5c115c95402e2895b9cfcfd6bac3882fd",
+      "bytes": 53675
+    },
+    "scripts/audit_plate_placement.py": {
+      "sha256": "ce4da1cbeccb5375f6704661ff1ebcc6726f10ff9aa7ef647aa33a9a13c672f9",
+      "bytes": 5589
+    },
+    "scripts/audit_recorded_grasp_rotation.py": {
+      "sha256": "dfe233853b581e91f59a151294490080fd035633d887e43b2181aeed5973f787",
+      "bytes": 4818
+    },
+    "scripts/probe_release_clearance.py": {
+      "sha256": "667d9b7403678e9b5f54da84471b1adb667371b474de03ae69095faeff26df00",
+      "bytes": 7161
+    },
+    "scripts/probe_flat_plate.py": {
+      "sha256": "4344b06cdd1ae66cd4ff0371708e63f9ae5f5e877055d15af79d9520e6a68f41",
+      "bytes": 7724
+    },
+    "scripts/probe_flat_plate_routes.py": {
+      "sha256": "fb354d6fab73d96fd61806a7bc0410b6b504f74c134576e9d3ecdb5dd319daf5",
+      "bytes": 3038
+    },
+    "tests/test_grasp_rotation_evidence.py": {
+      "sha256": "e1d17e583b8e87d626bdfdfef5f6443f1e50cb30f7a4de083ad2ce04307599ff",
+      "bytes": 1493
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/plan.json": {
+      "sha256": "bda4a770979f0a304dc2eabb0f31e839e98264aece2006d70f3ecfafe2182c03",
+      "bytes": 1085
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/identity.json": {
+      "sha256": "bdb0764d22234fd37ddccb8af72785fb338f7bff7ee9da50cbf5893b2988fdf2",
+      "bytes": 64914
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/tests.log": {
+      "sha256": "258f46b533dd91309b617799db7098f440ef178e38c3893d2267ef8965c80cae",
+      "bytes": 99
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/directions.json": {
+      "sha256": "914aa0a148df2ad594496959074b3d682caae8a8bb1f066269efa600c40ec483",
+      "bytes": 21174
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/directions.log": {
+      "sha256": "a3862db9e6e34e1ef9762de7dd8ca53dd9bf6a7c06ae29a03965e76515215a75",
+      "bytes": 10745
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/orientation.json": {
+      "sha256": "f2dc91164224d541307d53aa546ced4b620027dcafba10c7cdaec23c846cb50d",
+      "bytes": 3935
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/flat_search.json": {
+      "sha256": "d09b33174dd5ffa9921ba4eaef5563df931c3a5af05fc089a0044ec41e81ef37",
+      "bytes": 54124
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/flat_search.log": {
+      "sha256": "09b81f2b1d713476368ac7f637cd0196e2a73a76abae4a37a81504c26ad328fc",
+      "bytes": 321
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/flat_routes.json": {
+      "sha256": "91f418651a41b457a133645c6e2b6f6647ef81d4206b4c06c191f29f0b40109f",
+      "bytes": 69216
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/flat_routes.log": {
+      "sha256": "09b81f2b1d713476368ac7f637cd0196e2a73a76abae4a37a81504c26ad328fc",
+      "bytes": 321
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/finish_flat_grid.py": {
+      "sha256": "1506779abef5326bec381ba311cbd286b9f7b8960a5a189a66464a30c8e8162f",
+      "bytes": 1408
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/flat_remaining.json": {
+      "sha256": "ef5821dccea7a82b25b792760fd08605dd2b7dccab686320194148863d603279",
+      "bytes": 10139
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/flat_remaining.log": {
+      "sha256": "bbe6c2492c91205fc8e50b57e8ce606da3e8fe1c2ca92c036e32eccaa29c9d28",
+      "bytes": 318
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/regression.log": {
+      "sha256": "53d0feb17646167d85444f7affbd6adf14f544a71b4ca8519e2f65cce964dd87",
+      "bytes": 12202
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/native_regression/trace.json": {
+      "sha256": "07daff9be1bfdec73e8ee9a8b58e3b326b1305814cff80724f09e94f14068a94",
+      "bytes": 28939
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/analysis.json": {
+      "sha256": "6475df7c42d5b22aabda977162c65cc228e7595cc266a385c18a76d59448079a",
+      "bytes": 170307
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/rotation_validation.json": {
+      "sha256": "11f5099b50c7bd4de6bc0d0f7639b6878dbb46c06f1e4f458a9d4ca23bb4fd85",
+      "bytes": 5225
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/episode_evidence/report.json": {
+      "sha256": "e95e449672519372a5c01243ce3365dbd3b0fd92a3fddc42a9ed83c2646c416c",
+      "bytes": 83149
+    },
+    "outputs/platform_audit_v1/release_clearance_v1/episode_evidence/audit.json": {
+      "sha256": "e4fe7d7950aa3074218463e59818e001ad7d3bede1536973602d3c12a2817c5a",
+      "bytes": 17639
+    }
+  },
+  "manifest_note": "Manifest excludes its own checksum; initial static.json/static.log and redundant read-only console logs remain local. Raw HDF5/NPZ remain local."
+}

@@ -1,0 +1,22 @@
+{
+  "git_base": "b8e5cbd9b99674fea244255274c65361acaf47df",
+  "seed": 1,
+  "scope": "Full fresh state-only unassisted baseline rollout to verify observational additions do not change public streams, objects, native physics, controller or TCP evidence.",
+  "baseline": "/dev/shm/piper_contact_substeps_v1/episode/episode.h5",
+  "baseline_sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+  "candidate": "/dev/shm/piper_rotation_evidence_v1/episode",
+  "changes": [
+    "Record grasp relative rotation from contact-anchor establishment and maximum rotation.",
+    "Record original placement strategy and predicted object tilt, without changing phase or selected pose."
+  ],
+  "not_changed": [
+    "gains",
+    "forces",
+    "collision geometry",
+    "motion parameters",
+    "quality thresholds",
+    "control sequencing"
+  ],
+  "static_queries": "All preceding probes restored poses only on isolated backends. No new placement candidate passed; none is being executed or promoted.",
+  "tests_log": "outputs/platform_audit_v1/release_clearance_v1/tests.log"
+}
