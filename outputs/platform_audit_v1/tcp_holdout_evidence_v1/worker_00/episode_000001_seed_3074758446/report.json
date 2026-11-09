@@ -1,0 +1,2793 @@
+{
+  "accepted": false,
+  "training_ready": false,
+  "rollout_accepted": true,
+  "quality": {
+    "passed": true,
+    "violations": [],
+    "frames": 8901,
+    "metrics": {
+      "command_arm_velocity": 0.9985960058976384,
+      "command_gripper_velocity": 0.05997290430363178,
+      "command_arm_acceleration": 2.4546170032425874,
+      "command_gripper_acceleration": 0.17313679957717543,
+      "command_arm_jerk": 19.484992006293055,
+      "command_gripper_jerk": 1.4433514921389277,
+      "measured_arm_velocity": 0.9979654392724902,
+      "measured_gripper_velocity": 0.059969236127159,
+      "measured_arm_acceleration": 2.476754204049847,
+      "measured_gripper_acceleration": 0.826047323481393,
+      "measured_arm_jerk": 47.011510815624824,
+      "measured_gripper_jerk": 24.546949925545693,
+      "tracking_error_rad": 0.008863064969797607,
+      "hold_velocity_rms_rad_s": 0.00017982978226657034,
+      "hold_gripper_velocity_rms_m_s": 0.00016247860095087204
+    },
+    "thresholds": {
+      "command_arm_velocity": 1.01,
+      "command_gripper_velocity": 0.0606,
+      "command_arm_acceleration": 2.525,
+      "command_gripper_acceleration": 0.1818,
+      "command_arm_jerk": 20.2,
+      "command_gripper_jerk": 1.5150000000000001,
+      "measured_arm_velocity": 1.2,
+      "measured_gripper_velocity": 0.08,
+      "measured_arm_acceleration": 8.0,
+      "measured_gripper_acceleration": 1.0,
+      "measured_arm_jerk": 200.0,
+      "measured_gripper_jerk": 50.0,
+      "tracking_error_rad": 0.1,
+      "hold_velocity_rms_rad_s": 0.025,
+      "hold_gripper_velocity_rms_m_s": 0.003
+    },
+    "peaks": {
+      "command_arm_velocity": {
+        "sim_time": 2.6666666666665955,
+        "channel": 5,
+        "context": {
+          "phase": "approach",
+          "object": "cup_01"
+        }
+      },
+      "command_gripper_velocity": {
+        "sim_time": 78.79999999994888,
+        "channel": 13,
+        "context": {
+          "phase": "approach",
+          "object": "chopstick_a"
+        }
+      },
+      "command_arm_acceleration": {
+        "sim_time": 131.0333333332761,
+        "channel": 8,
+        "context": {
+          "phase": "lift",
+          "object": "pen"
+        }
+      },
+      "command_gripper_acceleration": {
+        "sim_time": 20.066666666668958,
+        "channel": 6,
+        "context": {
+          "phase": "release_for_nesting",
+          "object": "cup_01"
+        }
+      },
+      "command_arm_jerk": {
+        "sim_time": 155.20000000025047,
+        "channel": 12,
+        "context": {
+          "phase": "lower",
+          "object": "charger"
+        }
+      },
+      "command_gripper_jerk": {
+        "sim_time": 288.7333333343909,
+        "channel": 13,
+        "context": {
+          "phase": "unload_gripper",
+          "object": "side_dish"
+        }
+      },
+      "measured_arm_velocity": {
+        "sim_time": 2.6666666666665955,
+        "channel": 5,
+        "context": {
+          "phase": "approach",
+          "object": "cup_01"
+        }
+      },
+      "measured_gripper_velocity": {
+        "sim_time": 78.79999999994888,
+        "channel": 13,
+        "context": {
+          "phase": "approach",
+          "object": "chopstick_a"
+        }
+      },
+      "measured_arm_acceleration": {
+        "sim_time": 130.49999999993597,
+        "channel": 8,
+        "context": {
+          "phase": "lift",
+          "object": "pen"
+        }
+      },
+      "measured_gripper_acceleration": {
+        "sim_time": 128.4999999999105,
+        "channel": 13,
+        "context": {
+          "phase": "grasp",
+          "object": "pen"
+        }
+      },
+      "measured_arm_jerk": {
+        "sim_time": 114.56666666658302,
+        "channel": 9,
+        "context": {
+          "phase": "lower",
+          "object": "chopstick_b"
+        }
+      },
+      "measured_gripper_jerk": {
+        "sim_time": 128.53333333324426,
+        "channel": 13,
+        "context": {
+          "phase": "grasp",
+          "object": "pen"
+        }
+      }
+    },
+    "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+    "hold_samples": 479,
+    "physical_grasps": [
+      {
+        "name": "cup_01",
+        "assisted": false,
+        "samples": 350,
+        "bilateral_samples": 350,
+        "max_slip_m": 0.0010158890229715715,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "cup_02",
+        "assisted": false,
+        "samples": 461,
+        "bilateral_samples": 461,
+        "max_slip_m": 0.0009057510669967026,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "cup_00",
+        "assisted": false,
+        "samples": 310,
+        "bilateral_samples": 310,
+        "max_slip_m": 0.002885532126919369,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "chopstick_a",
+        "assisted": false,
+        "samples": 267,
+        "bilateral_samples": 267,
+        "max_slip_m": 0.002812735623694215,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "chopstick_b",
+        "assisted": false,
+        "samples": 266,
+        "bilateral_samples": 266,
+        "max_slip_m": 0.0028267396932765147,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "pen",
+        "assisted": false,
+        "samples": 193,
+        "bilateral_samples": 193,
+        "max_slip_m": 0.0014317537440644496,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "charger",
+        "assisted": false,
+        "samples": 227,
+        "bilateral_samples": 227,
+        "max_slip_m": 0.0013080540234432154,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "spoon",
+        "assisted": false,
+        "samples": 346,
+        "bilateral_samples": 346,
+        "max_slip_m": 0.0018964538156580645,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "bowl",
+        "assisted": false,
+        "samples": 238,
+        "bilateral_samples": 238,
+        "max_slip_m": 0.003104446004847293,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "plate",
+        "assisted": false,
+        "samples": 421,
+        "bilateral_samples": 421,
+        "max_slip_m": 0.0025319502816441137,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      {
+        "name": "side_dish",
+        "assisted": false,
+        "samples": 1027,
+        "bilateral_samples": 1027,
+        "max_slip_m": 0.0003804121006147615,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      }
+    ],
+    "cameras": {}
+  },
+  "video_playback_speed": null,
+  "robot_collision_peak": {
+    "depth_m": 0.0005875835416514,
+    "pair": [
+      "world",
+      "right/link7"
+    ],
+    "sim_time": 220.1333333344106,
+    "phase": "grasp",
+    "object": "plate"
+  },
+  "provenance": {
+    "src/piper_sim/process_lifecycle.py": "09fe624d22ad57bd02d92f4c52731d072a460d53529799a1249e80ad13d1e51b",
+    "src/piper_sim/robot_asset.py": "bc409ca752aa55674cb95969e3fa38fc2301a107cab746b7fa4fce7618da5307",
+    "src/piper_sim/control.py": "10dd95891225419193608a4312b6ecfe6218a12f5c43dea354fdab217e8e860a",
+    "src/piper_sim/tcp_audit.py": "fceb2a0236385a7ce016dca1c6a1d07481afeb0a5b172d6e3a1545cee521fa34",
+    "src/piper_sim/__init__.py": "fdbb0835a52a75d5992e87623305b450c8c26cff3afcb34ff4954967606e07f9",
+    "src/piper_sim/kinematics.py": "903073b8aef1986e0e61e5effa789861d4daa95ce55592b539918409fe227870",
+    "src/piper_sim/recorded_replay.py": "125d304368782c9cc6f6e9a362393432d68ad1d40a264e920a6967af366fbe52",
+    "src/piper_sim/recording.py": "92ecfbea63ee651bfdec6c2dc0a3244e7c132c74efe3fb87b1a28094da2cc69b",
+    "src/piper_sim/recording_json.py": "b09b9bc0096f2d053544e738ff6effae646f25c8ea70b12c822a149397c92663",
+    "src/piper_sim/recording_storage.py": "c0f2f7db6d5a92254043cfe0e7c00da951e03d2b3bf0dcaf8be6fe330fddaf5a",
+    "src/piper_sim/scene.py": "dd9a09b9b3c63d19f75f37a7e8af31d4ae63e0e1122acc93a9d0cfb61e372b84",
+    "src/piper_sim/contracts.py": "a4be720987064cfdeb9dd46361602e831086b100ff5eae5aa2e1068f64d4340d",
+    "src/piper_sim/collection_jobs.py": "a5a9140b87fe850a1b38eaaecb58f32d68cc9c9936378889f5493bee2994a931",
+    "src/piper_sim/collection_audit.py": "c2621995fc32606ad9fff8309fa8eabb13ce3f3c4d9941ac1e833d57548e8d56",
+    "src/piper_sim/piper_connection.py": "cd93411301e994a483b02d746546cd0bae9e3cb488c32ca8fbb95054c9d3934f",
+    "src/piper_sim/camera_cache.py": "08288f6f93d8f1690cc2fc78db58950facc30b22ae5fbe2753d87b9d74320ea3",
+    "src/piper_sim/lerobot_export.py": "f8afa8772ab62bc459bc60b02e1abebceea7803819b6b1efcc098566a7a4c900",
+    "src/piper_sim/camera_models.py": "30b933302c198f136f62b886582de5a38b9be59cc6703c01a24e99420bfa62cf",
+    "src/piper_sim/sensors.py": "25cc9fb0580ea3b260ea71b06a53248e4be4cc7817a91662b5debf27ff9cc303",
+    "src/piper_sim/profiling.py": "65a29c40d7bf792e67b968018a0d4c7f12e0ee0d8c7a2e16fa47d502d6afce63",
+    "src/piper_sim/config.py": "0ea6861c61a0b79b72006598cac3f080a2b2e5e6a289ebfad433d1e729699a19",
+    "src/piper_sim/client.py": "751f9b0f3c5d135e1708d51a99ed34765f647aa94f4e535b95a4e7cd9c15c020",
+    "src/piper_sim/mujoco_controller.py": "0f6c72c73bfafdda731a5342e9f42234493b21b2943c3b5ee684c480469cfb07",
+    "src/piper_sim/mujoco_asset.py": "b3b2dbf13d457941485aaa10f55c9244f9f6e1c8e267be4b59fd4fd884224bee",
+    "src/piper_sim/agilex.py": "d2c791e2b6c727d3055401def2164f90da1456144278a8c8060b58e04de3e87e",
+    "src/piper_sim/mujoco_tcp.py": "df28556abe7b4472e907d48d70a578eef9745e3b1f0a73cf321ad9e0daa07bdb",
+    "src/piper_sim/safety.py": "18765b363fa0c4a96fa600155c27d6873e745b692a139fcdda3b69022e5f5100",
+    "src/piper_sim/dataset.py": "7ed08f8981206094b19d2721fe7ea36c5da4695d36161125bf94197af6a032d1",
+    "src/piper_sim/training_acceptance.py": "43c65a8a7d5612f19d82195f48a94ff7609030019737f0b2ba3112f9550cba2e",
+    "src/piper_sim/simulation.py": "31289a4c046e2669c97876c91942323b74bccb761ccb41fdac8fcdb7fb9b0647",
+    "src/piper_sim/transforms.py": "80249208c036ac641cc956dee4273fdd6feccfa93d87f37eac955ba93f342523",
+    "src/piper_sim/appearance.py": "2ac8d107e61dac7dc99158c5def8180273ed120c8756fdf735945c6553fe05fb",
+    "src/piper_sim/mujoco_contact.py": "2cd716b4a72177c64f9cfb2bcb1c3e7bb3bfd7d410d70f63b54e3c0d704b793e",
+    "src/piper_sim/lerobot_alignment.py": "ef98c7a2748d544d74f5365506c6e6a186b3ef3d0726d0260675ee59eb46c0eb",
+    "src/piper_sim/experts/tcp_limits.py": "d8975ab65caeb94b041d19ddb7c87e5349ca8e5cf4d3a477785f27a92c37d214",
+    "src/piper_sim/experts/path_fidelity.py": "cd2e2187a4374140e6001e807b8e49244371f8d99fc7f173db8b34ab45db172e",
+    "src/piper_sim/experts/collision.py": "db8697281a42fee99d772be35e486258231a627a7e463e3a4d4e52d3e736f943",
+    "src/piper_sim/experts/placement_search.py": "0bd6d51cec01017e7f04fb8784e0dcd6072b8b98e55cfce2a1fe6f7c434eac00",
+    "src/piper_sim/experts/__init__.py": "31e219adb39c7d1dc04bf2996b746e91030ff2ea25b71a32c547a3794bac5d89",
+    "src/piper_sim/experts/grasp_assist.py": "22d27c310c1c39397e0308878d075004fbd135c114284c153a2af6ac063c6c08",
+    "src/piper_sim/experts/mujoco_ik.py": "0b51e622f58fc20b09ea269c2566abdee6b354247f7d7be2e9fa83b533d94c9f",
+    "src/piper_sim/experts/trajectory.py": "5836bd1bb9cb9fc9e691a6ed13d40401c964abc2ee1322ee3ac66afce5e2403b",
+    "src/piper_sim/experts/rigid_table.py": "78525a74283f6cbeb36baae66aef351574a0b07b45395835a2891fce58c41ec9",
+    "src/piper_sim/experts/quality.py": "962db5cb0f5c0c7c658d7574289d2bb0d020569627c624fa1dc920cacb26eb25",
+    "src/piper_sim/experts/physics_evidence.py": "311c37db0614129be0a97c0f670b18b4916e8f66b86c87f2055f9634c26f2872",
+    "src/piper_sim/experts/clean_table.py": "c6d045156213dfd2ed9e975b1027adeb642d36aedab4f2a6032a4ffefa00bef2",
+    "src/piper_sim/backends/mujoco.py": "0167f287ac0a1e2f576a03c1bc0f5132bfa1e4ddd9b32a45ae5c0d462420c098",
+    "src/piper_sim/backends/isaac.py": "a68c108e873995287085c675f9915cce4a73f495bcc9fce232b575b0de56a90d",
+    "src/piper_sim/backends/sdk_tracking.py": "16482f5917ed081ec5a30a629f296e917ccf996bdc69183c102a3d84a50516f1",
+    "src/piper_sim/backends/__init__.py": "ad3a37c45b0d13e475839c66ba4cb06da35e5ef4317236b771c9b2b48b309123",
+    "src/piper_sim/backends/piper.py": "75a539e11081f5b40524eca0efbec62d763c39d9a763db7d48b4a752d2410f0e",
+    "src/piper_sim/backends/mock.py": "2bf84516dc36d6afb7b8baa17ca2f75eb2e243d02caf84669c568945f3beb000",
+    "src/piper_sim/randomization/mujoco.py": "630d0ecf530d4e33d3a1bb0777944945843ab0663b7f6629c79f64751f61e078",
+    "src/piper_sim/randomization/isaac.py": "3102f5880b73596c8d948b5c3e4e251c704024e294110d3e69272f9526580828",
+    "src/piper_sim/randomization/__init__.py": "922eee49016fd1aca8127bdd0a1b3e62002443d746506615ac30d38c88730f0b",
+    "src/piper_sim/tasks/mujoco.py": "1c085f7679dfe98b26f72f349f1ad6542882f50c11d4c7b8d5871cb9cbdbc636",
+    "src/piper_sim/tasks/isaac.py": "f25d94e78e3f86cd4719b8415d6ca232e3a976d9d0729875cf6839a840e39efb",
+    "src/piper_sim/tasks/__init__.py": "3c9d8ec439b8d9464aaebc4f2b697bd4b42ef6291dda2150600f9af2bb7af069",
+    "src/piper_sim/tasks/rigid_scene_isaac.py": "65b9756451f9ce5a142c48ece1454f583c002142ddd260bd9efed7b399afdf58",
+    "src/piper_sim/tasks/connector.py": "323a0b6976ddf00c881c09bc6d2a33d3087d98a846714f3ffe4a41607e8ec281",
+    "src/piper_sim/tasks/rigid_scene_mujoco.py": "dbe23857fa9782526f71dd5f59e88175bd43236acd7118b38b0d2ce3d985cc43",
+    "src/piper_sim/tasks/rigid_table_meshes.py": "ca9e869033b74802f203c50efeb3a4c3f7a358206e6c13ee9ba76154c51a16bc",
+    "src/piper_sim/tasks/stage_visuals.py": "772553ac60c5ed851e3f90f0dd88b78894aca63808ac77dd68a0dcc1ad08294f",
+    "src/piper_sim/tasks/paper_cups.py": "14e47f9e5ec26bebe39765816ccc7075eebe5001ff2b68082b140a0dcdf3cae5",
+    "src/piper_sim/tasks/clean_table_isaac.py": "cbebfd3f7ffafb14aa901868563a362313d174625071c07f28230e3b9364ea7e",
+    "src/piper_sim/tasks/visual_assets.py": "daa9c3e7290ec59b6d3738a46a36ae94bfd3012e578cb9ada2a04785af390411",
+    "src/piper_sim/tasks/clean_table.py": "676dfc5e4183cedf823115e63d82016236a2257ac75957e8c6847d85a075e339",
+    "src/piper_sim/tasks/clean_table_mujoco.py": "6c492db7901311b02349659228dee9aef8ab8f8a62ef0066c5ab212816b6d464",
+    "src/piper_sim/tasks/indoor_lab.py": "9c5f4e7c107d8f2f7a16dbce3e59ea8a2a3d6e7caf44626b936f62bc9ab11de8",
+    "src/piper_sim/tasks/paper_cup_meshes.py": "b8c6818b03a7effc9f68f3566b9b01de47560c80434edd5c9245dbb984721c63",
+    "src/piper_sim/tasks/clean_table_meshes.py": "9cdbaf18d4fc732a461cd6a81a6c71a687f481e85071a068808e8f526b47a706",
+    "scripts/demo_clean_table.py": "0554cd15842a0e89fc3ebcb127c1d05b80a66dd303c1e13116f4f3c5bcca774a",
+    "configs/tasks/clean_table_rigid.yaml": "a7b8a078798c77086a5baed61a64490802b05001168f8043cb61ea06525dc627",
+    "configs/collection/clean_table_tcp.yaml": "a254d6a0ce4f4fe726165d1da186621b342363ba2bfd9d28bae6eb6e630337eb",
+    "configs/domain_randomization/clean_table.yaml": "a45e0cf7d4b15f6311d3ff0c530ed39805ca48fc6a88c93290f7ec2754f8c27d",
+    "configs/collection/quality_policy_tcp.yaml": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351",
+    "assets/tasks/clean_table/terry_albedo_v2.png": "814cedb138bd96b6dab1f54503144f9a74d84ecd4958227de2061c23802c8d39",
+    "assets/tasks/clean_table/table_wood.png": "d1e0cd5f97f6c6b55ce608331b6f6b1b1a02cebbb9b7f1254a5b8a5f2aac3a92",
+    "assets/tasks/clean_table/woven.png": "e859c7623ff8c0f6217010c2b35fd16ea269971ec2f0f018dea7d7ca2cdb5ef0",
+    "assets/tasks/clean_table/table_finegrain.png": "d23d04c5dfc6ffdfc1f9db4686eafb118386f13bf3c8b55add0bb8aaa7284c65",
+    "assets/tasks/clean_table/rigid_materials.json": "fdb18cb686ae6c7b677fe8c1bf9b42e3e955c4d5c5199c77af11d5d674e19605",
+    "assets/tasks/clean_table/terry.png": "5037dad16915630528157bc6471159e20f47d17caf226b7e71fa2a27be207aeb",
+    "assets/tasks/clean_table/texture_provenance_v2.json": "968b1c12f868fb1e1e2cfa57688d2d26f617f59ed876428e52ccb815277f4460",
+    "assets/tasks/clean_table/table_gray.png": "233986705f2dc36a14f04107cbd236ea0e43f244c80d331e67673d4854451735",
+    "assets/tasks/clean_table/materials.json": "deac3a4c6ae7f9d95e7bb040cb26d8898562201b5967c9abf59f5e8d8e344d44"
+  },
+  "domain_randomization": {
+    "profile": "rigid_table_curriculum_v1",
+    "seed": 3074758446,
+    "tabletop_material": "table_gray",
+    "config_sha256": "bdffaf95634957cb9daf7ec09f046af10e6cd891a5935099ab375a547865ad46",
+    "light_scale": 0.9882762062184094,
+    "light_color_scale": [
+      0.9035381771835359,
+      1.0,
+      1.096461822816464
+    ],
+    "light_position_delta_m": [
+      -0.09106571119550659,
+      -0.10464093124126848,
+      -0.014732888777452643
+    ],
+    "materials": {
+      "aluminum": {
+        "color_scale": [
+          0.8148299999336213,
+          0.8148299999336213,
+          0.8148299999336213
+        ],
+        "roughness_delta": -0.07475836974770984
+      },
+      "basket": {
+        "color_scale": [
+          0.9760215148348335,
+          0.9760215148348335,
+          0.9760215148348335
+        ],
+        "roughness_delta": 0.007191583068076296
+      },
+      "bin": {
+        "color_scale": [
+          1.0219847632964898,
+          1.0219847632964898,
+          1.0219847632964898
+        ],
+        "roughness_delta": -0.0028355382973088844
+      },
+      "charger_panel": {
+        "color_scale": [
+          0.9521224518362388,
+          0.9521224518362388,
+          0.9521224518362388
+        ],
+        "roughness_delta": -0.045926217977811365
+      },
+      "charger_white": {
+        "color_scale": [
+          0.9007104651056804,
+          0.9007104651056804,
+          0.9007104651056804
+        ],
+        "roughness_delta": -0.07743395669805136
+      },
+      "chopstick": {
+        "color_scale": [
+          0.7954726720026573,
+          0.7954726720026573,
+          0.7954726720026573
+        ],
+        "roughness_delta": 0.028046135118981935
+      },
+      "cotton_hem": {
+        "color_scale": [
+          0.9026872848683226,
+          0.9026872848683226,
+          0.9026872848683226
+        ],
+        "roughness_delta": 0.11243560147495088
+      },
+      "cup_00_print": {
+        "color_scale": [
+          0.8983892386312926,
+          0.8983892386312926,
+          0.8983892386312926
+        ],
+        "roughness_delta": 0.08673768661149286,
+        "color_rgb": [
+          0.94,
+          0.94,
+          0.9
+        ]
+      },
+      "cup_01_print": {
+        "color_scale": [
+          0.9677293827156199,
+          0.9677293827156199,
+          0.9677293827156199
+        ],
+        "roughness_delta": 0.10595448025393867,
+        "color_rgb": [
+          0.32,
+          0.63,
+          0.82
+        ]
+      },
+      "cup_02_print": {
+        "color_scale": [
+          0.9866783317270554,
+          0.9866783317270554,
+          0.9866783317270554
+        ],
+        "roughness_delta": 0.06013685935736343,
+        "color_rgb": [
+          0.94,
+          0.94,
+          0.9
+        ]
+      },
+      "cup_body": {
+        "color_scale": [
+          0.9821447679547507,
+          0.9821447679547507,
+          0.9821447679547507
+        ],
+        "roughness_delta": -0.0259303309376583
+      },
+      "cup_lining": {
+        "color_scale": [
+          1.093876354061048,
+          1.093876354061048,
+          1.093876354061048
+        ],
+        "roughness_delta": 0.03808685258941594
+      },
+      "cup_paper": {
+        "color_scale": [
+          0.8607366252033044,
+          0.8607366252033044,
+          0.8607366252033044
+        ],
+        "roughness_delta": -0.008706365613032022
+      },
+      "cup_print": {
+        "color_scale": [
+          0.7822222748963269,
+          0.7822222748963269,
+          0.7822222748963269
+        ],
+        "roughness_delta": 0.002984907793874378
+      },
+      "cup_rim": {
+        "color_scale": [
+          0.7824423890732696,
+          0.7824423890732696,
+          0.7824423890732696
+        ],
+        "roughness_delta": -0.06905275132656157
+      },
+      "cup_seam": {
+        "color_scale": [
+          0.8721902763445734,
+          0.8721902763445734,
+          0.8721902763445734
+        ],
+        "roughness_delta": -0.016995562445542928
+      },
+      "floor": {
+        "color_scale": [
+          1.0155284803380211,
+          1.0155284803380211,
+          1.0155284803380211
+        ],
+        "roughness_delta": 0.10932034267125099
+      },
+      "glass_panel": {
+        "color_scale": [
+          1.0394316708452351,
+          1.0394316708452351,
+          1.0394316708452351
+        ],
+        "roughness_delta": -0.10094320831981138
+      },
+      "gold": {
+        "color_scale": [
+          0.9533180854109553,
+          0.9533180854109553,
+          0.9533180854109553
+        ],
+        "roughness_delta": 0.10155380882301615
+      },
+      "lab_anodized_black": {
+        "color_scale": [
+          1.0750033697305583,
+          1.0750033697305583,
+          1.0750033697305583
+        ],
+        "roughness_delta": -0.06066087190669381
+      },
+      "lab_blue_partition": {
+        "color_scale": [
+          0.8400669959203229,
+          0.8400669959203229,
+          0.8400669959203229
+        ],
+        "roughness_delta": -0.08555783515035187
+      },
+      "lab_brushed_aluminum": {
+        "color_scale": [
+          0.8665610749216252,
+          0.8665610749216252,
+          0.8665610749216252
+        ],
+        "roughness_delta": 0.04424476530937457
+      },
+      "lab_cabinet": {
+        "color_scale": [
+          1.0454089991960283,
+          1.0454089991960283,
+          1.0454089991960283
+        ],
+        "roughness_delta": 0.11495902338410963
+      },
+      "lab_cabinet_gap": {
+        "color_scale": [
+          1.0137978862179824,
+          1.0137978862179824,
+          1.0137978862179824
+        ],
+        "roughness_delta": 0.09596600996879903
+      },
+      "lab_cable": {
+        "color_scale": [
+          0.9012534383159879,
+          0.9012534383159879,
+          0.9012534383159879
+        ],
+        "roughness_delta": 0.07093920693561578
+      },
+      "lab_cad_aluminum": {
+        "color_scale": [
+          0.8882406873381701,
+          0.8882406873381701,
+          0.8882406873381701
+        ],
+        "roughness_delta": 0.05611990232059169
+      },
+      "lab_cad_bracket_black": {
+        "color_scale": [
+          1.0809124495174751,
+          1.0809124495174751,
+          1.0809124495174751
+        ],
+        "roughness_delta": 0.0836822256049104
+      },
+      "lab_cad_camera_silver": {
+        "color_scale": [
+          0.8138895521798362,
+          0.8138895521798362,
+          0.8138895521798362
+        ],
+        "roughness_delta": -0.0036061746769411873
+      },
+      "lab_cad_fastener_steel": {
+        "color_scale": [
+          1.08541477619818,
+          1.08541477619818,
+          1.08541477619818
+        ],
+        "roughness_delta": 0.03898840558996802
+      },
+      "lab_cad_piper_black": {
+        "color_scale": [
+          0.8580963102464574,
+          0.8580963102464574,
+          0.8580963102464574
+        ],
+        "roughness_delta": -0.08195587219135013
+      },
+      "lab_cad_piper_gray": {
+        "color_scale": [
+          0.8431447626737342,
+          0.8431447626737342,
+          0.8431447626737342
+        ],
+        "roughness_delta": -0.08926993223267543
+      },
+      "lab_cad_table_white": {
+        "color_scale": [
+          1.0988069960889875,
+          1.0988069960889875,
+          1.0988069960889875
+        ],
+        "roughness_delta": -0.050954110384011764
+      },
+      "lab_ceramic_pot": {
+        "color_scale": [
+          0.9843590326768905,
+          0.9843590326768905,
+          0.9843590326768905
+        ],
+        "roughness_delta": -0.06575334515831309
+      },
+      "lab_floor_0": {
+        "color_scale": [
+          0.989026280019197,
+          0.989026280019197,
+          0.989026280019197
+        ],
+        "roughness_delta": 0.10678527824570458
+      },
+      "lab_floor_1": {
+        "color_scale": [
+          1.0318796027089745,
+          1.0318796027089745,
+          1.0318796027089745
+        ],
+        "roughness_delta": -0.08963909553726077
+      },
+      "lab_floor_2": {
+        "color_scale": [
+          1.0438856163719719,
+          1.0438856163719719,
+          1.0438856163719719
+        ],
+        "roughness_delta": -0.06755294616140471
+      },
+      "lab_floor_3": {
+        "color_scale": [
+          0.9178048566215613,
+          0.9178048566215613,
+          0.9178048566215613
+        ],
+        "roughness_delta": -0.02610716121543065
+      },
+      "lab_frosted_band": {
+        "color_scale": [
+          0.9155150637372483,
+          0.9155150637372483,
+          0.9155150637372483
+        ],
+        "roughness_delta": -0.028051393405385733
+      },
+      "lab_grout": {
+        "color_scale": [
+          0.8025396350577553,
+          0.8025396350577553,
+          0.8025396350577553
+        ],
+        "roughness_delta": -0.06889169441723339
+      },
+      "lab_ir_projector": {
+        "color_scale": [
+          0.8361387365677289,
+          0.8361387365677289,
+          0.8361387365677289
+        ],
+        "roughness_delta": 0.05399055255233423
+      },
+      "lab_label_ink": {
+        "color_scale": [
+          0.8473723595532748,
+          0.8473723595532748,
+          0.8473723595532748
+        ],
+        "roughness_delta": 0.0037130478145195184
+      },
+      "lab_leaf_0": {
+        "color_scale": [
+          1.0469661762305806,
+          1.0469661762305806,
+          1.0469661762305806
+        ],
+        "roughness_delta": 0.029562544848735856
+      },
+      "lab_leaf_1": {
+        "color_scale": [
+          0.8577720618888534,
+          0.8577720618888534,
+          0.8577720618888534
+        ],
+        "roughness_delta": 0.005577587527131445
+      },
+      "lab_leaf_2": {
+        "color_scale": [
+          0.7884790001322226,
+          0.7884790001322226,
+          0.7884790001322226
+        ],
+        "roughness_delta": 0.042328687755852634
+      },
+      "lab_leaf_3": {
+        "color_scale": [
+          0.8353367095470272,
+          0.8353367095470272,
+          0.8353367095470272
+        ],
+        "roughness_delta": 0.039535852930747184
+      },
+      "lab_lens_coating": {
+        "color_scale": [
+          0.9012655207867148,
+          0.9012655207867148,
+          0.9012655207867148
+        ],
+        "roughness_delta": 0.10628271029556216
+      },
+      "lab_optical_cover": {
+        "color_scale": [
+          1.091748966688519,
+          1.091748966688519,
+          1.091748966688519
+        ],
+        "roughness_delta": -0.11763870554988956
+      },
+      "lab_red_ink": {
+        "color_scale": [
+          0.8867637865339221,
+          0.8867637865339221,
+          0.8867637865339221
+        ],
+        "roughness_delta": 0.11418635068555918
+      },
+      "lab_screen": {
+        "color_scale": [
+          1.007797620899899,
+          1.007797620899899,
+          1.007797620899899
+        ],
+        "roughness_delta": -0.013445355706738646
+      },
+      "lab_soil": {
+        "color_scale": [
+          0.798774855838321,
+          0.798774855838321,
+          0.798774855838321
+        ],
+        "roughness_delta": 0.052816879499612585
+      },
+      "lab_stem": {
+        "color_scale": [
+          1.0462016153388691,
+          1.0462016153388691,
+          1.0462016153388691
+        ],
+        "roughness_delta": 0.10921711185391864
+      },
+      "lab_warm_paint": {
+        "color_scale": [
+          0.9169536541818752,
+          0.9169536541818752,
+          0.9169536541818752
+        ],
+        "roughness_delta": 0.02108259866193296
+      },
+      "lab_window_daylight": {
+        "color_scale": [
+          1.0131390876566932,
+          1.0131390876566932,
+          1.0131390876566932
+        ],
+        "roughness_delta": -0.041836123620422966
+      },
+      "label_wear": {
+        "color_scale": [
+          1.0550290231428376,
+          1.0550290231428376,
+          1.0550290231428376
+        ],
+        "roughness_delta": 0.07597083407620472
+      },
+      "mat_edge": {
+        "color_scale": [
+          1.079205908595409,
+          1.079205908595409,
+          1.079205908595409
+        ],
+        "roughness_delta": 0.05673657068530774
+      },
+      "paper": {
+        "color_scale": [
+          0.9751592944173583,
+          0.9751592944173583,
+          0.9751592944173583
+        ],
+        "roughness_delta": -0.03550364709116348
+      },
+      "pen_barrel": {
+        "color_scale": [
+          0.8303833522627958,
+          0.8303833522627958,
+          0.8303833522627958
+        ],
+        "roughness_delta": -0.05449974368278475
+      },
+      "pen_ink": {
+        "color_scale": [
+          0.8233578315682222,
+          0.8233578315682222,
+          0.8233578315682222
+        ],
+        "roughness_delta": 0.027967790601464954
+      },
+      "pen_label": {
+        "color_scale": [
+          0.8718696852140578,
+          0.8718696852140578,
+          0.8718696852140578
+        ],
+        "roughness_delta": 0.014890408808711647
+      },
+      "pen_metal": {
+        "color_scale": [
+          0.9548577555771736,
+          0.9548577555771736,
+          0.9548577555771736
+        ],
+        "roughness_delta": -0.03476077307612044
+      },
+      "porcelain": {
+        "color_scale": [
+          0.9455836700838681,
+          0.9455836700838681,
+          0.9455836700838681
+        ],
+        "roughness_delta": -0.04668805971304922
+      },
+      "rubber": {
+        "color_scale": [
+          1.0066212364978873,
+          1.0066212364978873,
+          1.0066212364978873
+        ],
+        "roughness_delta": -0.07226633830025266
+      },
+      "table_gray": {
+        "color_scale": [
+          0.8803750001512328,
+          0.8803750001512328,
+          0.8803750001512328
+        ],
+        "roughness_delta": 0.10856266158092645
+      },
+      "table_wood": {
+        "color_scale": [
+          0.8994510516898587,
+          0.8994510516898587,
+          0.8994510516898587
+        ],
+        "roughness_delta": -0.021576162552094283
+      },
+      "terry": {
+        "color_scale": [
+          0.9361466987401625,
+          0.9361466987401625,
+          0.9361466987401625
+        ],
+        "roughness_delta": 0.07780690391152043
+      },
+      "wall": {
+        "color_scale": [
+          0.9193645882067221,
+          0.9193645882067221,
+          0.9193645882067221
+        ],
+        "roughness_delta": 0.09750125258000983
+      },
+      "white_table": {
+        "color_scale": [
+          0.8621735496523414,
+          0.8621735496523414,
+          0.8621735496523414
+        ],
+        "roughness_delta": -0.11936893779951997
+      },
+      "woven": {
+        "color_scale": [
+          1.0740008830112804,
+          1.0740008830112804,
+          1.0740008830112804
+        ],
+        "roughness_delta": 0.033605281673613235
+      }
+    },
+    "objects": {
+      "basket": {
+        "mass_scale": 1.053344411178482,
+        "friction_scale": 1.1095404008347272
+      },
+      "bowl": {
+        "mass_scale": 1.0162641087296387,
+        "friction_scale": 0.8557165937489855
+      },
+      "charger": {
+        "mass_scale": 0.9166092614573502,
+        "friction_scale": 0.9894245104734791
+      },
+      "chopstick_a": {
+        "mass_scale": 1.0255027287384966,
+        "friction_scale": 1.1247737572814134
+      },
+      "chopstick_b": {
+        "mass_scale": 0.9451263869037847,
+        "friction_scale": 1.0029326757607206
+      },
+      "cup_00": {
+        "mass_scale": 1.0702463874987507,
+        "friction_scale": 0.9320659504190192
+      },
+      "cup_01": {
+        "mass_scale": 1.099578764829735,
+        "friction_scale": 1.1286821935585893
+      },
+      "cup_02": {
+        "mass_scale": 1.0945905756153376,
+        "friction_scale": 1.1426454173385785
+      },
+      "pen": {
+        "mass_scale": 1.1247514987142608,
+        "friction_scale": 1.159090384485797
+      },
+      "plate": {
+        "mass_scale": 0.9551311242909846,
+        "friction_scale": 0.9784411546534824
+      },
+      "side_dish": {
+        "mass_scale": 1.0264039133409217,
+        "friction_scale": 1.0708918419242017
+      },
+      "spoon": {
+        "mass_scale": 1.102247676862976,
+        "friction_scale": 1.065454958124488
+      }
+    },
+    "cameras": {
+      "overhead": {
+        "gain": 1.0262513876682733,
+        "white_balance": [
+          0.9849192019509674,
+          0.9838980911618636,
+          0.991141657729919
+        ],
+        "gamma": 1.0510823751135099,
+        "blur_sigma_px": 0.33805038120722053,
+        "noise_std_uint8": 0.2804811553876866
+      },
+      "left_wrist": {
+        "gain": 1.0152901707145983,
+        "white_balance": [
+          0.9889355771805928,
+          1.003582779413188,
+          0.9904807814673545
+        ],
+        "gamma": 1.0660904819653156,
+        "blur_sigma_px": 0.09998645107400071,
+        "noise_std_uint8": 0.13276906763509488
+      },
+      "right_wrist": {
+        "gain": 0.9830707442964084,
+        "white_balance": [
+          1.018455620180441,
+          1.014094707044278,
+          0.9973927771900234
+        ],
+        "gamma": 1.0366539578459175,
+        "blur_sigma_px": 0.15683879445659962,
+        "noise_std_uint8": 0.27999283833730126
+      }
+    },
+    "fixed": [
+      "CAD geometry",
+      "camera intrinsics/extrinsics",
+      "gravity",
+      "control rate"
+    ],
+    "sampling": "episode reset; stable per-property streams; no timing perturbation",
+    "content": {
+      "cup_count": 3,
+      "cup_colors": {
+        "cup_00": [
+          0.94,
+          0.94,
+          0.9
+        ],
+        "cup_01": [
+          0.32,
+          0.63,
+          0.82
+        ],
+        "cup_02": [
+          0.94,
+          0.94,
+          0.9
+        ]
+      }
+    }
+  },
+  "inventory": {
+    "cup_count": 3,
+    "cup_colors": {
+      "cup_00": [
+        0.94,
+        0.94,
+        0.9
+      ],
+      "cup_01": [
+        0.32,
+        0.63,
+        0.82
+      ],
+      "cup_02": [
+        0.94,
+        0.94,
+        0.9
+      ]
+    }
+  },
+  "collection_profile": {
+    "schema_version": 2,
+    "controller": {
+      "gripper_kp_N_per_m": 1000.0,
+      "gripper_kv_Ns_per_m": 120.0,
+      "gripper_force_limit_N": 5.0,
+      "finger_contact_time_constant_s": 0.01
+    },
+    "motion": {
+      "joint_velocity_rad_s": 1.0,
+      "joint_acceleration_rad_s2": 2.5,
+      "joint_jerk_rad_s3": 20.0,
+      "gripper_velocity_m_s": 0.06,
+      "gripper_acceleration_m_s2": 0.18,
+      "gripper_jerk_m_s3": 1.5,
+      "settle_error_rad": 0.035,
+      "settle_velocity_rad_s": 0.04,
+      "settle_hold_s": 0.1,
+      "settle_timeout_s": 2.0
+    },
+    "pacing": {
+      "tcp_limits": {
+        "linear_speed_m_s": 0.25,
+        "angular_speed_rad_s": 1.5,
+        "planning_fraction": 0.95
+      },
+      "rigid_sort_order": [
+        "chopstick_a",
+        "chopstick_b",
+        "pen",
+        "charger",
+        "spoon",
+        "bowl",
+        "plate",
+        "side_dish"
+      ],
+      "placement_search": {
+        "kinds": [
+          "chopstick",
+          "side_dish"
+        ],
+        "xy_radius_m": 0.05,
+        "xy_step_m": 0.025,
+        "wall_margin_m": 0.012,
+        "support_gap_m": 0.01,
+        "extra_release_heights_m": [
+          0.0,
+          0.015,
+          0.03,
+          0.06
+        ],
+        "max_candidates": 216,
+        "slender_surface_spacing_m": 0.005
+      },
+      "bounded_loaded_path": {
+        "max_position_deviation_m": 0.002,
+        "max_rotation_deviation_rad": 0.01,
+        "max_refinements": 2
+      },
+      "continuous_paths": true,
+      "direct_transfer": true,
+      "direct_next_object": true,
+      "minimum_move_s": 0.15,
+      "minimum_grip_s": 0.2,
+      "cartesian_speed_m_s": 0.25,
+      "contact_speed_m_s": 0.06,
+      "grasp_height_offsets_m": [
+        0.0,
+        0.002,
+        0.004
+      ],
+      "slender_pregrasp_clearance_m": 0.004,
+      "unloaded_transit_clearance_m": 0.002,
+      "unloaded_transit_rises_m": [
+        0.02,
+        0.04,
+        0.06
+      ],
+      "payload_transport_clearance_m_by_kind": {
+        "chopstick": 0.006
+      },
+      "grip_hold_s": 0.15,
+      "grasp_hold_s": 0.1,
+      "release_hold_s": 0.15,
+      "placement_hold_s": 0.35,
+      "final_settle_timeout_s": 5.0,
+      "rim_load_limits": {
+        "joint_velocity_rad_s": 0.5,
+        "joint_acceleration_rad_s2": 1.2,
+        "joint_jerk_rad_s3": 8.0
+      },
+      "closing_limits": {
+        "velocity": 0.04,
+        "acceleration": 0.12,
+        "jerk": 1.0
+      },
+      "loaded_limits_by_kind": {
+        "side_dish": {
+          "joint_velocity_rad_s": 0.3,
+          "joint_acceleration_rad_s2": 0.6,
+          "joint_jerk_rad_s3": 4
+        }
+      }
+    },
+    "quality": {
+      "measured_velocity_rad_s": 1.2,
+      "measured_acceleration_rad_s2": 8.0,
+      "measured_jerk_rad_s3": 200.0,
+      "measured_gripper_velocity_m_s": 0.08,
+      "measured_gripper_acceleration_m_s2": 1.0,
+      "measured_gripper_jerk_m_s3": 50.0,
+      "tracking_error_rad": 0.1,
+      "hold_velocity_rms_rad_s": 0.025,
+      "hold_gripper_velocity_rms_m_s": 0.003,
+      "max_robot_penetration_m": 0.004
+    },
+    "dataset": {
+      "extras_storage": "compressed",
+      "image_compression": "gzip",
+      "image_storage": "shared",
+      "flush_every": 1,
+      "min_free_disk_gib": 5.0,
+      "required_cameras": [
+        "overhead",
+        "left_wrist",
+        "right_wrist"
+      ],
+      "min_frames": 150,
+      "max_duration_s": 300.0,
+      "timestamp_tolerance_s": 1e-06,
+      "max_grasp_slip_m": 0.012,
+      "max_contact_loss_s": 0.2,
+      "min_bilateral_contact_fraction": 0.98,
+      "final_stable_hold_s": 1.0,
+      "final_object_speed_m_s": 0.01,
+      "final_object_angular_speed_rad_s": 0.1,
+      "min_image_luma_std": 1.0,
+      "max_image_clipped_fraction": 0.995,
+      "max_bad_image_fraction": 0.01,
+      "max_identical_image_fraction": 0.98
+    }
+  },
+  "rgb": false,
+  "completed": true,
+  "error": null,
+  "summary": {
+    "success": true,
+    "sorted_count": 11,
+    "required_count": 11
+  },
+  "teacher": {
+    "name": "rigid_table_privileged_v1",
+    "grasp_mode": "physical",
+    "privileged_inputs": [
+      "object poses",
+      "container poses",
+      "geometry",
+      "contacts",
+      "robot kinematics"
+    ],
+    "physical_only": true,
+    "collision_gate": "all robot bodies, including nonadjacent same-arm contacts; model adjacent exclusions retained",
+    "physics_evidence": {
+      "scope": "30 Hz sampled solver state, not substep extrema or calibrated real hardware forces",
+      "joint_order": [
+        "joint1",
+        "joint2",
+        "joint3",
+        "joint4",
+        "joint5",
+        "joint6",
+        "joint7",
+        "joint8"
+      ],
+      "position_units": [
+        "rad",
+        "rad",
+        "rad",
+        "rad",
+        "rad",
+        "rad",
+        "m",
+        "m"
+      ],
+      "velocity_units": [
+        "rad/s",
+        "rad/s",
+        "rad/s",
+        "rad/s",
+        "rad/s",
+        "rad/s",
+        "m/s",
+        "m/s"
+      ],
+      "generalized_force_units": [
+        "N*m",
+        "N*m",
+        "N*m",
+        "N*m",
+        "N*m",
+        "N*m",
+        "N",
+        "N"
+      ],
+      "combined_drive": "qfrc_actuator + qfrc_applied; constraint and passive forces are separate"
+    },
+    "training_note": "Training acceptance is determined only by the final closed-file dataset audit.",
+    "arm_bias_feedforward": true,
+    "gripper_kp_N_per_m": 1000.0,
+    "gripper_kv_Ns_per_m": 120.0,
+    "gripper_force_limit_N": 5.0,
+    "finger_contact_time_constant_s": 0.01,
+    "finger_friction": [
+      1.0,
+      0.015,
+      0.002
+    ],
+    "multiccd": true,
+    "noslip_iterations": 0,
+    "tcp_in_link6_m": [
+      0,
+      0,
+      0.1375
+    ],
+    "placemat": "removed with all flexible objects",
+    "motion_and_quality": {
+      "schema_version": 2,
+      "controller": {
+        "gripper_kp_N_per_m": 1000.0,
+        "gripper_kv_Ns_per_m": 120.0,
+        "gripper_force_limit_N": 5.0,
+        "finger_contact_time_constant_s": 0.01
+      },
+      "motion": {
+        "joint_velocity_rad_s": 1.0,
+        "joint_acceleration_rad_s2": 2.5,
+        "joint_jerk_rad_s3": 20.0,
+        "gripper_velocity_m_s": 0.06,
+        "gripper_acceleration_m_s2": 0.18,
+        "gripper_jerk_m_s3": 1.5,
+        "settle_error_rad": 0.035,
+        "settle_velocity_rad_s": 0.04,
+        "settle_hold_s": 0.1,
+        "settle_timeout_s": 2.0
+      },
+      "pacing": {
+        "tcp_limits": {
+          "linear_speed_m_s": 0.25,
+          "angular_speed_rad_s": 1.5,
+          "planning_fraction": 0.95
+        },
+        "rigid_sort_order": [
+          "chopstick_a",
+          "chopstick_b",
+          "pen",
+          "charger",
+          "spoon",
+          "bowl",
+          "plate",
+          "side_dish"
+        ],
+        "placement_search": {
+          "kinds": [
+            "chopstick",
+            "side_dish"
+          ],
+          "xy_radius_m": 0.05,
+          "xy_step_m": 0.025,
+          "wall_margin_m": 0.012,
+          "support_gap_m": 0.01,
+          "extra_release_heights_m": [
+            0.0,
+            0.015,
+            0.03,
+            0.06
+          ],
+          "max_candidates": 216,
+          "slender_surface_spacing_m": 0.005
+        },
+        "bounded_loaded_path": {
+          "max_position_deviation_m": 0.002,
+          "max_rotation_deviation_rad": 0.01,
+          "max_refinements": 2
+        },
+        "continuous_paths": true,
+        "direct_transfer": true,
+        "direct_next_object": true,
+        "minimum_move_s": 0.15,
+        "minimum_grip_s": 0.2,
+        "cartesian_speed_m_s": 0.25,
+        "contact_speed_m_s": 0.06,
+        "grasp_height_offsets_m": [
+          0.0,
+          0.002,
+          0.004
+        ],
+        "slender_pregrasp_clearance_m": 0.004,
+        "unloaded_transit_clearance_m": 0.002,
+        "unloaded_transit_rises_m": [
+          0.02,
+          0.04,
+          0.06
+        ],
+        "payload_transport_clearance_m_by_kind": {
+          "chopstick": 0.006
+        },
+        "grip_hold_s": 0.15,
+        "grasp_hold_s": 0.1,
+        "release_hold_s": 0.15,
+        "placement_hold_s": 0.35,
+        "final_settle_timeout_s": 5.0,
+        "rim_load_limits": {
+          "joint_velocity_rad_s": 0.5,
+          "joint_acceleration_rad_s2": 1.2,
+          "joint_jerk_rad_s3": 8.0
+        },
+        "closing_limits": {
+          "velocity": 0.04,
+          "acceleration": 0.12,
+          "jerk": 1.0
+        },
+        "loaded_limits_by_kind": {
+          "side_dish": {
+            "joint_velocity_rad_s": 0.3,
+            "joint_acceleration_rad_s2": 0.6,
+            "joint_jerk_rad_s3": 4
+          }
+        }
+      },
+      "quality": {
+        "measured_velocity_rad_s": 1.2,
+        "measured_acceleration_rad_s2": 8.0,
+        "measured_jerk_rad_s3": 200.0,
+        "measured_gripper_velocity_m_s": 0.08,
+        "measured_gripper_acceleration_m_s2": 1.0,
+        "measured_gripper_jerk_m_s3": 50.0,
+        "tracking_error_rad": 0.1,
+        "hold_velocity_rms_rad_s": 0.025,
+        "hold_gripper_velocity_rms_m_s": 0.003,
+        "max_robot_penetration_m": 0.004
+      },
+      "dataset": {
+        "extras_storage": "compressed",
+        "image_compression": "gzip",
+        "image_storage": "shared",
+        "flush_every": 1,
+        "min_free_disk_gib": 5.0,
+        "required_cameras": [
+          "overhead",
+          "left_wrist",
+          "right_wrist"
+        ],
+        "min_frames": 150,
+        "max_duration_s": 300.0,
+        "timestamp_tolerance_s": 1e-06,
+        "max_grasp_slip_m": 0.012,
+        "max_contact_loss_s": 0.2,
+        "min_bilateral_contact_fraction": 0.98,
+        "final_stable_hold_s": 1.0,
+        "final_object_speed_m_s": 0.01,
+        "final_object_angular_speed_rad_s": 0.1,
+        "min_image_luma_std": 1.0,
+        "max_image_clipped_fraction": 0.995,
+        "max_bad_image_fraction": 0.01,
+        "max_identical_image_fraction": 0.98
+      }
+    },
+    "trajectory": "C2 natural joint splines; unloaded joint-limit overshoot may use a collision-checked convex B-spline with exact endpoints and approximate interior knots; C3 time law and sampled derivative retiming; loaded overshoot may use the explicit pose-fidelity guarded convex profile",
+    "grasp_frames": "measured object SE(3) relative to nominal object grasp frame",
+    "bounded_loaded_path": {
+      "max_position_deviation_m": 0.002,
+      "max_rotation_deviation_rad": 0.01,
+      "max_refinements": 2,
+      "reference": "original solved-IK pose polyline at the same path parameter",
+      "scope": "additional sampled approximation only; IK and tracking errors are separate",
+      "calibration": "uncalibrated simulation planning budget",
+      "collision_checks": "original actual-curve robot and carried-object gates retained"
+    },
+    "tcp_limits": {
+      "linear_speed_m_s": 0.25,
+      "angular_speed_rad_s": 1.5,
+      "planning_fraction": 0.95,
+      "calibration": "unidentified simulation budget",
+      "planning": "FK translation and SO(3) sample speed retiming, all arm trajectory generators",
+      "measured_gate": "initial and every post-integration native TCP velocity; reject, never clip"
+    },
+    "contact_material_source": "legacy_teacher_parameters",
+    "task_sequence": "nest cups on table, transport entire stack, clear remaining rigid props",
+    "rigid_sort_order": [
+      "chopstick_a",
+      "chopstick_b",
+      "pen",
+      "charger",
+      "spoon",
+      "bowl",
+      "plate",
+      "side_dish"
+    ],
+    "per_kind_gripper_force_limits_N": {
+      "pen": 0.35,
+      "chopstick": 0.3,
+      "plate": 30.0,
+      "side_dish": 15.0,
+      "other": 5.0
+    },
+    "plate_pad_rolling_friction_m": 0.008,
+    "plate_gripper_kp_N_per_m": 10000.0,
+    "noslip_iterations_loaded_rim_grasp": 10,
+    "noslip_iterations_rim_release": 0,
+    "attachments": false,
+    "per_target_contact_material_switching": true
+  },
+  "results": [
+    {
+      "name": "cup_00",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "contained": true,
+      "hold_seconds": 5.199999999999991,
+      "success": true
+    },
+    {
+      "name": "cup_01",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "contained": true,
+      "hold_seconds": 4.999999999999992,
+      "success": true
+    },
+    {
+      "name": "cup_02",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "contained": true,
+      "hold_seconds": 4.133333333333328,
+      "success": true
+    },
+    {
+      "name": "chopstick_a",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.1505657975248541,
+      "contained": true,
+      "hold_seconds": 4.599999999999993,
+      "success": true
+    },
+    {
+      "name": "chopstick_b",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.1505599994311973,
+      "contained": true,
+      "hold_seconds": 4.933333333333326,
+      "success": true
+    },
+    {
+      "name": "pen",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.16354199681942555,
+      "contained": true,
+      "hold_seconds": 3.0333333333333323,
+      "success": true
+    },
+    {
+      "name": "charger",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.14956011944772743,
+      "contained": true,
+      "hold_seconds": 3.266666666666665,
+      "success": true
+    },
+    {
+      "name": "spoon",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.16255162057620487,
+      "contained": true,
+      "hold_seconds": 3.8666666666666627,
+      "success": true
+    },
+    {
+      "name": "bowl",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.1350196789630718,
+      "contained": true,
+      "hold_seconds": 3.166666666666665,
+      "success": true
+    },
+    {
+      "name": "plate",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.11179108213739905,
+      "contained": true,
+      "hold_seconds": 3.266666666666665,
+      "success": true
+    },
+    {
+      "name": "side_dish",
+      "target": "basket",
+      "grasp_mode": "physical",
+      "lift_m": 0.14778684385005347,
+      "contained": true,
+      "hold_seconds": 10.066666666666642,
+      "success": true
+    }
+  ],
+  "events": [
+    {
+      "phase": "prepared",
+      "object": null,
+      "sim_time": 1.0000000000000233
+    },
+    {
+      "phase": "approach",
+      "object": "cup_01",
+      "sim_time": 1.0000000000000233,
+      "side": "left",
+      "target": "cup_stack"
+    },
+    {
+      "phase": "grasp",
+      "object": "cup_01",
+      "sim_time": 5.8999999999997454
+    },
+    {
+      "phase": "lift",
+      "object": "cup_01",
+      "sim_time": 7.666666666666312,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "nest",
+      "object": "cup_01",
+      "sim_time": 15.900000000005912,
+      "base": "cup_00"
+    },
+    {
+      "phase": "release_for_nesting",
+      "object": "cup_01",
+      "sim_time": 19.233333333336383,
+      "base": "cup_00"
+    },
+    {
+      "phase": "stack_checked",
+      "object": "cup_01",
+      "sim_time": 23.466666666665866,
+      "nested": true,
+      "axis_offset_m": 0.0002416816601258643,
+      "max_tilt_deg": 0.16007285948317873,
+      "pitches_m": [
+        0.011625305735970549
+      ],
+      "count": 2,
+      "on_table": true
+    },
+    {
+      "phase": "approach",
+      "object": "cup_02",
+      "sim_time": 23.466666666665866,
+      "side": "left",
+      "target": "cup_stack"
+    },
+    {
+      "phase": "grasp",
+      "object": "cup_02",
+      "sim_time": 29.59999999999362
+    },
+    {
+      "phase": "lift",
+      "object": "cup_02",
+      "sim_time": 31.36666666665868,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "nest",
+      "object": "cup_02",
+      "sim_time": 43.26666666664786,
+      "base": "cup_01"
+    },
+    {
+      "phase": "release_for_nesting",
+      "object": "cup_02",
+      "sim_time": 46.63333333331146,
+      "base": "cup_01"
+    },
+    {
+      "phase": "stack_checked",
+      "object": "cup_02",
+      "sim_time": 50.79999999997434,
+      "nested": true,
+      "axis_offset_m": 0.0004415602553764802,
+      "max_tilt_deg": 0.15120423560734458,
+      "pitches_m": [
+        0.011910231736035065,
+        0.01070350301866573
+      ],
+      "count": 3,
+      "on_table": true
+    },
+    {
+      "phase": "stack_ready",
+      "object": "cup_02",
+      "sim_time": 51.59999999997361,
+      "cups": [
+        "cup_00",
+        "cup_01",
+        "cup_02"
+      ]
+    },
+    {
+      "phase": "approach",
+      "object": "cup_00",
+      "sim_time": 55.19999999997034,
+      "side": "right",
+      "target": "cup_stack"
+    },
+    {
+      "phase": "grasp",
+      "object": "cup_00",
+      "sim_time": 60.599999999965426
+    },
+    {
+      "phase": "lift",
+      "object": "cup_00",
+      "sim_time": 62.366666666630486,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer_stack",
+      "object": "cup_00",
+      "sim_time": 64.83333333329492,
+      "target": "basket"
+    },
+    {
+      "phase": "release_stack",
+      "object": "cup_00",
+      "sim_time": 72.59999999995452,
+      "target": "basket"
+    },
+    {
+      "phase": "stack_placed",
+      "object": "cup_00",
+      "sim_time": 77.23333333328364,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "chopstick_a",
+      "sim_time": 77.23333333328364,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "chopstick_a",
+      "sim_time": 80.43333333328073,
+      "height_offset_m": 0.0,
+      "local_tilt_deg": 0.0,
+      "long_axis_offset_m": 0.0,
+      "rejected_candidates": 0
+    },
+    {
+      "phase": "grasp",
+      "object": "chopstick_a",
+      "sim_time": 81.76666666661285
+    },
+    {
+      "phase": "lift",
+      "object": "chopstick_a",
+      "sim_time": 84.23333333327727,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "chopstick_a",
+      "sim_time": 86.36666666660867,
+      "lift_m": 0.1505657975248541
+    },
+    {
+      "phase": "placement_search_selected",
+      "object": "chopstick_a",
+      "sim_time": 86.36666666660867,
+      "slot_xy_m": [
+        -0.025,
+        -0.08499999999999999
+      ],
+      "object_pitch_deg": -45,
+      "object_yaw_deg": -15,
+      "wall_margin_m": 0.03498507994709921,
+      "support_gap_m": 0.01,
+      "checked_pose_candidates": 153,
+      "opening_sweep_checked_m": [
+        0.005921936294436239,
+        0.04
+      ],
+      "rejected_geometry_or_ik": 152,
+      "support_obstacles": [
+        "plate",
+        "bowl",
+        "spoon",
+        "chopstick_b",
+        "side_dish",
+        "basket",
+        "cup_00",
+        "cup_01",
+        "cup_02",
+        "pen",
+        "charger"
+      ],
+      "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+      "payload_sample_count": 2938,
+      "payload_surface_spacing_m": 0.005,
+      "prediction_note": "geometric first contact, not dynamic stability proof"
+    },
+    {
+      "phase": "lower",
+      "object": "chopstick_a",
+      "sim_time": 90.86666666660457
+    },
+    {
+      "phase": "open_gripper",
+      "object": "chopstick_a",
+      "sim_time": 93.03333333326927,
+      "object_pose": {
+        "position": [
+          0.5859332764081235,
+          -0.512360499803724,
+          0.11735842725408333
+        ],
+        "quaternion_wxyz": [
+          0.9147009245172402,
+          -0.0561124502305337,
+          -0.3760813364820076,
+          -0.13688111617874751
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "chopstick_a",
+      "sim_time": 93.03333333326927,
+      "measured_width_m": 0.005900310041228336,
+      "command_width_m": 0.0
+    },
+    {
+      "phase": "release",
+      "object": "chopstick_a",
+      "sim_time": 93.83333333326854,
+      "object_pose": {
+        "position": [
+          0.622092249783001,
+          -0.5233884980257887,
+          0.02798329584567887
+        ],
+        "quaternion_wxyz": [
+          0.9890047523497133,
+          -7.265768798947207e-07,
+          5.675651624062478e-07,
+          -0.14788373754011175
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "chopstick_a",
+      "sim_time": 98.03333333326472,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "chopstick_b",
+      "sim_time": 98.03333333326472,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "chopstick_b",
+      "sim_time": 102.39999999992742,
+      "height_offset_m": 0.0,
+      "local_tilt_deg": 0.0,
+      "long_axis_offset_m": 0.0,
+      "rejected_candidates": 0
+    },
+    {
+      "phase": "grasp",
+      "object": "chopstick_b",
+      "sim_time": 103.73333333325954
+    },
+    {
+      "phase": "lift",
+      "object": "chopstick_b",
+      "sim_time": 106.19999999992396,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "chopstick_b",
+      "sim_time": 108.33333333325535,
+      "lift_m": 0.1505599994311973
+    },
+    {
+      "phase": "placement_search_selected",
+      "object": "chopstick_b",
+      "sim_time": 108.33333333325535,
+      "slot_xy_m": [
+        -0.025,
+        -0.1
+      ],
+      "object_pitch_deg": -45,
+      "object_yaw_deg": -15,
+      "wall_margin_m": 0.019985079947099194,
+      "support_gap_m": 0.01,
+      "checked_pose_candidates": 153,
+      "opening_sweep_checked_m": [
+        0.0059022844602634045,
+        0.04
+      ],
+      "rejected_geometry_or_ik": 152,
+      "support_obstacles": [
+        "plate",
+        "bowl",
+        "spoon",
+        "chopstick_a",
+        "side_dish",
+        "basket",
+        "cup_00",
+        "cup_01",
+        "cup_02",
+        "pen",
+        "charger"
+      ],
+      "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+      "payload_sample_count": 2938,
+      "payload_surface_spacing_m": 0.005,
+      "prediction_note": "geometric first contact, not dynamic stability proof"
+    },
+    {
+      "phase": "lower",
+      "object": "chopstick_b",
+      "sim_time": 112.83333333325126
+    },
+    {
+      "phase": "open_gripper",
+      "object": "chopstick_b",
+      "sim_time": 114.96666666658265,
+      "object_pose": {
+        "position": [
+          0.5865393091745592,
+          -0.5275058532837276,
+          0.1215557242654804
+        ],
+        "quaternion_wxyz": [
+          0.9131715111072458,
+          -0.057277328173544965,
+          -0.37992358397137305,
+          -0.13599694600157194
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "chopstick_b",
+      "sim_time": 114.96666666658265,
+      "measured_width_m": 0.005887598300723676,
+      "command_width_m": 0.0
+    },
+    {
+      "phase": "release",
+      "object": "chopstick_b",
+      "sim_time": 115.76666666658193,
+      "object_pose": {
+        "position": [
+          0.6233542469388417,
+          -0.5388218431863379,
+          0.027970061178219957
+        ],
+        "quaternion_wxyz": [
+          0.9890524011200972,
+          3.325457977975815e-05,
+          -4.20479964375834e-05,
+          -0.1475647144972987
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "chopstick_b",
+      "sim_time": 120.29999999991114,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "pen",
+      "sim_time": 120.29999999991114,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "pen",
+      "sim_time": 124.86666666657365,
+      "height_offset_m": 0.0,
+      "local_tilt_deg": 0,
+      "rejected_candidates": 0
+    },
+    {
+      "phase": "grasp",
+      "object": "pen",
+      "sim_time": 126.23333333323907
+    },
+    {
+      "phase": "lift",
+      "object": "pen",
+      "sim_time": 129.26666666658693,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "pen",
+      "sim_time": 131.46666666661494,
+      "lift_m": 0.16354199681942555
+    },
+    {
+      "phase": "lower",
+      "object": "pen",
+      "sim_time": 134.69999999998944
+    },
+    {
+      "phase": "open_gripper",
+      "object": "pen",
+      "sim_time": 135.6000000000009,
+      "object_pose": {
+        "position": [
+          0.6166142068326297,
+          -0.3179600802790141,
+          0.20433234124914398
+        ],
+        "quaternion_wxyz": [
+          0.9256188065037274,
+          -0.006907593349095241,
+          -0.3780053518118331,
+          -0.017148300275831828
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "pen",
+      "sim_time": 135.6000000000009,
+      "measured_width_m": 0.008450123905726928,
+      "command_width_m": 0.0
+    },
+    {
+      "phase": "release",
+      "object": "pen",
+      "sim_time": 136.4666666666786,
+      "object_pose": {
+        "position": [
+          0.6407766762345138,
+          -0.3188272381842474,
+          0.027981992275012423
+        ],
+        "quaternion_wxyz": [
+          0.9998320512015636,
+          -1.1577418830409868e-06,
+          -1.8839370598373262e-05,
+          -0.018326730035983157
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "pen",
+      "sim_time": 139.2333333333805,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "charger",
+      "sim_time": 139.2333333333805,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "charger",
+      "sim_time": 142.60000000009003,
+      "height_offset_m": 0.0,
+      "local_tilt_deg": 0,
+      "rejected_candidates": 0
+    },
+    {
+      "phase": "grasp",
+      "object": "charger",
+      "sim_time": 144.06666666677538
+    },
+    {
+      "phase": "lift",
+      "object": "charger",
+      "sim_time": 148.16666666682758,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "charger",
+      "sim_time": 150.50000000019062,
+      "lift_m": 0.14956011944772743
+    },
+    {
+      "phase": "lower",
+      "object": "charger",
+      "sim_time": 154.76666666691162
+    },
+    {
+      "phase": "open_gripper",
+      "object": "charger",
+      "sim_time": 155.63333333358932,
+      "object_pose": {
+        "position": [
+          0.6949469718357786,
+          -0.360846643617726,
+          0.1741952112157739
+        ],
+        "quaternion_wxyz": [
+          0.9255214056473521,
+          -0.0062861224455410284,
+          -0.3782224577607933,
+          -0.017843340453335497
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "charger",
+      "sim_time": 155.63333333358932,
+      "measured_width_m": 0.06210536085673853,
+      "command_width_m": 0.05
+    },
+    {
+      "phase": "release",
+      "object": "charger",
+      "sim_time": 156.56666666693454,
+      "object_pose": {
+        "position": [
+          0.7074632393113633,
+          -0.36164537186774703,
+          0.02797825461458615
+        ],
+        "quaternion_wxyz": [
+          0.9997941785368243,
+          -3.7175222943343766e-06,
+          -2.657344898409176e-06,
+          -0.02028794082691719
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "charger",
+      "sim_time": 159.40000000030395,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "spoon",
+      "sim_time": 159.40000000030395,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "spoon",
+      "sim_time": 164.70000000037143,
+      "height_offset_m": 0.0,
+      "local_tilt_deg": -5,
+      "rejected_candidates": 2
+    },
+    {
+      "phase": "grasp",
+      "object": "spoon",
+      "sim_time": 167.7333333337434
+    },
+    {
+      "phase": "lift",
+      "object": "spoon",
+      "sim_time": 171.56666666712553,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "spoon",
+      "sim_time": 175.36666666717392,
+      "lift_m": 0.16255162057620487
+    },
+    {
+      "phase": "lower",
+      "object": "spoon",
+      "sim_time": 181.7666666672554
+    },
+    {
+      "phase": "open_gripper",
+      "object": "spoon",
+      "sim_time": 183.00000000060444,
+      "object_pose": {
+        "position": [
+          0.6505027583280337,
+          -0.5298013370381515,
+          0.17752742347992848
+        ],
+        "quaternion_wxyz": [
+          0.972093170967611,
+          -0.022182911754214683,
+          -0.23247247627386522,
+          -0.02234576378950279
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "spoon",
+      "sim_time": 183.00000000060444,
+      "measured_width_m": 0.009569744189161806,
+      "command_width_m": 0.0
+    },
+    {
+      "phase": "release",
+      "object": "spoon",
+      "sim_time": 183.9000000006159,
+      "object_pose": {
+        "position": [
+          0.652355718707947,
+          -0.5358777220708053,
+          0.03042902266292325
+        ],
+        "quaternion_wxyz": [
+          0.9934994062753172,
+          0.02990643770702891,
+          -0.057458633563649365,
+          -0.09361111121691086
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "spoon",
+      "sim_time": 187.50000000066174,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "bowl",
+      "sim_time": 187.50000000066174,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "bowl",
+      "sim_time": 192.86666666739674,
+      "height_offset_m": 0.0,
+      "local_tilt_deg": 0,
+      "rejected_candidates": 0
+    },
+    {
+      "phase": "grasp",
+      "object": "bowl",
+      "sim_time": 194.8666666674222
+    },
+    {
+      "phase": "lift",
+      "object": "bowl",
+      "sim_time": 198.9666666674744,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "bowl",
+      "sim_time": 201.7333333341763,
+      "lift_m": 0.1350196789630718
+    },
+    {
+      "phase": "lower",
+      "object": "bowl",
+      "sim_time": 205.86666666756227
+    },
+    {
+      "phase": "open_gripper",
+      "object": "bowl",
+      "sim_time": 206.8000000009075,
+      "object_pose": {
+        "position": [
+          0.504801091543848,
+          -0.4833797001011585,
+          0.1521921073788658
+        ],
+        "quaternion_wxyz": [
+          0.6959971667485798,
+          -0.0022782479478457057,
+          0.00867129420805646,
+          -0.7179885529177982
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "bowl",
+      "sim_time": 206.8000000009075,
+      "measured_width_m": 0.0054800695745093435,
+      "command_width_m": 0.0
+    },
+    {
+      "phase": "release",
+      "object": "bowl",
+      "sim_time": 207.60000000091767,
+      "object_pose": {
+        "position": [
+          0.47698398336703746,
+          -0.48042144844217793,
+          0.133428303790908
+        ],
+        "quaternion_wxyz": [
+          0.6764074609287181,
+          -0.16883995040734126,
+          0.20175549587944586,
+          -0.6879394870399947
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "bowl",
+      "sim_time": 211.23333333429727,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "plate",
+      "sim_time": 211.23333333429727,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "plate",
+      "sim_time": 215.80000000102208,
+      "height_offset_m": 0.002,
+      "local_tilt_deg": 5,
+      "rejected_candidates": 8
+    },
+    {
+      "phase": "grasp",
+      "object": "plate",
+      "sim_time": 219.06666666773035
+    },
+    {
+      "phase": "lift",
+      "object": "plate",
+      "sim_time": 222.1000000011023,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "plate",
+      "sim_time": 226.50000000115833,
+      "lift_m": 0.11179108213739905
+    },
+    {
+      "phase": "lower",
+      "object": "plate",
+      "sim_time": 234.43333333459267
+    },
+    {
+      "phase": "open_gripper",
+      "object": "plate",
+      "sim_time": 236.03333333461305,
+      "object_pose": {
+        "position": [
+          0.6776575522617534,
+          -0.4316346578296919,
+          0.2414947828374417
+        ],
+        "quaternion_wxyz": [
+          0.7588148208856825,
+          -0.6459798903863871,
+          -0.02559546080599289,
+          -0.07908805982416482
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "plate",
+      "sim_time": 236.03333333461305,
+      "measured_width_m": 0.003079883845100158,
+      "command_width_m": 0.0
+    },
+    {
+      "phase": "release",
+      "object": "plate",
+      "sim_time": 236.73333333462196,
+      "object_pose": {
+        "position": [
+          0.6560335550028301,
+          -0.5056101910630258,
+          0.06383121919950094
+        ],
+        "quaternion_wxyz": [
+          0.9651840517167296,
+          -0.25269317715281964,
+          0.06172232002434113,
+          -0.027500177143151096
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "plate",
+      "sim_time": 239.9333333346627,
+      "success": true
+    },
+    {
+      "phase": "approach",
+      "object": "side_dish",
+      "sim_time": 239.9333333346627,
+      "side": "right",
+      "target": "basket"
+    },
+    {
+      "phase": "grasp_candidate_selected",
+      "object": "side_dish",
+      "sim_time": 246.20000000140917,
+      "height_offset_m": 0.0,
+      "local_tilt_deg": 0,
+      "rejected_candidates": 0
+    },
+    {
+      "phase": "grasp",
+      "object": "side_dish",
+      "sim_time": 249.800000001455
+    },
+    {
+      "phase": "lift",
+      "object": "side_dish",
+      "sim_time": 254.20000000151103,
+      "contact_fingers": [
+        "7",
+        "8"
+      ]
+    },
+    {
+      "phase": "transfer",
+      "object": "side_dish",
+      "sim_time": 266.73333333471106,
+      "lift_m": 0.14778684385005347
+    },
+    {
+      "phase": "placement_search_selected",
+      "object": "side_dish",
+      "sim_time": 271.63333333463976,
+      "slot_xy_m": [
+        0.06,
+        0.0
+      ],
+      "object_pitch_deg": -15,
+      "object_yaw_deg": 0,
+      "wall_margin_m": 0.0417835124305235,
+      "support_gap_m": 0.01,
+      "checked_pose_candidates": 49,
+      "opening_sweep_checked_m": [
+        0.007605244761565298,
+        0.07
+      ],
+      "rejected_geometry_or_ik": 46,
+      "support_obstacles": [
+        "plate",
+        "bowl",
+        "spoon",
+        "chopstick_a",
+        "chopstick_b",
+        "basket",
+        "cup_00",
+        "cup_01",
+        "cup_02",
+        "pen",
+        "charger"
+      ],
+      "support_method": "visible payload vertices against vertical envelope of current task collision triangles",
+      "payload_sample_count": 576,
+      "payload_surface_spacing_m": null,
+      "prediction_note": "geometric first contact, not dynamic stability proof"
+    },
+    {
+      "phase": "lower",
+      "object": "side_dish",
+      "sim_time": 282.53333333448114
+    },
+    {
+      "phase": "open_gripper",
+      "object": "side_dish",
+      "sim_time": 288.33333333439674,
+      "object_pose": {
+        "position": [
+          0.6720017214390688,
+          -0.43005346556685287,
+          0.061720089240129485
+        ],
+        "quaternion_wxyz": [
+          0.9915858978303267,
+          -0.0020413896368014963,
+          -0.12810075323772077,
+          -0.018532052565917376
+        ]
+      }
+    },
+    {
+      "phase": "unload_gripper",
+      "object": "side_dish",
+      "sim_time": 288.33333333439674,
+      "measured_width_m": 0.007559316149999738,
+      "command_width_m": 0.0
+    },
+    {
+      "phase": "release",
+      "object": "side_dish",
+      "sim_time": 289.16666666771795,
+      "object_pose": {
+        "position": [
+          0.6731101522095512,
+          -0.43203565602384697,
+          0.047612052034685506
+        ],
+        "quaternion_wxyz": [
+          0.995651633915243,
+          0.08280405705685792,
+          -0.03886462515481428,
+          -0.017631021762993825
+        ]
+      }
+    },
+    {
+      "phase": "placed",
+      "object": "side_dish",
+      "sim_time": 295.66666666762336,
+      "success": true
+    },
+    {
+      "phase": "finished",
+      "object": "side_dish",
+      "sim_time": 297.66666666759426,
+      "success": true,
+      "sorted_count": 11,
+      "required_count": 11
+    }
+  ],
+  "final_objects": {
+    "plate": {
+      "position": [
+        0.6602460139114195,
+        -0.4898507849306049,
+        0.03606145953315748
+      ],
+      "quaternion_wxyz": [
+        0.9968223082380846,
+        -0.07583351190790953,
+        -0.017118949269552784,
+        -0.017363923707376595
+      ]
+    },
+    "bowl": {
+      "position": [
+        0.44913832721392183,
+        -0.4568419410528628,
+        0.051327185117279524
+      ],
+      "quaternion_wxyz": [
+        0.4633710111494386,
+        -0.49206840579072236,
+        0.13476868185477253,
+        -0.7245642776455726
+      ]
+    },
+    "spoon": {
+      "position": [
+        0.6533863148188231,
+        -0.5282947513190227,
+        0.0263474402574579
+      ],
+      "quaternion_wxyz": [
+        0.9975815893166666,
+        -0.05176517714177193,
+        -0.023663014588567198,
+        -0.03989236559162466
+      ]
+    },
+    "chopstick_a": {
+      "position": [
+        0.6216210425092917,
+        -0.5256239436438336,
+        0.027919599578974646
+      ],
+      "quaternion_wxyz": [
+        0.9872681744960897,
+        0.00619829804683729,
+        -0.001032836195840052,
+        -0.1589404478975528
+      ]
+    },
+    "chopstick_b": {
+      "position": [
+        0.6236377968151684,
+        -0.5374242248994444,
+        0.027968313896478227
+      ],
+      "quaternion_wxyz": [
+        0.9904290758046759,
+        0.0009481196367748024,
+        -0.00014649082916931975,
+        -0.13801929361609436
+      ]
+    },
+    "side_dish": {
+      "position": [
+        0.6729818430360923,
+        -0.43221364912213345,
+        0.047496464772170226
+      ],
+      "quaternion_wxyz": [
+        0.9957467757209668,
+        0.08039482762327176,
+        -0.04133277245392305,
+        -0.017794163481185832
+      ]
+    },
+    "basket": {
+      "position": [
+        0.6125556552031366,
+        -0.4277778953571124,
+        0.024978731642825776
+      ],
+      "quaternion_wxyz": [
+        0.9998301072600855,
+        5.0694886714615385e-06,
+        -1.554387358557805e-05,
+        -0.01843248081443192
+      ]
+    },
+    "cup_00": {
+      "position": [
+        0.5126425029225128,
+        -0.3377556973959786,
+        0.027975999316783108
+      ],
+      "quaternion_wxyz": [
+        0.42615010674348375,
+        -1.2125419709801461e-05,
+        -1.1023676990102565e-05,
+        0.9046524671131838
+      ]
+    },
+    "cup_01": {
+      "position": [
+        0.5126848623641916,
+        -0.33794185551089023,
+        0.03988021253656605
+      ],
+      "quaternion_wxyz": [
+        0.2841203889058489,
+        -0.0005583614371490868,
+        0.0009548602618156344,
+        0.958787975040559
+      ]
+    },
+    "cup_02": {
+      "position": [
+        0.5122771775394547,
+        -0.33783986225378115,
+        0.050330143556970665
+      ],
+      "quaternion_wxyz": [
+        0.4650354026158873,
+        0.0015112061471237418,
+        0.0014863824723064423,
+        0.8852895465535595
+      ]
+    },
+    "pen": {
+      "position": [
+        0.640765883168694,
+        -0.3187054799518726,
+        0.027970471361901172
+      ],
+      "quaternion_wxyz": [
+        0.9998350610517769,
+        4.902420043484324e-06,
+        -2.548970621496108e-05,
+        -0.01816177353210183
+      ]
+    },
+    "charger": {
+      "position": [
+        0.7074866660184802,
+        -0.3613484263672006,
+        0.02796202295832746
+      ],
+      "quaternion_wxyz": [
+        0.9997744500010648,
+        7.08446990641502e-05,
+        -0.00013458027647203632,
+        -0.021237372583404822
+      ]
+    }
+  },
+  "final_metrics": {
+    "plate": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 60.9999999999991,
+      "success": true
+    },
+    "bowl": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 89.59999999999748,
+      "success": true
+    },
+    "spoon": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 114.03333333332942,
+      "success": true
+    },
+    "chopstick_a": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 204.2333333333243,
+      "success": true
+    },
+    "chopstick_b": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 182.29999999999222,
+      "success": true
+    },
+    "side_dish": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 12.066666666666634,
+      "success": true
+    },
+    "cup_00": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 225.6333333333231,
+      "success": true
+    },
+    "cup_01": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 225.4333333333231,
+      "success": true
+    },
+    "cup_02": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 224.5666666666565,
+      "success": true
+    },
+    "pen": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 161.46666666666007,
+      "success": true
+    },
+    "charger": {
+      "target": "basket",
+      "contained": true,
+      "hold_seconds": 141.53333333332787,
+      "success": true
+    },
+    "summary": {
+      "success": true,
+      "sorted_count": 11,
+      "required_count": 11
+    },
+    "cup_stack": {
+      "nested": true,
+      "axis_offset_m": 0.00040995683874799386,
+      "max_tilt_deg": 0.24289852515675242,
+      "pitches_m": [
+        0.011904213675204727,
+        0.010450339863487455
+      ],
+      "count": 3,
+      "on_table": false,
+      "stacked_on_table_first": true
+    }
+  },
+  "seed": 3074758446,
+  "randomized": true,
+  "requested_objects": null,
+  "sim_seconds": 297.66666666759426,
+  "audit_passed": true,
+  "audit_violations": [],
+  "diagnostic_only": true
+}

@@ -1,0 +1,32 @@
+{
+  "namespace": "piper/platform_audit/tcp_frozen_holdout/v1",
+  "selection": "first six SHA256(namespace/index) uint32 big-endian seeds, no layout inspection",
+  "seeds": [
+    2581007687,
+    4073883530,
+    4073940106,
+    3074758446,
+    1990188034,
+    1340830695
+  ],
+  "prior_literal_matches": [],
+  "workers": 3,
+  "source_commit": "4e92f3c7b19bc23b0f769dd025892e74a8e5cb43",
+  "inputs_sha256": "f3786cd8a6de5bc3ce7500e2a7ba28f76c557376ba5c66edd62d188da72f4ac4",
+  "analysis_sha256": "4e99375e4ead331024fb96a281f3ddd23048616002d15823130617920e2f923d",
+  "config": "/home/midea/Desktop/piper_sim/configs/clean_table_tcp.yaml",
+  "collection_profile": "/home/midea/Desktop/piper_sim/configs/collection/clean_table_tcp.yaml",
+  "acceptance_policy": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+  "original_policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "protocol": "Complete physical state trials, retain all outcomes, no parameter changes until all six finish. Original quality and 300 s duration limits retained.",
+  "raw_output": "/dev/shm/piper_tcp_holdout_v1",
+  "raw_storage": "volatile tmpfs; retained until archival capacity is available; not a durable training release",
+  "persistent_evidence": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_holdout_evidence_v1",
+  "free_disk_bytes_before": 5411536896,
+  "free_tmpfs_bytes_before": 33161400320,
+  "training_ready": false,
+  "limitations": [
+    "Six diagnostic layouts do not certify population success, RGB acceptance, or hardware calibration.",
+    "Temporary raw files can be lost on reboot; archive remains required. No prior recording is removed."
+  ]
+}
