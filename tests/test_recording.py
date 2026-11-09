@@ -11,9 +11,10 @@ def obs(t):
                        {"overhead": t})
 
 
-def test_transitions_images_and_windows(tmp_path):
+@pytest.mark.parametrize("compression", ["lzf", "gzip"])
+def test_transitions_images_and_windows(tmp_path, compression):
     path = tmp_path / "episode.h5"
-    with EpisodeWriter(path, {"task": "pick"}) as writer:
+    with EpisodeWriter(path, {"task": "pick"}, image_compression=compression) as writer:
         for i in range(4):
             writer.append(obs(i), Command(np.zeros(14), i+.1, i), obs(i+1))
     info = validate_episode(path)
@@ -24,6 +25,8 @@ def test_transitions_images_and_windows(tmp_path):
     with h5py.File(path) as f:
         assert f["next_observation/timestamp"][0] == 1
         assert not f.attrs["success"]
+        assert f["observation/images/overhead"].compression == compression
+        np.testing.assert_array_equal(f["next_observation/images/overhead"][0], obs(1).images["overhead"])
     with pytest.raises(FileExistsError):
         EpisodeWriter(path, {})
 

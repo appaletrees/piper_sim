@@ -122,7 +122,8 @@ def main():
             instruction = ('先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮'
                            if backend.task.config.get('variant') == 'rigid_stack_v1'
                            else '纸巾放左盒；全部餐具放右篮；餐垫留桌面')
-            session.start_recording('episode', instruction)
+            session.start_recording('episode', instruction,
+                image_compression=settings.get('dataset', {}).get('image_compression', 'lzf'))
         summary = teacher.run(args.objects)
     except (Exception, KeyboardInterrupt) as exc:
         error = f'{type(exc).__name__}: {exc}'

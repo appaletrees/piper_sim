@@ -284,3 +284,100 @@ seed 0 的完整 RGB 回合包含 **16,968 个 transition、565.6 s、三路 640
 左腕画面大部分为桌面。这不是相机丢帧，但也不代表三路画面始终具有相同的信息量。
 目前只完整验证了 **1 个 RGB seed**，尚未以这些样本完成策略训练、留出任务评估或真机验证，
 因此不能宣称已经达到 LIBERO/RoboTwin 的整体训练质量。
+
+### 连续运动配速 v3（2026-11-09）
+
+旧版 seed 0 的 565.6 s 回合逐小段启停：接触前最后 3 cm 分成 11 次运动，
+杯堆转向分成 20 次，短距离退让也反复等待机械臂静止。这会产生明显的机械停顿。
+
+本轮参考的是动作生成方式：[LIBERO 采集脚本](https://github.com/Lifelong-Robot-Learning/LIBERO/blob/master/scripts/collect_demonstration.py)
+接收人的连续遥操作输入；[RoboTwin 规划器](https://github.com/RoboTwin-Platform/RoboTwin/blob/main/envs/robot/planner.py)
+与[执行器](https://github.com/RoboTwin-Platform/RoboTwin/blob/main/envs/_base_task.py)
+执行整条带位置/速度的规划轨迹。两者没有可直接套用到本机器人、任务和控制器上的统一秒数标准。
+
+Piper 采用独立的 NumPy 实现：整条 Cartesian 路径先求 IK，再通过 C2 关节样条连接，
+统一使用七次时间曲线；按真实 30 Hz 控制样本的速度、加速度、jerk 重新分配时长。
+中间 IK 点不再要求停稳；抓住、释放、检查杯子套叠等语义边界仍保留停稳。
+空手接近时同步将夹爪调整到预抓宽度，放下物体后优先直接前往下一个物体。
+杯子与充电头闭合到带预紧量的实际尺寸附近，避免继续命令一个不可能达到的零宽度。
+薄边餐具使用单独的持物速度，不能把空手快移参数套用到所有接触阶段。
+
+这不是视频加速、跳帧或删除数据段。`--video-speed 1` 的画面以原始仿真秒播放，
+HDF5 仍逐控制步记录。公开的状态、控制、随机化、录制及 LeRobot 接口保持兼容。
+`configs/collection/clean_table_legacy.yaml` 保留旧的配速配置，便于比较。
+
+```bash
+# 默认完整物理 demo；这条命令录状态与原速总览视频，属于诊断，不是 RGB 训练样本。
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py \
+  --record --video --video-speed 1 --seed 0 \
+  --domain-randomization configs/domain_randomization/clean_table.yaml \
+  --output outputs/natural_motion_demo
+
+# 正式训练采集增加 --rgb（同时录三路原始 RGB）；需要 LeRobot 时再加 --lerobot。
+# 比较真实时长和停顿，不改写输入数据：
+PYTHONPATH=src .venv-mujoco/bin/python scripts/compare_collection_motion.py \
+  outputs/collection_quality_v2/rgb_seed_0/episode.h5 \
+  outputs/natural_motion_demo/episode.h5 --output outputs/natural_motion_comparison.json
+```
+
+比较脚本将“命令和实测的全部臂关节低于 0.02 rad/s，且两个夹爪低于 0.002 m/s”
+定义为近似静止，并统计持续至少 250 ms 的停顿。它包含必要的接触保持，不能把静止比例
+直接解释成人类动作自然度或策略训练质量。
+
+配速采用分阶段限制：空手/普通物体关节目标上限为 1.0 rad/s、2.5 rad/s²、20 rad/s³；
+盘子持物为 0.5 / 1.2 / 8，小碟持物为 0.3 / 0.6 / 4。闭合捕获仍限制到
+0.04 m/s、0.12 m/s²、1.0 m/s³。为允许上述加速，实测臂关节速度验收上限由
+0.8 调为 1.2 rad/s；实测加速度、jerk、滑移、失去接触、碰撞及跟踪误差门槛保持原值。
+这些是仿真收集配置，不是标定过的真机速度或力限制。
+
+同 seed 0、相同随机场景，实际状态记录对比：
+
+| 指标 | 旧版 | 连续路径版 |
+| --- | ---: | ---: |
+| 回合时间（不含 1 s 预热） | 565.60 s | 226.07 s |
+| 30 Hz transitions | 16,968 | 6,782 |
+| 静止段 ≥250 ms | 302 | 69 |
+| 近似静止时间占比 | 30.83% | 19.70% |
+| 杯堆转运阶段 | 30.20 s | 6.83 s |
+
+时间缩短 60.03%，并保留完整接触过程。盘子、碗直接入篮，纸杯先桌面套叠再整摞入篮。
+状态预检 seed 0 为 10/10，seed 42 为 11/11；后者用时 252.37 s，包含三个杯子。
+两回合持物时记录的双指接触均连续保持，最大接触点滑移分别为 3.411 / 3.423 mm。
+这只是有限场景的工程验证，不能据此声称达到 LIBERO/RoboTwin 的训练效果或总体成功率。
+
+![同一杯堆转运阶段的实测右臂关节速度模长](../outputs/natural_motion_v3/motion_comparison.png)
+
+完整 RGB 仍使用逐帧无损数据。本轮增加可选 `image_compression="gzip"`（level 1）；
+它只改变 HDF5 存储方式，公开字段、像素、分辨率、帧率和时间戳均不变。
+外部 `SimulationSession.start_recording` 保留默认 LZF，收桌采集配置选用 GZIP 以减少磁盘占用。
+两种方式均可通过已有的 HDF5 审计、无损共享帧压缩及 LeRobot 导出流程。
+
+最终运动配置复测了与 v2 相同的五个工程回归种子（包含调参使用过的种子，非留出集）：
+
+| Seed | 入篮 | 状态审计结果 |
+| --- | --- | --- |
+| 0 | 10/10 | 通过，226.07 s |
+| 42 | 11/11 | 通过，252.37 s |
+| 1 | 11/11 | 拒收：小碟释放时实测夹爪加速度 1.046 m/s²，门槛为 1.0 |
+| 7 | 7/11 | 拒收：抓盘规划预测指尖侵入台面 4.01 mm，超过 4 mm；未执行该段 |
+| 43 | 10/11 | 拒收：后续抓筷规划预测右腕与篮筐干涉 9.98 mm；未执行该段 |
+
+因此本轮五个状态回归为 **2 通过、3 拒收**，不能只根据 seed 0 视频宣称随机化场景已全面可靠。
+批量训练采集应继续使用 `collect_clean_table.py` 的“状态预检 → RGB 复跑 → 独立审计”流程。
+开发中出现的抓取滑脱、IK 不可达以及被主动中止的替代方案也保留在汇总中，后者单独标记。
+135 项回归测试通过；测试日志中的 QVEL 警告来自专门设置 `qvel[0]=1e20` 的故障注入用例，
+单独复跑确认该异常会被拒绝，成功 demo 日志中没有该异常。
+
+seed 0 随后用最终配置完整复跑并录制三路 **640×480、30 Hz RGB**，得到 6,782 个 transition。
+关闭文件后的独立审计检查了全部 **40,692 张 before/after RGB**，图像衔接错误和基础图像质量
+异常均为零；机器人动作/状态及物体轨迹哈希与状态预检完全一致，`training_ready=true`。
+原始无损 HDF5 为 18,219,534,877 B，保存在本机，不推送大体积训练数据。
+总览视频独立解码确认 3,406 帧、1000×800、15 fps、227.066667 s，包含 1 s 预热，播放倍率为 1。
+本轮未重新导出 LeRobot；可使用上述 `--lerobot` 选项或既有导出接口。
+
+- [新的完整原速视频](../outputs/natural_motion_v3/rgb_seed_0/demo.mp4)
+- [时间和停顿对比](../outputs/natural_motion_v3/timing_comparison.json)
+- [完整 RGB 审计](../outputs/natural_motion_v3/rgb_seed_0/audit.json)
+- [开发尝试、回归失败与验证汇总](../outputs/natural_motion_v3/validation.json)
+
+![实际记录的三路 RGB 抽帧，未重新摆放物体](../outputs/natural_motion_v3/rgb_review/camera_review.jpg)

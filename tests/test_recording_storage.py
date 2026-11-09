@@ -8,17 +8,18 @@ from piper_sim.contracts import Command, Observation
 from piper_sim.dataset import validate_episode
 
 
-def source(path):
+def source(path, compression="lzf"):
     images = np.random.default_rng(8).integers(0,256,(9,20,30,3),dtype=np.uint8)
     def obs(i): return Observation(np.zeros(14),i,i,{'overhead':images[i]},{'overhead':i})
-    with EpisodeWriter(path, {'fps':1}) as w:
+    with EpisodeWriter(path, {'fps':1}, image_compression=compression) as w:
         for i in range(8): w.append(obs(i),Command(np.zeros(14),i,i),obs(i+1))
     return images
 
 
-def test_lossless_virtual_frames_survive_move(tmp_path):
+@pytest.mark.parametrize("compression", ["lzf", "gzip"])
+def test_lossless_virtual_frames_survive_move(tmp_path, compression):
     src, dst = tmp_path/'source.h5', tmp_path/'compact.h5'
-    images = source(src)
+    images = source(src, compression)
     with h5py.File(src,'r+') as f:
         f['observation/images/overhead'].attrs['color_order'] = 'RGB'
     compact_episode(src,dst)

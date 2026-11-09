@@ -24,3 +24,19 @@ def robot_penetration(model, data, target=None):
         if depth > worst:
             worst, pair = depth, bodies
     return worst, pair
+
+
+def carried_obstacle_penetration(model, data, carried):
+    """Payload versus scene contacts; internal cup-stack and gripper contacts excluded."""
+    carried = {'task/'+name for name in carried}
+    worst, pair = 0., None
+    for contact in data.contact:
+        if contact.dist >= 0: continue
+        bodies = [model.body(int(model.geom_bodyid[g])).name for g in contact.geom]
+        selected = [name in carried for name in bodies]
+        if sum(selected) != 1: continue
+        other = bodies[1] if selected[0] else bodies[0]
+        if other.startswith(('left/', 'right/')): continue  # existing robot audit covers these
+        if -contact.dist > worst:
+            worst, pair = float(-contact.dist), bodies
+    return worst, pair

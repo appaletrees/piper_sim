@@ -9,7 +9,10 @@ from .contracts import FEATURE_NAMES, Command, Observation
 
 
 class EpisodeWriter:
-    def __init__(self, path, metadata):
+    def __init__(self, path, metadata, *, image_compression="lzf"):
+        if image_compression not in ("lzf", "gzip"):
+            raise ValueError("image_compression must be lzf or gzip")
+        self.image_compression = image_compression
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.partial = self.path.with_suffix(self.path.suffix + ".partial")
@@ -28,9 +31,11 @@ class EpisodeWriter:
     def _append(self, name, value):
         value = np.asarray(value)
         if name not in self.f:
+            compression = self.image_compression if "/images/" in name else "lzf"
             self.f.create_dataset(name, shape=(0, *value.shape),
                                   maxshape=(None, *value.shape), dtype=value.dtype,
-                                  chunks=(1, *value.shape), compression="lzf")
+                                  chunks=(1, *value.shape), compression=compression,
+                                  compression_opts=1 if compression == "gzip" else None)
         ds = self.f[name]
         if ds.shape[1:] != value.shape:
             raise ValueError(f"Shape changed for {name}")

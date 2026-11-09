@@ -82,7 +82,11 @@ class RigidTableTeacher(CleanTableTeacher):
         return self.cups if self.stack_carried else super().carried_objects()
 
     def straight(self,side,position,rotation,spacing=.025):
-        """Short bounded IK segments maintain the vertical hand during nesting."""
+        """Keep nesting/retreat Cartesian, with continuous motion when configured."""
+        if self.pacing.get('continuous_paths'):
+            self.pose_path(side, [(position, rotation)],
+                speed=self.pacing['contact_speed_m_s'] if spacing <= .010 else None)
+            return
         start,_=self.tcp(side);target=np.asarray(position)
         count=max(1,int(np.ceil(np.linalg.norm(target-start)/spacing)))
         for fraction in np.linspace(0,1,count+1)[1:]:
@@ -92,8 +96,11 @@ class RigidTableTeacher(CleanTableTeacher):
         self.current=name
         side,p,r,width=self.reachable_grasp(name)
         self.event('approach',side=side,target='cup_stack')
-        self.grip(side,width)
-        self.pose(side,p+[0,0,.10],r)
+        if self.pacing.get('continuous_paths'):
+            self.pose(side,p+[0,0,.10],r,gripper_width=width)
+        else:
+            self.grip(side,width)
+            self.pose(side,p+[0,0,.10],r)
         side,p,r,width=self.reachable_grasp(name)
         self.straight(side,p,r)
         self.event('grasp')
@@ -101,7 +108,7 @@ class RigidTableTeacher(CleanTableTeacher):
         if len(finger_contacts(self.b,side,name))!=2:
             raise SortFailure(f'{name}: missing bilateral cup contact')
         self.track_grasp(side,name)
-        self.wait(.25)
+        self.wait(self.pacing.get('grasp_hold_s', .25))
         initial=self.object_pose(name)['position'][2]
         self.event('lift',contact_fingers=finger_contacts(self.b,side,name))
         self.straight(side,p+[0,0,.10],r)
@@ -123,9 +130,11 @@ class RigidTableTeacher(CleanTableTeacher):
             # Hold the upper cup above the lower rim, align axes, then descend.
             high=self.cup_target(side,r,p+[0,0,.115])
             current,_=self.tcp(side)
-            self.straight(side,[current[0],current[1],max(high[2],current[2],.22)],r)
-            self.straight(side,[high[0],high[1],max(high[2],current[2],.22)],r)
-            self.straight(side,high,r)
+            route=[([current[0],current[1],max(high[2],current[2],.22)],r),
+                   ([high[0],high[1],max(high[2],current[2],.22)],r),(high,r)]
+            if self.pacing.get('continuous_paths'):self.pose_path(side,route)
+            else:
+                for target,rot in route:self.straight(side,target,rot)
             self.event('nest',base=lower)
             low=self.cup_target(side,r,p+[0,0,.026])
             self.straight(side,low,r,spacing=.010)
@@ -154,12 +163,16 @@ class RigidTableTeacher(CleanTableTeacher):
         self.event('transfer_stack',target='basket')
         self.straight(side,self.cup_target(side,r,[start_obj[0],start_obj[1],transit_z]),r)
         # Change only world yaw; the nested cups remain upright throughout.
+        route=[]
         for fraction in np.linspace(0,1,21)[1:]:
             angle=np.deg2rad(-40*fraction)
             rz=np.array([[np.cos(angle),-np.sin(angle),0],[np.sin(angle),np.cos(angle),0],[0,0,1]])
             place_r=rz@r
             pos=(1-fraction)*np.array([start_obj[0],start_obj[1],transit_z])+fraction*high_obj
-            self.straight(side,self.cup_target(side,place_r,pos),place_r)
+            target=self.cup_target(side,place_r,pos)
+            if self.pacing.get('continuous_paths'):route.append((target,place_r))
+            else:self.straight(side,target,place_r)
+        if route:self.pose_path(side,route)
         r=place_r
         high=self.cup_target(side,r,high_obj)
         low=self.cup_target(side,r,goal)
@@ -175,7 +188,8 @@ class RigidTableTeacher(CleanTableTeacher):
         if not all(metrics[n]['success'] for n in self.cups) or not metrics['cup_stack']['nested']:
             raise SortFailure('Stack not fully nested and contained after release')
         self.event('stack_placed',success=True)
-        self.pose(side,[.27,-.30,.30],grasp_rotation(30,0))
+        if not self.pacing.get('direct_next_object'):
+            self.pose(side,[.27,-.30,.30],grasp_rotation(30,0))
 
     def run(self,objects=None):
         try:

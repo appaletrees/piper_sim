@@ -6,7 +6,7 @@ import yaml
 from piper_sim.config import ROOT, load
 from piper_sim.randomization import load_profile, sample, sensor_images
 from piper_sim.tasks import create_task
-from piper_sim.experts.trajectory import smooth_trajectory
+from piper_sim.experts.trajectory import smooth_trajectory, path_trajectory
 from piper_sim.experts.quality import MotionQuality
 
 
@@ -25,6 +25,28 @@ def test_c3_trajectory_bounds_across_reversals_and_holds():
     assert np.all(np.diff(first[:, 0]) >= 0)
     with pytest.raises(ValueError):
         smooth_trajectory(q0, q1, dt, velocity=0, acceleration=a, jerk=j)
+
+
+def test_continuous_path_preserves_limits_without_stopping_at_every_knot():
+    dt = 1/30
+    t = np.linspace(0, 1, 31)
+    points = np.column_stack([t, .15*np.sin(np.pi*t), -.4*t])
+    limits = dict(velocity=.7, acceleration=1.8, jerk=12.)
+    path = path_trajectory(points, dt, **limits)
+    old_steps = sum(len(smooth_trajectory(a, b, dt, **limits)) for a,b in zip(points, points[1:]))
+    assert len(path) < old_steps/3
+    padded = np.vstack([np.tile(points[0],(4,1)),path,np.tile(points[-1],(4,1))])
+    for order, bound in enumerate(limits.values(), 1):
+        assert np.max(abs(np.diff(padded,n=order,axis=0))/dt**order) <= bound+1e-7
+    np.testing.assert_array_equal(path[-1], points[-1])
+    # Progress remains positive throughout the middle 80%, including IK knots.
+    v = np.diff(path[:,0])/dt
+    assert np.min(v[len(v)//10:-len(v)//10]) > .01
+    with pytest.raises(ValueError):path_trajectory(points, dt, velocity=0, acceleration=1., jerk=1.)
+    np.testing.assert_array_equal(path_trajectory(np.zeros((5,3)),dt,**limits),np.zeros((1,3)))
+    # Preserve a fully open gripper exactly: spline roundoff must not exceed its limit.
+    held = path_trajectory(np.column_stack([t,np.full(len(t),.095)]),dt,**limits)
+    np.testing.assert_array_equal(held[:,1],np.full(len(held),.095))
 
 
 def test_randomization_independent_streams_and_validation():
