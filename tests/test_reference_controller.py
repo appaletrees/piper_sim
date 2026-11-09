@@ -13,7 +13,7 @@ diagnostic=importlib.util.module_from_spec(spec2);spec2.loader.exec_module(diagn
 CONFIG={'schema_version':1,'mode':'monotone_cubic_velocity'}
 
 
-def setup():
+def setup(config=CONFIG):
     model=mujoco.MjModel.from_xml_string('''<mujoco>
       <option timestep=".0010416666666666667" gravity="0 0 0" integrator="implicitfast"/>
       <worldbody><body><joint name="slide" type="slide"/>
@@ -21,7 +21,7 @@ def setup():
       <actuator><position joint="slide" kp="400" kv="40" ctrlrange="-1 1" forcerange="-10 10"/></actuator>
       </mujoco>''')
     data=mujoco.MjData(model);mujoco.mj_forward(model,data)
-    controller=module.MujocoReferenceController(model,[0],[[1]],32,CONFIG)
+    controller=module.MujocoReferenceController(model,[0],[[1]],32,config)
     controller.reset([0])
     return model,data,controller
 
@@ -166,3 +166,48 @@ def test_backend_records_endpoint_semantics_and_full_interval_then_resets(tmp_pa
         np.testing.assert_array_equal(backend.model.actuator_biasprm[:,0],0)
         np.testing.assert_array_equal(backend.control_targets(),cfg['robot']['home']*2)
     finally:session.close()
+
+
+def test_zero_order_observer_keeps_contact_integration_bitwise_equal():
+    model=mujoco.MjModel.from_xml_string('''<mujoco>
+      <option timestep=".0010416666666666667" integrator="implicitfast"/>
+      <worldbody><geom type="plane" size="1 1 .1"/>
+        <body pos="0 0 .055"><joint name="slide" type="slide" axis="1 0 0"/>
+          <geom type="box" size=".03 .03 .05" mass=".1"/></body>
+        <body pos=".09 0 .065"><freejoint/><geom type="box" size=".03 .03 .05" mass=".05"/></body>
+      </worldbody>
+      <actuator><position joint="slide" kp="400" kv="40" ctrlrange="-1 1" forcerange="-10 10"/></actuator>
+      </mujoco>''')
+    data=mujoco.MjData(model);mujoco.mj_forward(model,data)
+    original_model=copy.copy(model);original=copy.copy(data)
+    projection=np.zeros((1,model.nv));projection[0,0]=1
+    controller=module.MujocoReferenceController(model,[0],projection,32,
+        {'schema_version':1,'mode':'zero_order_observed'})
+    controller.reset([0]);contact_seen=False
+    for target in np.r_[np.linspace(0,.2,40),np.full(10,.2),np.linspace(.2,0,40)]:
+        data.ctrl[:]=original.ctrl[:]=target
+        before_bias=model.actuator_biasprm.copy()
+        controller.advance(data);mujoco.mj_forward(model,data)
+        mujoco.mj_step(original_model,original,nstep=32);mujoco.mj_forward(original_model,original)
+        np.testing.assert_array_equal(diagnostic.integration_state(model,data),
+            diagnostic.integration_state(original_model,original))
+        np.testing.assert_array_equal(data.qacc,original.qacc)
+        np.testing.assert_array_equal(data.actuator_force,original.actuator_force)
+        np.testing.assert_array_equal(before_bias,model.actuator_biasprm)
+        info=controller.telemetry()
+        assert info['position_reference_min']==info['position_reference_max']==[target]
+        assert info['last_velocity_reference']==info['limiter_start_velocity_jump']==[0.]
+        contact_seen |= any({data.contact[k].geom1,data.contact[k].geom2}=={1,2}
+                            for k in range(data.ncon))
+    assert contact_seen
+    assert 'held unchanged' in controller.metadata()['action_semantics']
+    assert 'position jumps' in controller.metadata()['continuity']
+
+
+def test_zero_order_observer_rejects_added_force_bias_without_advancing():
+    m,d,c=setup({'schema_version':1,'mode':'zero_order_observed'})
+    m.actuator_biasprm[0,0]=.01
+    before=diagnostic.integration_state(m,d)
+    with pytest.raises(ValueError,match='unchanged zero force bias'):c.advance(d)
+    np.testing.assert_array_equal(before,diagnostic.integration_state(m,d))
+    assert c.telemetry() is None

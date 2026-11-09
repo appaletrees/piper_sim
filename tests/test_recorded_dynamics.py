@@ -119,17 +119,17 @@ def test_incomplete_or_incompatible_sources_are_not_supported(tmp_path, fault):
     assert not result['training_ready']
 
 
-def controller_source(tmp_path):
+def controller_source(tmp_path,mode='monotone_cubic_velocity'):
     path=recorded_source(tmp_path)
     with h5py.File(path,'r+') as f:
         meta=json.loads(f.attrs['metadata'])
-        meta.update(physics_model={'controller':{'schema_version':1,'mode':'monotone_cubic_velocity',
+        meta.update(physics_model={'controller':{'schema_version':1,'mode':mode,
             'integration_steps':32,'integration_dt':1/960}},collection_initial_target=[0.]*14)
         f.attrs['metadata']=json.dumps(meta)
         f.create_dataset('action/position',data=np.zeros((4,14),np.float32))
         previous=None
         for i in range(4):
-            record={'mode':'monotone_cubic_velocity','integration_steps':32,'integration_dt':1/960,
+            record={'mode':mode,'integration_steps':32,'integration_dt':1/960,
                 'start_sim_time':i/30,'end_sim_time':(i+1)/30,'native_jerk_samples':32,
                 'actuator_force_range':[[-10,10]]*14}
             for key in ('previous_command','command','position_reference_min','position_reference_max',
@@ -146,12 +146,14 @@ def controller_source(tmp_path):
     return path
 
 
-def test_controller_summary_checks_all_intervals_without_granting_training(tmp_path):
-    path=controller_source(tmp_path);checksum=sha256(path)
+@pytest.mark.parametrize('mode',['monotone_cubic_velocity','zero_order_observed'])
+def test_controller_summary_checks_all_intervals_without_granting_training(tmp_path,mode):
+    path=controller_source(tmp_path,mode);checksum=sha256(path)
     result=diagnostic.analyze(path)
     assert result['integrity_status']=='consistent_recorded_evidence' and not result['training_ready']
     report=result['controller_intervals']
     assert report['integration_steps']==128 and report['intervals']==4
+    assert report['mode']==mode
     assert report['peaks']['native_velocity_abs_max'][6]['absolute_max']==.1
     assert sha256(path)==checksum
 
@@ -176,3 +178,15 @@ def test_corrupt_controller_summary_is_rejected_even_after_native_snapshot_check
         f['next_observation/extras_json'][1]=json.dumps(extra)
     result=diagnostic.analyze(path)
     assert result['integrity_status']=='invalid' and result['violations'] and not result['training_ready']
+
+
+@pytest.mark.parametrize('field',['position_reference_min','velocity_reference_min',
+    'last_velocity_reference','limiter_start_velocity_jump'])
+def test_observer_summary_cannot_claim_changed_reference(tmp_path,field):
+    path=controller_source(tmp_path,'zero_order_observed')
+    with h5py.File(path,'r+') as f:
+        extra=json.loads(f['next_observation/extras_json'][1])
+        extra['controller_interval'][field][0]=-.001
+        f['next_observation/extras_json'][1]=json.dumps(extra)
+    result=diagnostic.analyze(path)
+    assert result['integrity_status']=='invalid' and any('Zero-order' in v for v in result['violations'])

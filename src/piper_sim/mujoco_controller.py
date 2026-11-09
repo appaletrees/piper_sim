@@ -1,8 +1,10 @@
-"""Optional internal position/velocity reference controller; uncalibrated.
+"""Optional internal reference controller and native observer; uncalibrated.
 
 The public command remains an absolute joint/full-gripper endpoint accepted at
 the control boundary. This controller generates bounded position references and
-their velocities inside that interval. It never assigns robot/object state.
+their velocities inside that interval. The zero-order observation mode retains
+the original constant target without writing control or force during integration.
+Neither mode assigns robot/object state.
 """
 import copy
 
@@ -35,8 +37,9 @@ class MujocoReferenceController:
     def __init__(self, model, actuator_ids, velocity_projection, steps, config):
         if (not isinstance(config,dict) or set(config) != {'schema_version','mode'}
                 or type(config['schema_version']) is not int or config['schema_version'] != 1
-                or config['mode'] != 'monotone_cubic_velocity'):
+                or config['mode'] not in ('monotone_cubic_velocity','zero_order_observed')):
             raise ValueError('Unsupported MuJoCo controller configuration')
+        self.mode=config['mode']
         self.model=model
         self.ids=np.asarray(actuator_ids)
         if (self.ids.ndim != 1 or not len(self.ids) or not np.issubdtype(self.ids.dtype,np.integer)
@@ -88,7 +91,13 @@ class MujocoReferenceController:
         if self.previous is None: raise RuntimeError('Reset controller before stepping')
         if self.model.opt.timestep != self.dt: raise ValueError('Controller physics timestep changed')
         target=self._target(data.ctrl[self.ids]); damping=self._validate_servo()
-        q,v,jump=monotone_schedule(self.previous,target,self.previous_velocity,self.steps*self.dt,self.steps)
+        if self.mode == 'zero_order_observed':
+            if np.any(self.model.actuator_biasprm[self.ids,0] != 0):
+                raise ValueError('Zero-order observation requires unchanged zero force bias')
+            q=np.broadcast_to(target,(self.steps,len(target)))
+            v=np.zeros_like(q);jump=np.zeros_like(target)
+        else:
+            q,v,jump=monotone_schedule(self.previous,target,self.previous_velocity,self.steps*self.dt,self.steps)
         bounds=self.model.actuator_ctrlrange[self.ids]
         if np.any(q<bounds[:,0]) or np.any(q>bounds[:,1]):
             raise ValueError('Internal target outside actuator bounds; no output clipping')
@@ -102,9 +111,10 @@ class MujocoReferenceController:
         acceleration=[];jerk=[]
         self.last=None
         for i,(position,velocity) in enumerate(zip(q,v)):
-            data.ctrl[self.ids]=position
-            # This contribution remains inside the original actuator force clamp.
-            self.model.actuator_biasprm[self.ids,0]=damping*velocity
+            if self.mode == 'monotone_cubic_velocity':
+                data.ctrl[self.ids]=position
+                # This contribution remains inside the original actuator force clamp.
+                self.model.actuator_biasprm[self.ids,0]=damping*velocity
             mujoco.mj_step(self.model,data)
             if (abs(data.time-(start+(i+1)*self.dt)) > 1e-7
                     or [data.warning[j].number for j in warning_ids] != warnings
@@ -116,7 +126,7 @@ class MujocoReferenceController:
                 jerk.append((acc-self.previous_acceleration)/self.dt)
             acceleration.append(acc);native.append(current);self.previous_acceleration=acc
         native=np.asarray(native)
-        self.last={'mode':'monotone_cubic_velocity','start_sim_time':start,'end_sim_time':float(data.time),
+        self.last={'mode':self.mode,'start_sim_time':start,'end_sim_time':float(data.time),
             'integration_steps':self.steps,'integration_dt':self.dt,
             'previous_command':self.previous.tolist(),'command':target.tolist(),
             'position_reference_min':q.min(axis=0).tolist(),'position_reference_max':q.max(axis=0).tolist(),
@@ -134,10 +144,14 @@ class MujocoReferenceController:
         return copy.deepcopy(self.last)
 
     def metadata(self):
-        return {'schema_version':1,'mode':'monotone_cubic_velocity','experimental':True,
+        observed=self.mode=='zero_order_observed'
+        return {'schema_version':1,'mode':self.mode,'experimental':True,
             'hardware_calibration':'unidentified','integration_dt':self.dt,'integration_steps':self.steps,
-            'action_semantics':'Accepted absolute position endpoint; internal monotone cubic position and derivative velocity references over the following control interval.',
+            'action_semantics':('Accepted absolute position target held unchanged over the following control interval; observer performs the original steps individually without additional forwards or state/control/force writes.' if observed else
+                'Accepted absolute position endpoint; internal monotone cubic position and derivative velocity references over the following control interval.'),
             'velocity_feedback':'Native actuator-coordinate velocity; public gripper coordinate is full opening.',
-            'force_semantics':'kp*(reference-position)+kv*(reference_velocity-velocity), inside existing actuator force clamp; external bias compensation is separate.',
-            'continuity':'Derivative limiting at stops/reversals can break C1 continuity; limiter jumps are recorded.',
+            'force_semantics':('Original kp*(target-position)-kv*velocity, inside existing actuator force clamp; external bias compensation is separate.' if observed else
+                'kp*(reference-position)+kv*(reference_velocity-velocity), inside existing actuator force clamp; external bias compensation is separate.'),
+            'continuity':('Zero-order hold has position jumps at control boundaries; zero velocity-reference and limiter fields do not imply a continuous position reference.' if observed else
+                'Derivative limiting at stops/reversals can break C1 continuity; limiter jumps are recorded.'),
             'telemetry_scope':'Per-interval extrema of post-integration native velocity and its differences, not calibrated hardware or new quality limits.'}

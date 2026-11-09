@@ -68,7 +68,8 @@ def inspect_controller_intervals(f, meta):
     config=meta['physics_model']['controller']
     steps=config['integration_steps'];dt=float(config['integration_dt'])
     if (type(config['schema_version']) is not int or config['schema_version']!=1
-            or config['mode']!='monotone_cubic_velocity' or type(steps) is not int or steps<1
+            or config['mode'] not in ('monotone_cubic_velocity','zero_order_observed')
+            or type(steps) is not int or steps<1
             or not np.isfinite(dt) or dt<=0):
         raise ValueError('Unsupported controller interval metadata')
     peaks={};previous=None;count=len(f['action/position']);limited=0
@@ -103,6 +104,12 @@ def inspect_controller_intervals(f, meta):
                 or np.any(arrays['command']<arrays['position_reference_min'])
                 or np.any(arrays['command']>arrays['position_reference_max'])):
             raise ValueError('Controller internal target bounds mismatch at '+str(i))
+        if config['mode']=='zero_order_observed':
+            if (any(not np.array_equal(arrays[key],arrays['command'])
+                    for key in ('position_reference_min','position_reference_max'))
+                    or any(np.any(arrays[key]!=0) for key in ('velocity_reference_min',
+                        'velocity_reference_max','last_velocity_reference','limiter_start_velocity_jump'))):
+                raise ValueError('Zero-order observation reference changed at '+str(i))
         v0,v1=native(before),native(after)
         for v in (v0,v1):
             if (np.any(v<arrays['native_velocity_min']-1e-12)
@@ -127,7 +134,8 @@ def inspect_controller_intervals(f, meta):
                     peaks[name][channel]={'absolute_max':float(x),'transition_index':i,'interval_start_sim_time':t0,
                         'interval_end_sim_time':t1,'phase':after['teacher'].get('phase'),'object':after['teacher'].get('object')}
         limited+=int(np.any(arrays['limiter_start_velocity_jump']!=0));previous=value
-    return {'integrity_status':'consistent_interval_summaries','intervals':count,'integration_steps':count*steps,
+    return {'integrity_status':'consistent_interval_summaries','mode':config['mode'],
+        'intervals':count,'integration_steps':count*steps,
         'channels':list(FEATURE_NAMES),'integration_dt':dt,'intervals_with_slope_limiter':limited,'peaks':peaks,
         'peak_time_resolution':'Control interval containing the peak; exact substep time was not recorded.',
         'scope':'Recorded native substep summary consistency, not full-trace recomputation, contact validation, hardware calibration or training acceptance.'}

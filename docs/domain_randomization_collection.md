@@ -497,3 +497,16 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/audit_recorded_dynamics.py \
 
 此只读诊断核对全部区间的时钟、动作、连续性、限位、原生边界速度与峰值范围；
 它检查摘要一致性，不声称独立重算了未存储的完整 960 Hz 轨迹，也不授予训练许可。
+
+同频原生基线可用 `configs/clean_table_observed.yaml`：模式为 `zero_order_observed`，保持原
+零阶保持位置目标，只把批量积分拆成同数量的单步并读取状态。积分内部不写目标、力偏置
+或物体状态，不额外调用 `mj_forward`；原 backend 在控制周期末的刷新仍保留。其速度参考
+与导数限制字段为零，**不表示零阶位置目标连续**。此模式增加诊断开销，不能将它的墙钟
+时间作为原来未观测基线的吞吐成绩。用同一只读审计命令检查其区间摘要。
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py \
+  --config configs/clean_table_observed.yaml --record --seed 0 \
+  --domain-randomization configs/domain_randomization/clean_table.yaml \
+  --output outputs/observed_baseline_new
+```
