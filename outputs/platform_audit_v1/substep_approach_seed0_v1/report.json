@@ -1,0 +1,162 @@
+{
+  "scope": "Independent pre-contact substep diagnostic, never training data or replay.\n\nInitialize two identical MuJoCo data copies from the first recorded approach.\nTask-object velocities and solver warm starts were not recorded and start at zero.\nReplay stored float32 action targets (not the original teacher's float64 values).\nCompare batched mj_step with individually observed steps, without extra forwards\ninside integration. Report native velocities separately from 30 Hz differences.\n",
+  "training_ready": false,
+  "status": "diagnostic_complete",
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000000_seed_0/episode.h5",
+  "source_sha256": "2420b5d60870adc66407e31ab908c1833227e707b4b93388a148c6d05b6d05a1",
+  "implementation_sha256": "6b91e0f6bdc3d45698c385a3a918bf931b8be8c33d8cde2c1e062a01befb62bf",
+  "mujoco_version": "3.3.7",
+  "source_seed": 0,
+  "control_frames": 90,
+  "integration_samples": 2881,
+  "control_hz": 30.0,
+  "integration_hz": 960.0,
+  "all_control_boundaries_bitwise_identical_between_methods": true,
+  "simulation_seconds": 2.9999999999998295,
+  "window_wall_seconds": {
+    "batched": 2.3860793029889464,
+    "observed": 2.440716256038286
+  },
+  "max_boundary_position_error_vs_stored_source_per_channel": [
+    3.8511465683122026e-08,
+    6.806281316329432e-08,
+    4.141002640789537e-08,
+    3.951096172460922e-08,
+    6.891740955694559e-08,
+    6.012119668774574e-08,
+    3.911199975004109e-09,
+    1.4901681202650482e-16,
+    1.7908076594976478e-17,
+    1.5290481714809672e-15,
+    1.535601039930806e-15,
+    1.958114709600307e-17,
+    1.5350357157104349e-15,
+    8.940696724635266e-10
+  ],
+  "metrics": {
+    "left/arm": {
+      "native_substep_velocity": {
+        "absolute_max": 1.121320238892051,
+        "channel": 5,
+        "sim_time": 2.7354166666665916
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 0.8365875595380553,
+        "channel": 5,
+        "sim_time": 2.76666666666659
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 0.9804916053208226,
+        "channel": 5,
+        "sim_time": 2.76666666666659
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 239.26931592822447,
+        "channel": 5,
+        "sim_time": 2.6343749999999306
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 237418.60871217784,
+        "channel": 5,
+        "sim_time": 2.6343749999999306
+      },
+      "units": "rad/s, rad/s2, rad/s3"
+    },
+    "left/gripper": {
+      "native_substep_velocity": {
+        "absolute_max": 0.04695513803465358,
+        "channel": 0,
+        "sim_time": 2.734374999999925
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 0.031192006409622802,
+        "channel": 0,
+        "sim_time": 2.76666666666659
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 0.035903421529547105,
+        "channel": 0,
+        "sim_time": 2.76666666666659
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 15.348623500082626,
+        "channel": 0,
+        "sim_time": 2.6343749999999306
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 24323.566729079794,
+        "channel": 0,
+        "sim_time": 2.6354166666665972
+      },
+      "units": "m/s, m/s2, m/s3"
+    },
+    "right/arm": {
+      "native_substep_velocity": {
+        "absolute_max": 3.589753604743933e-12,
+        "channel": 5,
+        "sim_time": 1.00104166666669
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 3.371969681315745e-14,
+        "channel": 3,
+        "sim_time": 1.0333333333333548
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 4.60680311979268e-14,
+        "channel": 3,
+        "sim_time": 1.0333333333333548
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 4.925578898872716e-09,
+        "channel": 5,
+        "sim_time": 1.0020833333333565
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 8.03687266505046e-06,
+        "channel": 5,
+        "sim_time": 1.0020833333333565
+      },
+      "units": "rad/s, rad/s2, rad/s3"
+    },
+    "right/gripper": {
+      "native_substep_velocity": {
+        "absolute_max": 1.1936846242911904e-08,
+        "channel": 0,
+        "sim_time": 1.00104166666669
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 5.6366477947979104e-09,
+        "channel": 0,
+        "sim_time": 1.0333333333333548
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 6.554732798203328e-09,
+        "channel": 0,
+        "sim_time": 1.0333333333333548
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 1.145937239319608e-05,
+        "channel": 0,
+        "sim_time": 1.00104166666669
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 0.017851532970122586,
+        "channel": 0,
+        "sim_time": 1.0020833333333565
+      },
+      "units": "m/s, m/s2, m/s3"
+    }
+  },
+  "limitations": [
+    "Short pre-contact reconstruction, not exact historical physics or a complete task.",
+    "Missing free-object velocities/warm starts and float32 action storage limit historical reconstruction.",
+    "Native substep and 30 Hz finite-difference derivatives use different bandwidths; existing acceptance gates are not reinterpreted.",
+    "Solver force/contact buffers are intentionally not assigned post-integration timestamps by this diagnostic.",
+    "CPU-only low-priority work on the shared benchmark host; not end-to-end throughput.",
+    "No real hardware response, force limit or calibration is established."
+  ],
+  "trace": {
+    "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/substep_approach_seed0_v1/trace.npz",
+    "sha256": "8adf0c084948f1e3a1ad89475e2b04095afe8e426afe4046de2056a5b7f736b7"
+  }
+}
