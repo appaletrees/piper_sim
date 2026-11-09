@@ -1,0 +1,119 @@
+{
+  "status": "state_regression_passed",
+  "training_ready": false,
+  "scope": "Recorded full physical state episodes; no RGB or training acceptance. Hashes from independent closed-file audit where available; motion peaks consistently from online teacher reports. Missing old rejected-episode hashes remain null.",
+  "cases": [
+    {
+      "seed": 2,
+      "before": "outputs/platform_audit_v1/aperture_clearance_seeds2_13/episode_000000_seed_2/audit.json",
+      "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_00/episode_000000_seed_2/audit.json",
+      "before_passed": false,
+      "after_passed": true,
+      "before_violations": [
+        "ValueError: unsuccessful_episode"
+      ],
+      "after_violations": [],
+      "before_frames": 7722,
+      "after_frames": 7748,
+      "same_trajectory_hash": null,
+      "same_objects_hash": null,
+      "before_online_measured_arm_jerk": 229.2874374896624,
+      "after_online_measured_arm_jerk": 34.581721226975674,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "detours": [
+        {
+          "phase": "transit_detour_selected",
+          "object": "side_dish",
+          "sim_time": 176.73333333385798,
+          "route": "vertical_rise",
+          "vertical_rise_m": 0.02,
+          "container_margin_m": 0.002,
+          "direct_rejection": "Planned arm/container clearance 1.15 mm < 2.00 mm: ['right/link7', 'task/basket']"
+        }
+      ],
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "seed": 7,
+      "before": "outputs/platform_audit_v1/final_stability_states_v7/worker_01/episode_000000_seed_7/audit.json",
+      "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_00/episode_000001_seed_7/audit.json",
+      "before_passed": true,
+      "after_passed": true,
+      "before_violations": [],
+      "after_violations": [],
+      "before_frames": 7861,
+      "after_frames": 7861,
+      "same_trajectory_hash": true,
+      "same_objects_hash": true,
+      "before_online_measured_arm_jerk": 32.54516998830881,
+      "after_online_measured_arm_jerk": 32.54516998830881,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "detours": [],
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "seed": 0,
+      "before": "outputs/platform_audit_v1/final_stability_states_v7/worker_00/episode_000000_seed_0/audit.json",
+      "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000000_seed_0/audit.json",
+      "before_passed": true,
+      "after_passed": true,
+      "before_violations": [],
+      "after_violations": [],
+      "before_frames": 6930,
+      "after_frames": 6930,
+      "same_trajectory_hash": true,
+      "same_objects_hash": true,
+      "before_online_measured_arm_jerk": 51.00300593918594,
+      "after_online_measured_arm_jerk": 51.00300593918594,
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "detours": [],
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "seed": 43,
+      "before": "outputs/platform_audit_v1/aperture_clearance_seeds7_43/episode_000001_seed_43/audit.json",
+      "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000001_seed_43/audit.json",
+      "before_passed": true,
+      "after_passed": true,
+      "before_violations": [],
+      "after_violations": [],
+      "before_frames": 7550,
+      "after_frames": 7550,
+      "same_trajectory_hash": true,
+      "same_objects_hash": true,
+      "before_online_measured_arm_jerk": 61.827693307324516,
+      "after_online_measured_arm_jerk": 61.827693307324516,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "detours": [],
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    }
+  ]
+}

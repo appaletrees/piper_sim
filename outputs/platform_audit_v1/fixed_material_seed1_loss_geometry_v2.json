@@ -1,0 +1,1446 @@
+{
+  "status": "geometry_diagnostic_only",
+  "scope": "Inspect recorded grasp-loss geometry without advancing or editing a recording.\n\nContact distances/positions are reconstructed from recorded native joint and\nobject poses. Forces are copied from the original 30 Hz telemetry, never inferred\nfrom a fresh solver run. This does not recover unrecorded substep extrema.\n",
+  "training_ready": false,
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/fixed_material_seed1_scale10/episode.h5",
+  "source_sha256": "4e931ca394dc703d54d25a6753ab33bbc9e6cab637796aa829753eae4a206afb",
+  "source_contact_profile": {
+    "calibrated": false,
+    "constant_within_episode": true,
+    "finger_friction": [
+      1.0,
+      0.015,
+      0.002
+    ],
+    "solref": [
+      0.01,
+      1.0
+    ],
+    "solimp": [
+      0.95,
+      0.99,
+      0.001,
+      0.5,
+      2.0
+    ],
+    "scope": "Record state-only full episodes for an explicitly experimental fixed material.\n\nUse the ordinary demo/recorder and independent closed-file audit, with a declared\nteacher substitution. No RGB or LeRobot export is exposed by this diagnostic.\nThe production contact profile is not changed by running this script.\n",
+    "implementation_sha256": {
+      "/home/midea/Desktop/piper_sim/scripts/probe_fixed_contact_rollout.py": "ced0dd3a649d827acad30072d14834f27dcc20e608400a8a2c2b99a74ba80e2e",
+      "/home/midea/Desktop/piper_sim/scripts/diagnose_fixed_contact.py": "6c9a6165b6ce11d5130c276905663b8383d63bc9fc9eee0c078e3215fdeaf585"
+    },
+    "control": "Existing target-specific motor force/kp and numerical noslip refinement retained; no target-specific material changes, attachments or live pose assignments."
+  },
+  "implementation_sha256": "88e02710fc46f1ed37cba770a11d374b5f2c0a6cb5da952d74763664851aaf53",
+  "object": "side_dish",
+  "frames": [
+    {
+      "next_observation_index": 6531,
+      "sim_time": 218.73333333439277,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0033921584446938344
+      },
+      "recorded_right_aperture_m": 0.0015345728203532455,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.680011368796906,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.19703279890173,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6948523581821117,
+          -0.4115817892800216,
+          0.2304541464431314
+        ],
+        "quaternion_wxyz": [
+          0.7046484786320233,
+          -0.4078184255709332,
+          -0.21411631368383213,
+          -0.5397303563269963
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005706149818986136,
+          "position_world_m": [
+            0.6326587314807657,
+            -0.37375716148038607,
+            0.22074076161643602
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005566803281625135,
+          "position_world_m": [
+            0.6342930420100464,
+            -0.3727670279179257,
+            0.22153387893133333
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6532,
+      "sim_time": 218.76666666772653,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0033931635450207207
+      },
+      "recorded_right_aperture_m": 0.001533844285830973,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.67972116150867,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.196704622768396,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.694892104651503,
+          -0.41164283497489934,
+          0.23049224082971725
+        ],
+        "quaternion_wxyz": [
+          0.7043761674626964,
+          -0.407654014426051,
+          -0.21452778689396582,
+          -0.5400465238137031
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005705899403687534,
+          "position_world_m": [
+            0.6327224804587803,
+            -0.37380078242169235,
+            0.2206995370977871
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005566736385223931,
+          "position_world_m": [
+            0.6343559916589778,
+            -0.372810758701891,
+            0.2214920714845087
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6533,
+      "sim_time": 218.80000000106028,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0033941109584475384
+      },
+      "recorded_right_aperture_m": 0.001533125086986117,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.67582886328137,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.199873782585998,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6949301413844076,
+          -0.41170110960677264,
+          0.23052896861988462
+        ],
+        "quaternion_wxyz": [
+          0.7041149484951766,
+          -0.4074937358321799,
+          -0.21492420312670044,
+          -0.540350424700046
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005704518234225823,
+          "position_world_m": [
+            0.632783601762276,
+            -0.37384254884238366,
+            0.220659929001425
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005568130251820683,
+          "position_world_m": [
+            0.6344163271509777,
+            -0.37285259943077903,
+            0.22145190108737522
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6534,
+      "sim_time": 218.83333333439404,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.00339503771439443
+      },
+      "recorded_right_aperture_m": 0.0015324066330088648,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.671933833965937,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.203230654606967,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6949664677106625,
+          -0.4117568208439671,
+          0.23056421995465134
+        ],
+        "quaternion_wxyz": [
+          0.7038640997728038,
+          -0.40733961091352744,
+          -0.21530513617003263,
+          -0.5406417194137342
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005703173396193542,
+          "position_world_m": [
+            0.6328421461072123,
+            -0.373882514628188,
+            0.22062192250983764
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005569635105061656,
+          "position_world_m": [
+            0.634474107549482,
+            -0.37289263174785525,
+            0.2214133098162272
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6535,
+      "sim_time": 218.8666666677278,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.003395949438905657
+      },
+      "recorded_right_aperture_m": 0.0015317089926280677,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.668356979643452,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.2062159839922,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6950011342436128,
+          -0.4118100583113287,
+          0.2305980169045339
+        ],
+        "quaternion_wxyz": [
+          0.7036234095401918,
+          -0.40719154278458125,
+          -0.2156708752177753,
+          -0.5409207137968985
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005701919781398616,
+          "position_world_m": [
+            0.6328981765848593,
+            -0.3739207354177646,
+            0.2205854792831775
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005570965754995742,
+          "position_world_m": [
+            0.6345294053847852,
+            -0.3729309122846351,
+            0.22137626477841726
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6536,
+      "sim_time": 218.90000000106156,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0033968417196582655
+      },
+      "recorded_right_aperture_m": 0.0015310224378038864,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.6651608685237,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.208926854267713,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6950341937950576,
+          -0.41186089203549664,
+          0.23063039074986505
+        ],
+        "quaternion_wxyz": [
+          0.7033926640202536,
+          -0.40704942841131614,
+          -0.21602171580184182,
+          -0.5411877135842423
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.000570080467221694,
+          "position_world_m": [
+            0.6329517634754878,
+            -0.3739572599564984,
+            0.2205505667141994
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005572192991973925,
+          "position_world_m": [
+            0.6345822859186032,
+            -0.372967492532717,
+            0.221340736503138
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6537,
+      "sim_time": 218.93333333439531,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0033977131329563765
+      },
+      "recorded_right_aperture_m": 0.0015303452753622456,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.662142682642594,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.211568615451121,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6950657035690612,
+          -0.41190939033539004,
+          0.23066137491893512
+        ],
+        "quaternion_wxyz": [
+          0.703171647792251,
+          -0.4069131610651357,
+          -0.21635795853575665,
+          -0.5414430227377096
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005699767097431754,
+          "position_world_m": [
+            0.6330029761080245,
+            -0.3739921366112224,
+            0.22051715032745148
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.000557340607326343,
+          "position_world_m": [
+            0.6346328166628415,
+            -0.37300241956389685,
+            0.2213066916383069
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6538,
+      "sim_time": 218.96666666772907,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0033985662812173567
+      },
+      "recorded_right_aperture_m": 0.0015296805182017706,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.659416445141822,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.213985653758339,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6950957138126606,
+          -0.4119556292023177,
+          0.23069099938473012
+        ],
+        "quaternion_wxyz": [
+          0.7029601436286352,
+          -0.40678263095224426,
+          -0.2166799079987157,
+          -0.5416869438105794
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005698833410547979,
+          "position_world_m": [
+            0.6330518791887985,
+            -0.37402541395616345,
+            0.22048519605217362
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.000557453131543047,
+          "position_world_m": [
+            0.6346810635598623,
+            -0.3730357427393962,
+            0.2212740957861239
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6539,
+      "sim_time": 219.00000000106283,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0033994031005783357
+      },
+      "recorded_right_aperture_m": 0.0015290281797750304,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.657119728179824,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.216041904180598,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6951242739869992,
+          -0.411999682439994,
+          0.23071929459156362
+        ],
+        "quaternion_wxyz": [
+          0.7027579331586975,
+          -0.40665772544593726,
+          -0.21698787332305913,
+          -0.5419197768566741
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005698045631781634,
+          "position_world_m": [
+            0.633098538052405,
+            -0.3740571393533649,
+            0.22045467028359383
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005575511773139319,
+          "position_world_m": [
+            0.6347270918583506,
+            -0.37306751085892326,
+            0.22124291471976534
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6540,
+      "sim_time": 219.0333333343966,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0034002256438891
+      },
+      "recorded_right_aperture_m": 0.0015283850766817757,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.655663319727116,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.21740468969756,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6951514261579818,
+          -0.41204162676405054,
+          0.23074628867854122
+        ],
+        "quaternion_wxyz": [
+          0.7025647961125631,
+          -0.4065383294280244,
+          -0.2172821663937508,
+          -0.5421418210546223
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005697542620366377,
+          "position_world_m": [
+            0.6331430151429053,
+            -0.37408735960534334,
+            0.22042554055289787
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.000557621782297627,
+          "position_world_m": [
+            0.6347709631015543,
+            -0.3730977752650928,
+            0.22121311529991472
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6541,
+      "sim_time": 219.06666666773035,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0034010299691789037
+      },
+      "recorded_right_aperture_m": 0.001527748112942602,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.654862262574495,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.218302891017418,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.695177220697555,
+          -0.4120815230244694,
+          0.2307720161055685
+        ],
+        "quaternion_wxyz": [
+          0.7023805115304897,
+          -0.4064243252044163,
+          -0.21756310338570153,
+          -0.5423533727649205
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005697276225254585,
+          "position_world_m": [
+            0.6331853764709845,
+            -0.3741161202979083,
+            0.22039777175388353
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005576754785368522,
+          "position_world_m": [
+            0.6348127406741328,
+            -0.3731265810061166,
+            0.22118466666992043
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6542,
+      "sim_time": 219.1000000010641,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0034018174952465527
+      },
+      "recorded_right_aperture_m": 0.0015271150250755964,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.654680856790325,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 13.218778725794103,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6952017060907132,
+          -0.41211943817920005,
+          0.2307965092588133
+        ],
+        "quaternion_wxyz": [
+          0.7022048574095356,
+          -0.4063155925603084,
+          -0.21783100349184414,
+          -0.542554726631844
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005697237470691393,
+          "position_world_m": [
+            0.6332256858040379,
+            -0.3741434660722656,
+            0.22037132915652724
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005577144231074906,
+          "position_world_m": [
+            0.6348524868627199,
+            -0.3731539726191935,
+            0.2211575318602596
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6543,
+      "sim_time": 219.13333333439786,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0034025896227477593
+      },
+      "recorded_right_aperture_m": 0.0015264914721911046,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.049681062508146,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 11.088823432943283,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6952249260375538,
+          -0.41215544054116937,
+          0.2308197992222041
+        ],
+        "quaternion_wxyz": [
+          0.7020376106872354,
+          -0.4062120091787197,
+          -0.2180861885492047,
+          -0.5427461756140031
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005697438442377564,
+          "position_world_m": [
+            0.6332640033393385,
+            -0.3741694424440832,
+            0.22034617733287604
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005576804393719474,
+          "position_world_m": [
+            0.6348154223876146,
+            -0.3730928202338266,
+            0.22096242873571412
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6544,
+      "sim_time": 219.16666666773162,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.003407613694614118
+      },
+      "recorded_right_aperture_m": 0.0015231221479145678,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 13.044726464353355,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 11.048643979008633,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6952180135907191,
+          -0.4122556036104042,
+          0.23079046314652177
+        ],
+        "quaternion_wxyz": [
+          0.7015844488901345,
+          -0.4067512910284186,
+          -0.2178011622321324,
+          -0.5430426337338283
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005676858281635426,
+          "position_world_m": [
+            0.6333019238429816,
+            -0.37418986569668594,
+            0.22032614537906464
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005563965033725237,
+          "position_world_m": [
+            0.6348498963056298,
+            -0.3731162416677654,
+            0.2209413755687284
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6545,
+      "sim_time": 219.20000000106538,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0034312595345348407
+      },
+      "recorded_right_aperture_m": 0.0014687074835399772,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 12.67140545507222,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 10.902709582676096,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6949936826984557,
+          -0.41280904936669705,
+          0.2304273992653116
+        ],
+        "quaternion_wxyz": [
+          0.6990676194306277,
+          -0.411430562999026,
+          -0.21401560736736933,
+          -0.5442670990396858
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005789912598890664,
+          "position_world_m": [
+            0.633360805133761,
+            -0.3741800291474917,
+            0.22033209963053477
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005619975658924448,
+          "position_world_m": [
+            0.6348741480183867,
+            -0.3731308406316519,
+            0.22092812613525573
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6546,
+      "sim_time": 219.23333333439913,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0034911821138642763
+      },
+      "recorded_right_aperture_m": 0.0013981387279064011,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 12.120108408097854,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 10.44775274642499,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6945691045461492,
+          -0.4137615900899134,
+          0.22977639370783948
+        ],
+        "quaternion_wxyz": [
+          0.694797754010861,
+          -0.41930443653332694,
+          -0.2074085248655726,
+          -0.5462797583088891
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005815224321686783,
+          "position_world_m": [
+            0.633425866028177,
+            -0.3741688545421329,
+            0.22033745263673987
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005497401237467182,
+          "position_world_m": [
+            0.6348889317203976,
+            -0.37316266367997475,
+            0.22090150372511758
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6547,
+      "sim_time": 219.2666666677329,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.003575559238845944
+      },
+      "recorded_right_aperture_m": 0.0013163499764307523,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 11.281311920882052,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 9.833854335116657,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6939291707443351,
+          -0.4150733466392762,
+          0.2288611295303628
+        ],
+        "quaternion_wxyz": [
+          0.6887833959572884,
+          -0.4302663818555363,
+          -0.19801117776895788,
+          -0.5488532113206956
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0005733354900984854,
+          "position_world_m": [
+            0.6334992226731586,
+            -0.37415269903326187,
+            0.2203444672892242
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.000530470481987727,
+          "position_world_m": [
+            0.6348994442090766,
+            -0.37320150473362756,
+            0.22086878757658443
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6548,
+      "sim_time": 219.30000000106665,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.004028669137282267
+      },
+      "recorded_right_aperture_m": 0.0011992692059422487,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 8.228407020666358,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 8.125362292425079,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6932434215919703,
+          -0.416956661626852,
+          0.2273548988795823
+        ],
+        "quaternion_wxyz": [
+          0.6805090643468525,
+          -0.44539976596542624,
+          -0.1843091667549241,
+          -0.5518664628964319
+        ]
+      },
+      "reconstructed_contacts": [
+        {
+          "bodies": [
+            "right/link7",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_46",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.0002941493265552262,
+          "position_world_m": [
+            0.6337070291155379,
+            -0.3740800986269833,
+            0.22036703614009878
+          ]
+        },
+        {
+          "bodies": [
+            "right/link8",
+            "task/side_dish"
+          ],
+          "geoms": [
+            "gripper_right_36",
+            "task/side_dish/glazed_shell_contact_1_11"
+          ],
+          "signed_distance_m": -0.00024062655622514762,
+          "position_world_m": [
+            0.6348097293153139,
+            -0.37336119511532645,
+            0.2207976151094675
+          ]
+        }
+      ]
+    },
+    {
+      "next_observation_index": 6549,
+      "sim_time": 219.3333333344004,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [],
+        "slip_m": 0.010989422886199215
+      },
+      "recorded_right_aperture_m": 0.00010016469966711228,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 0.0,
+          "contact_count": 0,
+          "contact_above_threshold": false
+        },
+        "8": {
+          "normal_force_N": 0.0,
+          "contact_count": 0,
+          "contact_above_threshold": false
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6959487077814852,
+          -0.42075569471720337,
+          0.21970429549702564
+        ],
+        "quaternion_wxyz": [
+          0.6603202236213148,
+          -0.4773620648477205,
+          -0.14795242801272368,
+          -0.5605468226349671
+        ]
+      },
+      "reconstructed_contacts": []
+    },
+    {
+      "next_observation_index": 6550,
+      "sim_time": 219.36666666773417,
+      "phase": "transfer",
+      "grasp": {
+        "object": "side_dish",
+        "side": "right",
+        "contact_fingers": [],
+        "slip_m": 0.027448877208956446
+      },
+      "recorded_right_aperture_m": 6.137483355716713e-06,
+      "recorded_right_finger_forces": {
+        "7": {
+          "normal_force_N": 0.0,
+          "contact_count": 0,
+          "contact_above_threshold": false
+        },
+        "8": {
+          "normal_force_N": 0.0,
+          "contact_count": 0,
+          "contact_above_threshold": false
+        }
+      },
+      "recorded_object_pose": {
+        "position": [
+          0.6989743011680343,
+          -0.4246024321881842,
+          0.2013348009586047
+        ],
+        "quaternion_wxyz": [
+          0.6374094565827295,
+          -0.5093479916161067,
+          -0.1101791793238093,
+          -0.567568812162085
+        ]
+      },
+      "reconstructed_contacts": []
+    }
+  ],
+  "limitations": "Geometric contacts use reset collision masks and recorded poses, without solver history. The recorded multi-contact flag is restored. Positive-margin pairs outside their collision margin are not reported. Recorded forces are sampled."
+}

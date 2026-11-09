@@ -1,0 +1,420 @@
+{
+  "schema_version": "piper.audit_round4.v1",
+  "status": "round_completed_goal_incomplete",
+  "updated_at": "2026-11-09T06:44:10.878621+00:00",
+  "base_commit": "09e21e17c97d441876848caf8d24c0fecfa7d998",
+  "tests": {
+    "non_ppo_passed": 211,
+    "wall_seconds": 93.53,
+    "real_process_signal_tests_included": true,
+    "log": "outputs/platform_audit_v1/tests_round4_final.log"
+  },
+  "policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "state_regression": {
+    "status": "state_regression_passed",
+    "training_ready": false,
+    "scope": "Recorded full physical state episodes; no RGB or training acceptance. Hashes from independent closed-file audit where available; motion peaks consistently from online teacher reports. Missing old rejected-episode hashes remain null.",
+    "cases": [
+      {
+        "seed": 2,
+        "before": "outputs/platform_audit_v1/aperture_clearance_seeds2_13/episode_000000_seed_2/audit.json",
+        "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_00/episode_000000_seed_2/audit.json",
+        "before_passed": false,
+        "after_passed": true,
+        "before_violations": [
+          "ValueError: unsuccessful_episode"
+        ],
+        "after_violations": [],
+        "before_frames": 7722,
+        "after_frames": 7748,
+        "same_trajectory_hash": null,
+        "same_objects_hash": null,
+        "before_online_measured_arm_jerk": 229.2874374896624,
+        "after_online_measured_arm_jerk": 34.581721226975674,
+        "summary": {
+          "success": true,
+          "sorted_count": 11,
+          "required_count": 11
+        },
+        "detours": [
+          {
+            "phase": "transit_detour_selected",
+            "object": "side_dish",
+            "sim_time": 176.73333333385798,
+            "route": "vertical_rise",
+            "vertical_rise_m": 0.02,
+            "container_margin_m": 0.002,
+            "direct_rejection": "Planned arm/container clearance 1.15 mm < 2.00 mm: ['right/link7', 'task/basket']"
+          }
+        ],
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+          "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+        }
+      },
+      {
+        "seed": 7,
+        "before": "outputs/platform_audit_v1/final_stability_states_v7/worker_01/episode_000000_seed_7/audit.json",
+        "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_00/episode_000001_seed_7/audit.json",
+        "before_passed": true,
+        "after_passed": true,
+        "before_violations": [],
+        "after_violations": [],
+        "before_frames": 7861,
+        "after_frames": 7861,
+        "same_trajectory_hash": true,
+        "same_objects_hash": true,
+        "before_online_measured_arm_jerk": 32.54516998830881,
+        "after_online_measured_arm_jerk": 32.54516998830881,
+        "summary": {
+          "success": true,
+          "sorted_count": 11,
+          "required_count": 11
+        },
+        "detours": [],
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+          "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+        }
+      },
+      {
+        "seed": 0,
+        "before": "outputs/platform_audit_v1/final_stability_states_v7/worker_00/episode_000000_seed_0/audit.json",
+        "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000000_seed_0/audit.json",
+        "before_passed": true,
+        "after_passed": true,
+        "before_violations": [],
+        "after_violations": [],
+        "before_frames": 6930,
+        "after_frames": 6930,
+        "same_trajectory_hash": true,
+        "same_objects_hash": true,
+        "before_online_measured_arm_jerk": 51.00300593918594,
+        "after_online_measured_arm_jerk": 51.00300593918594,
+        "summary": {
+          "success": true,
+          "sorted_count": 10,
+          "required_count": 10
+        },
+        "detours": [],
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+          "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+        }
+      },
+      {
+        "seed": 43,
+        "before": "outputs/platform_audit_v1/aperture_clearance_seeds7_43/episode_000001_seed_43/audit.json",
+        "after": "outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000001_seed_43/audit.json",
+        "before_passed": true,
+        "after_passed": true,
+        "before_violations": [],
+        "after_violations": [],
+        "before_frames": 7550,
+        "after_frames": 7550,
+        "same_trajectory_hash": true,
+        "same_objects_hash": true,
+        "before_online_measured_arm_jerk": 61.827693307324516,
+        "after_online_measured_arm_jerk": 61.827693307324516,
+        "summary": {
+          "success": true,
+          "sorted_count": 11,
+          "required_count": 11
+        },
+        "detours": [],
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+          "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+        }
+      }
+    ]
+  },
+  "interrupted_parent_recovery": "outputs/platform_audit_v1/transit_v8_parent_recovery.json",
+  "rgb_benchmark": {
+    "status": "two_rgb_episodes_qualified",
+    "batch_report": "outputs/platform_audit_v1/qualified_parallel_v8/report.json",
+    "cohort": [
+      0,
+      2
+    ],
+    "qualified_episodes": 2,
+    "wall_seconds_including_attempts_audits_exports_parent_validation": 2038.8273184871068,
+    "qualified_episodes_per_hour": 3.5314417924038284,
+    "qualified_transitions_per_wall_second": 7.199236476236583,
+    "qualified_transitions_per_decimal_GB": 822.9218230098899,
+    "jobs": [
+      {
+        "seed": 0,
+        "qualified": true,
+        "frames": 6930,
+        "duration_s": 231.0,
+        "hdf5_bytes": 9396547268,
+        "transitions_per_decimal_GB": 737.504936903809,
+        "process_wall_seconds": 1693.3492563370382,
+        "inclusive_stage_seconds": {
+          "render_and_readback": 637.5915481270058,
+          "sensor_postprocess": 314.5696726826718,
+          "physics_integration": 266.2159648211673,
+          "recording_append": 197.2697254710365,
+          "expert_ik": 5.4173270027386025,
+          "expert_collision_plan": 7.842366140685044,
+          "audit_total": 86.41523936204612,
+          "lerobot_export": 125.45837802102324
+        },
+        "resources": {
+          "samples": 822,
+          "peak_rss_bytes": 2882199552,
+          "cpu_percent_one_core": {
+            "mean": 100.06610869261327,
+            "peak": 179.6136331335261
+          },
+          "gpus": {
+            "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+              "name": "NVIDIA GeForce RTX 5090 D",
+              "samples": 822,
+              "utilization_sum_percent": 45417.0,
+              "peak_utilization_percent": 100.0,
+              "peak_used_bytes": 22080913408
+            }
+          },
+          "gpu_sampling_errors": 0,
+          "process_gpus": {
+            "0": {
+              "samples": 714,
+              "peak_fb_reported_MB": 1009,
+              "process_type": "G"
+            }
+          },
+          "process_gpu_sampling_errors": 0
+        },
+        "same_state_audit_trajectory_hash": true,
+        "same_state_audit_objects_hash": true,
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+          "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+        }
+      },
+      {
+        "seed": 2,
+        "qualified": true,
+        "frames": 7748,
+        "duration_s": 258.26666666666665,
+        "hdf5_bytes": 8439897932,
+        "transitions_per_decimal_GB": 918.0205806308797,
+        "process_wall_seconds": 2035.5123969250126,
+        "inclusive_stage_seconds": {
+          "render_and_readback": 697.0284335069591,
+          "sensor_postprocess": 351.0212818098953,
+          "physics_integration": 471.71430528594647,
+          "recording_append": 198.8552636738168,
+          "expert_ik": 4.263414366170764,
+          "expert_collision_plan": 11.43713558698073,
+          "audit_total": 104.53289698797744,
+          "lerobot_export": 130.35165861598216
+        },
+        "resources": {
+          "samples": 987,
+          "peak_rss_bytes": 2814255104,
+          "cpu_percent_one_core": {
+            "mean": 99.84595899515513,
+            "peak": 307.418543759256
+          },
+          "gpus": {
+            "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+              "name": "NVIDIA GeForce RTX 5090 D",
+              "samples": 987,
+              "utilization_sum_percent": 48199.0,
+              "peak_utilization_percent": 100.0,
+              "peak_used_bytes": 22080913408
+            }
+          },
+          "gpu_sampling_errors": 0,
+          "process_gpus": {
+            "0": {
+              "samples": 869,
+              "peak_fb_reported_MB": 1009,
+              "process_type": "G"
+            }
+          },
+          "process_gpu_sampling_errors": 0
+        },
+        "same_state_audit_trajectory_hash": true,
+        "same_state_audit_objects_hash": true,
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+          "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+        }
+      }
+    ],
+    "limitations": [
+      "Two engineering regression seeds, not held-out distribution-wide yield.",
+      "Host shared with state diagnostics/tests and other applications; no paired serial same-version/same-cohort comparison.",
+      "Do not infer 2x speedup from the older different seed cohort or raw-frame throughput.",
+      "Inclusive stage times overlap. Whole-GPU resource totals include unrelated programs.",
+      "Official reader compatibility and visual spot checks occur after this timed acquisition/export batch.",
+      "Default uncalibrated contact model is retained; fixed-material experiments are separate and include failures."
+    ]
+  },
+  "consumer_checks": [
+    {
+      "seed": 0,
+      "path": "outputs/platform_audit_v1/qualified_v8_seed0_reader.json",
+      "status": "consumer_check_passed"
+    },
+    {
+      "seed": 2,
+      "path": "outputs/platform_audit_v1/qualified_v8_seed2_reader.json",
+      "status": "consumer_check_passed"
+    }
+  ],
+  "visual_checks": [
+    "outputs/platform_audit_v1/qualified_v8_seed0_video_review.json",
+    "outputs/platform_audit_v1/qualified_v8_seed2_video_review.json"
+  ],
+  "fixed_material_full_state_trials": [
+    {
+      "path": "outputs/platform_audit_v1/fixed_material_seed1_scale08",
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "audit_passed": true,
+      "training_ready": false,
+      "sim_seconds_including_prewarm": 268.60000000135057,
+      "experimental_contact_profile": {
+        "calibrated": false,
+        "constant_within_episode": true,
+        "finger_friction": [
+          0.8,
+          0.012,
+          0.0016
+        ],
+        "solref": [
+          0.01,
+          1.0
+        ],
+        "solimp": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "scope": "Record state-only full episodes for an explicitly experimental fixed material.\n\nUse the ordinary demo/recorder and independent closed-file audit, with a declared\nteacher substitution. No RGB or LeRobot export is exposed by this diagnostic.\nThe production contact profile is not changed by running this script.\n",
+        "implementation_sha256": {
+          "/home/midea/Desktop/piper_sim/scripts/probe_fixed_contact_rollout.py": "ced0dd3a649d827acad30072d14834f27dcc20e608400a8a2c2b99a74ba80e2e",
+          "/home/midea/Desktop/piper_sim/scripts/diagnose_fixed_contact.py": "6c9a6165b6ce11d5130c276905663b8383d63bc9fc9eee0c078e3215fdeaf585"
+        },
+        "control": "Existing target-specific motor force/kp and numerical noslip refinement retained; no target-specific material changes, attachments or live pose assignments."
+      },
+      "audit_sha256": "2e23e1a3986f5e4771bfbcee58da2c50fae1e1849f0b5cfef49688d70168c63b"
+    },
+    {
+      "path": "outputs/platform_audit_v1/fixed_material_seed1_scale10",
+      "summary": {
+        "success": false,
+        "sorted_count": 8,
+        "required_count": 11
+      },
+      "error": "SortFailure: side_dish lost physical grasp: slip=0.0274 m, fingers=[]",
+      "audit_passed": false,
+      "training_ready": false,
+      "sim_seconds_including_prewarm": 219.36666666773417,
+      "experimental_contact_profile": {
+        "calibrated": false,
+        "constant_within_episode": true,
+        "finger_friction": [
+          1.0,
+          0.015,
+          0.002
+        ],
+        "solref": [
+          0.01,
+          1.0
+        ],
+        "solimp": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "scope": "Record state-only full episodes for an explicitly experimental fixed material.\n\nUse the ordinary demo/recorder and independent closed-file audit, with a declared\nteacher substitution. No RGB or LeRobot export is exposed by this diagnostic.\nThe production contact profile is not changed by running this script.\n",
+        "implementation_sha256": {
+          "/home/midea/Desktop/piper_sim/scripts/probe_fixed_contact_rollout.py": "ced0dd3a649d827acad30072d14834f27dcc20e608400a8a2c2b99a74ba80e2e",
+          "/home/midea/Desktop/piper_sim/scripts/diagnose_fixed_contact.py": "6c9a6165b6ce11d5130c276905663b8383d63bc9fc9eee0c078e3215fdeaf585"
+        },
+        "control": "Existing target-specific motor force/kp and numerical noslip refinement retained; no target-specific material changes, attachments or live pose assignments."
+      },
+      "audit_sha256": "e0a8761bc961cfe863c6d829493fde4da55fb636813917b0412b5f4f5a90b74a"
+    },
+    {
+      "path": "outputs/platform_audit_v1/fixed_material_seed43_scale12",
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "audit_passed": true,
+      "training_ready": false,
+      "sim_seconds_including_prewarm": 251.5333333348104,
+      "experimental_contact_profile": {
+        "calibrated": false,
+        "constant_within_episode": true,
+        "finger_friction": [
+          1.2,
+          0.018,
+          0.0024
+        ],
+        "solref": [
+          0.01,
+          1.0
+        ],
+        "solimp": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "scope": "Record state-only full episodes for an explicitly experimental fixed material.\n\nUse the ordinary demo/recorder and independent closed-file audit, with a declared\nteacher substitution. No RGB or LeRobot export is exposed by this diagnostic.\nThe production contact profile is not changed by running this script.\n",
+        "implementation_sha256": {
+          "/home/midea/Desktop/piper_sim/scripts/probe_fixed_contact_rollout.py": "ced0dd3a649d827acad30072d14834f27dcc20e608400a8a2c2b99a74ba80e2e",
+          "/home/midea/Desktop/piper_sim/scripts/diagnose_fixed_contact.py": "6c9a6165b6ce11d5130c276905663b8383d63bc9fc9eee0c078e3215fdeaf585"
+        },
+        "control": "Existing target-specific motor force/kp and numerical noslip refinement retained; no target-specific material changes, attachments or live pose assignments."
+      },
+      "audit_sha256": "3bb6b06ffc4bfbac9d957a653ac880732a336525a0cea2f936681e485456ce1e"
+    }
+  ],
+  "fixed_material_local_diagnostics": [
+    "outputs/platform_audit_v1/fixed_pad_material_probe_v1.json",
+    "outputs/platform_audit_v1/fixed_pad_side_dish_rolling08_probe.json",
+    "outputs/platform_audit_v1/fixed_material_seed1_loss_geometry_v2.json"
+  ],
+  "source_sha256": {
+    "configs/collection/clean_table.yaml": "846dbcaba9d33e576ef0865a3c10b908eda4caafc48bb25e16ec6ae85cd2e06d",
+    "src/piper_sim/experts/clean_table.py": "3058b32e5b6b2bb4904a4d1a1ed5422b672ada2f2e613938c18be6468977f6ad",
+    "src/piper_sim/experts/collision.py": "db8697281a42fee99d772be35e486258231a627a7e463e3a4d4e52d3e736f943",
+    "scripts/collect_parallel_clean_table.py": "2acfb33f6fc31ce842f2dd5f4ef3c398a6e925be9d98386238791c0c5798eabf",
+    "scripts/diagnose_approach_clearance.py": "4d8db05a6d164d27af9c052b6a8989363094b6c40f06464e6686d4a393e5e807",
+    "scripts/diagnose_fixed_contact.py": "6c9a6165b6ce11d5130c276905663b8383d63bc9fc9eee0c078e3215fdeaf585",
+    "scripts/probe_fixed_contact_rollout.py": "ced0dd3a649d827acad30072d14834f27dcc20e608400a8a2c2b99a74ba80e2e",
+    "scripts/diagnose_contact_loss.py": "88e02710fc46f1ed37cba770a11d374b5f2c0a6cb5da952d74763664851aaf53",
+    "tests/test_transit_clearance.py": "91066f4ad0c7f157fce3509c2c93dcaeb2c4564e4bbfcfda7c6d13a32c79a529",
+    "tests/test_parallel_signals.py": "bef03bff2346ec529a785cf45bba0d5fd7a0c3c4fee869c0bc5aeb462703da54"
+  },
+  "disk_free_bytes": 76581130240,
+  "remaining": [
+    "Fixed material candidate is not production default: two full state trials pass, one fails with side-dish grasp loss; not a distribution success estimate.",
+    "Default object friction randomization does not vary high-priority finger contact friction.",
+    "No paired serial same-version/same-cohort throughput comparison; at least 2x not demonstrated. Timed RGB benchmark excludes state preflight.",
+    "Real per-device RGB intrinsics/extrinsics and actuator/contact identification remain missing.",
+    "Sampled 30 Hz physics evidence does not certify substep extrema.",
+    "Current engineering regression seeds and sampled videos do not establish population yield, photorealism or downstream VLA training benefit."
+  ],
+  "unrelated_work": "Existing PPO changes in README.md, robot_asset.py, tasks/isaac.py and new PPO files were preserved and excluded from this change."
+}

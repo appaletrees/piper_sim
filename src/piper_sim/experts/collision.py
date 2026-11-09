@@ -82,3 +82,29 @@ def carried_obstacle_clearance(model, data, carried, distance):
             if value < nearest:
                 nearest, pair = value, [names[int(bodies[a])], names[int(bodies[b])]]
     return float(nearest), pair
+
+
+def robot_obstacle_clearance(model, data, side, obstacles, distance):
+    """Signed distance from one arm to selected task obstacles, capped at distance.
+
+    This supplements contact rejection with a positive transit margin. It does
+    not replace self/inter-arm checks or treat intentional base mounts as free
+    space: only explicitly selected task bodies participate in this query.
+    """
+    if side not in ('left', 'right') or not np.isfinite(distance) or distance <= 0:
+        raise ValueError('Expected an arm side and a positive finite distance')
+    names, bodies, _, _ = _index(model)
+    arm = np.array([names[int(body)].startswith(side+'/') for body in bodies])
+    selected = np.isin(bodies, [i for i, name in enumerate(names) if name in {'task/'+n for n in obstacles}])
+    active = (model.geom_contype != 0) | (model.geom_conaffinity != 0)
+    nearest, pair = distance, None
+    for a in np.flatnonzero(arm & active):
+        compatible = ((model.geom_contype[a] & model.geom_conaffinity) |
+                      (model.geom_conaffinity[a] & model.geom_contype)) != 0
+        lower_bound = np.linalg.norm(data.geom_xpos-data.geom_xpos[a], axis=1)-model.geom_rbound-model.geom_rbound[a]
+        close = (lower_bound < nearest) | (model.geom_type == mujoco.mjtGeom.mjGEOM_PLANE)
+        for b in np.flatnonzero(selected & active & compatible & close):
+            value = mujoco.mj_geomDistance(model, data, int(a), int(b), max(nearest, 0.), None)
+            if value < nearest:
+                nearest, pair = value, [names[int(bodies[a])], names[int(bodies[b])]]
+    return float(nearest), pair

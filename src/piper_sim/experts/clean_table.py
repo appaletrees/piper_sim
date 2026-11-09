@@ -12,7 +12,7 @@ from .mujoco_ik import PiperIK, grasp_rotation, rotation_error
 from .grasp_assist import ContactGraspAssist, finger_contacts
 from .trajectory import smooth_trajectory, path_trajectory
 from .quality import MotionQuality
-from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance
+from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
 from ..transforms import pose_matrix
 from ..config import ROOT
 from ..contracts import LOWER, UPPER
@@ -320,7 +320,7 @@ class CleanTableTeacher:
             diagnostics.update(interpolation=interpolation, command_samples=len(trajectory))
         return trajectory
 
-    def check_joint_path(self, side, start, end, gripper=None):
+    def check_joint_path(self, side, start, end, gripper=None, *, transit_clearance=0.):
         """Check sampled interpolation on scratch state before executing a segment.
 
         This is a rejection gate, not a general collision-free motion planner.
@@ -337,7 +337,12 @@ class CleanTableTeacher:
             rel_r = hand.xmat.reshape(3, 3).T@obj.xmat.reshape(3, 3)
             obj_q = self.b.model.joint('task/'+name+'/free').qposadr[0]
             transforms.append((obj_q,rel_p,rel_r))
-        steps = max(2, int(np.ceil(np.max(abs(np.asarray(end)-start))/.08)))
+        spacing = .01 if transit_clearance else .08
+        steps = max(2, int(np.ceil(np.max(abs(np.asarray(end)-start))/spacing)))
+        if transit_clearance and gripper is not None:
+            steps = max(steps, int(np.ceil(abs(gripper[1]-gripper[0])/.001)))
+        containers = ({spec['target'] for spec in self.b.task.specs.values() if spec.get('target')}
+                      if transit_clearance else ())
         for t in np.linspace(0, 1, steps+1):
             ik.data.qpos[:] = self.b.data.qpos
             ik.data.qpos[ik.qids] = (1-t)*np.asarray(start)+t*np.asarray(end)
@@ -355,6 +360,11 @@ class CleanTableTeacher:
             depth, pair = robot_penetration(self.b.model, ik.data, self.current)
             if depth > self.settings['quality']['max_robot_penetration_m']:
                 raise SortFailure(f'Planned path obstructed ({depth*1000:.2f} mm): {pair}')
+            if transit_clearance:
+                distance, pair = robot_obstacle_clearance(self.b.model, ik.data, side, containers, transit_clearance)
+                if distance < transit_clearance:
+                    raise SortFailure(f'Planned arm/container clearance {distance*1000:.2f} mm '
+                                      f'< {transit_clearance*1000:.2f} mm: {pair}')
             if self.pacing.get('continuous_paths') and carried:
                 depth, pair = carried_obstacle_penetration(self.b.model, ik.data, carried)
                 if depth > self.settings['quality']['max_robot_penetration_m']:
@@ -370,6 +380,54 @@ class CleanTableTeacher:
 
     def carried_objects(self):
         return [self.carried[1]] if self.carried else []
+
+    def transit_to_pregrasp(self, side, joints, width):
+        """Plan the whole unloaded container departure before executing a detour."""
+        if self.carried is not None:
+            raise SortFailure('Pregrasp transit requires an unloaded arm')
+        off = 0 if side == 'left' else 7
+        margin = self.pacing.get('unloaded_transit_clearance_m', 0.)
+        start = self.q[off:off+6].copy()
+        aperture = (self.q[off+6], width)
+        try:
+            self.check_joint_path(side, start, joints, gripper=aperture, transit_clearance=margin)
+        except SortFailure as direct_error:
+            tcp, rotation = self.ik[side].forward(start)
+            routes = [('vertical_rise', rise, [(tcp+[0, 0, rise], rotation)])
+                      for rise in self.pacing.get('unloaded_transit_rises_m', [.02, .04, .06])]
+            # Retain the existing central waypoint, but validate both legs before
+            # moving to it. Near-start contact is checked by the original gate;
+            # the positive margin applies to the subsequent free-space transit.
+            central = [.27, .30 if side == 'left' else -.30, .27]
+            routes.append(('central_waypoint', None, [(central, grasp_rotation(30, 0))]))
+            chosen = None
+            for kind, rise, poses in routes:
+                try:
+                    if kind == 'central_waypoint':
+                        target = self.q.copy()
+                        target[off:off+6] = self.solve(side, *poses[0])
+                        self.check_joint_path(side, start, target[off:off+6])
+                        trajectory = smooth_trajectory(self.q, target, 1/self.fps,
+                            seconds=self.pacing.get('minimum_move_s', 2.), **self.motion_limits())
+                    else:
+                        trajectory = self.plan_pose_path(side, poses)
+                    self.check_joint_path(side, trajectory[-1, off:off+6], joints,
+                                          gripper=aperture, transit_clearance=margin)
+                    chosen = (kind, rise, trajectory)
+                    break
+                except SortFailure:
+                    continue
+            if chosen is None:
+                raise SortFailure(f'No checked pregrasp transit: {direct_error}') from direct_error
+            kind, rise, trajectory = chosen
+            self.events.append({'phase': 'transit_detour_selected', 'object': self.current,
+                'sim_time': self.b.sim_time, 'route': kind, 'vertical_rise_m': rise,
+                'container_margin_m': margin, 'direct_rejection': str(direct_error)})
+            for command in trajectory:
+                self.q = command
+                self.step()
+            self.settle()
+        self.move_joints(side, joints, gripper_width=width)
 
     def solve(self, side, position, rotation, seed=None):
         offset = 0 if side == 'left' else 7
@@ -590,13 +648,7 @@ class CleanTableTeacher:
         if self.pacing.get('continuous_paths'):
             # Opening/closing to the pregrasp aperture overlaps free-space reach.
             q_above = self.solve(side, p+[0,0,.15], raised_r)
-            off = 0 if side == 'left' else 7
-            try:
-                self.check_joint_path(side, self.q[off:off+6], q_above,
-                                      gripper=(self.q[off+6], width))
-            except SortFailure:
-                self.pose(side, [.27,.30,.27] if side == 'left' else [.27,-.30,.27], grasp_rotation(30,0))
-            self.move_joints(side, q_above, gripper_width=width)
+            self.transit_to_pregrasp(side, q_above, width)
         else:
             self.grip(side, width)
             self.pose(side, p+[0,0,.15], raised_r)

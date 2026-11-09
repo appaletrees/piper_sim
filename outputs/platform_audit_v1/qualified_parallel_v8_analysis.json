@@ -1,0 +1,125 @@
+{
+  "status": "two_rgb_episodes_qualified",
+  "batch_report": "outputs/platform_audit_v1/qualified_parallel_v8/report.json",
+  "cohort": [
+    0,
+    2
+  ],
+  "qualified_episodes": 2,
+  "wall_seconds_including_attempts_audits_exports_parent_validation": 2038.8273184871068,
+  "qualified_episodes_per_hour": 3.5314417924038284,
+  "qualified_transitions_per_wall_second": 7.199236476236583,
+  "qualified_transitions_per_decimal_GB": 822.9218230098899,
+  "jobs": [
+    {
+      "seed": 0,
+      "qualified": true,
+      "frames": 6930,
+      "duration_s": 231.0,
+      "hdf5_bytes": 9396547268,
+      "transitions_per_decimal_GB": 737.504936903809,
+      "process_wall_seconds": 1693.3492563370382,
+      "inclusive_stage_seconds": {
+        "render_and_readback": 637.5915481270058,
+        "sensor_postprocess": 314.5696726826718,
+        "physics_integration": 266.2159648211673,
+        "recording_append": 197.2697254710365,
+        "expert_ik": 5.4173270027386025,
+        "expert_collision_plan": 7.842366140685044,
+        "audit_total": 86.41523936204612,
+        "lerobot_export": 125.45837802102324
+      },
+      "resources": {
+        "samples": 822,
+        "peak_rss_bytes": 2882199552,
+        "cpu_percent_one_core": {
+          "mean": 100.06610869261327,
+          "peak": 179.6136331335261
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 822,
+            "utilization_sum_percent": 45417.0,
+            "peak_utilization_percent": 100.0,
+            "peak_used_bytes": 22080913408
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 714,
+            "peak_fb_reported_MB": 1009,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      },
+      "same_state_audit_trajectory_hash": true,
+      "same_state_audit_objects_hash": true,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "seed": 2,
+      "qualified": true,
+      "frames": 7748,
+      "duration_s": 258.26666666666665,
+      "hdf5_bytes": 8439897932,
+      "transitions_per_decimal_GB": 918.0205806308797,
+      "process_wall_seconds": 2035.5123969250126,
+      "inclusive_stage_seconds": {
+        "render_and_readback": 697.0284335069591,
+        "sensor_postprocess": 351.0212818098953,
+        "physics_integration": 471.71430528594647,
+        "recording_append": 198.8552636738168,
+        "expert_ik": 4.263414366170764,
+        "expert_collision_plan": 11.43713558698073,
+        "audit_total": 104.53289698797744,
+        "lerobot_export": 130.35165861598216
+      },
+      "resources": {
+        "samples": 987,
+        "peak_rss_bytes": 2814255104,
+        "cpu_percent_one_core": {
+          "mean": 99.84595899515513,
+          "peak": 307.418543759256
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 987,
+            "utilization_sum_percent": 48199.0,
+            "peak_utilization_percent": 100.0,
+            "peak_used_bytes": 22080913408
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 869,
+            "peak_fb_reported_MB": 1009,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      },
+      "same_state_audit_trajectory_hash": true,
+      "same_state_audit_objects_hash": true,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    }
+  ],
+  "limitations": [
+    "Two engineering regression seeds, not held-out distribution-wide yield.",
+    "Host shared with state diagnostics/tests and other applications; no paired serial same-version/same-cohort comparison.",
+    "Do not infer 2x speedup from the older different seed cohort or raw-frame throughput.",
+    "Inclusive stage times overlap. Whole-GPU resource totals include unrelated programs.",
+    "Official reader compatibility and visual spot checks occur after this timed acquisition/export batch.",
+    "Default uncalibrated contact model is retained; fixed-material experiments are separate and include failures."
+  ]
+}

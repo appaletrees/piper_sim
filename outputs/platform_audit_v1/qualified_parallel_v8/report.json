@@ -1,0 +1,45 @@
+{
+  "status": "completed",
+  "workers": 2,
+  "seeds": [
+    0,
+    2
+  ],
+  "scope": "Measure end-to-end qualified throughput of independent physical RGB workers.\n\nEach worker retains its complete or failed recording, audit and profiler output.\nNo preflight is run in this benchmark; all attempts, final audits and exports are\nincluded in wall time. Quality is revalidated before any job counts as qualified.\n",
+  "started_unix": 1794204428.2291105,
+  "jobs": [
+    {
+      "seed": 0,
+      "returncode": 0,
+      "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_parallel_v8/seed_0",
+      "qualified": true,
+      "error": null,
+      "violations": [],
+      "frames": 6930,
+      "sim_seconds": 231.0,
+      "hdf5_bytes": 9396547268
+    },
+    {
+      "seed": 2,
+      "returncode": 0,
+      "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_parallel_v8/seed_2",
+      "qualified": true,
+      "error": null,
+      "violations": [],
+      "frames": 7748,
+      "sim_seconds": 258.26666666666665,
+      "hdf5_bytes": 8439897932
+    }
+  ],
+  "limitations": [
+    "Single concurrent cohort, not a distribution-wide success estimate.",
+    "Other applications may share this host. Compare only like-for-like cohorts for speedup claims.",
+    "Final consumer training-loader checks are separate from this acquisition/export timing."
+  ],
+  "wall_seconds": 2038.8273184871068,
+  "qualified_episodes": 2,
+  "qualified_episodes_per_hour": 3.5314417924038284,
+  "qualified_transitions_per_wall_second": 7.199236476236583,
+  "qualified_hdf5_bytes": 17836445200,
+  "elapsed_including_cleanup_s": 2038.8273267570185
+}

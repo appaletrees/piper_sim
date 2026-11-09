@@ -8,6 +8,7 @@ warm starts are zero, so this is not exact historical replay or training data.
 import argparse
 import copy
 import hashlib
+from itertools import product
 import json
 from pathlib import Path
 
@@ -30,10 +31,13 @@ def main():
     parser.add_argument('source', type=Path)
     parser.add_argument('--object', required=True)
     parser.add_argument('--rises', type=float, nargs='+', default=[0., .02, .04])
+    parser.add_argument('--transit-clearances', type=float, nargs='+', default=[0.])
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists(): parser.error('Choose a new output')
     if not np.isfinite(args.rises).all() or min(args.rises) < 0: parser.error('Invalid rises')
+    if not np.isfinite(args.transit_clearances).all() or min(args.transit_clearances) < 0:
+        parser.error('Invalid transit clearance')
     report = json.loads(args.source.with_name('report.json').read_text())
     event = next(e for e in report['events'] if e['phase'] == 'approach' and e['object'] == args.object)
     with h5py.File(args.source, 'r') as source:
@@ -47,7 +51,7 @@ def main():
     backend = MujocoBackend(cfg, cameras=False)
     trials = []
     try:
-        for rise in args.rises:
+        for rise, margin in product(args.rises, args.transit_clearances):
             layout = metadata['task_scene']['layout']
             backend.reset(layout['seed'], layout['randomized'])
             for side, arm in extras['teacher']['physics']['arms'].items():
@@ -60,6 +64,7 @@ def main():
                 backend.data.ctrl[backend.indices[side]['ctrl']] = command[offset:offset+7]
             mujoco.mj_forward(backend.model, backend.data)
             teacher = RigidTableTeacher(SimulationSession(backend), settings=metadata['teacher']['motion_and_quality'])
+            teacher.pacing['unloaded_transit_clearance_m'] = margin
             teacher.q = command.copy()
             teacher.quality.add(backend.sim_time, command, teacher.session.read().position,
                                 context={'phase': 'initial_recorded_state'})
@@ -80,7 +85,7 @@ def main():
             def stop_before_descent(*_args, **_kwargs):
                 raise ApproachCompleted()
             teacher.contact_approach = stop_before_descent
-            result = {'vertical_rise_m': rise, 'completed_approach': False}
+            result = {'vertical_rise_m': rise, 'transit_clearance_m': margin, 'completed_approach': False}
             try:
                 teacher.sort_one(args.object)
             except ApproachCompleted:
@@ -90,7 +95,7 @@ def main():
             result.update(motion=teacher.quality.report(), collision_peak=teacher.collision_peak,
                           sim_seconds=backend.sim_time, events=teacher.events)
             trials.append(result)
-            print(json.dumps({'rise': rise, 'completed': result['completed_approach'],
+            print(json.dumps({'rise': rise, 'margin': margin, 'completed': result['completed_approach'],
                 'jerk': result['motion']['metrics']['measured_arm_jerk'],
                 'collision_peak': result['collision_peak'], 'error': result.get('error')}), flush=True)
     finally:
