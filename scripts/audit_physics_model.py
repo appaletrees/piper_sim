@@ -87,7 +87,7 @@ def main():
             'MuJoCo joint damping/armature and teacher contact friction/control gains are simulation choices.',
             'URDF arm velocity=10 rad/s is not a verified device capability; collection command/measured gates are lower.',
             'Teacher applies robot bias feedforward through qfrc_applied; actuator force ranges alone do not bound total joint drive.',
-            'Current online penetration gate skips same-arm contacts; source adjacent body exclusions and convex hulls need separate self-collision validation.',
+            'Online penetration gate includes nonadjacent same-arm contacts; source adjacent body exclusions and convex hulls still limit self-collision coverage.',
             'Isaac runtime parameters/dynamic responses are not measured by this MuJoCo-only script.',
         ]
     finally:

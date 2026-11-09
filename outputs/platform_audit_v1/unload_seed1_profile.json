@@ -1,0 +1,148 @@
+{
+  "schema_version": "piper.pipeline_profile.v1",
+  "pid": 692188,
+  "wall_seconds": 482.7981308019953,
+  "process_cpu_seconds": 512.841278992,
+  "mean_cpu_percent_one_core": 106.22271427192537,
+  "stages": {
+    "imports": {
+      "calls": 1,
+      "inclusive_s": 0.1041108729550615,
+      "exclusive_s": 0.1041108729550615,
+      "max_call_s": 0.1041108729550615
+    },
+    "physics_forward": {
+      "calls": 7791,
+      "inclusive_s": 12.14853073679842,
+      "exclusive_s": 12.14853073679842,
+      "max_call_s": 0.006855820887722075
+    },
+    "scene_load": {
+      "calls": 1,
+      "inclusive_s": 6.185142917907797,
+      "exclusive_s": 6.184823669842444,
+      "max_call_s": 6.185142917907797
+    },
+    "observation_read": {
+      "calls": 15669,
+      "inclusive_s": 12.95198104926385,
+      "exclusive_s": 12.95198104926385,
+      "max_call_s": 0.004161718999966979
+    },
+    "control_apply": {
+      "calls": 7789,
+      "inclusive_s": 0.10275751107838005,
+      "exclusive_s": 0.10275751107838005,
+      "max_call_s": 2.405606210231781e-05
+    },
+    "physics_integration": {
+      "calls": 7789,
+      "inclusive_s": 387.6985822155839,
+      "exclusive_s": 387.6985822155839,
+      "max_call_s": 0.19592575798742473
+    },
+    "backend_step": {
+      "calls": 7789,
+      "inclusive_s": 408.3290995088173,
+      "exclusive_s": 8.482649713521823,
+      "max_call_s": 0.20275447296444327
+    },
+    "expert_ik": {
+      "calls": 2044,
+      "inclusive_s": 5.768459283863194,
+      "exclusive_s": 5.768459283863194,
+      "max_call_s": 0.02867281495127827
+    },
+    "expert_collision_plan": {
+      "calls": 2082,
+      "inclusive_s": 5.559305894887075,
+      "exclusive_s": 5.559305894887075,
+      "max_call_s": 0.019683932070620358
+    },
+    "expert_time_parameterization": {
+      "calls": 114,
+      "inclusive_s": 0.09846104285679758,
+      "exclusive_s": 0.09846104285679758,
+      "max_call_s": 0.04578820790629834
+    },
+    "metadata_write": {
+      "calls": 85349,
+      "inclusive_s": 12.249587802914903,
+      "exclusive_s": 12.249587802914903,
+      "max_call_s": 0.00515972706489265
+    },
+    "hdf5_flush": {
+      "calls": 7759,
+      "inclusive_s": 0.7321068256860599,
+      "exclusive_s": 0.7321068256860599,
+      "max_call_s": 0.00039849604945629835
+    },
+    "recording_append": {
+      "calls": 7759,
+      "inclusive_s": 20.609727533883415,
+      "exclusive_s": 7.628032905282453,
+      "max_call_s": 0.009830108960159123
+    },
+    "recording_close": {
+      "calls": 1,
+      "inclusive_s": 0.0004157410003244877,
+      "exclusive_s": 0.0004157410003244877,
+      "max_call_s": 0.0004157410003244877
+    },
+    "audit_streams": {
+      "calls": 1,
+      "inclusive_s": 0.3099469669396058,
+      "exclusive_s": 0.3099469669396058,
+      "max_call_s": 0.3099469669396058
+    },
+    "audit_task": {
+      "calls": 1,
+      "inclusive_s": 12.527526685036719,
+      "exclusive_s": 12.527526685036719,
+      "max_call_s": 12.527526685036719
+    },
+    "audit_total": {
+      "calls": 1,
+      "inclusive_s": 12.84060752496589,
+      "exclusive_s": 0.003133872989565134,
+      "max_call_s": 12.84060752496589
+    },
+    "audit_save_and_checksum": {
+      "calls": 1,
+      "inclusive_s": 0.026031124987639487,
+      "exclusive_s": 0.026031124987639487,
+      "max_call_s": 0.026031124987639487
+    }
+  },
+  "resources": {
+    "samples": 238,
+    "peak_rss_bytes": 2680442880,
+    "cpu_percent_one_core": {
+      "mean": 106.221640404897,
+      "peak": 229.74083867589928
+    },
+    "gpus": {
+      "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+        "name": "NVIDIA GeForce RTX 5090 D",
+        "samples": 238,
+        "utilization_sum_percent": 7911.0,
+        "peak_utilization_percent": 67.0,
+        "peak_used_bytes": 20880293888
+      }
+    },
+    "gpu_sampling_errors": 0
+  },
+  "scope": "Single synchronous process; GPU totals include unrelated applications. Exclusive stage time excludes nested measured calls; unwrapped work remains unattributed. RSS is process lifetime high-water mark. Rendering includes GPU synchronization/readback.",
+  "unattributed_wall_seconds": 10.221686886507086,
+  "returncode": 0,
+  "command": [
+    "--record",
+    "--seed",
+    "1",
+    "--domain-randomization",
+    "configs/domain_randomization/clean_table.yaml",
+    "--output",
+    "outputs/platform_audit_v1/unload_seed1"
+  ],
+  "training_note": "Instrumentation alone does not establish acceptance; see the closed-file audit."
+}

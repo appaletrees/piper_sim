@@ -1,0 +1,23 @@
+{
+  "status": "state_diagnostic_passed_not_training_ready",
+  "baseline": {
+    "path": "outputs/platform_audit_v1/seed1/episode.h5",
+    "motion_passed": false,
+    "duration_s": 255.16666666666666,
+    "measured_gripper_acceleration_m_s2": 1.0461063385009766
+  },
+  "candidate": {
+    "path": "outputs/platform_audit_v1/unload_seed1/episode.h5",
+    "passed": true,
+    "duration_s": 258.6333333333333,
+    "measured_gripper_acceleration_m_s2": 0.8995332717895508,
+    "measured_gripper_jerk_m_s3": 26.847421646118164
+  },
+  "unchanged_policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "same_policy": true,
+  "limitations": [
+    "No RGB in either state diagnostic",
+    "Candidate includes self-collision gate and vectorized contact queries; not an isolated performance comparison",
+    "No real hardware force or motion calibration"
+  ]
+}

@@ -53,6 +53,9 @@ class WorkcellCamera(Camera):
             self._projection_grid.expand(len(env_ids), -1, -1, -1),
             mode="bilinear", padding_mode="border", align_corners=False)
         self._data.output["rgb"][env_ids] = sampled.permute(0, 2, 3, 1).round().clamp(0, 255).to(pixels.dtype)
+        # Python revision is monotonic across camera.reset() and also changes
+        # for forced static captures at an unchanged simulation timestamp.
+        self.capture_revision += 1
 
     def __init__(self, cfg, *, use_fabric, rgb):
         if cfg.data_types != ["rgb"]:
@@ -60,6 +63,7 @@ class WorkcellCamera(Camera):
         self._use_fabric = use_fabric
         self._rgb = rgb
         self._projection_grid = None
+        self.capture_revision = 0
         super().__init__(cfg)
         from pxr import Sdf
         from isaacsim.core.utils.stage import get_current_stage

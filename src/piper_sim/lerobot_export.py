@@ -170,6 +170,35 @@ def _resize(pixels, transform):
     return np.asarray(out)
 
 
+class RGBStatistics:
+    """Exact uint8 counts with stable moments; memory is independent of frames."""
+    def __init__(self):
+        self.histogram = np.zeros((3, 256), dtype=np.int64)
+        self.frames = 0
+
+    def add(self, pixels):
+        if pixels.dtype != np.uint8 or pixels.ndim != 3 or pixels.shape[-1] != 3:
+            raise ValueError('Statistics require HxWx3 uint8 RGB')
+        for channel in range(3):
+            self.histogram[channel] += np.bincount(pixels[..., channel].reshape(-1), minlength=256)
+        self.frames += 1
+
+    def result(self):
+        counts = self.histogram.sum(axis=1)
+        if not self.frames or np.any(counts == 0):
+            raise ValueError('Cannot compute empty image statistics')
+        levels = np.arange(256, dtype=np.float64)
+        mean = (self.histogram@levels)/counts/255.
+        # Central moments avoid cancellation for nearly uniform images.
+        variance = np.sum(self.histogram*(levels[None, :]/255.-mean[:, None])**2, axis=1)/counts
+        low = np.argmax(self.histogram > 0, axis=1)/255.
+        high = (255-np.argmax(self.histogram[:, ::-1] > 0, axis=1))/255.
+        result = {key: value.reshape(3, 1, 1).tolist() for key, value in
+                  [('min', low), ('max', high), ('mean', mean), ('std', np.sqrt(variance))]}
+        result['count'] = [self.frames]
+        return result
+
+
 def _video(dataset, destination, fps, transform):
     destination.parent.mkdir(parents=True,exist_ok=True)
     width,height = transform['output_size']
@@ -178,17 +207,14 @@ def _video(dataset, destination, fps, transform):
                '-framerate',str(fps),'-i','pipe:0','-an','-c:v','libx264',
                '-preset','fast','-crf','18','-pix_fmt','yuv420p','-threads','2',
                '-movflags','+faststart',str(destination)]
-    total = np.zeros(3); squares = np.zeros(3)
-    low = np.full(3,255.); high = np.zeros(3); count = 0
+    statistics = RGBStatistics()
     with tempfile.TemporaryFile() as errors:
         process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=errors)
         try:
             for frame in dataset:
                 pixels = _resize(frame, transform)
                 process.stdin.write(pixels.tobytes())
-                flat = pixels.reshape(-1,3).astype(np.float64)/255
-                total += flat.sum(0); squares += np.einsum('ij,ij->j',flat,flat)
-                low = np.minimum(low,flat.min(0)); high = np.maximum(high,flat.max(0)); count += len(flat)
+                statistics.add(pixels)
             process.stdin.close()
             if process.wait(timeout=120):
                 errors.seek(0); raise RuntimeError('ffmpeg failed: '+errors.read().decode(errors='replace'))
@@ -200,11 +226,7 @@ def _video(dataset, destination, fps, transform):
         '-of','json',str(destination)]))['streams'][0]
     if int(probe['nb_read_frames']) != len(dataset) or (probe['width'],probe['height']) != (width,height):
         raise RuntimeError('Encoded video frame count/shape mismatch')
-    mean = total/count
-    statistics = {k: v.reshape(3,1,1).tolist() for k,v in
-                  [('min',low),('max',high),('mean',mean),('std',np.sqrt(np.maximum(squares/count-mean**2,0)))]}
-    statistics['count'] = [len(dataset)]
-    return statistics, probe
+    return statistics.result(), probe
 
 
 def _aggregate(items):

@@ -8,6 +8,7 @@ from ..robot_asset import piper_config
 from ..scene import spawn_workcell
 from ..sensors import spawn_camera_mounts, spawn_cameras
 from ..contracts import ARMS, JOINT_NAMES, LOWER, UPPER, Observation, vector
+from ..camera_cache import CameraSnapshotCache
 
 
 class IsaacBackend:
@@ -48,6 +49,7 @@ class IsaacBackend:
         if self.task and hasattr(self.task_adapter, "configure_appearance"):
             self.task_adapter.configure_appearance(self.task)
         self.cameras = spawn_cameras(cfg) if cameras else {}
+        self.camera_cache = CameraSnapshotCache()
         self.sim.reset()
         self.randomizer = None
         if self.task and getattr(self.task, 'domain_profile', None):
@@ -66,6 +68,7 @@ class IsaacBackend:
 
     def reset(self, seed=None, randomize=None):
         """Reset physical state and drive targets together before starting an episode."""
+        self.camera_cache.clear()
         for arm in self.arms.values():
             positions = arm.data.default_joint_pos.clone()
             velocities = arm.data.default_joint_vel.clone()
@@ -127,17 +130,25 @@ class IsaacBackend:
         for side, arm in self.arms.items():
             p = arm.data.joint_pos[0, self.indices[side]].detach().cpu().numpy()
             q.extend([*p[:6], p[6]+p[7]])
-        images = {name: camera.data.output["rgb"][0, ..., :3].detach().cpu().numpy().copy()
-                  for name, camera in self.cameras.items()}
-        if self.randomizer:
-            from ..randomization import sensor_images
-            images = sensor_images(images, self.task.domain_parameters,
-                                   round(self.sim_time/(self.dt*self.decimation)))
-        camera_poses = {
-            name: {"position_world": camera.data.pos_w[0].cpu().tolist(),
-                   "quaternion_wxyz_ros": camera.data.quat_w_ros[0].cpu().tolist(),
-                   "intrinsics": camera.data.intrinsic_matrices[0].cpu().tolist()}
-            for name, camera in self.cameras.items()}
+        # Access data first: Isaac Lab lazily refreshes outdated sensor buffers.
+        # Revision changes also cover forced captures used by alignment tools;
+        # simulation time alone cannot identify these static images.
+        captures = {name: camera.data for name, camera in self.cameras.items()}
+        frame = round(self.sim_time/(self.dt*self.decimation))
+        key = (frame, tuple((name, id(camera), camera.capture_revision)
+                           for name, camera in self.cameras.items()))
+        def capture():
+            images = {name: data.output["rgb"][0, ..., :3].detach().cpu().numpy().copy()
+                      for name, data in captures.items()}
+            if self.randomizer:
+                from ..randomization import sensor_images
+                images = sensor_images(images, self.task.domain_parameters, frame)
+            poses = {name: {"position_world": data.pos_w[0].cpu().tolist(),
+                            "quaternion_wxyz_ros": data.quat_w_ros[0].cpu().tolist(),
+                            "intrinsics": data.intrinsic_matrices[0].cpu().tolist()}
+                     for name, data in captures.items()}
+            return images, poses
+        images, camera_poses = self.camera_cache.read(key, capture)
         if self.task:
             objects = self.task_adapter.task_poses(self.task_objects)
             extras = {"objects": objects, "task": {"name": self.task.config["name"],

@@ -1,0 +1,109 @@
+{
+  "schema_version": "piper.pipeline_profile.v1",
+  "pid": 711805,
+  "wall_seconds": 50.49404258001596,
+  "process_cpu_seconds": 65.457736715,
+  "mean_cpu_percent_one_core": 129.6345734474946,
+  "stages": {
+    "app_startup": {
+      "calls": 1,
+      "inclusive_s": 10.67698592308443,
+      "exclusive_s": 10.67698592308443,
+      "max_call_s": 10.67698592308443
+    },
+    "scene_load": {
+      "calls": 1,
+      "inclusive_s": 12.5866569589125,
+      "exclusive_s": 12.5866569589125,
+      "max_call_s": 12.5866569589125
+    },
+    "sensor_postprocess": {
+      "calls": 213,
+      "inclusive_s": 9.721622487995774,
+      "exclusive_s": 9.721622487995774,
+      "max_call_s": 0.05840150499716401
+    },
+    "observation_read": {
+      "calls": 427,
+      "inclusive_s": 12.61025482788682,
+      "exclusive_s": 2.8886323398910463,
+      "max_call_s": 0.07347016409039497
+    },
+    "render": {
+      "calls": 211,
+      "inclusive_s": 2.2536712144501507,
+      "exclusive_s": 2.2536712144501507,
+      "max_call_s": 0.03571458300575614
+    },
+    "control_apply": {
+      "calls": 210,
+      "inclusive_s": 0.03798289340920746,
+      "exclusive_s": 0.03798289340920746,
+      "max_call_s": 0.0005656720604747534
+    },
+    "physics_tick": {
+      "calls": 840,
+      "inclusive_s": 5.774953779997304,
+      "exclusive_s": 5.774953779997304,
+      "max_call_s": 0.024466766975820065
+    },
+    "backend_step": {
+      "calls": 210,
+      "inclusive_s": 9.337192702805623,
+      "exclusive_s": 1.3442822913639247,
+      "max_call_s": 0.06819439888931811
+    },
+    "reset_and_warmup": {
+      "calls": 1,
+      "inclusive_s": 3.186534031992778,
+      "exclusive_s": 0.04090249922592193,
+      "max_call_s": 3.186534031992778
+    },
+    "recording_append": {
+      "calls": 180,
+      "inclusive_s": 5.063261384726502,
+      "exclusive_s": 5.063261384726502,
+      "max_call_s": 0.03728615399450064
+    },
+    "recording_close": {
+      "calls": 1,
+      "inclusive_s": 0.025043378002010286,
+      "exclusive_s": 0.025043378002010286,
+      "max_call_s": 0.025043378002010286
+    },
+    "same_tick_read_check": {
+      "calls": 1,
+      "inclusive_s": 0.07239064807072282,
+      "exclusive_s": 0.014766290201805532,
+      "max_call_s": 0.07239064807072282
+    }
+  },
+  "resources": {
+    "samples": 21,
+    "peak_rss_bytes": 7920521216,
+    "cpu_percent_one_core": {
+      "mean": 129.95512865379192,
+      "peak": 214.9566791371479
+    },
+    "gpus": {
+      "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+        "name": "NVIDIA GeForce RTX 5090 D",
+        "samples": 21,
+        "utilization_sum_percent": 318.0,
+        "peak_utilization_percent": 31.0,
+        "peak_used_bytes": 25725763584
+      }
+    },
+    "gpu_sampling_errors": 0,
+    "process_gpus": {
+      "0": {
+        "samples": 21,
+        "peak_fb_reported_MB": 6303,
+        "process_type": "C+G"
+      }
+    },
+    "process_gpu_sampling_errors": 0
+  },
+  "scope": "Single synchronous process; GPU totals include unrelated applications. Exclusive stage time excludes nested measured calls; unwrapped work remains unattributed. RSS is process lifetime high-water mark. Rendering includes GPU synchronization/readback. process_gpus uses this PID only (nvidia-smi pmon framebuffer MB); an empty mapping means no attributable measurement, not zero VRAM. Peaks are sampled.",
+  "unattributed_wall_seconds": 0.06528113875538111
+}

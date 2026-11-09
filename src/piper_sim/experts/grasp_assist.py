@@ -27,21 +27,28 @@ def add_grasp_constraints(xml):
 
 def finger_contacts(backend, side, name):
     """Names of fingers actually in contact, with positive normal force."""
+    return [finger for finger, evidence in finger_contact_evidence(backend, side, name).items()
+            if evidence['contact_above_threshold']]
+
+
+def finger_contact_evidence(backend, side, name):
+    """Solver normal forces; the existing per-contact 0.005 N gate is unchanged."""
     model, data = backend.model, backend.data
     obj = model.body('task/'+name).id
     fingers = {model.body(side+'/link'+str(i)).id: str(i) for i in (7, 8)}
-    found = set()
-    for index, contact in enumerate(data.contact):
-        bodies = [int(model.geom_bodyid[g]) for g in contact.geom]
-        if obj not in bodies:
-            continue
-        finger = next((fingers[b] for b in bodies if b in fingers), None)
-        if finger is not None:
-            force = np.zeros(6)
-            mujoco.mj_contactForce(model, data, index, force)
-            if force[0] > .005:
-                found.add(finger)
-    return sorted(found)
+    bodies = model.geom_bodyid[data.contact.geom]
+    selected = np.any(bodies == obj, axis=1) & np.any(np.isin(bodies, list(fingers)), axis=1)
+    result = {str(i): {'normal_force_N': 0., 'contact_count': 0, 'contact_above_threshold': False}
+              for i in (7, 8)}
+    force = np.zeros(6)
+    for index in np.flatnonzero(selected):
+        finger = next(fingers[b] for b in bodies[index] if b in fingers)
+        mujoco.mj_contactForce(model, data, index, force)
+        evidence = result[finger]
+        evidence['normal_force_N'] += float(max(0., force[0]))
+        evidence['contact_count'] += 1
+        evidence['contact_above_threshold'] |= bool(force[0] > .005)
+    return result
 
 
 class ContactGraspAssist:

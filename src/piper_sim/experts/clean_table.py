@@ -84,6 +84,15 @@ class CleanTableTeacher:
         return {'name': self.name, 'grasp_mode': self.mode,
                 'privileged_inputs': ['object poses', 'container poses', 'geometry', 'contacts', 'robot kinematics'],
                 'physical_only': self.mode == 'physical',
+                'collision_gate': 'all robot bodies, including nonadjacent same-arm contacts; model adjacent exclusions retained',
+                'physics_evidence': {
+                    'scope': '30 Hz sampled solver state, not substep extrema or calibrated real hardware forces',
+                    'joint_order': [f'joint{i}' for i in range(1, 9)],
+                    'position_units': ['rad']*6+['m', 'm'],
+                    'velocity_units': ['rad/s']*6+['m/s', 'm/s'],
+                    'generalized_force_units': ['N*m']*6+['N', 'N'],
+                    'combined_drive': 'qfrc_actuator + qfrc_applied; constraint and passive forces are separate',
+                },
                 'training_note': 'Training acceptance is determined only by the final closed-file dataset audit.',
                 'arm_bias_feedforward': True, **self.settings['controller'],
                 'finger_friction': [1., .015, .002],
@@ -103,6 +112,7 @@ class CleanTableTeacher:
 
     def telemetry(self):
         """Read-only evidence captured with each state, before the writer appends it."""
+        from .physics_evidence import physics_snapshot
         depth, pair = robot_penetration(self.b.model, self.b.data, self.current)
         grasp = None
         if self.carried:
@@ -116,7 +126,8 @@ class CleanTableTeacher:
         return {'name': self.name, 'grasp_mode': self.mode, 'phase': self.phase,
                 'object': self.current, 'holding': self.holding, 'grasp': grasp,
                 'robot_penetration_m': depth, 'robot_collision_pair': pair,
-                'active_assist': self.assist.active[1:] if self.assist and self.assist.active else None}
+                'active_assist': self.assist.active[1:] if self.assist and self.assist.active else None,
+                'physics': physics_snapshot(self.b, self.current if self.current in self.b.task.specs else None)}
 
     def step(self):
         # Robot feedforward only; free task objects always obey the physics solver.
@@ -286,7 +297,7 @@ class CleanTableTeacher:
         """Check sampled interpolation on scratch state before executing a segment.
 
         This is a rejection gate, not a general collision-free motion planner.
-        It checks robot-obstacle, inter-arm and carried-object/scene contacts.
+        It checks self, robot-obstacle, inter-arm and carried-object/scene contacts.
         These are sampled geometric predictions; live physics is still audited.
         """
         ik = self.ik[side]
@@ -581,16 +592,19 @@ class CleanTableTeacher:
         # Slender utensils need only a small release gap. Full opening beside
         # the basket wall unnecessarily sweeps the outer finger into its rim.
         release_width = .04 if name.startswith('chopstick') else min(.095, width+.020)
-        # Unload the finger servo BEFORE removing the constraint. A full-open
-        # target while a rim blocks a finger stores a large tracking error; on
-        # release that error launches the jaw. First open only 2 mm beyond the
-        # measured aperture, then remove assistance and finish the smooth opening.
-        if self.assist:
-            ids = self.b.indices[side]['qpos']
-            measured_width = float(self.b.data.qpos[ids[6:]].sum())
-            self.event('unload_gripper', measured_width_m=measured_width)
+        # A rim can hold the jaws away from a closed target. Opening directly
+        # toward the full gap then crosses contact loss midway through a fast
+        # trajectory. First remove preload with a short rest-to-rest move near
+        # the measured width, so contact loss occurs at low command speed.
+        # This applies to physical contact as well as explicit assisted demos.
+        ids = self.b.indices[side]['qpos']
+        measured_width = float(self.b.data.qpos[ids[6:]].sum())
+        index = 6 if side == 'left' else 13
+        if self.assist or measured_width-self.q[index] > .003:
+            self.event('unload_gripper', measured_width_m=measured_width,
+                       command_width_m=float(self.q[index]))
             self.grip(side, min(release_width, measured_width+.002))
-            index = 6 if side == 'left' else 13
+        if self.assist:
             for _ in range(3):
                 measured_width = float(self.b.data.qpos[ids[6:]].sum())
                 if abs(self.q[index]-measured_width) <= .003:

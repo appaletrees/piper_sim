@@ -14,6 +14,18 @@ import threading
 import time
 
 
+def process_gpu_memory(output, pid):
+    """Parse pmon's memory-only output, including graphics-only EGL processes."""
+    values = {}
+    for line in output.splitlines():
+        fields = line.split()
+        if len(fields) < 5 or not fields[0].isdigit() or fields[1] != str(pid):
+            continue
+        if fields[3].isdigit():
+            values[fields[0]] = {'process_type': fields[2], 'fb_reported_MB': int(fields[3])}
+    return values
+
+
 class PipelineProfiler:
     def __init__(self, *, sample_interval_s=2., sample_gpu=True):
         self.stages = {}
@@ -27,7 +39,8 @@ class PipelineProfiler:
             raise ValueError('sample_interval_s must be positive')
         self._gpu = sample_gpu
         self.resources = {'samples': 0, 'peak_rss_bytes': 0, 'cpu_percent_one_core': [],
-                          'gpus': {}, 'gpu_sampling_errors': 0}
+                          'gpus': {}, 'gpu_sampling_errors': 0,
+                          'process_gpus': {}, 'process_gpu_sampling_errors': 0}
         self._thread = threading.Thread(target=self._monitor, daemon=True)
         self._thread.start()
 
@@ -86,6 +99,16 @@ class PipelineProfiler:
                     gpu['peak_used_bytes'] = max(gpu['peak_used_bytes'], int(float(memory)*1024**2))
             except (OSError, ValueError, subprocess.SubprocessError):
                 self.resources['gpu_sampling_errors'] += 1
+            try:
+                output = subprocess.check_output(['nvidia-smi', 'pmon', '-s', 'm', '-c', '1'],
+                    text=True, stderr=subprocess.DEVNULL, timeout=2)
+                for gpu, sample in process_gpu_memory(output, os.getpid()).items():
+                    item = self.resources['process_gpus'].setdefault(gpu,
+                        {'samples': 0, 'peak_fb_reported_MB': 0, 'process_type': sample['process_type']})
+                    item['samples'] += 1
+                    item['peak_fb_reported_MB'] = max(item['peak_fb_reported_MB'], sample['fb_reported_MB'])
+            except (OSError, ValueError, subprocess.SubprocessError):
+                self.resources['process_gpu_sampling_errors'] += 1
 
     def close(self):
         for owner, name, original in reversed(self._patches):
@@ -100,7 +123,9 @@ class PipelineProfiler:
                   'stages': self.stages, 'resources': self.resources,
                   'scope': 'Single synchronous process; GPU totals include unrelated applications. '
                            'Exclusive stage time excludes nested measured calls; unwrapped work remains unattributed. '
-                           'RSS is process lifetime high-water mark. Rendering includes GPU synchronization/readback.'}
+                           'RSS is process lifetime high-water mark. Rendering includes GPU synchronization/readback. '
+                           'process_gpus uses this PID only (nvidia-smi pmon framebuffer MB); '
+                           'an empty mapping means no attributable measurement, not zero VRAM. Peaks are sampled.'}
         result['resources']['peak_rss_bytes'] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024
         result['unattributed_wall_seconds'] = wall-sum(v['exclusive_s'] for v in self.stages.values())
         return result

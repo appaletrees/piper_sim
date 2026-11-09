@@ -1,5 +1,6 @@
 """Engine-independent episode sampling. Geometry and camera calibration stay fixed."""
 import copy
+from functools import lru_cache
 import hashlib
 import json
 from pathlib import Path
@@ -114,6 +115,16 @@ def sample(profile, seed, object_names, material_names):
             'sampling': 'episode reset; stable per-property streams; no timing perturbation'}
 
 
+@lru_cache(maxsize=64)
+def _gamma_curve(gamma):
+    # RGB inputs have only 256 possible values. Preserve the exact float32
+    # arithmetic of the full image expression; rounding still occurs after
+    # white balance, gain and deterministic noise, never inside this lookup.
+    values = 255.*(np.arange(256, dtype=np.float32)/255.)**gamma
+    values.flags.writeable = False
+    return values
+
+
 def sensor_images(images, parameters, tick):
     """Repeat reads at the same simulation tick return identical sensor noise."""
     if not parameters:
@@ -124,7 +135,9 @@ def sensor_images(images, parameters, tick):
         if p.get('blur_sigma_px',0):
             from PIL import Image,ImageFilter
             pixels=np.asarray(Image.fromarray(pixels).filter(ImageFilter.GaussianBlur(p['blur_sigma_px'])))
-        rgb = 255.*(pixels.astype(np.float32)/255.)**p.get('gamma',1.)
+        gamma = p.get('gamma', 1.)
+        rgb = (_gamma_curve(gamma)[pixels] if pixels.dtype == np.uint8 else
+               255.*(pixels.astype(np.float32)/255.)**gamma)
         rgb *= p['gain']*np.asarray(p['white_balance'], np.float32)
         if p['noise_std_uint8']:
             rng = np.random.default_rng(stream_seed(parameters['seed'], f'sensor/{name}/{tick}'))

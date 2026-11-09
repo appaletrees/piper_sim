@@ -1,0 +1,39 @@
+{
+  "status": "diagnostic_passed",
+  "scope": "Headless moving-camera and storage diagnostic, not sorting or qualified episode throughput.",
+  "same_process_alternating_order": true,
+  "frames_per_repeat": 180,
+  "recording": {
+    "storage": "shared",
+    "compression": "gzip"
+  },
+  "wall_fps": {
+    "cached": [
+      7.680154279107768,
+      7.634851956809058,
+      7.622910712038632
+    ],
+    "uncached": [
+      5.507418262344208,
+      5.552414734813133,
+      5.557698907014187
+    ]
+  },
+  "median_wall_fps": {
+    "cached": 7.634851956809058,
+    "uncached": 5.552414734813133
+  },
+  "median_ratio": 1.3750507340417557,
+  "checks": [
+    "All stream audits pass",
+    "same-capture cached versus recomputed RGB and camera metadata identical",
+    "Caller mutation does not corrupt cached images",
+    "New static capture revision invalidates even without advancing physics"
+  ],
+  "limitations": [
+    "Small joint motion benchmark, not teacher task or qualified episodes per hour",
+    "Default RTX/DLSS internal render settings retained",
+    "Other apps share the GPU; brief independent CPU diagnostics ran on this host",
+    "Cross-reset RGB renders may differ, do not claim bitwise render determinism"
+  ]
+}

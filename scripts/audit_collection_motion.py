@@ -5,9 +5,7 @@ import json
 from pathlib import Path
 import h5py
 import numpy as np
-import yaml
-
-from piper_sim.config import ROOT
+from piper_sim.collection_audit import load_acceptance_policy
 from piper_sim.experts.quality import MotionQuality
 
 
@@ -15,22 +13,35 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('episode', type=Path)
     parser.add_argument('--output', type=Path)
+    parser.add_argument('--policy', type=Path, help='Independent operator-selected acceptance policy')
     args = parser.parse_args()
+    if args.output and args.output.exists():
+        parser.error('Output already exists')
+    settings, policy = load_acceptance_policy(args.policy)
     with h5py.File(args.episode) as f:
         meta = json.loads(f.attrs['metadata'])
-        settings = meta.get('teacher', {}).get('motion_and_quality') or yaml.safe_load(
-            (ROOT/'configs/collection/clean_table.yaml').read_text())
         monitor = MotionQuality(settings, 1/meta['fps'])
         times = f['next_observation/sim_time'][:]
         commands = f['action/position'][:]
         measured = f['next_observation/state'][:]
+        if 'collection_initial_target' in meta:
+            monitor.add(float(f['observation/sim_time'][0]), meta['collection_initial_target'],
+                        f['observation/state'][0], context={'phase': 'prepared'})
+        inferred_holds = 0
         for i, (t, q, actual) in enumerate(zip(times, commands, measured)):
             context = json.loads(f['next_observation/extras_json'][i]).get('teacher', {})
-            holding = i > 0 and np.array_equal(q, commands[i-1])
+            if 'holding' in context:
+                holding = bool(context['holding'])
+            else:
+                holding = i > 0 and np.array_equal(q, commands[i-1])
+                inferred_holds += 1
             monitor.add(t, q, actual, holding=holding, context=context)
         result = monitor.report()
         result['source'] = str(args.episode.resolve())
-        result['scope'] = 'Motion audit only; does not re-certify task success, collision or image content. Holds inferred from repeated commands.'
+        result['acceptance_policy'] = policy
+        result['inferred_hold_frames'] = inferred_holds
+        result['training_ready'] = False
+        result['scope'] = 'Independent-policy motion diagnostic, including failed source episodes; no task, contact or image acceptance. Holds use recorded flags when present, otherwise repeated commands.'
     text = json.dumps(result, indent=2, ensure_ascii=False)+'\n'
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)

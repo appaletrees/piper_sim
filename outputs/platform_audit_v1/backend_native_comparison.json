@@ -1,0 +1,234 @@
+{
+  "status": "diagnostic_only",
+  "scope": "Sequential engine benchmarks on same machine with concurrent CPU audits and exports; no task throughput claim. Each repeat contains 180 transitions at requested 3x640x480, 30 Hz, shared GZIP; warmup/reset excluded from collection FPS. Isaac retains its default RTX/DLSS render settings.",
+  "engines": {
+    "mujoco": {
+      "median_wall_fps": 6.146958908997081,
+      "repeat_wall_fps": [
+        6.146958908997081,
+        6.1545764013816155,
+        6.140814955520828
+      ],
+      "stages": {
+        "scene_load": {
+          "calls": 1,
+          "inclusive_s": 6.149448549025692,
+          "exclusive_s": 6.149448549025692,
+          "max_call_s": 6.149448549025692
+        },
+        "render": {
+          "calls": 1902,
+          "inclusive_s": 43.30655725544784,
+          "exclusive_s": 43.30655725544784,
+          "max_call_s": 0.3955356660299003
+        },
+        "sensor_postprocess": {
+          "calls": 634,
+          "inclusive_s": 28.298314794665202,
+          "exclusive_s": 28.298314794665202,
+          "max_call_s": 0.04953000892419368
+        },
+        "observation_read": {
+          "calls": 1270,
+          "inclusive_s": 73.04367554222699,
+          "exclusive_s": 1.4388034921139479,
+          "max_call_s": 0.4417280189227313
+        },
+        "physics_forward": {
+          "calls": 633,
+          "inclusive_s": 0.3612487397622317,
+          "exclusive_s": 0.3612487397622317,
+          "max_call_s": 0.0007828079396858811
+        },
+        "control_apply": {
+          "calls": 630,
+          "inclusive_s": 0.009084972203709185,
+          "exclusive_s": 0.009084972203709185,
+          "max_call_s": 2.2344058379530907e-05
+        },
+        "physics_integration": {
+          "calls": 630,
+          "inclusive_s": 11.331909347791225,
+          "exclusive_s": 11.331909347791225,
+          "max_call_s": 0.02180614904500544
+        },
+        "backend_step": {
+          "calls": 630,
+          "inclusive_s": 12.269059641985223,
+          "exclusive_s": 0.5767522434471175,
+          "max_call_s": 0.023244756972417235
+        },
+        "reset_and_warmup": {
+          "calls": 3,
+          "inclusive_s": 12.463260825141333,
+          "exclusive_s": 0.054597907001152635,
+          "max_call_s": 4.17101235804148
+        },
+        "recording_append": {
+          "calls": 540,
+          "inclusive_s": 15.231861975626089,
+          "exclusive_s": 15.231861975626089,
+          "max_call_s": 0.03035002702381462
+        },
+        "recording_close": {
+          "calls": 3,
+          "inclusive_s": 0.07714337506331503,
+          "exclusive_s": 0.07714337506331503,
+          "max_call_s": 0.025885242968797684
+        },
+        "same_tick_read_check": {
+          "calls": 3,
+          "inclusive_s": 0.027506266022101045,
+          "exclusive_s": 0.021432753303088248,
+          "max_call_s": 0.013817155035212636
+        },
+        "stream_audit": {
+          "calls": 3,
+          "inclusive_s": 5.636787374038249,
+          "exclusive_s": 5.636787374038249,
+          "max_call_s": 1.9061799820046872
+        }
+      },
+      "resources": {
+        "samples": 54,
+        "peak_rss_bytes": 2429915136,
+        "cpu_percent_one_core": {
+          "mean": 101.15743939215109,
+          "peak": 164.20547385129643
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 54,
+            "utilization_sum_percent": 2000.0,
+            "peak_utilization_percent": 63.0,
+            "peak_used_bytes": 20296237056
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 52,
+            "peak_fb_reported_MB": 1009,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    },
+    "isaac": {
+      "median_wall_fps": 5.309589415369912,
+      "repeat_wall_fps": [
+        5.309589415369912,
+        5.271358133038062,
+        5.310904029326758
+      ],
+      "stages": {
+        "app_startup": {
+          "calls": 1,
+          "inclusive_s": 11.941101392963901,
+          "exclusive_s": 11.941101392963901,
+          "max_call_s": 11.941101392963901
+        },
+        "scene_load": {
+          "calls": 1,
+          "inclusive_s": 13.641180755919777,
+          "exclusive_s": 13.641180755919777,
+          "max_call_s": 13.641180755919777
+        },
+        "sensor_postprocess": {
+          "calls": 1270,
+          "inclusive_s": 57.76605448150076,
+          "exclusive_s": 57.76605448150076,
+          "max_call_s": 0.05988730990793556
+        },
+        "observation_read": {
+          "calls": 1270,
+          "inclusive_s": 69.68771442363504,
+          "exclusive_s": 11.921659942134283,
+          "max_call_s": 0.07625547493807971
+        },
+        "render": {
+          "calls": 633,
+          "inclusive_s": 7.351616312866099,
+          "exclusive_s": 7.351616312866099,
+          "max_call_s": 0.050393368932418525
+        },
+        "control_apply": {
+          "calls": 630,
+          "inclusive_s": 0.10597668122500181,
+          "exclusive_s": 0.10597668122500181,
+          "max_call_s": 0.000833326019346714
+        },
+        "physics_tick": {
+          "calls": 2520,
+          "inclusive_s": 19.61388770979829,
+          "exclusive_s": 19.61388770979829,
+          "max_call_s": 0.02330411900766194
+        },
+        "backend_step": {
+          "calls": 630,
+          "inclusive_s": 31.46632649912499,
+          "exclusive_s": 4.576144459308125,
+          "max_call_s": 0.08193525508977473
+        },
+        "reset_and_warmup": {
+          "calls": 3,
+          "inclusive_s": 14.921628716168925,
+          "exclusive_s": 0.12153108220081776,
+          "max_call_s": 5.1118121860781685
+        },
+        "recording_append": {
+          "calls": 540,
+          "inclusive_s": 15.54854400223121,
+          "exclusive_s": 15.54854400223121,
+          "max_call_s": 0.05328516603913158
+        },
+        "recording_close": {
+          "calls": 3,
+          "inclusive_s": 0.07718466618098319,
+          "exclusive_s": 0.07718466618098319,
+          "max_call_s": 0.025966181070543826
+        },
+        "same_tick_read_check": {
+          "calls": 3,
+          "inclusive_s": 0.328276920132339,
+          "exclusive_s": 0.024253200041130185,
+          "max_call_s": 0.1170130290556699
+        },
+        "stream_audit": {
+          "calls": 3,
+          "inclusive_s": 5.488061640993692,
+          "exclusive_s": 5.488061640993692,
+          "max_call_s": 1.8424838150385767
+        }
+      },
+      "resources": {
+        "samples": 69,
+        "peak_rss_bytes": 7877226496,
+        "cpu_percent_one_core": {
+          "mean": 119.77691979521494,
+          "peak": 176.57971842999322
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 69,
+            "utilization_sum_percent": 1088.0,
+            "peak_utilization_percent": 34.0,
+            "peak_used_bytes": 26140999680
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 69,
+            "peak_fb_reported_MB": 6335,
+            "process_type": "C+G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    }
+  }
+}

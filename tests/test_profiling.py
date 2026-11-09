@@ -27,3 +27,13 @@ def test_wrapped_failure_preserves_error_and_is_restored():
     assert owner.run is failure
     assert result['stages']['failed_stage']['calls'] == 1
     assert not profiler._thread.is_alive()
+def test_process_vram_excludes_other_gpu_jobs_and_missing_values():
+    from piper_sim.profiling import process_gpu_memory
+    output = '''# gpu pid type fb ccpm command
+      0 123 C 17000 0 other
+      0 456 G 1009 0 python
+      1 456 C - - python
+      2 - - - - -
+    '''
+    assert process_gpu_memory(output, 456) == {'0': {'process_type': 'G', 'fb_reported_MB': 1009}}
+    assert process_gpu_memory(output, 999) == {}

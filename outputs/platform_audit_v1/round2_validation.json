@@ -1,0 +1,124 @@
+{
+  "status": "partial_platform_audit_goal_active",
+  "tests": {
+    "passed": 189,
+    "wall_seconds": 87.78,
+    "excluded": [
+      "tests/test_rl_geometry.py",
+      "tests/test_rl_policy.py"
+    ],
+    "reason": "Unrelated PPO work remains outside this audit commit"
+  },
+  "shared_full_rgb": {
+    "path": "full_shared_seed0",
+    "frames": 6782,
+    "sim_seconds": 226.0666666667,
+    "hdf5_bytes": 9147511695,
+    "training_ready": true,
+    "motion_implementation": "9be3d79 before release changes"
+  },
+  "release_fix_state_seed1": {
+    "passed": true,
+    "training_ready": false,
+    "max_measured_gripper_accel_m_s2": 0.8995332718,
+    "policy_limit_m_s2": 1.0
+  },
+  "state_regression": {
+    "seeds": [
+      7,
+      43,
+      0,
+      42
+    ],
+    "diagnostic_passed": [
+      0,
+      42
+    ],
+    "rejected": [
+      7,
+      43
+    ],
+    "rgb_training_episodes": 0
+  },
+  "resume": {
+    "real_jobs_reused": 4,
+    "recordings_and_jobs_unchanged": true,
+    "report": "batch_resume.json"
+  },
+  "isaac_cache": {
+    "status": "diagnostic_passed",
+    "scope": "Headless moving-camera and storage diagnostic, not sorting or qualified episode throughput.",
+    "same_process_alternating_order": true,
+    "frames_per_repeat": 180,
+    "recording": {
+      "storage": "shared",
+      "compression": "gzip"
+    },
+    "wall_fps": {
+      "cached": [
+        7.680154279107768,
+        7.634851956809058,
+        7.622910712038632
+      ],
+      "uncached": [
+        5.507418262344208,
+        5.552414734813133,
+        5.557698907014187
+      ]
+    },
+    "median_wall_fps": {
+      "cached": 7.634851956809058,
+      "uncached": 5.552414734813133
+    },
+    "median_ratio": 1.3750507340417557,
+    "checks": [
+      "All stream audits pass",
+      "same-capture cached versus recomputed RGB and camera metadata identical",
+      "Caller mutation does not corrupt cached images",
+      "New static capture revision invalidates even without advancing physics"
+    ],
+    "limitations": [
+      "Small joint motion benchmark, not teacher task or qualified episodes per hour",
+      "Default RTX/DLSS internal render settings retained",
+      "Other apps share the GPU; brief independent CPU diagnostics ran on this host",
+      "Cross-reset RGB renders may differ, do not claim bitwise render determinism"
+    ]
+  },
+  "export_full": {
+    "old_s": 399.5000954689458,
+    "new_s": 120.73339115607087,
+    "bitwise_equal": [
+      "three MP4 videos",
+      "Parquet",
+      "extras"
+    ],
+    "stats_max_abs_difference": 7.604139540262622e-12,
+    "controlled_end_to_end_speedup": false
+  },
+  "official_reader": {
+    "version": "lerobot 0.3.3 v2.1",
+    "original_and_optimized_export": "consumer_check_passed",
+    "sampled_rows": 4,
+    "action_chunk": 16
+  },
+  "diversity": {
+    "proposed_layouts": 500,
+    "unique_layouts": 500,
+    "exact_cross_split_overlap": 0,
+    "physics_success_measured": false
+  },
+  "failed_diagnostic_harness": {
+    "path": "isaac_cached_v2",
+    "cause": "Harness expected camera.update(dt=0, force_recompute=True) to capture; Isaac Lab only refreshes due buffers. Corrected by advancing sensor period without physics. Repeated v3 and paired benchmarks passed."
+  },
+  "in_progress": [
+    "full_unload_seed1 three RGB + LeRobot collection"
+  ],
+  "unresolved": [
+    "Seeds 7/43 geometric planning collisions",
+    "Physical calibration of camera intrinsics/extrinsics and contact/dynamics",
+    "Qualified end-to-end 2x throughput not established",
+    "Parallel scheduling and recorded visual/trajectory near-duplicate audit",
+    "Distribution-wide physical task reliability remains unverified"
+  ]
+}
