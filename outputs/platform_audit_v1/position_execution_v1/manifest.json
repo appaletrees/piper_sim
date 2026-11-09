@@ -1,0 +1,152 @@
+{
+  "schema_version": "piper.position_execution_experiment.v1",
+  "base_commit": "e9f7640ab5b8bb978462774a2327e731c8e7925c",
+  "outcome": "progress: remove implicit teacher-specific execution from optional position interface; full-task production remains rejected",
+  "training_ready": false,
+  "hardware_calibrated": false,
+  "throughput_improvement_proven": false,
+  "paired": {
+    "legacy_teacher_vs_external": [
+      {
+        "seed": 1,
+        "transitions": 150,
+        "sim_duration_s": 5.0,
+        "initial_integration_state_exact": true,
+        "every_integration_state_exact": false,
+        "max_absolute_differences": {
+          "public_position": 0.01136792889197602,
+          "native_qpos": 0.01136792889197602,
+          "native_qvel": 0.03685683708528251
+        }
+      },
+      {
+        "seed": 2,
+        "transitions": 150,
+        "sim_duration_s": 5.0,
+        "initial_integration_state_exact": true,
+        "every_integration_state_exact": false,
+        "max_absolute_differences": {
+          "public_position": 0.01136792889197602,
+          "native_qpos": 0.01136792889197602,
+          "native_qvel": 0.03685683708528251
+        }
+      }
+    ],
+    "shared_fixed": [
+      {
+        "seed": 1,
+        "transitions": 150,
+        "sim_duration_s": 5.0,
+        "initial_integration_state_exact": true,
+        "every_integration_state_exact": true,
+        "max_absolute_differences": {
+          "public_position": 0.0,
+          "native_qpos": 0.0,
+          "native_qvel": 0.0
+        }
+      },
+      {
+        "seed": 2,
+        "transitions": 150,
+        "sim_duration_s": 5.0,
+        "initial_integration_state_exact": true,
+        "every_integration_state_exact": true,
+        "max_absolute_differences": {
+          "public_position": 0.0,
+          "native_qpos": 0.0,
+          "native_qvel": 0.0
+        }
+      }
+    ]
+  },
+  "full_trial": {
+    "source": "/dev/shm/piper_fixed_execution_full_v1/episode/episode.h5",
+    "source_sha256": "0c31e1b4b64e22a537396188ffdd84e98f00f0baab50d4f2640139e574f28566",
+    "transitions": 6806,
+    "recorded_duration_s": 226.86666666666667,
+    "absolute_final_sim_time_s": 227.8666666678424,
+    "summary": {
+      "success": false,
+      "sorted_count": 9,
+      "required_count": 11
+    },
+    "failure": "SortFailure: plate lost physical grasp: slip=0.0200 m, fingers=[]",
+    "quality_passed": false,
+    "quality_violations": [
+      "measured_gripper_acceleration",
+      "measured_gripper_jerk"
+    ],
+    "plate_grasp": {
+      "name": "plate",
+      "assisted": false,
+      "samples": 238,
+      "bilateral_samples": 236,
+      "max_slip_m": 0.02000803350591862,
+      "max_rotation_change_rad": 1.384687965978405,
+      "lost_contact_s": 0.06666666666666667,
+      "anchor": "mean initial pad contact in object frame"
+    },
+    "execution_contract_passed": true,
+    "whole_audit_passed": false
+  },
+  "validation": {
+    "targeted_tests": 126,
+    "collection_regression_tests": 27,
+    "total_distinct_tests_passed": 153,
+    "limits": "No new RGB full episode, no complete task success, no hardware trial or 2x qualified throughput claim. Free-space pairs compare full integration state at control-step boundaries only. Legacy raw reports retained, strict v4 consumers require complete execution evidence."
+  },
+  "code_and_docs_sha256": {
+    "configs/clean_table_position_execution.yaml": "f49da36d70a130b7f99448878902ef8e2d15ea11ce6955b1d32d7d310bc9595b",
+    "docs/external_api.md": "1b490b3769ce34e796a147e1f4f0075da22544bf4b22eb637e252fe8b8fa2d5e",
+    "docs/lerobot_export.md": "8f524ddd350d5c930ec2de1eb5a626036f777e0cda23ad7ba2a65026742db3c1",
+    "docs/platform_audit.md": "d5cdc1d895639bff018245ffabc21bea72ede3ea231975f87923530c701abfd8",
+    "src/piper_sim/backends/isaac.py": "9d1bdb5e66ecbb253b6c3ea9552fe69b7d5fefdda84622820e24a8dae3b70e76",
+    "src/piper_sim/backends/mujoco.py": "aa45dd0375321dfb201324186bf5a15999ac60307ba7b93765d26d081698418e",
+    "src/piper_sim/collection_audit.py": "27146326f38f58a8a41f20a73bfbef015112e0a8204b51a729dc027bcde54435",
+    "src/piper_sim/experts/clean_table.py": "644c10d29c4cb2fcb720c5b499ed78a21ae7a3e9d146df0b18e7b74e1d693fb6",
+    "src/piper_sim/experts/rigid_table.py": "11484d8bca8e997bab61624f7674fad61f0a1b662a11abf7245147e1d30657db",
+    "src/piper_sim/training_acceptance.py": "f14776e85ea96ace3616e18326f2d90c62bd8cc5542f36e4a00a7c25bd60d826",
+    "src/piper_sim/position_execution.py": "5aecb2fac09606eb1845dce560280d05689cc698df832881fbf6148e9fdb0adc",
+    "src/piper_sim/mujoco_execution.py": "5cee555d5b3c277164b4e0561062dc1fd85b19920e1ef59a8cfd08dd2d48c352",
+    "scripts/audit_position_execution.py": "9aad02cc6d0b5566904c8b411ee5944b9bc984d39e5922e9de2edd32ef42f1a7",
+    "scripts/probe_position_execution.py": "2b5ab5bb92ab8a52a4027ed3d78991e156e71d9298659778d99f2563702ab817",
+    "tests/execution_fixtures.py": "2de2f531820676ed8422e4e00992b48e759144fe7d9fbb697d18f3c2c8f1163d",
+    "tests/test_position_execution.py": "90aec97f37d23a6c2e60836e517fbb202a3df96f24bdf2e126c618157813a3d3",
+    "tests/test_audit_publication.py": "a2be11bce5fe7eaf5552e0ac2997c883cd96b41eb827a6fc6fbc027bd97fd4e2",
+    "tests/test_training_reader.py": "c909bac3a4fd59f653154a4875a783a946a789d06e80c7696254c3813a563f74",
+    "tests/test_lerobot_export.py": "94d8f9a43a8960dcf6756f0f247e742d09f6f30c28454353450c72de7ccd7a16"
+  },
+  "evidence_sha256": {
+    "archive_manifest.json": "1157de24c2f2f3deac9e65c645b50c3eb7da8da673a4f838e7ad37a082451741",
+    "backend_regression_tests.log": "383af01c8edbe4d1b7bce5dd04df2d5bb7f98cb475421518f8173b14bebfa86c",
+    "collection_regression_tests.log": "5bb764bf1726865817aff34a936a2f8e7dc30b33344eaf1c643156b761ad98d8",
+    "comparison.json": "d42db50520aacfb50747b0bb9c3d4c6d056bac53d0774e08fd8210ebb41f6609",
+    "dynamics.json": "510cb265b4ed5ed7fbcd3c690a286caaea161b449a2f236405ffa5a55eca8c90",
+    "dynamics.log": "f487642d0638ea69d84f25204907f5d06f4cff654ded3c198c619322c19c718a",
+    "episode_evidence/audit.json": "f5f56df52a336e956dc5649141b5d265f1d8c96a4ed37fc7d36fe18f1044c5bc",
+    "episode_evidence/report.json": "05569583b35b643a6118246aaf7f74407fed0b412e34d2670a4e9230684e6da2",
+    "final_targeted_tests.log": "ba6532c5d7887c3821f7425432c78913e7651eed6ce1c4578370647bc994d1c9",
+    "fixed_full_contract.json": "8e98516d4ee2d1facb2178064150945d2479af164d79a69cced43d157bdc5252",
+    "fixed_full_contract.log": "8e98516d4ee2d1facb2178064150945d2479af164d79a69cced43d157bdc5252",
+    "fixed_full_contract_final.json": "8e98516d4ee2d1facb2178064150945d2479af164d79a69cced43d157bdc5252",
+    "fixed_full_contract_final.log": "8e98516d4ee2d1facb2178064150945d2479af164d79a69cced43d157bdc5252",
+    "frozen_run_inputs_verified.json": "115462782b02a39c57994e833c0c115e5febe4a26233d737752dea29bc395441",
+    "full_run.log": "b81ec7015ebcfe8108cd59e0f1f5892e0b96aa022a03b1992ff04bcc4e06a155",
+    "identity.json": "d969a867a6b44dbc276fd4de4d002162be2509bbef484d61b9f14600f59e6b83",
+    "legacy_full_contract.json": "36b80b4e4844a811d4590b3113ff21a1998695556805f7804226f27cbe2f95ec",
+    "legacy_full_contract.log": "36b80b4e4844a811d4590b3113ff21a1998695556805f7804226f27cbe2f95ec",
+    "paired_final_contracts.json": "4c8fb131fe59d5f98fcf08ed495147a1200711a10566f35437c7dacbb6833a90",
+    "plan.json": "c5b7d9730ad2891553ea00e0e743b5c939ec9483c4a61e0eefdf5497327b8c09",
+    "plate_failure_preview/preview.json": "8452d6a9fd37e31c27b220b2128c5b68f991422b28a4a79f9a43160568da9931",
+    "plate_failure_preview/release.mp4": "80c7bb41e8e061fb2db0931e429f35f77551066e4d584c343ff48288e97e517a",
+    "plate_failure_preview/review.jpg": "8547e14766d44d495b04d6b1569b0a615f577353fbad8bc9dfe8d3268500e91c",
+    "position_execution_at_rollout.py": "6d59d58836d9a13dde5295a484fa74c6d03c455f91d0287bda2003b048996445",
+    "post_rollout_changes.json": "46188b4d65d9bda4ae5e9f25a330a3d1ac0aabfd102cd8a6da66f4058f438556",
+    "preview.log": "405fb52f4fc2afcb05a790d8b2d76fc5d8b43b963721a4bbc425eed436f6d4fa",
+    "publication_reader_tests.log": "4ea163e33459cf980ba1064771c0690c722408bd50e00d17bcb49d75119c52be",
+    "targeted_tests.log": "fc600fec27e32dc1209e391322af899595890e131a3bdd8a0fb4546ab79c51ab",
+    "training_acceptance_at_rollout.py": "43c65a8a7d5612f19d82195f48a94ff7609030019737f0b2ba3112f9550cba2e"
+  },
+  "raw_archive_manifest": "archive_manifest.json",
+  "post_rollout_changes": "post_rollout_changes.json"
+}

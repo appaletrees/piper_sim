@@ -53,6 +53,11 @@ def verify_training_acceptance(f, path, *, policy=None):
     if (audit.get('schema_version') != AUDIT_VERSION or
             audit.get('acceptance_policy', {}).get('sha256') != expected_policy['sha256']):
         raise ValueError('Re-audit this episode with the selected production acceptance policy: '+str(path))
+    execution = audit.get('checks', {}).get('position_execution', {})
+    if (execution.get('passed') is not True or execution.get('violations') != []
+            or execution.get('position_only_execution_supported') is not True
+            or execution.get('checked_intervals') != int(f.attrs['num_transitions'])):
+        raise ValueError('Training data requires complete position execution evidence: '+str(path))
     if {k: v for k, v in evidence.items() if k != 'source_sha256'} != audit:
         raise ValueError('Embedded and detached dataset audits disagree: '+str(path))
     return audit, audited_sha256

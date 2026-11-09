@@ -103,7 +103,9 @@ def test_export_rejects_data_changed_after_audit(tmp_path):
     from piper_sim.collection_audit import AUDIT_VERSION, load_acceptance_policy
     src = episode(tmp_path/'source.h5')
     audit = {'passed': True, 'training_ready': True, 'violations': [],
-             'schema_version': AUDIT_VERSION, 'acceptance_policy': load_acceptance_policy()[1]}
+             'schema_version': AUDIT_VERSION, 'acceptance_policy': load_acceptance_policy()[1],
+             'checks': {'position_execution': {'passed': True, 'violations': [],
+                 'position_only_execution_supported': True, 'checked_intervals': 3}}}
     with h5py.File(src, 'r+') as f:
         f.attrs.update(accepted=True, training_ready=True, success=True,
                        dataset_audit=json.dumps(audit), dataset_audit_sidecar='audit.json')
@@ -120,7 +122,9 @@ def test_training_export_requires_current_independent_policy(tmp_path, defect):
     from piper_sim.collection_audit import AUDIT_VERSION, load_acceptance_policy
     src = episode(tmp_path/'source.h5')
     audit = {'passed': True, 'training_ready': True, 'violations': [],
-             'schema_version': AUDIT_VERSION, 'acceptance_policy': load_acceptance_policy()[1]}
+             'schema_version': AUDIT_VERSION, 'acceptance_policy': load_acceptance_policy()[1],
+             'checks': {'position_execution': {'passed': True, 'violations': [],
+                 'position_only_execution_supported': True, 'checked_intervals': 3}}}
     if defect == 'legacy_policy': audit.pop('acceptance_policy')
     if defect == 'different_policy': audit['acceptance_policy']['sha256'] = 'untrusted'
     with h5py.File(src, 'r+') as f:

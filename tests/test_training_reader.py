@@ -26,7 +26,6 @@ def accepted(source):
         meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
         meta['teacher']['private_reward'] = 999
         f.attrs['metadata'] = json.dumps(meta)
-        f['action/position'][:, 0] = np.arange(6)*.001
     report = audit.audit_episode(path, policy=policy)
     assert report['passed']
     audit.save_audit(path, report, path.with_name('audit.json'))
@@ -84,6 +83,24 @@ def test_training_reader_and_export_share_rejection(accepted, tmp_path, fault):
     for read in (lambda: next(sequence_windows(path, horizon=3, policy=policy)),
                  lambda: _inspect(path, require_quality=True, policy=policy)):
         with pytest.raises((ValueError, OSError)): read()
+
+
+@pytest.mark.parametrize('fault', ['missing', 'wrong_count', 'not_supported'])
+def test_green_flags_without_complete_execution_evidence_are_rejected(accepted, fault):
+    path, policy = accepted
+    with h5py.File(path, 'r+') as f:
+        report = json.loads(f.attrs['dataset_audit'])
+        if fault == 'missing': report['checks'].pop('position_execution')
+        elif fault == 'wrong_count': report['checks']['position_execution']['checked_intervals'] -= 1
+        else: report['checks']['position_execution']['position_only_execution_supported'] = False
+        f.attrs['dataset_audit'] = json.dumps(report)
+    # Even matching file checksums and v4 success flags cannot supply a missing
+    # required verdict. This is a synthetic publication, not a physical audit.
+    path.with_name('audit.json').write_text(json.dumps({**report, 'source_sha256': sha256(path)}))
+    for read in (lambda: next(sequence_windows(path, horizon=3, policy=policy)),
+                 lambda: _inspect(path, require_quality=True, policy=policy)):
+        with pytest.raises(ValueError, match='complete position execution evidence'):
+            read()
 
 
 def test_verification_and_iteration_share_one_locked_handle_and_hash_once(accepted, monkeypatch):

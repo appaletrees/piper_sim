@@ -1,0 +1,38 @@
+{
+  "scope": "Render a 1x diagnostic phase interval from recorded native states.\n\nEvery selected 30 Hz state is displayed once. This is kinematic reconstruction,\nnot dynamics replay or original synchronized sensor RGB, and is never training\ndata. The source HDF5 and its acceptance fields remain read-only.\n",
+  "training_ready": false,
+  "source": "/dev/shm/piper_fixed_execution_full_v1/episode/episode.h5",
+  "source_sha256": "0c31e1b4b64e22a537396188ffdd84e98f00f0baab50d4f2640139e574f28566",
+  "script_sha256": "c1fa72028bdc47f52e6317ba387802f009ea9e8e2a7c402393041bb4367abb38",
+  "source_provenance_changes": [
+    "src/piper_sim/position_execution.py",
+    "src/piper_sim/training_acceptance.py"
+  ],
+  "selection": {
+    "object": "plate",
+    "start_phase": "grasp",
+    "end_phase": null,
+    "until_recording_end": true,
+    "lead_seconds": 0.5,
+    "view": "workcell"
+  },
+  "frame_range_exclusive": [
+    6466,
+    6807
+  ],
+  "frames": 341,
+  "fps": 30.0,
+  "first_last_source_sim_time": [
+    216.53333333436476,
+    227.8666666678424
+  ],
+  "duration_s": 11.366666666666667,
+  "duration_note": "Each displayed sample, including the last, occupies one frame interval.",
+  "video_sha256": "80c7bb41e8e061fb2db0931e429f35f77551066e4d584c343ff48288e97e517a",
+  "ffprobe": {
+    "avg_frame_rate": "30/1",
+    "duration": "11.366667",
+    "nb_read_frames": "341"
+  },
+  "render_note": "Diagnostic overview camera; sensor noise/postprocessing are not replayed."
+}

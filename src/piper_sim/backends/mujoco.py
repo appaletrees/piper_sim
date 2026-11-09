@@ -76,6 +76,13 @@ class MujocoBackend:
                 actuator_ids.extend(ids['ctrl'])
             self.reference_controller = MujocoReferenceController(self.model, actuator_ids, projection,
                 self.decimation*self.substeps, controller_config)
+        self.position_execution = None
+        execution_config = cfg.get('mujoco', {}).get('position_execution')
+        if execution_config is not None:
+            if self.finger_contact is None or self.reference_controller is None:
+                raise ValueError('Position execution requires backend-owned finger material and a reference controller')
+            from ..mujoco_execution import MujocoPositionExecution
+            self.position_execution = MujocoPositionExecution(self.model, self.indices, execution_config)
         self.tcp_observer = None
         observe_tcp = cfg.get('mujoco', {}).get('tcp_motion_evidence', False)
         if type(observe_tcp) is not bool:
@@ -111,6 +118,8 @@ class MujocoBackend:
             layout = self.task.layout if self.task else {}
             self.finger_contact.apply(layout.get('seed', 0 if seed is None else seed),
                                       layout.get('randomized', bool(randomize)))
+        if self.position_execution:
+            self.position_execution.reset()
         home = np.array(self.cfg["robot"]["home"]*2)
         self.set_observation_state(home)
 
@@ -149,6 +158,8 @@ class MujocoBackend:
     def step(self):
         if self.finger_contact:
             self.finger_contact.assert_unchanged()
+        if self.position_execution:
+            self.position_execution.begin(self.data)
         expected_time = float(self.data.time)+self.dt*self.decimation
         warnings_before = self.data.warning.number[_PHYSICS_WARNINGS].copy()
         if self.tcp_observer:
@@ -164,6 +175,8 @@ class MujocoBackend:
             mujoco.mj_step(self.model, self.data, nstep=self.decimation*self.substeps)
         if self.tcp_observer:
             self.tcp_observer.finish()
+        if self.position_execution:
+            self.position_execution.finish(self.data)
         # MuJoCo can auto-reset on huge acceleration, leaving finite qpos/qvel.
         # Reject that discontinuity before a recorder sees a restarted episode.
         if not np.isclose(self.data.time, expected_time, atol=1e-7, rtol=0):
@@ -190,6 +203,8 @@ class MujocoBackend:
             result['controller'] = self.reference_controller.metadata()
         if self.tcp_observer:
             result['tcp_motion'] = self.tcp_observer.metadata()
+        if self.position_execution:
+            result['position_execution'] = self.position_execution.metadata()
         return result
 
     def _render(self, name, width, height):
@@ -237,6 +252,7 @@ class MujocoBackend:
             {"image_timestamp_clock": "simulation", "cameras": poses, "physics_time": self.sim_time,
              "engine": "mujoco", "engine_version": mujoco.__version__,
              **({'controller_interval': self.reference_controller.telemetry()} if self.reference_controller else {}),
+             **({'position_execution_interval': self.position_execution.telemetry()} if self.position_execution else {}),
              **({'tcp_motion_interval': self.tcp_observer.telemetry()} if self.tcp_observer else {}),
              **extras})
 

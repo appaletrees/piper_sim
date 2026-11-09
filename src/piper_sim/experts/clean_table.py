@@ -76,6 +76,11 @@ class CleanTableTeacher:
 
     def configure_contact_control(self):
         """Explicit simulation controller settings, not identified hardware values."""
+        if getattr(self.b, 'position_execution', None) is not None:
+            if self.mode != 'physical':
+                raise ValueError('Position execution supports unassisted physical control only')
+            self.b.position_execution.assert_unchanged()
+            return
         m = self.b.model
         m.opt.impratio = 10
         m.opt.enableflags |= int(mujoco.mjtEnableBit.mjENBL_MULTICCD)
@@ -147,6 +152,13 @@ class CleanTableTeacher:
             value.pop('finger_friction')
             value.pop('finger_contact_time_constant_s', None)
             value['finger_contact'] = profile.metadata()
+        execution = getattr(self.b, 'position_execution', None)
+        if execution is not None:
+            value['position_execution'] = execution.metadata()
+            value['arm_bias_feedforward'] = execution.profile['bias_compensation'] == 'robot_bias'
+            for key in ('gripper_kp_N_per_m', 'gripper_kv_Ns_per_m', 'gripper_force_limit_N'):
+                value[key] = execution.profile[key]
+            value['noslip_iterations'] = execution.profile['noslip_iterations']
         return value
 
     def event(self, phase, **fields):
@@ -177,8 +189,9 @@ class CleanTableTeacher:
 
     def step(self):
         # Robot feedforward only; free task objects always obey the physics solver.
-        for ids in self.b.indices.values():
-            self.b.data.qfrc_applied[ids['dof']] = self.b.data.qfrc_bias[ids['dof']]
+        if getattr(self.b, 'position_execution', None) is None:
+            for ids in self.b.indices.values():
+                self.b.data.qfrc_applied[ids['dof']] = self.b.data.qfrc_bias[ids['dof']]
         obs = self.session.step(self.q)
         if self.tcp_limits:
             violations = measured_violations(obs.extras.get('tcp_motion_interval'), self.tcp_limits)

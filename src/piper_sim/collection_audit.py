@@ -19,7 +19,7 @@ from .experts.quality import MotionQuality
 from .config import ROOT
 from .training_acceptance import require_self_contained
 
-AUDIT_VERSION = 'piper.collection.v3'
+AUDIT_VERSION = 'piper.collection.v4'
 
 
 def _descriptor_sha256(descriptor):
@@ -323,6 +323,8 @@ def audit_episode(path, *, require_rgb=True, policy=None):
             result['settings'] = settings
             checks = [('streams', lambda: audit_streams(f, meta, settings, require_rgb)),
                       ('task', lambda: audit_task(f, meta, settings))]
+            from .position_execution import audit_position_execution
+            checks.append(('position_execution', lambda: audit_position_execution(f, meta)))
             if 'tcp_motion' in settings:
                 from .tcp_audit import audit_tcp_motion
                 checks.append(('tcp_motion', lambda: audit_tcp_motion(f, meta, settings['tcp_motion'])))

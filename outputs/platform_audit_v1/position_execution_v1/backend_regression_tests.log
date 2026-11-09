@@ -1,0 +1,224 @@
+.............EEEEEEEEEEEE...................                             [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_accepted_windows_preserve_every_channel_clock_pixel_and_exclude_privileged_fields _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_accepted_windows_preserve0/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_accepted_windows_preserve0/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_training_reader_and_export_share_rejection[rejected] __
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor0/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor0/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_training_reader_and_export_share_rejection[unverified] _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor1/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor1/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_training_reader_and_export_share_rejection[checksum] __
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor2/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor2/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+__ ERROR at setup of test_training_reader_and_export_share_rejection[sidecar] __
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor3/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor3/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_training_reader_and_export_share_rejection[wrong_policy] _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor4/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_training_reader_and_expor4/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_verification_and_iteration_share_one_locked_handle_and_hash_once _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_verification_and_iteratio0/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_verification_and_iteratio0/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+___ ERROR at setup of test_path_replacement_cannot_change_data_mid_sequence ____
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_path_replacement_cannot_c0/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_path_replacement_cannot_c0/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[external_link] _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can0/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can0/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[soft_link] _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can1/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can1/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[virtual] _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can2/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can2/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+_ ERROR at setup of test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[raw_storage] _
+
+source = (PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can3/episode.h5'), PosixPath('/tmp/pytest-of-midea/pytest-113/test_external_dependencies_can3/fixture-policy.yaml'))
+
+    @pytest.fixture
+    def accepted(source):
+        path, policy = source
+        with h5py.File(path, 'r+') as f:
+            meta = json.loads(f.attrs['metadata']); meta['task'] = 'stack cups, then clear the table'
+            meta['teacher']['private_reward'] = 999
+            f.attrs['metadata'] = json.dumps(meta)
+            f['action/position'][:, 0] = np.arange(6)*.001
+        report = audit.audit_episode(path, policy=policy)
+>       assert report['passed']
+E       assert False
+
+tests/test_training_reader.py:31: AssertionError
+=========================== short test summary info ============================
+ERROR tests/test_training_reader.py::test_accepted_windows_preserve_every_channel_clock_pixel_and_exclude_privileged_fields
+ERROR tests/test_training_reader.py::test_training_reader_and_export_share_rejection[rejected]
+ERROR tests/test_training_reader.py::test_training_reader_and_export_share_rejection[unverified]
+ERROR tests/test_training_reader.py::test_training_reader_and_export_share_rejection[checksum]
+ERROR tests/test_training_reader.py::test_training_reader_and_export_share_rejection[sidecar]
+ERROR tests/test_training_reader.py::test_training_reader_and_export_share_rejection[wrong_policy]
+ERROR tests/test_training_reader.py::test_verification_and_iteration_share_one_locked_handle_and_hash_once
+ERROR tests/test_training_reader.py::test_path_replacement_cannot_change_data_mid_sequence
+ERROR tests/test_training_reader.py::test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[external_link]
+ERROR tests/test_training_reader.py::test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[soft_link]
+ERROR tests/test_training_reader.py::test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[virtual]
+ERROR tests/test_training_reader.py::test_external_dependencies_cannot_bypass_a_whole_file_training_checksum[raw_storage]
+32 passed, 12 errors in 17.42s
+WARNING: Nan, Inf or huge value in QVEL at DOF 0. The simulation is unstable. Time = 0.0000.
+
+WARNING: Nan, Inf or huge value in QVEL at DOF 0. The simulation is unstable. Time = 0.0333.
+

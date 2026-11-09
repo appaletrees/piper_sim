@@ -135,6 +135,44 @@ with SimulationSession.mujoco(task_scene="configs/tasks/connector.yaml",
 ```
 
 本地step使用绝对目标和模型限位，不套HTTP的墙钟限速。也可直接 `sim.step(action_si)`。
+
+### 与自动教师共用的位置执行配置（MuJoCo，实验）
+
+`configs/clean_table_position_execution.yaml` 显式启用后端管理的固定控制器。教师和
+`SimulationSession.step(action_si)` 使用同一执行路径：两只夹爪固定使用 1000 N/m、
+120 Ns/m、5 N 执行器力限，固定 `noslip_iterations=0`，每个控制区间开始时根据机器人
+当前状态重算偏置补偿，并在其内部积分步保持。不会按当前物体或教师阶段切换参数。
+这些是未标定的实验值，不表示该参数已能可靠抓取所有物体。
+
+```python
+with SimulationSession.mujoco(
+    "configs/clean_table_position_execution.yaml",
+    task_scene="configs/tasks/clean_table_rigid.yaml",
+    cameras=False,
+) as sim:
+    sim.reset(seed=1, randomize=True)
+    executor = sim.metadata()["physics_model"]["position_execution"]
+    observation = sim.step(action_si)  # 原 14 维 rad/m 绝对目标
+```
+
+HTTP 启动时选择相同 `--config` 可使用同一后端执行器，但 HTTP 的限速、异步接收及
+丢弃旧目标规则仍然生效。需要一动作对应一步的确定性验证，应使用同步 Session。
+元数据保存固定执行参数和实现指纹；`position_execution_interval` 保存对应区间的
+补偿力与时钟。它们属于复现/审计信息，不加入普通视觉策略输入。
+
+该模式要求同时启用固定指垫材质和内部参考控制器。回合内改写增益、力限、求解器
+设置或额外施加未声明的力会在步进前被拒绝；reset 重新采样指垫材质，并检查固定
+执行器增益、力限及 noslip 配置。Isaac 尚无等价
+执行器，明确报错。旧教师的按物体调参行为仍可用于明确标记的实验，但仅有其
+14 维位置序列不能证明外部控制等价。
+
+独立数据审核升级为 v4，新增执行契约检查。旧 v3 审核和原文件保持原样；严格训练
+读取/导出要求按新规则重新审核，缺少执行配置或依赖隐式调参的记录不会自动通过。
+不能给旧文件补一个声明就把它升级为已验证数据。
+目前原有采集配置没有自动切换到本实验配置；使用它们仍可诊断运行，但不能通过
+新增的 v4 执行证据门槛。本实验配置的完整 seed 1 回合也仅完成 9/11，盘子滑脱且
+实测夹爪加速度/jerk 超限，因此还不是可批量生产合格数据的配置。
+
 Isaac先按原启动流程创建AppLauncher与 `IsaacBackend(cfg, ...)`，再用
 `SimulationSession(backend)` 包装；Session关闭backend，AppLauncher仍由创建者关闭。
 

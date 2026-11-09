@@ -17,6 +17,7 @@ from piper_sim.config import ROOT
 from piper_sim.contracts import Command, Observation
 from piper_sim.lerobot_export import _inspect
 from piper_sim.recording import EpisodeWriter
+from execution_fixtures import declaration, interval
 
 
 @pytest.fixture
@@ -28,6 +29,10 @@ def source(tmp_path, monkeypatch):
     cameras = settings['dataset']['required_cameras']
     metadata = {'fps': 30, 'teacher': {'motion_and_quality': settings},
                 'camera_rig': {'cameras': {n: {'rgb': {'resolution': [16, 16]}} for n in cameras}}}
+    executor = declaration()
+    metadata['config'] = {'mujoco': {'position_execution': executor['profile'], 'controller': {'mode': 'zero_order_observed'}}}
+    metadata['physics_model'] = {'position_execution': executor, 'controller': {'mode': 'zero_order_observed'}}
+    metadata['teacher']['position_execution'] = executor
     path = tmp_path/'episode.h5'
     frames = np.random.default_rng(7).integers(10, 240, (7, 16, 16, 3), dtype=np.uint8)
     q = np.array([0., .2, -.2, 0., 0., 0., .04]*2)
@@ -36,8 +41,10 @@ def source(tmp_path, monkeypatch):
                            {n: i/30 for n in cameras}, {'label': 'binding fixture 纸杯'})
     with EpisodeWriter(path, metadata, image_storage='shared', extras_storage='compressed') as writer:
         for i in range(6):
-            writer.append(observation(i, 100.+i), Command(q, 100.+i+.2, i),
-                          observation(i+1, 100.+i+.5))
+            command = q.copy();command[0] = i*.001
+            after = observation(i+1, 100.+i+.5)
+            after.extras.update(interval(executor, command, i/30, (i+1)/30))
+            writer.append(observation(i, 100.+i), Command(command, 100.+i+.2, i), after)
         writer.close(success=True)
     monkeypatch.setattr(audit, 'audit_task', lambda *_: {'passed': True, 'violations': []})
     return path, policy

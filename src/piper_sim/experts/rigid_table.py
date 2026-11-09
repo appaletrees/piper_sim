@@ -55,6 +55,13 @@ class RigidTableTeacher(CleanTableTeacher):
         value['per_target_contact_material_switching'] = getattr(self.b, 'finger_contact', None) is None
         if not value['per_target_contact_material_switching']:
             value.pop('plate_pad_rolling_friction_m')
+        if getattr(self.b, 'position_execution', None) is not None:
+            for key in ('per_kind_gripper_force_limits_N', 'plate_gripper_kp_N_per_m',
+                        'noslip_iterations_loaded_rim_grasp', 'noslip_iterations_rim_release'):
+                value.pop(key)
+            value['per_target_controller_switching'] = False
+        else:
+            value['per_target_controller_switching'] = True
         return value
 
     @property
@@ -109,6 +116,9 @@ class RigidTableTeacher(CleanTableTeacher):
 
     def configure_object_contact(self,name):
         """Existing per-kind contact/controller settings, also used in diagnostics."""
+        if getattr(self.b, 'position_execution', None) is not None:
+            self.b.position_execution.assert_unchanged()
+            return
         aid=self.b.model.actuator('right/gripper').id
         kind=self.b.task.specs[name]['kind']
         force={'pen':.35,'chopstick':.30,'plate':30.,'side_dish':15.}.get(kind,self.settings['controller']['gripper_force_limit_N'])
@@ -136,7 +146,8 @@ class RigidTableTeacher(CleanTableTeacher):
         # retaining a grasp constraint, contact force or object pose.
         if self.releasing and self.b.task.specs[self.releasing[1]]['kind'] in ('plate', 'side_dish'):
             iterations = max(iterations, self.rim_release_noslip_iterations)
-        self.b.model.opt.noslip_iterations = iterations
+        if getattr(self.b, 'position_execution', None) is None:
+            self.b.model.opt.noslip_iterations = iterations
         obs=super().step()
         if self.stack_carried:
             metric=self.b.task.stack_metrics(obs.extras['objects'])
