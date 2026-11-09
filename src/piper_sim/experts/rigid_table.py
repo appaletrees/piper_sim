@@ -10,6 +10,27 @@ from .grasp_assist import finger_contacts
 from ..transforms import pose_matrix
 
 
+DEFAULT_RIGID_ORDER = ('pen', 'charger', 'spoon', 'bowl', 'plate', 'side_dish', 'chopstick_a', 'chopstick_b')
+
+
+def validate_sort_order(value, specs, active_names):
+    """Require complete target coverage and remove supported objects first."""
+    if value is None:
+        value = [name for name in DEFAULT_RIGID_ORDER if name in specs]
+    if not isinstance(value, list) or any(not isinstance(n, str) for n in value):
+        raise ValueError('rigid_sort_order must be a list of target names')
+    expected = {n for n, spec in specs.items() if spec.get('target') and spec['kind'] != 'cup'}
+    if len(value) != len(set(value)) or set(value) != expected:
+        raise ValueError('rigid_sort_order must contain each non-cup target exactly once: '+', '.join(sorted(expected)))
+    order = [n for n in value if n in active_names]
+    indices = {n: i for i, n in enumerate(order)}
+    for name in order:
+        support = specs[name].get('support')
+        if support in indices and indices[name] > indices[support]:
+            raise ValueError(f'rigid_sort_order must remove {name} before its support {support}')
+    return tuple(order)
+
+
 class RigidTableTeacher(CleanTableTeacher):
     name = 'rigid_table_privileged_v1'
     def __init__(self,*args,**kwargs):
@@ -19,10 +40,12 @@ class RigidTableTeacher(CleanTableTeacher):
         self.rim_release_noslip_iterations = self.pacing.get('rim_release_noslip_iterations', 0)
         if type(self.rim_release_noslip_iterations) is not int or self.rim_release_noslip_iterations < 0:
             raise ValueError('Rim release noslip iterations must be a nonnegative integer')
+        self.rigid_sort_order = validate_sort_order(self.pacing.get('rigid_sort_order'), self.b.task.specs, self.b.task.active_names)
 
     def metadata(self):
         value = {**super().metadata(),'name':'rigid_table_privileged_v1',
                 'task_sequence':'nest cups on table, transport entire stack, clear remaining rigid props',
+                'rigid_sort_order':list(self.rigid_sort_order),
                 'per_kind_gripper_force_limits_N':{'pen':.35,'chopstick':.30,'plate':30.,'side_dish':15.,'other':5.},
                 'plate_pad_rolling_friction_m':.008,
                 'plate_gripper_kp_N_per_m':10000.,
@@ -279,8 +302,7 @@ class RigidTableTeacher(CleanTableTeacher):
             if objects is None or objects==['cup_stack']:
                 self.stack_cups()
             if objects is None:
-                for n in ('pen','charger','spoon','bowl','plate','side_dish','chopstick_a','chopstick_b'):
-                    if n in self.b.task.active_names:self.sort_one(n)
+                for n in self.rigid_sort_order:self.sort_one(n)
             elif objects!=['cup_stack']:
                 for n in objects:self.sort_one(n)
             if objects is None:

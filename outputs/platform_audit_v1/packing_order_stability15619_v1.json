@@ -1,0 +1,99 @@
+{
+  "scope": "Read-only stability diagnosis, including closed rejected episodes.\n\nUses recorded 30 Hz object pose differences and the independent production\nstability policy. This does not change acceptance or infer native contact forces.\n",
+  "training_ready": false,
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/packing_order_states_v1/worker_01/episode_000000_seed_15619/episode.h5",
+  "source_sha256": "d4aec2ca4a0cd81e59746f99705db3fa3b56274bbeffed95e51fcf6ba1a09158",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+    "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+  },
+  "window_start_end_sim_time": [
+    229.50000000119653,
+    235.46666666793917
+  ],
+  "samples": 180,
+  "thresholds": {
+    "final_stable_hold_s": 1.0,
+    "final_object_speed_m_s": 0.01,
+    "final_object_angular_speed_rad_s": 0.1
+  },
+  "objects": {
+    "plate": {
+      "linear_speed_max_m_s": 2.6000429873810805e-05,
+      "angular_speed_max_rad_s": 0.0006718604915871173,
+      "local_x_angular_component_max_rad_s": 0.0003209096754399586,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "bowl": {
+      "linear_speed_max_m_s": 3.217745187772616e-05,
+      "angular_speed_max_rad_s": 0.0022031141216185177,
+      "local_x_angular_component_max_rad_s": 0.0005434491468195616,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "spoon": {
+      "linear_speed_max_m_s": 3.2380984618061385e-05,
+      "angular_speed_max_rad_s": 0.0011922173509644927,
+      "local_x_angular_component_max_rad_s": 0.0006528545400421441,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "chopstick_a": {
+      "linear_speed_max_m_s": 6.45705307037361e-05,
+      "angular_speed_max_rad_s": 0.0019877113297370554,
+      "local_x_angular_component_max_rad_s": 0.001987674551342487,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "chopstick_b": {
+      "linear_speed_max_m_s": 1.3988036037710937e-08,
+      "angular_speed_max_rad_s": 3.576278686477902e-06,
+      "local_x_angular_component_max_rad_s": 4.149437269003163e-08,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "side_dish": {
+      "linear_speed_max_m_s": 5.2277304490256814e-05,
+      "angular_speed_max_rad_s": 0.001324103902377674,
+      "local_x_angular_component_max_rad_s": 0.000985211922893699,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "cup_00": {
+      "linear_speed_max_m_s": 4.385206082999632e-09,
+      "angular_speed_max_rad_s": 3.4627169485313624e-06,
+      "local_x_angular_component_max_rad_s": 2.6602447825469718e-08,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "cup_01": {
+      "linear_speed_max_m_s": 1.1712373677690583e-06,
+      "angular_speed_max_rad_s": 1.3351307382772533e-05,
+      "local_x_angular_component_max_rad_s": 1.3534381725360766e-05,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "pen": {
+      "linear_speed_max_m_s": 4.161856691421446e-09,
+      "angular_speed_max_rad_s": 2.682209014858426e-06,
+      "local_x_angular_component_max_rad_s": 4.377147470312615e-08,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "charger": {
+      "linear_speed_max_m_s": 7.546224078605341e-06,
+      "angular_speed_max_rad_s": 7.444975651968353e-05,
+      "local_x_angular_component_max_rad_s": 3.449648596951802e-05,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    }
+  },
+  "longest_all_contained_stable_s": 5.96666666674264,
+  "ending_all_contained_stable_s": 5.96666666674264,
+  "limitations": [
+    "Pose differences at recording rate; native object velocities/substep extrema are not present.",
+    "A component along local X diagnoses axial rotation; it does not establish the force or cause."
+  ],
+  "script_sha256": "ad5eeebe125c5d3c744a1d0eeca209d72c39d76ebec6e1c096de5961825f508c"
+}

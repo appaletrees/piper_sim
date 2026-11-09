@@ -586,3 +586,25 @@ PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/render_recorded_rel
 
 隔离诊断可加 `--execute --observe-stability-s 6`，额外观察目标物体末段速度；结果仍是
 单物体诊断，不构成完整回合许可。生产是否接收数据仍由独立审核决定。
+
+## 可选的刚性物体收取顺序
+
+`configs/collection/clean_table_packing_order.yaml` 在碰撞表面采样配置上增加
+`pacing.rigid_sort_order`：叠杯并搬运整摞后，先收两根筷子，再收笔、充电头、勺、碗、盘、
+小碟。这样可以测试细长物体先使用篮底的策略，避免固定把它们留到最后。
+默认顺序仍然不变。
+
+配置必须恰好列出场景中的全部非杯目标，每个名字仅一次；非激活物体在执行时跳过。
+杯子继续走独立的先套叠、后整摞搬运流程。按场景 `support` 关系检查拆除顺序，
+必须先拿走上方物体，再拿支撑物，不能通过漏掉难处理目标提高成功率。
+实际顺序写入教师元数据；每一步仍使用原物理抓取、路径检查、质量门限和最终稳定审核。
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/collect_parallel_clean_table.py \
+  --config configs/clean_table_servo.yaml \
+  --collection-profile configs/collection/clean_table_packing_order.yaml \
+  --seeds 13 15619 0 --workers 3 --states-only --output outputs/packing_order_trial_new
+```
+
+上述命令仍是完整状态诊断；没有 RGB，不产生训练许可。不能把一次未录制的顺序试验
+当作此配置通过独立数据审计的依据，当前验证结果见 `docs/platform_audit.md`。
