@@ -23,7 +23,7 @@ def _convex_spline(points, parameters, samples):
     return values[:, degree]
 
 
-def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., interpolation='natural'):
+def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., interpolation='natural', sampling=None):
     """C2 cubic joint path, with one C3 time law for the whole motion.
 
     Natural interpolation passes through IK waypoints without stopping. Optional
@@ -32,6 +32,8 @@ def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., 
     Retime the actual
     control-rate samples against all three derivative limits, including joins
     to stationary commands at both ends. No command clipping or frame dropping.
+    Optional sampling receives copies of the retained control polygon and its
+    parameters, plus the final sample parameters, for parameter-matched FK checks.
     """
     points = np.asarray(waypoints, dtype=float)
     if interpolation not in ('natural', 'convex'):
@@ -45,6 +47,8 @@ def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., 
     distance = np.linalg.norm(np.diff(points, axis=0)/limits[0], axis=1)
     points = points[np.r_[True, distance > 1e-10]]
     if len(points) == 1:
+        if sampling is not None:
+            sampling.update(points=points.copy(), knots=np.array([0.]), samples=np.array([0.]))
         return points.copy()
     knots = np.r_[0., np.cumsum(np.linalg.norm(np.diff(points, axis=0)/limits[0], axis=1))]
     knots /= knots[-1]
@@ -75,6 +79,8 @@ def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., 
         scale = max(float(np.max(abs(np.diff(padded, n=order, axis=0))/dt**order/bound))**(1/order)
                     for order, bound in enumerate(limits, 1))
         if scale <= 1+1e-9:
+            if sampling is not None:
+                sampling.update(points=points.copy(), knots=knots.copy(), samples=s.copy())
             return path
         steps = max(steps+1, int(np.ceil(steps*scale*1.02)))
     raise ValueError('Could not retime the joint path within derivative limits')

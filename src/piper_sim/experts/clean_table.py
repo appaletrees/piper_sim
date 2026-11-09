@@ -11,6 +11,7 @@ import mujoco
 from .mujoco_ik import PiperIK, grasp_rotation, rotation_error
 from .grasp_assist import ContactGraspAssist, finger_contacts
 from .trajectory import smooth_trajectory, path_trajectory
+from .path_fidelity import loaded_path_limits, path_pose_deviation
 from .quality import MotionQuality
 from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
 from ..transforms import pose_matrix
@@ -47,6 +48,7 @@ class CleanTableTeacher:
             (ROOT/'configs/collection/clean_table.yaml').read_text())
         self.motion = self.settings['motion']
         self.pacing = self.settings.get('pacing', {})
+        self.bounded_loaded_path = loaded_path_limits(self.pacing.get('bounded_loaded_path'))
         self.release_preload_m = float(self.pacing.get('release_preload_threshold_m', .003))
         if not np.isfinite(self.release_preload_m) or not 0 <= self.release_preload_m <= .095:
             raise ValueError('Release preload threshold must be finite and within the gripper stroke')
@@ -110,6 +112,13 @@ class CleanTableTeacher:
                     'C3 time law and sampled derivative retiming'
                     if self.pacing.get('continuous_paths') else 'septic C3 rest-to-rest per segment'),
                 'grasp_frames': 'measured object SE(3) relative to nominal object grasp frame'}
+        if self.bounded_loaded_path:
+            value['bounded_loaded_path'] = {**self.bounded_loaded_path,
+                'reference': 'original solved-IK pose polyline at the same path parameter',
+                'scope': 'additional sampled approximation only; IK and tracking errors are separate',
+                'calibration': 'uncalibrated simulation planning budget',
+                'collision_checks': 'original actual-curve robot and carried-object gates retained'}
+            value['trajectory'] += '; loaded overshoot may use the explicit pose-fidelity guarded convex profile'
         profile = getattr(self.b, 'finger_contact', None)
         value['contact_material_source'] = 'backend_episode_profile' if profile else 'legacy_teacher_parameters'
         if profile:
@@ -311,13 +320,19 @@ class CleanTableTeacher:
         duration = 2.1875*length/(speed or self.pacing['cartesian_speed_m_s'])
         trajectory = path_trajectory(points, 1/self.fps, seconds=duration, **self.motion_limits())
         interpolation = 'natural'
-        if (self.carried is None and (np.any(trajectory < LOWER) or np.any(trajectory > UPPER))
+        if ((self.carried is None or self.bounded_loaded_path)
+                and (np.any(trajectory < LOWER) or np.any(trajectory > UPPER))
                 and np.all(np.asarray(points) >= LOWER) and np.all(np.asarray(points) <= UPPER)):
-            # A natural cubic can overshoot even valid IK points. For unloaded
-            # motion only, try a convex C2 curve and check its actual geometry
-            # below. No targets are clipped and carried-object paths are unchanged.
-            trajectory = path_trajectory(points, 1/self.fps, seconds=duration,
-                                         interpolation='convex', **self.motion_limits())
+            # Legal control points need not produce a legal natural cubic.
+            # Loaded alternatives require an explicit, additional pose-fidelity
+            # gate. Neither alternative clips targets or bypasses geometry checks.
+            if self.carried is None:
+                trajectory = path_trajectory(points, 1/self.fps, seconds=duration,
+                                             interpolation='convex', **self.motion_limits())
+            else:
+                trajectory, fidelity = self.bounded_loaded_trajectory(side, points, duration)
+                if diagnostics is not None:
+                    diagnostics['fidelity'] = fidelity
             interpolation = 'convex'
         if np.any(trajectory < LOWER) or np.any(trajectory > UPPER):
             excess = np.maximum(LOWER-trajectory, trajectory-UPPER)
@@ -331,6 +346,40 @@ class CleanTableTeacher:
         if diagnostics is not None:
             diagnostics.update(interpolation=interpolation, command_samples=len(trajectory))
         return trajectory
+
+    def bounded_loaded_trajectory(self, side, points, duration):
+        """Retime and bound approximation against the ORIGINAL IK pose polygon.
+
+        Midpoint refinement stays inside the joint hull and preserves path
+        parameters; it never replaces the reference with a more permissive one.
+        This method does not certify collision clearance; the caller checks the
+        entire returned curve through the normal robot/payload gates.
+        """
+        limits = self.bounded_loaded_path
+        offset = 0 if side == 'left' else 7
+        reference = None
+        attempts = []
+        controls = np.asarray(points, float)
+        for refinement in range(limits['max_refinements']+1):
+            sampling = {}
+            path = path_trajectory(controls, 1/self.fps, seconds=duration, interpolation='convex',
+                                   sampling=sampling, **self.motion_limits())
+            if reference is None:
+                reference = {'points': sampling['points'][:, offset:offset+6], 'knots': sampling['knots']}
+                controls = sampling['points']
+            error = path_pose_deviation(path[:, offset:offset+6], {**reference, 'samples': sampling['samples']},
+                                        self.ik[side].forward)
+            attempts.append({'refinement': refinement, 'control_points': len(controls),
+                             'command_samples': len(path), **error})
+            if (error['position_deviation_m'] <= limits['max_position_deviation_m']
+                    and error['rotation_deviation_rad'] <= limits['max_rotation_deviation_rad']):
+                return path, {'limits': dict(limits), 'attempts': attempts,
+                              'reference_ik_knots': len(reference['points'])}
+            refined = np.empty((2*len(controls)-1, controls.shape[1]))
+            refined[::2] = controls
+            refined[1::2] = (controls[:-1]+controls[1:])/2
+            controls = refined
+        raise SortFailure(f'Bounded loaded path exceeds pose fidelity: {attempts[-1]}')
 
     def check_joint_path(self, side, start, end, gripper=None, *, transit_clearance=0.):
         """Check sampled interpolation on scratch state before executing a segment.

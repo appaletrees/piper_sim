@@ -482,7 +482,8 @@ PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py
 ```
 
 上述命令仅做完整状态诊断，不生成训练合格 RGB 数据。每回合仍须通过原独立任务/运动审计；
-完整 RGB、多个种子和吞吐尚需单独复测，不能将原控制器的 2.128× 基准直接归给新控制器。
+候选 seed 0 已通过完整三路 RGB 与官方 LeRobot 消费者检查，但扩展种子仍有失败；
+不能将原控制器的 2.128× 基准直接归给新控制器，详见 [审计报告](platform_audit.md)。
 
 公共接口仍为 14 维 SI 绝对目标，夹爪为总开口；action 表示控制周期开始时接收的端点，
 不是该周期内每个子步的瞬时执行器目标。配置与控制语义进入 `physics_model.controller`，
@@ -510,3 +511,27 @@ PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py
   --domain-randomization configs/domain_randomization/clean_table.yaml \
   --output outputs/observed_baseline_new
 ```
+
+## 持物样条限位备选（实验配置）
+
+合法的 IK 节点也可能被自然三次样条插值推过关节限位。可选采集配置
+`configs/collection/clean_table_bounded_path.yaml` 仅在这种情况发生时尝试凸 B 样条，
+不裁剪目标，也不改变正常自然样条。默认采集配置仍保留原来的持物越界拒绝行为。
+
+备选曲线需通过额外的 FK 偏离检查：在同一个路径参数上，与**原始已求解 IK 节点**构成的
+位置线段和 SO(3) 旋转插值比较。预算为位置 2 mm、旋转 0.01 rad；它约束额外插值偏离，
+不包含 IK 求解误差、实测跟踪误差，也不是实机精度标定。超预算时最多两次二分控制多边形，
+原始比较基准不变；仍不满足就拒绝。每个候选重新按原速度/加速度/jerk 限值确定时长，
+选中的全部控制目标仍须通过原机械臂、双臂和持物碰撞检查。
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py \
+  --config configs/clean_table_servo.yaml \
+  --collection-profile configs/collection/clean_table_bounded_path.yaml \
+  --domain-randomization configs/domain_randomization/clean_table.yaml \
+  --record --seed 9137 --output outputs/bounded_path_trial_new
+```
+
+这是完整状态诊断命令，不含 RGB。`bounded_path_selected` 事件保留各次细分的样本数和最大
+位置/旋转偏离；采集元数据保存配置与未标定范围。几何与偏离检查都是采样检查，不保证
+连续时间无碰撞。在线通过也不替代最终独立闭文件审核。
