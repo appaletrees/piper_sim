@@ -1,0 +1,153 @@
+{
+  "scope": "Isolated colour-LUT experiment; does not modify production processing.\n\nReads one existing recorded RGB triplet as representative pixel input. These\nimages already contain sensor effects: processing them again is ONLY a component\nbenchmark, never a new observation or training recording. All candidates must\nmatch production output exactly. Timings exclude input I/O and equality checks.\n",
+  "training_ready": false,
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_parallel_v8/seed_0/episode.h5",
+  "frame": 2500,
+  "repeats": 15,
+  "started_unix": 1794213645.0064712,
+  "finished_unix": 1794213647.2016737,
+  "versions": {
+    "numpy": "1.26.4",
+    "Pillow": "13.0.0",
+    "h5py": "3.16.0"
+  },
+  "source_hashes": {
+    "/home/midea/Desktop/piper_sim/scripts/benchmark_sensor_color_lut.py": "99866c05d9a2d5cad689b8552b32e9e5b35bd1fad9ec139d279460f0388e0e8c",
+    "/home/midea/Desktop/piper_sim/src/piper_sim/randomization/__init__.py": "922eee49016fd1aca8127bdd0a1b3e62002443d746506615ac30d38c88730f0b"
+  },
+  "inputs": {
+    "left_wrist": {
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "sha256": "29048081cf71b372b6e9a63fb1d36281a38a3d00bcdff6ef18c6ef7aad5eedd0"
+    },
+    "overhead": {
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "sha256": "f977f03160131ed26943be7c84611b31588f02975f69b9370a673c174049a9c3"
+    },
+    "right_wrist": {
+      "shape": [
+        480,
+        640,
+        3
+      ],
+      "sha256": "9311fb3bf9a5e0a617718df03e271cf7bced6d8607f5169c1349e5e4c039055d"
+    }
+  },
+  "parameters": {
+    "overhead": {
+      "gain": 0.9812249901470498,
+      "white_balance": [
+        1.0089166385684198,
+        0.9930010699829008,
+        0.9992595991006968
+      ],
+      "gamma": 0.9301706532554812,
+      "blur_sigma_px": 0.22815013457778902,
+      "noise_std_uint8": 0.719415017604118
+    },
+    "left_wrist": {
+      "gain": 0.9706058956106239,
+      "white_balance": [
+        1.0122264211952068,
+        0.9883169198156906,
+        1.008155010409205
+      ],
+      "gamma": 0.9820209889504751,
+      "blur_sigma_px": 0.12289727397586327,
+      "noise_std_uint8": 0.701043960372539
+    },
+    "right_wrist": {
+      "gain": 0.9769910083093263,
+      "white_balance": [
+        1.0190150899281325,
+        1.0198880015236933,
+        1.001417624626629
+      ],
+      "gamma": 0.9556909155145356,
+      "blur_sigma_px": 0.2568519004315076,
+      "noise_std_uint8": 0.3962369689906631
+    }
+  },
+  "median_seconds": {
+    "production": 0.04556823906023055,
+    "fused_broadcast": 0.04902571300044656,
+    "fused_channels": 0.046168855973519385
+  },
+  "seconds": {
+    "production": [
+      0.05436282302252948,
+      0.051334907999262214,
+      0.04556823906023055,
+      0.04475595604162663,
+      0.04530054295901209,
+      0.04770015995018184,
+      0.0515975879970938,
+      0.04880765394773334,
+      0.045281730010174215,
+      0.045377872069366276,
+      0.04579296405427158,
+      0.04484838910866529,
+      0.04515920509584248,
+      0.04779613309074193,
+      0.044890391058288515
+    ],
+    "fused_broadcast": [
+      0.055987772066146135,
+      0.05736558104399592,
+      0.04657955304719508,
+      0.04723714094143361,
+      0.04902571300044656,
+      0.051980176009237766,
+      0.05077484098728746,
+      0.04891839297488332,
+      0.048574801068753004,
+      0.049148980993777514,
+      0.04801727703306824,
+      0.04913928103633225,
+      0.04803531605284661,
+      0.05377224495168775,
+      0.04759047401603311
+    ],
+    "fused_channels": [
+      0.06313909695018083,
+      0.05186641402542591,
+      0.04823500697966665,
+      0.046168855973519385,
+      0.04649446008261293,
+      0.045597807969897985,
+      0.04789775493554771,
+      0.05013525998219848,
+      0.045712678926065564,
+      0.045042151934467256,
+      0.04343364399392158,
+      0.04840275994502008,
+      0.04337469197344035,
+      0.04431715596001595,
+      0.0429659909568727
+    ]
+  },
+  "different_channel_values": {
+    "production": 0,
+    "fused_broadcast": 0,
+    "fused_channels": 0
+  },
+  "stage_speedup_vs_production": {
+    "production": 1.0,
+    "fused_broadcast": 0.9294763150066881,
+    "fused_channels": 0.9869908642823352
+  },
+  "limitations": [
+    "Shared host; CPU component experiment, no exclusive machine or end-to-end throughput claim.",
+    "Already processed source pixels are used as a representative input distribution.",
+    "LUT caches are warm; per-episode setup and first-use costs are not represented.",
+    "Candidates are not enabled in collection; only uint8 RGB is supported by this experiment."
+  ]
+}
