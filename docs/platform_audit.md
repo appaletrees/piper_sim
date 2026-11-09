@@ -694,3 +694,42 @@ worker（默认仍为两个）。已通过 **224 项非 PPO 测试，101.41 s**�
 CLI 使用方式见 [同组吞吐量对照](domain_randomization_collection.md#同版本同种子的完整吞吐量对照)。
 准备记录为 `outputs/platform_audit_v1/round6_benchmark_setup.json`，计划结果目录为
 `outputs/platform_audit_v1/qualified_pair_v9`。**准备验证不等于性能实测；此处尚无新的加速结论。**
+
+### 原生动力学遥测的只读复核
+
+`scripts/audit_recorded_dynamics.py` 独立读取 HDF5 中的原生求解器记录，不启动物理、不解码
+RGB、不改写源文件或训练许可。它逐条检查双臂八关节的维度/有限值、原生时间与公开时间、
+原生关节位置与公开 14 维状态（夹爪为两指位置之和）、相邻 transition 的原生位置/速度/TCP
+连续性，以及 `combined_drive = qfrc_actuator + qfrc_applied`。
+边界处教师可以更新偏置补偿，所以不错误地要求前后两份力记录相同。
+
+新增 **17 项测试通过**，包含错误时钟、NaN、缺失字段、错误夹爪映射、驱动力不一致、原生
+速度断裂、未关闭文件等负例，以及读前后源文件 SHA256/mtime 不变检查。
+已有 v8 状态回合 0/2/7 的共 45,078 份 observation/next_observation 快照均一致；
+诊断结果仍统一 `training_ready=false`，不能代替任务、图像、接触或训练验收。
+报告保存在 `native_dynamics_seed{0,2,7}_v2.json`，执行记录为 `native_dynamics_v2_run.json`。
+
+| seed | 右臂原生 TCP 采样速度峰值 m/s | 右臂 TCP 相邻帧平均速度峰值 m/s | 右臂总驱动关节力矩采样峰值 N·m |
+| --- | ---: | ---: | ---: |
+| 0 | 0.5516 | 0.6022 | 11.7468 |
+| 2 | 0.5083 | 0.5618 | 12.4595 |
+| 7 | 0.5090 | 0.5598 | 12.5700 |
+
+前两列是不同测量：一列为帧时刻 `J(q) qvel`，另一列为两帧 TCP 位移除以实际设定的
+采样周期，峰值也可能出现在不同阶段。两者都不是 960 Hz 内部子步的全程极值。
+力矩来自仿真广义驱动力，包含偏置补偿，不含约束/被动力，也不是实机能力辨识。
+
+这确认了一个覆盖缺口：`pacing.cartesian_speed_m_s=0.25` 是部分路径的规划参数，
+当前独立策略未将其作为所有关节插值/转场段的 TCP 速度门限。三条记录均出现更高的末端
+速度；不能将“关节运动审核通过”解释为“全程 TCP ≤0.25 m/s”。下一轮需要明确全局
+TCP 约束并在轨迹生成和独立审核中覆盖它，同时补充子步证据；不能在本轮吞吐对照中
+更换条件，也不能把上述数值直接当作真机安全阈值。
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/audit_recorded_dynamics.py \
+  outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000000_seed_0/episode.h5 \
+  --output outputs/native_dynamics_new.json
+```
+
+本项在配对吞吐测试期间以低进程优先级读取已有状态文件，合计约 16.1 s，无 GPU 工作。
+因此仍将吞吐结果表述为共享工作站上的工程基准，不声称独占主机性能。
