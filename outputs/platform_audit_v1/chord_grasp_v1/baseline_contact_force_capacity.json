@@ -1,0 +1,2120 @@
+{
+  "scope": "Read-only contact-geometry screening of recorded grasps on an isolated model.\n\nBounds upward force and searches horizontal axes separating finger friction cones.\nA positive bound excludes static horizontal force balance using fingers alone.\nFailure to find an axis is inconclusive: it is not a force-closure certificate.\nGeometry reconstruction is not the original solver force or integration trace.\n",
+  "script_sha256": "aa88dd95deaa9c085a69e7baffb5b4cbc2939230a2220ccf0fdc92e0657733a9",
+  "source": "/dev/shm/piper_rotation_evidence_v1/episode/episode.h5",
+  "source_sha256": "e6c282e972830727de959ff706d6935a38e52a5bc7cb33f099534dde2e0442b5",
+  "training_ready": false,
+  "cone_reference": "https://mujoco.readthedocs.io/en/stable/computation/#contact",
+  "sample_count": 466,
+  "snapshots": [
+    {
+      "source_state_index": 6423,
+      "sim_time": 215.10000000101317,
+      "phase": "grasp",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0,
+        "rotation_change_rad": 0.0
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 30.6973088356195,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 30.836318282453558,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0007499499153638604,
+          "position_world": [
+            0.2825149048323118,
+            -0.08910255531447452,
+            0.03882545254223721
+          ],
+          "force_normal_into_object_world": [
+            0.5659809197452591,
+            0.4234185119206833,
+            0.7073771004543368
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0007511013721493771,
+          "position_world": [
+            0.2903880641389554,
+            -0.07756335794665326,
+            0.03904973893866047
+          ],
+          "force_normal_into_object_world": [
+            -0.15216852396465366,
+            -0.10646598494440802,
+            -0.982603548927153
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [
+        {
+          "body": "world",
+          "distance_m": -5.146059019807415e-06
+        },
+        {
+          "body": "world",
+          "distance_m": -4.2087263633635436e-05
+        },
+        {
+          "body": "world",
+          "distance_m": -4.2087263633635436e-05
+        },
+        {
+          "body": "world",
+          "distance_m": -4.8459447404926304e-05
+        },
+        {
+          "body": "world",
+          "distance_m": -4.8459447404926304e-05
+        },
+        {
+          "body": "world",
+          "distance_m": -4.6330754008203766e-05
+        },
+        {
+          "body": "world",
+          "distance_m": -4.6330754008203766e-05
+        },
+        {
+          "body": "world",
+          "distance_m": -1.7230428013863958e-05
+        }
+      ],
+      "finger_only_separation": {
+        "axis_world": [
+          -0.587785252292473,
+          0.8090169943749475,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.8164007984587047,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.8097973878254714,
+          -0.8164007984587047
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.2867814031817932,
+          -0.8303697431150617
+        ],
+        "max_over_contacts": 1.2867814031817932,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6465,
+      "sim_time": 216.500000001031,
+      "phase": "lift",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.001229992887485939,
+        "rotation_change_rad": 0.27210409150021553
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 29.122363371618125,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.93441961430554,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0007487923045191403,
+          "position_world": [
+            0.2847293204226383,
+            -0.08694685345797079,
+            0.0767355117025632
+          ],
+          "force_normal_into_object_world": [
+            0.5617826444473938,
+            0.4224104084892375,
+            0.7113154765627195
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006948720130984533,
+          "position_world": [
+            0.29070043225810566,
+            -0.07690447620846191,
+            0.07440466495276912
+          ],
+          "force_normal_into_object_world": [
+            -0.35067208418475443,
+            -0.26208708917013485,
+            -0.8990769972943622
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [
+        {
+          "body": "world",
+          "distance_m": -6.133678764583608e-05
+        }
+      ],
+      "finger_only_separation": {
+        "axis_world": [
+          -0.6018150231520484,
+          0.7986355100472927,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.8204519713428188,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.8204519713428188,
+          -0.8179860153035146
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.28747086112568,
+          -0.5402135674876543
+        ],
+        "max_over_contacts": 1.28747086112568,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6507,
+      "sim_time": 217.90000000104882,
+      "phase": "lift",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.001846847054585359,
+        "rotation_change_rad": 0.597734046348312
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 29.79515244263917,
+          "contact_count": 2,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.736007062378565,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0008081278400790511,
+          "position_world": [
+            0.2973605875765369,
+            -0.08332575655213607,
+            0.14463621666772902
+          ],
+          "force_normal_into_object_world": [
+            0.6067282798926393,
+            0.4528436729790485,
+            0.6533095760980118
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00011091371327351753,
+          "position_world": [
+            0.29756959765546737,
+            -0.08317012982487611,
+            0.14486824352390132
+          ],
+          "force_normal_into_object_world": [
+            0.6558754955140897,
+            0.48762063716750526,
+            0.5762407904622021
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00033582679481855007,
+          "position_world": [
+            0.3053299637387932,
+            -0.09858478508150603,
+            0.1523103595440285
+          ],
+          "force_normal_into_object_world": [
+            -0.5683988011584241,
+            -0.4268771434720374,
+            -0.7033482119283591
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00033582679481855007,
+          "position_world": [
+            0.29637995490933833,
+            -0.07784149602497362,
+            0.14695360793299395
+          ],
+          "force_normal_into_object_world": [
+            -0.5683988011584241,
+            -0.4268771434720374,
+            -0.7033482119283591
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00033582679481855007,
+          "position_world": [
+            0.29100732761647385,
+            -0.07911565218484745,
+            0.15206871740403755
+          ],
+          "force_normal_into_object_world": [
+            -0.5683988011584241,
+            -0.4268771434720374,
+            -0.7033482119283591
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00033582679481855007,
+          "position_world": [
+            0.30818955374807266,
+            -0.09398059652606208,
+            0.14720504991981584
+          ],
+          "force_normal_into_object_world": [
+            -0.5683988011584241,
+            -0.4268771434720374,
+            -0.7033482119283591
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.6018150231520479,
+          -0.798635510047293,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.820866059835504,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.8162287880739448,
+          -0.8144188947115351,
+          -0.820866059835504,
+          -0.820866059835504,
+          -0.820866059835504,
+          -0.820866059835504
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.2739082578957595,
+          1.2461773693534188,
+          -0.12065757466925653,
+          -0.12065757466925653,
+          -0.12065757466925653,
+          -0.12065757466925653
+        ],
+        "max_over_contacts": 1.2739082578957595,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6549,
+      "sim_time": 219.30000000106665,
+      "phase": "transfer",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0020604450950820236,
+        "rotation_change_rad": 0.5971770883268326
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 29.561319377691508,
+          "contact_count": 2,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.68868721084378,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0008113533502587218,
+          "position_world": [
+            0.2892832148583814,
+            -0.08417936488908748,
+            0.18212545105142985
+          ],
+          "force_normal_into_object_world": [
+            0.6049351194324321,
+            0.4547480101782024,
+            0.6536495609393729
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -9.43682384505965e-05,
+          "position_world": [
+            0.2894984186307882,
+            -0.08401886136960532,
+            0.1823634153145416
+          ],
+          "force_normal_into_object_world": [
+            0.6530880522202877,
+            0.49092964805650074,
+            0.5765969794459828
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003139507085758951,
+          "position_world": [
+            0.2973942818685731,
+            -0.099266556368003,
+            0.18958500243723586
+          ],
+          "force_normal_into_object_world": [
+            -0.5677282882065934,
+            -0.4271837517045348,
+            -0.7037035121765768
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003139507085758951,
+          "position_world": [
+            0.2881379653623233,
+            -0.07858926482081033,
+            0.1845005738845225
+          ],
+          "force_normal_into_object_world": [
+            -0.5677282882065934,
+            -0.4271837517045348,
+            -0.7037035121765768
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003139507085758951,
+          "position_world": [
+            0.282965643229928,
+            -0.07993417728094127,
+            0.1894898887379028
+          ],
+          "force_normal_into_object_world": [
+            -0.5677282882065934,
+            -0.4271837517045348,
+            -0.7037035121765768
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003139507085758951,
+          "position_world": [
+            0.30015784241674415,
+            -0.09457433671722362,
+            0.1845070236634452
+          ],
+          "force_normal_into_object_world": [
+            -0.5677282882065934,
+            -0.4271837517045348,
+            -0.7037035121765768
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.6018150231520479,
+          -0.798635510047293,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.820218106657866,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.8188334589271975,
+          -0.8187501784433169,
+          -0.820218106657866,
+          -0.820218106657866,
+          -0.820218106657866,
+          -0.820218106657866
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.2740076455297449,
+          1.246327600925203,
+          -0.12130119219396207,
+          -0.12130119219396207,
+          -0.12130119219396207,
+          -0.12130119219396207
+        ],
+        "max_over_contacts": 1.2740076455297449,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6592,
+      "sim_time": 220.73333333441823,
+      "phase": "transfer",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0020584268800041376,
+        "rotation_change_rad": 0.5984991565514886
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 29.602438853540594,
+          "contact_count": 2,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.71418679670247,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0008128543040512245,
+          "position_world": [
+            0.3030118698128449,
+            -0.08407437209613244,
+            0.18991853032610556
+          ],
+          "force_normal_into_object_world": [
+            0.5876561328238161,
+            0.4737501092925721,
+            0.655912420601892
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -9.644224788149456e-05,
+          "position_world": [
+            0.30322105775841324,
+            -0.08390775437444968,
+            0.19015723734291456
+          ],
+          "force_normal_into_object_world": [
+            0.6370484773399403,
+            0.5087410048200455,
+            0.5790956980789567
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003117297195424243,
+          "position_world": [
+            0.31107806852432773,
+            -0.0989262530059785,
+            0.19784686327250284
+          ],
+          "force_normal_into_object_world": [
+            -0.5502949292334498,
+            -0.44606569383420663,
+            -0.7058334701926229
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003117297195424243,
+          "position_world": [
+            0.3017628779077476,
+            -0.07843352745785574,
+            0.1921585531745177
+          ],
+          "force_normal_into_object_world": [
+            -0.5502949292334498,
+            -0.44606569383420663,
+            -0.7058334701926229
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003117297195424243,
+          "position_world": [
+            0.2965025002543191,
+            -0.07971946669536384,
+            0.19707242127261448
+          ],
+          "force_normal_into_object_world": [
+            -0.5502949292334498,
+            -0.44606569383420663,
+            -0.7058334701926229
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003117297195424243,
+          "position_world": [
+            0.31390501018720185,
+            -0.09431569485912071,
+            0.19272913559607444
+          ],
+          "force_normal_into_object_world": [
+            -0.5502949292334498,
+            -0.44606569383420663,
+            -0.7058334701926229
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.6293203910498375,
+          -0.7771459614569708,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.8193685293837107,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.8180627906644964,
+          -0.8141607449887092,
+          -0.8193685293837107,
+          -0.8193685293837107,
+          -0.8193685293837107,
+          -0.8193685293837107
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.2746635648347677,
+          1.2473761269501051,
+          -0.12516562212472193,
+          -0.12516562212472193,
+          -0.12516562212472193,
+          -0.12516562212472193
+        ],
+        "max_over_contacts": 1.2746635648347677,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6634,
+      "sim_time": 222.13333333443606,
+      "phase": "transfer",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.002063054810419976,
+        "rotation_change_rad": 0.5995988290614809
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 29.610852415017135,
+          "contact_count": 2,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.675951821753372,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0008206813168226282,
+          "position_world": [
+            0.38530638134255746,
+            -0.0957606899094386,
+            0.233249064341837
+          ],
+          "force_normal_into_object_world": [
+            0.4828064383897803,
+            0.5882072900091211,
+            0.6487758681004567
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0001034732146699311,
+          "position_world": [
+            0.3854770299919922,
+            -0.09555171893965336,
+            0.23348572998521672
+          ],
+          "force_normal_into_object_world": [
+            0.5398097471202168,
+            0.6155772188346025,
+            0.5741690731534256
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003277877819781271,
+          "position_world": [
+            0.39294974752915723,
+            -0.10897518827379946,
+            0.24403533573901015
+          ],
+          "force_normal_into_object_world": [
+            -0.4399037500432096,
+            -0.5662706660703115,
+            -0.6970094859083391
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003277877819781271,
+          "position_world": [
+            0.3835672804812189,
+            -0.08998410334252561,
+            0.23452798758197052
+          ],
+          "force_normal_into_object_world": [
+            -0.4399037500432096,
+            -0.5662706660703115,
+            -0.6970094859083391
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003277877819781271,
+          "position_world": [
+            0.37780264443198164,
+            -0.09091191447581502,
+            0.23892000426314908
+          ],
+          "force_normal_into_object_world": [
+            -0.4399037500432096,
+            -0.5662706660703115,
+            -0.6970094859083391
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0003277877819781271,
+          "position_world": [
+            0.39619375457549066,
+            -0.10492383889557941,
+            0.23869651144001114
+          ],
+          "force_normal_into_object_world": [
+            -0.4399037500432096,
+            -0.5662706660703115,
+            -0.6970094859083391
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.7771459614569706,
+          -0.6293203910498378,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.8146642669414859,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.8146642669414859,
+          -0.7871763994698615,
+          -0.8051325242194425,
+          -0.8051325242194425,
+          -0.8051325242194425,
+          -0.8051325242194425
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.2725621508250624,
+          1.245299800130029,
+          -0.10922314972992364,
+          -0.10922314972992364,
+          -0.10922314972992364,
+          -0.10922314972992364
+        ],
+        "max_over_contacts": 1.2725621508250624,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6676,
+      "sim_time": 223.53333333445389,
+      "phase": "transfer",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0021530654154837017,
+        "rotation_change_rad": 0.5996147285694816
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 28.976335708988188,
+          "contact_count": 2,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.606541567910295,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.000761071999194695,
+          "position_world": [
+            0.5234284234253921,
+            -0.17476515814411142,
+            0.2960654117183403
+          ],
+          "force_normal_into_object_world": [
+            0.32179834457434947,
+            0.8003751871700174,
+            0.5058116103765987
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -3.5342909461343814e-05,
+          "position_world": [
+            0.5235450122457447,
+            -0.1744758920502149,
+            0.29625107285207064
+          ],
+          "force_normal_into_object_world": [
+            0.3908507985338595,
+            0.8099793838470105,
+            0.4372288314238461
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00038887672749403346,
+          "position_world": [
+            0.5294533886014969,
+            -0.18338081193498534,
+            0.31157810312598544
+          ],
+          "force_normal_into_object_world": [
+            -0.2720549135043398,
+            -0.7888835353586167,
+            -0.5510434571594479
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00038887672749403346,
+          "position_world": [
+            0.5212522079271451,
+            -0.16911242519883024,
+            0.295200222702118
+          ],
+          "force_normal_into_object_world": [
+            -0.2720549135043398,
+            -0.7888835353586167,
+            -0.5510434571594479
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00038887672749403346,
+          "position_world": [
+            0.5148723598779967,
+            -0.16926732615169204,
+            0.2985717677964653
+          ],
+          "force_normal_into_object_world": [
+            -0.2720549135043398,
+            -0.7888835353586167,
+            -0.5510434571594479
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.00038887672749403346,
+          "position_world": [
+            0.5334837372573895,
+            -0.18078967960504214,
+            0.3058787744225498
+          ],
+          "force_normal_into_object_world": [
+            -0.2720549135043398,
+            -0.7888835353586167,
+            -0.5510434571594479
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.9396926207859084,
+          -0.3420201433256686,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.8054665925760924,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.7907313964441028,
+          -0.7261193989052728,
+          -0.8054665925760924,
+          -0.8054665925760924,
+          -0.8054665925760924,
+          -0.8054665925760924
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.2129337334841437,
+          1.174439676553607,
+          0.13298941169856893,
+          0.13298941169856893,
+          0.13298941169856893,
+          0.13298941169856893
+        ],
+        "max_over_contacts": 1.2129337334841437,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6718,
+      "sim_time": 224.9333333344717,
+      "phase": "transfer",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0023458285614069646,
+        "rotation_change_rad": 0.5989769847655836
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 27.737739795689485,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.421239540530095,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0006835430965239026,
+          "position_world": [
+            0.606396202577996,
+            -0.31345915600003194,
+            0.3299998384578704
+          ],
+          "force_normal_into_object_world": [
+            0.24219065249826213,
+            0.9480436369418489,
+            0.2062933597974928
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005108810038398074,
+          "position_world": [
+            0.6107625418716942,
+            -0.3154881017801382,
+            0.3479564636661897
+          ],
+          "force_normal_into_object_world": [
+            -0.18855372212180818,
+            -0.9501141209465578,
+            -0.24845653755126204
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005108810038398074,
+          "position_world": [
+            0.6040934394290081,
+            -0.30863211198417534,
+            0.3267998917480799
+          ],
+          "force_normal_into_object_world": [
+            -0.18855372212180818,
+            -0.9501141209465578,
+            -0.24845653755126204
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005108810038398074,
+          "position_world": [
+            0.5975452490125608,
+            -0.3079856907901395,
+            0.3292973579894555
+          ],
+          "force_normal_into_object_world": [
+            -0.18855372212180818,
+            -0.9501141209465578,
+            -0.24845653755126204
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005108810038398074,
+          "position_world": [
+            0.6153402144287112,
+            -0.3148694642534981,
+            0.34211675637596684
+          ],
+          "force_normal_into_object_world": [
+            -0.18855372212180818,
+            -0.9501141209465578,
+            -0.24845653755126204
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.9743700647852351,
+          -0.22495105434386534,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.7967834116005458,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.7967834116005458,
+          -0.7893376868471911,
+          -0.7893376868471911,
+          -0.7893376868471911,
+          -0.7893376868471911
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          1.0083763578711509,
+          0.545554610002113,
+          0.545554610002113,
+          0.545554610002113,
+          0.545554610002113
+        ],
+        "max_over_contacts": 1.0083763578711509,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6761,
+      "sim_time": 226.3666666678233,
+      "phase": "transfer",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0025097674085823992,
+        "rotation_change_rad": 0.5979101935359697
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 26.817811998493543,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.193629546303967,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0006352615512548994,
+          "position_world": [
+            0.6178908420406614,
+            -0.4020392139847412,
+            0.3353776208175558
+          ],
+          "force_normal_into_object_world": [
+            0.22933316924750727,
+            0.973346745293625,
+            -0.0015527102760836328
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005901818240900817,
+          "position_world": [
+            0.6218731591410128,
+            -0.4000550053613666,
+            0.3532833592438912
+          ],
+          "force_normal_into_object_world": [
+            -0.17485470884698784,
+            -0.9838531675467951,
+            -0.03819391970161161
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005901818240900817,
+          "position_world": [
+            0.615512634532944,
+            -0.3980611825340701,
+            0.3310426149663759
+          ],
+          "force_normal_into_object_world": [
+            -0.17485470884698784,
+            -0.9838531675467951,
+            -0.03819391970161161
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005901818240900817,
+          "position_world": [
+            0.6090471177538407,
+            -0.3969953417196548,
+            0.33318681058342114
+          ],
+          "force_normal_into_object_world": [
+            -0.17485470884698784,
+            -0.9838531675467951,
+            -0.03819391970161161
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005901818240900817,
+          "position_world": [
+            0.6265471173915504,
+            -0.4006619118438878,
+            0.34751917608605587
+          ],
+          "force_normal_into_object_world": [
+            -0.17485470884698784,
+            -0.9838531675467951,
+            -0.03819391970161161
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.9781476007338056,
+          -0.20791169081775987,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.7975658677671895,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.7975658677671895,
+          -0.7857333843282986,
+          -0.7857333843282986,
+          -0.7857333843282986,
+          -0.7857333843282986
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          0.8181612125885707,
+          0.780922883071274,
+          0.780922883071274,
+          0.780922883071274,
+          0.780922883071274
+        ],
+        "max_over_contacts": 0.8181612125885707,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6803,
+      "sim_time": 227.76666666784112,
+      "phase": "transfer",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0025640611300122534,
+        "rotation_change_rad": 0.5978699121491546
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 26.6379584156608,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.137861772870615,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0006258251607414412,
+          "position_world": [
+            0.617250735686576,
+            -0.41701399151004503,
+            0.33539776992045367
+          ],
+          "force_normal_into_object_world": [
+            0.22847256381318076,
+            0.9728040108735068,
+            -0.03811356730942676
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006059909870890378,
+          "position_world": [
+            0.6212117682266014,
+            -0.4143568173917994,
+            0.35317780827276635
+          ],
+          "force_normal_into_object_world": [
+            -0.17394822385656916,
+            -0.9847541256046838,
+            -0.001152181279029066
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006059909870890378,
+          "position_world": [
+            0.6148412659721558,
+            -0.41320543536373,
+            0.33088042704168985
+          ],
+          "force_normal_into_object_world": [
+            -0.17394822385656916,
+            -0.9847541256046838,
+            -0.001152181279029066
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006059909870890378,
+          "position_world": [
+            0.6084197982370998,
+            -0.4120735817647933,
+            0.3329681612892885
+          ],
+          "force_normal_into_object_world": [
+            -0.17394822385656916,
+            -0.9847541256046838,
+            -0.001152181279029066
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006059909870890378,
+          "position_world": [
+            0.6258841883542854,
+            -0.41517544467374023,
+            0.3474386124031552
+          ],
+          "force_normal_into_object_world": [
+            -0.17394822385656916,
+            -0.9847541256046838,
+            -0.001152181279029066
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.9781476007338056,
+          -0.20791169081775987,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.7983077281625431,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.7983077281625431,
+          -0.7846293875562924,
+          -0.7846293875562924,
+          -0.7846293875562924,
+          -0.7846293875562924
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          0.7810057503311145,
+          0.8185621856204851,
+          0.8185621856204851,
+          0.8185621856204851,
+          0.8185621856204851
+        ],
+        "max_over_contacts": 0.8185621856204851,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6845,
+      "sim_time": 229.16666666785895,
+      "phase": "lower",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0028768916472718324,
+        "rotation_change_rad": 0.5978241411754739
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 26.635127762752038,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.091021396882216,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0006344331549172974,
+          "position_world": [
+            0.6213346968386178,
+            -0.4177563744145334,
+            0.323890808306183
+          ],
+          "force_normal_into_object_world": [
+            0.2278308180545343,
+            0.9729393568958794,
+            -0.038498391494115124
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005867008433220799,
+          "position_world": [
+            0.6252089221171859,
+            -0.4150913235923881,
+            0.3413027427649211
+          ],
+          "force_normal_into_object_world": [
+            -0.17356007604233378,
+            -0.9848226171647082,
+            -0.0011457421323978845
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005867008433220799,
+          "position_world": [
+            0.6186662113326491,
+            -0.4139123994154287,
+            0.31906581357567954
+          ],
+          "force_normal_into_object_world": [
+            -0.17356007604233378,
+            -0.9848226171647082,
+            -0.0011457421323978845
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005867008433220799,
+          "position_world": [
+            0.6133088911857625,
+            -0.4129702438719448,
+            0.32077722814882925
+          ],
+          "force_normal_into_object_world": [
+            -0.17356007604233378,
+            -0.9848226171647082,
+            -0.0011457421323978845
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0005867008433220799,
+          "position_world": [
+            0.6298294205755037,
+            -0.4158989134750749,
+            0.3355411604884535
+          ],
+          "force_normal_into_object_world": [
+            -0.17356007604233378,
+            -0.9848226171647082,
+            -0.0011457421323978845
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.9781476007338056,
+          -0.20791169081775987,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.7989748260815275,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.7989748260815275,
+          -0.7842242407507092,
+          -0.7842242407507092,
+          -0.7842242407507092,
+          -0.7842242407507092
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          0.78060883379844,
+          0.818568630831644,
+          0.818568630831644,
+          0.818568630831644,
+          0.818568630831644
+        ],
+        "max_over_contacts": 0.818568630831644,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    },
+    {
+      "source_state_index": 6888,
+      "sim_time": 230.60000000121053,
+      "phase": "lower",
+      "recorded_grasp": {
+        "object": "plate",
+        "side": "right",
+        "contact_fingers": [
+          "7",
+          "8"
+        ],
+        "slip_m": 0.0027122276339028,
+        "rotation_change_rad": 0.5978479705829272
+      },
+      "recorded_finger_forces": {
+        "7": {
+          "normal_force_N": 26.58071922088477,
+          "contact_count": 1,
+          "contact_above_threshold": true
+        },
+        "8": {
+          "normal_force_N": 27.073632449319028,
+          "contact_count": 4,
+          "contact_above_threshold": true
+        }
+      },
+      "reconstructed_contacts": [
+        {
+          "finger_body": "right/link7",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "distance_m": -0.0006261814141005756,
+          "position_world": [
+            0.6179433339697402,
+            -0.4171709797046449,
+            0.29120058774679675
+          ],
+          "force_normal_into_object_world": [
+            0.22729220777212447,
+            0.9730323064821585,
+            -0.03932407440848477
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006034358877250276,
+          "position_world": [
+            0.6222499024410628,
+            -0.4145832557043289,
+            0.3088032736325833
+          ],
+          "force_normal_into_object_world": [
+            -0.1736974771486141,
+            -0.9847982632891322,
+            -0.0012518206405024313
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006034358877250276,
+          "position_world": [
+            0.6153633351424058,
+            -0.4133404703949299,
+            0.2866647801330896
+          ],
+          "force_normal_into_object_world": [
+            -0.1736974771486141,
+            -0.9847982632891322,
+            -0.0012518206405024313
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006034358877250276,
+          "position_world": [
+            0.609109466521611,
+            -0.41224020609832024,
+            0.28885588883456303
+          ],
+          "force_normal_into_object_world": [
+            -0.1736974771486141,
+            -0.9847982632891322,
+            -0.0012518206405024313
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        },
+        {
+          "finger_body": "right/link8",
+          "geoms": [
+            "gripper_right_36",
+            "task/plate/glazed_shell_contact_2_9"
+          ],
+          "distance_m": -0.0006034358877250276,
+          "position_world": [
+            0.6267880514708186,
+            -0.41537625318863997,
+            0.30295379567207426
+          ],
+          "force_normal_into_object_world": [
+            -0.1736974771486141,
+            -0.9847982632891322,
+            -0.0012518206405024313
+          ],
+          "sliding_friction": [
+            0.8197149109943607,
+            0.8197149109943607
+          ]
+        }
+      ],
+      "reconstructed_external_contacts": [],
+      "finger_only_separation": {
+        "axis_world": [
+          0.9781476007338056,
+          -0.20791169081775987,
+          0.0
+        ],
+        "min_projection_per_unit_normal_force": -0.7995300790701481,
+        "all_finger_cones_strictly_same_horizontal_halfspace": false,
+        "per_contact_bounds": [
+          -0.7995300790701481,
+          -0.7843676971168051,
+          -0.7843676971168051,
+          -0.7843676971168051,
+          -0.7843676971168051
+        ],
+        "angular_search_step_deg": 1
+      },
+      "upward_force_capacity": {
+        "up_axis_world": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "per_contact_max_upward_force_per_unit_normal": [
+          0.7797567948420818,
+          0.8184624480844661,
+          0.8184624480844661,
+          0.8184624480844661,
+          0.8184624480844661
+        ],
+        "max_over_contacts": 0.8184624480844661,
+        "all_finger_forces_strictly_downward": false,
+        "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+      }
+    }
+  ],
+  "limitations": [
+    "No solver warm-start, velocity, or force replay; frames/friction are recomputed from recorded native poses.",
+    "A positive separation concerns finger-only static horizontal force equilibrium, not contact with the table or other objects.",
+    "A nonpositive bound is inconclusive; contact torques, COM and dynamic stability are not certified."
+  ],
+  "model_cone": 1,
+  "source_unchanged": true
+}

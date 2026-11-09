@@ -1,0 +1,368 @@
+{
+  "scope": "Isolated top-down chord-grasp screening, never a physical or training replay.\n\nUses the source's original plate, gripper and basket collision geometry. A\nbilateral collision is only a geometric condition, not evidence of force or\nstable carrying. A rigid, non-slipping lift is an explicit planning hypothesis.\nRestores every isolated integration state after each candidate.\n",
+  "source": "/dev/shm/piper_rotation_evidence_v1/episode/episode.h5",
+  "source_sha256": "e6c282e972830727de959ff706d6935a38e52a5bc7cb33f099534dde2e0442b5",
+  "source_index": 6090,
+  "script_sha256": "7c1a3f8cb876433a39f13c9dd92f578adff909f7e2e6c8f45b4ad6d8563b1409",
+  "profile": {
+    "radii_m": [
+      0.09,
+      0.095
+    ],
+    "azimuths_deg": [
+      0,
+      45,
+      -45
+    ],
+    "tilts_deg": [
+      30,
+      45
+    ],
+    "heights_m": [
+      0.012
+    ],
+    "open_width_m": 0.095,
+    "lift_m": 0.15,
+    "flat_placement_budget": 96,
+    "max_placement_queries": 4
+  },
+  "training_ready": false,
+  "candidates": [
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "Open chord approach intersects target before closing: 0.339 mm at sample 27",
+      "first_bilateral_width_m": 0.095,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "rigid_lift_hypothesis",
+      "error": "Finger-only static force balance impossible in this geometry: max upward/Fn=0.998892, horizontal separation=0.506229",
+      "first_bilateral_width_m": 0.0875,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "right IK failed at [0.245, -0.0368, 0.0617]: 0.0 mm, 11.1 deg",
+      "first_bilateral_width_m": 0.095,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "approach_path",
+      "error": "right IK failed at [0.24, -0.0368, 0.0617]: 0.0 mm, 11.5 deg",
+      "first_bilateral_width_m": 0.0825,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "Open chord approach intersects target before closing: 0.222 mm at sample 26",
+      "first_bilateral_width_m": 0.095,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "rigid_lift_hypothesis",
+      "error": "Finger-only static force balance impossible in this geometry: max upward/Fn=0.998798, horizontal separation=0.506281",
+      "first_bilateral_width_m": 0.0875,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "Open chord approach intersects target before closing: 0.098 mm at sample 30",
+      "first_bilateral_width_m": 0.095,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "rigid_lift_hypothesis",
+      "error": "Finger-only static force balance impossible in this geometry: max upward/Fn=-0.062486, horizontal separation=0.061773",
+      "first_bilateral_width_m": 0.085,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2962, 0.0268, 0.037]: 4.1 mm, 3.9 deg",
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2926, 0.0303, 0.037]: 4.9 mm, 3.7 deg",
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2962, 0.0268, 0.037]: 8.0 mm, 12.7 deg",
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2926, 0.0303, 0.037]: 8.5 mm, 13.1 deg",
+      "isolated_state_restored": true
+    }
+  ],
+  "placement_queries": 0,
+  "source_unchanged": true,
+  "necessary_force_screen": {
+    "scope": "Add necessary force-cone conditions to the isolated chord-grasp search.\n\nThis rejects provably impossible finger-only support in the reconstructed\ngeometry. Passing is inconclusive, never a grasp-stability or physics success.\nNo force limit, friction parameter, collision gate or live state is changed.\n",
+    "script_sha256": "873ef76103a48d0be030900252874014dafee00cd31cb98279fd6bda4e855913",
+    "cone_diagnostic_sha256": "d4611ac6f285566da1140587787f6e3a9cdad878ed4b21fe10dce01b5a80f6e8",
+    "checks": [
+      {
+        "object": "plate",
+        "gripper_width_m": 0.0875,
+        "tcp_world_m": [
+          0.26472667329433774,
+          -0.03683134268957333,
+          0.03699821622928706
+        ],
+        "upward_capacity": {
+          "up_axis_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "per_contact_max_upward_force_per_unit_normal": [
+            0.9876706580272498,
+            0.9876706591190814,
+            0.9988924620750367,
+            0.9988924633653848
+          ],
+          "max_over_contacts": 0.9988924633653848,
+          "all_finger_forces_strictly_downward": false,
+          "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+        },
+        "horizontal_separation": {
+          "axis_world": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "min_projection_per_unit_normal_force": 0.5062286985757037,
+          "all_finger_cones_strictly_same_horizontal_halfspace": true,
+          "per_contact_bounds": [
+            0.5149201683871751,
+            0.5149201846842956,
+            0.5062286985757037,
+            0.5062287166339184
+          ],
+          "angular_search_step_deg": 1
+        },
+        "rejected": true
+      },
+      {
+        "object": "plate",
+        "gripper_width_m": 0.0875,
+        "tcp_world_m": [
+          0.2924101019595766,
+          -0.10403189038123964,
+          0.03698030687808947
+        ],
+        "upward_capacity": {
+          "up_axis_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "per_contact_max_upward_force_per_unit_normal": [
+            0.9875357484086547,
+            0.9875357414080859,
+            0.9987980261194851,
+            0.9987980189134497
+          ],
+          "max_over_contacts": 0.9987980261194851,
+          "all_finger_forces_strictly_downward": false,
+          "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+        },
+        "horizontal_separation": {
+          "axis_world": [
+            0.7071067811865476,
+            0.7071067811865475,
+            0.0
+          ],
+          "min_projection_per_unit_normal_force": 0.5062808471142792,
+          "all_finger_cones_strictly_same_horizontal_halfspace": true,
+          "per_contact_bounds": [
+            0.5149895840212406,
+            0.5149894795212115,
+            0.5062809480909309,
+            0.5062808471142792
+          ],
+          "angular_search_step_deg": 1
+        },
+        "rejected": true
+      },
+      {
+        "object": "plate",
+        "gripper_width_m": 0.085,
+        "tcp_world_m": [
+          0.2923465294416289,
+          -0.10400477977405817,
+          0.037000121264799415
+        ],
+        "upward_capacity": {
+          "up_axis_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "per_contact_max_upward_force_per_unit_normal": [
+            -0.062485838200589505,
+            -0.06248579227476281,
+            -0.06257290794867887,
+            -0.0625728623796219
+          ],
+          "max_over_contacts": -0.06248579227476281,
+          "all_finger_forces_strictly_downward": true,
+          "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+        },
+        "horizontal_separation": {
+          "axis_world": [
+            0.7071067811865476,
+            0.7071067811865475,
+            0.0
+          ],
+          "min_projection_per_unit_normal_force": 0.06177261204885487,
+          "all_finger_cones_strictly_same_horizontal_halfspace": true,
+          "per_contact_bounds": [
+            0.0632376824588996,
+            0.06323763678426098,
+            0.061772657877274706,
+            0.06177261204885487
+          ],
+          "angular_search_step_deg": 1
+        },
+        "rejected": true
+      }
+    ]
+  },
+  "open_approach_screen": {
+    "scope": "Screen the OPEN approach as well as the final chord-grasp pose.\n\nThis experimental chord protocol requires open fingers to clear the target\nbefore closing. The usual teacher intentionally allows finger/target contact;\nthis extra geometric condition is explicit and is not a new global gate.\nIt prevents relying on an unchanged plate pose after an intersecting descent.\n",
+    "script_sha256": "75d16bc7d1c17a7ebaad93186e5e666f54511846a336f6a897327838ff324449",
+    "penetration_roundoff_tolerance_m": 1e-05,
+    "tolerance_scope": "Isolated approach geometry diagnostic; not a hardware or production collision limit.",
+    "checks": [
+      {
+        "command_samples": 39,
+        "rejected": true,
+        "first_intersection": {
+          "sample": 27,
+          "full_width_m": 0.095,
+          "distance_m": -0.00033923482624849594,
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "position_world_m": [
+            0.27769578646273074,
+            -0.08446567923196877,
+            0.04005717963873198
+          ]
+        }
+      },
+      {
+        "command_samples": 39,
+        "rejected": false,
+        "first_intersection": null
+      },
+      {
+        "command_samples": 39,
+        "rejected": true,
+        "first_intersection": {
+          "sample": 26,
+          "full_width_m": 0.095,
+          "distance_m": -0.00022192261617898077,
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_11"
+          ],
+          "position_world_m": [
+            0.33517312800566823,
+            -0.12854981249074765,
+            0.04010586849517418
+          ]
+        }
+      },
+      {
+        "command_samples": 39,
+        "rejected": false,
+        "first_intersection": null
+      },
+      {
+        "command_samples": 39,
+        "rejected": true,
+        "first_intersection": {
+          "sample": 30,
+          "full_width_m": 0.095,
+          "distance_m": -9.758430855760294e-05,
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_11"
+          ],
+          "position_world_m": [
+            0.33527347986501277,
+            -0.1286007903117124,
+            0.040166144715265875
+          ]
+        }
+      },
+      {
+        "command_samples": 39,
+        "rejected": false,
+        "first_intersection": null
+      }
+    ]
+  },
+  "first_geometric_contact_screen": {
+    "scope": "Use first bilateral geometry, not scratch solver forces, in chord preflight.\n\nThe isolated closure scan holds the plate pose fixed. Scratch mj_forward forces\ncannot identify its first physical collision: the plate can balance on the\ntable and leave intersecting finger contacts unloaded. Begin necessary force\nscreening at the first bilateral geometric contact instead. This is still a\nfixed-pose approximation; it is not a physical grasp or a no-solution proof.\n",
+    "script_sha256": "ea53bdc5a817b64f9fba7893f9f31cab4a1e8f55493db1a9fe0b5886fe5e8c69",
+    "contact_distance_max_m": 0.0,
+    "normal_force_threshold_used": false,
+    "aperture_step_m": 0.0005,
+    "production_contact_detector_changed": false
+  }
+}

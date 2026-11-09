@@ -27,7 +27,10 @@ def main():
     p.add_argument('--object', required=True)
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--start-phase', default='lower')
-    p.add_argument('--end-phase', default='placed')
+    end = p.add_mutually_exclusive_group()
+    end.add_argument('--end-phase', default='placed')
+    end.add_argument('--until-recording-end', action='store_true',
+                     help='Include the final recorded state, including failed episodes without a placed event')
     p.add_argument('--lead-seconds', type=float, default=1.)
     p.add_argument('--view', choices=('release','workcell'), default='release')
     args = p.parse_args()
@@ -40,7 +43,8 @@ def main():
         meta = json.loads(f.attrs['metadata'])
         events = [e for e in meta['collection_outcome']['teacher_events'] if e['object']==args.object]
         start_time = next(e['sim_time'] for e in events if e['phase']==args.start_phase)-args.lead_seconds
-        end_time = next(e['sim_time'] for e in events if e['phase']==args.end_phase)
+        end_time = (float(f['next_observation/sim_time'][-1]) if args.until_recording_end else
+                    next(e['sim_time'] for e in events if e['phase']==args.end_phase))
         fps = float(meta['fps'])
         times = np.r_[f['observation/sim_time'][:], f['next_observation/sim_time'][-1]]
         if fps != 30. or not np.allclose(np.diff(times), 1/fps, rtol=0, atol=1e-6):
@@ -100,7 +104,9 @@ def main():
             atomic_json(args.output/'preview.json', {'scope': __doc__, 'training_ready': False,
                 'source': str(args.source.resolve()), 'source_sha256': sha256(args.source),
                 'script_sha256': sha256(__file__), 'source_provenance_changes': changed,
-                'selection': {'object':args.object,'start_phase':args.start_phase,'end_phase':args.end_phase,
+                'selection': {'object':args.object,'start_phase':args.start_phase,
+                              'end_phase':None if args.until_recording_end else args.end_phase,
+                              'until_recording_end':args.until_recording_end,
                               'lead_seconds':args.lead_seconds,'view':args.view},
                 'frame_range_exclusive': [first,stop], 'frames': stop-first, 'fps': fps,
                 'first_last_source_sim_time': [float(times[first]),float(times[stop-1])],

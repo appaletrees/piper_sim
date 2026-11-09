@@ -1,0 +1,60 @@
+{
+  "command": [
+    "--config",
+    "configs/clean_table_tcp_fixed_contact.yaml",
+    "--task-scene",
+    "configs/tasks/clean_table_rigid.yaml",
+    "--domain-randomization",
+    "configs/domain_randomization/clean_table.yaml",
+    "--collection-profile",
+    "configs/collection/clean_table_tcp_slender.yaml",
+    "--acceptance-policy",
+    "configs/collection/quality_policy_tcp.yaml",
+    "--seed",
+    "1",
+    "--record",
+    "--output",
+    "/dev/shm/piper_chord_release_v1/episode"
+  ],
+  "selected_objects": [
+    "plate"
+  ],
+  "includes_task_contacts": true,
+  "selected_phases": [
+    "release",
+    "unload_gripper"
+  ],
+  "script_sha256": "2323d8746fa60253b976fd576a87809052c2e1dafee84736514f51900d374e2a",
+  "scope": "Force trace of an explicit controller experiment; see experiment metadata for changes.",
+  "experiment": {
+    "mode": "plate_chord_flat_release_v1",
+    "object": "plate",
+    "radius_m": 0.09,
+    "azimuth_deg": 45,
+    "tilt_deg": 30,
+    "height_m": 0.012,
+    "open_width_m": 0.095,
+    "scope": "Fresh full physical trial of a plate chord grasp and low flat placement.\n\nOnly grasp and placement position commands change. The actual dynamic held\ntransform is used by the placement search, not the ideal static hypothesis.\nOriginal motor/contact parameters, physical grasp and quality gates remain.\nNo live object writes, assistance, or promotion to production/training data.\n",
+    "calibration": "Unidentified experiment, not calibrated hardware grasp parameters",
+    "placement": {
+      "mode": "flat_plate_placement_probe_v1",
+      "support_gap_m": 0.003,
+      "wall_margin_m": 0.012,
+      "surface_spacing_m": 0.005,
+      "slot_radius_m": 0.075,
+      "slot_step_m": 0.025,
+      "yaw_step_deg": 15,
+      "max_candidates": 288,
+      "release_width_m": 0.095,
+      "calibration": "unidentified experimental planning budgets"
+    },
+    "script_sha256": "f0fb547c8e93184fb9dc20fc737b841bd660ed9b6c860e99bc6cf483ec69716e",
+    "geometry_evidence": "outputs/platform_audit_v1/chord_grasp_v1/geometry_v3.json",
+    "geometry_evidence_sha256": "0036b75a72c21caea72e8ca4778ce07b55d49fc4cb5e5b19581ebf6fe220fab4",
+    "geometry_evidence_scope": "Hypothetical rigid grasp only; current rollout must revalidate actual held geometry."
+  },
+  "returncode": 2,
+  "error": null,
+  "rows": 0,
+  "status": "no_selected_steps"
+}

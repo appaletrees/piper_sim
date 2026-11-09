@@ -1,0 +1,91 @@
+{
+  "geometry_screens": {
+    "geometry": {
+      "sha256": "3bf16b875b9a188a34a3dd882b705c4f489234181501471ee1107d8acbb6b6ae",
+      "candidates": 24,
+      "stages": {
+        "approach_path": 16,
+        "closing_geometry": 8
+      },
+      "isolated_states_restored": true,
+      "source_unchanged": true,
+      "physical_success": false,
+      "limitation": "Early exploratory prototype used the old pregrasp snapshot, not the original approach boundary; not evidence that a candidate cannot be reached from the correct start."
+    },
+    "geometry_v2": {
+      "sha256": "26deb27186069a443efbbc3259398fa887e91997702bbddc2cb521511b5aab70",
+      "candidates": 24,
+      "stages": {
+        "rigid_lift_hypothesis": 8,
+        "grasp_geometry_feasible": 8,
+        "closing_geometry": 8
+      },
+      "isolated_states_restored": true,
+      "source_unchanged": true,
+      "physical_success": false,
+      "limitation": "Exploratory 100 mm lift rather than original 150 mm lift; not the full physical trial preflight."
+    },
+    "geometry_v3": {
+      "sha256": "0036b75a72c21caea72e8ca4778ce07b55d49fc4cb5e5b19581ebf6fe220fab4",
+      "candidates": 12,
+      "stages": {
+        "coupled_geometry_feasible": 4,
+        "approach_path": 2,
+        "grasp_geometry_feasible": 2,
+        "grasp_ik": 4
+      },
+      "isolated_states_restored": true,
+      "source_unchanged": true,
+      "physical_success": false
+    },
+    "geometry_force_screened": {
+      "sha256": "2c947ebfc9040ca9538c6a1f8cf0ebd4ef922b621ccc1930f070608b37614fc8",
+      "candidates": 12,
+      "stages": {
+        "coupled_geometry_feasible": 4,
+        "approach_path": 2,
+        "rigid_lift_hypothesis": 2,
+        "grasp_ik": 4
+      },
+      "isolated_states_restored": true,
+      "source_unchanged": true,
+      "physical_success": false
+    },
+    "geometry_capture_screened": {
+      "sha256": "30037a508455b0273ab5d5e026b7c17af19b7d3ced1cf53b44ac8dacb4cfa64b",
+      "candidates": 12,
+      "stages": {
+        "approach_path": 5,
+        "coupled_geometry_feasible": 2,
+        "rigid_lift_hypothesis": 1,
+        "grasp_ik": 4
+      },
+      "isolated_states_restored": true,
+      "source_unchanged": true,
+      "physical_success": false
+    },
+    "geometry_vertical_capture_screened": {
+      "sha256": "131dac61a123a51bfe3d829220a8d2ad079a3983a234be396df7347bb6aafb8f",
+      "candidates": 12,
+      "stages": {
+        "approach_path": 5,
+        "coupled_geometry_feasible": 2,
+        "rigid_lift_hypothesis": 1,
+        "grasp_ik": 4
+      },
+      "isolated_states_restored": true,
+      "source_unchanged": true,
+      "physical_success": false
+    }
+  },
+  "capture_audit": {
+    "snapshots": 51,
+    "snapshots_with_reconstructed_finger_contacts": 40,
+    "strictly_downward_snapshots": 39,
+    "held_snapshots": 6,
+    "held_contact_snapshots": 4,
+    "held_strictly_downward_snapshots": 4,
+    "limitation": "Geometry/friction reconstructed from native poses; not the original native solver trace. Nonnegative capacity does not certify a grasp."
+  },
+  "training_ready": false
+}

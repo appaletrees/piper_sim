@@ -1,0 +1,5575 @@
+{
+  "schema_version": 1,
+  "scope": "Analyze a native force trace and prove its full rollout matches a source.\n\nRead-only diagnostic; native acceleration/jerk are velocity differences across\nactual integrator boundaries. This does not set a training acceptance threshold.\n",
+  "script_sha256": "8d475c11b48f470ef0b1439b32bf3c75e51f5ee8caf84deb9d20163e59c33860",
+  "trace_sha256": "38e26926e537ae1521e395a1cb4182aa6941491d5e631e6e64a2749228260b67",
+  "frozen_inputs_changed": [],
+  "comparison_scope": "single_recording_trace_consistency_only",
+  "baseline": null,
+  "observed": {
+    "source": "/dev/shm/piper_outer_chord_v1/episode/episode.h5",
+    "sha256": "a4f2cb1f9d5dbfaba57a82f9965344cbfd7ea762fb174c85d662b424a27cef28",
+    "streams": {
+      "observation/state": {
+        "shape": [
+          6523,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "be64bdf50b26299c494e6da5b16982197f2cc77b80cf7dc14f7a44a2b5545cd4"
+      },
+      "next_observation/state": {
+        "shape": [
+          6523,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "e00cdafc1aea1690186a735e8a6eae354dd4a03f831cee9046d3c97af2395e64"
+      },
+      "action/position": {
+        "shape": [
+          6523,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "6b83c4ed30e04f45091b8be75a6c5768641338541ed8f033e3af13ffae52d826"
+      },
+      "observation/sim_time": {
+        "shape": [
+          6523
+        ],
+        "dtype": "float64",
+        "sha256": "2baa98d2d77ad0dd5821c9a5e27e71c21e8e60cd0b0c204e1b9dcfaeb7846e73"
+      },
+      "next_observation/sim_time": {
+        "shape": [
+          6523
+        ],
+        "dtype": "float64",
+        "sha256": "d836578374a13452e5f3fac8ec0c221e61814dfee84bbb604d117e6526dbd2f5"
+      }
+    },
+    "privileged_sha256": "1946e7f857a48193c89b0132898f27309bb371f4fa8f56b15a419a4b847a49ce",
+    "phase_native_extrema": {
+      "cup_01/approach": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/grasp": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/lift": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/nest": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/release_for_nesting": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/approach": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/grasp": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/lift": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/nest": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/release_for_nesting": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/stack_checked": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/stack_ready": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_00/approach": {
+        "acceleration": 0.39466215778431346,
+        "jerk": 478.21970944615447
+      },
+      "cup_00/grasp": {
+        "acceleration": 1.3034019514754402,
+        "jerk": 1261.8809118149898
+      },
+      "cup_00/lift": {
+        "acceleration": 0.013920790128751463,
+        "jerk": 9.368184003632377
+      },
+      "cup_00/transfer_stack": {
+        "acceleration": 0.34618458156081894,
+        "jerk": 337.4226281792135
+      },
+      "cup_00/release_stack": {
+        "acceleration": 9.766294902114607,
+        "jerk": 15212.35565543098
+      },
+      "chopstick_a/approach": {
+        "acceleration": 0.4738718386062968,
+        "jerk": 574.1950838980728
+      },
+      "chopstick_a/grasp": {
+        "acceleration": 3.7911916965591885,
+        "jerk": 4916.153584636291
+      },
+      "chopstick_a/lift": {
+        "acceleration": 0.8365285213974526,
+        "jerk": 882.1773811503865
+      },
+      "chopstick_a/transfer": {
+        "acceleration": 0.7733259404010606,
+        "jerk": 813.3103632002591
+      },
+      "chopstick_a/lower": {
+        "acceleration": 0.7919194146608879,
+        "jerk": 797.2064114829644
+      },
+      "chopstick_a/unload_gripper": {
+        "acceleration": 0.9647805393703577,
+        "jerk": 1312.2845543558376
+      },
+      "chopstick_a/release": {
+        "acceleration": 1.2482345383430626,
+        "jerk": 1508.2529117099418
+      },
+      "chopstick_b/approach": {
+        "acceleration": 0.13097399497204287,
+        "jerk": 158.72161822200664
+      },
+      "chopstick_b/grasp": {
+        "acceleration": 3.7527163723915185,
+        "jerk": 5400.815117175565
+      },
+      "chopstick_b/lift": {
+        "acceleration": 1.269590100820891,
+        "jerk": 1797.6051505810485
+      },
+      "chopstick_b/transfer": {
+        "acceleration": 0.9414618024076288,
+        "jerk": 957.0626168356592
+      },
+      "chopstick_b/lower": {
+        "acceleration": 0.9476098237166922,
+        "jerk": 956.0209862101917
+      },
+      "chopstick_b/unload_gripper": {
+        "acceleration": 0.9619552664937074,
+        "jerk": 1308.4050225398298
+      },
+      "chopstick_b/release": {
+        "acceleration": 1.2491417134849292,
+        "jerk": 1509.350389356917
+      },
+      "pen/approach": {
+        "acceleration": 0.055534315713851035,
+        "jerk": 67.30491687583333
+      },
+      "pen/grasp": {
+        "acceleration": 1.3805933807470594,
+        "jerk": 1215.437699723654
+      },
+      "pen/lift": {
+        "acceleration": 0.0010147406137098408,
+        "jerk": 0.492838938671708
+      },
+      "pen/transfer": {
+        "acceleration": 0.0002062050681582954,
+        "jerk": 0.10718992725390689
+      },
+      "pen/lower": {
+        "acceleration": 0.0001280905691821891,
+        "jerk": 0.06723696987857783
+      },
+      "pen/unload_gripper": {
+        "acceleration": 1.0175724163649742,
+        "jerk": 1547.1376456664614
+      },
+      "pen/release": {
+        "acceleration": 1.2058234662110168,
+        "jerk": 1461.4001320751963
+      },
+      "charger/approach": {
+        "acceleration": 0.28668382165490947,
+        "jerk": 347.29665610474996
+      },
+      "charger/grasp": {
+        "acceleration": 1.2295051873198815,
+        "jerk": 1177.4781547876123
+      },
+      "charger/lift": {
+        "acceleration": 0.7468964118758026,
+        "jerk": 560.2369709894972
+      },
+      "charger/transfer": {
+        "acceleration": 0.5607505789777998,
+        "jerk": 561.1075012454007
+      },
+      "charger/lower": {
+        "acceleration": 0.5661669333114293,
+        "jerk": 561.5919440097292
+      },
+      "charger/unload_gripper": {
+        "acceleration": 14.962278778093461,
+        "jerk": 23541.111637887196
+      },
+      "charger/release": {
+        "acceleration": 1.2707283020970006,
+        "jerk": 1538.0772092111083
+      },
+      "spoon/approach": {
+        "acceleration": 0.11172047839388632,
+        "jerk": 135.39274976932953
+      },
+      "spoon/grasp": {
+        "acceleration": 1.1027611655674374,
+        "jerk": 886.4065095313975
+      },
+      "spoon/lift": {
+        "acceleration": 0.004577520749354819,
+        "jerk": 5.551950311750974
+      },
+      "spoon/transfer": {
+        "acceleration": 0.00023915371623348905,
+        "jerk": 0.3032602555721048
+      },
+      "spoon/lower": {
+        "acceleration": 0.0022802459002132028,
+        "jerk": 3.1645014601891925
+      },
+      "spoon/unload_gripper": {
+        "acceleration": 1.9198472775786841,
+        "jerk": 2630.1274107425584
+      },
+      "spoon/release": {
+        "acceleration": 0.8411401403800911,
+        "jerk": 1018.1762303889084
+      },
+      "bowl/approach": {
+        "acceleration": 0.030047875559945647,
+        "jerk": 36.422226132991135
+      },
+      "bowl/grasp": {
+        "acceleration": 5.456634475736468,
+        "jerk": 5190.384679207342
+      },
+      "bowl/lift": {
+        "acceleration": 0.8693812418467711,
+        "jerk": 843.9095898347824
+      },
+      "bowl/transfer": {
+        "acceleration": 0.2567524297327443,
+        "jerk": 272.5347463638
+      },
+      "bowl/lower": {
+        "acceleration": 0.2564802683962549,
+        "jerk": 266.95874756579326
+      },
+      "bowl/unload_gripper": {
+        "acceleration": 24.502039925219115,
+        "jerk": 26352.470798845912
+      },
+      "bowl/release": {
+        "acceleration": 15.91530707306275,
+        "jerk": 17888.602907135217
+      },
+      "plate/approach": {
+        "acceleration": 0.09763620021097708,
+        "jerk": 117.70281330685518
+      },
+      "plate/grasp": {
+        "acceleration": 39.8944471516188,
+        "jerk": 66057.89899489046
+      },
+      "plate/lift": {
+        "acceleration": 2.582056332431038,
+        "jerk": 3653.950030358371
+      }
+    }
+  },
+  "public_streams_exact": null,
+  "objects_native_physics_controller_tcp_exact": null,
+  "constraint_attribution_max_abs_error": 8.881784197001252e-16,
+  "bounded_affine_actuator_max_abs_error": 1.5898393712632242e-13,
+  "groups": {
+    "plate/grasp": {
+      "steps": 6560,
+      "acceleration_peak_m_s2": 39.8944471516188,
+      "jerk_peak_m_s3": 66057.89899489046,
+      "recorded_interval_acceleration_matches": true,
+      "recorded_interval_jerk_matches": true,
+      "acceleration_peak": {
+        "row": 3049,
+        "solver_time": 213.54270833432668,
+        "integrated_time": 213.54375000099336,
+        "width_m": 0.0775238124186951,
+        "command_m": 0.07728688400339868,
+        "velocity_m_s": [
+          -0.022939424879199203,
+          -0.06449614066213545
+        ],
+        "acceleration_m_s2": -39.8944471516188,
+        "jerk_m_s3": -37672.464771538085,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": -3.5075001112671176,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": -3.124053278727274,
+        "jaw_constraint_force_N": [
+          0.015076375272898406,
+          -0.015076375272898406
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.015076375272898406,
+            -0.015076375272898406
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "contacts": []
+      },
+      "jerk_peak": {
+        "row": 3050,
+        "solver_time": 213.54375000099336,
+        "integrated_time": 213.54479166766004,
+        "width_m": 0.0774566289388387,
+        "command_m": 0.07725641032895636,
+        "velocity_m_s": [
+          -0.06449614066213545,
+          -0.034375448681518685
+        ],
+        "acceleration_m_s2": 28.915864301392094,
+        "jerk_m_s3": 66057.89899489046,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": -3.5135415352612873,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": 2.2238092453716263,
+        "jaw_constraint_force_N": [
+          0.005735530877282164,
+          -0.005735530877282164
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.005735530877282164,
+            -0.005735530877282164
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "contacts": []
+      },
+      "acceleration_window": [
+        {
+          "row": 3044,
+          "solver_time": 213.53750000099328,
+          "integrated_time": 213.53854166765996,
+          "width_m": 0.07763551924099554,
+          "command_m": 0.0774383326075343,
+          "velocity_m_s": [
+            -0.018553079095705916,
+            -0.018738857741536507
+          ],
+          "acceleration_m_s2": -0.17834749999736776,
+          "jerk_m_s3": -135.36401217569357,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.468927942688956,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -3.214424785816732,
+          "jaw_constraint_force_N": [
+            3.1915428338863046,
+            3.1909118026501258
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.012237874082626356,
+              0.012237874082626356
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              3.2037807079689307,
+              3.1786739285674996
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -7.486362478333063e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -7.486362478333063e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -7.486362478333063e-06,
+              "force_local_N_Nm": [
+                0.6582006125500938,
+                -0.46753579545512086,
+                0.46329075787184226,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -7.486362478333063e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -7.486333589309946e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -7.486333589309946e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -7.486333589309946e-06,
+              "force_local_N_Nm": [
+                0.6542313540681975,
+                -0.46475970425846874,
+                0.460453126760464,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -7.486333589309946e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.673202609876969e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.673202609876969e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.673202609876969e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.673202609876969e-06,
+              "force_local_N_Nm": [
+                0.6131559943416751,
+                -0.43559406495910047,
+                0.4315299340364876,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -4.760880741892098e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -4.760880741892098e-06,
+              "force_local_N_Nm": [
+                0.618161835512697,
+                -0.4390943863328566,
+                0.4351093825412166,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -4.760880741892098e-06,
+              "force_local_N_Nm": [
+                0.6257457061568023,
+                -0.4444198627645777,
+                0.44050956215953935,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -4.760880741892098e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_11"
+              ],
+              "distance_m": -7.000663445178697e-05,
+              "force_local_N_Nm": [
+                1.430905398274904,
+                -0.48702365528013125,
+                -1.0660928498377518,
+                0.0006677386343734267,
+                -4.525001190678521e-06,
+                -1.304304905296918e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_11"
+              ],
+              "distance_m": -7.000670665738007e-05,
+              "force_local_N_Nm": [
+                1.4309068727487553,
+                -0.4870241582015027,
+                -1.0660939478224432,
+                0.0006677393536230073,
+                -4.525005743463554e-06,
+                -1.3043060474592412e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_1_8"
+              ],
+              "distance_m": -8.65810970860198e-05,
+              "force_local_N_Nm": [
+                1.4016526385744439,
+                -1.031422227150489,
+                -0.5060392275814996,
+                -0.00014646145326087623,
+                1.9600552834570872e-05,
+                -1.1716030186008734e-07
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_8"
+              ],
+              "distance_m": -8.658125641585275e-05,
+              "force_local_N_Nm": [
+                1.4016550642811547,
+                -1.0314240249809752,
+                -0.5060400770446857,
+                -0.0001464618014377082,
+                1.9600585231043146e-05,
+                -1.1716063930435612e-07
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3045,
+          "solver_time": 213.53854166765996,
+          "integrated_time": 213.53958333432664,
+          "width_m": 0.07761599959751478,
+          "command_m": 0.07740818165873271,
+          "velocity_m_s": [
+            -0.018738857741536507,
+            -0.0214750542592387
+          ],
+          "acceleration_m_s2": -2.626748656994106,
+          "jerk_m_s3": -2350.4651107168684,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.477757716218897,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -3.307274175055227,
+          "jaw_constraint_force_N": [
+            3.0896031087899543,
+            3.096318494777278
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.010915379587855456,
+              0.010915379587855456
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              3.10051848837781,
+              3.085403115189423
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_11"
+              ],
+              "distance_m": -6.286195607069881e-05,
+              "force_local_N_Nm": [
+                1.3380485423988209,
+                -0.13218654803944746,
+                -1.0881680973807468,
+                -0.0005325632353973527,
+                1.8974822186477326e-06,
+                2.5763067522460646e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_11"
+              ],
+              "distance_m": -6.28620296854003e-05,
+              "force_local_N_Nm": [
+                1.3380520058327625,
+                -0.13218691258903198,
+                -1.0881709111008921,
+                -0.0005325647123503684,
+                1.897487454278747e-06,
+                2.576313134545205e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_1_8"
+              ],
+              "distance_m": -7.971217350223904e-05,
+              "force_local_N_Nm": [
+                1.323878836139626,
+                -1.0665573975792615,
+                -0.19321013116424163,
+                0.0007710761203322013,
+                -2.3954924903265868e-05,
+                -4.584904336210217e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_8"
+              ],
+              "distance_m": -7.971233410089276e-05,
+              "force_local_N_Nm": [
+                1.3238832529201654,
+                -1.0665609568796155,
+                -0.19321076902056344,
+                0.000771078765218208,
+                -2.395500171355571e-05,
+                -4.584918946758621e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3046,
+          "solver_time": 213.53958333432664,
+          "integrated_time": 213.54062500099332,
+          "width_m": 0.07759362974932807,
+          "command_m": 0.07737795648303371,
+          "velocity_m_s": [
+            -0.0214750542592387,
+            -0.02182526301169278
+          ],
+          "acceleration_m_s2": -0.3362004023559162,
+          "jerk_m_s3": 2198.9263244526624,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.486029819841684,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -3.0657559716765945,
+          "jaw_constraint_force_N": [
+            3.029664253278628,
+            3.027902560707606
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.008343463074474292,
+              0.008343463074474292
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              3.0380077163531025,
+              3.0195590976331315
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.8130459592892727e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.8130459592892727e-06,
+              "force_local_N_Nm": [
+                0.06343307727425042,
+                -0.04585761131286636,
+                0.04382732911277046,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.8130459592892727e-06,
+              "force_local_N_Nm": [
+                1.0718153549840146,
+                -0.7589241274909999,
+                0.756850265172401,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.8130459592892727e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.860068359398365e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.860068359398365e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.860068359398365e-06,
+              "force_local_N_Nm": [
+                1.069803161476453,
+                -0.7575944309596069,
+                0.755334020473064,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.860068359398365e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -8.399477373736974e-07,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -8.399477373736974e-07,
+              "force_local_N_Nm": [
+                0.12303296320945949,
+                -0.08961526165888965,
+                0.08429836839410924,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -8.399477373736974e-07,
+              "force_local_N_Nm": [
+                0.056868754576646516,
+                -0.04145903657659898,
+                0.03892561538677433,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -8.399477373736974e-07,
+              "force_local_N_Nm": [
+                1.0406877442974476,
+                -0.7370083193219867,
+                0.7347446620296674,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_11"
+              ],
+              "distance_m": -4.187446201366364e-05,
+              "force_local_N_Nm": [
+                1.355159349821848,
+                -0.4569741455308397,
+                -1.0122004262661723,
+                0.0003652333737089909,
+                -3.853613123684803e-06,
+                -3.721553445263305e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_11"
+              ],
+              "distance_m": -4.1874537784905366e-05,
+              "force_local_N_Nm": [
+                1.3551610343609715,
+                -0.456974715133087,
+                -1.0122016837861807,
+                0.00036523382753698844,
+                -3.853617697454462e-06,
+                -3.721557147617688e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_1_8"
+              ],
+              "distance_m": -5.9089909496991245e-05,
+              "force_local_N_Nm": [
+                1.33394366878651,
+                -0.9769874534382611,
+                -0.4910103739401219,
+                7.406870350771265e-05,
+                8.785192929910916e-06,
+                -2.2286115891728283e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_8"
+              ],
+              "distance_m": -5.909007210716663e-05,
+              "force_local_N_Nm": [
+                1.3339462612474304,
+                -0.9769893646644849,
+                -0.49101130337257237,
+                7.406879790277676e-05,
+                8.785209559904968e-06,
+                -2.2286158050941377e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3047,
+          "solver_time": 213.54062500099332,
+          "integrated_time": 213.54166666766,
+          "width_m": 0.07757089510035756,
+          "command_m": 0.07734766192132198,
+          "velocity_m_s": [
+            -0.02182526301169278,
+            -0.022259949516768688
+          ],
+          "acceleration_m_s2": -0.41729904487287195,
+          "jerk_m_s3": -77.85469681627752,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.493744253557316,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -3.1070444825098775,
+          "jaw_constraint_force_N": [
+            3.064250976373317,
+            3.062891351887653
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.010550298421890253,
+              0.010550298421890253
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              3.074801274795207,
+              3.0523410534657622
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.0319876265401387e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.0319876265401387e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.0319876265401387e-06,
+              "force_local_N_Nm": [
+                0.8705157126067752,
+                -0.6177545318509079,
+                0.6133326538453232,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.0319876265401387e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.274259067657242e-06,
+              "force_local_N_Nm": [
+                0.8731838697533191,
+                -0.6197526412567643,
+                0.6151070915317476,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.274259067657242e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.274259067657242e-06,
+              "force_local_N_Nm": [
+                0.872027201795795,
+                -0.6189038392623745,
+                0.6143203386003895,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.274259067657242e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.6903095612329222e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.6903095612329222e-06,
+              "force_local_N_Nm": [
+                0.009219952736253693,
+                -0.006727485892647081,
+                0.0063046381357684984,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.6903095612329222e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.6903095612329222e-06,
+              "force_local_N_Nm": [
+                0.8499169607111051,
+                -0.6032379411539054,
+                0.5987176516996969,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_11"
+              ],
+              "distance_m": -2.100797332676837e-05,
+              "force_local_N_Nm": [
+                1.3789658218989338,
+                -0.4901961977069641,
+                -1.0182191221278394,
+                0.00038002317777290886,
+                -3.596197612715571e-06,
+                -3.76218175067461e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_11"
+              ],
+              "distance_m": -2.100805127527162e-05,
+              "force_local_N_Nm": [
+                1.3789675546013345,
+                -0.4901968146601691,
+                -1.018220401057983,
+                0.00038002365547098755,
+                -3.5962019400896646e-06,
+                -3.762185544241244e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_1_8"
+              ],
+              "distance_m": -3.871224057804907e-05,
+              "force_local_N_Nm": [
+                1.3543380638343836,
+                -0.9810640123084161,
+                -0.5195595377526034,
+                8.282784208715147e-05,
+                8.896701286429843e-06,
+                -1.8922431945103806e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_8"
+              ],
+              "distance_m": -3.871240520538466e-05,
+              "force_local_N_Nm": [
+                1.3543406913527427,
+                -0.981065929048369,
+                -0.5195605204696272,
+                8.2827952069971e-05,
+                8.89671814273735e-06,
+                -1.892246776272512e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3048,
+          "solver_time": 213.54166666766,
+          "integrated_time": 213.54270833432668,
+          "width_m": 0.07754770765294426,
+          "command_m": 0.0773173028144821,
+          "velocity_m_s": [
+            -0.022259949516768688,
+            -0.022939424879199203
+          ],
+          "acceleration_m_s2": -0.6522963479332944,
+          "jerk_m_s3": -225.59741093800554,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.5009010173657944,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -3.133755459975191,
+          "jaw_constraint_force_N": [
+            3.0704571855913856,
+            3.0730090260610394
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0032018856955017146,
+              -0.0032018856955017146
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              3.067255299895884,
+              3.0762109117565415
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -6.120290571565157e-08,
+              "force_local_N_Nm": [
+                0.3273569530798677,
+                -0.231551309196716,
+                0.23140130928545222,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -6.120290571565157e-08,
+              "force_local_N_Nm": [
+                0.14686968405506137,
+                -0.10383451984002835,
+                0.1038705761225204,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -6.120290571565157e-08,
+              "force_local_N_Nm": [
+                2.404883444307088,
+                -1.6904312955015193,
+                1.7105281102312748,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -6.120290571565157e-08,
+              "force_local_N_Nm": [
+                0.19382849028011817,
+                -0.13708403660237323,
+                0.13703083796382862,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_11"
+              ],
+              "distance_m": -6.486537113840534e-08,
+              "force_local_N_Nm": [
+                1.3551717207640765,
+                -0.4049515689362263,
+                -1.0337177448765238,
+                0.0005655969387304106,
+                -2.7939060543451966e-06,
+                -7.941691915746487e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_11"
+              ],
+              "distance_m": -6.494552769579533e-08,
+              "force_local_N_Nm": [
+                1.3551736215135537,
+                -0.4049521426653129,
+                -1.0337191924822549,
+                0.0005655977430842711,
+                -2.793909883036286e-06,
+                -7.941701560686868e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_1_8"
+              ],
+              "distance_m": -1.8395773917361145e-05,
+              "force_local_N_Nm": [
+                1.3380724151049985,
+                -1.0214914545201905,
+                -0.3994471497776035,
+                2.2421734864834692e-05,
+                1.3902737169561127e-05,
+                3.41879442917145e-07
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_8"
+              ],
+              "distance_m": -1.8395940582868674e-05,
+              "force_local_N_Nm": [
+                1.338075205023183,
+                -1.0214935918503423,
+                -0.3994479635027719,
+                2.2421705933420228e-05,
+                1.3902765346426017e-05,
+                3.4188006813296916e-07
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3049,
+          "solver_time": 213.54270833432668,
+          "integrated_time": 213.54375000099336,
+          "width_m": 0.0775238124186951,
+          "command_m": 0.07728688400339868,
+          "velocity_m_s": [
+            -0.022939424879199203,
+            -0.06449614066213545
+          ],
+          "acceleration_m_s2": -39.8944471516188,
+          "jerk_m_s3": -37672.464771538085,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.5075001112671176,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -3.124053278727274,
+          "jaw_constraint_force_N": [
+            0.015076375272898406,
+            -0.015076375272898406
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.015076375272898406,
+              -0.015076375272898406
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": []
+        },
+        {
+          "row": 3050,
+          "solver_time": 213.54375000099336,
+          "integrated_time": 213.54479166766004,
+          "width_m": 0.0774566289388387,
+          "command_m": 0.07725641032895636,
+          "velocity_m_s": [
+            -0.06449614066213545,
+            -0.034375448681518685
+          ],
+          "acceleration_m_s2": 28.915864301392094,
+          "jerk_m_s3": 66057.89899489046,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.5135415352612873,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 2.2238092453716263,
+          "jaw_constraint_force_N": [
+            0.005735530877282164,
+            -0.005735530877282164
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.005735530877282164,
+              -0.005735530877282164
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": []
+        },
+        {
+          "row": 3051,
+          "solver_time": 213.54479166766004,
+          "integrated_time": 213.54583333432672,
+          "width_m": 0.07742082117979546,
+          "command_m": 0.07722588663203973,
+          "velocity_m_s": [
+            -0.034375448681518685,
+            -0.052080988052694385
+          ],
+          "acceleration_m_s2": -16.997317796328673,
+          "jerk_m_s3": -44076.65481381193,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.519025289348302,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -1.343316925123304,
+          "jaw_constraint_force_N": [
+            0.0027045502938007945,
+            -0.0027045502938007945
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0027045502938007945,
+              -0.0027045502938007945
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -9.769939676957523e-06,
+              "force_local_N_Nm": [
+                0.34234104765217116,
+                -0.04839116512826847,
+                0.059498955428545705,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -9.769939676957523e-06,
+              "force_local_N_Nm": [
+                0.01797709556872659,
+                -0.015145145077299789,
+                0.009685068181209212,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -9.769939676957523e-06,
+              "force_local_N_Nm": [
+                0.3433206470402262,
+                -0.04845331838933622,
+                0.05982214267650438,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -9.769939676957523e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -1.1147144455086327e-05,
+              "force_local_N_Nm": [
+                0.3647314684507892,
+                -0.048184661755122205,
+                0.05918126895434331,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -1.1147144455086327e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -1.1147144455086327e-05,
+              "force_local_N_Nm": [
+                0.36461830657115335,
+                -0.048365769066463594,
+                0.05945608029392038,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -1.1147144455086327e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.0778364593056615e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.0778364593056615e-05,
+              "force_local_N_Nm": [
+                0.044930025057833084,
+                -0.04348792602021724,
+                0.011291919330105966,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.0778364593056615e-05,
+              "force_local_N_Nm": [
+                0.02579969381162147,
+                -0.024890977851827933,
+                0.006787003930544793,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -1.0778364593056615e-05,
+              "force_local_N_Nm": [
+                0.35876583918897864,
+                -0.048191441318288473,
+                0.05919272525598008,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -5.284301506518901e-06,
+              "force_local_N_Nm": [
+                0.06840051172914141,
+                -0.04798910761154488,
+                0.013572046111455858,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -5.284301506518901e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -5.284301506518901e-06,
+              "force_local_N_Nm": [
+                0.27110626983805164,
+                -0.04802198857390479,
+                0.05918128662423755,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -5.284301506518901e-06,
+              "force_local_N_Nm": [
+                0.010720714149368468,
+                -0.010389266629758814,
+                0.002645156095252075,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.4124847702554353e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.4124847702554353e-06,
+              "force_local_N_Nm": [
+                0.2243577289313975,
+                -0.04859300542802664,
+                0.060056102314939554,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.4124847702554353e-06,
+              "force_local_N_Nm": [
+                0.22628072647615394,
+                -0.048526756864711994,
+                0.06037843593938201,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.4124847702554353e-06,
+              "force_local_N_Nm": [
+                0.006735987844857823,
+                -0.005100108802962453,
+                0.004400275269118652,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3052,
+          "solver_time": 213.54583333432672,
+          "integrated_time": 213.5468750009934,
+          "width_m": 0.0773665701505739,
+          "command_m": 0.07719531775353337,
+          "velocity_m_s": [
+            -0.052080988052694385,
+            -0.038205529186867405
+          ],
+          "acceleration_m_s2": 13.320440511193901,
+          "jerk_m_s3": 29105.04797522167,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.523951373528162,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.013243222389974,
+          "jaw_constraint_force_N": [
+            0.0015749155612049498,
+            -0.0015749155612049498
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0015749155612049498,
+              -0.0015749155612049498
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.139717928688334e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.139717928688334e-05,
+              "force_local_N_Nm": [
+                0.0253502544246723,
+                -0.021021324099317014,
+                0.014168250862653843,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.139717928688334e-05,
+              "force_local_N_Nm": [
+                0.3951334855778451,
+                -0.03476076014710165,
+                0.03974218738724478,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -2.139717928688334e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.3146178058649353e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.3146178058649353e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.3146178058649353e-05,
+              "force_local_N_Nm": [
+                0.4220408119472654,
+                -0.03468433955716229,
+                0.039508688086182596,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -2.3146178058649353e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -2.289642368173e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -2.289642368173e-05,
+              "force_local_N_Nm": [
+                0.023361812118259332,
+                -0.021829056497487696,
+                0.00832265329557459,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -2.289642368173e-05,
+              "force_local_N_Nm": [
+                0.0035382504675901126,
+                -0.0033008639769801294,
+                0.0012741716434125248,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -2.289642368173e-05,
+              "force_local_N_Nm": [
+                0.4178410194834838,
+                -0.03459331031418226,
+                0.0393698197777249,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -1.7823821720927554e-05,
+              "force_local_N_Nm": [
+                0.06348559378680263,
+                -0.034555211106561096,
+                0.01498044716701953,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -1.7823821720927554e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -1.7823821720927554e-05,
+              "force_local_N_Nm": [
+                0.33683774385288084,
+                -0.03457297238972842,
+                0.03944618565382246,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -1.7823821720927554e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -6.951506211876068e-06,
+              "force_local_N_Nm": [
+                0.1632316688168612,
+                -0.03467747940616369,
+                0.03979524280734122,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -6.951506211876068e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -6.951506211876068e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -6.951506211876068e-06,
+              "force_local_N_Nm": [
+                0.05492000537335544,
+                -0.025301712121581596,
+                0.017206539609073136,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -5.616463120243497e-07,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -5.616463120243497e-07,
+              "force_local_N_Nm": [
+                0.0605925784389643,
+                -0.035259250472953106,
+                0.040654817184858645,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -5.616463120243497e-07,
+              "force_local_N_Nm": [
+                0.06374976805276705,
+                -0.03516028871025937,
+                0.040800906965275066,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -5.616463120243497e-07,
+              "force_local_N_Nm": [
+                0.0016451546531953663,
+                -0.0011000610915404638,
+                0.0012232740607930703,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -1.3554269398034084e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -1.3554269398034084e-05,
+              "force_local_N_Nm": [
+                0.26818402891891086,
+                -0.0349572234873694,
+                0.04001546816067105,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -1.3554269398034084e-05,
+              "force_local_N_Nm": [
+                0.2706644700260728,
+                -0.034921692428817666,
+                0.04018834967125239,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -1.3554269398034084e-05,
+              "force_local_N_Nm": [
+                0.034498335851940044,
+                -0.02609084940744544,
+                0.02256995245345581,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3053,
+          "solver_time": 213.5468750009934,
+          "integrated_time": 213.54791666766008,
+          "width_m": 0.07732677272433758,
+          "command_m": 0.07716470853432195,
+          "velocity_m_s": [
+            -0.038205529186867405,
+            -0.04548463433831115
+          ],
+          "acceleration_m_s2": -6.987940945385998,
+          "jerk_m_s3": -19496.046198316704,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.528319787800868,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.5642981855331755,
+          "jaw_constraint_force_N": [
+            0.0009507248129364839,
+            -0.0009507248129364839
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0009507248129364839,
+              -0.0009507248129364839
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.094588229042919e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.094588229042919e-05,
+              "force_local_N_Nm": [
+                0.023126534997953526,
+                -0.019583621829421544,
+                0.01230115348468481,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.094588229042919e-05,
+              "force_local_N_Nm": [
+                0.35952581564793396,
+                -0.03073560352376581,
+                0.03618018330605736,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.094588229042919e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.3000119924152256e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.3000119924152256e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.3000119924152256e-05,
+              "force_local_N_Nm": [
+                0.39146256650620687,
+                -0.030651541983286266,
+                0.035925161747773805,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -3.3000119924152256e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.285156629446658e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.285156629446658e-05,
+              "force_local_N_Nm": [
+                0.01853921548932473,
+                -0.017942278129277792,
+                0.0046666011712227905,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.285156629446658e-05,
+              "force_local_N_Nm": [
+                0.000999293380590123,
+                -0.0009641306967527471,
+                0.0002627532303708159,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.285156629446658e-05,
+              "force_local_N_Nm": [
+                0.38883975356064804,
+                -0.03054700951547054,
+                0.03576590824525946,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -2.815532110509583e-05,
+              "force_local_N_Nm": [
+                0.3157256320019533,
+                -0.030300736950302665,
+                0.03575995581924518,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -2.815532110509583e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -2.815532110509583e-05,
+              "force_local_N_Nm": [
+                0.3136810393700402,
+                -0.030492772601132253,
+                0.03579942262870961,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -2.815532110509583e-05,
+              "force_local_N_Nm": [
+                0.052604897325424914,
+                -0.03047293000631029,
+                0.008627787734245562,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -1.7571982563177598e-05,
+              "force_local_N_Nm": [
+                0.1443706898859114,
+                -0.03055071574683914,
+                0.03609058250827926,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -1.7571982563177598e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -1.7571982563177598e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -1.7571982563177598e-05,
+              "force_local_N_Nm": [
+                0.03457109530304615,
+                -0.020140788198740524,
+                0.011010617424632487,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -2.7128219537639327e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -2.7128219537639327e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -2.7128219537639327e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -2.7128219537639327e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -9.4498882688733e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -9.4498882688733e-06,
+              "force_local_N_Nm": [
+                0.017069463359005117,
+                -0.010996961304634014,
+                0.013055015183016848,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -9.4498882688733e-06,
+              "force_local_N_Nm": [
+                0.019752852283301692,
+                -0.01266691184801727,
+                0.015156665779797898,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -9.4498882688733e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.272832673043054e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.272832673043054e-05,
+              "force_local_N_Nm": [
+                0.22638005095642066,
+                -0.030926936475655465,
+                0.036433698402597824,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.272832673043054e-05,
+              "force_local_N_Nm": [
+                0.22872434829962002,
+                -0.030887483812546503,
+                0.03662566522074882,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -2.272832673043054e-05,
+              "force_local_N_Nm": [
+                0.019911710310277518,
+                -0.015216245163374094,
+                0.012842978260843806,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 3054,
+          "solver_time": 213.54791666766008,
+          "integrated_time": 213.54895833432676,
+          "width_m": 0.07727939289690183,
+          "command_m": 0.07713406381529003,
+          "velocity_m_s": [
+            -0.04548463433831115,
+            -0.038869548808818766
+          ],
+          "acceleration_m_s2": 6.350482108312692,
+          "jerk_m_s3": 12804.886131550744,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": -3.5321305321664207,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 0.47273477231283323,
+          "jaw_constraint_force_N": [
+            0.000553244945633775,
+            -0.000553244945633775
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.000553244945633775,
+              -0.000553244945633775
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.869922981190876e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.869922981190876e-05,
+              "force_local_N_Nm": [
+                0.019349797780285973,
+                -0.01615129707944833,
+                0.010655997221722792,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.869922981190876e-05,
+              "force_local_N_Nm": [
+                0.38857281076402944,
+                -0.025261898557469523,
+                0.027864118120533875,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_0"
+              ],
+              "distance_m": -3.869922981190876e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -4.1002393569865986e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -4.1002393569865986e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -4.1002393569865986e-05,
+              "force_local_N_Nm": [
+                0.42433070084539226,
+                -0.025175849998732118,
+                0.027665099928885994,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -4.1002393569865986e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.093964433236896e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.093964433236896e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.093964433236896e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -4.093964433236896e-05,
+              "force_local_N_Nm": [
+                0.4229535522533345,
+                -0.025109398904411502,
+                0.02756379097414436,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -3.657885041860598e-05,
+              "force_local_N_Nm": [
+                0.04711835463905156,
+                -0.02511327552329751,
+                0.010483451868977632,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -3.657885041860598e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -3.657885041860598e-05,
+              "force_local_N_Nm": [
+                0.3531288845667614,
+                -0.025125865626296234,
+                0.02764131248622727,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_3"
+              ],
+              "distance_m": -3.657885041860598e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -2.6280614445515355e-05,
+              "force_local_N_Nm": [
+                0.18838304178213736,
+                -0.025290318540562393,
+                0.0279685007096554,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -2.6280614445515355e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -2.6280614445515355e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_4"
+              ],
+              "distance_m": -2.6280614445515355e-05,
+              "force_local_N_Nm": [
+                0.0492891783249597,
+                -0.01871818240135116,
+                0.012134838605665289,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -1.1612803466818505e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -1.1612803466818505e-05,
+              "force_local_N_Nm": [
+                0.004541734936288547,
+                -0.0028818488992520055,
+                0.0035103138254839747,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -1.1612803466818505e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_5"
+              ],
+              "distance_m": -1.1612803466818505e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_13"
+              ],
+              "distance_m": -3.4936255557949103e-07,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_13"
+              ],
+              "distance_m": -3.4936255557949103e-07,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_13"
+              ],
+              "distance_m": -3.4936255557949103e-07,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_13"
+              ],
+              "distance_m": -3.4936255557949103e-07,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -1.6731907935964987e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -1.6731907935964987e-05,
+              "force_local_N_Nm": [
+                0.03568447158268922,
+                -0.023863397385990845,
+                0.026531486527031235,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -1.6731907935964987e-05,
+              "force_local_N_Nm": [
+                0.0387288440464066,
+                -0.025781705041650897,
+                0.02884371554211787,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_14"
+              ],
+              "distance_m": -1.6731907935964987e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -3.0198624207927047e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -3.0198624207927047e-05,
+              "force_local_N_Nm": [
+                0.2506689453481745,
+                -0.02549594529732977,
+                0.028152817354728264,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -3.0198624207927047e-05,
+              "force_local_N_Nm": [
+                0.2533764732521133,
+                -0.025471037720491536,
+                0.028274013623813272,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_15"
+              ],
+              "distance_m": -3.0198624207927047e-05,
+              "force_local_N_Nm": [
+                0.02991244517285942,
+                -0.022828252656168214,
+                0.019329388425024466,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plate/lift": {
+      "steps": 1184,
+      "acceleration_peak_m_s2": 2.582056332431038,
+      "jerk_peak_m_s3": 3653.950030358371,
+      "recorded_interval_acceleration_matches": true,
+      "recorded_interval_jerk_matches": true,
+      "acceleration_peak": {
+        "row": 7568,
+        "solver_time": 218.25000000105328,
+        "integrated_time": 218.25104166771996,
+        "width_m": 1.4049605784096751e-05,
+        "command_m": 0.0,
+        "velocity_m_s": [
+          0.0005057798824248249,
+          -0.002183862130524173
+        ],
+        "acceleration_m_s2": -2.582056332431038,
+        "jerk_m_s3": -2427.287541577154,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": -0.2011896437319465,
+        "jaw_constraint_force_N": [
+          -0.005667387398125751,
+          0.005667387398125751
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            -0.005667387398125751,
+            0.005667387398125751
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "table_collision",
+              "task/plate/glazed_shell_contact_0_1"
+            ],
+            "distance_m": -5.219573454479098e-05,
+            "force_local_N_Nm": [
+              0.7469621526681258,
+              -0.11172029778384249,
+              0.13507308869897924,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "table_collision",
+              "task/plate/glazed_shell_contact_0_2"
+            ],
+            "distance_m": -3.4908886823288576e-05,
+            "force_local_N_Nm": [
+              0.47068984957434756,
+              -0.04726551646086695,
+              0.05884540109975114,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "task/plate/glazed_shell_contact_1_4",
+              "task/side_dish/glazed_shell_contact_1_12"
+            ],
+            "distance_m": -1.0617020329781557e-06,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "task/plate/glazed_shell_contact_2_4",
+              "task/side_dish/glazed_shell_contact_1_12"
+            ],
+            "distance_m": -1.0626793230244844e-06,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "jerk_peak": {
+        "row": 7569,
+        "solver_time": 218.25104166771996,
+        "integrated_time": 218.25208333438664,
+        "width_m": 1.1774749398134071e-05,
+        "command_m": 0.0,
+        "velocity_m_s": [
+          -0.002183862130524173,
+          -0.0009087146140044526
+        ],
+        "acceleration_m_s2": 1.2241416158589318,
+        "jerk_m_s3": 3653.950030358371,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": 0.14431596168156008,
+        "jaw_constraint_force_N": [
+          -0.06880637394503958,
+          -0.030966982817447197
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.030966982817447197,
+            -0.030966982817447197
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            -0.09977335676248678,
+            0.0
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "table_collision",
+              "task/plate/glazed_shell_contact_0_1"
+            ],
+            "distance_m": -5.213896507572091e-05,
+            "force_local_N_Nm": [
+              0.9186794782145407,
+              -0.5415654087515238,
+              0.7420774162689061,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "table_collision",
+              "task/plate/glazed_shell_contact_0_2"
+            ],
+            "distance_m": -3.483928287335153e-05,
+            "force_local_N_Nm": [
+              0.6416168867390952,
+              0.30742603307775684,
+              -0.2584592272952392,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_10"
+            ],
+            "distance_m": -1.6912005026622543e-06,
+            "force_local_N_Nm": [
+              0.4082004450520029,
+              0.3293159612757063,
+              0.05666731856813524,
+              -8.231593690891709e-06,
+              -2.7811321224731193e-06,
+              3.46459691395313e-05
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_2_10"
+            ],
+            "distance_m": -1.690898948807199e-06,
+            "force_local_N_Nm": [
+              0.4081972154514234,
+              0.3293519516714212,
+              0.05644172981536724,
+              -8.248149681644334e-06,
+              -2.782654915262262e-06,
+              3.464801471304684e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/plate/glazed_shell_contact_1_4",
+              "task/side_dish/glazed_shell_contact_1_12"
+            ],
+            "distance_m": -2.57672331905627e-07,
+            "force_local_N_Nm": [
+              0.08165344410111168,
+              -0.05022212032584299,
+              -0.013499357543563328,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "task/plate/glazed_shell_contact_2_4",
+              "task/side_dish/glazed_shell_contact_1_12"
+            ],
+            "distance_m": -2.5864964393460655e-07,
+            "force_local_N_Nm": [
+              0.08169040637512302,
+              -0.0501969638203711,
+              -0.013682393869825277,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ]
+      },
+      "acceleration_window": [
+        {
+          "row": 7563,
+          "solver_time": 218.24479166771988,
+          "integrated_time": 218.24583333438656,
+          "width_m": 1.0982829412055471e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            0.0005865511771732308,
+            0.0006334983090986685
+          ],
+          "acceleration_m_s2": 0.04506924664842017,
+          "jerk_m_s3": -63.85258399041498,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.1802144353813424,
+          "jaw_constraint_force_N": [
+            0.18778707113643564,
+            0.1802513427357825
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.1802513427357825,
+              0.1802513427357825
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.36803841387221814,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.225381445195936e-05,
+              "force_local_N_Nm": [
+                0.8328568871528353,
+                0.062329683905886654,
+                0.10027152753433201,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.493327941413507e-05,
+              "force_local_N_Nm": [
+                0.5289746664405,
+                0.20555184466276388,
+                -0.06914471393858694,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -7.214285572692852e-06,
+              "force_local_N_Nm": [
+                0.4404762744363081,
+                0.3133597950817099,
+                -0.17722930565182823,
+                -0.00020917362900275675,
+                2.195487844166592e-08,
+                4.770174326476479e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -7.213983260402773e-06,
+              "force_local_N_Nm": [
+                0.4404730717741969,
+                0.3133289871856845,
+                -0.17727861035816458,
+                -0.0002091705023857194,
+                2.1625794210241593e-08,
+                4.76991475650614e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_1_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.6723671765323377e-06,
+              "force_local_N_Nm": [
+                0.44887369846742137,
+                -0.25857286528557,
+                0.12194586504777452,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_2_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.6733443002336863e-06,
+              "force_local_N_Nm": [
+                0.44891066970081045,
+                -0.2586368702653917,
+                0.12186531076985488,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7564,
+          "solver_time": 218.24583333438656,
+          "integrated_time": 218.24687500105324,
+          "width_m": 1.164272348403325e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            0.0006334983090986685,
+            0.0006355297787498221
+          ],
+          "acceleration_m_s2": 0.001950210865107535,
+          "jerk_m_s3": -41.39427435198013,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.19244703193217272,
+          "jaw_constraint_force_N": [
+            0.1960161930323847,
+            0.18980728225927768
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.18980728225927768,
+              0.18980728225927768
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.3858234752916624,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.2255115426051706e-05,
+              "force_local_N_Nm": [
+                0.8315993064040716,
+                0.10113705769638454,
+                0.05300091828958682,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.496923504626992e-05,
+              "force_local_N_Nm": [
+                0.5247353526000037,
+                0.17176081951389907,
+                -0.030946963026735917,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -5.994875000118167e-06,
+              "force_local_N_Nm": [
+                0.4404552132825547,
+                0.30808726441486367,
+                -0.18618108755080606,
+                -0.00022131008721903764,
+                7.744751034914077e-07,
+                4.7178617068591084e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -5.994572816510158e-06,
+              "force_local_N_Nm": [
+                0.4404520142656391,
+                0.3080662923304543,
+                -0.1862108818039809,
+                -0.00022129898970965877,
+                7.74205467205893e-07,
+                4.717672158855477e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_1_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.5095996017542233e-06,
+              "force_local_N_Nm": [
+                0.4557964927713438,
+                -0.26192723908186577,
+                0.1251610194297162,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_2_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.510576754962154e-06,
+              "force_local_N_Nm": [
+                0.4558334660758369,
+                -0.26194259384900487,
+                0.125183502337221,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7565,
+          "solver_time": 218.24687500105324,
+          "integrated_time": 218.24791666771992,
+          "width_m": 1.2304733670230982e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            0.0006355297787498221,
+            0.0006076509957585351
+          ],
+          "acceleration_m_s2": -0.026763631671635514,
+          "jerk_m_s3": -27.56528883527333,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.19931091015228847,
+          "jaw_constraint_force_N": [
+            0.19989905186186435,
+            0.19517518618328614
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.19517518618328614,
+              0.19517518618328614
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.39507423804515046,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.2248722168836415e-05,
+              "force_local_N_Nm": [
+                0.8311872615170987,
+                0.12174893369731186,
+                0.025960310439432314,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.498186538514192e-05,
+              "force_local_N_Nm": [
+                0.5222373729625251,
+                0.15101503493084073,
+                -0.009137221209998318,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -4.351474708132727e-06,
+              "force_local_N_Nm": [
+                0.43907384036333974,
+                0.30386454250530265,
+                -0.1908612851116813,
+                -0.00022944648586448155,
+                1.3724921512649195e-06,
+                4.6601901179934614e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -4.3511726509306584e-06,
+              "force_local_N_Nm": [
+                0.43907064457599065,
+                0.30384733418312054,
+                -0.1908839330284004,
+                -0.00022942978262944358,
+                1.3722268728505696e-06,
+                4.660020716987683e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_1_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.2743479731194044e-06,
+              "force_local_N_Nm": [
+                0.45762635120424033,
+                -0.26231259960840586,
+                0.1270482359468166,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_2_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.27532515758155e-06,
+              "force_local_N_Nm": [
+                0.45766332630924295,
+                -0.2623143404193235,
+                0.12709865817088956,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7566,
+          "solver_time": 218.24791666771992,
+          "integrated_time": 218.2489583343866,
+          "width_m": 1.2937703457479457e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            0.0006076509957585351,
+            0.0005616463511277787
+          ],
+          "acceleration_m_s2": -0.04416445884552617,
+          "jerk_m_s3": -16.704794086935028,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.20229515406581877,
+          "jaw_constraint_force_N": [
+            0.2008069032790721,
+            0.19749425107970936
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.19749425107970936,
+              0.19749425107970936
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.39830115435878144,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.223585953444131e-05,
+              "force_local_N_Nm": [
+                0.8313348152908456,
+                0.13415463840977207,
+                0.007872367667721807,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.497403741369032e-05,
+              "force_local_N_Nm": [
+                0.5209553440588892,
+                0.13516246734275467,
+                0.006160972592837589,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -2.3679260128492367e-06,
+              "force_local_N_Nm": [
+                0.43670951645064354,
+                0.3005116112799949,
+                -0.1925290267142063,
+                -0.00023450609039355966,
+                1.8095633527733532e-06,
+                4.5950493414189456e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -2.367624078780557e-06,
+              "force_local_N_Nm": [
+                0.4367063235283307,
+                0.30049750216934645,
+                -0.1925463806394968,
+                -0.00023448610375506517,
+                1.8093101827624976e-06,
+                4.594897751814684e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_1_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -1.953273950569154e-06,
+              "force_local_N_Nm": [
+                0.4560553610222516,
+                -0.26075727971559653,
+                0.12795526843492436,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_2_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -1.9542511682656367e-06,
+              "force_local_N_Nm": [
+                0.456092337689287,
+                -0.26075006777913695,
+                0.12802340871571127,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7567,
+          "solver_time": 218.2489583343866,
+          "integrated_time": 218.25000000105328,
+          "width_m": 1.3522751739904226e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            0.0005616463511277787,
+            0.0005057798824248249
+          ],
+          "acceleration_m_s2": -0.05363180995483569,
+          "jerk_m_s3": -9.088657064937145,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.2026250795343757,
+          "jaw_constraint_force_N": [
+            0.19975068365305257,
+            0.1976884784030729
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.1976884784030729,
+              0.1976884784030729
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.3974391620561255,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.221779222807504e-05,
+              "force_local_N_Nm": [
+                0.8318371571624125,
+                0.140504171726303,
+                -0.0034496315346421204,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.4948734203423676e-05,
+              "force_local_N_Nm": [
+                0.520547344818972,
+                0.12328736169508803,
+                0.01637811609628969,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -1.1406587608457056e-07,
+              "force_local_N_Nm": [
+                0.43372743602113967,
+                0.2978582353857752,
+                -0.19215051682982975,
+                -0.00023692377561436076,
+                2.1139696084207622e-06,
+                4.523975477138874e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -1.1376406161478892e-07,
+              "force_local_N_Nm": [
+                0.4337242446885113,
+                0.29784645585973724,
+                -0.19216413531923363,
+                -0.00023690214579951974,
+                2.1137308877915596e-06,
+                4.523838460211029e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_1_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -1.5461773301568636e-06,
+              "force_local_N_Nm": [
+                0.4522452701182557,
+                -0.2579430848482857,
+                0.12817365254457078,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_2_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -1.5471545830983893e-06,
+              "force_local_N_Nm": [
+                0.45228224813166135,
+                -0.25793038682407626,
+                0.12825210859783703,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7568,
+          "solver_time": 218.25000000105328,
+          "integrated_time": 218.25104166771996,
+          "width_m": 1.4049605784096751e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            0.0005057798824248249,
+            -0.002183862130524173
+          ],
+          "acceleration_m_s2": -2.582056332431038,
+          "jerk_m_s3": -2427.287541577154,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.2011896437319465,
+          "jaw_constraint_force_N": [
+            -0.005667387398125751,
+            0.005667387398125751
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.005667387398125751,
+              0.005667387398125751
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.219573454479098e-05,
+              "force_local_N_Nm": [
+                0.7469621526681258,
+                -0.11172029778384249,
+                0.13507308869897924,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.4908886823288576e-05,
+              "force_local_N_Nm": [
+                0.47068984957434756,
+                -0.04726551646086695,
+                0.05884540109975114,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_1_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -1.0617020329781557e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_2_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -1.0626793230244844e-06,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7569,
+          "solver_time": 218.25104166771996,
+          "integrated_time": 218.25208333438664,
+          "width_m": 1.1774749398134071e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.002183862130524173,
+            -0.0009087146140044526
+          ],
+          "acceleration_m_s2": 1.2241416158589318,
+          "jerk_m_s3": 3653.950030358371,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 0.14431596168156008,
+          "jaw_constraint_force_N": [
+            -0.06880637394503958,
+            -0.030966982817447197
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.030966982817447197,
+              -0.030966982817447197
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -0.09977335676248678,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.213896507572091e-05,
+              "force_local_N_Nm": [
+                0.9186794782145407,
+                -0.5415654087515238,
+                0.7420774162689061,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.483928287335153e-05,
+              "force_local_N_Nm": [
+                0.6416168867390952,
+                0.30742603307775684,
+                -0.2584592272952392,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -1.6912005026622543e-06,
+              "force_local_N_Nm": [
+                0.4082004450520029,
+                0.3293159612757063,
+                0.05666731856813524,
+                -8.231593690891709e-06,
+                -2.7811321224731193e-06,
+                3.46459691395313e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -1.690898948807199e-06,
+              "force_local_N_Nm": [
+                0.4081972154514234,
+                0.3293519516714212,
+                0.05644172981536724,
+                -8.248149681644334e-06,
+                -2.782654915262262e-06,
+                3.464801471304684e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_1_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.57672331905627e-07,
+              "force_local_N_Nm": [
+                0.08165344410111168,
+                -0.05022212032584299,
+                -0.013499357543563328,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/plate/glazed_shell_contact_2_4",
+                "task/side_dish/glazed_shell_contact_1_12"
+              ],
+              "distance_m": -2.5864964393460655e-07,
+              "force_local_N_Nm": [
+                0.08169040637512302,
+                -0.0501969638203711,
+                -0.013682393869825277,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7570,
+          "solver_time": 218.25208333438664,
+          "integrated_time": 218.25312500105332,
+          "width_m": 1.0828171675212766e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0009087146140044526,
+            -0.0006679368436953821
+          ],
+          "acceleration_m_s2": 0.23114665949670768,
+          "jerk_m_s3": -953.2751581077351,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 0.000764036928406639,
+          "jaw_constraint_force_N": [
+            0.013321178703535472,
+            0.020318549972382947
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.020318549972382947,
+              0.020318549972382947
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03363972867591842,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.211285889511474e-05,
+              "force_local_N_Nm": [
+                0.8815234615841174,
+                -0.13481946216476912,
+                0.1424260506084125,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.4803907122276524e-05,
+              "force_local_N_Nm": [
+                0.7081595715116307,
+                -0.26516609512192546,
+                0.2931636071889093,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -4.33431649964683e-06,
+              "force_local_N_Nm": [
+                0.3950426479732916,
+                0.32194725633921306,
+                -0.01036061674473814,
+                0.00037409012426627196,
+                1.9653877415676113e-06,
+                4.3845138163233924e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -4.3340151214873095e-06,
+              "force_local_N_Nm": [
+                0.39503943110852335,
+                0.32194606177035684,
+                -0.010315416876869566,
+                0.0003740911212680949,
+                1.9656330227543777e-06,
+                4.3844791369789715e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7571,
+          "solver_time": 218.25312500105332,
+          "integrated_time": 218.25416666772,
+          "width_m": 1.0132404129696742e-05,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0006679368436953821,
+            -0.0005933852915009333
+          ],
+          "acceleration_m_s2": 0.07156949010667081,
+          "jerk_m_s3": -153.1940826144354,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.021171620053521578,
+          "jaw_constraint_force_N": [
+            0.02492497675293815,
+            0.027922215836954294
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.027922215836954294,
+              0.027922215836954294
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.05284719258989245,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.210792221277751e-05,
+              "force_local_N_Nm": [
+                0.8682702196568388,
+                -0.05084677518571417,
+                0.03870545777616414,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.483365429692368e-05,
+              "force_local_N_Nm": [
+                0.7123829204644824,
+                -0.3487649706929815,
+                0.3867062450270066,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -5.7570183887939734e-06,
+              "force_local_N_Nm": [
+                0.38546481818502387,
+                0.3128510760202603,
+                -0.020165267095023184,
+                0.00048410984193651945,
+                3.0752236619499847e-06,
+                4.522955609693857e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -5.7567171690069594e-06,
+              "force_local_N_Nm": [
+                0.3854616038320955,
+                0.3128554866914792,
+                -0.020054139289972798,
+                0.0004841204373891471,
+                3.0758605980647142e-06,
+                4.5229470551622545e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7572,
+          "solver_time": 218.25416666772,
+          "integrated_time": 218.25520833438668,
+          "width_m": 9.514294451049937e-06,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0005933852915009333,
+            -0.0005703205112047012
+          ],
+          "acceleration_m_s2": 0.0221421890843828,
+          "jerk_m_s3": -47.45020898139649,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.023936709530387373,
+          "jaw_constraint_force_N": [
+            0.024306523114540225,
+            0.026431718443228096
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.026431718443228096,
+              0.026431718443228096
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.05073824155776832,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.211622017097656e-05,
+              "force_local_N_Nm": [
+                0.8578051827311644,
+                -0.026151064875215412,
+                0.008904600449162988,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.491997882622277e-05,
+              "force_local_N_Nm": [
+                0.7150496085619471,
+                -0.369766088123172,
+                0.41050368529758197,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -6.192323097991158e-06,
+              "force_local_N_Nm": [
+                0.37651676355054214,
+                0.3049023053452123,
+                -0.019271079470223832,
+                0.0005614689623263143,
+                3.409771098041253e-06,
+                4.5415160911549864e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -6.19202201484193e-06,
+              "force_local_N_Nm": [
+                0.376513550174606,
+                0.3049076105055953,
+                -0.01914291797549951,
+                0.0005614816291606081,
+                3.4105048167952694e-06,
+                4.541505804884639e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 7573,
+          "solver_time": 218.25520833438668,
+          "integrated_time": 218.25625000105336,
+          "width_m": 8.920210585211706e-06,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0005703205112047012,
+            -0.0005626846179192222
+          ],
+          "acceleration_m_s2": 0.007330457554059824,
+          "jerk_m_s3": -14.219262269110056,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.020763644507552914,
+          "jaw_constraint_force_N": [
+            0.020173551989572932,
+            0.021930203625341455
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.021930203625341455,
+              0.021930203625341455
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.04210375561491439,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_1"
+              ],
+              "distance_m": -5.2131580783543185e-05,
+              "force_local_N_Nm": [
+                0.8486653088062084,
+                -0.02392704621714006,
+                0.0069873860331759775,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/plate/glazed_shell_contact_0_2"
+              ],
+              "distance_m": -3.505418104362418e-05,
+              "force_local_N_Nm": [
+                0.7178006351569333,
+                -0.36770109846313076,
+                0.40851718310293655,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -5.839007149720116e-06,
+              "force_local_N_Nm": [
+                0.36890592493301216,
+                0.2983233174675793,
+                -0.015081008433043478,
+                0.0006193416697050718,
+                3.36323774325196e-06,
+                4.5275897186875766e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_2_10"
+              ],
+              "distance_m": -5.838706182737071e-06,
+              "force_local_N_Nm": [
+                0.3689027121279602,
+                0.29832695343812404,
+                -0.014954129048850162,
+                0.0006193515181318191,
+                3.3639482185323186e-06,
+                4.527559905272428e-05
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "training_ready": false
+}

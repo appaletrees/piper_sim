@@ -1,0 +1,2111 @@
+{
+  "scope": "Isolated top-down chord-grasp screening, never a physical or training replay.\n\nUses the source's original plate, gripper and basket collision geometry. A\nbilateral collision is only a geometric condition, not evidence of force or\nstable carrying. A rigid, non-slipping lift is an explicit planning hypothesis.\nRestores every isolated integration state after each candidate.\n",
+  "source": "/dev/shm/piper_rotation_evidence_v1/episode/episode.h5",
+  "source_sha256": "e6c282e972830727de959ff706d6935a38e52a5bc7cb33f099534dde2e0442b5",
+  "source_index": 6090,
+  "script_sha256": "7c1a3f8cb876433a39f13c9dd92f578adff909f7e2e6c8f45b4ad6d8563b1409",
+  "profile": {
+    "radii_m": [
+      0.09,
+      0.095
+    ],
+    "azimuths_deg": [
+      0,
+      45,
+      -45
+    ],
+    "tilts_deg": [
+      30,
+      45
+    ],
+    "heights_m": [
+      0.012
+    ],
+    "open_width_m": 0.095,
+    "lift_m": 0.15,
+    "flat_placement_budget": 96,
+    "max_placement_queries": 4
+  },
+  "training_ready": false,
+  "candidates": [
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "Open chord approach intersects target before closing: 0.339 mm at sample 27",
+      "first_bilateral_width_m": 0.0845,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "coupled_geometry_feasible",
+      "error": null,
+      "first_bilateral_width_m": 0.07250000000000001,
+      "ideal_lift": {
+        "assumption": "Rigid non-slipping grasp, not physical evidence",
+        "grasp_position_world": [
+          0.26472747109867584,
+          -0.03682920094536204,
+          0.036997959420437904
+        ],
+        "grasp_rotation_world": [
+          [
+            -0.8660251306720383,
+            0.0012624582672096363,
+            0.4999988792423505
+          ],
+          [
+            0.0010931835034825891,
+            0.9999992030992082,
+            -0.0006314671648505459
+          ],
+          [
+            -0.4999992779937894,
+            -2.759074072749063e-07,
+            -0.8660258206344756
+          ]
+        ],
+        "lift_joint_waypoints": [
+          [
+            1.0518105145205416,
+            1.8958545471023618,
+            -0.9277977410963001,
+            -0.8783989615598077,
+            0.5997755351394698,
+            1.7720804502279752
+          ],
+          [
+            1.0518154625296097,
+            1.809670348919496,
+            -0.9751077423949799,
+            -0.7483837744730125,
+            0.6915636989276092,
+            1.6100046134903947
+          ],
+          [
+            1.0517164024088421,
+            1.6366011991330598,
+            -1.2486049443591463,
+            -0.5224241249965145,
+            1.0553145405638302,
+            1.2657931970778458
+          ]
+        ]
+      },
+      "placement": {
+        "profile": {
+          "mode": "flat_plate_placement_probe_v1",
+          "support_gap_m": 0.003,
+          "wall_margin_m": 0.012,
+          "surface_spacing_m": 0.005,
+          "slot_radius_m": 0.075,
+          "slot_step_m": 0.025,
+          "yaw_step_deg": 15,
+          "max_candidates": 96,
+          "release_width_m": 0.095,
+          "calibration": "unidentified experimental planning budgets"
+        },
+        "geometric_candidates": 288,
+        "attempts": [
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7839, -0.4277, 0.212]: 154.5 mm, 101.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7813, -0.4031, 0.212]: 170.6 mm, 83.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7725, -0.3799, 0.212]: 144.0 mm, 71.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7579, -0.3598, 0.212]: 122.1 mm, 62.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7387, -0.3442, 0.212]: 100.8 mm, 89.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.716, -0.3341, 0.212]: 85.6 mm, 85.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6915, -0.3301, 0.212]: 85.0 mm, 72.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6669, -0.3327, 0.212]: 96.2 mm, 59.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6437, -0.3415, 0.212]: 43.8 mm, 27.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6236, -0.3561, 0.212]: 27.7 mm, 19.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.608, -0.3753, 0.212]: 30.1 mm, 8.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5978, -0.398, 0.212]: 7.3 mm, 4.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 0,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5939, -0.4225, 0.212]: 7.6 mm, 4.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5965, -0.4471, 0.212]: 12.4 mm, 8.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6053, -0.4703, 0.212]: 38.2 mm, 15.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6199, -0.4904, 0.212]: 43.6 mm, 29.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6391, -0.506, 0.212]: 36.0 mm, 32.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6618, -0.5161, 0.212]: 54.8 mm, 41.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6862, -0.5201, 0.212]: 69.1 mm, 50.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7109, -0.5175, 0.212]: 92.3 mm, 57.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7341, -0.5087, 0.212]: 115.9 mm, 64.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7542, -0.4941, 0.212]: 127.7 mm, 72.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7698, -0.4749, 0.212]: 147.0 mm, 79.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7799, -0.4522, 0.212]: 151.0 mm, 90.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7589, -0.4271, 0.212]: 131.3 mm, 102.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7563, -0.4024, 0.212]: 134.0 mm, 81.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7475, -0.3792, 0.212]: 113.6 mm, 71.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7329, -0.3591, 0.212]: 140.0 mm, 91.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7137, -0.3435, 0.212]: 79.0 mm, 90.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.691, -0.3334, 0.212]: 67.6 mm, 81.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6665, -0.3294, 0.212]: 75.3 mm, 76.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6419, -0.332, 0.212]: 82.7 mm, 58.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6187, -0.3408, 0.212]: 32.8 mm, 25.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5986, -0.3554, 0.212]: 18.8 mm, 15.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.583, -0.3746, 0.212]: 16.9 mm, 7.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -15,
+            "stage": "lowering_path",
+            "error": "Planned path obstructed (10.26 mm): ['right/link8', 'task/cup_02']"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 0,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5689, -0.4218, 0.212]: 3.7 mm, 2.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5715, -0.4464, 0.212]: 6.8 mm, 6.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5803, -0.4696, 0.212]: 25.2 mm, 14.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5949, -0.4897, 0.212]: 34.9 mm, 26.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6141, -0.5053, 0.212]: 63.3 mm, 33.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6368, -0.5154, 0.212]: 37.8 mm, 40.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6612, -0.5194, 0.212]: 58.1 mm, 49.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6859, -0.5168, 0.212]: 80.1 mm, 56.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7091, -0.508, 0.212]: 95.0 mm, 64.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7292, -0.4934, 0.212]: 102.9 mm, 73.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7448, -0.4742, 0.212]: 121.2 mm, 80.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7549, -0.4515, 0.212]: 124.1 mm, 91.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7339, -0.4264, 0.212]: 102.5 mm, 104.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7313, -0.4017, 0.212]: 141.7 mm, 106.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7225, -0.3785, 0.212]: 138.7 mm, 97.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7079, -0.3584, 0.212]: 125.6 mm, 90.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6887, -0.3428, 0.212]: 66.8 mm, 94.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.666, -0.3327, 0.212]: 67.8 mm, 80.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6416, -0.3287, 0.212]: 83.4 mm, 66.4 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6169, -0.3313, 0.212]: 101.4 mm, 40.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5937, -0.3401, 0.212]: 27.0 mm, 21.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5736, -0.3547, 0.212]: 13.6 mm, 11.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.558, -0.3739, 0.212]: 3.7 mm, 1.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -15,
+            "stage": "lowering_path",
+            "error": "Planned path obstructed (8.24 mm): ['right/link8', 'task/cup_02']"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 0,
+            "stage": "lowering_path",
+            "error": "Planned path obstructed (7.47 mm): ['right/link8', 'task/cup_02']"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5465, -0.4457, 0.212]: 3.9 mm, 2.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5553, -0.4689, 0.212]: 19.7 mm, 10.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5699, -0.489, 0.212]: 27.5 mm, 23.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5891, -0.5046, 0.212]: 50.1 mm, 32.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6118, -0.5147, 0.212]: 71.5 mm, 42.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6363, -0.5187, 0.212]: 42.5 mm, 46.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6609, -0.5161, 0.212]: 58.9 mm, 55.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6841, -0.5073, 0.212]: 77.5 mm, 63.4 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7042, -0.4927, 0.212]: 86.1 mm, 72.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7198, -0.4735, 0.212]: 95.8 mm, 82.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7299, -0.4508, 0.212]: 100.7 mm, 92.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7096, -0.4007, 0.212]: 84.5 mm, 101.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.707, -0.376, 0.212]: 122.3 mm, 107.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6982, -0.3528, 0.212]: 122.8 mm, 97.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6836, -0.3327, 0.212]: 111.0 mm, 91.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6644, -0.3171, 0.212]: 57.4 mm, 96.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6418, -0.307, 0.212]: 64.4 mm, 85.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6173, -0.3031, 0.212]: 70.8 mm, 66.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5926, -0.3056, 0.212]: 92.4 mm, 37.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5694, -0.3145, 0.212]: 19.2 mm, 19.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5493, -0.329, 0.212]: 11.2 mm, 9.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -30,
+            "stage": "selected_geometry_only",
+            "error": null,
+            "wall_margin_m": 0.03205086418974504,
+            "high_tcp_m": [
+              0.5336969139222519,
+              -0.3482438850267275,
+              0.21198453615547277
+            ],
+            "low_tcp_m": [
+              0.5336969139222519,
+              -0.3482438850267275,
+              0.1521195740880318
+            ],
+            "hand_rotation_world": [
+              [
+                -0.7376017658816247,
+                0.523956364617128,
+                0.4259264759856039
+              ],
+              [
+                0.4537590915763978,
+                0.8517451068014882,
+                -0.2619789301670784
+              ],
+              [
+                -0.5000463196345658,
+                3.1889306548213374e-05,
+                -0.865998658892149
+              ]
+            ],
+            "predicted_object_rotation_world": [
+              [
+                0.8517420466716018,
+                0.5239613387904138,
+                -3.721064661244e-05
+              ],
+              [
+                -0.5239613390603091,
+                0.8517420473135874,
+                2.8619395097961853e-06
+              ],
+              [
+                3.319341798496689e-05,
+                1.7059306010849934e-05,
+                0.9999999993035902
+              ]
+            ]
+          }
+        ],
+        "support_obstacles": [
+          "bowl",
+          "spoon",
+          "chopstick_a",
+          "chopstick_b",
+          "side_dish",
+          "basket",
+          "cup_00",
+          "cup_01",
+          "cup_02",
+          "pen",
+          "charger"
+        ]
+      },
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "right IK failed at [0.245, -0.0368, 0.0617]: 0.0 mm, 11.1 deg",
+      "first_bilateral_width_m": 0.095,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 0,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "approach_path",
+      "error": "right IK failed at [0.24, -0.0368, 0.0617]: 0.0 mm, 11.5 deg",
+      "first_bilateral_width_m": 0.0825,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "Open chord approach intersects target before closing: 0.222 mm at sample 26",
+      "first_bilateral_width_m": 0.0845,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "coupled_geometry_feasible",
+      "error": null,
+      "first_bilateral_width_m": 0.07250000000000001,
+      "ideal_lift": {
+        "assumption": "Rigid non-slipping grasp, not physical evidence",
+        "grasp_position_world": [
+          0.2924674988961332,
+          -0.1040394193453874,
+          0.03699795475695496
+        ],
+        "grasp_rotation_world": [
+          [
+            -0.6131454593637794,
+            -0.7062135248906656,
+            0.3539987329399431
+          ],
+          [
+            -0.611598990478857,
+            0.7079989104944651,
+            0.3531065244142302
+          ],
+          [
+            -0.4999993205063652,
+            3.944194470194299e-07,
+            -0.8660257960898285
+          ]
+        ],
+        "lift_joint_waypoints": [
+          [
+            0.49877504879323525,
+            1.733046999619043,
+            -0.6622954522109741,
+            1.0507642170850509,
+            0.1628356023077826,
+            -1.29381133124653
+          ],
+          [
+            0.4987843950189891,
+            1.6267944900264852,
+            -0.7167384552403796,
+            0.5351026598971396,
+            0.27950307246842404,
+            -0.7667013856691269
+          ],
+          [
+            0.4988331275057763,
+            1.4217695214388217,
+            -1.0102313541558312,
+            0.20772983768576936,
+            0.7513305621513395,
+            -0.40169971543573635
+          ]
+        ]
+      },
+      "placement": {
+        "profile": {
+          "mode": "flat_plate_placement_probe_v1",
+          "support_gap_m": 0.003,
+          "wall_margin_m": 0.012,
+          "surface_spacing_m": 0.005,
+          "slot_radius_m": 0.075,
+          "slot_step_m": 0.025,
+          "yaw_step_deg": 15,
+          "max_candidates": 96,
+          "release_width_m": 0.095,
+          "calibration": "unidentified experimental planning budgets"
+        },
+        "geometric_candidates": 288,
+        "attempts": [
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.758, -0.3598, 0.212]: 122.1 mm, 62.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7387, -0.3442, 0.212]: 100.8 mm, 89.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7161, -0.334, 0.212]: 85.7 mm, 85.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6916, -0.3301, 0.212]: 85.1 mm, 72.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6669, -0.3326, 0.212]: 98.7 mm, 45.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6437, -0.3415, 0.212]: 43.8 mm, 27.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6236, -0.356, 0.212]: 27.7 mm, 19.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.608, -0.3753, 0.212]: 23.4 mm, 10.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5978, -0.3979, 0.212]: 7.9 mm, 4.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5939, -0.4224, 0.212]: 7.7 mm, 4.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5964, -0.4471, 0.212]: 12.5 mm, 8.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": -15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6053, -0.4703, 0.212]: 35.6 mm, 16.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 0,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6198, -0.4904, 0.212]: 43.5 mm, 29.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6391, -0.506, 0.212]: 35.9 mm, 32.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6617, -0.5162, 0.212]: 49.6 mm, 42.4 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6862, -0.5201, 0.212]: 64.4 mm, 51.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7109, -0.5176, 0.212]: 95.9 mm, 56.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7341, -0.5087, 0.212]: 114.8 mm, 64.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7542, -0.4942, 0.212]: 129.9 mm, 71.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7698, -0.4749, 0.212]: 146.0 mm, 79.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7799, -0.4523, 0.212]: 149.7 mm, 91.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7839, -0.4278, 0.212]: 154.5 mm, 101.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7813, -0.4031, 0.212]: 170.6 mm, 83.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.065,
+              0.0
+            ],
+            "yaw_deg": 165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7725, -0.3799, 0.212]: 144.0 mm, 71.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.733, -0.3591, 0.212]: 140.0 mm, 91.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7137, -0.3435, 0.212]: 79.1 mm, 90.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6911, -0.3333, 0.212]: 67.7 mm, 81.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6666, -0.3294, 0.212]: 75.3 mm, 76.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6419, -0.3319, 0.212]: 86.9 mm, 40.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6187, -0.3408, 0.212]: 32.8 mm, 25.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5986, -0.3553, 0.212]: 18.8 mm, 16.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.583, -0.3746, 0.212]: 12.6 mm, 6.4 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -60,
+            "stage": "lowering_path",
+            "error": "Planned path obstructed (10.31 mm): ['right/link8', 'task/cup_02']"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5689, -0.4217, 0.212]: 3.7 mm, 2.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5714, -0.4464, 0.212]: 7.0 mm, 6.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": -15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5803, -0.4696, 0.212]: 24.3 mm, 14.4 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 0,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5948, -0.4897, 0.212]: 36.1 mm, 25.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6141, -0.5053, 0.212]: 65.1 mm, 31.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6367, -0.5155, 0.212]: 40.4 mm, 39.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6612, -0.5194, 0.212]: 56.3 mm, 48.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6859, -0.5169, 0.212]: 75.0 mm, 57.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7091, -0.508, 0.212]: 94.2 mm, 64.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7292, -0.4935, 0.212]: 110.4 mm, 71.1 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7448, -0.4742, 0.212]: 121.3 mm, 80.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.755, -0.4516, 0.212]: 124.0 mm, 91.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7589, -0.4271, 0.212]: 128.2 mm, 103.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7564, -0.4024, 0.212]: 134.6 mm, 82.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.04,
+              0.0
+            ],
+            "yaw_deg": 165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7475, -0.3792, 0.212]: 113.6 mm, 71.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.708, -0.3584, 0.212]: 125.7 mm, 90.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6887, -0.3428, 0.212]: 66.8 mm, 94.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6661, -0.3326, 0.212]: 66.8 mm, 78.4 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6416, -0.3287, 0.212]: 103.5 mm, 51.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6169, -0.3312, 0.212]: 76.9 mm, 37.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5937, -0.3401, 0.212]: 27.0 mm, 21.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5736, -0.3546, 0.212]: 13.6 mm, 11.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.558, -0.3739, 0.212]: 5.2 mm, 2.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -60,
+            "stage": "lowering_path",
+            "error": "Planned path obstructed (8.28 mm): ['right/link8', 'task/cup_02']"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -45,
+            "stage": "lowering_path",
+            "error": "Planned path obstructed (7.53 mm): ['right/link8', 'task/cup_02']"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5464, -0.4457, 0.212]: 3.9 mm, 2.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": -15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5553, -0.4689, 0.212]: 18.1 mm, 10.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 0,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5698, -0.489, 0.212]: 33.7 mm, 19.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 15,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5891, -0.5046, 0.212]: 54.5 mm, 29.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 30,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6117, -0.5148, 0.212]: 75.9 mm, 39.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 45,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6362, -0.5187, 0.212]: 40.1 mm, 47.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 60,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6609, -0.5162, 0.212]: 59.5 mm, 54.6 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 75,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6841, -0.5073, 0.212]: 78.2 mm, 62.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7042, -0.4928, 0.212]: 86.0 mm, 71.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7198, -0.4735, 0.212]: 98.8 mm, 81.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.73, -0.4509, 0.212]: 106.9 mm, 91.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7339, -0.4264, 0.212]: 102.5 mm, 104.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7314, -0.4017, 0.212]: 120.1 mm, 111.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              0.015,
+              0.0
+            ],
+            "yaw_deg": 165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.7225, -0.3785, 0.212]: 138.7 mm, 97.5 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -180,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6837, -0.3328, 0.212]: 111.0 mm, 91.2 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -165,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6644, -0.3171, 0.212]: 57.2 mm, 95.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -150,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6418, -0.307, 0.212]: 64.4 mm, 85.9 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -135,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.6173, -0.303, 0.212]: 94.0 mm, 50.3 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -120,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5926, -0.3056, 0.212]: 68.6 mm, 35.8 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -105,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5695, -0.3144, 0.212]: 19.1 mm, 19.0 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -90,
+            "stage": "high_IK",
+            "error": "right IK failed at [0.5493, -0.3289, 0.212]: 11.2 mm, 9.7 deg"
+          },
+          {
+            "slot_xy_m": [
+              -0.010000000000000009,
+              0.025
+            ],
+            "yaw_deg": -75,
+            "stage": "selected_geometry_only",
+            "error": null,
+            "wall_margin_m": 0.032050864189745065,
+            "high_tcp_m": [
+              0.5336926625627364,
+              -0.348184905212667,
+              0.21196663109620478
+            ],
+            "low_tcp_m": [
+              0.5336926625627364,
+              -0.348184905212667,
+              0.15210166902876382
+            ],
+            "hand_rotation_world": [
+              [
+                -0.737661912095881,
+                0.5239891617331616,
+                0.42578194164294036
+              ],
+              [
+                0.4538063279967715,
+                0.8517249309985373,
+                -0.26196270456999754
+              ],
+              [
+                -0.4999147128392403,
+                -1.7370086594299898e-05,
+                -0.8660746385763436
+              ]
+            ],
+            "predicted_object_rotation_world": [
+              [
+                0.23177596128491512,
+                0.9727691927614839,
+                -3.7210646612606535e-05
+              ],
+              [
+                -0.9727691934062805,
+                0.23177596154802263,
+                2.8619395099072076e-06
+              ],
+              [
+                1.1408539985324762e-05,
+                3.553404191047882e-05,
+                0.9999999993035916
+              ]
+            ]
+          }
+        ],
+        "support_obstacles": [
+          "bowl",
+          "spoon",
+          "chopstick_a",
+          "chopstick_b",
+          "side_dish",
+          "basket",
+          "cup_00",
+          "cup_01",
+          "cup_02",
+          "pen",
+          "charger"
+        ]
+      },
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "approach_path",
+      "error": "Open chord approach intersects target before closing: 0.098 mm at sample 30",
+      "first_bilateral_width_m": 0.095,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": 45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "rigid_lift_hypothesis",
+      "error": "Finger-only static force balance impossible in this geometry: max upward/Fn=-0.062486, horizontal separation=0.061773",
+      "first_bilateral_width_m": 0.085,
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2962, 0.0268, 0.037]: 4.1 mm, 3.9 deg",
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 30,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2926, 0.0303, 0.037]: 4.9 mm, 3.7 deg",
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.09,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2962, 0.0268, 0.037]: 8.0 mm, 12.7 deg",
+      "isolated_state_restored": true
+    },
+    {
+      "azimuth_deg": -45,
+      "tilt_deg": 45,
+      "height_m": 0.012,
+      "radius_m": 0.095,
+      "stage": "grasp_ik",
+      "error": "right IK failed at [0.2926, 0.0303, 0.037]: 8.5 mm, 13.1 deg",
+      "isolated_state_restored": true
+    }
+  ],
+  "placement_queries": 2,
+  "source_unchanged": true,
+  "necessary_force_screen": {
+    "scope": "Add necessary force-cone conditions to the isolated chord-grasp search.\n\nThis rejects provably impossible finger-only support in the reconstructed\ngeometry. Passing is inconclusive, never a grasp-stability or physics success.\nNo force limit, friction parameter, collision gate or live state is changed.\n",
+    "script_sha256": "873ef76103a48d0be030900252874014dafee00cd31cb98279fd6bda4e855913",
+    "cone_diagnostic_sha256": "d4611ac6f285566da1140587787f6e3a9cdad878ed4b21fe10dce01b5a80f6e8",
+    "checks": [
+      {
+        "object": "plate",
+        "gripper_width_m": 0.07250000000000001,
+        "tcp_world_m": [
+          0.26472667329433774,
+          -0.03683134268957333,
+          0.03699821622928706
+        ],
+        "upward_capacity": {
+          "up_axis_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "per_contact_max_upward_force_per_unit_normal": [
+            1.0229218124418231,
+            1.0229218136955291,
+            0.8196515736933409,
+            1.023324295839711,
+            0.8196515736934153,
+            0.8991575957726583,
+            0.9986488004622696,
+            0.9986488017511357,
+            0.998892462075046,
+            0.8197782476691007,
+            0.8991243174415573,
+            0.8197782479645365
+          ],
+          "max_over_contacts": 1.023324295839711,
+          "all_finger_forces_strictly_downward": false,
+          "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+        },
+        "horizontal_separation": {
+          "axis_world": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "min_projection_per_unit_normal_force": -0.8208158040885448,
+          "all_finger_cones_strictly_same_horizontal_halfspace": false,
+          "per_contact_bounds": [
+            0.49452989601437225,
+            0.4945299113391687,
+            -0.8186130288477954,
+            0.4942685956013827,
+            -0.8186130288482985,
+            -0.3406774107025625,
+            0.5063627371546506,
+            0.5063627552192771,
+            0.5062286985756682,
+            -0.8208158040885448,
+            -0.3375541984132151,
+            -0.8208158029748738
+          ],
+          "angular_search_step_deg": 1
+        },
+        "rejected": false
+      },
+      {
+        "object": "plate",
+        "gripper_width_m": 0.07250000000000001,
+        "tcp_world_m": [
+          0.2924101019595766,
+          -0.10403189038123964,
+          0.03698030687808947
+        ],
+        "upward_capacity": {
+          "up_axis_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "per_contact_max_upward_force_per_unit_normal": [
+            1.0227932515178273,
+            1.0227932435813583,
+            0.8196030034142846,
+            1.0231958113315418,
+            0.8196030034142936,
+            0.8991457914043397,
+            0.9985543311028188,
+            0.9985543239037953,
+            0.9987980261191586,
+            0.8198268112678601,
+            0.9987980189134678,
+            0.8198268109725078
+          ],
+          "max_over_contacts": 1.0231958113315418,
+          "all_finger_forces_strictly_downward": false,
+          "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+        },
+        "horizontal_separation": {
+          "axis_world": [
+            0.7071067811865476,
+            0.7071067811865475,
+            0.0
+          ],
+          "min_projection_per_unit_normal_force": -0.8208542612175508,
+          "all_finger_cones_strictly_same_horizontal_halfspace": false,
+          "per_contact_bounds": [
+            0.49461375887470954,
+            0.4946136618572667,
+            -0.8185745010005026,
+            0.4943526219271796,
+            -0.8185745010004748,
+            -0.34068241937463833,
+            0.5064149176296249,
+            0.5064148166024456,
+            0.5062809480910003,
+            -0.8208542601041415,
+            0.5062808471138878,
+            -0.8208542612175508
+          ],
+          "angular_search_step_deg": 1
+        },
+        "rejected": false
+      },
+      {
+        "object": "plate",
+        "gripper_width_m": 0.085,
+        "tcp_world_m": [
+          0.2923465294416289,
+          -0.10400477977405817,
+          0.037000121264799415
+        ],
+        "upward_capacity": {
+          "up_axis_world": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "per_contact_max_upward_force_per_unit_normal": [
+            -0.062485838200589505,
+            -0.06248579227476281,
+            -0.06257290794867887,
+            -0.0625728623796219
+          ],
+          "max_over_contacts": -0.06248579227476281,
+          "all_finger_forces_strictly_downward": true,
+          "meaning": "A strictly negative maximum rules out upward support from any nonnegative combination of these finger contact cones. A nonnegative result does not prove stable grasp."
+        },
+        "horizontal_separation": {
+          "axis_world": [
+            0.7071067811865476,
+            0.7071067811865475,
+            0.0
+          ],
+          "min_projection_per_unit_normal_force": 0.06177261204885487,
+          "all_finger_cones_strictly_same_horizontal_halfspace": true,
+          "per_contact_bounds": [
+            0.0632376824588996,
+            0.06323763678426098,
+            0.061772657877274706,
+            0.06177261204885487
+          ],
+          "angular_search_step_deg": 1
+        },
+        "rejected": true
+      }
+    ]
+  },
+  "open_approach_screen": {
+    "scope": "Screen the OPEN approach as well as the final chord-grasp pose.\n\nThis experimental chord protocol requires open fingers to clear the target\nbefore closing. The usual teacher intentionally allows finger/target contact;\nthis extra geometric condition is explicit and is not a new global gate.\nIt prevents relying on an unchanged plate pose after an intersecting descent.\n",
+    "script_sha256": "75d16bc7d1c17a7ebaad93186e5e666f54511846a336f6a897327838ff324449",
+    "penetration_roundoff_tolerance_m": 1e-05,
+    "tolerance_scope": "Isolated approach geometry diagnostic; not a hardware or production collision limit.",
+    "checks": [
+      {
+        "command_samples": 39,
+        "rejected": true,
+        "first_intersection": {
+          "sample": 27,
+          "full_width_m": 0.095,
+          "distance_m": -0.00033923482624849594,
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ],
+          "position_world_m": [
+            0.27769578646273074,
+            -0.08446567923196877,
+            0.04005717963873198
+          ]
+        }
+      },
+      {
+        "command_samples": 39,
+        "rejected": false,
+        "first_intersection": null
+      },
+      {
+        "command_samples": 39,
+        "rejected": true,
+        "first_intersection": {
+          "sample": 26,
+          "full_width_m": 0.095,
+          "distance_m": -0.00022192261617898077,
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_11"
+          ],
+          "position_world_m": [
+            0.33517312800566823,
+            -0.12854981249074765,
+            0.04010586849517418
+          ]
+        }
+      },
+      {
+        "command_samples": 39,
+        "rejected": false,
+        "first_intersection": null
+      },
+      {
+        "command_samples": 39,
+        "rejected": true,
+        "first_intersection": {
+          "sample": 30,
+          "full_width_m": 0.095,
+          "distance_m": -9.758430855760294e-05,
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_11"
+          ],
+          "position_world_m": [
+            0.33527347986501277,
+            -0.1286007903117124,
+            0.040166144715265875
+          ]
+        }
+      },
+      {
+        "command_samples": 39,
+        "rejected": false,
+        "first_intersection": null
+      }
+    ]
+  }
+}

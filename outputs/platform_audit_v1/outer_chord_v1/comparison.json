@@ -1,0 +1,6408 @@
+{
+  "scope": "Paired closed-recording audit for a grasp change at a named approach event.\n\nVerifies the unchanged prefix, preserves failures, and reports both coarse\nquality and native interval extrema. It never changes training acceptance.\n",
+  "script_sha256": "20cdfe805ddd0c335846932330ff2125d66ec44df5394d41dc3eb79228ccaa29",
+  "baseline": {
+    "source": "/dev/shm/piper_chord_release_v1/episode/episode.h5",
+    "source_sha256": "276610318fd3c063e7e60ffee672be56801883ed2777a8c7d22c24681a54196e",
+    "frames": 6513,
+    "duration_s": 217.10000000105134,
+    "summary": {
+      "success": false,
+      "sorted_count": 9,
+      "required_count": 11
+    },
+    "error": "SortFailure: plate lost physical grasp: slip=0.0016 m, fingers=[]",
+    "quality": {
+      "passed": true,
+      "violations": [],
+      "frames": 6513,
+      "metrics": {
+        "command_arm_velocity": 0.9954043595043904,
+        "command_gripper_velocity": 0.05994857804701062,
+        "command_arm_acceleration": 2.428663580144752,
+        "command_gripper_acceleration": 0.17313679957717543,
+        "command_arm_jerk": 19.64875864419269,
+        "command_gripper_jerk": 1.415628130916495,
+        "measured_arm_velocity": 0.9946499712484935,
+        "measured_gripper_velocity": 0.05988089057684387,
+        "measured_arm_acceleration": 2.55089457646942,
+        "measured_gripper_acceleration": 0.8231890156241842,
+        "measured_arm_jerk": 56.39246858893099,
+        "measured_gripper_jerk": 29.623685192066706,
+        "tracking_error_rad": 0.00546356757535893,
+        "hold_velocity_rms_rad_s": 0.0001873651977251914,
+        "hold_gripper_velocity_rms_m_s": 0.00019083890150540744
+      },
+      "thresholds": {
+        "command_arm_velocity": 1.01,
+        "command_gripper_velocity": 0.0606,
+        "command_arm_acceleration": 2.525,
+        "command_gripper_acceleration": 0.1818,
+        "command_arm_jerk": 20.2,
+        "command_gripper_jerk": 1.5150000000000001,
+        "measured_arm_velocity": 1.2,
+        "measured_gripper_velocity": 0.08,
+        "measured_arm_acceleration": 8.0,
+        "measured_gripper_acceleration": 1.0,
+        "measured_arm_jerk": 200.0,
+        "measured_gripper_jerk": 50.0,
+        "tracking_error_rad": 0.1,
+        "hold_velocity_rms_rad_s": 0.025,
+        "hold_gripper_velocity_rms_m_s": 0.003
+      },
+      "peaks": {
+        "command_arm_velocity": {
+          "sim_time": 168.3666666670848,
+          "channel": 12,
+          "context": {
+            "phase": "lift",
+            "object": "spoon"
+          }
+        },
+        "command_gripper_velocity": {
+          "sim_time": 201.4333333341725,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "command_arm_acceleration": {
+          "sim_time": 127.29999999990477,
+          "channel": 8,
+          "context": {
+            "phase": "lift",
+            "object": "pen"
+          }
+        },
+        "command_gripper_acceleration": {
+          "sim_time": 20.000000000002352,
+          "channel": 6,
+          "context": {
+            "phase": "release_for_nesting",
+            "object": "cup_01"
+          }
+        },
+        "command_arm_jerk": {
+          "sim_time": 35.03333333332201,
+          "channel": 2,
+          "context": {
+            "phase": "lift",
+            "object": "cup_02"
+          }
+        },
+        "command_gripper_jerk": {
+          "sim_time": 151.6333333335384,
+          "channel": 13,
+          "context": {
+            "phase": "unload_gripper",
+            "object": "charger"
+          }
+        },
+        "measured_arm_velocity": {
+          "sim_time": 25.73333333333047,
+          "channel": 5,
+          "context": {
+            "phase": "approach",
+            "object": "cup_02"
+          }
+        },
+        "measured_gripper_velocity": {
+          "sim_time": 201.4333333341725,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "measured_arm_acceleration": {
+          "sim_time": 112.03333333325199,
+          "channel": 9,
+          "context": {
+            "phase": "lower",
+            "object": "chopstick_b"
+          }
+        },
+        "measured_gripper_acceleration": {
+          "sim_time": 124.76666666657374,
+          "channel": 13,
+          "context": {
+            "phase": "grasp",
+            "object": "pen"
+          }
+        },
+        "measured_arm_jerk": {
+          "sim_time": 211.33333333429854,
+          "channel": 8,
+          "context": {
+            "phase": "grasp",
+            "object": "plate"
+          }
+        },
+        "measured_gripper_jerk": {
+          "sim_time": 213.40000000099153,
+          "channel": 13,
+          "context": {
+            "phase": "grasp",
+            "object": "plate"
+          }
+        }
+      },
+      "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+      "hold_samples": 364,
+      "physical_grasps": [
+        {
+          "name": "cup_01",
+          "assisted": false,
+          "samples": 348,
+          "bilateral_samples": 348,
+          "max_slip_m": 0.0010933602971061318,
+          "max_rotation_change_rad": 0.013025889081358774,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "cup_02",
+          "assisted": false,
+          "samples": 457,
+          "bilateral_samples": 457,
+          "max_slip_m": 0.0010205397337579186,
+          "max_rotation_change_rad": 0.024016845520485552,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "cup_00",
+          "assisted": false,
+          "samples": 322,
+          "bilateral_samples": 322,
+          "max_slip_m": 0.002745722194627546,
+          "max_rotation_change_rad": 0.03247454132130079,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "chopstick_a",
+          "assisted": false,
+          "samples": 237,
+          "bilateral_samples": 237,
+          "max_slip_m": 0.0028157270731722812,
+          "max_rotation_change_rad": 0.00725978010452437,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "chopstick_b",
+          "assisted": false,
+          "samples": 243,
+          "bilateral_samples": 243,
+          "max_slip_m": 0.00277788059678081,
+          "max_rotation_change_rad": 0.02021422373968627,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "pen",
+          "assisted": false,
+          "samples": 194,
+          "bilateral_samples": 194,
+          "max_slip_m": 0.0014764755503376462,
+          "max_rotation_change_rad": 0.014540840771158024,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "charger",
+          "assisted": false,
+          "samples": 216,
+          "bilateral_samples": 216,
+          "max_slip_m": 0.0013958947789530216,
+          "max_rotation_change_rad": 0.008090495327170471,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "spoon",
+          "assisted": false,
+          "samples": 318,
+          "bilateral_samples": 318,
+          "max_slip_m": 0.0016857156915748418,
+          "max_rotation_change_rad": 0.07808740474566901,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "bowl",
+          "assisted": false,
+          "samples": 226,
+          "bilateral_samples": 226,
+          "max_slip_m": 0.0031748281594209237,
+          "max_rotation_change_rad": 0.43249446283244225,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "plate",
+          "assisted": false,
+          "samples": 30,
+          "bilateral_samples": 23,
+          "max_slip_m": 0.0016462129353793562,
+          "max_rotation_change_rad": 0.2399616952471425,
+          "lost_contact_s": 0.2333333333333333,
+          "anchor": "mean initial pad contact in object frame"
+        }
+      ],
+      "cameras": {}
+    },
+    "audit_passed": false,
+    "training_ready": false,
+    "acceptance_policy": null,
+    "audit_violations": [
+      "ValueError: unsuccessful_episode"
+    ],
+    "first_intervention_transition": null,
+    "native_phase_extrema": {
+      "cup_01/approach": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 147
+      },
+      "cup_01/grasp": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 53
+      },
+      "cup_01/lift": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 246
+      },
+      "cup_01/nest": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 99
+      },
+      "cup_01/release_for_nesting": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 127
+      },
+      "cup_02/approach": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 182
+      },
+      "cup_02/grasp": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 53
+      },
+      "cup_02/lift": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 353
+      },
+      "cup_02/nest": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 101
+      },
+      "cup_02/release_for_nesting": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 125
+      },
+      "cup_02/stack_checked": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 24
+      },
+      "cup_02/stack_ready": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 111
+      },
+      "cup_00/approach": {
+        "right_gripper_acceleration": 0.39466215778431346,
+        "right_gripper_jerk": 478.21970944615447,
+        "frames": 170
+      },
+      "cup_00/grasp": {
+        "right_gripper_acceleration": 1.3034019514754402,
+        "right_gripper_jerk": 1261.8809118149898,
+        "frames": 53
+      },
+      "cup_00/lift": {
+        "right_gripper_acceleration": 0.013920790128751463,
+        "right_gripper_jerk": 9.368184003632377,
+        "frames": 83
+      },
+      "cup_00/transfer_stack": {
+        "right_gripper_acceleration": 0.34618458156081894,
+        "right_gripper_jerk": 337.4226281792135,
+        "frames": 236
+      },
+      "cup_00/release_stack": {
+        "right_gripper_acceleration": 9.766294902114607,
+        "right_gripper_jerk": 15212.35565543098,
+        "frames": 130
+      },
+      "chopstick_a/approach": {
+        "right_gripper_acceleration": 0.4738718386062968,
+        "right_gripper_jerk": 574.1950838980728,
+        "frames": 140
+      },
+      "chopstick_a/grasp": {
+        "right_gripper_acceleration": 3.7911916965591885,
+        "right_gripper_jerk": 4916.153584636291,
+        "frames": 71
+      },
+      "chopstick_a/lift": {
+        "right_gripper_acceleration": 0.8365285213974526,
+        "right_gripper_jerk": 882.1773811503865,
+        "frames": 64
+      },
+      "chopstick_a/transfer": {
+        "right_gripper_acceleration": 0.7733259404010606,
+        "right_gripper_jerk": 813.3103632002591,
+        "frames": 120
+      },
+      "chopstick_a/lower": {
+        "right_gripper_acceleration": 0.7919194146608879,
+        "right_gripper_jerk": 797.2064114829644,
+        "frames": 50
+      },
+      "chopstick_a/unload_gripper": {
+        "right_gripper_acceleration": 0.9647805393703577,
+        "right_gripper_jerk": 1312.2845543558376,
+        "frames": 24
+      },
+      "chopstick_a/release": {
+        "right_gripper_acceleration": 1.2482345383430626,
+        "right_gripper_jerk": 1508.2529117099418,
+        "frames": 113
+      },
+      "chopstick_b/approach": {
+        "right_gripper_acceleration": 0.13097399497204287,
+        "right_gripper_jerk": 158.72161822200664,
+        "frames": 156
+      },
+      "chopstick_b/grasp": {
+        "right_gripper_acceleration": 3.7527163723915185,
+        "right_gripper_jerk": 5400.815117175565,
+        "frames": 71
+      },
+      "chopstick_b/lift": {
+        "right_gripper_acceleration": 1.269590100820891,
+        "right_gripper_jerk": 1797.6051505810485,
+        "frames": 64
+      },
+      "chopstick_b/transfer": {
+        "right_gripper_acceleration": 0.9414618024076288,
+        "right_gripper_jerk": 957.0626168356592,
+        "frames": 121
+      },
+      "chopstick_b/lower": {
+        "right_gripper_acceleration": 0.9476098237166922,
+        "right_gripper_jerk": 956.0209862101917,
+        "frames": 55
+      },
+      "chopstick_b/unload_gripper": {
+        "right_gripper_acceleration": 0.9619552664937074,
+        "right_gripper_jerk": 1308.4050225398298,
+        "frames": 24
+      },
+      "chopstick_b/release": {
+        "right_gripper_acceleration": 1.2491417134849292,
+        "right_gripper_jerk": 1509.350389356917,
+        "frames": 118
+      },
+      "pen/approach": {
+        "right_gripper_acceleration": 0.055534315713851035,
+        "right_gripper_jerk": 67.30491687583333,
+        "frames": 161
+      },
+      "pen/grasp": {
+        "right_gripper_acceleration": 1.3805933807470594,
+        "right_gripper_jerk": 1215.437699723654,
+        "frames": 91
+      },
+      "pen/lift": {
+        "right_gripper_acceleration": 0.0010147406137098408,
+        "right_gripper_jerk": 0.492838938671708,
+        "frames": 66
+      },
+      "pen/transfer": {
+        "right_gripper_acceleration": 0.0002062050681582954,
+        "right_gripper_jerk": 0.10718992725390689,
+        "frames": 98
+      },
+      "pen/lower": {
+        "right_gripper_acceleration": 0.0001280905691821891,
+        "right_gripper_jerk": 0.06723696987857783,
+        "frames": 27
+      },
+      "pen/unload_gripper": {
+        "right_gripper_acceleration": 1.0175724163649742,
+        "right_gripper_jerk": 1547.1376456664614,
+        "frames": 26
+      },
+      "pen/release": {
+        "right_gripper_acceleration": 1.2058234662110168,
+        "right_gripper_jerk": 1461.4001320751963,
+        "frames": 83
+      },
+      "charger/approach": {
+        "right_gripper_acceleration": 0.28668382165490947,
+        "right_gripper_jerk": 347.29665610474996,
+        "frames": 133
+      },
+      "charger/grasp": {
+        "right_gripper_acceleration": 1.2295051873198815,
+        "right_gripper_jerk": 1177.4781547876123,
+        "frames": 123
+      },
+      "charger/lift": {
+        "right_gripper_acceleration": 0.7468964118758026,
+        "right_gripper_jerk": 560.2369709894972,
+        "frames": 62
+      },
+      "charger/transfer": {
+        "right_gripper_acceleration": 0.5607505789777998,
+        "right_gripper_jerk": 561.1075012454007,
+        "frames": 125
+      },
+      "charger/lower": {
+        "right_gripper_acceleration": 0.5661669333114293,
+        "right_gripper_jerk": 561.5919440097292,
+        "frames": 26
+      },
+      "charger/unload_gripper": {
+        "right_gripper_acceleration": 14.962278778093461,
+        "right_gripper_jerk": 23541.111637887196,
+        "frames": 28
+      },
+      "charger/release": {
+        "right_gripper_acceleration": 1.2707283020970006,
+        "right_gripper_jerk": 1538.0772092111083,
+        "frames": 81
+      },
+      "spoon/approach": {
+        "right_gripper_acceleration": 0.11172047839388632,
+        "right_gripper_jerk": 135.39274976932953,
+        "frames": 233
+      },
+      "spoon/grasp": {
+        "right_gripper_acceleration": 1.1027611655674374,
+        "right_gripper_jerk": 886.4065095313975,
+        "frames": 115
+      },
+      "spoon/lift": {
+        "right_gripper_acceleration": 0.004577520749354819,
+        "right_gripper_jerk": 5.551950311750974,
+        "frames": 95
+      },
+      "spoon/transfer": {
+        "right_gripper_acceleration": 0.00023915371623348905,
+        "right_gripper_jerk": 0.3032602555721048,
+        "frames": 193
+      },
+      "spoon/lower": {
+        "right_gripper_acceleration": 0.0022802459002132028,
+        "right_gripper_jerk": 3.1645014601891925,
+        "frames": 27
+      },
+      "spoon/unload_gripper": {
+        "right_gripper_acceleration": 1.9198472775786841,
+        "right_gripper_jerk": 2630.1274107425584,
+        "frames": 27
+      },
+      "spoon/release": {
+        "right_gripper_acceleration": 0.8411401403800911,
+        "right_gripper_jerk": 1018.1762303889084,
+        "frames": 99
+      },
+      "bowl/approach": {
+        "right_gripper_acceleration": 0.030047875559945647,
+        "right_gripper_jerk": 36.422226132991135,
+        "frames": 208
+      },
+      "bowl/grasp": {
+        "right_gripper_acceleration": 5.456634475736468,
+        "right_gripper_jerk": 5190.384679207342,
+        "frames": 123
+      },
+      "bowl/lift": {
+        "right_gripper_acceleration": 0.8693812418467711,
+        "right_gripper_jerk": 843.9095898347824,
+        "frames": 69
+      },
+      "bowl/transfer": {
+        "right_gripper_acceleration": 0.2567524297327443,
+        "right_gripper_jerk": 272.5347463638,
+        "frames": 126
+      },
+      "bowl/lower": {
+        "right_gripper_acceleration": 0.2564802683962549,
+        "right_gripper_jerk": 266.95874756579326,
+        "frames": 28
+      },
+      "bowl/unload_gripper": {
+        "right_gripper_acceleration": 24.502039925219115,
+        "right_gripper_jerk": 26352.470798845912,
+        "frames": 24
+      },
+      "bowl/release": {
+        "right_gripper_acceleration": 15.91530707306275,
+        "right_gripper_jerk": 17888.602907135217,
+        "frames": 109
+      },
+      "plate/approach": {
+        "right_gripper_acceleration": 0.09609510785554637,
+        "right_gripper_jerk": 115.87399171855779,
+        "frames": 191
+      },
+      "plate/grasp": {
+        "right_gripper_acceleration": 54.4382293665689,
+        "right_gripper_jerk": 90996.01082600246,
+        "frames": 205
+      },
+      "plate/lift": {
+        "right_gripper_acceleration": 4.490741337175587,
+        "right_gripper_jerk": 4423.820474541897,
+        "frames": 27
+      }
+    },
+    "support_events": [],
+    "support_samples": [
+      {
+        "transition_index": 6090,
+        "phase": "approach",
+        "sim_time": 204.0333333342056,
+        "fraction": 1.0000009802419085
+      },
+      {
+        "transition_index": 6091,
+        "phase": "approach",
+        "sim_time": 204.06666666753935,
+        "fraction": 0.999999684173273
+      },
+      {
+        "transition_index": 6092,
+        "phase": "approach",
+        "sim_time": 204.1000000008731,
+        "fraction": 1.0000010638007575
+      },
+      {
+        "transition_index": 6093,
+        "phase": "approach",
+        "sim_time": 204.13333333420687,
+        "fraction": 1.0000010212290034
+      },
+      {
+        "transition_index": 6094,
+        "phase": "approach",
+        "sim_time": 204.16666666754062,
+        "fraction": 0.9999988407526865
+      },
+      {
+        "transition_index": 6095,
+        "phase": "approach",
+        "sim_time": 204.20000000087438,
+        "fraction": 0.9999976110850008
+      },
+      {
+        "transition_index": 6096,
+        "phase": "approach",
+        "sim_time": 204.23333333420814,
+        "fraction": 0.9999990800905968
+      },
+      {
+        "transition_index": 6097,
+        "phase": "approach",
+        "sim_time": 204.2666666675419,
+        "fraction": 1.00000195656798
+      },
+      {
+        "transition_index": 6098,
+        "phase": "approach",
+        "sim_time": 204.30000000087566,
+        "fraction": 0.9999993913835209
+      },
+      {
+        "transition_index": 6099,
+        "phase": "approach",
+        "sim_time": 204.3333333342094,
+        "fraction": 1.000000980257989
+      },
+      {
+        "transition_index": 6100,
+        "phase": "approach",
+        "sim_time": 204.36666666754317,
+        "fraction": 1.0000020413524389
+      },
+      {
+        "transition_index": 6101,
+        "phase": "approach",
+        "sim_time": 204.40000000087693,
+        "fraction": 0.9999997956699589
+      },
+      {
+        "transition_index": 6102,
+        "phase": "approach",
+        "sim_time": 204.4333333342107,
+        "fraction": 0.9999992224635011
+      },
+      {
+        "transition_index": 6103,
+        "phase": "approach",
+        "sim_time": 204.46666666754444,
+        "fraction": 1.0000011057179026
+      },
+      {
+        "transition_index": 6104,
+        "phase": "approach",
+        "sim_time": 204.5000000008782,
+        "fraction": 1.0000002851950998
+      },
+      {
+        "transition_index": 6105,
+        "phase": "approach",
+        "sim_time": 204.53333333421196,
+        "fraction": 0.9999993816695173
+      },
+      {
+        "transition_index": 6106,
+        "phase": "approach",
+        "sim_time": 204.56666666754572,
+        "fraction": 0.9999997316837763
+      },
+      {
+        "transition_index": 6107,
+        "phase": "approach",
+        "sim_time": 204.60000000087948,
+        "fraction": 1.0000027065529384
+      },
+      {
+        "transition_index": 6108,
+        "phase": "approach",
+        "sim_time": 204.63333333421323,
+        "fraction": 0.9999976758631627
+      },
+      {
+        "transition_index": 6109,
+        "phase": "approach",
+        "sim_time": 204.666666667547,
+        "fraction": 1.0000011591927402
+      },
+      {
+        "transition_index": 6110,
+        "phase": "approach",
+        "sim_time": 204.70000000088075,
+        "fraction": 0.9999992429722763
+      },
+      {
+        "transition_index": 6111,
+        "phase": "approach",
+        "sim_time": 204.7333333342145,
+        "fraction": 1.0000014452170582
+      },
+      {
+        "transition_index": 6112,
+        "phase": "approach",
+        "sim_time": 204.76666666754826,
+        "fraction": 0.9999973121792469
+      },
+      {
+        "transition_index": 6113,
+        "phase": "approach",
+        "sim_time": 204.80000000088202,
+        "fraction": 0.9999965175962137
+      },
+      {
+        "transition_index": 6114,
+        "phase": "approach",
+        "sim_time": 204.83333333421578,
+        "fraction": 0.9999999562819203
+      },
+      {
+        "transition_index": 6115,
+        "phase": "approach",
+        "sim_time": 204.86666666754954,
+        "fraction": 0.9999972709803578
+      },
+      {
+        "transition_index": 6116,
+        "phase": "approach",
+        "sim_time": 204.9000000008833,
+        "fraction": 0.9999995965233426
+      },
+      {
+        "transition_index": 6117,
+        "phase": "approach",
+        "sim_time": 204.93333333421705,
+        "fraction": 1.0000034756607166
+      },
+      {
+        "transition_index": 6118,
+        "phase": "approach",
+        "sim_time": 204.9666666675508,
+        "fraction": 0.9999998005630942
+      },
+      {
+        "transition_index": 6119,
+        "phase": "approach",
+        "sim_time": 205.00000000088457,
+        "fraction": 0.9999997195068435
+      },
+      {
+        "transition_index": 6120,
+        "phase": "approach",
+        "sim_time": 205.03333333421833,
+        "fraction": 1.0000006068603011
+      },
+      {
+        "transition_index": 6121,
+        "phase": "approach",
+        "sim_time": 205.06666666755208,
+        "fraction": 1.0000002118260225
+      },
+      {
+        "transition_index": 6122,
+        "phase": "approach",
+        "sim_time": 205.10000000088584,
+        "fraction": 1.000000695353573
+      },
+      {
+        "transition_index": 6123,
+        "phase": "approach",
+        "sim_time": 205.1333333342196,
+        "fraction": 0.9999964693329487
+      },
+      {
+        "transition_index": 6124,
+        "phase": "approach",
+        "sim_time": 205.16666666755336,
+        "fraction": 0.9999989792893904
+      },
+      {
+        "transition_index": 6125,
+        "phase": "approach",
+        "sim_time": 205.20000000088712,
+        "fraction": 1.000000304250521
+      },
+      {
+        "transition_index": 6126,
+        "phase": "approach",
+        "sim_time": 205.23333333422087,
+        "fraction": 1.000001746464793
+      },
+      {
+        "transition_index": 6127,
+        "phase": "approach",
+        "sim_time": 205.26666666755463,
+        "fraction": 0.9999993408454351
+      },
+      {
+        "transition_index": 6128,
+        "phase": "approach",
+        "sim_time": 205.3000000008884,
+        "fraction": 0.9999994003875856
+      },
+      {
+        "transition_index": 6129,
+        "phase": "approach",
+        "sim_time": 205.33333333422215,
+        "fraction": 1.0000003370115522
+      },
+      {
+        "transition_index": 6130,
+        "phase": "approach",
+        "sim_time": 205.3666666675559,
+        "fraction": 0.9999997620454125
+      },
+      {
+        "transition_index": 6131,
+        "phase": "approach",
+        "sim_time": 205.40000000088966,
+        "fraction": 1.0000005192110164
+      },
+      {
+        "transition_index": 6132,
+        "phase": "approach",
+        "sim_time": 205.43333333422342,
+        "fraction": 1.0000001437145527
+      },
+      {
+        "transition_index": 6133,
+        "phase": "approach",
+        "sim_time": 205.46666666755718,
+        "fraction": 0.9999992875847078
+      },
+      {
+        "transition_index": 6134,
+        "phase": "approach",
+        "sim_time": 205.50000000089094,
+        "fraction": 1.0000017811542816
+      },
+      {
+        "transition_index": 6135,
+        "phase": "approach",
+        "sim_time": 205.5333333342247,
+        "fraction": 0.9999996574661524
+      },
+      {
+        "transition_index": 6136,
+        "phase": "approach",
+        "sim_time": 205.56666666755845,
+        "fraction": 1.00000053084189
+      },
+      {
+        "transition_index": 6137,
+        "phase": "approach",
+        "sim_time": 205.6000000008922,
+        "fraction": 1.0000006512422714
+      },
+      {
+        "transition_index": 6138,
+        "phase": "approach",
+        "sim_time": 205.63333333422597,
+        "fraction": 1.0000000283058665
+      },
+      {
+        "transition_index": 6139,
+        "phase": "approach",
+        "sim_time": 205.66666666755972,
+        "fraction": 1.0000008635788946
+      },
+      {
+        "transition_index": 6140,
+        "phase": "approach",
+        "sim_time": 205.70000000089348,
+        "fraction": 0.9999998073383888
+      },
+      {
+        "transition_index": 6141,
+        "phase": "approach",
+        "sim_time": 205.73333333422724,
+        "fraction": 0.9999999683734031
+      },
+      {
+        "transition_index": 6142,
+        "phase": "approach",
+        "sim_time": 205.766666667561,
+        "fraction": 0.9999994188480861
+      },
+      {
+        "transition_index": 6143,
+        "phase": "approach",
+        "sim_time": 205.80000000089476,
+        "fraction": 0.999999802912564
+      },
+      {
+        "transition_index": 6144,
+        "phase": "approach",
+        "sim_time": 205.8333333342285,
+        "fraction": 1.0000016068944335
+      },
+      {
+        "transition_index": 6145,
+        "phase": "approach",
+        "sim_time": 205.86666666756227,
+        "fraction": 0.9999999545824261
+      },
+      {
+        "transition_index": 6146,
+        "phase": "approach",
+        "sim_time": 205.90000000089603,
+        "fraction": 0.9999996137441118
+      },
+      {
+        "transition_index": 6147,
+        "phase": "approach",
+        "sim_time": 205.9333333342298,
+        "fraction": 1.0000006407975626
+      },
+      {
+        "transition_index": 6148,
+        "phase": "approach",
+        "sim_time": 205.96666666756354,
+        "fraction": 0.9999968595815255
+      },
+      {
+        "transition_index": 6149,
+        "phase": "approach",
+        "sim_time": 206.0000000008973,
+        "fraction": 1.000001945698025
+      },
+      {
+        "transition_index": 6150,
+        "phase": "approach",
+        "sim_time": 206.03333333423106,
+        "fraction": 0.9999997011713895
+      },
+      {
+        "transition_index": 6151,
+        "phase": "approach",
+        "sim_time": 206.06666666756482,
+        "fraction": 0.9999998137136972
+      },
+      {
+        "transition_index": 6152,
+        "phase": "approach",
+        "sim_time": 206.10000000089858,
+        "fraction": 1.0000023845587398
+      },
+      {
+        "transition_index": 6153,
+        "phase": "approach",
+        "sim_time": 206.13333333423233,
+        "fraction": 1.0000012777259495
+      },
+      {
+        "transition_index": 6154,
+        "phase": "approach",
+        "sim_time": 206.1666666675661,
+        "fraction": 0.9999995970692089
+      },
+      {
+        "transition_index": 6155,
+        "phase": "approach",
+        "sim_time": 206.20000000089985,
+        "fraction": 1.0000001258888953
+      },
+      {
+        "transition_index": 6156,
+        "phase": "approach",
+        "sim_time": 206.2333333342336,
+        "fraction": 1.0000008036425592
+      },
+      {
+        "transition_index": 6157,
+        "phase": "approach",
+        "sim_time": 206.26666666756736,
+        "fraction": 0.999999867272497
+      },
+      {
+        "transition_index": 6158,
+        "phase": "approach",
+        "sim_time": 206.30000000090112,
+        "fraction": 1.0000004586553701
+      },
+      {
+        "transition_index": 6159,
+        "phase": "approach",
+        "sim_time": 206.33333333423488,
+        "fraction": 1.0000020531974088
+      },
+      {
+        "transition_index": 6160,
+        "phase": "approach",
+        "sim_time": 206.36666666756864,
+        "fraction": 0.9999976256213106
+      },
+      {
+        "transition_index": 6161,
+        "phase": "approach",
+        "sim_time": 206.4000000009024,
+        "fraction": 0.9999995553901461
+      },
+      {
+        "transition_index": 6162,
+        "phase": "approach",
+        "sim_time": 206.43333333423615,
+        "fraction": 0.9999980432016561
+      },
+      {
+        "transition_index": 6163,
+        "phase": "approach",
+        "sim_time": 206.4666666675699,
+        "fraction": 0.9999997395487701
+      },
+      {
+        "transition_index": 6164,
+        "phase": "approach",
+        "sim_time": 206.50000000090367,
+        "fraction": 0.9999994380831393
+      },
+      {
+        "transition_index": 6165,
+        "phase": "approach",
+        "sim_time": 206.53333333423743,
+        "fraction": 0.9999995749141994
+      },
+      {
+        "transition_index": 6166,
+        "phase": "approach",
+        "sim_time": 206.56666666757118,
+        "fraction": 0.9999999661231572
+      },
+      {
+        "transition_index": 6167,
+        "phase": "approach",
+        "sim_time": 206.60000000090494,
+        "fraction": 1.0000019162063063
+      },
+      {
+        "transition_index": 6168,
+        "phase": "approach",
+        "sim_time": 206.6333333342387,
+        "fraction": 0.999999045103554
+      },
+      {
+        "transition_index": 6169,
+        "phase": "approach",
+        "sim_time": 206.66666666757246,
+        "fraction": 1.0000000627970487
+      },
+      {
+        "transition_index": 6170,
+        "phase": "approach",
+        "sim_time": 206.70000000090621,
+        "fraction": 1.0000021099747047
+      },
+      {
+        "transition_index": 6171,
+        "phase": "approach",
+        "sim_time": 206.73333333423997,
+        "fraction": 1.0000008808287177
+      },
+      {
+        "transition_index": 6172,
+        "phase": "approach",
+        "sim_time": 206.76666666757373,
+        "fraction": 0.9999991484636969
+      },
+      {
+        "transition_index": 6173,
+        "phase": "approach",
+        "sim_time": 206.8000000009075,
+        "fraction": 1.0000000840351924
+      },
+      {
+        "transition_index": 6174,
+        "phase": "approach",
+        "sim_time": 206.83333333424125,
+        "fraction": 0.9999987369852016
+      },
+      {
+        "transition_index": 6175,
+        "phase": "approach",
+        "sim_time": 206.866666667575,
+        "fraction": 1.000000481943314
+      },
+      {
+        "transition_index": 6176,
+        "phase": "approach",
+        "sim_time": 206.90000000090876,
+        "fraction": 0.9999944250081242
+      },
+      {
+        "transition_index": 6177,
+        "phase": "approach",
+        "sim_time": 206.93333333424252,
+        "fraction": 0.9999997074049176
+      },
+      {
+        "transition_index": 6178,
+        "phase": "approach",
+        "sim_time": 206.96666666757628,
+        "fraction": 1.0000004521156256
+      },
+      {
+        "transition_index": 6179,
+        "phase": "approach",
+        "sim_time": 207.00000000091003,
+        "fraction": 0.9999994701366439
+      },
+      {
+        "transition_index": 6180,
+        "phase": "approach",
+        "sim_time": 207.0333333342438,
+        "fraction": 1.0000012208475768
+      },
+      {
+        "transition_index": 6181,
+        "phase": "approach",
+        "sim_time": 207.06666666757755,
+        "fraction": 1.0000003726233424
+      },
+      {
+        "transition_index": 6182,
+        "phase": "approach",
+        "sim_time": 207.1000000009113,
+        "fraction": 1.0000007263724282
+      },
+      {
+        "transition_index": 6183,
+        "phase": "approach",
+        "sim_time": 207.13333333424507,
+        "fraction": 0.9999999911850758
+      },
+      {
+        "transition_index": 6184,
+        "phase": "approach",
+        "sim_time": 207.16666666757882,
+        "fraction": 1.0000000005946905
+      },
+      {
+        "transition_index": 6185,
+        "phase": "approach",
+        "sim_time": 207.20000000091258,
+        "fraction": 1.000001838205085
+      },
+      {
+        "transition_index": 6186,
+        "phase": "approach",
+        "sim_time": 207.23333333424634,
+        "fraction": 1.0000005983964733
+      },
+      {
+        "transition_index": 6187,
+        "phase": "approach",
+        "sim_time": 207.2666666675801,
+        "fraction": 1.0000005423527907
+      },
+      {
+        "transition_index": 6188,
+        "phase": "approach",
+        "sim_time": 207.30000000091385,
+        "fraction": 0.9999991000060432
+      },
+      {
+        "transition_index": 6189,
+        "phase": "approach",
+        "sim_time": 207.3333333342476,
+        "fraction": 0.9999995548160551
+      },
+      {
+        "transition_index": 6190,
+        "phase": "approach",
+        "sim_time": 207.36666666758137,
+        "fraction": 1.0000018936000803
+      },
+      {
+        "transition_index": 6191,
+        "phase": "approach",
+        "sim_time": 207.40000000091513,
+        "fraction": 0.9999993032980277
+      },
+      {
+        "transition_index": 6192,
+        "phase": "approach",
+        "sim_time": 207.43333333424889,
+        "fraction": 0.9999979800406729
+      },
+      {
+        "transition_index": 6193,
+        "phase": "approach",
+        "sim_time": 207.46666666758264,
+        "fraction": 1.0000014687487606
+      },
+      {
+        "transition_index": 6194,
+        "phase": "approach",
+        "sim_time": 207.5000000009164,
+        "fraction": 0.999999851272243
+      },
+      {
+        "transition_index": 6195,
+        "phase": "approach",
+        "sim_time": 207.53333333425016,
+        "fraction": 0.9999984885618661
+      },
+      {
+        "transition_index": 6196,
+        "phase": "approach",
+        "sim_time": 207.56666666758392,
+        "fraction": 1.0000000345894038
+      },
+      {
+        "transition_index": 6197,
+        "phase": "approach",
+        "sim_time": 207.60000000091767,
+        "fraction": 0.999998344259047
+      },
+      {
+        "transition_index": 6198,
+        "phase": "approach",
+        "sim_time": 207.63333333425143,
+        "fraction": 1.000000016840915
+      },
+      {
+        "transition_index": 6199,
+        "phase": "approach",
+        "sim_time": 207.6666666675852,
+        "fraction": 0.9999990903588792
+      },
+      {
+        "transition_index": 6200,
+        "phase": "approach",
+        "sim_time": 207.70000000091895,
+        "fraction": 1.0000008062331451
+      },
+      {
+        "transition_index": 6201,
+        "phase": "approach",
+        "sim_time": 207.7333333342527,
+        "fraction": 0.9999997713827373
+      },
+      {
+        "transition_index": 6202,
+        "phase": "approach",
+        "sim_time": 207.76666666758646,
+        "fraction": 1.0000018739252663
+      },
+      {
+        "transition_index": 6203,
+        "phase": "approach",
+        "sim_time": 207.80000000092022,
+        "fraction": 1.0000008805804241
+      },
+      {
+        "transition_index": 6204,
+        "phase": "approach",
+        "sim_time": 207.83333333425398,
+        "fraction": 1.0000003618011657
+      },
+      {
+        "transition_index": 6205,
+        "phase": "approach",
+        "sim_time": 207.86666666758774,
+        "fraction": 1.0000008852334288
+      },
+      {
+        "transition_index": 6206,
+        "phase": "approach",
+        "sim_time": 207.9000000009215,
+        "fraction": 1.000000779362142
+      },
+      {
+        "transition_index": 6207,
+        "phase": "approach",
+        "sim_time": 207.93333333425525,
+        "fraction": 1.0000014770360197
+      },
+      {
+        "transition_index": 6208,
+        "phase": "approach",
+        "sim_time": 207.966666667589,
+        "fraction": 1.0000015758906315
+      },
+      {
+        "transition_index": 6209,
+        "phase": "approach",
+        "sim_time": 208.00000000092277,
+        "fraction": 0.9999971502330557
+      },
+      {
+        "transition_index": 6210,
+        "phase": "approach",
+        "sim_time": 208.03333333425653,
+        "fraction": 1.0000004569787442
+      },
+      {
+        "transition_index": 6211,
+        "phase": "approach",
+        "sim_time": 208.06666666759028,
+        "fraction": 1.0000021604970444
+      },
+      {
+        "transition_index": 6212,
+        "phase": "approach",
+        "sim_time": 208.10000000092404,
+        "fraction": 1.000000128528263
+      },
+      {
+        "transition_index": 6213,
+        "phase": "approach",
+        "sim_time": 208.1333333342578,
+        "fraction": 0.9999995054646897
+      },
+      {
+        "transition_index": 6214,
+        "phase": "approach",
+        "sim_time": 208.16666666759156,
+        "fraction": 1.0000024969739472
+      },
+      {
+        "transition_index": 6215,
+        "phase": "approach",
+        "sim_time": 208.20000000092531,
+        "fraction": 0.9999994086817202
+      },
+      {
+        "transition_index": 6216,
+        "phase": "approach",
+        "sim_time": 208.23333333425907,
+        "fraction": 1.0000020985608247
+      },
+      {
+        "transition_index": 6217,
+        "phase": "approach",
+        "sim_time": 208.26666666759283,
+        "fraction": 1.000000556980821
+      },
+      {
+        "transition_index": 6218,
+        "phase": "approach",
+        "sim_time": 208.3000000009266,
+        "fraction": 1.0000009854875502
+      },
+      {
+        "transition_index": 6219,
+        "phase": "approach",
+        "sim_time": 208.33333333426035,
+        "fraction": 1.000000351466578
+      },
+      {
+        "transition_index": 6220,
+        "phase": "approach",
+        "sim_time": 208.3666666675941,
+        "fraction": 1.000000090286787
+      },
+      {
+        "transition_index": 6221,
+        "phase": "approach",
+        "sim_time": 208.40000000092786,
+        "fraction": 0.9999996842192701
+      },
+      {
+        "transition_index": 6222,
+        "phase": "approach",
+        "sim_time": 208.43333333426162,
+        "fraction": 0.9999989838571508
+      },
+      {
+        "transition_index": 6223,
+        "phase": "approach",
+        "sim_time": 208.46666666759538,
+        "fraction": 0.9999992166223923
+      },
+      {
+        "transition_index": 6224,
+        "phase": "approach",
+        "sim_time": 208.50000000092913,
+        "fraction": 1.00000194282613
+      },
+      {
+        "transition_index": 6225,
+        "phase": "approach",
+        "sim_time": 208.5333333342629,
+        "fraction": 0.9999975211895281
+      },
+      {
+        "transition_index": 6226,
+        "phase": "approach",
+        "sim_time": 208.56666666759665,
+        "fraction": 1.0000013110487516
+      },
+      {
+        "transition_index": 6227,
+        "phase": "approach",
+        "sim_time": 208.6000000009304,
+        "fraction": 1.000000900294377
+      },
+      {
+        "transition_index": 6228,
+        "phase": "approach",
+        "sim_time": 208.63333333426417,
+        "fraction": 1.0000017442188185
+      },
+      {
+        "transition_index": 6229,
+        "phase": "approach",
+        "sim_time": 208.66666666759792,
+        "fraction": 0.9999998872357398
+      },
+      {
+        "transition_index": 6230,
+        "phase": "approach",
+        "sim_time": 208.70000000093168,
+        "fraction": 1.0000001611590432
+      },
+      {
+        "transition_index": 6231,
+        "phase": "approach",
+        "sim_time": 208.73333333426544,
+        "fraction": 0.9999973586186793
+      },
+      {
+        "transition_index": 6232,
+        "phase": "approach",
+        "sim_time": 208.7666666675992,
+        "fraction": 0.999999932892082
+      },
+      {
+        "transition_index": 6233,
+        "phase": "approach",
+        "sim_time": 208.80000000093295,
+        "fraction": 1.0000005317343257
+      },
+      {
+        "transition_index": 6234,
+        "phase": "approach",
+        "sim_time": 208.8333333342667,
+        "fraction": 1.000000187914926
+      },
+      {
+        "transition_index": 6235,
+        "phase": "approach",
+        "sim_time": 208.86666666760047,
+        "fraction": 0.9999985313384248
+      },
+      {
+        "transition_index": 6236,
+        "phase": "approach",
+        "sim_time": 208.90000000093423,
+        "fraction": 0.99999942367194
+      },
+      {
+        "transition_index": 6237,
+        "phase": "approach",
+        "sim_time": 208.93333333426799,
+        "fraction": 1.0000005962131686
+      },
+      {
+        "transition_index": 6238,
+        "phase": "approach",
+        "sim_time": 208.96666666760174,
+        "fraction": 1.0000011148592494
+      },
+      {
+        "transition_index": 6239,
+        "phase": "approach",
+        "sim_time": 209.0000000009355,
+        "fraction": 0.9999978403928854
+      },
+      {
+        "transition_index": 6240,
+        "phase": "approach",
+        "sim_time": 209.03333333426926,
+        "fraction": 1.0000019152509694
+      },
+      {
+        "transition_index": 6241,
+        "phase": "approach",
+        "sim_time": 209.06666666760302,
+        "fraction": 1.0000001035078132
+      },
+      {
+        "transition_index": 6242,
+        "phase": "approach",
+        "sim_time": 209.10000000093677,
+        "fraction": 1.000000954723416
+      },
+      {
+        "transition_index": 6243,
+        "phase": "approach",
+        "sim_time": 209.13333333427053,
+        "fraction": 0.9999999561087815
+      },
+      {
+        "transition_index": 6244,
+        "phase": "approach",
+        "sim_time": 209.1666666676043,
+        "fraction": 1.00000111516845
+      },
+      {
+        "transition_index": 6245,
+        "phase": "approach",
+        "sim_time": 209.20000000093805,
+        "fraction": 1.0000000865435705
+      },
+      {
+        "transition_index": 6246,
+        "phase": "approach",
+        "sim_time": 209.2333333342718,
+        "fraction": 1.0000007708867809
+      },
+      {
+        "transition_index": 6247,
+        "phase": "approach",
+        "sim_time": 209.26666666760556,
+        "fraction": 1.0000017381708424
+      },
+      {
+        "transition_index": 6248,
+        "phase": "approach",
+        "sim_time": 209.30000000093932,
+        "fraction": 0.9999964039964409
+      },
+      {
+        "transition_index": 6249,
+        "phase": "approach",
+        "sim_time": 209.33333333427308,
+        "fraction": 0.9999980619408169
+      },
+      {
+        "transition_index": 6250,
+        "phase": "approach",
+        "sim_time": 209.36666666760684,
+        "fraction": 0.9999994099557464
+      },
+      {
+        "transition_index": 6251,
+        "phase": "approach",
+        "sim_time": 209.4000000009406,
+        "fraction": 0.9999973746461563
+      },
+      {
+        "transition_index": 6252,
+        "phase": "approach",
+        "sim_time": 209.43333333427435,
+        "fraction": 1.0000014811149385
+      },
+      {
+        "transition_index": 6253,
+        "phase": "approach",
+        "sim_time": 209.4666666676081,
+        "fraction": 0.9999998711411429
+      },
+      {
+        "transition_index": 6254,
+        "phase": "approach",
+        "sim_time": 209.50000000094187,
+        "fraction": 0.9999999346232797
+      },
+      {
+        "transition_index": 6255,
+        "phase": "approach",
+        "sim_time": 209.53333333427562,
+        "fraction": 0.9999989159355228
+      },
+      {
+        "transition_index": 6256,
+        "phase": "approach",
+        "sim_time": 209.56666666760938,
+        "fraction": 0.9999990354075685
+      },
+      {
+        "transition_index": 6257,
+        "phase": "approach",
+        "sim_time": 209.60000000094314,
+        "fraction": 0.9999993763271895
+      },
+      {
+        "transition_index": 6258,
+        "phase": "approach",
+        "sim_time": 209.6333333342769,
+        "fraction": 1.0000022010390563
+      },
+      {
+        "transition_index": 6259,
+        "phase": "approach",
+        "sim_time": 209.66666666761066,
+        "fraction": 1.0000004601027306
+      },
+      {
+        "transition_index": 6260,
+        "phase": "approach",
+        "sim_time": 209.7000000009444,
+        "fraction": 1.0000013610136638
+      },
+      {
+        "transition_index": 6261,
+        "phase": "approach",
+        "sim_time": 209.73333333427817,
+        "fraction": 0.9999992881161642
+      },
+      {
+        "transition_index": 6262,
+        "phase": "approach",
+        "sim_time": 209.76666666761193,
+        "fraction": 1.0000004001175458
+      },
+      {
+        "transition_index": 6263,
+        "phase": "approach",
+        "sim_time": 209.8000000009457,
+        "fraction": 1.0000006708277163
+      },
+      {
+        "transition_index": 6264,
+        "phase": "approach",
+        "sim_time": 209.83333333427944,
+        "fraction": 1.0000012871863286
+      },
+      {
+        "transition_index": 6265,
+        "phase": "approach",
+        "sim_time": 209.8666666676132,
+        "fraction": 0.9999981801693378
+      },
+      {
+        "transition_index": 6266,
+        "phase": "approach",
+        "sim_time": 209.90000000094696,
+        "fraction": 1.0000010724937796
+      },
+      {
+        "transition_index": 6267,
+        "phase": "approach",
+        "sim_time": 209.93333333428072,
+        "fraction": 0.9999983671690212
+      },
+      {
+        "transition_index": 6268,
+        "phase": "approach",
+        "sim_time": 209.96666666761448,
+        "fraction": 0.9999981554039837
+      },
+      {
+        "transition_index": 6269,
+        "phase": "approach",
+        "sim_time": 210.00000000094823,
+        "fraction": 0.9999999260010676
+      },
+      {
+        "transition_index": 6270,
+        "phase": "approach",
+        "sim_time": 210.033333334282,
+        "fraction": 1.0000000890727738
+      },
+      {
+        "transition_index": 6271,
+        "phase": "approach",
+        "sim_time": 210.06666666761575,
+        "fraction": 1.000000094231763
+      },
+      {
+        "transition_index": 6272,
+        "phase": "approach",
+        "sim_time": 210.1000000009495,
+        "fraction": 1.0000011099645778
+      },
+      {
+        "transition_index": 6273,
+        "phase": "approach",
+        "sim_time": 210.13333333428326,
+        "fraction": 1.0000008130737104
+      },
+      {
+        "transition_index": 6274,
+        "phase": "approach",
+        "sim_time": 210.16666666761702,
+        "fraction": 0.999999842265025
+      },
+      {
+        "transition_index": 6275,
+        "phase": "approach",
+        "sim_time": 210.20000000095078,
+        "fraction": 1.0000007714064667
+      },
+      {
+        "transition_index": 6276,
+        "phase": "approach",
+        "sim_time": 210.23333333428454,
+        "fraction": 1.0000011450044428
+      },
+      {
+        "transition_index": 6277,
+        "phase": "approach",
+        "sim_time": 210.2666666676183,
+        "fraction": 0.9999984130500561
+      },
+      {
+        "transition_index": 6278,
+        "phase": "approach",
+        "sim_time": 210.30000000095205,
+        "fraction": 1.000001165717922
+      },
+      {
+        "transition_index": 6279,
+        "phase": "approach",
+        "sim_time": 210.3333333342858,
+        "fraction": 1.0000000813704903
+      },
+      {
+        "transition_index": 6280,
+        "phase": "approach",
+        "sim_time": 210.36666666761957,
+        "fraction": 0.9999998543060621
+      },
+      {
+        "transition_index": 6281,
+        "phase": "grasp",
+        "sim_time": 210.40000000095333,
+        "fraction": 0.9999983001502663
+      },
+      {
+        "transition_index": 6282,
+        "phase": "grasp",
+        "sim_time": 210.43333333428708,
+        "fraction": 1.000000510504958
+      },
+      {
+        "transition_index": 6283,
+        "phase": "grasp",
+        "sim_time": 210.46666666762084,
+        "fraction": 1.000000471212552
+      },
+      {
+        "transition_index": 6284,
+        "phase": "grasp",
+        "sim_time": 210.5000000009546,
+        "fraction": 1.0000002084001371
+      },
+      {
+        "transition_index": 6285,
+        "phase": "grasp",
+        "sim_time": 210.53333333428836,
+        "fraction": 0.9999944269524698
+      },
+      {
+        "transition_index": 6286,
+        "phase": "grasp",
+        "sim_time": 210.56666666762212,
+        "fraction": 1.0000023293048699
+      },
+      {
+        "transition_index": 6287,
+        "phase": "grasp",
+        "sim_time": 210.60000000095587,
+        "fraction": 1.000000163368863
+      },
+      {
+        "transition_index": 6288,
+        "phase": "grasp",
+        "sim_time": 210.63333333428963,
+        "fraction": 0.9999989497491653
+      },
+      {
+        "transition_index": 6289,
+        "phase": "grasp",
+        "sim_time": 210.6666666676234,
+        "fraction": 0.9999992474757055
+      },
+      {
+        "transition_index": 6290,
+        "phase": "grasp",
+        "sim_time": 210.70000000095715,
+        "fraction": 0.9999999140171423
+      },
+      {
+        "transition_index": 6291,
+        "phase": "grasp",
+        "sim_time": 210.7333333342909,
+        "fraction": 1.0000010364212326
+      },
+      {
+        "transition_index": 6292,
+        "phase": "grasp",
+        "sim_time": 210.76666666762466,
+        "fraction": 0.999998355564263
+      },
+      {
+        "transition_index": 6293,
+        "phase": "grasp",
+        "sim_time": 210.80000000095842,
+        "fraction": 0.9999997221718853
+      },
+      {
+        "transition_index": 6294,
+        "phase": "grasp",
+        "sim_time": 210.83333333429218,
+        "fraction": 1.0000007885410735
+      },
+      {
+        "transition_index": 6295,
+        "phase": "grasp",
+        "sim_time": 210.86666666762594,
+        "fraction": 0.9999987899151946
+      },
+      {
+        "transition_index": 6296,
+        "phase": "grasp",
+        "sim_time": 210.9000000009597,
+        "fraction": 1.0000004810546606
+      },
+      {
+        "transition_index": 6297,
+        "phase": "grasp",
+        "sim_time": 210.93333333429345,
+        "fraction": 0.9999994929142356
+      },
+      {
+        "transition_index": 6298,
+        "phase": "grasp",
+        "sim_time": 210.9666666676272,
+        "fraction": 0.9999993544039316
+      },
+      {
+        "transition_index": 6299,
+        "phase": "grasp",
+        "sim_time": 211.00000000096097,
+        "fraction": 1.0000004630127575
+      },
+      {
+        "transition_index": 6300,
+        "phase": "grasp",
+        "sim_time": 211.03333333429472,
+        "fraction": 1.0000027873698207
+      },
+      {
+        "transition_index": 6301,
+        "phase": "grasp",
+        "sim_time": 211.06666666762848,
+        "fraction": 0.9999976678011457
+      },
+      {
+        "transition_index": 6302,
+        "phase": "grasp",
+        "sim_time": 211.10000000096224,
+        "fraction": 0.9999990521405844
+      },
+      {
+        "transition_index": 6303,
+        "phase": "grasp",
+        "sim_time": 211.133333334296,
+        "fraction": 1.0000007928703343
+      },
+      {
+        "transition_index": 6304,
+        "phase": "grasp",
+        "sim_time": 211.16666666762976,
+        "fraction": 0.9999997772840252
+      },
+      {
+        "transition_index": 6305,
+        "phase": "grasp",
+        "sim_time": 211.2000000009635,
+        "fraction": 0.9999975275585795
+      },
+      {
+        "transition_index": 6306,
+        "phase": "grasp",
+        "sim_time": 211.23333333429727,
+        "fraction": 1.0000025466281368
+      },
+      {
+        "transition_index": 6307,
+        "phase": "grasp",
+        "sim_time": 211.26666666763103,
+        "fraction": 6.044572210838974
+      },
+      {
+        "transition_index": 6308,
+        "phase": "grasp",
+        "sim_time": 211.3000000009648,
+        "fraction": 7.440890285507955
+      },
+      {
+        "transition_index": 6309,
+        "phase": "grasp",
+        "sim_time": 211.33333333429854,
+        "fraction": 6.3877134216956195
+      },
+      {
+        "transition_index": 6310,
+        "phase": "grasp",
+        "sim_time": 211.3666666676323,
+        "fraction": 6.593667332045469
+      },
+      {
+        "transition_index": 6311,
+        "phase": "grasp",
+        "sim_time": 211.40000000096606,
+        "fraction": 6.544843982604576
+      },
+      {
+        "transition_index": 6312,
+        "phase": "grasp",
+        "sim_time": 211.43333333429982,
+        "fraction": 5.802692740891217
+      },
+      {
+        "transition_index": 6313,
+        "phase": "grasp",
+        "sim_time": 211.46666666763358,
+        "fraction": 5.808049495218837
+      },
+      {
+        "transition_index": 6314,
+        "phase": "grasp",
+        "sim_time": 211.50000000096733,
+        "fraction": 5.380690939495423
+      },
+      {
+        "transition_index": 6315,
+        "phase": "grasp",
+        "sim_time": 211.5333333343011,
+        "fraction": 5.221551234488466
+      },
+      {
+        "transition_index": 6316,
+        "phase": "grasp",
+        "sim_time": 211.56666666763485,
+        "fraction": 4.962092612575947
+      },
+      {
+        "transition_index": 6317,
+        "phase": "grasp",
+        "sim_time": 211.6000000009686,
+        "fraction": 4.76874969173144
+      },
+      {
+        "transition_index": 6318,
+        "phase": "grasp",
+        "sim_time": 211.63333333430236,
+        "fraction": 4.613903156216069
+      },
+      {
+        "transition_index": 6319,
+        "phase": "grasp",
+        "sim_time": 211.66666666763612,
+        "fraction": 4.508918470023589
+      },
+      {
+        "transition_index": 6320,
+        "phase": "grasp",
+        "sim_time": 211.70000000096988,
+        "fraction": 4.434180931026707
+      },
+      {
+        "transition_index": 6321,
+        "phase": "grasp",
+        "sim_time": 211.73333333430364,
+        "fraction": 4.369930629853883
+      },
+      {
+        "transition_index": 6322,
+        "phase": "grasp",
+        "sim_time": 211.7666666676374,
+        "fraction": 4.312346691081667
+      },
+      {
+        "transition_index": 6323,
+        "phase": "grasp",
+        "sim_time": 211.80000000097115,
+        "fraction": 4.260233960093671
+      },
+      {
+        "transition_index": 6324,
+        "phase": "grasp",
+        "sim_time": 211.8333333343049,
+        "fraction": 4.212775320033253
+      },
+      {
+        "transition_index": 6325,
+        "phase": "grasp",
+        "sim_time": 211.86666666763867,
+        "fraction": 4.169294609698626
+      },
+      {
+        "transition_index": 6326,
+        "phase": "grasp",
+        "sim_time": 211.90000000097243,
+        "fraction": 4.129218108592025
+      },
+      {
+        "transition_index": 6327,
+        "phase": "grasp",
+        "sim_time": 211.93333333430618,
+        "fraction": 4.092058880388241
+      },
+      {
+        "transition_index": 6328,
+        "phase": "grasp",
+        "sim_time": 211.96666666763994,
+        "fraction": 4.057406130094583
+      },
+      {
+        "transition_index": 6329,
+        "phase": "grasp",
+        "sim_time": 212.0000000009737,
+        "fraction": 4.024916008626331
+      },
+      {
+        "transition_index": 6330,
+        "phase": "grasp",
+        "sim_time": 212.03333333430746,
+        "fraction": 3.9943033266042662
+      },
+      {
+        "transition_index": 6331,
+        "phase": "grasp",
+        "sim_time": 212.06666666764121,
+        "fraction": 3.9653341404072204
+      },
+      {
+        "transition_index": 6332,
+        "phase": "grasp",
+        "sim_time": 212.10000000097497,
+        "fraction": 3.9378191864207435
+      },
+      {
+        "transition_index": 6333,
+        "phase": "grasp",
+        "sim_time": 212.13333333430873,
+        "fraction": 3.9116080963319906
+      },
+      {
+        "transition_index": 6334,
+        "phase": "grasp",
+        "sim_time": 212.1666666676425,
+        "fraction": 3.886584312969999
+      },
+      {
+        "transition_index": 6335,
+        "phase": "grasp",
+        "sim_time": 212.20000000097625,
+        "fraction": 3.862660625194175
+      },
+      {
+        "transition_index": 6336,
+        "phase": "grasp",
+        "sim_time": 212.23333333431,
+        "fraction": 3.8397752456826026
+      },
+      {
+        "transition_index": 6337,
+        "phase": "grasp",
+        "sim_time": 212.26666666764376,
+        "fraction": 3.817888362248671
+      },
+      {
+        "transition_index": 6338,
+        "phase": "grasp",
+        "sim_time": 212.30000000097752,
+        "fraction": 3.796979099928804
+      },
+      {
+        "transition_index": 6339,
+        "phase": "grasp",
+        "sim_time": 212.33333333431128,
+        "fraction": 3.7767393144132075
+      },
+      {
+        "transition_index": 6340,
+        "phase": "grasp",
+        "sim_time": 212.36666666764503,
+        "fraction": 3.7576747317492547
+      },
+      {
+        "transition_index": 6341,
+        "phase": "grasp",
+        "sim_time": 212.4000000009788,
+        "fraction": 3.7396947127527342
+      },
+      {
+        "transition_index": 6342,
+        "phase": "grasp",
+        "sim_time": 212.43333333431255,
+        "fraction": 3.792240740878775
+      },
+      {
+        "transition_index": 6343,
+        "phase": "grasp",
+        "sim_time": 212.4666666676463,
+        "fraction": 3.7778806888581586
+      },
+      {
+        "transition_index": 6344,
+        "phase": "grasp",
+        "sim_time": 212.50000000098007,
+        "fraction": 3.7184116928958204
+      },
+      {
+        "transition_index": 6345,
+        "phase": "grasp",
+        "sim_time": 212.53333333431382,
+        "fraction": 3.733516873629663
+      },
+      {
+        "transition_index": 6346,
+        "phase": "grasp",
+        "sim_time": 212.56666666764758,
+        "fraction": 3.7145083260332026
+      },
+      {
+        "transition_index": 6347,
+        "phase": "grasp",
+        "sim_time": 212.60000000098134,
+        "fraction": 3.681750590208952
+      },
+      {
+        "transition_index": 6348,
+        "phase": "grasp",
+        "sim_time": 212.6333333343151,
+        "fraction": 3.6622031699804225
+      },
+      {
+        "transition_index": 6349,
+        "phase": "grasp",
+        "sim_time": 212.66666666764885,
+        "fraction": 3.635779876360713
+      },
+      {
+        "transition_index": 6350,
+        "phase": "grasp",
+        "sim_time": 212.7000000009826,
+        "fraction": 3.6044582518867423
+      },
+      {
+        "transition_index": 6351,
+        "phase": "grasp",
+        "sim_time": 212.73333333431637,
+        "fraction": 3.5740802485786336
+      },
+      {
+        "transition_index": 6352,
+        "phase": "grasp",
+        "sim_time": 212.76666666765013,
+        "fraction": 3.5409393218702387
+      },
+      {
+        "transition_index": 6353,
+        "phase": "grasp",
+        "sim_time": 212.80000000098389,
+        "fraction": 3.505241610505652
+      },
+      {
+        "transition_index": 6354,
+        "phase": "grasp",
+        "sim_time": 212.83333333431764,
+        "fraction": 3.4682716275428755
+      },
+      {
+        "transition_index": 6355,
+        "phase": "grasp",
+        "sim_time": 212.8666666676514,
+        "fraction": 3.429343311445415
+      },
+      {
+        "transition_index": 6356,
+        "phase": "grasp",
+        "sim_time": 212.90000000098516,
+        "fraction": 3.388545944045719
+      },
+      {
+        "transition_index": 6357,
+        "phase": "grasp",
+        "sim_time": 212.93333333431892,
+        "fraction": 3.3462217534019674
+      },
+      {
+        "transition_index": 6358,
+        "phase": "grasp",
+        "sim_time": 212.96666666765267,
+        "fraction": 3.30231206452522
+      },
+      {
+        "transition_index": 6359,
+        "phase": "grasp",
+        "sim_time": 213.00000000098643,
+        "fraction": 3.256948829648929
+      },
+      {
+        "transition_index": 6360,
+        "phase": "grasp",
+        "sim_time": 213.0333333343202,
+        "fraction": 2.923861844744356
+      },
+      {
+        "transition_index": 6361,
+        "phase": "grasp",
+        "sim_time": 213.06666666765395,
+        "fraction": 3.5612452742562435
+      },
+      {
+        "transition_index": 6362,
+        "phase": "grasp",
+        "sim_time": 213.1000000009877,
+        "fraction": 2.6233516910622594
+      },
+      {
+        "transition_index": 6363,
+        "phase": "grasp",
+        "sim_time": 213.13333333432146,
+        "fraction": 3.413499145568768
+      },
+      {
+        "transition_index": 6364,
+        "phase": "grasp",
+        "sim_time": 213.16666666765522,
+        "fraction": 3.058648967178018
+      },
+      {
+        "transition_index": 6365,
+        "phase": "grasp",
+        "sim_time": 213.20000000098898,
+        "fraction": 2.547672688145786
+      },
+      {
+        "transition_index": 6366,
+        "phase": "grasp",
+        "sim_time": 213.23333333432274,
+        "fraction": 3.4294314463610265
+      },
+      {
+        "transition_index": 6367,
+        "phase": "grasp",
+        "sim_time": 213.2666666676565,
+        "fraction": 2.6114745157337405
+      },
+      {
+        "transition_index": 6368,
+        "phase": "grasp",
+        "sim_time": 213.30000000099025,
+        "fraction": 3.557984769001086
+      },
+      {
+        "transition_index": 6369,
+        "phase": "grasp",
+        "sim_time": 213.333333334324,
+        "fraction": 2.7897926850437584
+      },
+      {
+        "transition_index": 6370,
+        "phase": "grasp",
+        "sim_time": 213.36666666765777,
+        "fraction": 3.6204938688316446
+      },
+      {
+        "transition_index": 6371,
+        "phase": "grasp",
+        "sim_time": 213.40000000099153,
+        "fraction": 2.7479255295196956
+      },
+      {
+        "transition_index": 6372,
+        "phase": "grasp",
+        "sim_time": 213.43333333432528,
+        "fraction": 3.4533419441478594
+      },
+      {
+        "transition_index": 6373,
+        "phase": "grasp",
+        "sim_time": 213.46666666765904,
+        "fraction": 2.8247830965075793
+      },
+      {
+        "transition_index": 6374,
+        "phase": "grasp",
+        "sim_time": 213.5000000009928,
+        "fraction": 2.603745788869033
+      },
+      {
+        "transition_index": 6375,
+        "phase": "grasp",
+        "sim_time": 213.53333333432656,
+        "fraction": 3.363083184238011
+      },
+      {
+        "transition_index": 6376,
+        "phase": "grasp",
+        "sim_time": 213.56666666766031,
+        "fraction": 2.818560178981937
+      },
+      {
+        "transition_index": 6377,
+        "phase": "grasp",
+        "sim_time": 213.60000000099407,
+        "fraction": 2.343019606762403
+      },
+      {
+        "transition_index": 6378,
+        "phase": "grasp",
+        "sim_time": 213.63333333432783,
+        "fraction": 0.5804257959501367
+      },
+      {
+        "transition_index": 6379,
+        "phase": "grasp",
+        "sim_time": 213.6666666676616,
+        "fraction": 3.2211556007075988
+      },
+      {
+        "transition_index": 6380,
+        "phase": "grasp",
+        "sim_time": 213.70000000099535,
+        "fraction": 2.681416294243658
+      },
+      {
+        "transition_index": 6381,
+        "phase": "grasp",
+        "sim_time": 213.7333333343291,
+        "fraction": 1.2598401631857103
+      },
+      {
+        "transition_index": 6382,
+        "phase": "grasp",
+        "sim_time": 213.76666666766286,
+        "fraction": 3.1168925577844138
+      },
+      {
+        "transition_index": 6383,
+        "phase": "grasp",
+        "sim_time": 213.80000000099662,
+        "fraction": 3.215801842918442
+      },
+      {
+        "transition_index": 6384,
+        "phase": "grasp",
+        "sim_time": 213.83333333433038,
+        "fraction": 2.723959344573592
+      },
+      {
+        "transition_index": 6385,
+        "phase": "grasp",
+        "sim_time": 213.86666666766413,
+        "fraction": 2.433601584018394
+      },
+      {
+        "transition_index": 6386,
+        "phase": "grasp",
+        "sim_time": 213.9000000009979,
+        "fraction": 2.129924796856527
+      },
+      {
+        "transition_index": 6387,
+        "phase": "grasp",
+        "sim_time": 213.93333333433165,
+        "fraction": 2.785692648234667
+      },
+      {
+        "transition_index": 6388,
+        "phase": "grasp",
+        "sim_time": 213.9666666676654,
+        "fraction": 3.2814754442409226
+      },
+      {
+        "transition_index": 6389,
+        "phase": "grasp",
+        "sim_time": 214.00000000099917,
+        "fraction": 2.6841630652907855
+      },
+      {
+        "transition_index": 6390,
+        "phase": "grasp",
+        "sim_time": 214.03333333433292,
+        "fraction": 2.3582097096242745
+      },
+      {
+        "transition_index": 6391,
+        "phase": "grasp",
+        "sim_time": 214.06666666766668,
+        "fraction": 2.28329722978533
+      },
+      {
+        "transition_index": 6392,
+        "phase": "grasp",
+        "sim_time": 214.10000000100044,
+        "fraction": 0.6219275147747709
+      },
+      {
+        "transition_index": 6393,
+        "phase": "grasp",
+        "sim_time": 214.1333333343342,
+        "fraction": 2.905542297063114
+      },
+      {
+        "transition_index": 6394,
+        "phase": "grasp",
+        "sim_time": 214.16666666766795,
+        "fraction": 2.909888404483841
+      },
+      {
+        "transition_index": 6395,
+        "phase": "grasp",
+        "sim_time": 214.2000000010017,
+        "fraction": 2.371867693398131
+      },
+      {
+        "transition_index": 6396,
+        "phase": "grasp",
+        "sim_time": 214.23333333433547,
+        "fraction": 2.3420954409723773
+      },
+      {
+        "transition_index": 6397,
+        "phase": "grasp",
+        "sim_time": 214.26666666766923,
+        "fraction": 2.2269076675242183
+      },
+      {
+        "transition_index": 6398,
+        "phase": "grasp",
+        "sim_time": 214.30000000100299,
+        "fraction": 0.6142463060570299
+      },
+      {
+        "transition_index": 6399,
+        "phase": "grasp",
+        "sim_time": 214.33333333433674,
+        "fraction": 0.6379782680517689
+      },
+      {
+        "transition_index": 6400,
+        "phase": "grasp",
+        "sim_time": 214.3666666676705,
+        "fraction": 0.6127078620240244
+      },
+      {
+        "transition_index": 6401,
+        "phase": "grasp",
+        "sim_time": 214.40000000100426,
+        "fraction": 0.629469006395016
+      },
+      {
+        "transition_index": 6402,
+        "phase": "grasp",
+        "sim_time": 214.43333333433802,
+        "fraction": 1.6784744634306465
+      },
+      {
+        "transition_index": 6403,
+        "phase": "grasp",
+        "sim_time": 214.46666666767177,
+        "fraction": 0.6215738083112919
+      },
+      {
+        "transition_index": 6404,
+        "phase": "grasp",
+        "sim_time": 214.50000000100553,
+        "fraction": 0.6137563688163266
+      },
+      {
+        "transition_index": 6405,
+        "phase": "grasp",
+        "sim_time": 214.5333333343393,
+        "fraction": 0.616844243211062
+      },
+      {
+        "transition_index": 6406,
+        "phase": "grasp",
+        "sim_time": 214.56666666767305,
+        "fraction": 2.1180152892265003
+      },
+      {
+        "transition_index": 6407,
+        "phase": "grasp",
+        "sim_time": 214.6000000010068,
+        "fraction": 1.6937787097396662
+      },
+      {
+        "transition_index": 6408,
+        "phase": "grasp",
+        "sim_time": 214.63333333434056,
+        "fraction": 2.110257910142834
+      },
+      {
+        "transition_index": 6409,
+        "phase": "grasp",
+        "sim_time": 214.66666666767432,
+        "fraction": 2.290353914030884
+      },
+      {
+        "transition_index": 6410,
+        "phase": "grasp",
+        "sim_time": 214.70000000100808,
+        "fraction": 2.2376113371151374
+      },
+      {
+        "transition_index": 6411,
+        "phase": "grasp",
+        "sim_time": 214.73333333434184,
+        "fraction": 2.244226424088848
+      },
+      {
+        "transition_index": 6412,
+        "phase": "grasp",
+        "sim_time": 214.7666666676756,
+        "fraction": 2.2155464271577263
+      },
+      {
+        "transition_index": 6413,
+        "phase": "grasp",
+        "sim_time": 214.80000000100935,
+        "fraction": 2.2034430218412715
+      },
+      {
+        "transition_index": 6414,
+        "phase": "grasp",
+        "sim_time": 214.8333333343431,
+        "fraction": 1.805048458598401
+      },
+      {
+        "transition_index": 6415,
+        "phase": "grasp",
+        "sim_time": 214.86666666767687,
+        "fraction": 2.1541342783117696
+      },
+      {
+        "transition_index": 6416,
+        "phase": "grasp",
+        "sim_time": 214.90000000101062,
+        "fraction": 2.1641969272679216
+      },
+      {
+        "transition_index": 6417,
+        "phase": "grasp",
+        "sim_time": 214.93333333434438,
+        "fraction": 1.9088860448814244
+      },
+      {
+        "transition_index": 6418,
+        "phase": "grasp",
+        "sim_time": 214.96666666767814,
+        "fraction": 1.9220864518243803
+      },
+      {
+        "transition_index": 6419,
+        "phase": "grasp",
+        "sim_time": 215.0000000010119,
+        "fraction": 1.79819166451166
+      },
+      {
+        "transition_index": 6420,
+        "phase": "grasp",
+        "sim_time": 215.03333333434566,
+        "fraction": 1.6182199343705266
+      },
+      {
+        "transition_index": 6421,
+        "phase": "grasp",
+        "sim_time": 215.0666666676794,
+        "fraction": 2.278673308907236
+      },
+      {
+        "transition_index": 6422,
+        "phase": "grasp",
+        "sim_time": 215.10000000101317,
+        "fraction": 2.325004506439341
+      },
+      {
+        "transition_index": 6423,
+        "phase": "grasp",
+        "sim_time": 215.13333333434693,
+        "fraction": 2.160239868698415
+      },
+      {
+        "transition_index": 6424,
+        "phase": "grasp",
+        "sim_time": 215.1666666676807,
+        "fraction": 2.3021622194184337
+      },
+      {
+        "transition_index": 6425,
+        "phase": "grasp",
+        "sim_time": 215.20000000101444,
+        "fraction": 2.4016864884946756
+      },
+      {
+        "transition_index": 6426,
+        "phase": "grasp",
+        "sim_time": 215.2333333343482,
+        "fraction": 2.4693171939888328
+      },
+      {
+        "transition_index": 6427,
+        "phase": "grasp",
+        "sim_time": 215.26666666768196,
+        "fraction": 2.228453902047711
+      },
+      {
+        "transition_index": 6428,
+        "phase": "grasp",
+        "sim_time": 215.30000000101572,
+        "fraction": 2.1091501396856067
+      },
+      {
+        "transition_index": 6429,
+        "phase": "grasp",
+        "sim_time": 215.33333333434948,
+        "fraction": 2.2026615421691695
+      },
+      {
+        "transition_index": 6430,
+        "phase": "grasp",
+        "sim_time": 215.36666666768323,
+        "fraction": 2.2688856987921935
+      },
+      {
+        "transition_index": 6431,
+        "phase": "grasp",
+        "sim_time": 215.400000001017,
+        "fraction": 2.1788845613458725
+      },
+      {
+        "transition_index": 6432,
+        "phase": "grasp",
+        "sim_time": 215.43333333435075,
+        "fraction": 2.227240930634829
+      },
+      {
+        "transition_index": 6433,
+        "phase": "grasp",
+        "sim_time": 215.4666666676845,
+        "fraction": 2.19326148313954
+      },
+      {
+        "transition_index": 6434,
+        "phase": "grasp",
+        "sim_time": 215.50000000101826,
+        "fraction": 2.1987576434290386
+      },
+      {
+        "transition_index": 6435,
+        "phase": "grasp",
+        "sim_time": 215.53333333435202,
+        "fraction": 2.2785829621570404
+      },
+      {
+        "transition_index": 6436,
+        "phase": "grasp",
+        "sim_time": 215.56666666768578,
+        "fraction": 2.2057129106678337
+      },
+      {
+        "transition_index": 6437,
+        "phase": "grasp",
+        "sim_time": 215.60000000101954,
+        "fraction": 2.2810169091932284
+      },
+      {
+        "transition_index": 6438,
+        "phase": "grasp",
+        "sim_time": 215.6333333343533,
+        "fraction": 2.2785335984026336
+      },
+      {
+        "transition_index": 6439,
+        "phase": "grasp",
+        "sim_time": 215.66666666768705,
+        "fraction": 2.223475767278615
+      },
+      {
+        "transition_index": 6440,
+        "phase": "grasp",
+        "sim_time": 215.7000000010208,
+        "fraction": 2.2091935289564337
+      },
+      {
+        "transition_index": 6441,
+        "phase": "grasp",
+        "sim_time": 215.73333333435457,
+        "fraction": 2.182416738436268
+      },
+      {
+        "transition_index": 6442,
+        "phase": "grasp",
+        "sim_time": 215.76666666768833,
+        "fraction": 2.2398239007084175
+      },
+      {
+        "transition_index": 6443,
+        "phase": "grasp",
+        "sim_time": 215.80000000102208,
+        "fraction": 2.2981512185364577
+      },
+      {
+        "transition_index": 6444,
+        "phase": "grasp",
+        "sim_time": 215.83333333435584,
+        "fraction": 2.1472727209036786
+      },
+      {
+        "transition_index": 6445,
+        "phase": "grasp",
+        "sim_time": 215.8666666676896,
+        "fraction": 2.206852919658943
+      },
+      {
+        "transition_index": 6446,
+        "phase": "grasp",
+        "sim_time": 215.90000000102336,
+        "fraction": 2.295388747033555
+      },
+      {
+        "transition_index": 6447,
+        "phase": "grasp",
+        "sim_time": 215.93333333435712,
+        "fraction": 2.1396222558703233
+      },
+      {
+        "transition_index": 6448,
+        "phase": "grasp",
+        "sim_time": 215.96666666769087,
+        "fraction": 2.2802648399207
+      },
+      {
+        "transition_index": 6449,
+        "phase": "grasp",
+        "sim_time": 216.00000000102463,
+        "fraction": 2.176723650841328
+      },
+      {
+        "transition_index": 6450,
+        "phase": "grasp",
+        "sim_time": 216.0333333343584,
+        "fraction": 2.246909127233395
+      },
+      {
+        "transition_index": 6451,
+        "phase": "grasp",
+        "sim_time": 216.06666666769215,
+        "fraction": 2.264516897381643
+      },
+      {
+        "transition_index": 6452,
+        "phase": "grasp",
+        "sim_time": 216.1000000010259,
+        "fraction": 2.2608478424721103
+      },
+      {
+        "transition_index": 6453,
+        "phase": "grasp",
+        "sim_time": 216.13333333435966,
+        "fraction": 2.1342448618649192
+      },
+      {
+        "transition_index": 6454,
+        "phase": "grasp",
+        "sim_time": 216.16666666769342,
+        "fraction": 2.1428101728308286
+      },
+      {
+        "transition_index": 6455,
+        "phase": "grasp",
+        "sim_time": 216.20000000102718,
+        "fraction": 2.2765779411001623
+      },
+      {
+        "transition_index": 6456,
+        "phase": "grasp",
+        "sim_time": 216.23333333436094,
+        "fraction": 2.2696803067127704
+      },
+      {
+        "transition_index": 6457,
+        "phase": "grasp",
+        "sim_time": 216.2666666676947,
+        "fraction": 2.253382158079855
+      },
+      {
+        "transition_index": 6458,
+        "phase": "grasp",
+        "sim_time": 216.30000000102845,
+        "fraction": 2.2389211885566556
+      },
+      {
+        "transition_index": 6459,
+        "phase": "grasp",
+        "sim_time": 216.3333333343622,
+        "fraction": 2.2338016524984976
+      },
+      {
+        "transition_index": 6460,
+        "phase": "grasp",
+        "sim_time": 216.36666666769597,
+        "fraction": 2.23206878131658
+      },
+      {
+        "transition_index": 6461,
+        "phase": "grasp",
+        "sim_time": 216.40000000102972,
+        "fraction": 2.24017617141374
+      },
+      {
+        "transition_index": 6462,
+        "phase": "grasp",
+        "sim_time": 216.43333333436348,
+        "fraction": 2.2393361748411698
+      },
+      {
+        "transition_index": 6463,
+        "phase": "grasp",
+        "sim_time": 216.46666666769724,
+        "fraction": 2.236911306773362
+      },
+      {
+        "transition_index": 6464,
+        "phase": "grasp",
+        "sim_time": 216.500000001031,
+        "fraction": 2.1761868663049295
+      },
+      {
+        "transition_index": 6465,
+        "phase": "grasp",
+        "sim_time": 216.53333333436476,
+        "fraction": 2.251235464264371
+      },
+      {
+        "transition_index": 6466,
+        "phase": "grasp",
+        "sim_time": 216.5666666676985,
+        "fraction": 2.242706174518905
+      },
+      {
+        "transition_index": 6467,
+        "phase": "grasp",
+        "sim_time": 216.60000000103227,
+        "fraction": 2.236869025832421
+      },
+      {
+        "transition_index": 6468,
+        "phase": "grasp",
+        "sim_time": 216.63333333436603,
+        "fraction": 2.2353032074346553
+      },
+      {
+        "transition_index": 6469,
+        "phase": "grasp",
+        "sim_time": 216.6666666676998,
+        "fraction": 2.2344198327698965
+      },
+      {
+        "transition_index": 6470,
+        "phase": "grasp",
+        "sim_time": 216.70000000103354,
+        "fraction": 2.233441525879682
+      },
+      {
+        "transition_index": 6471,
+        "phase": "grasp",
+        "sim_time": 216.7333333343673,
+        "fraction": 2.2324853752878644
+      },
+      {
+        "transition_index": 6472,
+        "phase": "grasp",
+        "sim_time": 216.76666666770106,
+        "fraction": 2.2315495793352005
+      },
+      {
+        "transition_index": 6473,
+        "phase": "grasp",
+        "sim_time": 216.80000000103482,
+        "fraction": 2.23062844545455
+      },
+      {
+        "transition_index": 6474,
+        "phase": "grasp",
+        "sim_time": 216.83333333436858,
+        "fraction": 2.229720977147081
+      },
+      {
+        "transition_index": 6475,
+        "phase": "grasp",
+        "sim_time": 216.86666666770233,
+        "fraction": 2.2288279043574724
+      },
+      {
+        "transition_index": 6476,
+        "phase": "grasp",
+        "sim_time": 216.9000000010361,
+        "fraction": 2.2279502818931287
+      },
+      {
+        "transition_index": 6477,
+        "phase": "grasp",
+        "sim_time": 216.93333333436985,
+        "fraction": 2.2270888270383877
+      },
+      {
+        "transition_index": 6478,
+        "phase": "grasp",
+        "sim_time": 216.9666666677036,
+        "fraction": 2.2262429695165955
+      },
+      {
+        "transition_index": 6479,
+        "phase": "grasp",
+        "sim_time": 217.00000000103736,
+        "fraction": 2.225411882915428
+      },
+      {
+        "transition_index": 6480,
+        "phase": "grasp",
+        "sim_time": 217.03333333437112,
+        "fraction": 2.2245947554277254
+      },
+      {
+        "transition_index": 6481,
+        "phase": "grasp",
+        "sim_time": 217.06666666770488,
+        "fraction": 2.223790943194832
+      },
+      {
+        "transition_index": 6482,
+        "phase": "grasp",
+        "sim_time": 217.10000000103864,
+        "fraction": 2.223000016039409
+      },
+      {
+        "transition_index": 6483,
+        "phase": "grasp",
+        "sim_time": 217.1333333343724,
+        "fraction": 2.215612266138026
+      },
+      {
+        "transition_index": 6484,
+        "phase": "grasp",
+        "sim_time": 217.16666666770615,
+        "fraction": 2.216668920953398
+      },
+      {
+        "transition_index": 6485,
+        "phase": "grasp",
+        "sim_time": 217.2000000010399,
+        "fraction": 2.2167319136676142
+      },
+      {
+        "transition_index": 6486,
+        "phase": "lift",
+        "sim_time": 217.23333333437367,
+        "fraction": 2.216392599646755
+      },
+      {
+        "transition_index": 6487,
+        "phase": "lift",
+        "sim_time": 217.26666666770743,
+        "fraction": 2.2135810468506447
+      },
+      {
+        "transition_index": 6488,
+        "phase": "lift",
+        "sim_time": 217.30000000104118,
+        "fraction": 2.2040046635611326
+      },
+      {
+        "transition_index": 6489,
+        "phase": "lift",
+        "sim_time": 217.33333333437494,
+        "fraction": 2.1819994446747306
+      },
+      {
+        "transition_index": 6490,
+        "phase": "lift",
+        "sim_time": 217.3666666677087,
+        "fraction": 2.180506939283232
+      },
+      {
+        "transition_index": 6491,
+        "phase": "lift",
+        "sim_time": 217.40000000104246,
+        "fraction": 2.1861808465115593
+      },
+      {
+        "transition_index": 6492,
+        "phase": "lift",
+        "sim_time": 217.43333333437621,
+        "fraction": 2.1920868259497412
+      },
+      {
+        "transition_index": 6493,
+        "phase": "lift",
+        "sim_time": 217.46666666770997,
+        "fraction": 2.1988938116486474
+      },
+      {
+        "transition_index": 6494,
+        "phase": "lift",
+        "sim_time": 217.50000000104373,
+        "fraction": 2.207034578570114
+      },
+      {
+        "transition_index": 6495,
+        "phase": "lift",
+        "sim_time": 217.5333333343775,
+        "fraction": 2.322322954569069
+      },
+      {
+        "transition_index": 6496,
+        "phase": "lift",
+        "sim_time": 217.56666666771125,
+        "fraction": 2.1764970139225417
+      },
+      {
+        "transition_index": 6497,
+        "phase": "lift",
+        "sim_time": 217.600000001045,
+        "fraction": 2.2553467288263325
+      },
+      {
+        "transition_index": 6498,
+        "phase": "lift",
+        "sim_time": 217.63333333437876,
+        "fraction": 2.262246111889324
+      },
+      {
+        "transition_index": 6499,
+        "phase": "lift",
+        "sim_time": 217.66666666771252,
+        "fraction": 2.2668275704519614
+      },
+      {
+        "transition_index": 6500,
+        "phase": "lift",
+        "sim_time": 217.70000000104628,
+        "fraction": 2.300365795342196
+      },
+      {
+        "transition_index": 6501,
+        "phase": "lift",
+        "sim_time": 217.73333333438003,
+        "fraction": 2.334119511394775
+      },
+      {
+        "transition_index": 6502,
+        "phase": "lift",
+        "sim_time": 217.7666666677138,
+        "fraction": 2.3601634348963154
+      },
+      {
+        "transition_index": 6503,
+        "phase": "lift",
+        "sim_time": 217.80000000104755,
+        "fraction": 2.357221155459599
+      },
+      {
+        "transition_index": 6504,
+        "phase": "lift",
+        "sim_time": 217.8333333343813,
+        "fraction": 2.3882848566930193
+      },
+      {
+        "transition_index": 6505,
+        "phase": "lift",
+        "sim_time": 217.86666666771507,
+        "fraction": 2.353171792370993
+      },
+      {
+        "transition_index": 6506,
+        "phase": "lift",
+        "sim_time": 217.90000000104882,
+        "fraction": 2.3144330327532763
+      },
+      {
+        "transition_index": 6507,
+        "phase": "lift",
+        "sim_time": 217.93333333438258,
+        "fraction": 2.310752226089011
+      },
+      {
+        "transition_index": 6508,
+        "phase": "lift",
+        "sim_time": 217.96666666771634,
+        "fraction": 2.2773223777177196
+      },
+      {
+        "transition_index": 6509,
+        "phase": "lift",
+        "sim_time": 218.0000000010501,
+        "fraction": 2.2202605463851324
+      },
+      {
+        "transition_index": 6510,
+        "phase": "lift",
+        "sim_time": 218.03333333438385,
+        "fraction": 0.6979049115409496
+      },
+      {
+        "transition_index": 6511,
+        "phase": "lift",
+        "sim_time": 218.0666666677176,
+        "fraction": 0.7353395980045202
+      },
+      {
+        "transition_index": 6512,
+        "phase": "lift",
+        "sim_time": 218.10000000105137,
+        "fraction": 0.7244458247652059
+      }
+    ]
+  },
+  "candidate": {
+    "source": "/dev/shm/piper_outer_chord_v1/episode/episode.h5",
+    "source_sha256": "a4f2cb1f9d5dbfaba57a82f9965344cbfd7ea762fb174c85d662b424a27cef28",
+    "frames": 6523,
+    "duration_s": 217.43333333438892,
+    "summary": {
+      "success": false,
+      "sorted_count": 9,
+      "required_count": 11
+    },
+    "error": "SortFailure: plate lost physical grasp: slip=0.0239 m, fingers=[]",
+    "quality": {
+      "passed": true,
+      "violations": [],
+      "frames": 6523,
+      "metrics": {
+        "command_arm_velocity": 0.9961639046597798,
+        "command_gripper_velocity": 0.05994857804701062,
+        "command_arm_acceleration": 2.428663580144752,
+        "command_gripper_acceleration": 0.17313679957717543,
+        "command_arm_jerk": 19.64875864419269,
+        "command_gripper_jerk": 1.415628130916495,
+        "measured_arm_velocity": 0.9947312517954465,
+        "measured_gripper_velocity": 0.05988089057684387,
+        "measured_arm_acceleration": 2.55089457646942,
+        "measured_gripper_acceleration": 0.8231890156241842,
+        "measured_arm_jerk": 49.55412272009618,
+        "measured_gripper_jerk": 24.276299032751478,
+        "tracking_error_rad": 0.0035044089309184123,
+        "hold_velocity_rms_rad_s": 0.00017278571725399687,
+        "hold_gripper_velocity_rms_m_s": 0.00019083634916010925
+      },
+      "thresholds": {
+        "command_arm_velocity": 1.01,
+        "command_gripper_velocity": 0.0606,
+        "command_arm_acceleration": 2.525,
+        "command_gripper_acceleration": 0.1818,
+        "command_arm_jerk": 20.2,
+        "command_gripper_jerk": 1.5150000000000001,
+        "measured_arm_velocity": 1.2,
+        "measured_gripper_velocity": 0.08,
+        "measured_arm_acceleration": 8.0,
+        "measured_gripper_acceleration": 1.0,
+        "measured_arm_jerk": 200.0,
+        "measured_gripper_jerk": 50.0,
+        "tracking_error_rad": 0.1,
+        "hold_velocity_rms_rad_s": 0.025,
+        "hold_gripper_velocity_rms_m_s": 0.003
+      },
+      "peaks": {
+        "command_arm_velocity": {
+          "sim_time": 209.30000000093932,
+          "channel": 12,
+          "context": {
+            "phase": "approach",
+            "object": "plate"
+          }
+        },
+        "command_gripper_velocity": {
+          "sim_time": 201.4333333341725,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "command_arm_acceleration": {
+          "sim_time": 127.29999999990477,
+          "channel": 8,
+          "context": {
+            "phase": "lift",
+            "object": "pen"
+          }
+        },
+        "command_gripper_acceleration": {
+          "sim_time": 20.000000000002352,
+          "channel": 6,
+          "context": {
+            "phase": "release_for_nesting",
+            "object": "cup_01"
+          }
+        },
+        "command_arm_jerk": {
+          "sim_time": 35.03333333332201,
+          "channel": 2,
+          "context": {
+            "phase": "lift",
+            "object": "cup_02"
+          }
+        },
+        "command_gripper_jerk": {
+          "sim_time": 151.6333333335384,
+          "channel": 13,
+          "context": {
+            "phase": "unload_gripper",
+            "object": "charger"
+          }
+        },
+        "measured_arm_velocity": {
+          "sim_time": 209.33333333427308,
+          "channel": 12,
+          "context": {
+            "phase": "approach",
+            "object": "plate"
+          }
+        },
+        "measured_gripper_velocity": {
+          "sim_time": 201.4333333341725,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "measured_arm_acceleration": {
+          "sim_time": 112.03333333325199,
+          "channel": 9,
+          "context": {
+            "phase": "lower",
+            "object": "chopstick_b"
+          }
+        },
+        "measured_gripper_acceleration": {
+          "sim_time": 124.76666666657374,
+          "channel": 13,
+          "context": {
+            "phase": "grasp",
+            "object": "pen"
+          }
+        },
+        "measured_arm_jerk": {
+          "sim_time": 112.06666666658529,
+          "channel": 9,
+          "context": {
+            "phase": "lower",
+            "object": "chopstick_b"
+          }
+        },
+        "measured_gripper_jerk": {
+          "sim_time": 124.79999999990704,
+          "channel": 13,
+          "context": {
+            "phase": "grasp",
+            "object": "pen"
+          }
+        }
+      },
+      "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+      "hold_samples": 364,
+      "physical_grasps": [
+        {
+          "name": "cup_01",
+          "assisted": false,
+          "samples": 348,
+          "bilateral_samples": 348,
+          "max_slip_m": 0.0010933602971061318,
+          "max_rotation_change_rad": 0.013025889081358774,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "cup_02",
+          "assisted": false,
+          "samples": 457,
+          "bilateral_samples": 457,
+          "max_slip_m": 0.0010205397337579186,
+          "max_rotation_change_rad": 0.024016845520485552,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "cup_00",
+          "assisted": false,
+          "samples": 322,
+          "bilateral_samples": 322,
+          "max_slip_m": 0.002745722194627546,
+          "max_rotation_change_rad": 0.03247454132130079,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "chopstick_a",
+          "assisted": false,
+          "samples": 237,
+          "bilateral_samples": 237,
+          "max_slip_m": 0.0028157270731722812,
+          "max_rotation_change_rad": 0.00725978010452437,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "chopstick_b",
+          "assisted": false,
+          "samples": 243,
+          "bilateral_samples": 243,
+          "max_slip_m": 0.00277788059678081,
+          "max_rotation_change_rad": 0.02021422373968627,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "pen",
+          "assisted": false,
+          "samples": 194,
+          "bilateral_samples": 194,
+          "max_slip_m": 0.0014764755503376462,
+          "max_rotation_change_rad": 0.014540840771158024,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "charger",
+          "assisted": false,
+          "samples": 216,
+          "bilateral_samples": 216,
+          "max_slip_m": 0.0013958947789530216,
+          "max_rotation_change_rad": 0.008090495327170471,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "spoon",
+          "assisted": false,
+          "samples": 318,
+          "bilateral_samples": 318,
+          "max_slip_m": 0.0016857156915748418,
+          "max_rotation_change_rad": 0.07808740474566901,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "bowl",
+          "assisted": false,
+          "samples": 226,
+          "bilateral_samples": 226,
+          "max_slip_m": 0.0031748281594209237,
+          "max_rotation_change_rad": 0.43249446283244225,
+          "lost_contact_s": 0.0,
+          "anchor": "mean initial pad contact in object frame"
+        },
+        {
+          "name": "plate",
+          "assisted": false,
+          "samples": 40,
+          "bilateral_samples": 30,
+          "max_slip_m": 0.023946256991100163,
+          "max_rotation_change_rad": 0.12088028020236946,
+          "lost_contact_s": 0.1,
+          "anchor": "mean initial pad contact in object frame"
+        }
+      ],
+      "cameras": {}
+    },
+    "audit_passed": false,
+    "training_ready": false,
+    "acceptance_policy": null,
+    "audit_violations": [
+      "ValueError: unsuccessful_episode"
+    ],
+    "first_intervention_transition": null,
+    "native_phase_extrema": {
+      "cup_01/approach": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 147
+      },
+      "cup_01/grasp": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 53
+      },
+      "cup_01/lift": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 246
+      },
+      "cup_01/nest": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 99
+      },
+      "cup_01/release_for_nesting": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 127
+      },
+      "cup_02/approach": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 182
+      },
+      "cup_02/grasp": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 53
+      },
+      "cup_02/lift": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 353
+      },
+      "cup_02/nest": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 101
+      },
+      "cup_02/release_for_nesting": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 125
+      },
+      "cup_02/stack_checked": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 24
+      },
+      "cup_02/stack_ready": {
+        "right_gripper_acceleration": 0.0,
+        "right_gripper_jerk": 0.0,
+        "frames": 111
+      },
+      "cup_00/approach": {
+        "right_gripper_acceleration": 0.39466215778431346,
+        "right_gripper_jerk": 478.21970944615447,
+        "frames": 170
+      },
+      "cup_00/grasp": {
+        "right_gripper_acceleration": 1.3034019514754402,
+        "right_gripper_jerk": 1261.8809118149898,
+        "frames": 53
+      },
+      "cup_00/lift": {
+        "right_gripper_acceleration": 0.013920790128751463,
+        "right_gripper_jerk": 9.368184003632377,
+        "frames": 83
+      },
+      "cup_00/transfer_stack": {
+        "right_gripper_acceleration": 0.34618458156081894,
+        "right_gripper_jerk": 337.4226281792135,
+        "frames": 236
+      },
+      "cup_00/release_stack": {
+        "right_gripper_acceleration": 9.766294902114607,
+        "right_gripper_jerk": 15212.35565543098,
+        "frames": 130
+      },
+      "chopstick_a/approach": {
+        "right_gripper_acceleration": 0.4738718386062968,
+        "right_gripper_jerk": 574.1950838980728,
+        "frames": 140
+      },
+      "chopstick_a/grasp": {
+        "right_gripper_acceleration": 3.7911916965591885,
+        "right_gripper_jerk": 4916.153584636291,
+        "frames": 71
+      },
+      "chopstick_a/lift": {
+        "right_gripper_acceleration": 0.8365285213974526,
+        "right_gripper_jerk": 882.1773811503865,
+        "frames": 64
+      },
+      "chopstick_a/transfer": {
+        "right_gripper_acceleration": 0.7733259404010606,
+        "right_gripper_jerk": 813.3103632002591,
+        "frames": 120
+      },
+      "chopstick_a/lower": {
+        "right_gripper_acceleration": 0.7919194146608879,
+        "right_gripper_jerk": 797.2064114829644,
+        "frames": 50
+      },
+      "chopstick_a/unload_gripper": {
+        "right_gripper_acceleration": 0.9647805393703577,
+        "right_gripper_jerk": 1312.2845543558376,
+        "frames": 24
+      },
+      "chopstick_a/release": {
+        "right_gripper_acceleration": 1.2482345383430626,
+        "right_gripper_jerk": 1508.2529117099418,
+        "frames": 113
+      },
+      "chopstick_b/approach": {
+        "right_gripper_acceleration": 0.13097399497204287,
+        "right_gripper_jerk": 158.72161822200664,
+        "frames": 156
+      },
+      "chopstick_b/grasp": {
+        "right_gripper_acceleration": 3.7527163723915185,
+        "right_gripper_jerk": 5400.815117175565,
+        "frames": 71
+      },
+      "chopstick_b/lift": {
+        "right_gripper_acceleration": 1.269590100820891,
+        "right_gripper_jerk": 1797.6051505810485,
+        "frames": 64
+      },
+      "chopstick_b/transfer": {
+        "right_gripper_acceleration": 0.9414618024076288,
+        "right_gripper_jerk": 957.0626168356592,
+        "frames": 121
+      },
+      "chopstick_b/lower": {
+        "right_gripper_acceleration": 0.9476098237166922,
+        "right_gripper_jerk": 956.0209862101917,
+        "frames": 55
+      },
+      "chopstick_b/unload_gripper": {
+        "right_gripper_acceleration": 0.9619552664937074,
+        "right_gripper_jerk": 1308.4050225398298,
+        "frames": 24
+      },
+      "chopstick_b/release": {
+        "right_gripper_acceleration": 1.2491417134849292,
+        "right_gripper_jerk": 1509.350389356917,
+        "frames": 118
+      },
+      "pen/approach": {
+        "right_gripper_acceleration": 0.055534315713851035,
+        "right_gripper_jerk": 67.30491687583333,
+        "frames": 161
+      },
+      "pen/grasp": {
+        "right_gripper_acceleration": 1.3805933807470594,
+        "right_gripper_jerk": 1215.437699723654,
+        "frames": 91
+      },
+      "pen/lift": {
+        "right_gripper_acceleration": 0.0010147406137098408,
+        "right_gripper_jerk": 0.492838938671708,
+        "frames": 66
+      },
+      "pen/transfer": {
+        "right_gripper_acceleration": 0.0002062050681582954,
+        "right_gripper_jerk": 0.10718992725390689,
+        "frames": 98
+      },
+      "pen/lower": {
+        "right_gripper_acceleration": 0.0001280905691821891,
+        "right_gripper_jerk": 0.06723696987857783,
+        "frames": 27
+      },
+      "pen/unload_gripper": {
+        "right_gripper_acceleration": 1.0175724163649742,
+        "right_gripper_jerk": 1547.1376456664614,
+        "frames": 26
+      },
+      "pen/release": {
+        "right_gripper_acceleration": 1.2058234662110168,
+        "right_gripper_jerk": 1461.4001320751963,
+        "frames": 83
+      },
+      "charger/approach": {
+        "right_gripper_acceleration": 0.28668382165490947,
+        "right_gripper_jerk": 347.29665610474996,
+        "frames": 133
+      },
+      "charger/grasp": {
+        "right_gripper_acceleration": 1.2295051873198815,
+        "right_gripper_jerk": 1177.4781547876123,
+        "frames": 123
+      },
+      "charger/lift": {
+        "right_gripper_acceleration": 0.7468964118758026,
+        "right_gripper_jerk": 560.2369709894972,
+        "frames": 62
+      },
+      "charger/transfer": {
+        "right_gripper_acceleration": 0.5607505789777998,
+        "right_gripper_jerk": 561.1075012454007,
+        "frames": 125
+      },
+      "charger/lower": {
+        "right_gripper_acceleration": 0.5661669333114293,
+        "right_gripper_jerk": 561.5919440097292,
+        "frames": 26
+      },
+      "charger/unload_gripper": {
+        "right_gripper_acceleration": 14.962278778093461,
+        "right_gripper_jerk": 23541.111637887196,
+        "frames": 28
+      },
+      "charger/release": {
+        "right_gripper_acceleration": 1.2707283020970006,
+        "right_gripper_jerk": 1538.0772092111083,
+        "frames": 81
+      },
+      "spoon/approach": {
+        "right_gripper_acceleration": 0.11172047839388632,
+        "right_gripper_jerk": 135.39274976932953,
+        "frames": 233
+      },
+      "spoon/grasp": {
+        "right_gripper_acceleration": 1.1027611655674374,
+        "right_gripper_jerk": 886.4065095313975,
+        "frames": 115
+      },
+      "spoon/lift": {
+        "right_gripper_acceleration": 0.004577520749354819,
+        "right_gripper_jerk": 5.551950311750974,
+        "frames": 95
+      },
+      "spoon/transfer": {
+        "right_gripper_acceleration": 0.00023915371623348905,
+        "right_gripper_jerk": 0.3032602555721048,
+        "frames": 193
+      },
+      "spoon/lower": {
+        "right_gripper_acceleration": 0.0022802459002132028,
+        "right_gripper_jerk": 3.1645014601891925,
+        "frames": 27
+      },
+      "spoon/unload_gripper": {
+        "right_gripper_acceleration": 1.9198472775786841,
+        "right_gripper_jerk": 2630.1274107425584,
+        "frames": 27
+      },
+      "spoon/release": {
+        "right_gripper_acceleration": 0.8411401403800911,
+        "right_gripper_jerk": 1018.1762303889084,
+        "frames": 99
+      },
+      "bowl/approach": {
+        "right_gripper_acceleration": 0.030047875559945647,
+        "right_gripper_jerk": 36.422226132991135,
+        "frames": 208
+      },
+      "bowl/grasp": {
+        "right_gripper_acceleration": 5.456634475736468,
+        "right_gripper_jerk": 5190.384679207342,
+        "frames": 123
+      },
+      "bowl/lift": {
+        "right_gripper_acceleration": 0.8693812418467711,
+        "right_gripper_jerk": 843.9095898347824,
+        "frames": 69
+      },
+      "bowl/transfer": {
+        "right_gripper_acceleration": 0.2567524297327443,
+        "right_gripper_jerk": 272.5347463638,
+        "frames": 126
+      },
+      "bowl/lower": {
+        "right_gripper_acceleration": 0.2564802683962549,
+        "right_gripper_jerk": 266.95874756579326,
+        "frames": 28
+      },
+      "bowl/unload_gripper": {
+        "right_gripper_acceleration": 24.502039925219115,
+        "right_gripper_jerk": 26352.470798845912,
+        "frames": 24
+      },
+      "bowl/release": {
+        "right_gripper_acceleration": 15.91530707306275,
+        "right_gripper_jerk": 17888.602907135217,
+        "frames": 109
+      },
+      "plate/approach": {
+        "right_gripper_acceleration": 0.09763620021097708,
+        "right_gripper_jerk": 117.70281330685518,
+        "frames": 191
+      },
+      "plate/grasp": {
+        "right_gripper_acceleration": 39.8944471516188,
+        "right_gripper_jerk": 66057.89899489046,
+        "frames": 205
+      },
+      "plate/lift": {
+        "right_gripper_acceleration": 2.582056332431038,
+        "right_gripper_jerk": 3653.950030358371,
+        "frames": 37
+      }
+    },
+    "support_events": [],
+    "support_samples": [
+      {
+        "transition_index": 6090,
+        "phase": "approach",
+        "sim_time": 204.0333333342056,
+        "fraction": 1.0000009802419085
+      },
+      {
+        "transition_index": 6091,
+        "phase": "approach",
+        "sim_time": 204.06666666753935,
+        "fraction": 0.999999684173273
+      },
+      {
+        "transition_index": 6092,
+        "phase": "approach",
+        "sim_time": 204.1000000008731,
+        "fraction": 1.0000010638007575
+      },
+      {
+        "transition_index": 6093,
+        "phase": "approach",
+        "sim_time": 204.13333333420687,
+        "fraction": 1.0000010212290034
+      },
+      {
+        "transition_index": 6094,
+        "phase": "approach",
+        "sim_time": 204.16666666754062,
+        "fraction": 0.9999988407526865
+      },
+      {
+        "transition_index": 6095,
+        "phase": "approach",
+        "sim_time": 204.20000000087438,
+        "fraction": 0.9999976110850008
+      },
+      {
+        "transition_index": 6096,
+        "phase": "approach",
+        "sim_time": 204.23333333420814,
+        "fraction": 0.9999990800905968
+      },
+      {
+        "transition_index": 6097,
+        "phase": "approach",
+        "sim_time": 204.2666666675419,
+        "fraction": 1.00000195656798
+      },
+      {
+        "transition_index": 6098,
+        "phase": "approach",
+        "sim_time": 204.30000000087566,
+        "fraction": 0.9999993913835209
+      },
+      {
+        "transition_index": 6099,
+        "phase": "approach",
+        "sim_time": 204.3333333342094,
+        "fraction": 1.000000980257989
+      },
+      {
+        "transition_index": 6100,
+        "phase": "approach",
+        "sim_time": 204.36666666754317,
+        "fraction": 1.0000020413524389
+      },
+      {
+        "transition_index": 6101,
+        "phase": "approach",
+        "sim_time": 204.40000000087693,
+        "fraction": 0.9999997956699589
+      },
+      {
+        "transition_index": 6102,
+        "phase": "approach",
+        "sim_time": 204.4333333342107,
+        "fraction": 0.9999992224635011
+      },
+      {
+        "transition_index": 6103,
+        "phase": "approach",
+        "sim_time": 204.46666666754444,
+        "fraction": 1.0000011057179026
+      },
+      {
+        "transition_index": 6104,
+        "phase": "approach",
+        "sim_time": 204.5000000008782,
+        "fraction": 1.0000002851950998
+      },
+      {
+        "transition_index": 6105,
+        "phase": "approach",
+        "sim_time": 204.53333333421196,
+        "fraction": 0.9999993816695173
+      },
+      {
+        "transition_index": 6106,
+        "phase": "approach",
+        "sim_time": 204.56666666754572,
+        "fraction": 0.9999997316837763
+      },
+      {
+        "transition_index": 6107,
+        "phase": "approach",
+        "sim_time": 204.60000000087948,
+        "fraction": 1.0000027065529384
+      },
+      {
+        "transition_index": 6108,
+        "phase": "approach",
+        "sim_time": 204.63333333421323,
+        "fraction": 0.9999976758631627
+      },
+      {
+        "transition_index": 6109,
+        "phase": "approach",
+        "sim_time": 204.666666667547,
+        "fraction": 1.0000011591927402
+      },
+      {
+        "transition_index": 6110,
+        "phase": "approach",
+        "sim_time": 204.70000000088075,
+        "fraction": 0.9999992429722763
+      },
+      {
+        "transition_index": 6111,
+        "phase": "approach",
+        "sim_time": 204.7333333342145,
+        "fraction": 1.0000014452170582
+      },
+      {
+        "transition_index": 6112,
+        "phase": "approach",
+        "sim_time": 204.76666666754826,
+        "fraction": 0.9999973121792469
+      },
+      {
+        "transition_index": 6113,
+        "phase": "approach",
+        "sim_time": 204.80000000088202,
+        "fraction": 0.9999965175962137
+      },
+      {
+        "transition_index": 6114,
+        "phase": "approach",
+        "sim_time": 204.83333333421578,
+        "fraction": 0.9999999562819203
+      },
+      {
+        "transition_index": 6115,
+        "phase": "approach",
+        "sim_time": 204.86666666754954,
+        "fraction": 0.9999972709803578
+      },
+      {
+        "transition_index": 6116,
+        "phase": "approach",
+        "sim_time": 204.9000000008833,
+        "fraction": 0.9999995965233426
+      },
+      {
+        "transition_index": 6117,
+        "phase": "approach",
+        "sim_time": 204.93333333421705,
+        "fraction": 1.0000034756607166
+      },
+      {
+        "transition_index": 6118,
+        "phase": "approach",
+        "sim_time": 204.9666666675508,
+        "fraction": 0.9999998005630942
+      },
+      {
+        "transition_index": 6119,
+        "phase": "approach",
+        "sim_time": 205.00000000088457,
+        "fraction": 0.9999997195068435
+      },
+      {
+        "transition_index": 6120,
+        "phase": "approach",
+        "sim_time": 205.03333333421833,
+        "fraction": 1.0000006068603011
+      },
+      {
+        "transition_index": 6121,
+        "phase": "approach",
+        "sim_time": 205.06666666755208,
+        "fraction": 1.0000002118260225
+      },
+      {
+        "transition_index": 6122,
+        "phase": "approach",
+        "sim_time": 205.10000000088584,
+        "fraction": 1.000000695353573
+      },
+      {
+        "transition_index": 6123,
+        "phase": "approach",
+        "sim_time": 205.1333333342196,
+        "fraction": 0.9999964693329487
+      },
+      {
+        "transition_index": 6124,
+        "phase": "approach",
+        "sim_time": 205.16666666755336,
+        "fraction": 0.9999989792893904
+      },
+      {
+        "transition_index": 6125,
+        "phase": "approach",
+        "sim_time": 205.20000000088712,
+        "fraction": 1.000000304250521
+      },
+      {
+        "transition_index": 6126,
+        "phase": "approach",
+        "sim_time": 205.23333333422087,
+        "fraction": 1.000001746464793
+      },
+      {
+        "transition_index": 6127,
+        "phase": "approach",
+        "sim_time": 205.26666666755463,
+        "fraction": 0.9999993408454351
+      },
+      {
+        "transition_index": 6128,
+        "phase": "approach",
+        "sim_time": 205.3000000008884,
+        "fraction": 0.9999994003875856
+      },
+      {
+        "transition_index": 6129,
+        "phase": "approach",
+        "sim_time": 205.33333333422215,
+        "fraction": 1.0000003370115522
+      },
+      {
+        "transition_index": 6130,
+        "phase": "approach",
+        "sim_time": 205.3666666675559,
+        "fraction": 0.9999997620454125
+      },
+      {
+        "transition_index": 6131,
+        "phase": "approach",
+        "sim_time": 205.40000000088966,
+        "fraction": 1.0000005192110164
+      },
+      {
+        "transition_index": 6132,
+        "phase": "approach",
+        "sim_time": 205.43333333422342,
+        "fraction": 1.0000001437145527
+      },
+      {
+        "transition_index": 6133,
+        "phase": "approach",
+        "sim_time": 205.46666666755718,
+        "fraction": 0.9999992875847078
+      },
+      {
+        "transition_index": 6134,
+        "phase": "approach",
+        "sim_time": 205.50000000089094,
+        "fraction": 1.0000017811542816
+      },
+      {
+        "transition_index": 6135,
+        "phase": "approach",
+        "sim_time": 205.5333333342247,
+        "fraction": 0.9999996574661524
+      },
+      {
+        "transition_index": 6136,
+        "phase": "approach",
+        "sim_time": 205.56666666755845,
+        "fraction": 1.00000053084189
+      },
+      {
+        "transition_index": 6137,
+        "phase": "approach",
+        "sim_time": 205.6000000008922,
+        "fraction": 1.0000006512422714
+      },
+      {
+        "transition_index": 6138,
+        "phase": "approach",
+        "sim_time": 205.63333333422597,
+        "fraction": 1.0000000283058665
+      },
+      {
+        "transition_index": 6139,
+        "phase": "approach",
+        "sim_time": 205.66666666755972,
+        "fraction": 1.0000008635788946
+      },
+      {
+        "transition_index": 6140,
+        "phase": "approach",
+        "sim_time": 205.70000000089348,
+        "fraction": 0.9999998073383888
+      },
+      {
+        "transition_index": 6141,
+        "phase": "approach",
+        "sim_time": 205.73333333422724,
+        "fraction": 0.9999999683734031
+      },
+      {
+        "transition_index": 6142,
+        "phase": "approach",
+        "sim_time": 205.766666667561,
+        "fraction": 0.9999994188480861
+      },
+      {
+        "transition_index": 6143,
+        "phase": "approach",
+        "sim_time": 205.80000000089476,
+        "fraction": 0.999999802912564
+      },
+      {
+        "transition_index": 6144,
+        "phase": "approach",
+        "sim_time": 205.8333333342285,
+        "fraction": 1.0000016068944335
+      },
+      {
+        "transition_index": 6145,
+        "phase": "approach",
+        "sim_time": 205.86666666756227,
+        "fraction": 0.9999999545824261
+      },
+      {
+        "transition_index": 6146,
+        "phase": "approach",
+        "sim_time": 205.90000000089603,
+        "fraction": 0.9999996137441118
+      },
+      {
+        "transition_index": 6147,
+        "phase": "approach",
+        "sim_time": 205.9333333342298,
+        "fraction": 1.0000006407975626
+      },
+      {
+        "transition_index": 6148,
+        "phase": "approach",
+        "sim_time": 205.96666666756354,
+        "fraction": 0.9999968595815255
+      },
+      {
+        "transition_index": 6149,
+        "phase": "approach",
+        "sim_time": 206.0000000008973,
+        "fraction": 1.000001945698025
+      },
+      {
+        "transition_index": 6150,
+        "phase": "approach",
+        "sim_time": 206.03333333423106,
+        "fraction": 0.9999997011713895
+      },
+      {
+        "transition_index": 6151,
+        "phase": "approach",
+        "sim_time": 206.06666666756482,
+        "fraction": 0.9999998137136972
+      },
+      {
+        "transition_index": 6152,
+        "phase": "approach",
+        "sim_time": 206.10000000089858,
+        "fraction": 1.0000023845587398
+      },
+      {
+        "transition_index": 6153,
+        "phase": "approach",
+        "sim_time": 206.13333333423233,
+        "fraction": 1.0000012777259495
+      },
+      {
+        "transition_index": 6154,
+        "phase": "approach",
+        "sim_time": 206.1666666675661,
+        "fraction": 0.9999995970692089
+      },
+      {
+        "transition_index": 6155,
+        "phase": "approach",
+        "sim_time": 206.20000000089985,
+        "fraction": 1.0000001258888953
+      },
+      {
+        "transition_index": 6156,
+        "phase": "approach",
+        "sim_time": 206.2333333342336,
+        "fraction": 1.0000008036425592
+      },
+      {
+        "transition_index": 6157,
+        "phase": "approach",
+        "sim_time": 206.26666666756736,
+        "fraction": 0.999999867272497
+      },
+      {
+        "transition_index": 6158,
+        "phase": "approach",
+        "sim_time": 206.30000000090112,
+        "fraction": 1.0000004586553701
+      },
+      {
+        "transition_index": 6159,
+        "phase": "approach",
+        "sim_time": 206.33333333423488,
+        "fraction": 1.0000020531974088
+      },
+      {
+        "transition_index": 6160,
+        "phase": "approach",
+        "sim_time": 206.36666666756864,
+        "fraction": 0.9999976256213106
+      },
+      {
+        "transition_index": 6161,
+        "phase": "approach",
+        "sim_time": 206.4000000009024,
+        "fraction": 0.9999995553901461
+      },
+      {
+        "transition_index": 6162,
+        "phase": "approach",
+        "sim_time": 206.43333333423615,
+        "fraction": 0.9999980432016561
+      },
+      {
+        "transition_index": 6163,
+        "phase": "approach",
+        "sim_time": 206.4666666675699,
+        "fraction": 0.9999997395487701
+      },
+      {
+        "transition_index": 6164,
+        "phase": "approach",
+        "sim_time": 206.50000000090367,
+        "fraction": 0.9999994380831393
+      },
+      {
+        "transition_index": 6165,
+        "phase": "approach",
+        "sim_time": 206.53333333423743,
+        "fraction": 0.9999995749141994
+      },
+      {
+        "transition_index": 6166,
+        "phase": "approach",
+        "sim_time": 206.56666666757118,
+        "fraction": 0.9999999661231572
+      },
+      {
+        "transition_index": 6167,
+        "phase": "approach",
+        "sim_time": 206.60000000090494,
+        "fraction": 1.0000019162063063
+      },
+      {
+        "transition_index": 6168,
+        "phase": "approach",
+        "sim_time": 206.6333333342387,
+        "fraction": 0.999999045103554
+      },
+      {
+        "transition_index": 6169,
+        "phase": "approach",
+        "sim_time": 206.66666666757246,
+        "fraction": 1.0000000627970487
+      },
+      {
+        "transition_index": 6170,
+        "phase": "approach",
+        "sim_time": 206.70000000090621,
+        "fraction": 1.0000021099747047
+      },
+      {
+        "transition_index": 6171,
+        "phase": "approach",
+        "sim_time": 206.73333333423997,
+        "fraction": 1.0000008808287177
+      },
+      {
+        "transition_index": 6172,
+        "phase": "approach",
+        "sim_time": 206.76666666757373,
+        "fraction": 0.9999991484636969
+      },
+      {
+        "transition_index": 6173,
+        "phase": "approach",
+        "sim_time": 206.8000000009075,
+        "fraction": 1.0000000840351924
+      },
+      {
+        "transition_index": 6174,
+        "phase": "approach",
+        "sim_time": 206.83333333424125,
+        "fraction": 0.9999987369852016
+      },
+      {
+        "transition_index": 6175,
+        "phase": "approach",
+        "sim_time": 206.866666667575,
+        "fraction": 1.000000481943314
+      },
+      {
+        "transition_index": 6176,
+        "phase": "approach",
+        "sim_time": 206.90000000090876,
+        "fraction": 0.9999944250081242
+      },
+      {
+        "transition_index": 6177,
+        "phase": "approach",
+        "sim_time": 206.93333333424252,
+        "fraction": 0.9999997074049176
+      },
+      {
+        "transition_index": 6178,
+        "phase": "approach",
+        "sim_time": 206.96666666757628,
+        "fraction": 1.0000004521156256
+      },
+      {
+        "transition_index": 6179,
+        "phase": "approach",
+        "sim_time": 207.00000000091003,
+        "fraction": 0.9999994701366439
+      },
+      {
+        "transition_index": 6180,
+        "phase": "approach",
+        "sim_time": 207.0333333342438,
+        "fraction": 1.0000012208475768
+      },
+      {
+        "transition_index": 6181,
+        "phase": "approach",
+        "sim_time": 207.06666666757755,
+        "fraction": 1.0000003726233424
+      },
+      {
+        "transition_index": 6182,
+        "phase": "approach",
+        "sim_time": 207.1000000009113,
+        "fraction": 1.0000007263724282
+      },
+      {
+        "transition_index": 6183,
+        "phase": "approach",
+        "sim_time": 207.13333333424507,
+        "fraction": 0.9999999911850758
+      },
+      {
+        "transition_index": 6184,
+        "phase": "approach",
+        "sim_time": 207.16666666757882,
+        "fraction": 1.0000000005946905
+      },
+      {
+        "transition_index": 6185,
+        "phase": "approach",
+        "sim_time": 207.20000000091258,
+        "fraction": 1.000001838205085
+      },
+      {
+        "transition_index": 6186,
+        "phase": "approach",
+        "sim_time": 207.23333333424634,
+        "fraction": 1.0000005983964733
+      },
+      {
+        "transition_index": 6187,
+        "phase": "approach",
+        "sim_time": 207.2666666675801,
+        "fraction": 1.0000005423527907
+      },
+      {
+        "transition_index": 6188,
+        "phase": "approach",
+        "sim_time": 207.30000000091385,
+        "fraction": 0.9999991000060432
+      },
+      {
+        "transition_index": 6189,
+        "phase": "approach",
+        "sim_time": 207.3333333342476,
+        "fraction": 0.9999995548160551
+      },
+      {
+        "transition_index": 6190,
+        "phase": "approach",
+        "sim_time": 207.36666666758137,
+        "fraction": 1.0000018936000803
+      },
+      {
+        "transition_index": 6191,
+        "phase": "approach",
+        "sim_time": 207.40000000091513,
+        "fraction": 0.9999993032980277
+      },
+      {
+        "transition_index": 6192,
+        "phase": "approach",
+        "sim_time": 207.43333333424889,
+        "fraction": 0.9999979800406729
+      },
+      {
+        "transition_index": 6193,
+        "phase": "approach",
+        "sim_time": 207.46666666758264,
+        "fraction": 1.0000014687487606
+      },
+      {
+        "transition_index": 6194,
+        "phase": "approach",
+        "sim_time": 207.5000000009164,
+        "fraction": 0.999999851272243
+      },
+      {
+        "transition_index": 6195,
+        "phase": "approach",
+        "sim_time": 207.53333333425016,
+        "fraction": 0.9999984885618661
+      },
+      {
+        "transition_index": 6196,
+        "phase": "approach",
+        "sim_time": 207.56666666758392,
+        "fraction": 1.0000000345894038
+      },
+      {
+        "transition_index": 6197,
+        "phase": "approach",
+        "sim_time": 207.60000000091767,
+        "fraction": 0.999998344259047
+      },
+      {
+        "transition_index": 6198,
+        "phase": "approach",
+        "sim_time": 207.63333333425143,
+        "fraction": 1.000000016840915
+      },
+      {
+        "transition_index": 6199,
+        "phase": "approach",
+        "sim_time": 207.6666666675852,
+        "fraction": 0.9999990903588792
+      },
+      {
+        "transition_index": 6200,
+        "phase": "approach",
+        "sim_time": 207.70000000091895,
+        "fraction": 1.0000008062331451
+      },
+      {
+        "transition_index": 6201,
+        "phase": "approach",
+        "sim_time": 207.7333333342527,
+        "fraction": 0.9999997713827373
+      },
+      {
+        "transition_index": 6202,
+        "phase": "approach",
+        "sim_time": 207.76666666758646,
+        "fraction": 1.0000018739252663
+      },
+      {
+        "transition_index": 6203,
+        "phase": "approach",
+        "sim_time": 207.80000000092022,
+        "fraction": 1.0000008805804241
+      },
+      {
+        "transition_index": 6204,
+        "phase": "approach",
+        "sim_time": 207.83333333425398,
+        "fraction": 1.0000003618011657
+      },
+      {
+        "transition_index": 6205,
+        "phase": "approach",
+        "sim_time": 207.86666666758774,
+        "fraction": 1.0000008852334288
+      },
+      {
+        "transition_index": 6206,
+        "phase": "approach",
+        "sim_time": 207.9000000009215,
+        "fraction": 1.000000779362142
+      },
+      {
+        "transition_index": 6207,
+        "phase": "approach",
+        "sim_time": 207.93333333425525,
+        "fraction": 1.0000014770360197
+      },
+      {
+        "transition_index": 6208,
+        "phase": "approach",
+        "sim_time": 207.966666667589,
+        "fraction": 1.0000015758906315
+      },
+      {
+        "transition_index": 6209,
+        "phase": "approach",
+        "sim_time": 208.00000000092277,
+        "fraction": 0.9999971502330557
+      },
+      {
+        "transition_index": 6210,
+        "phase": "approach",
+        "sim_time": 208.03333333425653,
+        "fraction": 1.0000004569787442
+      },
+      {
+        "transition_index": 6211,
+        "phase": "approach",
+        "sim_time": 208.06666666759028,
+        "fraction": 1.0000021604970444
+      },
+      {
+        "transition_index": 6212,
+        "phase": "approach",
+        "sim_time": 208.10000000092404,
+        "fraction": 1.000000128528263
+      },
+      {
+        "transition_index": 6213,
+        "phase": "approach",
+        "sim_time": 208.1333333342578,
+        "fraction": 0.9999995054646897
+      },
+      {
+        "transition_index": 6214,
+        "phase": "approach",
+        "sim_time": 208.16666666759156,
+        "fraction": 1.0000024969739472
+      },
+      {
+        "transition_index": 6215,
+        "phase": "approach",
+        "sim_time": 208.20000000092531,
+        "fraction": 0.9999994086817202
+      },
+      {
+        "transition_index": 6216,
+        "phase": "approach",
+        "sim_time": 208.23333333425907,
+        "fraction": 1.0000020985608247
+      },
+      {
+        "transition_index": 6217,
+        "phase": "approach",
+        "sim_time": 208.26666666759283,
+        "fraction": 1.000000556980821
+      },
+      {
+        "transition_index": 6218,
+        "phase": "approach",
+        "sim_time": 208.3000000009266,
+        "fraction": 1.0000009854875502
+      },
+      {
+        "transition_index": 6219,
+        "phase": "approach",
+        "sim_time": 208.33333333426035,
+        "fraction": 1.000000351466578
+      },
+      {
+        "transition_index": 6220,
+        "phase": "approach",
+        "sim_time": 208.3666666675941,
+        "fraction": 1.000000090286787
+      },
+      {
+        "transition_index": 6221,
+        "phase": "approach",
+        "sim_time": 208.40000000092786,
+        "fraction": 0.9999996842192701
+      },
+      {
+        "transition_index": 6222,
+        "phase": "approach",
+        "sim_time": 208.43333333426162,
+        "fraction": 0.9999989838571508
+      },
+      {
+        "transition_index": 6223,
+        "phase": "approach",
+        "sim_time": 208.46666666759538,
+        "fraction": 0.9999992166223923
+      },
+      {
+        "transition_index": 6224,
+        "phase": "approach",
+        "sim_time": 208.50000000092913,
+        "fraction": 1.00000194282613
+      },
+      {
+        "transition_index": 6225,
+        "phase": "approach",
+        "sim_time": 208.5333333342629,
+        "fraction": 0.9999975211895281
+      },
+      {
+        "transition_index": 6226,
+        "phase": "approach",
+        "sim_time": 208.56666666759665,
+        "fraction": 1.0000013110487516
+      },
+      {
+        "transition_index": 6227,
+        "phase": "approach",
+        "sim_time": 208.6000000009304,
+        "fraction": 1.000000900294377
+      },
+      {
+        "transition_index": 6228,
+        "phase": "approach",
+        "sim_time": 208.63333333426417,
+        "fraction": 1.0000017442188185
+      },
+      {
+        "transition_index": 6229,
+        "phase": "approach",
+        "sim_time": 208.66666666759792,
+        "fraction": 0.9999998872357398
+      },
+      {
+        "transition_index": 6230,
+        "phase": "approach",
+        "sim_time": 208.70000000093168,
+        "fraction": 1.0000001611590432
+      },
+      {
+        "transition_index": 6231,
+        "phase": "approach",
+        "sim_time": 208.73333333426544,
+        "fraction": 0.9999973586186793
+      },
+      {
+        "transition_index": 6232,
+        "phase": "approach",
+        "sim_time": 208.7666666675992,
+        "fraction": 0.999999932892082
+      },
+      {
+        "transition_index": 6233,
+        "phase": "approach",
+        "sim_time": 208.80000000093295,
+        "fraction": 1.0000005317343257
+      },
+      {
+        "transition_index": 6234,
+        "phase": "approach",
+        "sim_time": 208.8333333342667,
+        "fraction": 1.000000187914926
+      },
+      {
+        "transition_index": 6235,
+        "phase": "approach",
+        "sim_time": 208.86666666760047,
+        "fraction": 0.9999985313384248
+      },
+      {
+        "transition_index": 6236,
+        "phase": "approach",
+        "sim_time": 208.90000000093423,
+        "fraction": 0.99999942367194
+      },
+      {
+        "transition_index": 6237,
+        "phase": "approach",
+        "sim_time": 208.93333333426799,
+        "fraction": 1.0000005962131686
+      },
+      {
+        "transition_index": 6238,
+        "phase": "approach",
+        "sim_time": 208.96666666760174,
+        "fraction": 1.0000011148592494
+      },
+      {
+        "transition_index": 6239,
+        "phase": "approach",
+        "sim_time": 209.0000000009355,
+        "fraction": 0.9999978403928854
+      },
+      {
+        "transition_index": 6240,
+        "phase": "approach",
+        "sim_time": 209.03333333426926,
+        "fraction": 1.0000019152509694
+      },
+      {
+        "transition_index": 6241,
+        "phase": "approach",
+        "sim_time": 209.06666666760302,
+        "fraction": 1.0000001035078132
+      },
+      {
+        "transition_index": 6242,
+        "phase": "approach",
+        "sim_time": 209.10000000093677,
+        "fraction": 1.000000954723416
+      },
+      {
+        "transition_index": 6243,
+        "phase": "approach",
+        "sim_time": 209.13333333427053,
+        "fraction": 0.9999999561087815
+      },
+      {
+        "transition_index": 6244,
+        "phase": "approach",
+        "sim_time": 209.1666666676043,
+        "fraction": 1.00000111516845
+      },
+      {
+        "transition_index": 6245,
+        "phase": "approach",
+        "sim_time": 209.20000000093805,
+        "fraction": 1.0000000865435705
+      },
+      {
+        "transition_index": 6246,
+        "phase": "approach",
+        "sim_time": 209.2333333342718,
+        "fraction": 1.0000007708867809
+      },
+      {
+        "transition_index": 6247,
+        "phase": "approach",
+        "sim_time": 209.26666666760556,
+        "fraction": 1.0000017381708424
+      },
+      {
+        "transition_index": 6248,
+        "phase": "approach",
+        "sim_time": 209.30000000093932,
+        "fraction": 0.9999964039964409
+      },
+      {
+        "transition_index": 6249,
+        "phase": "approach",
+        "sim_time": 209.33333333427308,
+        "fraction": 0.9999980619408169
+      },
+      {
+        "transition_index": 6250,
+        "phase": "approach",
+        "sim_time": 209.36666666760684,
+        "fraction": 0.9999994099557464
+      },
+      {
+        "transition_index": 6251,
+        "phase": "approach",
+        "sim_time": 209.4000000009406,
+        "fraction": 0.9999973746461563
+      },
+      {
+        "transition_index": 6252,
+        "phase": "approach",
+        "sim_time": 209.43333333427435,
+        "fraction": 1.0000014811149385
+      },
+      {
+        "transition_index": 6253,
+        "phase": "approach",
+        "sim_time": 209.4666666676081,
+        "fraction": 0.9999998711411429
+      },
+      {
+        "transition_index": 6254,
+        "phase": "approach",
+        "sim_time": 209.50000000094187,
+        "fraction": 0.9999999346232797
+      },
+      {
+        "transition_index": 6255,
+        "phase": "approach",
+        "sim_time": 209.53333333427562,
+        "fraction": 0.9999989159355228
+      },
+      {
+        "transition_index": 6256,
+        "phase": "approach",
+        "sim_time": 209.56666666760938,
+        "fraction": 0.9999990354075685
+      },
+      {
+        "transition_index": 6257,
+        "phase": "approach",
+        "sim_time": 209.60000000094314,
+        "fraction": 0.9999993763271895
+      },
+      {
+        "transition_index": 6258,
+        "phase": "approach",
+        "sim_time": 209.6333333342769,
+        "fraction": 1.0000022010390563
+      },
+      {
+        "transition_index": 6259,
+        "phase": "approach",
+        "sim_time": 209.66666666761066,
+        "fraction": 1.0000004601027306
+      },
+      {
+        "transition_index": 6260,
+        "phase": "approach",
+        "sim_time": 209.7000000009444,
+        "fraction": 1.0000013610136638
+      },
+      {
+        "transition_index": 6261,
+        "phase": "approach",
+        "sim_time": 209.73333333427817,
+        "fraction": 0.9999992881161642
+      },
+      {
+        "transition_index": 6262,
+        "phase": "approach",
+        "sim_time": 209.76666666761193,
+        "fraction": 1.0000004001175458
+      },
+      {
+        "transition_index": 6263,
+        "phase": "approach",
+        "sim_time": 209.8000000009457,
+        "fraction": 1.0000006708277163
+      },
+      {
+        "transition_index": 6264,
+        "phase": "approach",
+        "sim_time": 209.83333333427944,
+        "fraction": 1.0000012871863286
+      },
+      {
+        "transition_index": 6265,
+        "phase": "approach",
+        "sim_time": 209.8666666676132,
+        "fraction": 0.9999981801693378
+      },
+      {
+        "transition_index": 6266,
+        "phase": "approach",
+        "sim_time": 209.90000000094696,
+        "fraction": 1.0000010724937796
+      },
+      {
+        "transition_index": 6267,
+        "phase": "approach",
+        "sim_time": 209.93333333428072,
+        "fraction": 0.9999983671690212
+      },
+      {
+        "transition_index": 6268,
+        "phase": "approach",
+        "sim_time": 209.96666666761448,
+        "fraction": 0.9999981554039837
+      },
+      {
+        "transition_index": 6269,
+        "phase": "approach",
+        "sim_time": 210.00000000094823,
+        "fraction": 0.9999999260010676
+      },
+      {
+        "transition_index": 6270,
+        "phase": "approach",
+        "sim_time": 210.033333334282,
+        "fraction": 1.0000000890727738
+      },
+      {
+        "transition_index": 6271,
+        "phase": "approach",
+        "sim_time": 210.06666666761575,
+        "fraction": 1.000000094231763
+      },
+      {
+        "transition_index": 6272,
+        "phase": "approach",
+        "sim_time": 210.1000000009495,
+        "fraction": 1.0000011099645778
+      },
+      {
+        "transition_index": 6273,
+        "phase": "approach",
+        "sim_time": 210.13333333428326,
+        "fraction": 1.0000008130737104
+      },
+      {
+        "transition_index": 6274,
+        "phase": "approach",
+        "sim_time": 210.16666666761702,
+        "fraction": 0.999999842265025
+      },
+      {
+        "transition_index": 6275,
+        "phase": "approach",
+        "sim_time": 210.20000000095078,
+        "fraction": 1.0000007714064667
+      },
+      {
+        "transition_index": 6276,
+        "phase": "approach",
+        "sim_time": 210.23333333428454,
+        "fraction": 1.0000011450044428
+      },
+      {
+        "transition_index": 6277,
+        "phase": "approach",
+        "sim_time": 210.2666666676183,
+        "fraction": 0.9999984130500561
+      },
+      {
+        "transition_index": 6278,
+        "phase": "approach",
+        "sim_time": 210.30000000095205,
+        "fraction": 1.000001165717922
+      },
+      {
+        "transition_index": 6279,
+        "phase": "approach",
+        "sim_time": 210.3333333342858,
+        "fraction": 1.0000000813704903
+      },
+      {
+        "transition_index": 6280,
+        "phase": "approach",
+        "sim_time": 210.36666666761957,
+        "fraction": 0.9999998543060621
+      },
+      {
+        "transition_index": 6281,
+        "phase": "grasp",
+        "sim_time": 210.40000000095333,
+        "fraction": 0.9999983001502663
+      },
+      {
+        "transition_index": 6282,
+        "phase": "grasp",
+        "sim_time": 210.43333333428708,
+        "fraction": 1.000000510504958
+      },
+      {
+        "transition_index": 6283,
+        "phase": "grasp",
+        "sim_time": 210.46666666762084,
+        "fraction": 1.000000471212552
+      },
+      {
+        "transition_index": 6284,
+        "phase": "grasp",
+        "sim_time": 210.5000000009546,
+        "fraction": 1.0000002084001371
+      },
+      {
+        "transition_index": 6285,
+        "phase": "grasp",
+        "sim_time": 210.53333333428836,
+        "fraction": 0.9999944269524698
+      },
+      {
+        "transition_index": 6286,
+        "phase": "grasp",
+        "sim_time": 210.56666666762212,
+        "fraction": 1.0000023293048699
+      },
+      {
+        "transition_index": 6287,
+        "phase": "grasp",
+        "sim_time": 210.60000000095587,
+        "fraction": 1.000000163368863
+      },
+      {
+        "transition_index": 6288,
+        "phase": "grasp",
+        "sim_time": 210.63333333428963,
+        "fraction": 0.9999989497491653
+      },
+      {
+        "transition_index": 6289,
+        "phase": "grasp",
+        "sim_time": 210.6666666676234,
+        "fraction": 0.9999992474757055
+      },
+      {
+        "transition_index": 6290,
+        "phase": "grasp",
+        "sim_time": 210.70000000095715,
+        "fraction": 0.9999999140171423
+      },
+      {
+        "transition_index": 6291,
+        "phase": "grasp",
+        "sim_time": 210.7333333342909,
+        "fraction": 1.0000010364212326
+      },
+      {
+        "transition_index": 6292,
+        "phase": "grasp",
+        "sim_time": 210.76666666762466,
+        "fraction": 0.999998355564263
+      },
+      {
+        "transition_index": 6293,
+        "phase": "grasp",
+        "sim_time": 210.80000000095842,
+        "fraction": 0.9999997221718853
+      },
+      {
+        "transition_index": 6294,
+        "phase": "grasp",
+        "sim_time": 210.83333333429218,
+        "fraction": 1.0000007885410735
+      },
+      {
+        "transition_index": 6295,
+        "phase": "grasp",
+        "sim_time": 210.86666666762594,
+        "fraction": 0.9999987899151946
+      },
+      {
+        "transition_index": 6296,
+        "phase": "grasp",
+        "sim_time": 210.9000000009597,
+        "fraction": 1.0000004810546606
+      },
+      {
+        "transition_index": 6297,
+        "phase": "grasp",
+        "sim_time": 210.93333333429345,
+        "fraction": 0.9999994929142356
+      },
+      {
+        "transition_index": 6298,
+        "phase": "grasp",
+        "sim_time": 210.9666666676272,
+        "fraction": 0.9999993544039316
+      },
+      {
+        "transition_index": 6299,
+        "phase": "grasp",
+        "sim_time": 211.00000000096097,
+        "fraction": 1.0000004630127575
+      },
+      {
+        "transition_index": 6300,
+        "phase": "grasp",
+        "sim_time": 211.03333333429472,
+        "fraction": 1.0000027873698207
+      },
+      {
+        "transition_index": 6301,
+        "phase": "grasp",
+        "sim_time": 211.06666666762848,
+        "fraction": 0.9999976678011457
+      },
+      {
+        "transition_index": 6302,
+        "phase": "grasp",
+        "sim_time": 211.10000000096224,
+        "fraction": 0.9999990521405844
+      },
+      {
+        "transition_index": 6303,
+        "phase": "grasp",
+        "sim_time": 211.133333334296,
+        "fraction": 1.0000007928703343
+      },
+      {
+        "transition_index": 6304,
+        "phase": "grasp",
+        "sim_time": 211.16666666762976,
+        "fraction": 0.9999997772840252
+      },
+      {
+        "transition_index": 6305,
+        "phase": "grasp",
+        "sim_time": 211.2000000009635,
+        "fraction": 0.9999975275585795
+      },
+      {
+        "transition_index": 6306,
+        "phase": "grasp",
+        "sim_time": 211.23333333429727,
+        "fraction": 1.0000025466281368
+      },
+      {
+        "transition_index": 6307,
+        "phase": "grasp",
+        "sim_time": 211.26666666763103,
+        "fraction": 1.0000005367381701
+      },
+      {
+        "transition_index": 6308,
+        "phase": "grasp",
+        "sim_time": 211.3000000009648,
+        "fraction": 1.0000000557059192
+      },
+      {
+        "transition_index": 6309,
+        "phase": "grasp",
+        "sim_time": 211.33333333429854,
+        "fraction": 0.9999997891737619
+      },
+      {
+        "transition_index": 6310,
+        "phase": "grasp",
+        "sim_time": 211.3666666676323,
+        "fraction": 1.0000001533810572
+      },
+      {
+        "transition_index": 6311,
+        "phase": "grasp",
+        "sim_time": 211.40000000096606,
+        "fraction": 0.9999998182061619
+      },
+      {
+        "transition_index": 6312,
+        "phase": "grasp",
+        "sim_time": 211.43333333429982,
+        "fraction": 0.9999995887285273
+      },
+      {
+        "transition_index": 6313,
+        "phase": "grasp",
+        "sim_time": 211.46666666763358,
+        "fraction": 0.9999991194241864
+      },
+      {
+        "transition_index": 6314,
+        "phase": "grasp",
+        "sim_time": 211.50000000096733,
+        "fraction": 0.9999991703581381
+      },
+      {
+        "transition_index": 6315,
+        "phase": "grasp",
+        "sim_time": 211.5333333343011,
+        "fraction": 0.9999990703184977
+      },
+      {
+        "transition_index": 6316,
+        "phase": "grasp",
+        "sim_time": 211.56666666763485,
+        "fraction": 0.9999973112361179
+      },
+      {
+        "transition_index": 6317,
+        "phase": "grasp",
+        "sim_time": 211.6000000009686,
+        "fraction": 1.0000009219459738
+      },
+      {
+        "transition_index": 6318,
+        "phase": "grasp",
+        "sim_time": 211.63333333430236,
+        "fraction": 0.9999997583428645
+      },
+      {
+        "transition_index": 6319,
+        "phase": "grasp",
+        "sim_time": 211.66666666763612,
+        "fraction": 1.0000008849433584
+      },
+      {
+        "transition_index": 6320,
+        "phase": "grasp",
+        "sim_time": 211.70000000096988,
+        "fraction": 1.0000017467081697
+      },
+      {
+        "transition_index": 6321,
+        "phase": "grasp",
+        "sim_time": 211.73333333430364,
+        "fraction": 0.9999991298302524
+      },
+      {
+        "transition_index": 6322,
+        "phase": "grasp",
+        "sim_time": 211.7666666676374,
+        "fraction": 1.0000011867174234
+      },
+      {
+        "transition_index": 6323,
+        "phase": "grasp",
+        "sim_time": 211.80000000097115,
+        "fraction": 1.0000006836403694
+      },
+      {
+        "transition_index": 6324,
+        "phase": "grasp",
+        "sim_time": 211.8333333343049,
+        "fraction": 0.9999988079971897
+      },
+      {
+        "transition_index": 6325,
+        "phase": "grasp",
+        "sim_time": 211.86666666763867,
+        "fraction": 1.0000012514485184
+      },
+      {
+        "transition_index": 6326,
+        "phase": "grasp",
+        "sim_time": 211.90000000097243,
+        "fraction": 0.9999998593031255
+      },
+      {
+        "transition_index": 6327,
+        "phase": "grasp",
+        "sim_time": 211.93333333430618,
+        "fraction": 0.999995565018138
+      },
+      {
+        "transition_index": 6328,
+        "phase": "grasp",
+        "sim_time": 211.96666666763994,
+        "fraction": 1.0000000093004187
+      },
+      {
+        "transition_index": 6329,
+        "phase": "grasp",
+        "sim_time": 212.0000000009737,
+        "fraction": 0.999999406077128
+      },
+      {
+        "transition_index": 6330,
+        "phase": "grasp",
+        "sim_time": 212.03333333430746,
+        "fraction": 0.9999995044446592
+      },
+      {
+        "transition_index": 6331,
+        "phase": "grasp",
+        "sim_time": 212.06666666764121,
+        "fraction": 1.0000007524305818
+      },
+      {
+        "transition_index": 6332,
+        "phase": "grasp",
+        "sim_time": 212.10000000097497,
+        "fraction": 1.0000038938607214
+      },
+      {
+        "transition_index": 6333,
+        "phase": "grasp",
+        "sim_time": 212.13333333430873,
+        "fraction": 0.9999959957553373
+      },
+      {
+        "transition_index": 6334,
+        "phase": "grasp",
+        "sim_time": 212.1666666676425,
+        "fraction": 0.9999987479673086
+      },
+      {
+        "transition_index": 6335,
+        "phase": "grasp",
+        "sim_time": 212.20000000097625,
+        "fraction": 1.0000005644328398
+      },
+      {
+        "transition_index": 6336,
+        "phase": "grasp",
+        "sim_time": 212.23333333431,
+        "fraction": 0.9999995844314001
+      },
+      {
+        "transition_index": 6337,
+        "phase": "grasp",
+        "sim_time": 212.26666666764376,
+        "fraction": 0.9999990060000441
+      },
+      {
+        "transition_index": 6338,
+        "phase": "grasp",
+        "sim_time": 212.30000000097752,
+        "fraction": 0.9999997974841914
+      },
+      {
+        "transition_index": 6339,
+        "phase": "grasp",
+        "sim_time": 212.33333333431128,
+        "fraction": 0.9999992027583227
+      },
+      {
+        "transition_index": 6340,
+        "phase": "grasp",
+        "sim_time": 212.36666666764503,
+        "fraction": 1.0000006640713526
+      },
+      {
+        "transition_index": 6341,
+        "phase": "grasp",
+        "sim_time": 212.4000000009788,
+        "fraction": 1.0000005741964693
+      },
+      {
+        "transition_index": 6342,
+        "phase": "grasp",
+        "sim_time": 212.43333333431255,
+        "fraction": 1.0000019392482524
+      },
+      {
+        "transition_index": 6343,
+        "phase": "grasp",
+        "sim_time": 212.4666666676463,
+        "fraction": 0.9999989432126533
+      },
+      {
+        "transition_index": 6344,
+        "phase": "grasp",
+        "sim_time": 212.50000000098007,
+        "fraction": 0.9999999417059796
+      },
+      {
+        "transition_index": 6345,
+        "phase": "grasp",
+        "sim_time": 212.53333333431382,
+        "fraction": 1.0000017514579624
+      },
+      {
+        "transition_index": 6346,
+        "phase": "grasp",
+        "sim_time": 212.56666666764758,
+        "fraction": 0.9999999603610182
+      },
+      {
+        "transition_index": 6347,
+        "phase": "grasp",
+        "sim_time": 212.60000000098134,
+        "fraction": 1.0000009315694154
+      },
+      {
+        "transition_index": 6348,
+        "phase": "grasp",
+        "sim_time": 212.6333333343151,
+        "fraction": 0.9999979572083596
+      },
+      {
+        "transition_index": 6349,
+        "phase": "grasp",
+        "sim_time": 212.66666666764885,
+        "fraction": 0.9999973969190443
+      },
+      {
+        "transition_index": 6350,
+        "phase": "grasp",
+        "sim_time": 212.7000000009826,
+        "fraction": 0.999999797319564
+      },
+      {
+        "transition_index": 6351,
+        "phase": "grasp",
+        "sim_time": 212.73333333431637,
+        "fraction": 0.9999949596767762
+      },
+      {
+        "transition_index": 6352,
+        "phase": "grasp",
+        "sim_time": 212.76666666765013,
+        "fraction": 1.0000004865182173
+      },
+      {
+        "transition_index": 6353,
+        "phase": "grasp",
+        "sim_time": 212.80000000098389,
+        "fraction": 1.0000019090000363
+      },
+      {
+        "transition_index": 6354,
+        "phase": "grasp",
+        "sim_time": 212.83333333431764,
+        "fraction": 0.9999995212307046
+      },
+      {
+        "transition_index": 6355,
+        "phase": "grasp",
+        "sim_time": 212.8666666676514,
+        "fraction": 0.9999994811274016
+      },
+      {
+        "transition_index": 6356,
+        "phase": "grasp",
+        "sim_time": 212.90000000098516,
+        "fraction": 1.0000015621667744
+      },
+      {
+        "transition_index": 6357,
+        "phase": "grasp",
+        "sim_time": 212.93333333431892,
+        "fraction": 0.999998337197412
+      },
+      {
+        "transition_index": 6358,
+        "phase": "grasp",
+        "sim_time": 212.96666666765267,
+        "fraction": 1.0000018168716045
+      },
+      {
+        "transition_index": 6359,
+        "phase": "grasp",
+        "sim_time": 213.00000000098643,
+        "fraction": 0.9999996290031138
+      },
+      {
+        "transition_index": 6360,
+        "phase": "grasp",
+        "sim_time": 213.0333333343202,
+        "fraction": 1.000000110706964
+      },
+      {
+        "transition_index": 6361,
+        "phase": "grasp",
+        "sim_time": 213.06666666765395,
+        "fraction": 1.000001412953579
+      },
+      {
+        "transition_index": 6362,
+        "phase": "grasp",
+        "sim_time": 213.1000000009877,
+        "fraction": 1.168463498897552
+      },
+      {
+        "transition_index": 6363,
+        "phase": "grasp",
+        "sim_time": 213.13333333432146,
+        "fraction": 1.2056518321532446
+      },
+      {
+        "transition_index": 6364,
+        "phase": "grasp",
+        "sim_time": 213.16666666765522,
+        "fraction": 1.1136001619437348
+      },
+      {
+        "transition_index": 6365,
+        "phase": "grasp",
+        "sim_time": 213.20000000098898,
+        "fraction": 1.0653485399004305
+      },
+      {
+        "transition_index": 6366,
+        "phase": "grasp",
+        "sim_time": 213.23333333432274,
+        "fraction": 0.0
+      },
+      {
+        "transition_index": 6367,
+        "phase": "grasp",
+        "sim_time": 213.2666666676565,
+        "fraction": 1.566134584441471
+      },
+      {
+        "transition_index": 6368,
+        "phase": "grasp",
+        "sim_time": 213.30000000099025,
+        "fraction": 1.1629234516460862
+      },
+      {
+        "transition_index": 6369,
+        "phase": "grasp",
+        "sim_time": 213.333333334324,
+        "fraction": 1.011506885845145
+      },
+      {
+        "transition_index": 6370,
+        "phase": "grasp",
+        "sim_time": 213.36666666765777,
+        "fraction": 1.0085659974927077
+      },
+      {
+        "transition_index": 6371,
+        "phase": "grasp",
+        "sim_time": 213.40000000099153,
+        "fraction": 1.0269816880332758
+      },
+      {
+        "transition_index": 6372,
+        "phase": "grasp",
+        "sim_time": 213.43333333432528,
+        "fraction": 0.9903286887850695
+      },
+      {
+        "transition_index": 6373,
+        "phase": "grasp",
+        "sim_time": 213.46666666765904,
+        "fraction": 1.2194540108963883
+      },
+      {
+        "transition_index": 6374,
+        "phase": "grasp",
+        "sim_time": 213.5000000009928,
+        "fraction": 1.2660314466300722
+      },
+      {
+        "transition_index": 6375,
+        "phase": "grasp",
+        "sim_time": 213.53333333432656,
+        "fraction": 1.1600335444870857
+      },
+      {
+        "transition_index": 6376,
+        "phase": "grasp",
+        "sim_time": 213.56666666766031,
+        "fraction": 1.1416917764283867
+      },
+      {
+        "transition_index": 6377,
+        "phase": "grasp",
+        "sim_time": 213.60000000099407,
+        "fraction": 0.8901814608733944
+      },
+      {
+        "transition_index": 6378,
+        "phase": "grasp",
+        "sim_time": 213.63333333432783,
+        "fraction": 0.7830427695865367
+      },
+      {
+        "transition_index": 6379,
+        "phase": "grasp",
+        "sim_time": 213.6666666676616,
+        "fraction": 1.0711082557705958
+      },
+      {
+        "transition_index": 6380,
+        "phase": "grasp",
+        "sim_time": 213.70000000099535,
+        "fraction": 1.1139272579012653
+      },
+      {
+        "transition_index": 6381,
+        "phase": "grasp",
+        "sim_time": 213.7333333343291,
+        "fraction": 1.2079130997751995
+      },
+      {
+        "transition_index": 6382,
+        "phase": "grasp",
+        "sim_time": 213.76666666766286,
+        "fraction": 1.2966358428958817
+      },
+      {
+        "transition_index": 6383,
+        "phase": "grasp",
+        "sim_time": 213.80000000099662,
+        "fraction": 0.932149622560276
+      },
+      {
+        "transition_index": 6384,
+        "phase": "grasp",
+        "sim_time": 213.83333333433038,
+        "fraction": 1.1077882432259805
+      },
+      {
+        "transition_index": 6385,
+        "phase": "grasp",
+        "sim_time": 213.86666666766413,
+        "fraction": 0.8885923654729253
+      },
+      {
+        "transition_index": 6386,
+        "phase": "grasp",
+        "sim_time": 213.9000000009979,
+        "fraction": 1.011913790937062
+      },
+      {
+        "transition_index": 6387,
+        "phase": "grasp",
+        "sim_time": 213.93333333433165,
+        "fraction": 1.0205836847134024
+      },
+      {
+        "transition_index": 6388,
+        "phase": "grasp",
+        "sim_time": 213.9666666676654,
+        "fraction": 1.0125079129414964
+      },
+      {
+        "transition_index": 6389,
+        "phase": "grasp",
+        "sim_time": 214.00000000099917,
+        "fraction": 1.0261087183016802
+      },
+      {
+        "transition_index": 6390,
+        "phase": "grasp",
+        "sim_time": 214.03333333433292,
+        "fraction": 1.0356980744073683
+      },
+      {
+        "transition_index": 6391,
+        "phase": "grasp",
+        "sim_time": 214.06666666766668,
+        "fraction": 1.0675347742263999
+      },
+      {
+        "transition_index": 6392,
+        "phase": "grasp",
+        "sim_time": 214.10000000100044,
+        "fraction": 0.0
+      },
+      {
+        "transition_index": 6393,
+        "phase": "grasp",
+        "sim_time": 214.1333333343342,
+        "fraction": 1.0729580392837164
+      },
+      {
+        "transition_index": 6394,
+        "phase": "grasp",
+        "sim_time": 214.16666666766795,
+        "fraction": 0.0
+      },
+      {
+        "transition_index": 6395,
+        "phase": "grasp",
+        "sim_time": 214.2000000010017,
+        "fraction": 1.4301033384708923
+      },
+      {
+        "transition_index": 6396,
+        "phase": "grasp",
+        "sim_time": 214.23333333433547,
+        "fraction": 0.7972794881418948
+      },
+      {
+        "transition_index": 6397,
+        "phase": "grasp",
+        "sim_time": 214.26666666766923,
+        "fraction": 0.9081887963886581
+      },
+      {
+        "transition_index": 6398,
+        "phase": "grasp",
+        "sim_time": 214.30000000100299,
+        "fraction": 0.9261332888106579
+      },
+      {
+        "transition_index": 6399,
+        "phase": "grasp",
+        "sim_time": 214.33333333433674,
+        "fraction": 1.0080115570053514
+      },
+      {
+        "transition_index": 6400,
+        "phase": "grasp",
+        "sim_time": 214.3666666676705,
+        "fraction": 1.0145477248014092
+      },
+      {
+        "transition_index": 6401,
+        "phase": "grasp",
+        "sim_time": 214.40000000100426,
+        "fraction": 0.9607755539225492
+      },
+      {
+        "transition_index": 6402,
+        "phase": "grasp",
+        "sim_time": 214.43333333433802,
+        "fraction": 1.0036903981655745
+      },
+      {
+        "transition_index": 6403,
+        "phase": "grasp",
+        "sim_time": 214.46666666767177,
+        "fraction": 1.2576328162571226
+      },
+      {
+        "transition_index": 6404,
+        "phase": "grasp",
+        "sim_time": 214.50000000100553,
+        "fraction": 1.199982716030465
+      },
+      {
+        "transition_index": 6405,
+        "phase": "grasp",
+        "sim_time": 214.5333333343393,
+        "fraction": 1.0698829787185435
+      },
+      {
+        "transition_index": 6406,
+        "phase": "grasp",
+        "sim_time": 214.56666666767305,
+        "fraction": 0.9223422889201266
+      },
+      {
+        "transition_index": 6407,
+        "phase": "grasp",
+        "sim_time": 214.6000000010068,
+        "fraction": 1.0100452382343388
+      },
+      {
+        "transition_index": 6408,
+        "phase": "grasp",
+        "sim_time": 214.63333333434056,
+        "fraction": 0.9758304710499417
+      },
+      {
+        "transition_index": 6409,
+        "phase": "grasp",
+        "sim_time": 214.66666666767432,
+        "fraction": 1.00788342173858
+      },
+      {
+        "transition_index": 6410,
+        "phase": "grasp",
+        "sim_time": 214.70000000100808,
+        "fraction": 1.3907962769481874
+      },
+      {
+        "transition_index": 6411,
+        "phase": "grasp",
+        "sim_time": 214.73333333434184,
+        "fraction": 1.1401152761753746
+      },
+      {
+        "transition_index": 6412,
+        "phase": "grasp",
+        "sim_time": 214.7666666676756,
+        "fraction": 1.067889313752296
+      },
+      {
+        "transition_index": 6413,
+        "phase": "grasp",
+        "sim_time": 214.80000000100935,
+        "fraction": 1.1016234495422013
+      },
+      {
+        "transition_index": 6414,
+        "phase": "grasp",
+        "sim_time": 214.8333333343431,
+        "fraction": 1.2191702310652794
+      },
+      {
+        "transition_index": 6415,
+        "phase": "grasp",
+        "sim_time": 214.86666666767687,
+        "fraction": 0.0
+      },
+      {
+        "transition_index": 6416,
+        "phase": "grasp",
+        "sim_time": 214.90000000101062,
+        "fraction": 0.9379629030571103
+      },
+      {
+        "transition_index": 6417,
+        "phase": "grasp",
+        "sim_time": 214.93333333434438,
+        "fraction": 1.1302516485574807
+      },
+      {
+        "transition_index": 6418,
+        "phase": "grasp",
+        "sim_time": 214.96666666767814,
+        "fraction": 0.9001023137293412
+      },
+      {
+        "transition_index": 6419,
+        "phase": "grasp",
+        "sim_time": 215.0000000010119,
+        "fraction": 1.1374216743059846
+      },
+      {
+        "transition_index": 6420,
+        "phase": "grasp",
+        "sim_time": 215.03333333434566,
+        "fraction": 0.0
+      },
+      {
+        "transition_index": 6421,
+        "phase": "grasp",
+        "sim_time": 215.0666666676794,
+        "fraction": 1.0014671994540159
+      },
+      {
+        "transition_index": 6422,
+        "phase": "grasp",
+        "sim_time": 215.10000000101317,
+        "fraction": 1.0125777569921857
+      },
+      {
+        "transition_index": 6423,
+        "phase": "grasp",
+        "sim_time": 215.13333333434693,
+        "fraction": 1.0688050847659483
+      },
+      {
+        "transition_index": 6424,
+        "phase": "grasp",
+        "sim_time": 215.1666666676807,
+        "fraction": 0.8186546512356235
+      },
+      {
+        "transition_index": 6425,
+        "phase": "grasp",
+        "sim_time": 215.20000000101444,
+        "fraction": 0.8995387742701978
+      },
+      {
+        "transition_index": 6426,
+        "phase": "grasp",
+        "sim_time": 215.2333333343482,
+        "fraction": 0.8352146326475123
+      },
+      {
+        "transition_index": 6427,
+        "phase": "grasp",
+        "sim_time": 215.26666666768196,
+        "fraction": 0.8439460583695763
+      },
+      {
+        "transition_index": 6428,
+        "phase": "grasp",
+        "sim_time": 215.30000000101572,
+        "fraction": 1.0663102377115705
+      },
+      {
+        "transition_index": 6429,
+        "phase": "grasp",
+        "sim_time": 215.33333333434948,
+        "fraction": 0.7851701300531592
+      },
+      {
+        "transition_index": 6430,
+        "phase": "grasp",
+        "sim_time": 215.36666666768323,
+        "fraction": 0.8584018480435781
+      },
+      {
+        "transition_index": 6431,
+        "phase": "grasp",
+        "sim_time": 215.400000001017,
+        "fraction": 0.7354079375045429
+      },
+      {
+        "transition_index": 6432,
+        "phase": "grasp",
+        "sim_time": 215.43333333435075,
+        "fraction": 0.9831351841725785
+      },
+      {
+        "transition_index": 6433,
+        "phase": "grasp",
+        "sim_time": 215.4666666676845,
+        "fraction": 1.066142111139887
+      },
+      {
+        "transition_index": 6434,
+        "phase": "grasp",
+        "sim_time": 215.50000000101826,
+        "fraction": 0.0
+      },
+      {
+        "transition_index": 6435,
+        "phase": "grasp",
+        "sim_time": 215.53333333435202,
+        "fraction": 0.0
+      },
+      {
+        "transition_index": 6436,
+        "phase": "grasp",
+        "sim_time": 215.56666666768578,
+        "fraction": 0.855355245794805
+      },
+      {
+        "transition_index": 6437,
+        "phase": "grasp",
+        "sim_time": 215.60000000101954,
+        "fraction": 0.884699093172273
+      },
+      {
+        "transition_index": 6438,
+        "phase": "grasp",
+        "sim_time": 215.6333333343533,
+        "fraction": 0.9010375884080275
+      },
+      {
+        "transition_index": 6439,
+        "phase": "grasp",
+        "sim_time": 215.66666666768705,
+        "fraction": 0.9129673103561938
+      },
+      {
+        "transition_index": 6440,
+        "phase": "grasp",
+        "sim_time": 215.7000000010208,
+        "fraction": 0.8980186047726464
+      },
+      {
+        "transition_index": 6441,
+        "phase": "grasp",
+        "sim_time": 215.73333333435457,
+        "fraction": 0.8966171987466898
+      },
+      {
+        "transition_index": 6442,
+        "phase": "grasp",
+        "sim_time": 215.76666666768833,
+        "fraction": 0.9198656924897315
+      },
+      {
+        "transition_index": 6443,
+        "phase": "grasp",
+        "sim_time": 215.80000000102208,
+        "fraction": 0.9270893280252619
+      },
+      {
+        "transition_index": 6444,
+        "phase": "grasp",
+        "sim_time": 215.83333333435584,
+        "fraction": 0.9186527718130828
+      },
+      {
+        "transition_index": 6445,
+        "phase": "grasp",
+        "sim_time": 215.8666666676896,
+        "fraction": 0.9062420106170722
+      },
+      {
+        "transition_index": 6446,
+        "phase": "grasp",
+        "sim_time": 215.90000000102336,
+        "fraction": 0.7675958634776967
+      },
+      {
+        "transition_index": 6447,
+        "phase": "grasp",
+        "sim_time": 215.93333333435712,
+        "fraction": 0.9169844666334228
+      },
+      {
+        "transition_index": 6448,
+        "phase": "grasp",
+        "sim_time": 215.96666666769087,
+        "fraction": 1.0570339249161609
+      },
+      {
+        "transition_index": 6449,
+        "phase": "grasp",
+        "sim_time": 216.00000000102463,
+        "fraction": 0.7750571864285936
+      },
+      {
+        "transition_index": 6450,
+        "phase": "grasp",
+        "sim_time": 216.0333333343584,
+        "fraction": 0.940768016898256
+      },
+      {
+        "transition_index": 6451,
+        "phase": "grasp",
+        "sim_time": 216.06666666769215,
+        "fraction": 0.8265557013267368
+      },
+      {
+        "transition_index": 6452,
+        "phase": "grasp",
+        "sim_time": 216.1000000010259,
+        "fraction": 0.9651996245664783
+      },
+      {
+        "transition_index": 6453,
+        "phase": "grasp",
+        "sim_time": 216.13333333435966,
+        "fraction": 0.7839217534143146
+      },
+      {
+        "transition_index": 6454,
+        "phase": "grasp",
+        "sim_time": 216.16666666769342,
+        "fraction": 1.0629025724817367
+      },
+      {
+        "transition_index": 6455,
+        "phase": "grasp",
+        "sim_time": 216.20000000102718,
+        "fraction": 0.9583920679609315
+      },
+      {
+        "transition_index": 6456,
+        "phase": "grasp",
+        "sim_time": 216.23333333436094,
+        "fraction": 0.8379734018060595
+      },
+      {
+        "transition_index": 6457,
+        "phase": "grasp",
+        "sim_time": 216.2666666676947,
+        "fraction": 1.008326154660248
+      },
+      {
+        "transition_index": 6458,
+        "phase": "grasp",
+        "sim_time": 216.30000000102845,
+        "fraction": 0.9522645676747293
+      },
+      {
+        "transition_index": 6459,
+        "phase": "grasp",
+        "sim_time": 216.3333333343622,
+        "fraction": 0.8550678444033755
+      },
+      {
+        "transition_index": 6460,
+        "phase": "grasp",
+        "sim_time": 216.36666666769597,
+        "fraction": 1.0594496228276264
+      },
+      {
+        "transition_index": 6461,
+        "phase": "grasp",
+        "sim_time": 216.40000000102972,
+        "fraction": 0.9529321720833636
+      },
+      {
+        "transition_index": 6462,
+        "phase": "grasp",
+        "sim_time": 216.43333333436348,
+        "fraction": 0.9084202887313304
+      },
+      {
+        "transition_index": 6463,
+        "phase": "grasp",
+        "sim_time": 216.46666666769724,
+        "fraction": 0.9365756840685973
+      },
+      {
+        "transition_index": 6464,
+        "phase": "grasp",
+        "sim_time": 216.500000001031,
+        "fraction": 0.9357835026197534
+      },
+      {
+        "transition_index": 6465,
+        "phase": "grasp",
+        "sim_time": 216.53333333436476,
+        "fraction": 0.9357965826086532
+      },
+      {
+        "transition_index": 6466,
+        "phase": "grasp",
+        "sim_time": 216.5666666676985,
+        "fraction": 0.9421258052095652
+      },
+      {
+        "transition_index": 6467,
+        "phase": "grasp",
+        "sim_time": 216.60000000103227,
+        "fraction": 0.9418671419161211
+      },
+      {
+        "transition_index": 6468,
+        "phase": "grasp",
+        "sim_time": 216.63333333436603,
+        "fraction": 0.9339089629177159
+      },
+      {
+        "transition_index": 6469,
+        "phase": "grasp",
+        "sim_time": 216.6666666676998,
+        "fraction": 0.932547860547298
+      },
+      {
+        "transition_index": 6470,
+        "phase": "grasp",
+        "sim_time": 216.70000000103354,
+        "fraction": 0.9292072213323399
+      },
+      {
+        "transition_index": 6471,
+        "phase": "grasp",
+        "sim_time": 216.7333333343673,
+        "fraction": 0.9265582162689263
+      },
+      {
+        "transition_index": 6472,
+        "phase": "grasp",
+        "sim_time": 216.76666666770106,
+        "fraction": 0.9260482787740782
+      },
+      {
+        "transition_index": 6473,
+        "phase": "grasp",
+        "sim_time": 216.80000000103482,
+        "fraction": 0.9252927490427559
+      },
+      {
+        "transition_index": 6474,
+        "phase": "grasp",
+        "sim_time": 216.83333333436858,
+        "fraction": 0.9265906284686141
+      },
+      {
+        "transition_index": 6475,
+        "phase": "grasp",
+        "sim_time": 216.86666666770233,
+        "fraction": 0.9253257173636799
+      },
+      {
+        "transition_index": 6476,
+        "phase": "grasp",
+        "sim_time": 216.9000000010361,
+        "fraction": 0.9251705953039114
+      },
+      {
+        "transition_index": 6477,
+        "phase": "grasp",
+        "sim_time": 216.93333333436985,
+        "fraction": 0.9281133429878002
+      },
+      {
+        "transition_index": 6478,
+        "phase": "grasp",
+        "sim_time": 216.9666666677036,
+        "fraction": 0.9270551621757371
+      },
+      {
+        "transition_index": 6479,
+        "phase": "grasp",
+        "sim_time": 217.00000000103736,
+        "fraction": 0.9260461489159317
+      },
+      {
+        "transition_index": 6480,
+        "phase": "grasp",
+        "sim_time": 217.03333333437112,
+        "fraction": 0.9289521195148693
+      },
+      {
+        "transition_index": 6481,
+        "phase": "grasp",
+        "sim_time": 217.06666666770488,
+        "fraction": 0.9254377843056221
+      },
+      {
+        "transition_index": 6482,
+        "phase": "grasp",
+        "sim_time": 217.10000000103864,
+        "fraction": 0.9242753863182092
+      },
+      {
+        "transition_index": 6483,
+        "phase": "grasp",
+        "sim_time": 217.1333333343724,
+        "fraction": 0.9223803193870641
+      },
+      {
+        "transition_index": 6484,
+        "phase": "grasp",
+        "sim_time": 217.16666666770615,
+        "fraction": 0.924815131962754
+      },
+      {
+        "transition_index": 6485,
+        "phase": "grasp",
+        "sim_time": 217.2000000010399,
+        "fraction": 0.9234543011895742
+      },
+      {
+        "transition_index": 6486,
+        "phase": "lift",
+        "sim_time": 217.23333333437367,
+        "fraction": 0.9247574551448964
+      },
+      {
+        "transition_index": 6487,
+        "phase": "lift",
+        "sim_time": 217.26666666770743,
+        "fraction": 0.9204262893262067
+      },
+      {
+        "transition_index": 6488,
+        "phase": "lift",
+        "sim_time": 217.30000000104118,
+        "fraction": 0.904577365286974
+      },
+      {
+        "transition_index": 6489,
+        "phase": "lift",
+        "sim_time": 217.33333333437494,
+        "fraction": 0.8676421362361453
+      },
+      {
+        "transition_index": 6490,
+        "phase": "lift",
+        "sim_time": 217.3666666677087,
+        "fraction": 0.806464303044323
+      },
+      {
+        "transition_index": 6491,
+        "phase": "lift",
+        "sim_time": 217.40000000104246,
+        "fraction": 0.765541667051391
+      },
+      {
+        "transition_index": 6492,
+        "phase": "lift",
+        "sim_time": 217.43333333437621,
+        "fraction": 0.7264746202718547
+      },
+      {
+        "transition_index": 6493,
+        "phase": "lift",
+        "sim_time": 217.46666666770997,
+        "fraction": 0.6954034999902833
+      },
+      {
+        "transition_index": 6494,
+        "phase": "lift",
+        "sim_time": 217.50000000104373,
+        "fraction": 0.6876006954808079
+      },
+      {
+        "transition_index": 6495,
+        "phase": "lift",
+        "sim_time": 217.5333333343775,
+        "fraction": 0.6939755708210393
+      },
+      {
+        "transition_index": 6496,
+        "phase": "lift",
+        "sim_time": 217.56666666771125,
+        "fraction": 0.6915715340240985
+      },
+      {
+        "transition_index": 6497,
+        "phase": "lift",
+        "sim_time": 217.600000001045,
+        "fraction": 0.6955853957729249
+      },
+      {
+        "transition_index": 6498,
+        "phase": "lift",
+        "sim_time": 217.63333333437876,
+        "fraction": 0.6997896254087475
+      },
+      {
+        "transition_index": 6499,
+        "phase": "lift",
+        "sim_time": 217.66666666771252,
+        "fraction": 0.7077780366608046
+      },
+      {
+        "transition_index": 6500,
+        "phase": "lift",
+        "sim_time": 217.70000000104628,
+        "fraction": 0.7547891216871631
+      },
+      {
+        "transition_index": 6501,
+        "phase": "lift",
+        "sim_time": 217.73333333438003,
+        "fraction": 0.72416356848921
+      },
+      {
+        "transition_index": 6502,
+        "phase": "lift",
+        "sim_time": 217.7666666677138,
+        "fraction": 0.6483524485795087
+      },
+      {
+        "transition_index": 6503,
+        "phase": "lift",
+        "sim_time": 217.80000000104755,
+        "fraction": 0.6477451490249133
+      },
+      {
+        "transition_index": 6504,
+        "phase": "lift",
+        "sim_time": 217.8333333343813,
+        "fraction": 0.7511549954422245
+      },
+      {
+        "transition_index": 6505,
+        "phase": "lift",
+        "sim_time": 217.86666666771507,
+        "fraction": 0.7252345014313052
+      },
+      {
+        "transition_index": 6506,
+        "phase": "lift",
+        "sim_time": 217.90000000104882,
+        "fraction": 0.7601162068401647
+      },
+      {
+        "transition_index": 6507,
+        "phase": "lift",
+        "sim_time": 217.93333333438258,
+        "fraction": 0.6954591130920178
+      },
+      {
+        "transition_index": 6508,
+        "phase": "lift",
+        "sim_time": 217.96666666771634,
+        "fraction": 0.762710513302031
+      },
+      {
+        "transition_index": 6509,
+        "phase": "lift",
+        "sim_time": 218.0000000010501,
+        "fraction": 0.7190016831283345
+      },
+      {
+        "transition_index": 6510,
+        "phase": "lift",
+        "sim_time": 218.03333333438385,
+        "fraction": 0.7377662676292392
+      },
+      {
+        "transition_index": 6511,
+        "phase": "lift",
+        "sim_time": 218.0666666677176,
+        "fraction": 0.6769863111723479
+      },
+      {
+        "transition_index": 6512,
+        "phase": "lift",
+        "sim_time": 218.10000000105137,
+        "fraction": 0.6764853164132856
+      },
+      {
+        "transition_index": 6513,
+        "phase": "lift",
+        "sim_time": 218.13333333438513,
+        "fraction": 0.8090962801901741
+      },
+      {
+        "transition_index": 6514,
+        "phase": "lift",
+        "sim_time": 218.16666666771889,
+        "fraction": 0.664040480238387
+      },
+      {
+        "transition_index": 6515,
+        "phase": "lift",
+        "sim_time": 218.20000000105264,
+        "fraction": 0.6801556518896652
+      },
+      {
+        "transition_index": 6516,
+        "phase": "lift",
+        "sim_time": 218.2333333343864,
+        "fraction": 0.6660611473940027
+      },
+      {
+        "transition_index": 6517,
+        "phase": "lift",
+        "sim_time": 218.26666666772016,
+        "fraction": 0.7140847567457492
+      },
+      {
+        "transition_index": 6518,
+        "phase": "lift",
+        "sim_time": 218.30000000105392,
+        "fraction": 0.7232973769527192
+      },
+      {
+        "transition_index": 6519,
+        "phase": "lift",
+        "sim_time": 218.33333333438767,
+        "fraction": 0.738989546994817
+      },
+      {
+        "transition_index": 6520,
+        "phase": "lift",
+        "sim_time": 218.36666666772143,
+        "fraction": 0.7404720437709515
+      },
+      {
+        "transition_index": 6521,
+        "phase": "lift",
+        "sim_time": 218.4000000010552,
+        "fraction": 0.5423051069572543
+      },
+      {
+        "transition_index": 6522,
+        "phase": "lift",
+        "sim_time": 218.43333333438895,
+        "fraction": 1.5357896522006964
+      }
+    ]
+  },
+  "intervention": {
+    "object": "plate",
+    "phase": "approach",
+    "sim_time": 204.00000000087184,
+    "transition_index": 6090
+  },
+  "prefix_public_streams_exact": {
+    "observation/state": true,
+    "next_observation/state": true,
+    "action/position": true,
+    "observation/sim_time": true,
+    "next_observation/sim_time": true
+  },
+  "prefix_objects_physics_controller_tcp_exact": true,
+  "first_public_difference": {
+    "observation/state": 6092,
+    "next_observation/state": 6091,
+    "action/position": 6091,
+    "observation/sim_time": null,
+    "next_observation/sim_time": null
+  },
+  "first_objects_physics_controller_tcp_difference": 6090,
+  "same_online_thresholds": true,
+  "same_evaluated_policy": null,
+  "target_grasp_reports": {
+    "baseline": [
+      {
+        "name": "plate",
+        "assisted": false,
+        "samples": 30,
+        "bilateral_samples": 23,
+        "max_slip_m": 0.0016462129353793562,
+        "max_rotation_change_rad": 0.2399616952471425,
+        "lost_contact_s": 0.2333333333333333,
+        "anchor": "mean initial pad contact in object frame"
+      }
+    ],
+    "candidate": [
+      {
+        "name": "plate",
+        "assisted": false,
+        "samples": 40,
+        "bilateral_samples": 30,
+        "max_slip_m": 0.023946256991100163,
+        "max_rotation_change_rad": 0.12088028020236946,
+        "lost_contact_s": 0.1,
+        "anchor": "mean initial pad contact in object frame"
+      }
+    ]
+  },
+  "target_events": {
+    "baseline": [
+      {
+        "phase": "approach",
+        "object": "plate",
+        "sim_time": 204.00000000087184,
+        "side": "right",
+        "target": "basket"
+      },
+      {
+        "phase": "grasp_candidate_selected",
+        "object": "plate",
+        "sim_time": 208.3666666675941,
+        "height_offset_m": 0.0,
+        "local_tilt_deg": 0,
+        "rejected_candidates": 0
+      },
+      {
+        "phase": "grasp",
+        "object": "plate",
+        "sim_time": 210.36666666761957
+      },
+      {
+        "phase": "lift",
+        "object": "plate",
+        "sim_time": 217.2000000010399,
+        "contact_fingers": [
+          "7",
+          "8"
+        ]
+      }
+    ],
+    "candidate": [
+      {
+        "phase": "approach",
+        "object": "plate",
+        "sim_time": 204.00000000087184,
+        "side": "right",
+        "target": "basket"
+      },
+      {
+        "phase": "grasp_candidate_selected",
+        "object": "plate",
+        "sim_time": 208.33333333426035,
+        "height_offset_m": 0.0,
+        "local_tilt_deg": 0,
+        "rejected_candidates": 0
+      },
+      {
+        "phase": "grasp",
+        "object": "plate",
+        "sim_time": 210.36666666761957
+      },
+      {
+        "phase": "lift",
+        "object": "plate",
+        "sim_time": 217.2000000010399,
+        "contact_fingers": [
+          "7",
+          "8"
+        ]
+      }
+    ]
+  },
+  "training_ready": false,
+  "limitations": "One known seed. Early independent audit failure may leave policy comparison unavailable; a failed episode is not a successful robustness case. Native metrics are not calibrated hardware limits."
+}

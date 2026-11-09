@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "git_base": "d656591313c667d571cb5964df034fc9a78ce6a7",
+  "goal_status": "active",
+  "production_motion_policy_changed": false,
+  "training_ready": false,
+  "source": "/dev/shm/piper_outer_chord_v1/episode/episode.h5",
+  "source_sha256": "a4f2cb1f9d5dbfaba57a82f9965344cbfd7ea762fb174c85d662b424a27cef28",
+  "raw_storage": "Volatile local /dev/shm; source HDF5 preserved and not committed to Git. Native trace NPZ, when present, retained locally and not committed.",
+  "result": {
+    "success": false,
+    "sorted_count": 9,
+    "required_count": 11
+  },
+  "error": "SortFailure: plate lost physical grasp: slip=0.0239 m, fingers=[]",
+  "accepted": false,
+  "audit_passed": false,
+  "audit_violations": [
+    "ValueError: unsuccessful_episode"
+  ],
+  "intervention": {
+    "object": "plate",
+    "phase": "approach",
+    "sim_time": 204.00000000087184,
+    "transition_index": 6090
+  },
+  "prefix_public_streams_exact": {
+    "observation/state": true,
+    "next_observation/state": true,
+    "action/position": true,
+    "observation/sim_time": true,
+    "next_observation/sim_time": true
+  },
+  "prefix_objects_physics_controller_tcp_exact": true,
+  "same_online_thresholds": true,
+  "same_evaluated_policy": null,
+  "plate_grasp": {
+    "name": "plate",
+    "assisted": false,
+    "samples": 40,
+    "bilateral_samples": 30,
+    "max_slip_m": 0.023946256991100163,
+    "max_rotation_change_rad": 0.12088028020236946,
+    "lost_contact_s": 0.1,
+    "anchor": "mean initial pad contact in object frame"
+  },
+  "preview": {
+    "path": "outputs/platform_audit_v1/outer_chord_v1/failed_grasp_preview/release.mp4",
+    "frames": 257,
+    "duration_s": 8.566666666666666,
+    "scope": "1x / 30 Hz kinematic state reconstruction, not original sensor RGB or dynamics replay."
+  },
+  "validation": {
+    "targeted_tests": 12,
+    "test_log": "outputs/platform_audit_v1/chord_grasp_v1/tests.log",
+    "script_compile": true,
+    "diff_whitespace": true,
+    "full_suite_rerun": false
+  },
+  "delivered_files_sha256": {
+    "scripts/probe_plate_chord.py": "7c1a3f8cb876433a39f13c9dd92f578adff909f7e2e6c8f45b4ad6d8563b1409",
+    "scripts/probe_chord_release.py": "f0fb547c8e93184fb9dc20fc737b841bd660ed9b6c860e99bc6cf483ec69716e",
+    "scripts/probe_chord_force_feasibility.py": "873ef76103a48d0be030900252874014dafee00cd31cb98279fd6bda4e855913",
+    "scripts/probe_chord_capture_feasibility.py": "75d16bc7d1c17a7ebaad93186e5e666f54511846a336f6a897327838ff324449",
+    "scripts/probe_vertical_chord_release.py": "0387c30de906b4411e7ee0081ca44ce5c24bbca2b3c6d35f9a053da13782466f",
+    "scripts/probe_outer_chord_release.py": "945df93125d39e6a65966c8ebe58fe9dc56ed06b2a9b415c698c03e05fdaa9d9",
+    "scripts/probe_chord_geometric_contact.py": "ea53bdc5a817b64f9fba7893f9f31cab4a1e8f55493db1a9fe0b5886fe5e8c69",
+    "scripts/audit_grasp_contact_cones.py": "d4611ac6f285566da1140587787f6e3a9cdad878ed4b21fe10dce01b5a80f6e8",
+    "scripts/audit_native_payload_load.py": "c9b727af55c5cc14391420e31d3924cf9fc19804c936a380f90501568efb176e",
+    "scripts/render_recorded_release.py": "c1fa72028bdc47f52e6317ba387802f009ea9e8e2a7c402393041bb4367abb38",
+    "tests/test_grasp_contact_cones.py": "f9a457f2861dd080e8597260a1d15e8bcd54bb43ec3f566774fbc4043668574c",
+    "tests/test_native_payload_load.py": "c0058fea7d344135e25a03503131959c1e51d3c035f669622302f418f9409ae6",
+    "tests/test_chord_geometry_screen.py": "1a728e9d661d3d920b23cdbded83fca4865363661b59e8195f35b9b7d7810dc0",
+    "docs/platform_audit.md": "9931294451ae02361426933ae54e54974ea774580b07affd94c572e0552af747",
+    "outputs/platform_audit_v1/outer_chord_v1/capture_force_capacity.json": "812c1d624344c4aeb4f03cedb1a9f8494e0b6592cf4ad5c161862f9ec53c35bd",
+    "outputs/platform_audit_v1/outer_chord_v1/comparison.json": "0941613fc0f13acfd62a24704c816207f135391f2d5884d7672a7d7e24ec2a74",
+    "outputs/platform_audit_v1/outer_chord_v1/dynamics.json": "3021eb72f2669771646050e745775b2b260403369f5c3af5f34bfd63167c074a",
+    "outputs/platform_audit_v1/outer_chord_v1/episode_evidence/audit.json": "4f9edeeb8fadec0acd14a1c9855ee605127922b6f43ca1b5c310b19d1c21f343",
+    "outputs/platform_audit_v1/outer_chord_v1/episode_evidence/report.json": "d16297e5e100d80346dd17324bc79c173a030107172da94c5653d412bfb2d90b",
+    "outputs/platform_audit_v1/outer_chord_v1/failed_grasp_preview/preview.json": "b34b7f28bb18ba42784cc699e50a2a7039ac190f48578db9dfeabb08a8ea6286",
+    "outputs/platform_audit_v1/outer_chord_v1/failed_grasp_preview/release.mp4": "68e9294b59c7ee03bbc3000323295955ec11b98ff7013a3890b2fb7299135f50",
+    "outputs/platform_audit_v1/outer_chord_v1/failed_grasp_preview/review.jpg": "7a3211a7a6831b62b29d631e01a4dd4c5fcce60e70e7df7d4312d94c9afa44d2",
+    "outputs/platform_audit_v1/outer_chord_v1/frozen_input_verification.json": "fc1534b2e1ca388254fb38524409ab93ab0c45440a77dffe20378ddd2e3b6337",
+    "outputs/platform_audit_v1/outer_chord_v1/geometry_first_contact_screened.json": "c95eefba4efb5574a09973eee43e99b815c9c8a96792b4c09ba05fd1e5b3570e",
+    "outputs/platform_audit_v1/outer_chord_v1/identity.json": "d67d8546db31885052ed9adc4a2284aa6e983c25a34f020379bcbcbb0ee3765c",
+    "outputs/platform_audit_v1/outer_chord_v1/native/trace.json": "16821d341c04506a11969b6812a902f835af03237fc00ffc35d90f2d79544d4f",
+    "outputs/platform_audit_v1/outer_chord_v1/native_analysis.json": "f29c64006e0e92922989813b959f6479962634d466d0ebdf3ce1aa82fa554763",
+    "outputs/platform_audit_v1/outer_chord_v1/payload_load.json": "4ab9116e7272a40521fed6035db5912318c18dcc42865d1d9d4fc1bbca6116e8",
+    "outputs/platform_audit_v1/outer_chord_v1/plan.json": "62acf87991b233b0738199ffc111e9063268ffdd8e3ae8aa040249a7bbd6cac3",
+    "outputs/platform_audit_v1/outer_chord_v1/rotation_validation.json": "de051644a079e0b095fb2efc5ad8d9ef21e0b28e05bd70109abdfd29f6aa44f6",
+    "outputs/platform_audit_v1/chord_grasp_v1/geometry_capture_screened.json": "30037a508455b0273ab5d5e026b7c17af19b7d3ced1cf53b44ac8dacb4cfa64b"
+  },
+  "scope": "Outward 5 mm physical control experiment failed. Native force evidence and corrected first-geometric-contact preflight explain why fixed-pose closure was misleading.",
+  "native_load": {
+    "weight_N": 2.2100732186828553,
+    "native_rows": 7744,
+    "phases": {
+      "grasp": {
+        "native_steps": 6560,
+        "first_last_solver_time": [
+          210.36666666761957,
+          217.19895833437323
+        ],
+        "fingers": {
+          "min_max_upward_N": [
+            -1.8650777029711887,
+            0.8817129904030586
+          ],
+          "min_max_weight_fraction": [
+            -0.8438986035416172,
+            0.3989519365012423
+          ],
+          "steps_downward": 918,
+          "steps_upward": 2334
+        },
+        "other_robot": {
+          "min_max_upward_N": [
+            0.0,
+            0.0
+          ],
+          "min_max_weight_fraction": [
+            0.0,
+            0.0
+          ],
+          "steps_downward": 0,
+          "steps_upward": 0
+        },
+        "external": {
+          "min_max_upward_N": [
+            0.0,
+            5.2803132376136155
+          ],
+          "min_max_weight_fraction": [
+            0.0,
+            2.3892028521844817
+          ],
+          "steps_downward": 0,
+          "steps_upward": 6439
+        }
+      },
+      "lift": {
+        "native_steps": 1184,
+        "first_last_solver_time": [
+          217.2000000010399,
+          218.43229166772227
+        ],
+        "fingers": {
+          "min_max_upward_N": [
+            0.0,
+            0.8479697361325154
+          ],
+          "min_max_weight_fraction": [
+            0.0,
+            0.38368400149108306
+          ],
+          "steps_downward": 0,
+          "steps_upward": 1101
+        },
+        "other_robot": {
+          "min_max_upward_N": [
+            0.0,
+            0.0
+          ],
+          "min_max_weight_fraction": [
+            0.0,
+            0.0
+          ],
+          "steps_downward": 0,
+          "steps_upward": 0
+        },
+        "external": {
+          "min_max_upward_N": [
+            1.1541477997111582,
+            9.625003806985088
+          ],
+          "min_max_weight_fraction": [
+            0.5222215218729267,
+            4.355061056629307
+          ],
+          "steps_downward": 0,
+          "steps_upward": 1184
+        }
+      }
+    }
+  },
+  "corrected_geometry": {
+    "candidate_count": 12,
+    "stages": {
+      "approach_path": 5,
+      "rigid_lift_hypothesis": 3,
+      "grasp_ik": 4
+    },
+    "placement_queries": 0,
+    "isolated_states_restored": true,
+    "source_unchanged": true,
+    "limitation": "Necessary fixed-pose conditions only. Not a global impossibility or a physically successful grasp."
+  }
+}
