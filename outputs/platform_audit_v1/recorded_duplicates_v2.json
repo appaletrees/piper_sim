@@ -1,0 +1,152 @@
+{
+  "status": "retrieval_diagnostic_no_acceptance",
+  "episodes": [
+    {
+      "path": "/home/midea/Desktop/piper_sim/outputs/natural_motion_v3/rgb_seed_0/episode.h5",
+      "split": "train",
+      "frames": 6782,
+      "seed": 0,
+      "randomized": true,
+      "layout_sha256": "7d438f51eef53e24dfa82d06835fe3d01eb24486d7af4256679fd865b21a5be6",
+      "trajectory_sha256": "53b9fb769093c66c7afeeb06b1bceb555b316bf54e5c934fd312be1e3e0de3a9",
+      "training_ready_claim": true,
+      "rgb_sample_indices": [
+        0,
+        848,
+        1695,
+        2543,
+        3390,
+        4238,
+        5086,
+        5933,
+        6781
+      ],
+      "image_cameras": [
+        "left_wrist",
+        "overhead",
+        "right_wrist"
+      ],
+      "instruction": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+      "bytes": 18219534877
+    },
+    {
+      "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/full_shared_seed0/episode.h5",
+      "split": "train",
+      "frames": 6782,
+      "seed": 0,
+      "randomized": true,
+      "layout_sha256": "7d438f51eef53e24dfa82d06835fe3d01eb24486d7af4256679fd865b21a5be6",
+      "trajectory_sha256": "53b9fb769093c66c7afeeb06b1bceb555b316bf54e5c934fd312be1e3e0de3a9",
+      "training_ready_claim": true,
+      "rgb_sample_indices": [
+        0,
+        848,
+        1695,
+        2543,
+        3390,
+        4238,
+        5086,
+        5933,
+        6781
+      ],
+      "image_cameras": [
+        "left_wrist",
+        "overhead",
+        "right_wrist"
+      ],
+      "instruction": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+      "bytes": 9147511695
+    },
+    {
+      "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/full_unload_seed1/episode.h5",
+      "split": "train",
+      "frames": 7759,
+      "seed": 1,
+      "randomized": true,
+      "layout_sha256": "6e31d51965ded76f2c78f573f1b9c467a2984e2e5358c2cea9c191f1c4d6405a",
+      "trajectory_sha256": "d664242fb2204839eba87009214755b32b1c3b006e4cd4c8d141836b060dd90b",
+      "training_ready_claim": true,
+      "rgb_sample_indices": [
+        0,
+        970,
+        1940,
+        2909,
+        3879,
+        4849,
+        5818,
+        6788,
+        7758
+      ],
+      "image_cameras": [
+        "left_wrist",
+        "overhead",
+        "right_wrist"
+      ],
+      "instruction": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+      "bytes": 6275092460
+    }
+  ],
+  "pairs": [
+    {
+      "left": "/home/midea/Desktop/piper_sim/outputs/natural_motion_v3/rgb_seed_0/episode.h5",
+      "right": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/full_shared_seed0/episode.h5",
+      "cross_split": false,
+      "exact_layout": true,
+      "exact_trajectory": true,
+      "normalized_joint_rms": 0.0,
+      "near_trajectory_candidate": true,
+      "sampled_rgb_mae_0_1": {
+        "left_wrist": 0.0,
+        "overhead": 0.0,
+        "right_wrist": 1.8911885035777232e-07
+      },
+      "near_visual_candidate": true,
+      "layout_position_rms_m": 0.0,
+      "layout_max_rotation_difference_deg": 0.0
+    },
+    {
+      "left": "/home/midea/Desktop/piper_sim/outputs/natural_motion_v3/rgb_seed_0/episode.h5",
+      "right": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/full_unload_seed1/episode.h5",
+      "cross_split": false,
+      "exact_layout": false,
+      "exact_trajectory": false,
+      "normalized_joint_rms": 0.1558432829753737,
+      "near_trajectory_candidate": false,
+      "sampled_rgb_mae_0_1": {
+        "left_wrist": 0.17661772668361664,
+        "overhead": 0.17004357278347015,
+        "right_wrist": 0.19348865747451782
+      },
+      "near_visual_candidate": false
+    },
+    {
+      "left": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/full_shared_seed0/episode.h5",
+      "right": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/full_unload_seed1/episode.h5",
+      "cross_split": false,
+      "exact_layout": false,
+      "exact_trajectory": false,
+      "normalized_joint_rms": 0.1558432829753737,
+      "near_trajectory_candidate": false,
+      "sampled_rgb_mae_0_1": {
+        "left_wrist": 0.17661772668361664,
+        "overhead": 0.17004357278347015,
+        "right_wrist": 0.19348883628845215
+      },
+      "near_visual_candidate": false
+    }
+  ],
+  "exact_cross_split_pairs": [],
+  "thresholds": {
+    "normalized_joint_rms": 0.01,
+    "sampled_rgb_mae_0_1": 0.03
+  },
+  "manifest_sha256": "74f8f3300fa7a3a5965d69ba0e066a2f20f9d327c359a1d99aa6fa8a35963e1a",
+  "implementation_sha256": "59380725f41b45c7fd3e2e5d51d82d4459d12ee92f2c203c8dabcbb1d23ab444",
+  "limitations": [
+    "Training-ready flags are source claims; this retrieval does not recertify quality/checksums.",
+    "129 time-normalized joint samples and 9 low-resolution RGB samples are retrieval features only.",
+    "Shared backgrounds can look similar; phase alignment can hide local differences. Review flagged pairs.",
+    "No semantic visual model, crop/occlusion invariance, dynamic-time warping or large-scale validation.",
+    "No detected overlap in a small manifest is not proof that a larger dataset is leakage-free."
+  ]
+}

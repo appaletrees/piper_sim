@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "scope": "Full physical v7 state-only reruns against immutable v6 RGB records. Prefix comparisons cover every action, state, simulation time and object pose. No frames changed or removed; RGB was not re-rendered by these state-only reruns.",
+  "policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "rows": [
+    {
+      "seed": 0,
+      "old": "outputs/platform_audit_v1/qualified_parallel_v6/seed_0/episode.h5",
+      "new": "outputs/platform_audit_v1/final_stability_states_v7/worker_00/episode_000000_seed_0/episode.h5",
+      "old_frames": 6880,
+      "new_frames": 6930,
+      "additional_frames": 50,
+      "additional_sim_seconds": 1.6666666666666667,
+      "prefix_array_equality": {
+        "action/position": true,
+        "observation/state": true,
+        "next_observation/state": true,
+        "observation/sim_time": true,
+        "next_observation/sim_time": true
+      },
+      "prefix_object_poses_equal": true,
+      "state_audit_passed": true,
+      "training_ready": false,
+      "final_stable_seconds": 0.9999999999999999,
+      "extension_events": [
+        {
+          "phase": "final_settle_extension",
+          "object": "chopstick_b",
+          "sim_time": 230.33333333454047,
+          "stable_seconds": 0.9,
+          "timeout_s": 5.0
+        }
+      ],
+      "full_trajectory_sha256": "12aca4a987c8453faf51cf959210a6c4b1ef2227b0490dd7b7b233e5708cae59"
+    },
+    {
+      "seed": 7,
+      "old": "outputs/platform_audit_v1/qualified_parallel_v6/seed_7/episode.h5",
+      "new": "outputs/platform_audit_v1/final_stability_states_v7/worker_01/episode_000000_seed_7/episode.h5",
+      "old_frames": 7861,
+      "new_frames": 7861,
+      "additional_frames": 0,
+      "additional_sim_seconds": 0.0,
+      "prefix_array_equality": {
+        "action/position": true,
+        "observation/state": true,
+        "next_observation/state": true,
+        "observation/sim_time": true,
+        "next_observation/sim_time": true
+      },
+      "prefix_object_poses_equal": true,
+      "state_audit_passed": true,
+      "training_ready": false,
+      "final_stable_seconds": 4.633333333333327,
+      "extension_events": [],
+      "full_trajectory_sha256": "8d080c91637b617eec9e33fbd3f7bbe98140f9a47a52a8abdf29f30bf1c3a05c"
+    }
+  ]
+}

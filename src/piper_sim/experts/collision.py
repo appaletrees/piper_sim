@@ -5,6 +5,7 @@ must not be discarded here. This does not certify the underlying convex hulls.
 """
 import weakref
 
+import mujoco
 import numpy as np
 
 
@@ -54,3 +55,30 @@ def carried_obstacle_penetration(model, data, carried):
     selected = ((data.contact.dist < 0) & (payload[:, 0] != payload[:, 1])
                 & ~np.any(robot[geoms], axis=1))
     return _deepest(data, selected, names, bodies)
+
+
+def carried_obstacle_clearance(model, data, carried, distance):
+    """Nearest signed payload/scene distance, capped at the requested margin.
+
+    Tests near misses as well as existing contacts. Internal payload pairs,
+    robot and non-colliding visual geoms are excluded. Topology is cached but
+    current collision masks and world positions are always read afresh.
+    """
+    if not np.isfinite(distance) or distance <= 0:
+        raise ValueError('Clearance search distance must be positive and finite')
+    names, bodies, robot, _ = _index(model)
+    carried_names = {'task/'+n for n in carried}
+    carried_ids = [i for i, name in enumerate(names) if name in carried_names]
+    payload = np.isin(bodies, carried_ids)
+    active = (model.geom_contype != 0) | (model.geom_conaffinity != 0)
+    nearest, pair = distance, None
+    for a in np.flatnonzero(payload & active):
+        compatible = ((model.geom_contype[a] & model.geom_conaffinity) |
+                      (model.geom_conaffinity[a] & model.geom_contype)) != 0
+        lower_bound = np.linalg.norm(data.geom_xpos-data.geom_xpos[a], axis=1)-model.geom_rbound-model.geom_rbound[a]
+        close = (lower_bound < nearest) | (model.geom_type == mujoco.mjtGeom.mjGEOM_PLANE)
+        for b in np.flatnonzero(~payload & ~robot & active & compatible & close):
+            value = mujoco.mj_geomDistance(model, data, int(a), int(b), nearest, None)
+            if value < nearest:
+                nearest, pair = value, [names[int(bodies[a])], names[int(bodies[b])]]
+    return float(nearest), pair

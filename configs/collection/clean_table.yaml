@@ -25,10 +25,19 @@ pacing:
   minimum_grip_s: 0.2
   cartesian_speed_m_s: 0.25
   contact_speed_m_s: 0.06
+  # Candidate grasp points only; CAD geometry and collision limits stay fixed.
+  grasp_height_offsets_m: [0.0, 0.002, 0.004]
+  slender_pregrasp_clearance_m: 0.004
+  # A shallow basket-edge contact can eject a slender item from the pads.
+  # This is a stricter planning clearance; acceptance thresholds are unchanged.
+  payload_transport_clearance_m_by_kind:
+    chopstick: 0.006
   grip_hold_s: 0.15
   grasp_hold_s: 0.1
   release_hold_s: 0.15
   placement_hold_s: 0.35
+  # Keep the original 2 s minimum, extending actual recording if objects still move.
+  final_settle_timeout_s: 5.0
   rim_load_limits:
     joint_velocity_rad_s: 0.5
     joint_acceleration_rad_s2: 1.2

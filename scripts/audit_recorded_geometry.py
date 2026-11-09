@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only, all-frame kinematic contact/TCP diagnostic from a recorded episode.
+"""Read-only kinematic contact/TCP diagnostic from a recorded episode.
 
 Uses a separate MuJoCo data instance; never drives hardware or changes the source.
 This is not a dynamics replay, a contact-force estimate, or a training acceptance.
@@ -23,10 +23,10 @@ def arm_of(name):
     return prefix if prefix in ('left', 'right') else None
 
 
-def contact_category(names, target):
+def contact_category(names, target, held=None):
     arms = [arm_of(name) for name in names]
     if not any(arms):
-        return None
+        return 'held_object_environment' if held and 'task/'+held in names else None
     if all(arms):
         return 'same_arm' if arms[0] == arms[1] else 'inter_arm'
     if target and 'task/'+target in names and any(n.endswith(('/link7', '/link8')) for n in names):
@@ -38,6 +38,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('source', type=Path)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--start-frame', type=int, default=0)
+    parser.add_argument('--stop-frame', type=int, help='Exclusive; default includes terminal state')
     args = parser.parse_args()
     if args.output.exists():
         parser.error('Output already exists')
@@ -55,15 +57,23 @@ def main():
         times = np.r_[source['observation/sim_time'][:], source['next_observation/sim_time'][-1]]
         if not np.isfinite(q).all() or not np.isfinite(times).all() or np.any(np.diff(times) <= 0):
             raise ValueError('Invalid source states/times')
+        stop = len(q) if args.stop_frame is None else args.stop_frame
+        if not 0 <= args.start_frame < stop <= len(q) or stop-args.start_frame < 2:
+            raise ValueError('Select at least two valid recorded states')
+        selected_times = times[args.start_frame:stop]
         backend = MujocoBackend(cfg, cameras=False)
         pairs, peaks = {}, {}
         tcp = {side: [] for side in backend.indices}
         changed = []
+        native_arm_samples, reconstructed_arm_samples = 0, 0
         for name, expected in meta.get('provenance', {}).items():
             path = ROOT/name
             if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
                 changed.append(name)
         try:
+            # Restore recorded active-object collision masks/domain parameters,
+            # not whichever default seed the constructor initially sampled.
+            backend.reset(meta['task_scene']['layout']['seed'], meta['task_scene']['layout']['randomized'])
             model, data = backend.model, backend.data
             names = [model.body(i).name for i in range(model.nbody)]
             geom_names = [model.geom(i).name for i in range(model.ngeom)]
@@ -73,16 +83,24 @@ def main():
                 data.qpos[address:address+7] = [*pose['position'], *pose['quaternion_wxyz']]
             if meta.get('teacher', {}).get('multiccd'):
                 model.opt.enableflags |= int(mujoco.mjtEnableBit.mjENBL_MULTICCD)
-            for frame, position in enumerate(q):
+            for frame in range(args.start_frame, stop):
+                position = q[frame]
                 prefix, index = ('observation', frame) if frame < len(q)-1 else ('next_observation', frame-1)
                 extras = json.loads(source[prefix+'/extras_json'][index])
                 teacher = extras.get('teacher', {})
-                # No clipping: retain measured solver overshoot. The legacy
-                # recording has total width only, so individual jaw asymmetry
-                # cannot be recovered and is explicitly reported below.
+                # Native eight-joint evidence preserves jaw asymmetry. Legacy
+                # records retain the explicit equal-width reconstruction.
                 for side, offset in (('left', 0), ('right', 7)):
-                    data.qpos[backend.indices[side]['qpos']] = [*position[offset:offset+6],
-                                                               position[offset+6]/2, position[offset+6]/2]
+                    native = teacher.get('physics', {}).get('arms', {}).get(side, {}).get('joint_position')
+                    if native is not None:
+                        if np.shape(native) != (8,) or not np.isfinite(native).all():
+                            raise ValueError('Invalid native joint evidence')
+                        data.qpos[backend.indices[side]['qpos']] = native
+                        native_arm_samples += 1
+                    else:
+                        data.qpos[backend.indices[side]['qpos']] = [*position[offset:offset+6],
+                                                                   position[offset+6]/2, position[offset+6]/2]
+                        reconstructed_arm_samples += 1
                 for name, pose in extras['objects'].items():
                     address = task_addresses[name]
                     data.qpos[address:address+7] = [*pose['position'], *pose['quaternion_wxyz']]
@@ -96,7 +114,7 @@ def main():
                     if contact.dist >= 0:
                         continue
                     bodies = [names[int(model.geom_bodyid[g])] for g in contact.geom]
-                    category = contact_category(bodies, teacher.get('object'))
+                    category = contact_category(bodies, teacher.get('object'), (teacher.get('grasp') or {}).get('object'))
                     if category is None:
                         continue
                     key = category+':'+','.join(sorted(bodies))
@@ -113,14 +131,16 @@ def main():
                     pairs[key]['frames_with_contact'] += 1
             tcp_report = {}
             for side, positions in tcp.items():
-                velocity = np.diff(positions, axis=0)/np.diff(times)[:, None]
+                velocity = np.diff(positions, axis=0)/np.diff(selected_times)[:, None]
                 speed = np.linalg.norm(velocity, axis=1)
                 peak = int(np.argmax(speed))
                 tcp_report[side] = {'max_sampled_speed_m_s': float(speed[peak]),
                                     'p95_sampled_speed_m_s': float(np.percentile(speed, 95)),
-                                    'peak_interval': [float(times[peak]), float(times[peak+1])]}
+                                    'peak_interval': [float(selected_times[peak]), float(selected_times[peak+1])]}
             report = {'schema_version': 'piper.geometry_diagnostic.v1', 'status': 'diagnostic_only',
-                'source': str(args.source.resolve()), 'samples': len(q), 'stride': 1,
+                'source': str(args.source.resolve()), 'samples': stop-args.start_frame, 'stride': 1,
+                'frame_range_exclusive': [args.start_frame, stop], 'source_samples': len(q),
+                'native_arm_samples': native_arm_samples, 'equal_jaw_reconstruction_arm_samples': reconstructed_arm_samples,
                 'mujoco_version': mujoco.__version__, 'recorded_software': meta.get('software'),
                 'changed_or_missing_provenance_files': changed,
                 'contact_pairs': sorted(pairs.values(), key=lambda x: -x['max_depth_m']),
@@ -128,8 +148,9 @@ def main():
                 'excluded_body_pairs': [int(v) for v in model.exclude_signature],
                 'limitations': [
                     'Position-only reconstruction, not dynamic replay; no contact-force, slip or torque inference.',
-                    'All recorded samples including terminal state, but contacts between 30 Hz samples are unobserved.',
-                    'Only total gripper width was recorded; each jaw is reconstructed as half the width.',
+                    'Frame range is explicit; contacts between 30 Hz samples are unobserved.',
+                    'Native eight-joint positions are preferred; missing native evidence uses half total width per jaw.',
+                    'Held-object contacts are context only: intended support or cup-stack contact is not an automatic violation.',
                     'Inactive task objects retain their recorded initial layout poses; active poses are reconstructed each frame.',
                     'Current compiled geometry retains adjacent body exclusions and convex-hull approximations.',
                     'Provenance differences are listed; this diagnostic does not certify identical source assets.',

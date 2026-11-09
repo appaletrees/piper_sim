@@ -49,6 +49,29 @@ def test_continuous_path_preserves_limits_without_stopping_at_every_knot():
     np.testing.assert_array_equal(held[:,1],np.full(len(held),.095))
 
 
+def test_convex_path_stays_inside_limits_without_clipping_or_internal_stops():
+    dt = 1/30
+    points = np.array([[0., .9, .095], [.3, 1., .095], [.6, 1., .095], [1., .9, .095]])
+    limits = dict(velocity=.7, acceleration=1.8, jerk=12.)
+    natural = path_trajectory(points, dt, **limits)
+    assert natural[:, 1].max() > 1.  # Reproduce natural spline overshoot.
+    path = path_trajectory(points, dt, interpolation='convex', **limits)
+    assert np.all(path >= points.min(axis=0)) and np.all(path <= points.max(axis=0))
+    np.testing.assert_array_equal(path[-1], points[-1])
+    np.testing.assert_array_equal(path[:, 2], np.full(len(path), .095))
+    padded = np.vstack([np.tile(points[0], (4, 1)), path, np.tile(points[-1], (4, 1))])
+    for order, bound in enumerate(limits.values(), 1):
+        assert np.max(abs(np.diff(padded, n=order, axis=0))/dt**order) <= bound+1e-7
+    speed = np.diff(path[:, 0])/dt
+    assert speed[len(speed)//10:-len(speed)//10].min() > .01
+    for count in (2, 3, 8, 19):
+        rng = np.random.default_rng(count)
+        controls = rng.uniform(-1, 1, (count, 3))
+        result = path_trajectory(controls, dt, interpolation='convex', **limits)
+        assert np.all(result >= controls.min(axis=0)) and np.all(result <= controls.max(axis=0))
+        np.testing.assert_array_equal(result[-1], controls[-1])
+
+
 def test_randomization_independent_streams_and_validation():
     profile = load_profile('configs/domain_randomization/clean_table.yaml')
     a = sample(profile, 42, ['paper'], ['paper'])

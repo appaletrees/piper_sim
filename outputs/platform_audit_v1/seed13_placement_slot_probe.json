@@ -1,0 +1,571 @@
+{
+  "status": "isolated_transfer_diagnostic",
+  "training_ready": false,
+  "scope": "Test conservative payload clearance in isolated recorded-state transfer trials.\n\nRestores a settled transfer-start snapshot once per trial, with unavailable object\nvelocities/warm-start reset. Subsequent movement is physical control. No recording\nis produced and no trial is training-qualified or a bitwise historical replay.\n",
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/aperture_clearance_seeds2_13/episode_000001_seed_13/episode.h5",
+  "source_frame": 6942,
+  "recorded_event": {
+    "phase": "transfer",
+    "object": "chopstick_a",
+    "sim_time": 232.40000000123345,
+    "lift_m": 0.1501455084300469
+  },
+  "trials": [
+    {
+      "clearance_m": 0.006,
+      "slot_x_offset_m": 0.0,
+      "placement_score": 64.5,
+      "high": [
+        0.6065743715560057,
+        -0.5269507818138915,
+        0.29993332365912506
+      ],
+      "low": [
+        0.6065743715560057,
+        -0.5269507818138915,
+        0.2549333236591251
+      ],
+      "transferred": true,
+      "lowered": true,
+      "placement_metric": {
+        "target": "basket",
+        "contained": true,
+        "hold_seconds": 2.7,
+        "success": true
+      },
+      "final_pose": {
+        "position": [
+          0.6952118973360628,
+          -0.5164518363603602,
+          0.08872075813571242
+        ],
+        "quaternion_wxyz": [
+          0.5455038068966694,
+          0.7748337391726732,
+          -0.3186802124960135,
+          0.02238739521318182
+        ]
+      },
+      "sim_seconds": 9.20000000000058,
+      "grasp": {
+        "name": "chopstick_a",
+        "assisted": false,
+        "samples": 156,
+        "bilateral_samples": 156,
+        "max_slip_m": 0.0015575682373746731,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      "motion": {
+        "passed": true,
+        "violations": [],
+        "frames": 276,
+        "metrics": {
+          "command_arm_velocity": 0.9917393954142462,
+          "command_gripper_velocity": 0.058325633317403425,
+          "command_arm_acceleration": 2.485758088803225,
+          "command_gripper_acceleration": 0.1669080437513121,
+          "command_arm_jerk": 14.077890469821774,
+          "command_gripper_jerk": 1.3591275030467191,
+          "measured_arm_velocity": 0.9832170843283317,
+          "measured_gripper_velocity": 0.053216770895081894,
+          "measured_arm_acceleration": 2.184859633488312,
+          "measured_gripper_acceleration": 0.18453547123128533,
+          "measured_arm_jerk": 12.204398601882716,
+          "measured_gripper_jerk": 9.604302729050941,
+          "tracking_error_rad": 0.08590005308632032,
+          "hold_velocity_rms_rad_s": 0.003737789920133545,
+          "hold_gripper_velocity_rms_m_s": 0.0007011722501765733
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 1.8666666666666407,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 6.599999999999706,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 4.199999999999842,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 6.366666666666386,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 4.499999999999825,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 5.5999999999997625,
+            "channel": 13,
+            "context": {
+              "phase": "unload_gripper",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 1.966666666666635,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 6.6999999999997,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 4.266666666666505,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 1.666666666666652,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 4.566666666666488,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 1.7666666666666464,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 22
+      }
+    },
+    {
+      "clearance_m": 0.006,
+      "slot_x_offset_m": -0.03,
+      "placement_score": 46.5,
+      "high": [
+        0.576101852349375,
+        -0.5288121996285218,
+        0.2831954734239077
+      ],
+      "low": [
+        0.576101852349375,
+        -0.5288121996285218,
+        0.23819547342390773
+      ],
+      "transferred": true,
+      "lowered": true,
+      "placement_metric": {
+        "target": "basket",
+        "contained": true,
+        "hold_seconds": 3.3999999999999977,
+        "success": true
+      },
+      "final_pose": {
+        "position": [
+          0.6360310782131379,
+          -0.5467116460903909,
+          0.05592652614500885
+        ],
+        "quaternion_wxyz": [
+          -0.6957668628395546,
+          -0.7104948616856325,
+          0.10212423215921765,
+          0.026003178625076506
+        ]
+      },
+      "sim_seconds": 9.13333333333386,
+      "grasp": {
+        "name": "chopstick_a",
+        "assisted": false,
+        "samples": 154,
+        "bilateral_samples": 154,
+        "max_slip_m": 0.0020106789722558137,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      "motion": {
+        "passed": true,
+        "violations": [],
+        "frames": 274,
+        "metrics": {
+          "command_arm_velocity": 0.9925436621615136,
+          "command_gripper_velocity": 0.058330193480772945,
+          "command_arm_acceleration": 2.400541214865859,
+          "command_gripper_acceleration": 0.16692109338153227,
+          "command_arm_jerk": 13.302501471565087,
+          "command_gripper_jerk": 1.3586960905732242,
+          "measured_arm_velocity": 0.9837395597417187,
+          "measured_gripper_velocity": 0.05322092158973758,
+          "measured_arm_acceleration": 2.1048209625381453,
+          "measured_gripper_acceleration": 0.1387734402348285,
+          "measured_arm_jerk": 11.47062085386752,
+          "measured_gripper_jerk": 3.0205752236614334,
+          "tracking_error_rad": 0.08593805912895447,
+          "hold_velocity_rms_rad_s": 0.0032483095636508773,
+          "hold_gripper_velocity_rms_m_s": 0.0007011547885954414
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 1.8333333333333093,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 6.533333333333043,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 8.366666666666584,
+            "channel": 9,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 6.299999999999723,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 8.033333333332985,
+            "channel": 9,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 5.5333333333331,
+            "channel": 13,
+            "context": {
+              "phase": "unload_gripper",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 1.9333333333333036,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 6.633333333333037,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 4.2333333333331735,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 6.399999999999717,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 4.5333333333331565,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 5.566666666666431,
+            "channel": 13,
+            "context": {
+              "phase": "unload_gripper",
+              "object": "chopstick_a"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 22
+      }
+    },
+    {
+      "clearance_m": 0.006,
+      "slot_x_offset_m": -0.05,
+      "placement_score": 45.0,
+      "high": [
+        0.5559541887785183,
+        -0.529514674536659,
+        0.2831951211716678
+      ],
+      "low": [
+        0.5559541887785183,
+        -0.529514674536659,
+        0.23819512117166777
+      ],
+      "transferred": true,
+      "lowered": true,
+      "placement_metric": {
+        "target": "basket",
+        "contained": true,
+        "hold_seconds": 3.2333333333333316,
+        "success": true
+      },
+      "final_pose": {
+        "position": [
+          0.5911874530413838,
+          -0.5208385556525464,
+          0.050510986517438315
+        ],
+        "quaternion_wxyz": [
+          0.7028633146171029,
+          -0.7084614400695429,
+          0.018975365369690987,
+          -0.06087269017495184
+        ]
+      },
+      "sim_seconds": 8.399999999999944,
+      "grasp": {
+        "name": "chopstick_a",
+        "assisted": false,
+        "samples": 137,
+        "bilateral_samples": 137,
+        "max_slip_m": 0.001796517647429703,
+        "lost_contact_s": 0.0,
+        "anchor": "mean initial pad contact in object frame"
+      },
+      "motion": {
+        "passed": true,
+        "violations": [],
+        "frames": 252,
+        "metrics": {
+          "command_arm_velocity": 0.9895076061012031,
+          "command_gripper_velocity": 0.058344029504273295,
+          "command_arm_acceleration": 2.4552586431445977,
+          "command_gripper_acceleration": 0.16696068735564726,
+          "command_arm_jerk": 16.80954970341819,
+          "command_gripper_jerk": 1.3573871389769046,
+          "measured_arm_velocity": 0.9785771451795,
+          "measured_gripper_velocity": 0.05323351350865077,
+          "measured_arm_acceleration": 2.0988213374122378,
+          "measured_gripper_acceleration": 0.13880709581518547,
+          "measured_arm_jerk": 13.423451735385505,
+          "measured_gripper_jerk": 6.693490782331448,
+          "tracking_error_rad": 0.08547661506284432,
+          "hold_velocity_rms_rad_s": 0.004090453035589476,
+          "hold_gripper_velocity_rms_m_s": 0.0006942080433901374
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 1.666666666666652,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 5.966666666666408,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 4.166666666666511,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 5.733333333333088,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 7.4999999999996545,
+            "channel": 8,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 4.966666666666465,
+            "channel": 13,
+            "context": {
+              "phase": "unload_gripper",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 1.733333333333315,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 6.066666666666403,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 3.766666666666533,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 5.833333333333083,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 4.033333333333185,
+            "channel": 9,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 1.5333333333333263,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "chopstick_a"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 23
+      }
+    }
+  ],
+  "implementation_sha256": "01493a59dc59472c5662fcf89cac3dcb5612800eab1b0b354dcd162395631e03"
+}

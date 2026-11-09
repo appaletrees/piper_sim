@@ -140,3 +140,21 @@ print(sample["observation.images.cam_external_rgb"].shape)       # [3, H, W]
 覆盖跨集首尾图像读取、全部动作单位转换和动作序列在episode末尾的padding。
 自动导出选项也完成实际仿真采集验证（181帧、3路视频）。
 测试与读取结果见 [验证报告](../outputs/lerobot_validation/report.json)。
+
+2026-11 又完成 6,782 帧完整物理收桌回合的官方 v0.3.3 读取测试：三路 640×480 RGB、
+14 维 state、16×14 action chunk、首/中/末尾索引、单位转换和末尾 padding 均通过。
+特权接触力与物体真值保留在 extras，不进入普通训练行。
+优化后的直方图统计保持编码像素及视频参数不变；同源完整导出的 MP4、Parquet 和 extras
+SHA256 与旧实现一致。具体数值与局限见 [平台审计](platform_audit.md)。
+
+本机独立读取环境可重复检查单回合导出（输出报告必须是新路径）：
+
+```bash
+PYTHONPATH=src .venv-lerobot-audit/bin/python scripts/check_lerobot_reader.py \
+  --dataset outputs/platform_audit_v1/lerobot_histogram_full \
+  --source outputs/platform_audit_v1/full_shared_seed0/episode.h5 \
+  --output outputs/reader_recheck.json
+```
+
+该环境的包版本记录在检查报告中；它不是项目基础运行依赖。脚本强制离线读取，属于消费者
+兼容性抽查，不会单独给数据授予任务成功或训练资格。

@@ -40,7 +40,12 @@ class RigidTableTeacher(CleanTableTeacher):
             axis=t[:3,0]
             yaw=(np.rad2deg(np.arctan2(axis[1],axis[0]))+90)%180-90
             center=t[:3,3]+t[:3,:3]@np.array([0,0,spec['size_m'][2]/2])
-            return 'right',center+[0,0,.002],grasp_rotation(0,yaw-spec.get('yaw_deg',0)),.012
+            r = grasp_rotation(0,yaw-spec.get('yaw_deg',0))
+            # Fit the local cross-section plus approach clearance. Excessive
+            # opening can make the outside pad strike a neighbouring stick.
+            cross_width = abs(r[:, 1]@t[:3, 1:3])@np.asarray(spec['size_m'][1:])
+            width = float(cross_width+self.pacing.get('slender_pregrasp_clearance_m', .004))
+            return 'right',center+[0,0,.002],r,width
         if kind=='cup':
             # Axisymmetric cup: choose jaw yaw for arm reach, independent of print.
             p=t[:3,3]+t[:3,:3]@np.array([0,0,.080])
@@ -50,6 +55,22 @@ class RigidTableTeacher(CleanTableTeacher):
         else:offset=[0,0,.022];width=.095
         # Align with opposed flat faces, not diagonally across the corners.
         return 'right',t[:3,3]+t[:3,:3]@offset,t[:3,:3]@grasp_rotation(20 if kind=='charger' else 0,0),width
+
+    def grasp_candidates(self, name, position, rotation, *, check_approach):
+        spec = self.b.task.specs[name]
+        if spec['kind'] != 'chopstick':
+            yield from super().grasp_candidates(name, position, rotation, check_approach=check_approach)
+            return
+        # Tilting a pad beside a 6 mm stick can put its tip on the table before
+        # its face reaches the stick. Keep the pad upright and vary the grasp
+        # along the actual long axis, inside the central half of the object.
+        pose = self.object_pose(name)
+        axis = pose_matrix(pose['position'], pose['quaternion_wxyz'])[:3, 0]
+        extent = min(.04, spec['size_m'][0]/4)
+        for fraction in (0., -.5, .5, -1., 1.):
+            offset = fraction*extent
+            yield position+offset*axis, rotation, {'height_offset_m': 0., 'local_tilt_deg': 0.,
+                                                   'long_axis_offset_m': offset}
 
     def sort_one(self,name):
         aid=self.b.model.actuator('right/gripper').id
@@ -80,6 +101,49 @@ class RigidTableTeacher(CleanTableTeacher):
 
     def carried_objects(self):
         return self.cups if self.stack_carried else super().carried_objects()
+
+    def wait_for_final_stability(self):
+        """Keep recording real physics until the final inventory stays still.
+
+        Preserve the existing two-second minimum. Extend only when needed, with
+        a bounded timeout; the independent closed-file auditor remains decisive.
+        No state reset, threshold change, frame trimming or timestamp rewriting.
+        """
+        limits = self.settings['dataset']
+        minimum = 2.
+        timeout = self.pacing.get('final_settle_timeout_s', 5.)
+        if not np.isfinite(timeout) or timeout < max(minimum, limits['final_stable_hold_s']):
+            raise ValueError('Final settle timeout is too short or nonfinite')
+        dt = 1/self.fps
+        previous = self.session.read().extras['objects']
+        stable_frames = 0
+        required_frames = int(np.ceil(limits['final_stable_hold_s']/dt))
+        minimum_frames = int(np.ceil(minimum/dt))
+        was_holding = self.holding
+        self.holding = True
+        try:
+            for frame in range(1, int(np.ceil(timeout/dt))+1):
+                observation = self.step()
+                poses = observation.extras['objects']
+                speeds, angular = [], []
+                for name in self.b.task.required:
+                    before, after = previous[name], poses[name]
+                    speeds.append(np.linalg.norm(np.subtract(after['position'], before['position']))/dt)
+                    dot = abs(float(np.dot(before['quaternion_wxyz'], after['quaternion_wxyz'])))
+                    angular.append(2*np.arccos(np.clip(dot, 0., 1.))/dt)
+                stable = (observation.extras['task']['metrics']['summary']['success'] and self.carried is None
+                    and max(speeds) <= limits['final_object_speed_m_s']
+                    and max(angular) <= limits['final_object_angular_speed_rad_s'])
+                stable_frames = stable_frames+1 if stable else 0
+                previous = poses
+                if frame >= minimum_frames and stable_frames >= required_frames:
+                    return
+                if frame == minimum_frames:
+                    self.event('final_settle_extension', stable_seconds=stable_frames*dt, timeout_s=timeout)
+            raise SortFailure(f'Final objects did not remain stable for {limits["final_stable_hold_s"]} s '
+                              f'within {timeout} s; last stable interval={stable_frames*dt:.3f} s')
+        finally:
+            self.holding = was_holding
 
     def straight(self,side,position,rotation,spacing=.025):
         """Keep nesting/retreat Cartesian, with continuous motion when configured."""
@@ -201,7 +265,10 @@ class RigidTableTeacher(CleanTableTeacher):
                     if n in self.b.task.active_names:self.sort_one(n)
             elif objects!=['cup_stack']:
                 for n in objects:self.sort_one(n)
-            self.wait(2.)
+            if objects is None:
+                self.wait_for_final_stability()
+            else:
+                self.wait(2.)
             summary=self.session.read().extras['task']['metrics']['summary']
             self.event('finished',**summary)
             if objects is None and not summary['success']:raise SortFailure('Rigid clearing final check failed')

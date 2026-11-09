@@ -112,6 +112,7 @@ def test_stick_grasp_ignores_roll_but_tracks_actual_center_and_long_axis():
     task=create_task(config(),load())
     teacher=RigidTableTeacher.__new__(RigidTableTeacher)
     teacher.b=SimpleNamespace(task=task)
+    teacher.pacing={}
     # Recorded seed-42 failure: neighbouring pickup rolled this stick by 90 deg.
     pose={'position':[.3682261156,-.1521210331,.0279317443],
           'quaternion_wxyz':[.7070912207,-.7070912207,-.0046910072,.0046910072]}
@@ -121,7 +122,7 @@ def test_stick_grasp_ignores_roll_but_tracks_actual_center_and_long_axis():
     center=t[:3,3]+t[:3,:3]@[0,0,.003]
     np.testing.assert_allclose(p,center+[0,0,.002])
     np.testing.assert_allclose(r[:,2],[0,0,-1],atol=1e-12)
-    assert side=='right' and width==.012
+    assert side=='right' and np.isclose(width,.010,atol=1e-6)
     assert abs(np.dot(r[:,1],t[:3,0]))<.02
     # A 180-degree roll about the same physical center must give the same grasp.
     pose['position']=(center+[0,0,.003]).tolist()

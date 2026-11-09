@@ -1,0 +1,408 @@
+{
+  "schema_version": "piper.audit_round3.v1",
+  "status": "round_completed_goal_incomplete",
+  "updated_at": "2026-11-09T05:48:24.900044+00:00",
+  "base_commit": "e06ec0a4038e969653fe3bc71b52d2c54df9171f",
+  "policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "tests": {
+    "non_ppo_passed": 207,
+    "wall_seconds": 85.88,
+    "log": "outputs/platform_audit_v1/pytest_final_stability_full.log"
+  },
+  "rollouts": [
+    {
+      "path": "outputs/platform_audit_v1/grasp_candidates_v3/episode_000000_seed_7/report.json",
+      "seed": 7,
+      "summary": {
+        "success": false,
+        "sorted_count": 8,
+        "required_count": 11
+      },
+      "error": "SortFailure: Continuous path exceeds joint limits: channel=11, value=1.22020779",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 176.20000000051786,
+      "motion_violations": [],
+      "report_sha256": "a0df5792c959b21f676f7f90e5b1d6c19ba0884ad9aab032a58b275a0be7adb6",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/grasp_candidates_v3/episode_000001_seed_43/report.json",
+      "seed": 43,
+      "summary": {
+        "success": false,
+        "sorted_count": 10,
+        "required_count": 11
+      },
+      "error": "SortFailure: chopstick_b not pinched by both fingers: []",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 239.8666666679952,
+      "motion_violations": [],
+      "report_sha256": "6cf4a7701cc4a2dca2fe10f7b4c226ac3d6921ff128e5596f9fa8922bc56a4cf",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/holdout_seeds2_9/episode_000000_seed_2/report.json",
+      "seed": 2,
+      "summary": {
+        "success": false,
+        "sorted_count": 10,
+        "required_count": 11
+      },
+      "error": "SortFailure: chopstick_b lost physical grasp: slip=0.0211 m, fingers=[]",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 247.53333333475948,
+      "motion_violations": [
+        "measured_gripper_acceleration",
+        "measured_arm_jerk",
+        "measured_gripper_jerk"
+      ],
+      "report_sha256": "8088b5bf197474e733f30558eceafd533e4937625693a8d307103fb6c5b91fb1",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/holdout_seeds2_9/episode_000001_seed_9/report.json",
+      "seed": 9,
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "error": null,
+      "state_audit_passed": true,
+      "training_ready": false,
+      "sim_seconds": 241.30000000134677,
+      "motion_violations": [],
+      "report_sha256": "7b3d6c0f462720ff15e06b217c26ec070d8932f401965b21578b35af24655544",
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "path": "outputs/platform_audit_v1/clearance_seeds7_43/episode_000000_seed_7/report.json",
+      "seed": 7,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": "QualityRejected: measured_gripper_acceleration",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 263.5666666680905,
+      "motion_violations": [
+        "measured_gripper_acceleration"
+      ],
+      "report_sha256": "8d07efc9b8ff406c03df0adee8a4e9094f356d5566297dfc19b2b3c34092bae3",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/clearance_seeds7_43/episode_000001_seed_43/report.json",
+      "seed": 43,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "state_audit_passed": true,
+      "training_ready": false,
+      "sim_seconds": 254.4666666681811,
+      "motion_violations": [],
+      "report_sha256": "6d8834dbc788a8f57a0352532d6b08543b4f9fa9a0b294d62ba352998e45dd7f",
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "path": "outputs/platform_audit_v1/clearance_seeds2_13/episode_000000_seed_2/report.json",
+      "seed": 2,
+      "summary": {
+        "success": false,
+        "sorted_count": 10,
+        "required_count": 11
+      },
+      "error": "SortFailure: chopstick_b lost physical grasp: slip=0.0211 m, fingers=[]",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 247.53333333475948,
+      "motion_violations": [
+        "measured_gripper_acceleration",
+        "measured_arm_jerk",
+        "measured_gripper_jerk"
+      ],
+      "report_sha256": "e0e5c61932d536f088b09128f51883a954b6eabae20c54ad4e80441be3ebd6ce",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/clearance_seeds2_13/episode_000001_seed_13/report.json",
+      "seed": 13,
+      "summary": {
+        "success": false,
+        "sorted_count": 9,
+        "required_count": 11
+      },
+      "error": "SortFailure: chopstick_a was released but is not fully contained in basket",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 241.6666666680181,
+      "motion_violations": [
+        "measured_gripper_acceleration",
+        "measured_gripper_jerk"
+      ],
+      "report_sha256": "069b77d41ff88e41ad4a70efc3804a9b4c0da8e2cee6d0a307575a3167d777f1",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/aperture_clearance_seeds7_43/episode_000000_seed_7/report.json",
+      "seed": 7,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "state_audit_passed": true,
+      "training_ready": false,
+      "sim_seconds": 263.0333333347649,
+      "motion_violations": [],
+      "report_sha256": "4cc9e2309916fb60bc80ea3e48c51ee0d776bf571df0760901ec6961dd2a7cd3",
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "path": "outputs/platform_audit_v1/aperture_clearance_seeds7_43/episode_000001_seed_43/report.json",
+      "seed": 43,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "state_audit_passed": true,
+      "training_ready": false,
+      "sim_seconds": 252.66666666815817,
+      "motion_violations": [],
+      "report_sha256": "fb6145fcb43996fd2a4a2ebf89e2561bddca650e924d8210378bd7c7e8f09ace",
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      }
+    },
+    {
+      "path": "outputs/platform_audit_v1/aperture_clearance_seeds2_13/episode_000000_seed_2/report.json",
+      "seed": 2,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": "QualityRejected: measured_arm_jerk",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 258.400000001499,
+      "motion_violations": [
+        "measured_arm_jerk"
+      ],
+      "report_sha256": "e364b724175b418808908d5153e99926f10f1bbd570ceeabff2eb623ecb7e7ea",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/aperture_clearance_seeds2_13/episode_000001_seed_13/report.json",
+      "seed": 13,
+      "summary": {
+        "success": false,
+        "sorted_count": 9,
+        "required_count": 11
+      },
+      "error": "SortFailure: chopstick_a was released but is not fully contained in basket",
+      "state_audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 241.6000000013506,
+      "motion_violations": [],
+      "report_sha256": "6d9152697d1986534081ab0a85573b8f5ae553639ed634d0da982495a7c8ee05",
+      "acceptance_policy": null
+    },
+    {
+      "path": "outputs/platform_audit_v1/full_unload_seed1/report.json",
+      "seed": 1,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "audit_passed": true,
+      "training_ready": true,
+      "sim_seconds": 259.6333333348144,
+      "report_sha256": "73294c69d8181c16fda51c0b2fdc6a82ca70bb5cd1fb92ac164220cc0853dce9"
+    },
+    {
+      "path": "outputs/platform_audit_v1/bounded_seed7/report.json",
+      "seed": 7,
+      "summary": {
+        "success": false,
+        "sorted_count": 9,
+        "required_count": 11
+      },
+      "error": "SortFailure: chopstick_a lost physical grasp: slip=0.0288 m, fingers=[]",
+      "audit_passed": false,
+      "training_ready": false,
+      "sim_seconds": 236.33333333461687,
+      "report_sha256": "51ced0372bd490b35714e0a841d87781c1d34a0a280dc0de76468bd8c4c0b584"
+    }
+  ],
+  "qualified_parallel_benchmark": {
+    "status": "completed",
+    "workers": 2,
+    "seeds": [
+      0,
+      7
+    ],
+    "scope": "Measure end-to-end qualified throughput of independent physical RGB workers.\n\nEach worker retains its complete or failed recording, audit and profiler output.\nNo preflight is run in this benchmark; all attempts, final audits and exports are\nincluded in wall time. Quality is revalidated before any job counts as qualified.\n",
+    "started_unix": 1794200927.482033,
+    "jobs": [
+      {
+        "seed": 0,
+        "returncode": 2,
+        "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_parallel_v6/seed_0",
+        "qualified": false,
+        "error": "DatasetRejected: task/unstable_final_placement",
+        "violations": [
+          "task/unstable_final_placement"
+        ]
+      },
+      {
+        "seed": 7,
+        "returncode": 0,
+        "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/qualified_parallel_v6/seed_7",
+        "qualified": true,
+        "error": null,
+        "violations": [],
+        "frames": 7861,
+        "sim_seconds": 262.03333333333336,
+        "hdf5_bytes": 9708742062
+      }
+    ],
+    "limitations": [
+      "Single concurrent cohort, not a distribution-wide success estimate.",
+      "Other applications may share this host. Compare only like-for-like cohorts for speedup claims.",
+      "Final consumer training-loader checks are separate from this acquisition/export timing."
+    ],
+    "wall_seconds": 1969.6024369429797,
+    "qualified_episodes": 1,
+    "qualified_episodes_per_hour": 1.8277800293482378,
+    "qualified_transitions_per_wall_second": 3.991160780751805,
+    "qualified_hdf5_bytes": 9708742062,
+    "elapsed_including_cleanup_s": 1969.6024454929866
+  },
+  "limitations": [
+    "No measured real-camera extrinsics, per-device intrinsics or real contact/actuator identification.",
+    "Current controller selects object-specific contact parameters; effective finger friction is not randomized by object friction_scale.",
+    "Seed 2 remains rejected for measured arm jerk, despite full task completion.",
+    "Seed 13 remains rejected for chopstick containment.",
+    "Isolated rise/placement probes are not full-episode acceptance.",
+    "Sampled geometry does not detect all 960 Hz substep contacts.",
+    "At least 2x qualified end-to-end throughput has not been established.",
+    "Parallel scheduling now supports durable worker journals; full RGB orchestration and crash injection on the combined scheduler still need broader validation.",
+    "v7 seed 0 passed full state audit after real settling extension; a fresh v7 RGB episode remains unverified. Existing v6 seed 0 remains rejected."
+  ],
+  "parallel_scheduler": {
+    "tested": true,
+    "scope": "Two real state-only workers, one diagnostic pass and one quality rejection; complete resume retains HDF5 and child jobs unchanged. No RGB acceptance in this scheduler run.",
+    "report": "outputs/platform_audit_v1/parallel_scheduler_states/invocation_001.json",
+    "resume": "outputs/platform_audit_v1/parallel_scheduler_resume.json"
+  },
+  "current_candidate": "v7: two-second minimum final wait with physical extension up to five seconds; v6 RGB remains a distinct source snapshot.",
+  "current_candidate_regression": "outputs/platform_audit_v1/final_stability_states_v7",
+  "v6_source_sha256": {
+    "configs/collection/clean_table.yaml": "f95ece2ab271dfc4959742c348c13e283ee812999a8426b09678a84613e65a95",
+    "src/piper_sim/experts/clean_table.py": "2251c10f08510432f3e9dbf5f934b4fdf990055a9acca04db1fe7681512cd8e1",
+    "src/piper_sim/experts/rigid_table.py": "32468173f6b03cdec9d6648f53b6f3cbe40481eac63b342c0b545929c02321b1",
+    "src/piper_sim/experts/trajectory.py": "ce55e8c156a17a5536b9ae3da5b86406e3b4088c0c216b6ea11e8b897a609d99",
+    "src/piper_sim/experts/collision.py": "a92aa48fc6d3a059e0eaefd5744d6e13de1f95b44d5384aca656862c92fbd44d"
+  },
+  "v7_source_sha256": {
+    "configs/collection/clean_table.yaml": "edcceb078491d441484292ebc7895aadb6cf73d4cbae2de180c539a144251dbd",
+    "src/piper_sim/experts/clean_table.py": "2251c10f08510432f3e9dbf5f934b4fdf990055a9acca04db1fe7681512cd8e1",
+    "src/piper_sim/experts/rigid_table.py": "63df78d74368ce7ad3a90234b8bd6d9a8165bf5a364c5849be064822c9611831",
+    "src/piper_sim/experts/trajectory.py": "ce55e8c156a17a5536b9ae3da5b86406e3b4088c0c216b6ea11e8b897a609d99",
+    "src/piper_sim/experts/collision.py": "a92aa48fc6d3a059e0eaefd5744d6e13de1f95b44d5384aca656862c92fbd44d"
+  },
+  "final_stability_regression": {
+    "status": "passed",
+    "scope": "Full physical v7 state-only reruns against immutable v6 RGB records. Prefix comparisons cover every action, state, simulation time and object pose. No frames changed or removed; RGB was not re-rendered by these state-only reruns.",
+    "policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+    "rows": [
+      {
+        "seed": 0,
+        "old": "outputs/platform_audit_v1/qualified_parallel_v6/seed_0/episode.h5",
+        "new": "outputs/platform_audit_v1/final_stability_states_v7/worker_00/episode_000000_seed_0/episode.h5",
+        "old_frames": 6880,
+        "new_frames": 6930,
+        "additional_frames": 50,
+        "additional_sim_seconds": 1.6666666666666667,
+        "prefix_array_equality": {
+          "action/position": true,
+          "observation/state": true,
+          "next_observation/state": true,
+          "observation/sim_time": true,
+          "next_observation/sim_time": true
+        },
+        "prefix_object_poses_equal": true,
+        "state_audit_passed": true,
+        "training_ready": false,
+        "final_stable_seconds": 0.9999999999999999,
+        "extension_events": [
+          {
+            "phase": "final_settle_extension",
+            "object": "chopstick_b",
+            "sim_time": 230.33333333454047,
+            "stable_seconds": 0.9,
+            "timeout_s": 5.0
+          }
+        ],
+        "full_trajectory_sha256": "12aca4a987c8453faf51cf959210a6c4b1ef2227b0490dd7b7b233e5708cae59"
+      },
+      {
+        "seed": 7,
+        "old": "outputs/platform_audit_v1/qualified_parallel_v6/seed_7/episode.h5",
+        "new": "outputs/platform_audit_v1/final_stability_states_v7/worker_01/episode_000000_seed_7/episode.h5",
+        "old_frames": 7861,
+        "new_frames": 7861,
+        "additional_frames": 0,
+        "additional_sim_seconds": 0.0,
+        "prefix_array_equality": {
+          "action/position": true,
+          "observation/state": true,
+          "next_observation/state": true,
+          "observation/sim_time": true,
+          "next_observation/sim_time": true
+        },
+        "prefix_object_poses_equal": true,
+        "state_audit_passed": true,
+        "training_ready": false,
+        "final_stable_seconds": 4.633333333333327,
+        "extension_events": [],
+        "full_trajectory_sha256": "8d080c91637b617eec9e33fbd3f7bbe98140f9a47a52a8abdf29f30bf1c3a05c"
+      }
+    ]
+  },
+  "placement_goal_candidate": {
+    "default_changed": false,
+    "report": "outputs/platform_audit_v1/placement_goal_seed13/episode_000000_seed_13/report.json",
+    "state_audit_passed": true,
+    "training_ready": false,
+    "note": "Both chopstick placement goals shifted -0.03 m along basket-local x; physical scene unchanged; only seed 13 fully retested."
+  },
+  "storage": {
+    "free_GiB_at_round_end": 5.962886810302734,
+    "pending_user_input": "New directory with >=30 GB available for subsequent full RGB cohorts; no retained recordings deleted."
+  }
+}

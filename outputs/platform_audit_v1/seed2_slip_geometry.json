@@ -1,0 +1,128 @@
+{
+  "schema_version": "piper.geometry_diagnostic.v1",
+  "status": "diagnostic_only",
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/clearance_seeds2_13/episode_000000_seed_2/episode.h5",
+  "samples": 77,
+  "stride": 1,
+  "frame_range_exclusive": [
+    7320,
+    7397
+  ],
+  "source_samples": 7397,
+  "native_arm_samples": 154,
+  "equal_jaw_reconstruction_arm_samples": 0,
+  "mujoco_version": "3.3.7",
+  "recorded_software": {
+    "python": "3.11.15 (main, Jun 23 2026, 15:19:43) [Clang 22.1.3 ]",
+    "numpy": "1.26.4",
+    "mujoco": "3.3.7"
+  },
+  "changed_or_missing_provenance_files": [],
+  "contact_pairs": [
+    {
+      "category": "intended_finger_target",
+      "bodies": [
+        "right/link8",
+        "task/chopstick_b"
+      ],
+      "frames_with_contact": 74,
+      "max_depth_m": 0.000438742405579775,
+      "frame": 7391,
+      "sim_time": 247.3666666680907,
+      "phase": "transfer",
+      "object": "chopstick_b",
+      "geoms": [
+        "task/chopstick_b/stick_contact",
+        "gripper_right_36"
+      ]
+    },
+    {
+      "category": "intended_finger_target",
+      "bodies": [
+        "right/link7",
+        "task/chopstick_b"
+      ],
+      "frames_with_contact": 74,
+      "max_depth_m": 0.00023491196972336625,
+      "frame": 7391,
+      "sim_time": 247.3666666680907,
+      "phase": "transfer",
+      "object": "chopstick_b",
+      "geoms": [
+        "task/chopstick_b/stick_contact",
+        "gripper_right_46"
+      ]
+    }
+  ],
+  "category_peaks": {
+    "intended_finger_target": {
+      "category": "intended_finger_target",
+      "bodies": [
+        "right/link8",
+        "task/chopstick_b"
+      ],
+      "frames_with_contact": 74,
+      "max_depth_m": 0.000438742405579775,
+      "frame": 7391,
+      "sim_time": 247.3666666680907,
+      "phase": "transfer",
+      "object": "chopstick_b",
+      "geoms": [
+        "task/chopstick_b/stick_contact",
+        "gripper_right_36"
+      ]
+    }
+  },
+  "tcp": {
+    "left": {
+      "max_sampled_speed_m_s": 0.0,
+      "p95_sampled_speed_m_s": 0.0,
+      "peak_interval": [
+        245.0000000013939,
+        245.03333333472764
+      ]
+    },
+    "right": {
+      "max_sampled_speed_m_s": 0.38922058541008087,
+      "p95_sampled_speed_m_s": 0.38214245468886815,
+      "peak_interval": [
+        247.50000000142572,
+        247.53333333475948
+      ]
+    }
+  },
+  "excluded_body_pairs": [
+    65538,
+    131075,
+    196612,
+    262149,
+    327686,
+    393223,
+    458760,
+    524297,
+    524298,
+    524299,
+    786445,
+    851982,
+    917519,
+    983056,
+    1048593,
+    1114130,
+    1179667,
+    1245204,
+    1245205,
+    1245206
+  ],
+  "limitations": [
+    "Position-only reconstruction, not dynamic replay; no contact-force, slip or torque inference.",
+    "Frame range is explicit; contacts between 30 Hz samples are unobserved.",
+    "Native eight-joint positions are preferred; missing native evidence uses half total width per jaw.",
+    "Held-object contacts are context only: intended support or cup-stack contact is not an automatic violation.",
+    "Inactive task objects retain their recorded initial layout poses; active poses are reconstructed each frame.",
+    "Current compiled geometry retains adjacent body exclusions and convex-hull approximations.",
+    "Provenance differences are listed; this diagnostic does not certify identical source assets.",
+    "TCP is the configured link6 offset [0,0,0.1375] m; not a measured tool calibration.",
+    "No change to episode acceptance or source data."
+  ],
+  "wall_seconds": 6.257154997903854
+}
