@@ -1,0 +1,10 @@
+{
+  "scope": "Experimental force-limit controller on a full fresh seed 1 physical state-only rollout. Uncalibrated, not a production change or training-ready acceptance.",
+  "baseline": "/dev/shm/piper_contact_substeps_v1/episode/episode.h5",
+  "baseline_sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+  "raw_output": "/dev/shm/piper_release_force_floor_v1/episode",
+  "ramp_seconds": 0.4,
+  "change": "At every native step during bowl/plate/side_dish release, quintic closing-force bound ramps from original negative bound to zero over 0.4 s; opening ceiling unchanged. Restore original bound over 0.4 s during retreat. References, contacts, materials and acceptance unchanged.",
+  "evidence": "Baseline peak windows show persistent closing effort when jaw contact support suddenly decreases, despite an opening reference. The experiment tests unloading that effort, without attachments or body state assignment.",
+  "required_checks": "Preserve all attempts; closed-file independent TCP policy; all targets, physical contact/slip; native trace and full before-first-modification equality. No throughput or hardware-calibration claim."
+}

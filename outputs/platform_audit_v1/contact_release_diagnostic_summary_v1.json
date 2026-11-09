@@ -1,0 +1,78 @@
+{
+  "scope": "Two fresh full known-scene state-only attempts: unchanged baseline trace plus rejected force-floor controller experiment. No production defaults changed. No new RGB training data, throughput or hardware calibration claim.",
+  "git_base": "e2fa5b126809aca48346a47232a30f73f95c4082",
+  "runs": [
+    {
+      "directory": "outputs/platform_audit_v1/contact_substeps_v1",
+      "raw": "/dev/shm/piper_contact_substeps_v1/episode/episode.h5",
+      "raw_sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+      "trace": "outputs/platform_audit_v1/contact_substeps_v1/native/trace.npz",
+      "trace_sha256": "5d97cf6cf801a65e123d87273d5d9950655616db9bdf28b10d88e7bb1ac395a0",
+      "trace_rows": 12832,
+      "returncode": 0,
+      "task_summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "quality_error": null,
+      "closed_file_audit_passed": true,
+      "training_ready": false,
+      "frozen_inputs_changed": []
+    },
+    {
+      "directory": "outputs/platform_audit_v1/release_force_floor_v1",
+      "raw": "/dev/shm/piper_release_force_floor_v1/episode/episode.h5",
+      "raw_sha256": "875d2bf58a617fedf78f8d1b35cc002a935c62dd2a2bfae93b3aecec6685433b",
+      "trace": "outputs/platform_audit_v1/release_force_floor_v1/native/trace.npz",
+      "trace_sha256": "a982bb65d195e22e4af557db039163ec75728e4fc4e7891de8ff14dc2ec48dba",
+      "trace_rows": 12864,
+      "returncode": 2,
+      "task_summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "quality_error": "QualityRejected: measured_gripper_acceleration, measured_gripper_jerk",
+      "closed_file_audit_passed": false,
+      "training_ready": false,
+      "frozen_inputs_changed": []
+    }
+  ],
+  "tests": {
+    "command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q tests/test_contact_trace.py tests/test_release_force_probe.py",
+    "result": "9 passed in 0.40s"
+  },
+  "delivery_files": {
+    "docs/platform_audit.md": "bd1af8354e7d80cf4dd29a31898907761cf1741a2faed070ae3321488492a70a",
+    "outputs/platform_audit_v1/contact_substeps_v1/analysis.json": "243b104d2c53d603618a6ab1a1d1ae74ca574b6dd6b0fe168c6223807a21acca",
+    "outputs/platform_audit_v1/contact_substeps_v1/baseline_force_windows.png": "503a79c62b437a66ac7d5171d5c6b642c9d5f7e0f6a9805f25f71144a0ddfecd",
+    "outputs/platform_audit_v1/contact_substeps_v1/episode_evidence/audit.json": "b3375fef4e06c150dfcc17f3c94250f6407ec6496b0008a9e9a7d3dee1322762",
+    "outputs/platform_audit_v1/contact_substeps_v1/episode_evidence/report.json": "3d9df3bcace9ab2d33cee1600f24ed8f47c9196cdf01d19afac62fa75bc0a82e",
+    "outputs/platform_audit_v1/contact_substeps_v1/identity.json": "8fcc0d4c0a43b7ae6032c8fb41ea5532fcb2239ea2e112b6f82476c273df531f",
+    "outputs/platform_audit_v1/contact_substeps_v1/native/trace.json": "69942f48cd229d964a46b89cab90429c9604c5df2e48d28f14e8a91337b6299e",
+    "outputs/platform_audit_v1/contact_substeps_v1/plan.json": "384fc6bc3ddf3b6f9efbe645c9b459776fbfa183ac874fc08298a75abf0f17cd",
+    "outputs/platform_audit_v1/contact_substeps_v1/recorded_dynamics.json": "a1519472818a2da804c85601dd1dfaa5ef9887480a78a28be1618c08f8b1dc00",
+    "outputs/platform_audit_v1/contact_substeps_v1/run.log": "cbf97882166653bb17f050b1d5855f6f2e9444b3ad3b182619b7b7d29330a2e5",
+    "outputs/platform_audit_v1/release_force_floor_v1/analysis.json": "36109029b378d8f50de5e35ea5cb83f18aa4306bb05863293c7b6c6b32d8f218",
+    "outputs/platform_audit_v1/release_force_floor_v1/comparison.json": "f799320a8ad065a4ee216e5a71739ab7aff2dbad0dd401411cebb87559fe8e64",
+    "outputs/platform_audit_v1/release_force_floor_v1/episode_evidence/audit.json": "379bfaccd090c6bc68678f8c6c09fc53f25d6134f1f4450c88c9ed3c24535b43",
+    "outputs/platform_audit_v1/release_force_floor_v1/episode_evidence/report.json": "f095e3f3dcd9b8c0efabc93c36c0ed7705b26157cc47d542cb50b84eafc2d2b6",
+    "outputs/platform_audit_v1/release_force_floor_v1/failure_mechanism.json": "9f5c7f473eab2ea88dcb91d4dd31f9e071353d112184854fe26e1ae2be1c703c",
+    "outputs/platform_audit_v1/release_force_floor_v1/force_windows.png": "0b7ada7ccd8ca99125b45dfd83d7bb319c9f3c4ba86520aa23678f697bb328d3",
+    "outputs/platform_audit_v1/release_force_floor_v1/identity.json": "1d3cfe94a72f2c486ee062e753190490f535874f2a663ef7326b1764884293f5",
+    "outputs/platform_audit_v1/release_force_floor_v1/native/trace.json": "9e6614eda76cf69edd8532c0e6258c82670e7482c8b850fbda07b6e4ec6949dd",
+    "outputs/platform_audit_v1/release_force_floor_v1/plan.json": "1d9e1ae59c04094a0350c5289b1752a096e051ac4eed33097ce5fef6606740cd",
+    "outputs/platform_audit_v1/release_force_floor_v1/recorded_dynamics.json": "3033b11e8f1262526705fc622c6ed5dac132320345d7ac33acc737acbad255c7",
+    "outputs/platform_audit_v1/release_force_floor_v1/run.log": "f6c39d46484f007ebd2ba471c3cd911381566ab683f8ffea0ca4d99df11ef868",
+    "scripts/analyze_contact_trace.py": "746460ada187854d74b2feee14199358467868da2330f3a11a78318239c00998",
+    "scripts/compare_release_force_probe.py": "183fff186ebc9626f14e8195eafda3cb043082bba2b6389d5db425e0cfa23a11",
+    "scripts/plot_contact_trace.py": "a966fa425d5e312c605c77f78e1ebaacb52f438e6784748fbf30c86e4ca3addc",
+    "scripts/probe_release_force_floor.py": "ae5bd76628406ad309b9c9d0e95e39fb36616ed056229b2f1fe79fca8b12ddc8",
+    "scripts/trace_contact_substeps.py": "ac01c4f0e13222cf7e3a741535b8ab04e0b184bee9ebcdb747067dc68a263e09",
+    "tests/test_contact_trace.py": "27c87105027fc9fb829b661a0362e19380543b5aa24c1a471b3dbd443d0c8883",
+    "tests/test_release_force_probe.py": "b9328377d671fffccd4caf09e9ead805f7fc37849c9eb44fe9a0a39d1acc2146"
+  },
+  "local_only": "Full NPZ force traces and raw HDF5 are preserved locally; HDF5 in /dev/shm is volatile. No existing outputs deleted. Unrelated PPO work excluded.",
+  "decision": "Reject force-floor v1: side-dish release worsens and fails unchanged quality limits. Next controller work must handle closing position preload together with release impedance and preserve executable external action semantics."
+}
