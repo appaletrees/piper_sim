@@ -1,0 +1,4453 @@
+{
+  "schema_version": 1,
+  "scope": "Analyze a native force trace and prove its full rollout matches a source.\n\nRead-only diagnostic; native acceleration/jerk are velocity differences across\nactual integrator boundaries. This does not set a training acceptance threshold.\n",
+  "script_sha256": "8d475c11b48f470ef0b1439b32bf3c75e51f5ee8caf84deb9d20163e59c33860",
+  "trace_sha256": "fc35c953120d78108c0f2c35e1069cb01d5f6a18547b27cdf89b9494114e99d9",
+  "frozen_inputs_changed": [],
+  "comparison_scope": "single_recording_trace_consistency_only",
+  "baseline": null,
+  "observed": {
+    "source": "/dev/shm/piper_rim_inset_v1/episode/episode.h5",
+    "sha256": "3540e96741ebd00db9f6ea32c0571251c259947267b445c558dcc71aaed71341",
+    "streams": {
+      "observation/state": {
+        "shape": [
+          8499,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "53d31edf07708822143cc536041697140c9b4fcdf0764239c63cf9b85788c4ff"
+      },
+      "next_observation/state": {
+        "shape": [
+          8499,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "7886c927a454bce7007e45ca365a138d40a6158715936cddee2d92290abe006b"
+      },
+      "action/position": {
+        "shape": [
+          8499,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "606e65f1b75cdeb3d139eb98d9779f215b08f216ee0d42b933d92ac79b745f14"
+      },
+      "observation/sim_time": {
+        "shape": [
+          8499
+        ],
+        "dtype": "float64",
+        "sha256": "cb386f5018174706d45123fc0c6e8e1a90154b1a28ccd8b14429f5dfc57e897a"
+      },
+      "next_observation/sim_time": {
+        "shape": [
+          8499
+        ],
+        "dtype": "float64",
+        "sha256": "0ce54ffbd6e3bea1a61d3428f04f9a275a477273fcc95cc845138a8e5d8206d6"
+      }
+    },
+    "privileged_sha256": "b72d147ebc526399752dfbf910b96a0033ac126f15045f8df5034c7f8642e890",
+    "phase_native_extrema": {
+      "cup_01/approach": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/grasp": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/lift": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/nest": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/release_for_nesting": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/approach": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/grasp": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/lift": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/nest": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/release_for_nesting": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/stack_checked": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/stack_ready": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_00/approach": {
+        "acceleration": 0.39466215778431346,
+        "jerk": 478.21970944615447
+      },
+      "cup_00/grasp": {
+        "acceleration": 1.3034019514754402,
+        "jerk": 1261.8809118149898
+      },
+      "cup_00/lift": {
+        "acceleration": 0.013920790128751463,
+        "jerk": 9.368184003632377
+      },
+      "cup_00/transfer_stack": {
+        "acceleration": 0.34618458156081894,
+        "jerk": 337.4226281792135
+      },
+      "cup_00/release_stack": {
+        "acceleration": 9.766294902114607,
+        "jerk": 15212.35565543098
+      },
+      "chopstick_a/approach": {
+        "acceleration": 0.4738718386062968,
+        "jerk": 574.1950838980728
+      },
+      "chopstick_a/grasp": {
+        "acceleration": 3.7911916965591885,
+        "jerk": 4916.153584636291
+      },
+      "chopstick_a/lift": {
+        "acceleration": 0.8365285213974526,
+        "jerk": 882.1773811503865
+      },
+      "chopstick_a/transfer": {
+        "acceleration": 0.7733259404010606,
+        "jerk": 813.3103632002591
+      },
+      "chopstick_a/lower": {
+        "acceleration": 0.7919194146608879,
+        "jerk": 797.2064114829644
+      },
+      "chopstick_a/unload_gripper": {
+        "acceleration": 0.9647805393703577,
+        "jerk": 1312.2845543558376
+      },
+      "chopstick_a/release": {
+        "acceleration": 1.2482345383430626,
+        "jerk": 1508.2529117099418
+      },
+      "chopstick_b/approach": {
+        "acceleration": 0.13097399497204287,
+        "jerk": 158.72161822200664
+      },
+      "chopstick_b/grasp": {
+        "acceleration": 3.7527163723915185,
+        "jerk": 5400.815117175565
+      },
+      "chopstick_b/lift": {
+        "acceleration": 1.269590100820891,
+        "jerk": 1797.6051505810485
+      },
+      "chopstick_b/transfer": {
+        "acceleration": 0.9414618024076288,
+        "jerk": 957.0626168356592
+      },
+      "chopstick_b/lower": {
+        "acceleration": 0.9476098237166922,
+        "jerk": 956.0209862101917
+      },
+      "chopstick_b/unload_gripper": {
+        "acceleration": 0.9619552664937074,
+        "jerk": 1308.4050225398298
+      },
+      "chopstick_b/release": {
+        "acceleration": 1.2491417134849292,
+        "jerk": 1509.350389356917
+      },
+      "pen/approach": {
+        "acceleration": 0.055534315713851035,
+        "jerk": 67.30491687583333
+      },
+      "pen/grasp": {
+        "acceleration": 1.3805933807470594,
+        "jerk": 1215.437699723654
+      },
+      "pen/lift": {
+        "acceleration": 0.0010147406137098408,
+        "jerk": 0.492838938671708
+      },
+      "pen/transfer": {
+        "acceleration": 0.0002062050681582954,
+        "jerk": 0.10718992725390689
+      },
+      "pen/lower": {
+        "acceleration": 0.0001280905691821891,
+        "jerk": 0.06723696987857783
+      },
+      "pen/unload_gripper": {
+        "acceleration": 1.0175724163649742,
+        "jerk": 1547.1376456664614
+      },
+      "pen/release": {
+        "acceleration": 1.2058234662110168,
+        "jerk": 1461.4001320751963
+      },
+      "charger/approach": {
+        "acceleration": 0.28668382165490947,
+        "jerk": 347.29665610474996
+      },
+      "charger/grasp": {
+        "acceleration": 1.2295051873198815,
+        "jerk": 1177.4781547876123
+      },
+      "charger/lift": {
+        "acceleration": 0.7468964118758026,
+        "jerk": 560.2369709894972
+      },
+      "charger/transfer": {
+        "acceleration": 0.5607505789777998,
+        "jerk": 561.1075012454007
+      },
+      "charger/lower": {
+        "acceleration": 0.5661669333114293,
+        "jerk": 561.5919440097292
+      },
+      "charger/unload_gripper": {
+        "acceleration": 14.962278778093461,
+        "jerk": 23541.111637887196
+      },
+      "charger/release": {
+        "acceleration": 1.2707283020970006,
+        "jerk": 1538.0772092111083
+      },
+      "spoon/approach": {
+        "acceleration": 0.11172047839388632,
+        "jerk": 135.39274976932953
+      },
+      "spoon/grasp": {
+        "acceleration": 1.1027611655674374,
+        "jerk": 886.4065095313975
+      },
+      "spoon/lift": {
+        "acceleration": 0.004577520749354819,
+        "jerk": 5.551950311750974
+      },
+      "spoon/transfer": {
+        "acceleration": 0.00023915371623348905,
+        "jerk": 0.3032602555721048
+      },
+      "spoon/lower": {
+        "acceleration": 0.0022802459002132028,
+        "jerk": 3.1645014601891925
+      },
+      "spoon/unload_gripper": {
+        "acceleration": 1.9198472775786841,
+        "jerk": 2630.1274107425584
+      },
+      "spoon/release": {
+        "acceleration": 0.8411401403800911,
+        "jerk": 1018.1762303889084
+      },
+      "bowl/approach": {
+        "acceleration": 0.030047875559945647,
+        "jerk": 36.422226132991135
+      },
+      "bowl/grasp": {
+        "acceleration": 5.456634475736468,
+        "jerk": 5190.384679207342
+      },
+      "bowl/lift": {
+        "acceleration": 0.8693812418467711,
+        "jerk": 843.9095898347824
+      },
+      "bowl/transfer": {
+        "acceleration": 0.2567524297327443,
+        "jerk": 272.5347463638
+      },
+      "bowl/lower": {
+        "acceleration": 0.2564802683962549,
+        "jerk": 266.95874756579326
+      },
+      "bowl/unload_gripper": {
+        "acceleration": 24.502039925219115,
+        "jerk": 26352.470798845912
+      },
+      "bowl/release": {
+        "acceleration": 15.91530707306275,
+        "jerk": 17888.602907135217
+      },
+      "plate/approach": {
+        "acceleration": 0.12278147689047891,
+        "jerk": 147.4916742351695
+      },
+      "plate/grasp": {
+        "acceleration": 8.521739402764918,
+        "jerk": 9701.13424082853
+      },
+      "plate/lift": {
+        "acceleration": 2.0816658553948755,
+        "jerk": 2141.230739726563
+      },
+      "plate/transfer": {
+        "acceleration": 2.4127030837745926,
+        "jerk": 2769.8978883105738
+      },
+      "plate/lower": {
+        "acceleration": 2.141302506800337,
+        "jerk": 2261.8490277863943
+      },
+      "plate/release": {
+        "acceleration": 12.423118189700784,
+        "jerk": 15160.372348738216
+      },
+      "side_dish/approach": {
+        "acceleration": 0.007547046262880545,
+        "jerk": 9.089916174630552
+      },
+      "side_dish/grasp": {
+        "acceleration": 6.563932365512053,
+        "jerk": 7692.447393480407
+      },
+      "side_dish/lift": {
+        "acceleration": 1.1366108693838917,
+        "jerk": 925.2952302349364
+      },
+      "side_dish/transfer": {
+        "acceleration": 0.5176888479078889,
+        "jerk": 529.1042672938186
+      },
+      "side_dish/lower": {
+        "acceleration": 0.02288052537053277,
+        "jerk": 18.959747568196597
+      },
+      "side_dish/release": {
+        "acceleration": 28.59297078227656,
+        "jerk": 37776.5802275608
+      },
+      "side_dish/placed": {
+        "acceleration": 1.3968824609936098e-09,
+        "jerk": 1.9102604435480684e-06
+      }
+    }
+  },
+  "public_streams_exact": null,
+  "objects_native_physics_controller_tcp_exact": null,
+  "constraint_attribution_max_abs_error": 1.0658141036401503e-14,
+  "bounded_affine_actuator_max_abs_error": 2.877698079828406e-13,
+  "groups": {
+    "plate/grasp": {
+      "steps": 2912,
+      "acceleration_peak_m_s2": 8.521739402764918,
+      "jerk_peak_m_s3": 9701.13424082853,
+      "recorded_interval_acceleration_matches": true,
+      "recorded_interval_jerk_matches": true,
+      "acceleration_peak": {
+        "row": 868,
+        "solver_time": 213.07083333432067,
+        "integrated_time": 213.07187500098735,
+        "width_m": 0.025000000000811283,
+        "command_m": 0.025,
+        "velocity_m_s": [
+          1.1326861588153558e-09,
+          -0.008876810745193964
+        ],
+        "acceleration_m_s2": -8.521739402764918,
+        "jerk_m_s3": -8180.868457043347,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": -1.4403516956917883e-07,
+        "jaw_constraint_force_N": [
+          -0.656554034039738,
+          -0.6731952578393366
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.6731952578393366,
+            -0.6731952578393366
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            -1.329749291879074,
+            0.0
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "table_collision",
+              "gripper_right_43"
+            ],
+            "distance_m": -2.801863022970294e-05,
+            "force_local_N_Nm": [
+              5.231269184684654,
+              -2.571648219270484,
+              3.4314497320174095,
+              -3.1514077139537396e-06,
+              2.718025952419627e-06,
+              2.1587684092402012e-06
+            ]
+          },
+          {
+            "geoms": [
+              "table_collision",
+              "gripper_right_43"
+            ],
+            "distance_m": -2.801863022970294e-05,
+            "force_local_N_Nm": [
+              5.235370918731747,
+              -2.5736648221232112,
+              3.4341400951306404,
+              -3.1536984851895883e-06,
+              2.7200016966695774e-06,
+              2.1603376268805752e-06
+            ]
+          }
+        ]
+      },
+      "jerk_peak": {
+        "row": 869,
+        "solver_time": 213.07187500098735,
+        "integrated_time": 213.07291666765403,
+        "width_m": 0.024990753322951705,
+        "command_m": 0.025,
+        "velocity_m_s": [
+          -0.008876810745193964,
+          -0.007227218281897297
+        ],
+        "acceleration_m_s2": 1.583608764764801,
+        "jerk_m_s3": 9701.13424082853,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": 1.157684059906245,
+        "jaw_constraint_force_N": [
+          -1.0406307256100327,
+          -1.036505270027375
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            1.036505270027375,
+            -1.036505270027375
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            -2.077135995637408,
+            0.0
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "table_collision",
+              "gripper_right_43"
+            ],
+            "distance_m": -5.1621575887682986e-05,
+            "force_local_N_Nm": [
+              7.8198353738512765,
+              -3.7839996760504904,
+              5.099537455021856,
+              5.2057794841842585e-05,
+              0.0003151058440195546,
+              0.0002450708095202095
+            ]
+          },
+          {
+            "geoms": [
+              "table_collision",
+              "gripper_right_43"
+            ],
+            "distance_m": -5.1621575887682986e-05,
+            "force_local_N_Nm": [
+              7.822737435394063,
+              -3.781352028949641,
+              5.096023585538969,
+              5.2057794841842585e-05,
+              0.0003151058440195546,
+              0.0002450708095202095
+            ]
+          }
+        ]
+      },
+      "acceleration_window": [
+        {
+          "row": 863,
+          "solver_time": 213.06562500098727,
+          "integrated_time": 213.06666666765395,
+          "width_m": 0.024999999992722226,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            -7.375019939366567e-10,
+            -7.019560956805782e-10
+          ],
+          "acceleration_m_s2": 3.4124062325835425e-08,
+          "jerk_m_s3": 1.421621920183469e-06,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.6127796698128805e-07,
+          "jaw_constraint_force_N": [
+            -0.006910379463704346,
+            0.006910379463704346
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.006910379463704346,
+              0.006910379463704346
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": []
+        },
+        {
+          "row": 864,
+          "solver_time": 213.06666666765395,
+          "integrated_time": 213.06770833432063,
+          "width_m": 0.02499999999199102,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            -7.019560956805782e-10,
+            3.988804599390928e-09
+          ],
+          "acceleration_m_s2": 4.503130267268646e-06,
+          "jerk_m_s3": 0.004290245956745098,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.643245468585519e-07,
+          "jaw_constraint_force_N": [
+            0.009901768099077984,
+            -0.009901768099077984
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.009901768099077984,
+              -0.009901768099077984
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": []
+        },
+        {
+          "row": 865,
+          "solver_time": 213.06770833432063,
+          "integrated_time": 213.0687500009873,
+          "width_m": 0.024999999996146022,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            3.988804599390928e-09,
+            7.271544694500975e-10
+          ],
+          "acceleration_m_s2": -3.131184124743197e-06,
+          "jerk_m_s3": -0.007328941816331369,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -4.401167643663939e-07,
+          "jaw_constraint_force_N": [
+            0.014675020190040891,
+            -0.014675020190040891
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.014675020190040891,
+              -0.014675020190040891
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": []
+        },
+        {
+          "row": 866,
+          "solver_time": 213.0687500009873,
+          "integrated_time": 213.069791667654,
+          "width_m": 0.02499999999690348,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            7.271544694500975e-10,
+            2.6188091778131008e-09
+          ],
+          "acceleration_m_s2": 1.815988520028483e-06,
+          "jerk_m_s3": 0.004749285738980813,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -5.6293316674782545e-08,
+          "jaw_constraint_force_N": [
+            0.015604785721801807,
+            -0.015604785721801807
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.015604785721801807,
+              -0.015604785721801807
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": []
+        },
+        {
+          "row": 867,
+          "solver_time": 213.069791667654,
+          "integrated_time": 213.07083333432067,
+          "width_m": 0.0249999999996314,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            2.6188091778131008e-09,
+            1.1326861588153558e-09
+          ],
+          "acceleration_m_s2": -1.4266780982378352e-06,
+          "jerk_m_s3": -0.0031129599535356656,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -3.105711243733822e-07,
+          "jaw_constraint_force_N": [
+            0.015077225845700652,
+            -0.015077225845700652
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.015077225845700652,
+              -0.015077225845700652
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "contacts": []
+        },
+        {
+          "row": 868,
+          "solver_time": 213.07083333432067,
+          "integrated_time": 213.07187500098735,
+          "width_m": 0.025000000000811283,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            1.1326861588153558e-09,
+            -0.008876810745193964
+          ],
+          "acceleration_m_s2": -8.521739402764918,
+          "jerk_m_s3": -8180.868457043347,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -1.4403516956917883e-07,
+          "jaw_constraint_force_N": [
+            -0.656554034039738,
+            -0.6731952578393366
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.6731952578393366,
+              -0.6731952578393366
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -1.329749291879074,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -2.801863022970294e-05,
+              "force_local_N_Nm": [
+                5.231269184684654,
+                -2.571648219270484,
+                3.4314497320174095,
+                -3.1514077139537396e-06,
+                2.718025952419627e-06,
+                2.1587684092402012e-06
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -2.801863022970294e-05,
+              "force_local_N_Nm": [
+                5.235370918731747,
+                -2.5736648221232112,
+                3.4341400951306404,
+                -3.1536984851895883e-06,
+                2.7200016966695774e-06,
+                2.1603376268805752e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 869,
+          "solver_time": 213.07187500098735,
+          "integrated_time": 213.07291666765403,
+          "width_m": 0.024990753322951705,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            -0.008876810745193964,
+            -0.007227218281897297
+          ],
+          "acceleration_m_s2": 1.583608764764801,
+          "jerk_m_s3": 9701.13424082853,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.157684059906245,
+          "jaw_constraint_force_N": [
+            -1.0406307256100327,
+            -1.036505270027375
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              1.036505270027375,
+              -1.036505270027375
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -2.077135995637408,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -5.1621575887682986e-05,
+              "force_local_N_Nm": [
+                7.8198353738512765,
+                -3.7839996760504904,
+                5.099537455021856,
+                5.2057794841842585e-05,
+                0.0003151058440195546,
+                0.0002450708095202095
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -5.1621575887682986e-05,
+              "force_local_N_Nm": [
+                7.822737435394063,
+                -3.781352028949641,
+                5.096023585538969,
+                5.2057794841842585e-05,
+                0.0003151058440195546,
+                0.0002450708095202095
+              ]
+            }
+          ]
+        },
+        {
+          "row": 870,
+          "solver_time": 213.07291666765403,
+          "integrated_time": 213.0739583343207,
+          "width_m": 0.02498322497057473,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            -0.007227218281897297,
+            -0.00666841637803607
+          ],
+          "acceleration_m_s2": 0.5364498277067775,
+          "jerk_m_s3": -1005.2725795757025,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.0350164880803732,
+          "jaw_constraint_force_N": [
+            -0.9994758808196753,
+            -0.9940744391708674
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.9940744391708674,
+              -0.9940744391708674
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -1.9935503199905429,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -7.281499776566266e-05,
+              "force_local_N_Nm": [
+                7.8447875846294215,
+                -3.8238797049956705,
+                5.169974256823703,
+                6.579195236116255e-05,
+                3.527616815697484e-05,
+                2.6322009068399805e-05
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -7.281499776566266e-05,
+              "force_local_N_Nm": [
+                7.842126264312047,
+                -3.8225501136426767,
+                5.168244208164857,
+                6.582290778447149e-05,
+                3.5292765760159215e-05,
+                2.6334393697580293e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 871,
+          "solver_time": 213.0739583343207,
+          "integrated_time": 213.0750000009874,
+          "width_m": 0.024976278703514276,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            -0.00666841637803607,
+            -0.006349367066843329
+          ],
+          "acceleration_m_s2": 0.3062873387450313,
+          "jerk_m_s3": -220.9559894032764,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.0374229302215667,
+          "jaw_constraint_force_N": [
+            -1.0292896358727228,
+            -1.0044292780326576
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              1.0044292780326576,
+              -1.0044292780326576
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -2.03371891390538,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -9.161934314668578e-05,
+              "force_local_N_Nm": [
+                8.002414054362355,
+                -3.897883188870224,
+                5.275951780574354,
+                6.088144581294231e-05,
+                3.467640728624095e-05,
+                2.5444072944820647e-05
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -9.161934314668578e-05,
+              "force_local_N_Nm": [
+                7.998010306109853,
+                -3.895706367503874,
+                5.273071843175374,
+                6.089266809418239e-05,
+                3.46827991908642e-05,
+                2.544876305259761e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 872,
+          "solver_time": 213.0750000009874,
+          "integrated_time": 213.07604166765407,
+          "width_m": 0.02496966477948631,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            -0.006349367066843329,
+            -0.005978292889100097
+          ],
+          "acceleration_m_s2": 0.35623121063350305,
+          "jerk_m_s3": 47.9461170129329,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.065276253158089,
+          "jaw_constraint_force_N": [
+            -1.060128975194214,
+            -1.0211839068387905
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              1.0211839068387905,
+              -1.0211839068387905
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -2.081312882033006,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -0.00010809390364569306,
+              "force_local_N_Nm": [
+                8.188291104758052,
+                -3.9858218738410316,
+                5.400404651620007,
+                5.3385882894953915e-05,
+                4.1176895356543024e-05,
+                2.9959622611938435e-05
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -0.00010809390364569306,
+              "force_local_N_Nm": [
+                8.183009437484115,
+                -3.983221530560482,
+                5.3969428536447674,
+                5.338513382461807e-05,
+                4.1176317593487296e-05,
+                2.9959202241170834e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 873,
+          "solver_time": 213.07604166765407,
+          "integrated_time": 213.07708333432075,
+          "width_m": 0.02496343739106017,
+          "command_m": 0.025,
+          "velocity_m_s": [
+            -0.005978292889100097,
+            -0.005620814396041457
+          ],
+          "acceleration_m_s2": 0.3431793533362948,
+          "jerk_m_s3": -12.529783005319928,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": 1.0830212360903317,
+          "jaw_constraint_force_N": [
+            -1.0834046628006204,
+            -1.0350636977613228
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              1.0350636977613228,
+              -1.0350636977613228
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              -2.1184683605619448,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -0.00012239209875031587,
+              "force_local_N_Nm": [
+                8.332674300419445,
+                -4.053958658314479,
+                5.497202646019909,
+                4.566014942877808e-05,
+                4.5101507122830864e-05,
+                3.261567216708133e-05
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "gripper_right_43"
+              ],
+              "distance_m": -0.00012239209875031587,
+              "force_local_N_Nm": [
+                8.326541595387079,
+                -4.0509488974199925,
+                5.493175983679478,
+                4.5650819523455525e-05,
+                4.509229136693377e-05,
+                3.260900768750434e-05
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plate/lift": {
+      "steps": 3616,
+      "acceleration_peak_m_s2": 2.0816658553948755,
+      "jerk_peak_m_s3": 2141.230739726563,
+      "recorded_interval_acceleration_matches": true,
+      "recorded_interval_jerk_matches": true,
+      "acceleration_peak": {
+        "row": 4774,
+        "solver_time": 217.13958333437247,
+        "integrated_time": 217.14062500103915,
+        "width_m": 0.005065376318320668,
+        "command_m": 0.0,
+        "velocity_m_s": [
+          -0.004704831836704218,
+          -0.006873233769407213
+        ],
+        "acceleration_m_s2": -2.0816658553948755,
+        "jerk_m_s3": -1626.778331077063,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": -30.0,
+        "jaw_constraint_force_N": [
+          29.84716843459623,
+          29.82287298888001
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.5015222989271988,
+            -0.5015222989271988
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            29.345646135669032,
+            30.32439528780721
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_9"
+            ],
+            "distance_m": -0.0008826715990137647,
+            "force_local_N_Nm": [
+              28.732937920207313,
+              14.847998684253813,
+              -13.780144874912459,
+              3.476136630096226e-05,
+              -0.014298155467329994,
+              -0.019315324872688198
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_10"
+            ],
+            "distance_m": -0.0002415526571238894,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_36",
+              "task/plate/glazed_shell_contact_2_9"
+            ],
+            "distance_m": -0.0004654268632365056,
+            "force_local_N_Nm": [
+              29.140002027343694,
+              -15.756672762874235,
+              -14.169163435414905,
+              0.013135514967399951,
+              -0.012887422396380731,
+              0.017803191667710088
+            ]
+          }
+        ]
+      },
+      "jerk_peak": {
+        "row": 4775,
+        "solver_time": 217.14062500103915,
+        "integrated_time": 217.14166666770583,
+        "width_m": 0.005058216699810868,
+        "command_m": 0.0,
+        "velocity_m_s": [
+          -0.006873233769407213,
+          -0.006718251652927739
+        ],
+        "acceleration_m_s2": 0.1487828318202944,
+        "jerk_m_s3": 2141.230739726563,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": -30.0,
+        "jaw_constraint_force_N": [
+          30.0132923531844,
+          30.00328937807257
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.35577041103147267,
+            -0.35577041103147267
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            29.65752194215293,
+            30.35905978910404
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_9"
+            ],
+            "distance_m": -0.000876967320034584,
+            "force_local_N_Nm": [
+              29.238842028981537,
+              4.313936130259588,
+              -12.71413932075065,
+              -0.13864267117905657,
+              -0.03491737940580536,
+              -0.003973087737998665
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_10"
+            ],
+            "distance_m": -0.00023535707539208255,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_36",
+              "task/plate/glazed_shell_contact_2_9"
+            ],
+            "distance_m": -0.0004684859081629156,
+            "force_local_N_Nm": [
+              15.51674219754437,
+              -2.8205228048069406,
+              -5.463541096377822,
+              0.05695001244423161,
+              -0.02075883594593756,
+              0.0027041350973862044
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_36",
+              "task/plate/glazed_shell_contact_2_9"
+            ],
+            "distance_m": -0.0004684859081629156,
+            "force_local_N_Nm": [
+              13.9594003360547,
+              -4.277089394554642,
+              -8.281258585179751,
+              0.033666818834155926,
+              -0.012391470982719865,
+              0.0015982312480142258
+            ]
+          }
+        ]
+      },
+      "acceleration_window": [
+        {
+          "row": 4769,
+          "solver_time": 217.13437500103907,
+          "integrated_time": 217.13541666770575,
+          "width_m": 0.005088873760301132,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0047342375550996785,
+            -0.0046240698503356645
+          ],
+          "acceleration_m_s2": 0.1057609965734535,
+          "jerk_m_s3": -8.068765777900389,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.016189599301224,
+            29.995592054595168
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.3615069867599871,
+              -0.3615069867599871
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.654682612541237,
+              30.35709904135516
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008412421722349973,
+              "force_local_N_Nm": [
+                29.309091843708032,
+                6.124871248984195,
+                -9.21947406763246,
+                -0.17202204388693532,
+                -0.03296088901710867,
+                -0.014362375988422686
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00019690106334833851,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.000500046530118604,
+              "force_local_N_Nm": [
+                15.117760499963756,
+                -3.387530139327791,
+                -2.2891604632211093,
+                0.0690134551947049,
+                -0.019533743172974766,
+                0.009009395506674504
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.000500046530118604,
+              "force_local_N_Nm": [
+                14.523400331104483,
+                -5.738694571889657,
+                -6.695655110047057,
+                0.05294253241159903,
+                -0.013068332647298925,
+                0.005937351450673467
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4770,
+          "solver_time": 217.13541666770575,
+          "integrated_time": 217.13645833437243,
+          "width_m": 0.005084057020873698,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0046240698503356645,
+            -0.0045171044806881985
+          ],
+          "acceleration_m_s2": 0.10268675486156731,
+          "jerk_m_s3": -2.9512720434107464,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.01808090547875,
+            29.993327607134397
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.3467328222430665,
+              -0.3467328222430665
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.671348083235685,
+              30.340060429377463
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008479137836337182,
+              "force_local_N_Nm": [
+                29.328598923245973,
+                6.07168306708299,
+                -9.150050887638383,
+                -0.1742100081163427,
+                -0.03295773219018767,
+                -0.014275461267546601
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00020390784113297623,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004948293220917842,
+              "force_local_N_Nm": [
+                15.110238158684705,
+                -3.362933297021347,
+                -2.261919708826835,
+                0.06775898722210129,
+                -0.019620270367610017,
+                0.009021113088666197
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004948293220917842,
+              "force_local_N_Nm": [
+                14.524274388233703,
+                -5.694084656287327,
+                -6.61797899280677,
+                0.05296206919003829,
+                -0.01327532557825257,
+                0.006000609545750846
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4771,
+          "solver_time": 217.13645833437243,
+          "integrated_time": 217.13750000103911,
+          "width_m": 0.005079351703706315,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0045171044806881985,
+            -0.00440994076957908
+          ],
+          "acceleration_m_s2": 0.10287716266475344,
+          "jerk_m_s3": 0.18279149105868697,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.018650307667254,
+            29.992891936091013
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.3200105898432429,
+              -0.3200105898432429
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.698639717824012,
+              30.312902525934255
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008568744395301182,
+              "force_local_N_Nm": [
+                29.350907012953215,
+                6.1445398016178565,
+                -9.283852277631876,
+                -0.17519194616990066,
+                -0.03278532154588012,
+                -0.014110862802565708
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00021316867685600195,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004876314286040252,
+              "force_local_N_Nm": [
+                15.085410457414651,
+                -3.4133418056121028,
+                -2.3487731004325254,
+                0.06752817550711461,
+                -0.01954108524017507,
+                0.008947262112784182
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004876314286040252,
+              "force_local_N_Nm": [
+                14.518336295937424,
+                -5.688938810059065,
+                -6.612328552836679,
+                0.052088607781749466,
+                -0.01333153313323414,
+                0.006017712712182999
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4772,
+          "solver_time": 217.13750000103911,
+          "integrated_time": 217.1385416677058,
+          "width_m": 0.005074758015404669,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.00440994076957908,
+            -0.004301597363937272
+          ],
+          "acceleration_m_s2": 0.10400966941613632,
+          "jerk_m_s3": 1.0872064813275628,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.018349590816896,
+            29.9934741377788
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.28944956846941505,
+              -0.28944956846941505
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.72890002234748,
+              30.282923706248216
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.00086736626037607,
+              "force_local_N_Nm": [
+                29.371863492379777,
+                6.285503163878002,
+                -9.530594641775812,
+                -0.175286044429164,
+                -0.03252305687964483,
+                -0.013906394336230263
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00022393428935856772,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.000479115968880445,
+              "force_local_N_Nm": [
+                15.052923334623939,
+                -3.5052725896609904,
+                -2.5002724017665696,
+                0.06800343062320013,
+                -0.019362323730390315,
+                0.008817517088776879
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.000479115968880445,
+              "force_local_N_Nm": [
+                14.509283480741633,
+                -5.706143598435066,
+                -6.6490948378344035,
+                0.05084890559685615,
+                -0.01329619692621221,
+                0.005998471914883905
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4773,
+          "solver_time": 217.1385416677058,
+          "integrated_time": 217.13958333437247,
+          "width_m": 0.005070277184817235,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.004301597363937272,
+            -0.004704831836704218
+          ],
+          "acceleration_m_s2": -0.3871050938562681,
+          "jerk_m_s3": -471.4701727415083,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            29.95960937574947,
+            29.975448110049133
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.6192042998708589,
+              -0.6192042998708589
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.34040507587861,
+              30.59465240991999
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008786451000002741,
+              "force_local_N_Nm": [
+                28.43634454871892,
+                5.8450179503068185,
+                -17.857193615415756,
+                -0.042016535356462346,
+                -0.026169882680265752,
+                -0.006704162264524276
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00023547143888541652,
+              "force_local_N_Nm": [
+                0.3075217052690876,
+                0.03855259433454709,
+                -0.17274770365196387,
+                -0.00036479175244064706,
+                -0.0003447037170898596,
+                -8.762922147584068e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.000469931623192194,
+              "force_local_N_Nm": [
+                15.794464388533369,
+                -3.967945421355767,
+                -9.5799577707632,
+                0.01649877951732338,
+                -0.014828178130433675,
+                0.003962323188574108
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.000469931623192194,
+              "force_local_N_Nm": [
+                13.64640303173527,
+                -3.700910016228971,
+                -8.621720929565967,
+                0.012962390020268435,
+                -0.011649868911157798,
+                0.0031130288042514995
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4774,
+          "solver_time": 217.13958333437247,
+          "integrated_time": 217.14062500103915,
+          "width_m": 0.005065376318320668,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.004704831836704218,
+            -0.006873233769407213
+          ],
+          "acceleration_m_s2": -2.0816658553948755,
+          "jerk_m_s3": -1626.778331077063,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            29.84716843459623,
+            29.82287298888001
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.5015222989271988,
+              -0.5015222989271988
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.345646135669032,
+              30.32439528780721
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008826715990137647,
+              "force_local_N_Nm": [
+                28.732937920207313,
+                14.847998684253813,
+                -13.780144874912459,
+                3.476136630096226e-05,
+                -0.014298155467329994,
+                -0.019315324872688198
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.0002415526571238894,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004654268632365056,
+              "force_local_N_Nm": [
+                29.140002027343694,
+                -15.756672762874235,
+                -14.169163435414905,
+                0.013135514967399951,
+                -0.012887422396380731,
+                0.017803191667710088
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4775,
+          "solver_time": 217.14062500103915,
+          "integrated_time": 217.14166666770583,
+          "width_m": 0.005058216699810868,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.006873233769407213,
+            -0.006718251652927739
+          ],
+          "acceleration_m_s2": 0.1487828318202944,
+          "jerk_m_s3": 2141.230739726563,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.0132923531844,
+            30.00328937807257
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.35577041103147267,
+              -0.35577041103147267
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.65752194215293,
+              30.35905978910404
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.000876967320034584,
+              "force_local_N_Nm": [
+                29.238842028981537,
+                4.313936130259588,
+                -12.71413932075065,
+                -0.13864267117905657,
+                -0.03491737940580536,
+                -0.003973087737998665
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00023535707539208255,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004684859081629156,
+              "force_local_N_Nm": [
+                15.51674219754437,
+                -2.8205228048069406,
+                -5.463541096377822,
+                0.05695001244423161,
+                -0.02075883594593756,
+                0.0027041350973862044
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004684859081629156,
+              "force_local_N_Nm": [
+                13.9594003360547,
+                -4.277089394554642,
+                -8.281258585179751,
+                0.033666818834155926,
+                -0.012391470982719865,
+                0.0015982312480142258
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4776,
+          "solver_time": 217.14166666770583,
+          "integrated_time": 217.14270833437251,
+          "width_m": 0.005051218521005735,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.006718251652927739,
+            -0.0065434940390181094
+          ],
+          "acceleration_m_s2": 0.16776730935324474,
+          "jerk_m_s3": 18.225098431632336,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.014476947651254,
+            30.005115049572996
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.3204985450164224,
+              -0.3204985450164224
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.69397840263483,
+              30.325613594589417
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008731190162408188,
+              "force_local_N_Nm": [
+                29.28330025960046,
+                5.852569615399009,
+                -11.615417977286818,
+                -0.15201467158514909,
+                -0.03338472495652382,
+                -0.010135137668554228
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00023106807692912937,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004706791836152403,
+              "force_local_N_Nm": [
+                15.217734496303557,
+                -3.52781427939277,
+                -4.400153993415227,
+                0.06689072260740676,
+                -0.01940987398532541,
+                0.006237643202563028
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004706791836152403,
+              "force_local_N_Nm": [
+                14.265339791704262,
+                -5.233982618695777,
+                -7.754928283150445,
+                0.04086151705363556,
+                -0.012307206808208918,
+                0.003958367426143393
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4777,
+          "solver_time": 217.14270833437251,
+          "integrated_time": 217.1437500010392,
+          "width_m": 0.005044402381381758,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.0065434940390181094,
+            -0.006365058829679655
+          ],
+          "acceleration_m_s2": 0.1712978009649166,
+          "jerk_m_s3": 3.389271947204975,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.01374046525779,
+            30.006529784884503
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.29407420449858235,
+              -0.29407420449858235
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.719666260759208,
+              30.300603989383085
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008713940029279068,
+              "force_local_N_Nm": [
+                29.31556048270939,
+                6.484679903168315,
+                -11.050761970037621,
+                -0.15888250270195492,
+                -0.032306400995862225,
+                -0.012675949569330415
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00022899992511840185,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.00047162146873097583,
+              "force_local_N_Nm": [
+                15.090943399109365,
+                -3.7911905961976102,
+                -3.8220110855404856,
+                0.07144683244725981,
+                -0.018620433691254473,
+                0.007661657087397402
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.00047162146873097583,
+              "force_local_N_Nm": [
+                14.399348256982824,
+                -5.637209840217123,
+                -7.457069976397763,
+                0.044597381193073465,
+                -0.012137745904595097,
+                0.005004957239554287
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4778,
+          "solver_time": 217.1437500010392,
+          "integrated_time": 217.14479166770587,
+          "width_m": 0.005037772111767508,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.006365058829679655,
+            -0.006187855525761952
+          ],
+          "acceleration_m_s2": 0.17011517176099444,
+          "jerk_m_s3": -1.1353240357652616,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.012327352580662,
+            30.007912734258316
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.2718543672795952,
+              -0.2718543672795952
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.740472985301068,
+              30.27976710153791
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008715666507909833,
+              "force_local_N_Nm": [
+                29.340808834573146,
+                6.781300276592486,
+                -10.739082675915498,
+                -0.1631738516418676,
+                -0.031707295656634715,
+                -0.013779229159272042
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00022893906434370986,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.00047139127871171727,
+              "force_local_N_Nm": [
+                15.029583232260004,
+                -3.898159666464154,
+                -3.4735428202809406,
+                0.07385848912843462,
+                -0.018231808556287976,
+                0.008288812507171145
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.00047139127871171727,
+              "force_local_N_Nm": [
+                14.464319577627743,
+                -5.829660218619881,
+                -7.2728186009059295,
+                0.04678161339847215,
+                -0.012068218396790084,
+                0.005500307466500033
+              ]
+            }
+          ]
+        },
+        {
+          "row": 4779,
+          "solver_time": 217.14479166770587,
+          "integrated_time": 217.14583333437255,
+          "width_m": 0.005031326428928173,
+          "command_m": 0.0,
+          "velocity_m_s": [
+            -0.006187855525761952,
+            -0.006013381126667397
+          ],
+          "acceleration_m_s2": 0.16749542313077292,
+          "jerk_m_s3": -2.514958685012658,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -30.0,
+          "jaw_constraint_force_N": [
+            30.010777949500948,
+            30.009216290660216
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.2511147826897683,
+              -0.2511147826897683
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              29.75966316681118,
+              30.260331073349985
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0008732992848848128,
+              "force_local_N_Nm": [
+                29.362181324529775,
+                6.958314123935027,
+                -10.569421286159605,
+                -0.16604867184627417,
+                -0.03134000345468899,
+                -0.01429344880701213
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_10"
+              ],
+              "distance_m": -0.00023053627188421313,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004701859972095749,
+              "force_local_N_Nm": [
+                14.992711058021019,
+                -3.9543910694171016,
+                -3.2513369521933395,
+                0.07537280491650543,
+                -0.018015480106551372,
+                0.008588594747801935
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -0.0004701859972095749,
+              "force_local_N_Nm": [
+                14.49968682072412,
+                -5.938543291568808,
+                -7.150558327089095,
+                0.048179977303110536,
+                -0.01204429372472011,
+                0.005757688794174008
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "plate/release": {
+      "steps": 4512,
+      "acceleration_peak_m_s2": 12.423118189700784,
+      "jerk_peak_m_s3": 15160.372348738216,
+      "recorded_interval_acceleration_matches": true,
+      "recorded_interval_jerk_matches": true,
+      "acceleration_peak": {
+        "row": 6950,
+        "solver_time": 230.83958333454692,
+        "integrated_time": 230.8406250012136,
+        "width_m": 0.004076205680437911,
+        "command_m": 0.0038001596307021567,
+        "velocity_m_s": [
+          0.021430905448798998,
+          0.008490157334527348
+        ],
+        "acceleration_m_s2": -12.423118189700784,
+        "jerk_m_s3": -12095.734278646987,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 3.343700654643606,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": -1.9884684965698227,
+        "jaw_constraint_force_N": [
+          1.1124841706294875,
+          0.9474351337626304
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            -0.9474351337626304,
+            0.9474351337626304
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            2.059919304392118,
+            0.0
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_9"
+            ],
+            "distance_m": -0.0001388494853962639,
+            "force_local_N_Nm": [
+              2.0220815819686244,
+              1.1186886826109457,
+              0.02225648521641768,
+              -0.018179452228528643,
+              0.00025594316226475763,
+              0.00020214034396292147
+            ]
+          }
+        ]
+      },
+      "jerk_peak": {
+        "row": 6951,
+        "solver_time": 230.8406250012136,
+        "integrated_time": 230.84166666788028,
+        "width_m": 0.004085049594328044,
+        "command_m": 0.0038293566996960007,
+        "velocity_m_s": [
+          0.008490157334527348,
+          0.01199946602227199
+        ],
+        "acceleration_m_s2": 3.368936340234856,
+        "jerk_m_s3": 15160.372348738216,
+        "position_gain_N_m": 10000.0,
+        "affine_force_bias_N": 3.3828325726464064,
+        "force_range_N": [
+          -30.0,
+          30.0
+        ],
+        "actuator_force_N": -0.19291525381729713,
+        "jaw_constraint_force_N": [
+          0.4134208107573022,
+          0.5065187162953116
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.15741015455640212,
+            -0.15741015455640212
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.2560106562009001,
+            0.6639288708517138
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_9"
+            ],
+            "distance_m": -9.845607844604494e-05,
+            "force_local_N_Nm": [
+              0.24913571146019203,
+              0.1909919570249019,
+              0.0007297081812354461,
+              -0.001084297124489052,
+              1.4182063976177124e-06,
+              2.542580744792114e-06
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_36",
+              "task/plate/glazed_shell_contact_2_9"
+            ],
+            "distance_m": -2.99044757306101e-05,
+            "force_local_N_Nm": [
+              0.21272131050708062,
+              0.1526260897906018,
+              0.06718969795936224,
+              0.0007641372662870839,
+              1.5462996182513962e-06,
+              -1.045211579516724e-06
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_36",
+              "task/plate/glazed_shell_contact_2_9"
+            ],
+            "distance_m": -2.99044757306101e-05,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_36",
+              "task/plate/glazed_shell_contact_2_9"
+            ],
+            "distance_m": -2.99044757306101e-05,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "gripper_right_36",
+              "task/plate/glazed_shell_contact_2_9"
+            ],
+            "distance_m": -2.99044757306101e-05,
+            "force_local_N_Nm": [
+              0.4505794423739222,
+              0.34134720882880976,
+              0.09600967428464086,
+              0.001549988391266086,
+              3.1365391578852727e-06,
+              -2.1201240747485778e-06
+            ]
+          }
+        ]
+      },
+      "acceleration_window": [
+        {
+          "row": 6945,
+          "solver_time": 230.83437500121352,
+          "integrated_time": 230.8354166678802,
+          "width_m": 0.003966543461184342,
+          "command_m": 0.00365994486852075,
+          "velocity_m_s": [
+            0.020211482353141602,
+            0.020575099500407056
+          ],
+          "acceleration_m_s2": 0.3490724613748353,
+          "jerk_m_s3": 2.009954337735209,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.1056088643856046,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -2.3857549446273083,
+          "jaw_constraint_force_N": [
+            2.422788699985283,
+            2.4234024875016176
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.016341734074534653,
+              -0.016341734074534653
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              2.406446965910748,
+              2.4397442215761513
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.00019464232918118212,
+              "force_local_N_Nm": [
+                2.3894466466266,
+                0.9527374445290144,
+                0.26957654732368536,
+                -0.025346905049076815,
+                3.9320766762212665e-05,
+                -2.824385460292474e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.255809322350795e-05,
+              "force_local_N_Nm": [
+                0.9936079924036038,
+                0.39348294386403776,
+                0.5242570546622329,
+                0.0072493422998242745,
+                1.657582498180444e-05,
+                1.5269491926236117e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.255809322350795e-05,
+              "force_local_N_Nm": [
+                0.26331003906183426,
+                0.06657929358269801,
+                -0.07480407875052231,
+                0.0028672463248986717,
+                6.5560393337192045e-06,
+                6.039360923767073e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.255809322350795e-05,
+              "force_local_N_Nm": [
+                0.24573329413014416,
+                -0.0574408410892826,
+                -0.02888443934628175,
+                0.0028626424352960803,
+                6.545512410705795e-06,
+                6.029663622659115e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.255809322350795e-05,
+              "force_local_N_Nm": [
+                0.9354044999140458,
+                0.5193767936599037,
+                0.3218389719281013,
+                0.006946788296520897,
+                1.5884026747029043e-05,
+                1.4632213988511569e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6946,
+          "solver_time": 230.8354166678802,
+          "integrated_time": 230.83645833454688,
+          "width_m": 0.003987975856497266,
+          "command_m": 0.0036871365576805312,
+          "velocity_m_s": [
+            0.020575099500407056,
+            0.020940638599957838
+          ],
+          "acceleration_m_s2": 0.35091753556875105,
+          "jerk_m_s3": 1.7712712261591435,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.158884849136405,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -2.3185200790797893,
+          "jaw_constraint_force_N": [
+            2.355873452909008,
+            2.356499316745214
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.015715875779676196,
+              -0.015715875779676196
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              2.340157577129332,
+              2.37221519252489
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.00018458467438210372,
+              "force_local_N_Nm": [
+                2.3228955221622734,
+                0.9427937513249892,
+                0.26049499295119966,
+                -0.024502218321947,
+                4.139717627107787e-05,
+                -3.07143989462418e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -4.148894536242773e-05,
+              "force_local_N_Nm": [
+                0.9687570649881204,
+                0.3874401979162078,
+                0.5100478337047583,
+                0.007038945565266444,
+                1.7099087190388512e-05,
+                1.5816552110061614e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -4.148894536242773e-05,
+              "force_local_N_Nm": [
+                0.25543797118365774,
+                0.06654747921864855,
+                -0.07198717800335759,
+                0.00277442571174635,
+                6.739666716915547e-06,
+                6.2341509020704955e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -4.148894536242773e-05,
+              "force_local_N_Nm": [
+                0.23075290240712693,
+                -0.05205415093165386,
+                -0.026830925400498758,
+                0.0026970350342118113,
+                6.5516683966250515e-06,
+                6.060253594198408e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -4.148894536242773e-05,
+              "force_local_N_Nm": [
+                0.9156077240973559,
+                0.5108949454880385,
+                0.31434843944629093,
+                0.006764191823003824,
+                1.643165225268755e-05,
+                1.5199178834243888e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6947,
+          "solver_time": 230.83645833454688,
+          "integrated_time": 230.83750000121356,
+          "width_m": 0.0040097890217055555,
+          "command_m": 0.0037147784341500004,
+          "velocity_m_s": [
+            0.020940638599957838,
+            0.021082145045071592
+          ],
+          "acceleration_m_s2": 0.13584618730920428,
+          "jerk_m_s3": -206.4684943291649,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.2093320205376057,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -2.2536504870128837,
+          "jaw_constraint_force_N": [
+            2.270766747902767,
+            2.2786355369762945
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.004142862489054117,
+              -0.004142862489054117
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              2.2666238854137126,
+              2.2827783994653488
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.00017441696219294052,
+              "force_local_N_Nm": [
+                2.2167819506696445,
+                0.9691182293868372,
+                -0.31448295797099357,
+                -0.022563382058964316,
+                -3.3752756034932677e-06,
+                6.846348078278683e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -3.02556876560848e-05,
+              "force_local_N_Nm": [
+                1.2180141226317605,
+                0.4340631568484271,
+                -0.04349769418401881,
+                0.013469508945218886,
+                7.61209596774382e-06,
+                -2.7465904431776666e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -3.02556876560848e-05,
+              "force_local_N_Nm": [
+                1.0637668898911825,
+                0.2527868343267922,
+                0.005562592357770614,
+                0.012516251816074594,
+                7.073376644085181e-06,
+                -2.5522101631357546e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6948,
+          "solver_time": 230.83750000121356,
+          "integrated_time": 230.83854166788024,
+          "width_m": 0.004031749589460838,
+          "command_m": 0.003742845942257719,
+          "velocity_m_s": [
+            0.021082145045071592,
+            0.021246941889191538
+          ],
+          "acceleration_m_s2": 0.15820497035514802,
+          "jerk_m_s3": 21.464431724105992,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.2569503785892056,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -2.161943498850576,
+          "jaw_constraint_force_N": [
+            2.183597641495702,
+            2.186049744617124
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.019497399344576012,
+              -0.019497399344576012
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              2.164100242151126,
+              2.2055471439617005
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.00016324431203985622,
+              "force_local_N_Nm": [
+                2.1145530513569675,
+                0.944571676629879,
+                -0.3218128555363178,
+                -0.021253389349985895,
+                -6.754642195122646e-06,
+                6.511282687338259e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -1.957104200368063e-05,
+              "force_local_N_Nm": [
+                1.1886651623325444,
+                0.4398988254072636,
+                -0.02822724404154411,
+                0.013032696363415586,
+                5.203467136002521e-06,
+                -2.6948620540115552e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -1.957104200368063e-05,
+              "force_local_N_Nm": [
+                1.0158287124599965,
+                0.25790427863028287,
+                0.017897583487468505,
+                0.011871638483423838,
+                4.739900246000148e-06,
+                -2.4547819711145082e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6949,
+          "solver_time": 230.83854166788024,
+          "integrated_time": 230.83958333454692,
+          "width_m": 0.004053881820595412,
+          "command_m": 0.0037713145263322504,
+          "velocity_m_s": [
+            0.021246941889191538,
+            0.021430905448798998
+          ],
+          "acceleration_m_s2": 0.17660501722316146,
+          "jerk_m_s3": 17.664044993292904,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.3017399232912052,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -2.0735660460433962,
+          "jaw_constraint_force_N": [
+            2.097579131648272,
+            2.098356429308097
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.026445135109850307,
+              -0.026445135109850307
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              2.0711339965384217,
+              2.1248015644179477
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0001513462316373876,
+              "force_local_N_Nm": [
+                2.0220206877908944,
+                0.9208641502726639,
+                -0.32627286783179604,
+                -0.02007792874953147,
+                -1.006690775326176e-05,
+                6.671621352292917e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -9.151843575555124e-06,
+              "force_local_N_Nm": [
+                1.15751469451006,
+                0.44485501741074457,
+                -0.015633864757725602,
+                0.012567163761557382,
+                2.7353403006792073e-06,
+                -2.917944798473346e-05
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -9.151843575555124e-06,
+              "force_local_N_Nm": [
+                0.9662112839365768,
+                0.26181003749753173,
+                0.02721433752428636,
+                0.0112032671682391,
+                2.438477668151512e-06,
+                -2.6012643568368154e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6950,
+          "solver_time": 230.83958333454692,
+          "integrated_time": 230.8406250012136,
+          "width_m": 0.004076205680437911,
+          "command_m": 0.0038001596307021567,
+          "velocity_m_s": [
+            0.021430905448798998,
+            0.008490157334527348
+          ],
+          "acceleration_m_s2": -12.423118189700784,
+          "jerk_m_s3": -12095.734278646987,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.343700654643606,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -1.9884684965698227,
+          "jaw_constraint_force_N": [
+            1.1124841706294875,
+            0.9474351337626304
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.9474351337626304,
+              0.9474351337626304
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              2.059919304392118,
+              0.0
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -0.0001388494853962639,
+              "force_local_N_Nm": [
+                2.0220815819686244,
+                1.1186886826109457,
+                0.02225648521641768,
+                -0.018179452228528643,
+                0.00025594316226475763,
+                0.00020214034396292147
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6951,
+          "solver_time": 230.8406250012136,
+          "integrated_time": 230.84166666788028,
+          "width_m": 0.004085049594328044,
+          "command_m": 0.0038293566996960007,
+          "velocity_m_s": [
+            0.008490157334527348,
+            0.01199946602227199
+          ],
+          "acceleration_m_s2": 3.368936340234856,
+          "jerk_m_s3": 15160.372348738216,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.3828325726464064,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.19291525381729713,
+          "jaw_constraint_force_N": [
+            0.4134208107573022,
+            0.5065187162953116
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.15741015455640212,
+              -0.15741015455640212
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.2560106562009001,
+              0.6639288708517138
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -9.845607844604494e-05,
+              "force_local_N_Nm": [
+                0.24913571146019203,
+                0.1909919570249019,
+                0.0007297081812354461,
+                -0.001084297124489052,
+                1.4182063976177124e-06,
+                2.542580744792114e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -2.99044757306101e-05,
+              "force_local_N_Nm": [
+                0.21272131050708062,
+                0.1526260897906018,
+                0.06718969795936224,
+                0.0007641372662870839,
+                1.5462996182513962e-06,
+                -1.045211579516724e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -2.99044757306101e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -2.99044757306101e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -2.99044757306101e-05,
+              "force_local_N_Nm": [
+                0.4505794423739222,
+                0.34134720882880976,
+                0.09600967428464086,
+                0.001549988391266086,
+                3.1365391578852727e-06,
+                -2.1201240747485778e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6952,
+          "solver_time": 230.84166666788028,
+          "integrated_time": 230.84270833454696,
+          "width_m": 0.004097549038101243,
+          "command_m": 0.003858881177642344,
+          "velocity_m_s": [
+            0.01199946602227199,
+            0.015047860890576666
+          ],
+          "acceleration_m_s2": 2.926459073572489,
+          "jerk_m_s3": -424.7781759958724,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.4191356772996064,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.40747884996202544,
+          "jaw_constraint_force_N": [
+            0.6211330664420689,
+            0.662464617416732
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.20464908034861928,
+              -0.20464908034861928
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.4164839860934496,
+              0.8671136977653514
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -6.278952423161793e-05,
+              "force_local_N_Nm": [
+                0.40432143167431195,
+                0.3046830714847847,
+                -0.020032759654004723,
+                -0.0019332289686979766,
+                1.3868817211009056e-06,
+                1.5539598232083918e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.234173149747806e-05,
+              "force_local_N_Nm": [
+                0.2801948818021048,
+                0.19191789897106917,
+                0.10408557266663958,
+                0.0010697407907345482,
+                1.5399300505383212e-06,
+                1.8155436145205463e-07
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.234173149747806e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.234173149747806e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -5.234173149747806e-05,
+              "force_local_N_Nm": [
+                0.5862935563561604,
+                0.4318446507503528,
+                0.1540623974486038,
+                0.002160349123338495,
+                3.109899672423163e-06,
+                3.666503222074051e-07
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6953,
+          "solver_time": 230.84270833454696,
+          "integrated_time": 230.84375000121364,
+          "width_m": 0.004113223893195595,
+          "command_m": 0.003888708508869751,
+          "velocity_m_s": [
+            0.015047860890576666,
+            0.017738472274815592
+          ],
+          "acceleration_m_s2": 2.582986928869369,
+          "jerk_m_s3": -329.73325891499513,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.4526099686032063,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.5982871815244337,
+          "jaw_constraint_force_N": [
+            0.795993971987726,
+            0.8186912954920366
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.19966954461511977,
+              -0.19966954461511977
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.5963244273726063,
+              1.0183608401071562
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -3.207317909414166e-05,
+              "force_local_N_Nm": [
+                0.5786111569059545,
+                0.427760974360599,
+                -0.03910149394270999,
+                -0.0030167376756345538,
+                1.8541596624275674e-06,
+                4.819131683871524e-07
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -6.833592025702232e-05,
+              "force_local_N_Nm": [
+                0.3520814034830549,
+                0.23265004042203294,
+                0.1416147785773428,
+                0.0014318200240705688,
+                1.9176684796284726e-06,
+                1.1671745982859293e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -6.833592025702232e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -6.833592025702232e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -6.833592025702232e-05,
+              "force_local_N_Nm": [
+                0.6657356339230678,
+                0.4801788060722268,
+                0.19136144134904204,
+                0.002624272345504479,
+                3.514746458586047e-06,
+                2.139224182624018e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6954,
+          "solver_time": 230.84375000121364,
+          "integrated_time": 230.84479166788032,
+          "width_m": 0.004131701468481861,
+          "command_m": 0.003918814137706781,
+          "velocity_m_s": [
+            0.017738472274815592,
+            0.020100733240518122
+          ],
+          "acceleration_m_s2": 2.2677705270744286,
+          "jerk_m_s3": -302.6077457231428,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.483255446557207,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.7742345341714554,
+          "jaw_constraint_force_N": [
+            0.9527134622090075,
+            0.967373954923639
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.18122793129850223,
+              -0.18122793129850223
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.7714855309105053,
+              1.1486018862221412
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_46",
+                "task/plate/glazed_shell_contact_1_9"
+              ],
+              "distance_m": -5.732977940863111e-06,
+              "force_local_N_Nm": [
+                0.7488562688364028,
+                0.5417164354218721,
+                -0.05266022580877887,
+                -0.004257942805072388,
+                2.888753509786378e-06,
+                -8.077155526187304e-07
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.723504724977561e-05,
+              "force_local_N_Nm": [
+                0.424469576059761,
+                0.2712128928987292,
+                0.17997469916583594,
+                0.0018441396863771208,
+                2.592048188527331e-06,
+                2.15040579356587e-06
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.723504724977561e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.723504724977561e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.723504724977561e-05,
+              "force_local_N_Nm": [
+                0.7236936104554994,
+                0.5122813752249685,
+                0.21892813869801905,
+                0.003057327365727378,
+                4.297255744025078e-06,
+                3.5650740172527094e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 6955,
+          "solver_time": 230.84479166788032,
+          "integrated_time": 230.845833334547,
+          "width_m": 0.004152639732274067,
+          "command_m": 0.003949173508482001,
+          "velocity_m_s": [
+            0.020100733240518122,
+            0.016551091654544263
+          ],
+          "acceleration_m_s2": -3.4076559225349046,
+          "jerk_m_s3": -5448.409391624959,
+          "position_gain_N_m": 10000.0,
+          "affine_force_bias_N": 3.511072111161606,
+          "force_range_N": [
+            -30.0,
+            30.0
+          ],
+          "actuator_force_N": -0.9356781156212364,
+          "jaw_constraint_force_N": [
+            0.6349221709271679,
+            0.7247804108862743
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.6349221709271679,
+              -0.6349221709271679
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.3597025818134423
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.968510908851141e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.968510908851141e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.968510908851141e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "gripper_right_36",
+                "task/plate/glazed_shell_contact_2_9"
+              ],
+              "distance_m": -7.968510908851141e-05,
+              "force_local_N_Nm": [
+                1.3591225220405538,
+                1.014608915521631,
+                0.3490670700362636,
+                0.004490892799096892,
+                -2.0974787892983728e-05,
+                2.6688537910297863e-05
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "training_ready": false
+}

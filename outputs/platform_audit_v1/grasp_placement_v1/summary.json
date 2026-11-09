@@ -1,0 +1,409 @@
+{
+  "schema_version": 1,
+  "scope": "One controlled full physical seed-1 experiment of an 8 mm inward plate rim grasp; not a production-policy promotion.",
+  "git_base": "6d5146c740cead6a55834262575c607a931d9678",
+  "goal_status": "active",
+  "production_motion_policy_changed": false,
+  "experiment_entrypoint": "scripts/probe_rim_inset.py",
+  "static_hypotheses": {
+    "inset_8mm": {
+      "grasp_hypothesis": {
+        "scope": "Screen a hypothetical deeper rim grasp against flat placement geometry.\n\nISOLATED GEOMETRY ONLY. Translates the plate relative to a recorded hand pose\nto represent moving the original rim grasp inward. The recorded hand/object\norientation is an explicit hypothesis, not predicted by physics. Restores the\ncomplete isolated integration state; never runs dynamics or writes the source.\n",
+        "script_sha256": "451d4227a7afdda5b6b4f548e63014c171e7cca7b154ca87664190a0a6eef23f",
+        "inset_m": 0.008,
+        "initial_grasp_offset_delta_object_m": [
+          0.006387705757413887,
+          0.004816348737031141,
+          -0.0
+        ],
+        "retained_orientation_assumption": "Same as the recorded held object; must be remeasured in a fresh physical grasp.",
+        "geometric_finger_contacts": [
+          "7"
+        ]
+      },
+      "candidates": 288,
+      "checked": 288,
+      "accepted": 0,
+      "stages": {
+        "high_IK": 228,
+        "lowering_path": 31,
+        "low_IK": 6,
+        "transfer_path": 23
+      },
+      "isolated_state_unchanged": true
+    },
+    "inset_16mm": {
+      "grasp_hypothesis": {
+        "scope": "Screen a hypothetical deeper rim grasp against flat placement geometry.\n\nISOLATED GEOMETRY ONLY. Translates the plate relative to a recorded hand pose\nto represent moving the original rim grasp inward. The recorded hand/object\norientation is an explicit hypothesis, not predicted by physics. Restores the\ncomplete isolated integration state; never runs dynamics or writes the source.\n",
+        "script_sha256": "451d4227a7afdda5b6b4f548e63014c171e7cca7b154ca87664190a0a6eef23f",
+        "inset_m": 0.016,
+        "initial_grasp_offset_delta_object_m": [
+          0.012775411514827775,
+          0.009632697474062282,
+          -0.0
+        ],
+        "retained_orientation_assumption": "Same as the recorded held object; must be remeasured in a fresh physical grasp.",
+        "geometric_finger_contacts": [
+          "7"
+        ]
+      },
+      "candidates": 288,
+      "checked": 288,
+      "accepted": 0,
+      "stages": {
+        "high_IK": 225,
+        "lowering_path": 31,
+        "low_IK": 7,
+        "transfer_path": 25
+      },
+      "isolated_state_unchanged": true
+    }
+  },
+  "paired_integrity": {
+    "intervention": {
+      "object": "plate",
+      "phase": "approach",
+      "sim_time": 204.00000000087184,
+      "transition_index": 6090
+    },
+    "prefix_public_streams_exact": {
+      "observation/state": true,
+      "next_observation/state": true,
+      "action/position": true,
+      "observation/sim_time": true,
+      "next_observation/sim_time": true
+    },
+    "prefix_objects_physics_controller_tcp_exact": true,
+    "same_online_thresholds": true,
+    "same_evaluated_policy": true,
+    "first_public_difference": {
+      "observation/state": 6092,
+      "next_observation/state": 6091,
+      "action/position": 6092,
+      "observation/sim_time": null,
+      "next_observation/sim_time": null
+    },
+    "first_objects_physics_controller_tcp_difference": 6090
+  },
+  "frozen_inputs_checked": 445,
+  "frozen_inputs_changed": [],
+  "rollouts": {
+    "baseline": {
+      "source": "/dev/shm/piper_rotation_evidence_v1/episode/episode.h5",
+      "source_sha256": "e6c282e972830727de959ff706d6935a38e52a5bc7cb33f099534dde2e0442b5",
+      "frames": 8502,
+      "duration_s": 283.40000000112065,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "audit_passed": true,
+      "training_ready": false,
+      "plate_grasp_max_rotation_deg": 34.4800804008797,
+      "plate_grasp_max_slip_m": 0.0029346570763214785,
+      "open_gripper_plate_world_tilt_deg": 84.10287746948845,
+      "placement_event": {
+        "phase": "placement_pose_selected",
+        "object": "plate",
+        "sim_time": 219.0333333343966,
+        "strategy": "hand_frame_fallback",
+        "predicted_object_up_world": [
+          0.01861960348482769,
+          0.9947590733880234,
+          0.1005370393351046
+        ],
+        "predicted_tilt_from_container_up_rad": 1.4700869810475845,
+        "scope": "Rigid grasp geometry prediction; not measured placement or stability proof"
+      },
+      "native_phase_extrema": {
+        "plate/grasp": {
+          "right_gripper_acceleration": 8.52232890373568,
+          "right_gripper_jerk": 9680.4210392351,
+          "frames": 91
+        },
+        "plate/lift": {
+          "right_gripper_acceleration": 2.3311269748232295,
+          "right_gripper_jerk": 2098.3998322605025,
+          "frames": 115
+        },
+        "plate/release": {
+          "right_gripper_acceleration": 15.409028903137552,
+          "right_gripper_jerk": 17983.975965299163,
+          "frames": 140
+        },
+        "side_dish/release": {
+          "right_gripper_acceleration": 28.567140158996978,
+          "right_gripper_jerk": 37743.93432408457,
+          "frames": 128
+        }
+      }
+    },
+    "candidate": {
+      "source": "/dev/shm/piper_rim_inset_v1/episode/episode.h5",
+      "source_sha256": "3540e96741ebd00db9f6ea32c0571251c259947267b445c558dcc71aaed71341",
+      "frames": 8499,
+      "duration_s": 283.3000000011221,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "audit_passed": true,
+      "training_ready": false,
+      "plate_grasp_max_rotation_deg": 33.42307940970355,
+      "plate_grasp_max_slip_m": 0.0023343076119327704,
+      "open_gripper_plate_world_tilt_deg": 84.1071829375345,
+      "placement_event": {
+        "phase": "placement_pose_selected",
+        "object": "plate",
+        "sim_time": 218.96666666772907,
+        "strategy": "hand_frame_fallback",
+        "predicted_object_up_world": [
+          0.00603245137929409,
+          0.9941502693703401,
+          0.10783715241619575
+        ],
+        "predicted_tilt_from_container_up_rad": 1.4627464371935186,
+        "scope": "Rigid grasp geometry prediction; not measured placement or stability proof"
+      },
+      "native_phase_extrema": {
+        "plate/grasp": {
+          "right_gripper_acceleration": 8.521739402764918,
+          "right_gripper_jerk": 9701.13424082853,
+          "frames": 91
+        },
+        "plate/lift": {
+          "right_gripper_acceleration": 2.0816658553948755,
+          "right_gripper_jerk": 2141.230739726563,
+          "frames": 113
+        },
+        "plate/release": {
+          "right_gripper_acceleration": 12.423118189700784,
+          "right_gripper_jerk": 15160.372348738216,
+          "frames": 141
+        },
+        "side_dish/release": {
+          "right_gripper_acceleration": 28.59297078227656,
+          "right_gripper_jerk": 37776.5802275608,
+          "frames": 129
+        }
+      }
+    }
+  },
+  "rotation_verification": {
+    "consistent": true,
+    "segments": 11,
+    "samples": 7764,
+    "max_abs_error_rad": 9.884312124119404e-08
+  },
+  "native_trace_verification": {
+    "steps": 11040,
+    "all_phase_extrema_match": true,
+    "constraint_max_abs_error": 1.0658141036401503e-14,
+    "actuator_max_abs_error": 2.877698079828406e-13
+  },
+  "candidate_release_geometry": [
+    {
+      "object": "plate",
+      "phase": "release",
+      "transition_index": 6882,
+      "sim_time": 230.40000000120799,
+      "object_pose": {
+        "position": [
+          0.6890648787462706,
+          -0.4263363365426509,
+          0.2430461704029751
+        ],
+        "quaternion_wxyz": [
+          0.7424332058553681,
+          -0.6698198950489355,
+          0.0027186611831763957,
+          -0.011262855824541958
+        ]
+      },
+      "target": "basket",
+      "collision_sample_count": 22208,
+      "sample_spacing_m": 0.005,
+      "basket_local_min_height_above_floor_m": 0.12212665904989609,
+      "basket_local_xy_margin_m": 0.016920138508649096,
+      "support_envelopes": [
+        {
+          "object": "basket",
+          "sampled_min_vertical_gap_m": 0.12212665913503681,
+          "payload_point_world_m": [
+            0.6905983509409119,
+            -0.40148870612134874,
+            0.15011456261813882
+          ],
+          "envelope_world_z_m": 0.027987903483102018
+        }
+      ]
+    }
+  ],
+  "preview": {
+    "path": "outputs/platform_audit_v1/grasp_placement_v1/plate_preview/release.mp4",
+    "frames": 242,
+    "fps": 30.0,
+    "duration_s": 8.066666666666666,
+    "kind": "1x recorded-state kinematic reconstruction; not dynamics replay, synchronous sensor RGB or training data"
+  },
+  "validation": {
+    "complete_physical_rollout": true,
+    "independent_tcp_audit": true,
+    "read_only_prefix_rotation_force_geometry_audits": true,
+    "new_scripts_py_compile": true,
+    "git_diff_check": true,
+    "full_test_suite_rerun": false
+  },
+  "decision": "Retain as an isolated experiment. Release peaks improve on one known seed, but almost unchanged near-vertical unsupported release and some non-improving native phases prevent promotion.",
+  "next_work": "Jointly validate dish grasp orientation and basket packing with genuine supported placement; preserve physical and quality gates.",
+  "training_ready": false,
+  "limitations": [
+    "One known seed, not population success rate or verified speedup.",
+    "Full state-only recording contains no training RGB.",
+    "Native contact derivatives and grasp-angle tolerances are not hardware calibrated.",
+    "Static retained-orientation hypotheses do not predict fresh physical grasps.",
+    "Raw HDF5 remains in volatile storage."
+  ],
+  "raw_local_only": {
+    "/dev/shm/piper_rim_inset_v1/episode/episode.h5": {
+      "sha256": "3540e96741ebd00db9f6ea32c0571251c259947267b445c558dcc71aaed71341",
+      "bytes": 88439885,
+      "in_git": false,
+      "volatile": true
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/native/trace.npz": {
+      "sha256": "fc35c953120d78108c0f2c35e1069cb01d5f6a18547b27cdf89b9494114e99d9",
+      "bytes": 11207393,
+      "in_git": false,
+      "volatile": false
+    },
+    "/dev/shm/piper_rotation_evidence_v1/episode/episode.h5": {
+      "sha256": "e6c282e972830727de959ff706d6935a38e52a5bc7cb33f099534dde2e0442b5",
+      "bytes": 88495292,
+      "in_git": false,
+      "volatile": true
+    }
+  },
+  "delivery_files_sha256": {
+    "docs/platform_audit.md": {
+      "sha256": "8e95ab4f4bb3974a4aceb0f3891d63aba223f1842377e006b81c4d37e96cffb3",
+      "bytes": 184372
+    },
+    "scripts/probe_plate_grasp_inset.py": {
+      "sha256": "451d4227a7afdda5b6b4f548e63014c171e7cca7b154ca87664190a0a6eef23f",
+      "bytes": 2653
+    },
+    "scripts/probe_rim_pick.py": {
+      "sha256": "0e32f39996b1dacc1dd28c0e7eb1215bc6ccce1280c021098313e0592152b1b0",
+      "bytes": 4944
+    },
+    "scripts/probe_rim_inset.py": {
+      "sha256": "53cbdf8872c3d8c3c24217d9f4773f371850133708efcffd96b09dd5e47f9142",
+      "bytes": 2433
+    },
+    "scripts/audit_grasp_change.py": {
+      "sha256": "20cdfe805ddd0c335846932330ff2125d66ec44df5394d41dc3eb79228ccaa29",
+      "bytes": 4149
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/analysis.json": {
+      "sha256": "ec6b4e3bfeb6e6e75a64d4e6b34dd84545779a7a080cc8cee78ffa37ec89e424",
+      "bytes": 118735
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/analysis.log": {
+      "sha256": "b76394652e74af00a11bc6822f71b21b31e1e432eb8dd502702440eb647dae00",
+      "bytes": 253
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/comparison.json": {
+      "sha256": "beb0fde59e160305b0eca7fa912d71264b54255390ac9c648dcf26b8ec75837d",
+      "bytes": 47925
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/comparison.log": {
+      "sha256": "42405f10a3d7e591f2b4c1867287b274b82d2d22b551b472389b63b72071a2c7",
+      "bytes": 1248
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/episode_evidence/audit.json": {
+      "sha256": "527a937d2850bf121034cc5510fbad9c3870fef62ead89e13d2585c8b59a773b",
+      "bytes": 17621
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/episode_evidence/report.json": {
+      "sha256": "a203de11092c3093cc1881b9294b0eb7e5d129175eb170e6cd538310d0425bba",
+      "bytes": 83975
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/identity.json": {
+      "sha256": "b900b894659132d8f393e32247ac1ea0bc88fcfd2fc932fafc3adef31763d096",
+      "bytes": 65376
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/inset_16mm.json": {
+      "sha256": "621dd617e655bf235dba6d84ed5f472ccaab541436128d07801274a730f8ed03",
+      "bytes": 945994
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/inset_16mm.log": {
+      "sha256": "662e4e15c30f5f06b00cb5ee7fc50d63c2482552852c3a81c7f69c4d0c036cdd",
+      "bytes": 320
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/inset_8mm.json": {
+      "sha256": "ef3c518a8dec58d2267b2782e57195359c13c13f3311eda53176a4d1a5fe7980",
+      "bytes": 830992
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/inset_8mm.log": {
+      "sha256": "1155c181f2be7d21ec4cd886f0dc4c7748b64b362db9bf2306d3999fea493ad0",
+      "bytes": 320
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/native/trace.json": {
+      "sha256": "d770d02cfdadd15ed17a70fc563df52af76132266f6c6d6e8ee2c7082290c0d9",
+      "bytes": 29711
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/pick_geometry.json": {
+      "sha256": "8fe37b6c1bf3bc2096bad49eea365cdb9b371291944857655930f24f75b20cb5",
+      "bytes": 3000
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/pick_geometry.log": {
+      "sha256": "65924ecbd191cf395ee78b15664931e6142f74c93f91adc75f7c50d9d6e21762",
+      "bytes": 1524
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/plan.json": {
+      "sha256": "c05c1ff599524ed773462ae4bbab5126e83f4b6655669b3c8f0ab217890db69b",
+      "bytes": 1015
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/plate_preview/preview.json": {
+      "sha256": "acc8b46f2274102101510111be952936f35c4c20e79a1803d6f3283154fe8e5a",
+      "bytes": 1346
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/plate_preview/release.mp4": {
+      "sha256": "5e47bb314c2220c0f08ab963417af5096735b555e7b849bded74424600758ad3",
+      "bytes": 215161
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/plate_preview/review.jpg": {
+      "sha256": "e071b3ed0ae144f2dacfb628b6d141cb498977bf38bd4c6c744bb89d768d4e15",
+      "bytes": 76480
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/preview.log": {
+      "sha256": "e2181b9a54a2c9e811366f4e34d7abfc1b4beab9f116c7bfa749d74240b701a6",
+      "bytes": 133
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/release_geometry.json": {
+      "sha256": "cb0931dfaecfdf3d5cab6ecb263d39b50261cda253647f6971141d1ab44b7c3a",
+      "bytes": 7217
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/release_geometry.log": {
+      "sha256": "b0fca9c83c355ed773bd24dacc7c92723da91130861a46ad1965f75fed9b1c3f",
+      "bytes": 2710
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/rotation_validation.json": {
+      "sha256": "6eb79c927ce40529102fc9084d910349c4fd6e3a64c03ba17adad0256bb19df9",
+      "bytes": 5218
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/rotation_validation.log": {
+      "sha256": "6eb79c927ce40529102fc9084d910349c4fd6e3a64c03ba17adad0256bb19df9",
+      "bytes": 5218
+    },
+    "outputs/platform_audit_v1/grasp_placement_v1/run.log": {
+      "sha256": "af1494e5398b836e9a5f7da3e1a788cf1250292efd01cbe9e1c8ac23f578532a",
+      "bytes": 12195
+    }
+  }
+}
