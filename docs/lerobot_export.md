@@ -48,6 +48,12 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/export_lerobot.py \
 只接受 `complete=true`、非空、时间连续的项目HDF5；同一数据集各episode的相机集合、原始尺寸与fps须一致。
 任何失败都不会改写源HDF5；不覆盖既有数据集，不把半成品目录当成成功输出。
 
+带 `teacher` 元数据的脚本回合必须具有通过的完整 RGB 独立审计，导出时核对当前操作员
+验收策略、内嵌/同目录审计 JSON，以及原文件的完整校验和。发布审计前同样检查报告是否
+属于当前文件且数据未被修改，不能跨回合复用报告。普通外部录制默认可作格式诊断转换，
+不因此获得训练质量认证；需要对它执行同样的生产门槛时使用 `--require-quality`，并用
+`--policy` 选择独立验收策略。详细证据要求见 [采集质量说明](domain_randomization_collection.md)。
+
 Python调用：
 
 ```python

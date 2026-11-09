@@ -4,8 +4,11 @@ Inspect the closed HDF5, not the collector's in-memory success flag. Images are
 read one at a time; a full three-camera episode need not fit in RAM.
 """
 import copy
+from contextlib import contextmanager
+import fcntl
 import hashlib
 import json
+import os
 from pathlib import Path
 
 import h5py
@@ -16,6 +19,38 @@ from .experts.quality import MotionQuality
 from .config import ROOT
 
 AUDIT_VERSION = 'piper.collection.v3'
+
+
+def _descriptor_sha256(descriptor):
+    """Hash the actual open local file without moving HDF5's file position."""
+    digest, offset = hashlib.sha256(), 0
+    while block := os.pread(descriptor, 1024*1024, offset):
+        digest.update(block)
+        offset += len(block)
+    return digest.hexdigest()
+
+
+def _same_open_file(path, descriptor):
+    try:
+        current, opened = os.stat(path), os.fstat(descriptor)
+        return (current.st_dev, current.st_ino) == (opened.st_dev, opened.st_ino)
+    except OSError:
+        return False
+
+
+@contextmanager
+def _bound_audit_source(path, report):
+    with h5py.File(path, 'r') as f:
+        descriptor = f.id.get_vfd_handle()
+        fingerprint = _descriptor_sha256(descriptor)
+        report['audited_source_sha256'] = report['source_sha256'] = fingerprint
+        try:
+            yield f
+        finally:
+            if (_descriptor_sha256(descriptor) != fingerprint
+                    or not _same_open_file(path, descriptor)):
+                report['passed'] = report['training_ready'] = False
+                report['violations'].append('source_changed_during_audit')
 
 
 def load_acceptance_policy(path=None):
@@ -272,7 +307,7 @@ def audit_episode(path, *, require_rgb=True, policy=None):
               'violations': [], 'checks': {},
               'auditor_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     try:
-        with h5py.File(path, 'r') as f:
+        with _bound_audit_source(path, result) as f:
             _need(f.attrs.get('complete', False) and f.attrs.get('schema_version') == 'piper.transitions.v1',
                   'incomplete_or_unknown_episode')
             _need(f.attrs.get('success', False), 'unsuccessful_episode')
@@ -299,31 +334,57 @@ def audit_episode(path, *, require_rgb=True, policy=None):
             result['passed'] = not result['violations']
             result['training_ready'] = bool(result['passed'] and require_rgb)
     except (KeyError, ValueError, TypeError, OSError) as exc:
+        result['passed'] = result['training_ready'] = False
         result['violations'].append(type(exc).__name__+': '+str(exc))
     return result
 
 
 def save_audit(episode, report, output):
-    """Only this final gate sets training acceptance on a scripted episode."""
-    if Path(output).resolve().parent != Path(episode).resolve().parent:
+    """Publish only to the exact, unchanged file inspected by this report.
+
+    The exclusive lock covers verification, HDF5 update and sidecar publication.
+    A failed sidecar publication leaves the production reader unable to verify
+    the new HDF5 checksum. Existing recordings are never silently re-audited.
+    """
+    from .collection_jobs import atomic_json
+    episode, output = Path(episode).resolve(), Path(output).absolute()
+    if output.resolve().parent != episode.parent:
         raise ValueError('The audit sidecar must be saved beside the episode')
-    report.pop('source_sha256', None)
-    with h5py.File(episode, 'r+') as f:
-        f.attrs['dataset_audit'] = json.dumps(report, ensure_ascii=False, allow_nan=False)
-        f.attrs['accepted'] = report['training_ready']
-        f.attrs['training_ready'] = report['training_ready']
-        f.attrs['dataset_audit_sidecar'] = Path(output).name
-        meta = json.loads(f.attrs['metadata'])
-        # Older teacher descriptors carried a permanently false placeholder.
-        meta.get('teacher', {}).pop('training_ready', None)
-        outcome = meta.setdefault('collection_outcome', {})
-        outcome.setdefault('rollout_accepted', outcome.get('accepted', False))
-        outcome.update(accepted=report['training_ready'], training_ready=report['training_ready'],
-                       audit_version=AUDIT_VERSION, audit_violations=report['violations'])
-        f.attrs['metadata'] = json.dumps(meta, ensure_ascii=False)
-    # Detached checksum: storing a file's own checksum inside it is recursive.
-    digest = hashlib.sha256()
-    with open(episode, 'rb') as source:
-        for block in iter(lambda: source.read(1024*1024), b''): digest.update(block)
-    report['source_sha256'] = digest.hexdigest()
-    Path(output).write_text(json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False)+'\n')
+    if (output.suffix != '.json' or output.resolve() == episode
+            or (output.exists() and os.path.samefile(output, episode))):
+        raise ValueError('Audit sidecar must be a separate JSON file')
+    if Path(report.get('episode', '')).resolve() != episode:
+        raise ValueError('Audit report belongs to a different episode')
+    fingerprint = report.get('source_sha256')
+    if (not isinstance(fingerprint, str) or len(fingerprint) != 64
+            or any(c not in '0123456789abcdef' for c in fingerprint)):
+        raise ValueError('Audit report has no bound source checksum; re-audit the episode')
+    embedded = {k: v for k, v in report.items() if k != 'source_sha256'}
+    serialized = json.dumps(embedded, ensure_ascii=False, allow_nan=False)
+    # Lock before opening HDF5 writable: even a rejected publication must not
+    # touch HDF5 flags or attributes. File-object access shares this descriptor.
+    with episode.open('r+b') as raw:
+        fcntl.flock(raw, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        if (_descriptor_sha256(raw.fileno()) != fingerprint
+                or not _same_open_file(episode, raw.fileno())):
+            raise ValueError('Episode changed after audit; re-audit before publication')
+        with h5py.File(raw, 'r+') as f:
+            meta = json.loads(f.attrs['metadata'])
+            meta.get('teacher', {}).pop('training_ready', None)
+            outcome = meta.setdefault('collection_outcome', {})
+            outcome.setdefault('rollout_accepted', outcome.get('accepted', False))
+            outcome.update(accepted=report['training_ready'], training_ready=report['training_ready'],
+                           audit_version=AUDIT_VERSION, audit_violations=report['violations'])
+            metadata = json.dumps(meta, ensure_ascii=False, allow_nan=False)
+            f.attrs['dataset_audit'] = serialized
+            f.attrs['accepted'] = f.attrs['training_ready'] = report['training_ready']
+            f.attrs['dataset_audit_sidecar'] = output.name
+            f.attrs['metadata'] = metadata
+        raw.flush()
+        os.fsync(raw.fileno())
+        if not _same_open_file(episode, raw.fileno()):
+            raise ValueError('Episode path changed during audit publication')
+        published = {**embedded, 'source_sha256': _descriptor_sha256(raw.fileno())}
+        atomic_json(output, published)
+    report.clear()
+    report.update(published)

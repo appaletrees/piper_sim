@@ -58,6 +58,7 @@ def test_nominal_variants_share_one_split():
 
 def test_preflight_rgb_mismatch_revokes_file_and_manifest(monkeypatch, tmp_path):
     import h5py
+    from piper_sim.collection_jobs import sha256
     root = tmp_path/'batch'
     def run(args, seed, output, *, nominal, rgb):
         output.mkdir()
@@ -66,6 +67,7 @@ def test_preflight_rgb_mismatch_revokes_file_and_manifest(monkeypatch, tmp_path)
             f.attrs['metadata'] = json.dumps({'collection_outcome': {'rollout_accepted': True}})
         report = {'training_ready': rgb, 'inventory': {'cup_count': 2}}
         audit = {'passed': True, 'training_ready': rgb, 'violations': [],
+                 'episode': str((output/'episode.h5').resolve()), 'source_sha256': sha256(output/'episode.h5'),
                  'checks': {'streams': {'rgb': rgb, 'trajectory_sha256': 'same'},
                             'task': {'objects_sha256': 'changed' if rgb else 'original'}}}
         return 0, report, audit
