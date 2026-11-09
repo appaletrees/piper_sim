@@ -1,0 +1,10 @@
+{
+  "status": "diagnostic_harness_failed",
+  "script_sha256": "f1153a0f88038a9d895a06972234c6d87e7f70e5fe21086ea40dadc61ba5f6fb",
+  "log": "/dev/shm/sensor_workers_gl_check_v1.log",
+  "log_sha256": "1117b053e7db9e8c185e748a76f3892948e2639f6728b239d3f5a985370d617b",
+  "error": "Traceback (most recent call last):\n  File \"/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_gl_check_v1.py\", line 56, in <module>\n    b.apply(Command(command,time.monotonic(),frame)); b.step()\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/midea/Desktop/piper_sim/src/piper_sim/backends/mujoco.py\", line 139, in apply\n    raise ValueError(\"Simulation target exceeds joint bounds\")\nValueError: Simulation target exceeds joint bounds\n",
+  "cause": "The diagnostic reused measured joint positions as new targets, which may be slightly outside target limits. The existing backend bounds guard rejected the command.",
+  "correction": "Version 2 supplies bounded targets based on the configured home vector. No backend limits or production behavior changed.",
+  "training_ready": false
+}

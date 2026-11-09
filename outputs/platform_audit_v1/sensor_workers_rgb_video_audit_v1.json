@@ -1,0 +1,218 @@
+{
+  "status": "all_video_frames_and_pts_checked",
+  "training_ready": null,
+  "scope": "Decode every exported Piper frame and compare it with its source RGB index.\n\nChecks all frame counts and presentation timestamps. H.264 pixel errors are\nmeasurements, not a new task or visual-quality acceptance threshold. Supports\nthe repository's single-episode native-resolution LeRobot v2.1 exports.\n",
+  "source": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/episode.h5",
+  "source_sha256": "9aaff05fc5bb21b182199b24955f96190f50b8d9d71dcec0fb3427c240539b13",
+  "source_unchanged": true,
+  "dataset": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "checker_and_tabular_input_hashes": {
+    "/home/midea/Desktop/piper_sim/scripts/audit_exported_video.py": "739d9cde9325b789661817dc9b7ae72eef04ed123d462b0ed4f79f907dcd7832",
+    "/home/midea/Desktop/piper_sim/scripts/check_lerobot_reader.py": "2fdfd94e9d4b35ce32e99d0beab5c2eeed457eca5c7b87ede0e35eb4126381e0",
+    "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2/meta/info.json": "8e6a525973a9e385060a9e67f7d11810fc530fd5fd2c6f731c5d6370cc8d1741",
+    "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2/data/chunk-000/episode_000000.parquet": "44f364f2584d454e9776558d36ba908d54f19c9bdb5e8285148bdda9218ed300"
+  },
+  "script_sha256": "739d9cde9325b789661817dc9b7ae72eef04ed123d462b0ed4f79f907dcd7832",
+  "consumer_schema_script_sha256": "2fdfd94e9d4b35ce32e99d0beab5c2eeed457eca5c7b87ede0e35eb4126381e0",
+  "tabular": {
+    "checked_rows": 8771,
+    "checked_columns": [
+      "action",
+      "episode_index",
+      "frame_index",
+      "index",
+      "observation.state",
+      "sim_timestamp",
+      "source_timestamp",
+      "task_index",
+      "timestamp"
+    ],
+    "max_vector_absolute_error": {
+      "observation.state": 0.0,
+      "action": 0.0
+    },
+    "unexpected_public_columns": []
+  },
+  "cameras": {
+    "overhead": {
+      "frames": 8771,
+      "height": 480,
+      "width": 640,
+      "fps": 30.0,
+      "stream": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "avg_frame_rate": "30/1",
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "vendor_id": "[0][0][0][0]",
+          "encoder": "Lavc60.31.102 libx264"
+        }
+      },
+      "max_pts_error_s": 3.333333467026023e-07,
+      "mean_absolute_pixel_error_0_to_255": 1.542483796576708,
+      "rmse_0_to_255": 2.126685680935181,
+      "psnr_db": 41.57673746951139,
+      "pixels_identical": false,
+      "max_channel_absolute_error_0_to_255": 91,
+      "frame_mean_absolute_error_percentiles": {
+        "p50": 1.5413617621527778,
+        "p95": 1.6028662109375,
+        "p99": 1.6224966362847217,
+        "max": 1.6712358940972223
+      },
+      "worst_frame_by_mae": 4749,
+      "note": "PSNR is null only for pixel-identical output; no visual-quality threshold is inferred.",
+      "video": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2/videos/chunk-000/observation.images.cam_external_rgb/episode_000000.mp4",
+      "video_sha256": "9024cb3750491d889b2dc5161553e11d9c5b4b833871d4ebd9f966c452545d13"
+    },
+    "left_wrist": {
+      "frames": 8771,
+      "height": 480,
+      "width": 640,
+      "fps": 30.0,
+      "stream": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "avg_frame_rate": "30/1",
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "vendor_id": "[0][0][0][0]",
+          "encoder": "Lavc60.31.102 libx264"
+        }
+      },
+      "max_pts_error_s": 3.333333467026023e-07,
+      "mean_absolute_pixel_error_0_to_255": 1.237313954074705,
+      "rmse_0_to_255": 1.5718057096710916,
+      "psnr_db": 44.20282636790088,
+      "pixels_identical": false,
+      "max_channel_absolute_error_0_to_255": 101,
+      "frame_mean_absolute_error_percentiles": {
+        "p50": 1.19859375,
+        "p95": 1.5157373046875,
+        "p99": 1.5840104166666662,
+        "max": 1.7457508680555556
+      },
+      "worst_frame_by_mae": 704,
+      "note": "PSNR is null only for pixel-identical output; no visual-quality threshold is inferred.",
+      "video": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2/videos/chunk-000/observation.images.cam_left_wrist_rgb/episode_000000.mp4",
+      "video_sha256": "1602702d6720a518fb3e25a3871d274f2d8ba28fb45eb1c79519cb6a2322a26a"
+    },
+    "right_wrist": {
+      "frames": 8771,
+      "height": 480,
+      "width": 640,
+      "fps": 30.0,
+      "stream": {
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "avg_frame_rate": "30/1",
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "vendor_id": "[0][0][0][0]",
+          "encoder": "Lavc60.31.102 libx264"
+        }
+      },
+      "max_pts_error_s": 3.333333467026023e-07,
+      "mean_absolute_pixel_error_0_to_255": 1.6818118124883217,
+      "rmse_0_to_255": 2.4041764616015193,
+      "psnr_db": 40.5114767922542,
+      "pixels_identical": false,
+      "max_channel_absolute_error_0_to_255": 101,
+      "frame_mean_absolute_error_percentiles": {
+        "p50": 1.6389756944444445,
+        "p95": 2.232178276909722,
+        "p99": 2.568756076388885,
+        "max": 3.1940418836805557
+      },
+      "worst_frame_by_mae": 3548,
+      "note": "PSNR is null only for pixel-identical output; no visual-quality threshold is inferred.",
+      "video": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2/videos/chunk-000/observation.images.cam_right_wrist_rgb/episode_000000.mp4",
+      "video_sha256": "47e8bf1b97cb9e87300f1b270996ec62bbda5e22d20fb53b33f7df6a261236a2"
+    }
+  },
+  "trace_path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_video_audit_v1.npz",
+  "trace_sha256": "1d332514b7b1244d1d7d9083a3faed1a1d6eaf6f8b1203ee569a145649f0151f",
+  "trace_columns": [
+    "mean_absolute_error_0_to_255",
+    "mean_squared_error_0_to_65025",
+    "max_absolute_error_0_to_255"
+  ],
+  "limitations": [
+    "Pixel errors measure lossy encoding against indexed source frames, not real-camera fidelity.",
+    "This report does not independently grant physical task success or certify perceptual quality."
+  ]
+}

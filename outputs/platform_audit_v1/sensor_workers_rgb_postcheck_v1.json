@@ -1,0 +1,86 @@
+{
+  "status": "all_checks_passed",
+  "source": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/episode.h5",
+  "source_sha256": "9aaff05fc5bb21b182199b24955f96190f50b8d9d71dcec0fb3427c240539b13",
+  "export_checksums": {
+    "meta/export.json": "3dfdbc99ed557a9a7d175d62d0c7cf2d64196cc45ca5acbd714cdbe6d87c3c35",
+    "meta/sim_episodes.jsonl": "16c32f5ab9c74f86a0485029108180bdd92bf883125e5f5fda75bde80704c7e2",
+    "meta/stats.json": "714e8e8cb2bfb236e1a256f089b2a24a5d74edd14bb3000e9077df712906d094",
+    "meta/episodes_stats.jsonl": "c9cc371460adf9ea16ab4781deb4d8a2826dfb7959620b35d14b346648766df4",
+    "meta/tasks.jsonl": "d4412f5a23ac54d3bec4dad4bb7170bd8ff55f0fd5ce7ef9e117942d12da683f",
+    "meta/episodes.jsonl": "c8462e1f62d86f1394187026352fac1aabc2ea44b4c39f4c0ee8e341d98a3858",
+    "meta/info.json": "8e6a525973a9e385060a9e67f7d11810fc530fd5fd2c6f731c5d6370cc8d1741",
+    "extras/chunk-000/episode_000000.jsonl": "4d8c024f614d21e1522043e28f046dc86bce46efd5a80b957f709223ab354682",
+    "videos/chunk-000/observation.images.cam_right_wrist_rgb/episode_000000.mp4": "47e8bf1b97cb9e87300f1b270996ec62bbda5e22d20fb53b33f7df6a261236a2",
+    "videos/chunk-000/observation.images.cam_left_wrist_rgb/episode_000000.mp4": "1602702d6720a518fb3e25a3871d274f2d8ba28fb45eb1c79519cb6a2322a26a",
+    "videos/chunk-000/observation.images.cam_external_rgb/episode_000000.mp4": "9024cb3750491d889b2dc5161553e11d9c5b4b833871d4ebd9f966c452545d13",
+    "data/chunk-000/episode_000000.parquet": "44f364f2584d454e9776558d36ba908d54f19c9bdb5e8285148bdda9218ed300"
+  },
+  "checker_input_hashes": {
+    "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_postcheck_v1.py": "8a303b9bbf3c536ff54a75b79cabf9743d1787c74f91cba5a9a55f520edcb37e",
+    "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_validate_v1.py": "a0fe9d9d40c9addc880836ea03130e02f662322288aa7ad9854e6a9df4a0b972",
+    "/home/midea/Desktop/piper_sim/scripts/check_lerobot_reader.py": "2fdfd94e9d4b35ce32e99d0beab5c2eeed457eca5c7b87ede0e35eb4126381e0",
+    "/home/midea/Desktop/piper_sim/scripts/audit_exported_video.py": "739d9cde9325b789661817dc9b7ae72eef04ed123d462b0ed4f79f907dcd7832",
+    "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "steps": [
+    {
+      "name": "reader",
+      "command": [
+        "/home/midea/Desktop/piper_sim/.venv-mujoco/bin/python",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_validate_v1.py"
+      ],
+      "returncode": 0,
+      "wall_seconds": 344.234736826038,
+      "log": "/dev/shm/piper_sensor_workers_rgb_v1/postcheck_reader.log",
+      "log_sha256": "6210f8104512625f28337ad45e85da4164e6079e992bb56eca12cb49281af44c",
+      "report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_validation_v1.json",
+      "report_sha256": "3535af47d887741399f7dd1054b09872c72a0b925c9e99b8dcb8b5fbd21b3460"
+    },
+    {
+      "name": "consumer",
+      "command": [
+        "/home/midea/Desktop/piper_sim/.venv-lerobot-audit/bin/python",
+        "scripts/check_lerobot_reader.py",
+        "--source",
+        "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/episode.h5",
+        "--dataset",
+        "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2",
+        "--output",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_consumer_v1.json"
+      ],
+      "returncode": 0,
+      "wall_seconds": 3.2434705609921366,
+      "log": "/dev/shm/piper_sensor_workers_rgb_v1/postcheck_consumer.log",
+      "log_sha256": "bcc8f4787905ce281387f7990f09604617263879302e828d8a33e105e2f7ac93",
+      "report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_consumer_v1.json",
+      "report_sha256": "80299fc73baf4143eefe8c88b591c1d778c7717b00ba926b7b443c02b14e60d8"
+    },
+    {
+      "name": "video_audit",
+      "command": [
+        "/home/midea/Desktop/piper_sim/.venv-mujoco/bin/python",
+        "scripts/audit_exported_video.py",
+        "--source",
+        "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/episode.h5",
+        "--dataset",
+        "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/lerobot_v2",
+        "--policy",
+        "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+        "--output",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_video_audit_v1.json"
+      ],
+      "returncode": 0,
+      "wall_seconds": 133.55549741094,
+      "log": "/dev/shm/piper_sensor_workers_rgb_v1/postcheck_video_audit.log",
+      "log_sha256": "fae9ae36c4e0e4bed3b1e5876e26df246bbac574c8d87df1ab5efaef40098ad7",
+      "report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_video_audit_v1.json",
+      "report_sha256": "46c24ecad609c4e4935ebe6a32cd6b8688c8b3a60fe244fdeca9c43c5e7fafb8"
+    }
+  ],
+  "training_ready": null,
+  "durable_release": false,
+  "source_and_export_unchanged": true,
+  "frozen_input_files_unchanged": 429,
+  "wall_seconds": 484.4039423420327
+}

@@ -1,0 +1,62 @@
+.....................FF................................................  [100%]
+=================================== FAILURES ===================================
+_ test_mujoco_failed_processing_does_not_cache_raw_pixels_and_reset_refreshes[1] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x79138cd4b9d0>
+workers = 1
+
+    @pytest.mark.parametrize('workers',[1,3])
+    def test_mujoco_failed_processing_does_not_cache_raw_pixels_and_reset_refreshes(monkeypatch,workers):
+        pytest.importorskip('mujoco')
+        from piper_sim.backends.mujoco import MujocoBackend
+        cfg = load(ROOT/'configs/clean_table_tcp.yaml')
+        cfg['runtime']['sensor_postprocess_workers'] = workers
+        cfg['task_scene'] = yaml.safe_load((ROOT/'configs/tasks/clean_table_rigid.yaml').read_text())
+        cfg['task_scene']['domain_randomization'] = 'configs/domain_randomization/clean_table.yaml'
+        backend = MujocoBackend(cfg,cameras=True)
+        # Real MuJoCo state/reset/metadata; small known camera buffers avoid GL here.
+        raw = images(); captures = []
+        def render(name,*size): captures.append(name); return raw[name].copy()
+        monkeypatch.setattr(backend,'_render',render)
+        original = randomization._sensor_image
+        def broken(name,*args):
+            if name == 'overhead': raise RuntimeError('sensor failed')
+            return original(name,*args)
+        try:
+            monkeypatch.setattr(randomization,'_sensor_image',broken)
+>           with pytest.raises(RuntimeError,match='sensor failed'): backend.read()
+E           Failed: DID NOT RAISE RuntimeError
+
+tests/test_sensor_processing.py:152: Failed
+_ test_mujoco_failed_processing_does_not_cache_raw_pixels_and_reset_refreshes[3] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x79138cd4bad0>
+workers = 3
+
+    @pytest.mark.parametrize('workers',[1,3])
+    def test_mujoco_failed_processing_does_not_cache_raw_pixels_and_reset_refreshes(monkeypatch,workers):
+        pytest.importorskip('mujoco')
+        from piper_sim.backends.mujoco import MujocoBackend
+        cfg = load(ROOT/'configs/clean_table_tcp.yaml')
+        cfg['runtime']['sensor_postprocess_workers'] = workers
+        cfg['task_scene'] = yaml.safe_load((ROOT/'configs/tasks/clean_table_rigid.yaml').read_text())
+        cfg['task_scene']['domain_randomization'] = 'configs/domain_randomization/clean_table.yaml'
+        backend = MujocoBackend(cfg,cameras=True)
+        # Real MuJoCo state/reset/metadata; small known camera buffers avoid GL here.
+        raw = images(); captures = []
+        def render(name,*size): captures.append(name); return raw[name].copy()
+        monkeypatch.setattr(backend,'_render',render)
+        original = randomization._sensor_image
+        def broken(name,*args):
+            if name == 'overhead': raise RuntimeError('sensor failed')
+            return original(name,*args)
+        try:
+            monkeypatch.setattr(randomization,'_sensor_image',broken)
+>           with pytest.raises(RuntimeError,match='sensor failed'): backend.read()
+E           Failed: DID NOT RAISE RuntimeError
+
+tests/test_sensor_processing.py:152: Failed
+=========================== short test summary info ============================
+FAILED tests/test_sensor_processing.py::test_mujoco_failed_processing_does_not_cache_raw_pixels_and_reset_refreshes[1]
+FAILED tests/test_sensor_processing.py::test_mujoco_failed_processing_does_not_cache_raw_pixels_and_reset_refreshes[3]
+2 failed, 69 passed in 10.95s

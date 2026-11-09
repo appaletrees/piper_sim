@@ -9,6 +9,7 @@ from ..scene import spawn_workcell
 from ..sensors import spawn_camera_mounts, spawn_cameras
 from ..contracts import ARMS, JOINT_NAMES, LOWER, UPPER, Observation, vector
 from ..camera_cache import CameraSnapshotCache
+from ..sensor_processing import SensorImageProcessor
 
 
 class IsaacBackend:
@@ -19,6 +20,7 @@ class IsaacBackend:
             raise ValueError('mujoco.controller requires MuJoCo; no equivalent Isaac controller is implemented')
         self.cfg = cfg
         runtime = cfg["runtime"]
+        self.sensor_processor = SensorImageProcessor(runtime.get('sensor_postprocess_workers', 1))
         self.dt = runtime["physics_dt"]
         self.decimation = runtime["decimation"]
         self.sim_time = 0.
@@ -145,8 +147,7 @@ class IsaacBackend:
             images = {name: data.output["rgb"][0, ..., :3].detach().cpu().numpy().copy()
                       for name, data in captures.items()}
             if self.randomizer:
-                from ..randomization import sensor_images
-                images = sensor_images(images, self.task.domain_parameters, frame)
+                images = self.sensor_processor(images, self.task.domain_parameters, frame)
             poses = {name: {"position_world": data.pos_w[0].cpu().tolist(),
                             "quaternion_wxyz_ros": data.quat_w_ros[0].cpu().tolist(),
                             "intrinsics": data.intrinsic_matrices[0].cpu().tolist()}
@@ -167,6 +168,7 @@ class IsaacBackend:
                             **extras})
 
     def close(self):
+        self.sensor_processor.close()
         # Lab 2.3.0's STOP callback renders indefinitely while the timeline is stopped.
         # Suppress that callback during our owned, explicit application shutdown.
         self.sim._disable_app_control_on_stop_handle = True

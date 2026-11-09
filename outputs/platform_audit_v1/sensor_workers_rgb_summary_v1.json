@@ -1,0 +1,401 @@
+{
+  "status": "passed_known_full_rgb_worker_regression",
+  "collection_training_ready": true,
+  "durable_release": false,
+  "source": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/episode.h5",
+  "source_sha256": "9aaff05fc5bb21b182199b24955f96190f50b8d9d71dcec0fb3427c240539b13",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "complete_target_count": 11,
+  "targets_succeeded": 11,
+  "frames": 8771,
+  "unique_raw_frames_per_camera": 8772,
+  "fps": 30,
+  "recorded_simulated_duration_s": 292.3666666666667,
+  "full_simulation_clock_end_s": 293.36666666765683,
+  "raw_rgb_images_compared": 26313,
+  "exact_physics_and_camera_rows": 8772,
+  "raw_cross_run_pixel_comparison": {
+    "left_wrist": {
+      "different_channel_values": 34815,
+      "max_absolute_error": 2,
+      "mean_absolute_error_0_to_255": 4.423154718928915e-06,
+      "identical": false,
+      "unique_frames_compared": 8772
+    },
+    "overhead": {
+      "different_channel_values": 128296,
+      "max_absolute_error": 2,
+      "mean_absolute_error_0_to_255": 1.6390585021153165e-05,
+      "identical": false,
+      "unique_frames_compared": 8772
+    },
+    "right_wrist": {
+      "different_channel_values": 50439,
+      "max_absolute_error": 2,
+      "mean_absolute_error_0_to_255": 6.31472812800831e-06,
+      "identical": false,
+      "unique_frames_compared": 8772
+    }
+  },
+  "raw_pixel_comparison_scope": "Diagnostic cross-run renderer comparison, not a new acceptance threshold. Same-input serial/parallel processing equivalence was checked separately on actual EGL frames and exhaustive uint8 levels.",
+  "measured_motion": {
+    "command_arm_velocity": 0.9984970092773438,
+    "command_gripper_velocity": 0.059972964227199554,
+    "command_arm_acceleration": 2.4799704551696777,
+    "command_gripper_acceleration": 0.17313659191131592,
+    "command_arm_jerk": 19.785046577453613,
+    "command_gripper_jerk": 1.4250262174755335,
+    "measured_arm_velocity": 0.9990065693855286,
+    "measured_gripper_velocity": 0.05996927246451378,
+    "measured_arm_acceleration": 3.9400577545166016,
+    "measured_gripper_acceleration": 0.8272988796234131,
+    "measured_arm_jerk": 88.69636535644531,
+    "measured_gripper_jerk": 24.275442123413086,
+    "tracking_error_rad": 0.017542362213134766,
+    "hold_velocity_rms_rad_s": 0.00021657973411493003,
+    "hold_gripper_velocity_rms_m_s": 0.00013701159332413226
+  },
+  "tcp_motion": {
+    "passed": true,
+    "violations": [],
+    "limits": {
+      "linear_speed_m_s": 0.25,
+      "angular_speed_rad_s": 1.5
+    },
+    "intervals": 8771,
+    "integration_steps": 280672,
+    "peaks": {
+      "left/linear": {
+        "speed": 0.23282735611573815,
+        "transition_index": 1551,
+        "substep": 19,
+        "sim_time": 52.71979166663928,
+        "phase": "stack_ready",
+        "object": "cup_02"
+      },
+      "left/angular": {
+        "speed": 0.9119896977774274,
+        "transition_index": 43,
+        "substep": 19,
+        "sim_time": 2.4531249999999423,
+        "phase": "approach",
+        "object": "cup_01"
+      },
+      "right/linear": {
+        "speed": 0.2347764103725852,
+        "transition_index": 2862,
+        "substep": 15,
+        "sim_time": 96.41562499993287,
+        "phase": "release",
+        "object": "chopstick_a"
+      },
+      "right/angular": {
+        "speed": 1.1341215770998196,
+        "transition_index": 5894,
+        "substep": 26,
+        "sim_time": 197.49375000078865,
+        "phase": "transfer",
+        "object": "bowl"
+      }
+    },
+    "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification."
+  },
+  "all_frozen_inputs_unchanged": 429,
+  "source_and_export_unchanged": true,
+  "private_fields_absent_from_public_reader": true,
+  "official_reader_sample_indices": [
+    0,
+    4385,
+    8769,
+    8770
+  ],
+  "video": {
+    "overhead": {
+      "frames": 8771,
+      "fps": 30.0,
+      "max_pts_error_s": 3.333333467026023e-07,
+      "psnr_db": 41.57673746951139,
+      "mean_absolute_pixel_error_0_to_255": 1.542483796576708,
+      "max_channel_absolute_error_0_to_255": 91
+    },
+    "left_wrist": {
+      "frames": 8771,
+      "fps": 30.0,
+      "max_pts_error_s": 3.333333467026023e-07,
+      "psnr_db": 44.20282636790088,
+      "mean_absolute_pixel_error_0_to_255": 1.237313954074705,
+      "max_channel_absolute_error_0_to_255": 101
+    },
+    "right_wrist": {
+      "frames": 8771,
+      "fps": 30.0,
+      "max_pts_error_s": 3.333333467026023e-07,
+      "psnr_db": 40.5114767922542,
+      "mean_absolute_pixel_error_0_to_255": 1.6818118124883217,
+      "max_channel_absolute_error_0_to_255": 101
+    }
+  },
+  "camera_fk_scope": "All 8772 camera pose telemetry rows exactly match the serial baseline with a verified complete FK audit; no real-world calibration claim.",
+  "component_and_engine_equivalence": {
+    "component_report": "sensor_workers_probe_v1.json",
+    "actual_mujoco_report": "sensor_workers_gl_check_v2.json",
+    "actual_isaac_report": "sensor_workers_isaac_check_v2.json",
+    "same_input_outputs_identical": true,
+    "mujoco_triplets": 64,
+    "isaac_triplets": 52,
+    "isaac_scope": "Actual engine CPU postprocessing equivalence/cache/reset/ownership/lifecycle only; not a full task or throughput claim.",
+    "tests_passed": 492,
+    "prior_failures_preserved": [
+      "pytest_sensor_workers_v1.log",
+      "sensor_workers_gl_check_v1_failure.json",
+      "sensor_workers_isaac_check_v1_unverified.json"
+    ]
+  },
+  "source_bytes": 10722234044,
+  "export_bytes": 300701994,
+  "raw_transitions_per_decimal_GB": 818.0198234814804,
+  "raw_and_export_transitions_per_decimal_GB": 795.7045173593704,
+  "performance": {
+    "scope": "One known successful regression, different shared-host time windows, tmpfs; not a paired population or durable-disk benchmark.",
+    "acquisition_audit_export_wall_s": 1791.5053425339283,
+    "serial_acquisition_audit_export_wall_s": 1940.4621200169204,
+    "single_known_pipeline_throughput_ratio": 1.0831461530962032,
+    "wall_time_reduction_fraction": 0.07676355850826566,
+    "recorded_host_span_s": 1524.7669193180045,
+    "frames_per_recorded_host_second": 5.752354598513378,
+    "frames_per_pipeline_wall_second": 4.895882692481499,
+    "single_known_episode_rate_per_hour": 2.009483262220203,
+    "serial_single_known_episode_rate_per_hour": 1.8552281762493816,
+    "independent_postcheck_wall_s": 484.4039423420327,
+    "postchecks_are_additional": true,
+    "total_pipeline_plus_postchecks_s": 2275.909284875961,
+    "postcheck_overlap": "Isaac v1 overlapped the strict full reader and v2 overlapped video audit. Neither overlapped full MuJoCo collection profiling. Postcheck timing is a shared-host measurement.",
+    "postcheck_comparison_note": "New checks also read all old RGB frames; different workload and Isaac overlap prevent a direct postcheck-speed comparison.",
+    "stage_comparison": {
+      "imports": {
+        "serial_inclusive_s": 0.11344890494365245,
+        "workers3_inclusive_s": 0.10259435302577913
+      },
+      "physics_forward": {
+        "serial_inclusive_s": 13.112737761926837,
+        "workers3_inclusive_s": 13.405528703820892
+      },
+      "scene_load": {
+        "serial_inclusive_s": 5.848872123053297,
+        "workers3_inclusive_s": 5.664610211038962
+      },
+      "render_scene_update": {
+        "serial_inclusive_s": 1.3008308641146868,
+        "workers3_inclusive_s": 1.3719546004431322
+      },
+      "render_and_readback": {
+        "serial_inclusive_s": 572.9868169509573,
+        "workers3_inclusive_s": 573.4670393774286
+      },
+      "camera_render": {
+        "serial_inclusive_s": 575.4433484424371,
+        "workers3_inclusive_s": 576.1136126570636
+      },
+      "sensor_postprocess": {
+        "serial_inclusive_s": 368.8976024988806,
+        "workers3_inclusive_s": 199.9603674140526
+      },
+      "observation_read": {
+        "serial_inclusive_s": 965.8129548676079,
+        "workers3_inclusive_s": 798.7872091443278
+      },
+      "control_apply": {
+        "serial_inclusive_s": 0.09192244824953377,
+        "workers3_inclusive_s": 0.09333234035875648
+      },
+      "physics_integration": {
+        "serial_inclusive_s": 418.07728103129193,
+        "workers3_inclusive_s": 428.131604313734
+      },
+      "backend_step": {
+        "serial_inclusive_s": 458.9779986856738,
+        "workers3_inclusive_s": 470.21554158534855
+      },
+      "expert_ik": {
+        "serial_inclusive_s": 5.9642182644456625,
+        "workers3_inclusive_s": 6.038196975481696
+      },
+      "expert_collision_plan": {
+        "serial_inclusive_s": 17.724118933663704,
+        "workers3_inclusive_s": 17.848497526720166
+      },
+      "expert_time_parameterization": {
+        "serial_inclusive_s": 0.27108861471060663,
+        "workers3_inclusive_s": 0.2712096704635769
+      },
+      "metadata_write": {
+        "serial_inclusive_s": 17.97221027384512,
+        "workers3_inclusive_s": 18.71549350931309
+      },
+      "rgb_compress_write": {
+        "serial_inclusive_s": 178.54868310096208,
+        "workers3_inclusive_s": 182.2326107652625
+      },
+      "hdf5_flush": {
+        "serial_inclusive_s": 1.1237068767659366,
+        "workers3_inclusive_s": 1.1514696745434776
+      },
+      "recording_append": {
+        "serial_inclusive_s": 218.784244004637,
+        "workers3_inclusive_s": 224.48202733357903
+      },
+      "recording_close": {
+        "serial_inclusive_s": 0.023342059925198555,
+        "workers3_inclusive_s": 0.02361616911366582
+      },
+      "audit_streams": {
+        "serial_inclusive_s": 79.8965378390858,
+        "workers3_inclusive_s": 80.1711111490149
+      },
+      "audit_task": {
+        "serial_inclusive_s": 15.966379374964163,
+        "workers3_inclusive_s": 16.174916113028303
+      },
+      "audit_total": {
+        "serial_inclusive_s": 108.48866456095129,
+        "workers3_inclusive_s": 109.03594342502765
+      },
+      "audit_save_and_checksum": {
+        "serial_inclusive_s": 6.04467484401539,
+        "workers3_inclusive_s": 6.039335599984042
+      },
+      "lerobot_input_validation": {
+        "serial_inclusive_s": 3.2967622180003673,
+        "workers3_inclusive_s": 3.3159511140547693
+      },
+      "lerobot_video_and_statistics": {
+        "serial_inclusive_s": 124.925690219854,
+        "workers3_inclusive_s": 124.92078794597182
+      },
+      "lerobot_export": {
+        "serial_inclusive_s": 141.29218394402415,
+        "workers3_inclusive_s": 141.480494460091
+      }
+    },
+    "stage_exclusive_seconds": {
+      "imports": 0.10259435302577913,
+      "physics_forward": 13.405528703820892,
+      "scene_load": 5.664373531122692,
+      "render_scene_update": 1.3719546004431322,
+      "render_and_readback": 573.4670393774286,
+      "camera_render": 1.2746186791919172,
+      "sensor_postprocess": 199.9603674140526,
+      "observation_read": 22.71322907321155,
+      "control_apply": 0.09333234035875648,
+      "physics_integration": 428.131604313734,
+      "backend_step": 28.678926892695017,
+      "expert_ik": 6.038196975481696,
+      "expert_collision_plan": 17.848497526720166,
+      "expert_time_parameterization": 0.2712096704635769,
+      "metadata_write": 18.71549350931309,
+      "rgb_compress_write": 182.2326107652625,
+      "hdf5_flush": 1.1514696745434776,
+      "recording_append": 22.403547302470542,
+      "recording_close": 0.0025222511030733585,
+      "audit_streams": 80.1711111490149,
+      "audit_task": 16.174916113028303,
+      "audit_total": 12.689916162984446,
+      "audit_save_and_checksum": 6.039335599984042,
+      "lerobot_input_validation": 3.3159511140547693,
+      "lerobot_video_and_statistics": 124.92078794597182,
+      "lerobot_export": 13.243755400064401
+    },
+    "resources": {
+      "samples": 870,
+      "peak_rss_bytes": 2951462912,
+      "cpu_percent_one_core": {
+        "mean": 112.49575849990285,
+        "peak": 280.41638183222614
+      },
+      "gpus": {
+        "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+          "name": "NVIDIA GeForce RTX 5090 D",
+          "samples": 870,
+          "utilization_sum_percent": 27653.0,
+          "peak_utilization_percent": 64.0,
+          "peak_used_bytes": 2965372928
+        }
+      },
+      "gpu_sampling_errors": 0,
+      "process_gpus": {
+        "0": {
+          "samples": 744,
+          "peak_fb_reported_MB": 1009,
+          "process_type": "G"
+        }
+      },
+      "process_gpu_sampling_errors": 0
+    },
+    "mean_cpu_percent_one_core": 112.46857352315382
+  },
+  "evidence_hashes": {
+    "sensor_workers_gl_check_v1.py": "f1153a0f88038a9d895a06972234c6d87e7f70e5fe21086ea40dadc61ba5f6fb",
+    "sensor_workers_gl_check_v1_failure.json": "009650aa224a69cf4031e0f6bbebe7268c736ad37eab5000798adbb5df120110",
+    "sensor_workers_gl_check_v2.json": "14a8ee9a065ae617fb2ce913a8d9ac2382669f806e8183606cfa7f11fde407d6",
+    "sensor_workers_gl_check_v2.py": "3e26ef10a240641de5573958e6406a081fe127e09b75c69388119bc2e700dd15",
+    "sensor_workers_isaac_check_v1.log": "1353e512a2256273520b7fbc52585aefc966040c804422026a7b3b799f19fa3d",
+    "sensor_workers_isaac_check_v1.py": "a966769ea8a126f55d1590bf3b7b8b19c6517279118f3483cbeda95e3bc5951b",
+    "sensor_workers_isaac_check_v1_unverified.json": "77628c922e132cf2d4730424e22ac2613cbe4917682310ee2484697f030c8702",
+    "sensor_workers_isaac_check_v2.json": "e434fc0740c9c10db4952a87ad3895dd4da883921183edbb9e50cab9b25d6868",
+    "sensor_workers_isaac_check_v2.log": "b1ffe39ced4b3ca60b567350f2072cce49ad16d0cf49d5a94904ef466bc02f7a",
+    "sensor_workers_isaac_check_v2.py": "435b69662c11a55e47e6ebb2d453242a8dabaf81cab3e89cdf02c89e1507ffaa",
+    "sensor_workers_isaac_execution_v2.json": "f5bdf2111184a74a8c5ab9f7b416c150425930ac64d68a84b70673616f17a3af",
+    "sensor_workers_probe_v1.json": "9b4834fb00ceb03eaf8a7be0db19d8b0196ce9cdb891bb56bc77466ce1af0b1b",
+    "sensor_workers_reference_v1.py": "922eee49016fd1aca8127bdd0a1b3e62002443d746506615ac30d38c88730f0b",
+    "sensor_workers_rgb_consumer_v1.json": "80299fc73baf4143eefe8c88b591c1d778c7717b00ba926b7b443c02b14e60d8",
+    "sensor_workers_rgb_inputs_v1.json": "4d29ff2cafe91e92947e2207ac2c61a9b50584e103975edbe2b88c5ddc24bc61",
+    "sensor_workers_rgb_plan_v1.json": "90e6c1831ae6a598af3d66d37e611808e7137a9ec842413d5bf751ce93077734",
+    "sensor_workers_rgb_postcheck_v1.json": "0ddcdd25d469c6ed0e789ed7c49428b3fc73a80bb008507205e0b9d16c8093bd",
+    "sensor_workers_rgb_postcheck_v1.py": "8a303b9bbf3c536ff54a75b79cabf9743d1787c74f91cba5a9a55f520edcb37e",
+    "sensor_workers_rgb_prepare_v1.py": "6c371e99918febb9e53ff7ddd0125c91e7aa7483629d6b6dd6b378d1106d65f9",
+    "sensor_workers_rgb_raw_comparison_v1.npz": "8c0811d2d8c28e4e67b42b1fcf163f7c67a8f0c68f5d0463641a9dcd882751c4",
+    "sensor_workers_rgb_summary_v1.py": "49428c9ee34bb46e0f876c479d335cf560ea44953c2e88003d417b787fd59f43",
+    "sensor_workers_rgb_validate_v1.py": "a0fe9d9d40c9addc880836ea03130e02f662322288aa7ad9854e6a9df4a0b972",
+    "sensor_workers_rgb_validation_v1.json": "3535af47d887741399f7dd1054b09872c72a0b925c9e99b8dcb8b5fbd21b3460",
+    "sensor_workers_rgb_video_audit_v1.json": "46c24ecad609c4e4935ebe6a32cd6b8688c8b3a60fe244fdeca9c43c5e7fafb8",
+    "sensor_workers_rgb_video_audit_v1.npz": "1d332514b7b1244d1d7d9083a3faed1a1d6eaf6f8b1203ee569a145649f0151f",
+    "sensor_workers_tests_v1.json": "2f5a8dc6463c9096701c0e0c06315ba0f35428af08b70e1d6a6af635a3178a1f",
+    "sensor_workers_rgb_evidence_v1/audit.json": "860c3aaa7330e2277f54503d021fb04ea2cbd9789baacdeba25eee050033782c",
+    "sensor_workers_rgb_evidence_v1/collection.log": "9fbc865e0e5edcab6a964a279bfee0bcf047f49e5f856260cc227d7c7c36a4a1",
+    "sensor_workers_rgb_evidence_v1/export_checksums.json": "6082bf6cd47cf30dcb97b17d4301eeb67c7084a39904db3dd1775df220865516",
+    "sensor_workers_rgb_evidence_v1/postcheck_consumer.log": "bcc8f4787905ce281387f7990f09604617263879302e828d8a33e105e2f7ac93",
+    "sensor_workers_rgb_evidence_v1/postcheck_reader.log": "6210f8104512625f28337ad45e85da4164e6079e992bb56eca12cb49281af44c",
+    "sensor_workers_rgb_evidence_v1/postcheck_video_audit.log": "fae9ae36c4e0e4bed3b1e5876e26df246bbac574c8d87df1ab5efaef40098ad7",
+    "sensor_workers_rgb_evidence_v1/profile.json": "fee0c766e03f1e8c5ec371f2659587c85f25f96b2f726709ec80d734301b7848",
+    "sensor_workers_rgb_evidence_v1/report.json": "948db39a525f43428f9ae10fed714e8e0e75f672e45bd3f9779ff42ad42d680d",
+    "pytest_sensor_workers_full_v1.log": "d931d059fb141472675153336c53a0bba2722884b7ff73d3f6e5d8de318cb0a7",
+    "pytest_sensor_workers_v1.log": "a85eb9e6130f7251621da3a4f5675e56a9e60554369b5f43d9eddaa1406f2c89",
+    "pytest_sensor_workers_v2.log": "33420c1633c113e8f49377a435c3aeb0c2779a16bd9f0014f6a4e03999729366"
+  },
+  "working_tree_context": {
+    "preexisting_uncommitted_modules": {
+      "/home/midea/Desktop/piper_sim/src/piper_sim/robot_asset.py": "bc409ca752aa55674cb95969e3fa38fc2301a107cab746b7fa4fce7618da5307",
+      "/home/midea/Desktop/piper_sim/src/piper_sim/tasks/isaac.py": "f25d94e78e3f86cd4719b8415d6ca232e3a976d9d0729875cf6839a840e39efb"
+    },
+    "note": "Unrelated existing PPO hooks remain uncommitted by this work. Probe uses default arm home and default /World/Task paths; all tested file hashes are recorded. These are tested-workspace results, not a clean-checkout assertion."
+  },
+  "storage": {
+    "root_free_bytes_at_summary": 5347500032,
+    "tmpfs_free_bytes_at_summary": 10140131328,
+    "raw_on_volatile_tmpfs": true,
+    "evidence_bytes_before_summary": 707986,
+    "note": "Only bounded small evidence persisted to root. Raw/export remain volatile and require durable archival. No existing raw files deleted."
+  },
+  "limitations": [
+    "Known regression only; no unseen-layout reliability estimate or full-pipeline 2x achievement.",
+    "Same raw input yields identical CPU processing, but separate GPU runs have a few different channel values (max 2/255); no cross-run pixel identity claim.",
+    "Per-target finger material switching remains; real camera, contact and robot response are uncalibrated.",
+    "Full Isaac manipulation and cross-engine dynamics equivalence are not established by a short sensor probe.",
+    "Sparse prior visual review finds hard shadows/simplified materials and low-information idle left-wrist views.",
+    "Full decoded video diagnostics measure lossy encoding, not perceptual or real-world fidelity.",
+    "Default remains one sensor worker; candidate config opts into three. Multi-environment contention is unmeasured."
+  ]
+}

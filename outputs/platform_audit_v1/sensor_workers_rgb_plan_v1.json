@@ -1,0 +1,63 @@
+{
+  "purpose": "Complete known-scene RGB regression with three synchronous CPU camera workers",
+  "source_commit": "a51aa9c56f6f852f059b50f63e1a9e4a34a17d4f",
+  "source_worktree_changes": "Uncommitted candidate frozen by per-file checksums; unrelated PPO changes excluded from this work.",
+  "seed": 1340830695,
+  "command": [
+    "/home/midea/Desktop/piper_sim/.venv-mujoco/bin/python",
+    "/home/midea/Desktop/piper_sim/scripts/profile_collection.py",
+    "--profile-output",
+    "/dev/shm/piper_sensor_workers_rgb_v1/profile.json",
+    "--record",
+    "--rgb",
+    "--lerobot",
+    "--seed",
+    "1340830695",
+    "--output",
+    "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695",
+    "--config",
+    "/home/midea/Desktop/piper_sim/configs/clean_table_tcp_sensor_workers.yaml",
+    "--task-scene",
+    "/home/midea/Desktop/piper_sim/configs/tasks/clean_table_rigid.yaml",
+    "--domain-randomization",
+    "/home/midea/Desktop/piper_sim/configs/domain_randomization/clean_table.yaml",
+    "--collection-profile",
+    "/home/midea/Desktop/piper_sim/configs/collection/clean_table_tcp_clearance.yaml",
+    "--acceptance-policy",
+    "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "--grasp-mode",
+    "physical"
+  ],
+  "raw_output": "/dev/shm/piper_sensor_workers_rgb_v1",
+  "inputs_sha256": "4d29ff2cafe91e92947e2207ac2c61a9b50584e103975edbe2b88c5ddc24bc61",
+  "script_sha256": "6c371e99918febb9e53ff7ddd0125c91e7aa7483629d6b6dd6b378d1106d65f9",
+  "comparison_rgb_source": "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/episode.h5",
+  "comparison_rgb_sha256": "e5776772858a199908378514e908d49668dc2abdc324c45bc7562e710e3f080a",
+  "comparison_summary_sha256": "47d7efc16c5c11741c0de1cc763d5863afb680b49d8fe5a22a6aab37503185f1",
+  "changed_existing_baseline_sources": [
+    "/home/midea/Desktop/piper_sim/src/piper_sim/backends/isaac.py",
+    "/home/midea/Desktop/piper_sim/src/piper_sim/backends/mujoco.py",
+    "/home/midea/Desktop/piper_sim/src/piper_sim/randomization/__init__.py"
+  ],
+  "unchanged_model_configuration_fingerprint": "c9114bc646199a5761fc5061b09f3f38c3c0e0ab648ed73220d4f7f8f53566bf",
+  "free_tmpfs_bytes": 21192708096,
+  "free_root_bytes": 5356732416,
+  "mem_available_bytes": 25216028672,
+  "output_allowance_bytes": 15374982251,
+  "maximum_new_persistent_evidence_bytes": 2097152,
+  "environment": {
+    "MUJOCO_GL": "egl",
+    "OMP_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null
+  },
+  "protocol": "Same full task, seed, 30-Hz recording, native 640x480 RGB, physical teacher, timing and independent TCP policy. No preflight rerun, frame skipping, threshold relaxation, model changes or playback acceleration. Wait for every camera before stepping.",
+  "performance_scope": "Compare with the retained prior serial run, acknowledging different shared-host execution windows and its early test interference. No new paired population-throughput or 2x full-pipeline claim.",
+  "storage": "Raw and export remain on volatile tmpfs; preserve all failures and existing raw sources. Archival is required before reboot.",
+  "remaining_limitations": [
+    "One known repaired scene; not an unseen-layout reliability estimate or a new 2x speedup.",
+    "Per-target finger material switching remains; real camera, contact and robot response are uncalibrated.",
+    "Sparse visual review finds hard shadows/simplified materials and low-information idle left-wrist views.",
+    "Full decoded video diagnostics quantify lossy encoding, not perceptual or real-world fidelity.",
+    "Independent postchecks are additional to normal collection/audit/export profiling; some small visual sampling overlapped postchecks."
+  ]
+}

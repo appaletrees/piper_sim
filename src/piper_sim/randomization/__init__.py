@@ -125,22 +125,40 @@ def _gamma_curve(gamma):
     return values
 
 
-def sensor_images(images, parameters, tick):
-    """Repeat reads at the same simulation tick return identical sensor noise."""
+def _sensor_image(name, pixels, parameters, tick):
+    """One independent camera stream; no renderer or simulation access."""
+    p = parameters['cameras'][name]
+    if p.get('blur_sigma_px',0):
+        from PIL import Image,ImageFilter
+        pixels=np.asarray(Image.fromarray(pixels).filter(ImageFilter.GaussianBlur(p['blur_sigma_px'])))
+    gamma = p.get('gamma', 1.)
+    rgb = (_gamma_curve(gamma)[pixels] if pixels.dtype == np.uint8 else
+           255.*(pixels.astype(np.float32)/255.)**gamma)
+    rgb *= p['gain']*np.asarray(p['white_balance'], np.float32)
+    if p['noise_std_uint8']:
+        rng = np.random.default_rng(stream_seed(parameters['seed'], f'sensor/{name}/{tick}'))
+        rgb += rng.normal(0, p['noise_std_uint8'], rgb.shape).astype(np.float32)
+    return np.clip(np.rint(rgb), 0, 255).astype(np.uint8)
+
+
+def sensor_images(images, parameters, tick, *, executor=None):
+    """Synchronous per-tick processing, optionally parallel across cameras.
+
+    All submitted work finishes before returning or raising. Per-camera RNGs and
+    arithmetic are identical to serial processing; no frames are queued ahead.
+    The caller owns any executor and must keep inputs stable until this returns.
+    """
     if not parameters:
         return images
-    out = {}
-    for name, pixels in images.items():
-        p = parameters['cameras'][name]
-        if p.get('blur_sigma_px',0):
-            from PIL import Image,ImageFilter
-            pixels=np.asarray(Image.fromarray(pixels).filter(ImageFilter.GaussianBlur(p['blur_sigma_px'])))
-        gamma = p.get('gamma', 1.)
-        rgb = (_gamma_curve(gamma)[pixels] if pixels.dtype == np.uint8 else
-               255.*(pixels.astype(np.float32)/255.)**gamma)
-        rgb *= p['gain']*np.asarray(p['white_balance'], np.float32)
-        if p['noise_std_uint8']:
-            rng = np.random.default_rng(stream_seed(parameters['seed'], f'sensor/{name}/{tick}'))
-            rgb += rng.normal(0, p['noise_std_uint8'], rgb.shape).astype(np.float32)
-        out[name] = np.clip(np.rint(rgb), 0, 255).astype(np.uint8)
-    return out
+    if executor is None or len(images) < 2:
+        return {name: _sensor_image(name, pixels, parameters, tick) for name, pixels in images.items()}
+    from concurrent.futures import wait
+    pending = {}
+    try:
+        for name, pixels in images.items():
+            pending[name] = executor.submit(_sensor_image, name, pixels, parameters, tick)
+        return {name: future.result() for name, future in pending.items()}
+    finally:
+        # Failed processing/submission must not leave threads using borrowed
+        # arrays or episode parameters after the caller resets or retries.
+        wait(pending.values())

@@ -7,6 +7,7 @@ import numpy as np
 
 from ..contracts import ARMS, JOINT_NAMES, LOWER, UPPER, Observation, vector
 from ..mujoco_asset import resolve_model
+from ..sensor_processing import SensorImageProcessor
 
 _PHYSICS_WARNINGS = np.array([int(x) for x in (mujoco.mjtWarning.mjWARN_INERTIA,
     mujoco.mjtWarning.mjWARN_CONTACTFULL, mujoco.mjtWarning.mjWARN_CNSTRFULL,
@@ -19,6 +20,7 @@ class MujocoBackend:
         self.cfg = cfg
         self.dt = cfg["runtime"]["physics_dt"]
         self.decimation = cfg["runtime"]["decimation"]
+        self.sensor_processor = SensorImageProcessor(cfg['runtime'].get('sensor_postprocess_workers', 1))
         self.viewer = None
         self.renderers = {}
         self._images = None
@@ -204,12 +206,14 @@ class MujocoBackend:
             p = self.data.qpos[self.indices[side]["qpos"]]
             q.extend([*p[:6], p[6]+p[7]])
         if self.enable_cameras and self._images is None:
-            self._images = {name: self._render(name, *mount["rgb"]["resolution"])
-                            for name, mount in self.rig["cameras"].items()}
+            images = {name: self._render(name, *mount["rgb"]["resolution"])
+                      for name, mount in self.rig["cameras"].items()}
             if self.randomizer:
-                from ..randomization import sensor_images
-                self._images = sensor_images(self._images, self.task.domain_parameters,
-                                              round(self.sim_time/(self.dt*self.decimation)))
+                images = self.sensor_processor(images, self.task.domain_parameters,
+                                               round(self.sim_time/(self.dt*self.decimation)))
+            # Publish only a complete processed snapshot. A failed camera must
+            # never leave raw, unprocessed pixels cached for the next read.
+            self._images = images
         poses = {}
         if self.enable_cameras:
             for name, mount in self.rig["cameras"].items():
@@ -250,6 +254,7 @@ class MujocoBackend:
 
     def close(self):
         self._closed = True
+        self.sensor_processor.close()
         if self.viewer:
             self.viewer.close()
             self.viewer = None
