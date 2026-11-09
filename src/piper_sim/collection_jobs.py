@@ -45,6 +45,8 @@ def batch_identity(args):
     files += [p for p in (ROOT/'assets').rglob('*') if p.is_file()]
     files += [Path(getattr(args, name)).resolve() for name in
               ('config', 'task_scene', 'domain_randomization', 'collection_profile')]
+    if getattr(args, 'acceptance_policy', None):
+        files.append(Path(args.acceptance_policy).resolve())
     fingerprints = {str(p.resolve()): sha256(p) for p in sorted(set(files))}
     import importlib.metadata
     versions = {name: importlib.metadata.version(name) for name in ('mujoco', 'numpy', 'h5py')}
@@ -52,17 +54,17 @@ def batch_identity(args):
             'files': fingerprints, 'versions': versions}
 
 
-def validate_completed(result):
+def validate_completed(result, *, policy=None):
     """Recheck accepted provenance before reusing a completed job on resume."""
     if result['accepted']:
         from .lerobot_export import _inspect
-        _inspect(Path(result['path']), require_quality=True)
+        _inspect(Path(result['path']), require_quality=True, policy=policy)
     elif result.get('diagnostic_passed'):
         import h5py
         from .collection_audit import AUDIT_VERSION, load_acceptance_policy
         path = Path(result['path'])
         evidence = json.loads(Path(result['audit']).read_text())
-        _, policy = load_acceptance_policy()
+        _, policy = load_acceptance_policy(policy)
         if (not evidence.get('passed') or evidence.get('schema_version') != AUDIT_VERSION or
                 evidence.get('source_sha256') != sha256(path) or
                 evidence.get('acceptance_policy', {}).get('sha256') != policy['sha256']):
@@ -107,7 +109,7 @@ class BatchJournal:
         if not path.exists():
             return None
         result = json.loads(path.read_text())
-        validate_completed(result)
+        validate_completed(result, policy=self.identity.get('options', {}).get('acceptance_policy'))
         return result
 
     def output_for(self, index, seed):

@@ -1,0 +1,95 @@
+{
+  "training_ready": false,
+  "seed": 13,
+  "role": "known three-cup development regression",
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_three_cup_state_v1/worker_00/episode_000000_seed_13/episode.h5",
+  "source_sha256": "991ee472b52cc2dcb246aff3c88bf510e08bc06fad4ab008a077b9f8429dee05",
+  "source_bytes": 91511616,
+  "plan_sha256": "1ecad7c5ab281b355e15a974faae89856dac6741815d1fac7579b134c7873d35",
+  "analysis_sha256": "1f015c6f314eb485d2987c5b9f4a2ca343c07cfe67742aa846cac8eb89b11e80",
+  "unchanged_frozen_files": 422,
+  "changed_frozen_files": [],
+  "same_input_hashes_as_preceding_cohort": true,
+  "original_policy_unchanged": true,
+  "cup_count": 3,
+  "summary": {
+    "success": true,
+    "sorted_count": 11,
+    "required_count": 11
+  },
+  "error": null,
+  "audit_passed": true,
+  "violations": [],
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "frames": 8776,
+  "duration_s": 292.53333333432107,
+  "previous_duration_s": 268.4666666680046,
+  "duration_change_s": 24.06666666631645,
+  "tcp_intervals": {
+    "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_three_cup_state_v1/worker_00/episode_000000_seed_13/episode.h5",
+    "source_sha256": "991ee472b52cc2dcb246aff3c88bf510e08bc06fad4ab008a077b9f8429dee05",
+    "training_ready": false,
+    "passed": true,
+    "violations": [],
+    "script_sha256": "c56f43c3e5d9a5a2cc918318550a992077b9f4758888ac42c44db778362a618d",
+    "acceptance_policy": {
+      "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+      "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+    },
+    "limits": {
+      "linear_speed_m_s": 0.25,
+      "angular_speed_rad_s": 1.5
+    },
+    "intervals": 8776,
+    "integration_steps": 280832,
+    "peaks": {
+      "left/linear": {
+        "speed": 0.23263455442837494,
+        "transition_index": 1493,
+        "substep": 20,
+        "sim_time": 50.78749999997437,
+        "phase": "stack_ready",
+        "object": "cup_02"
+      },
+      "left/angular": {
+        "speed": 0.9517367043153095,
+        "transition_index": 44,
+        "substep": 19,
+        "sim_time": 2.4864583333332737,
+        "phase": "approach",
+        "object": "cup_01"
+      },
+      "right/linear": {
+        "speed": 0.23309017978941723,
+        "transition_index": 5198,
+        "substep": 3,
+        "sim_time": 174.26979166715992,
+        "phase": "transfer",
+        "object": "spoon"
+      },
+      "right/angular": {
+        "speed": 1.2212163301758283,
+        "transition_index": 3822,
+        "substep": 25,
+        "sim_time": 128.42604166657588,
+        "phase": "lift",
+        "object": "pen"
+      }
+    },
+    "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification."
+  },
+  "native_integrity": "consistent_recorded_evidence",
+  "native_violations": [],
+  "phase_wall_seconds": {
+    "collection": 659.4659879780374
+  },
+  "limitations": [
+    "Known development regression, not an unseen success-rate estimate.",
+    "Original 300 s duration and all previous quality limits retained.",
+    "Native integration-boundary summaries, not continuous-time hardware certification.",
+    "States only, no RGB training acceptance, LeRobot export, or qualified-throughput claim."
+  ]
+}

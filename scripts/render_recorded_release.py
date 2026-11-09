@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a 1x diagnostic release clip from recorded native states.
+"""Render a 1x diagnostic phase interval from recorded native states.
 
 Every selected 30 Hz state is displayed once. This is kinematic reconstruction,
 not dynamics replay or original synchronized sensor RGB, and is never training
@@ -26,15 +26,21 @@ def main():
     p.add_argument('source', type=Path)
     p.add_argument('--object', required=True)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--start-phase', default='lower')
+    p.add_argument('--end-phase', default='placed')
+    p.add_argument('--lead-seconds', type=float, default=1.)
+    p.add_argument('--view', choices=('release','workcell'), default='release')
     args = p.parse_args()
+    if not np.isfinite(args.lead_seconds) or args.lead_seconds < 0:
+        p.error('lead-seconds must be finite and nonnegative')
     if args.output.exists(): p.error('Preserve existing previews; choose a new output')
     args.output.mkdir(parents=True)
     with h5py.File(args.source, 'r') as f:
         if not f.attrs.get('complete'): raise ValueError('Closed source recording required')
         meta = json.loads(f.attrs['metadata'])
         events = [e for e in meta['collection_outcome']['teacher_events'] if e['object']==args.object]
-        start_time = next(e['sim_time'] for e in events if e['phase']=='lower')-1.
-        end_time = next(e['sim_time'] for e in events if e['phase']=='placed')
+        start_time = next(e['sim_time'] for e in events if e['phase']==args.start_phase)-args.lead_seconds
+        end_time = next(e['sim_time'] for e in events if e['phase']==args.end_phase)
         fps = float(meta['fps'])
         times = np.r_[f['observation/sim_time'][:], f['next_observation/sim_time'][-1]]
         if fps != 30. or not np.allclose(np.diff(times), 1/fps, rtol=0, atol=1e-6):
@@ -54,6 +60,8 @@ def main():
             layout = meta['task_scene']['layout'];backend.reset(layout['seed'], layout['randomized'])
             camera = mujoco.MjvCamera();camera.lookat[:] = [.6, -.43, .12]
             camera.distance = .7;camera.azimuth = 60;camera.elevation = -60
+            if args.view == 'workcell':
+                camera.lookat[:] = [.40,0,.10];camera.distance=1.4;camera.azimuth=20;camera.elevation=-65
             encoder = subprocess.Popen(['ffmpeg','-hide_banner','-loglevel','error','-nostdin',
                 '-f','rawvideo','-pix_fmt','rgb24','-s','640x480','-r',str(fps),'-i','pipe:0','-an',
                 '-c:v','libx264','-preset','fast','-crf','20','-pix_fmt','yuv420p','-movflags','+faststart',str(partial)],
@@ -75,7 +83,7 @@ def main():
                 im = Image.fromarray(backend._render(camera,640,480))
                 draw = ImageDraw.Draw(im);draw.rectangle((0,0,640,35),fill=(15,20,28))
                 draw.text((8,3),'RECORDED STATE RECONSTRUCTION | 1x / 30 Hz | NOT SENSOR RGB',fill='white')
-                draw.text((8,18),f'{args.object}: {extras["teacher"]["phase"]} | source t={times[frame]:.3f}s',fill='white')
+                draw.text((8,18),f'{extras["teacher"].get("object")}: {extras["teacher"]["phase"]} | source t={times[frame]:.3f}s',fill='white')
                 encoder.stdin.write(np.asarray(im).tobytes())
                 if frame in (first,(first+stop)//2,stop-1): snapshots.append(im.copy())
             encoder.stdin.close()
@@ -92,6 +100,8 @@ def main():
             atomic_json(args.output/'preview.json', {'scope': __doc__, 'training_ready': False,
                 'source': str(args.source.resolve()), 'source_sha256': sha256(args.source),
                 'script_sha256': sha256(__file__), 'source_provenance_changes': changed,
+                'selection': {'object':args.object,'start_phase':args.start_phase,'end_phase':args.end_phase,
+                              'lead_seconds':args.lead_seconds,'view':args.view},
                 'frame_range_exclusive': [first,stop], 'frames': stop-first, 'fps': fps,
                 'first_last_source_sim_time': [float(times[first]),float(times[stop-1])],
                 'duration_s': (stop-first)/fps, 'duration_note': 'Each displayed sample, including the last, occupies one frame interval.',

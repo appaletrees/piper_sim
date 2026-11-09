@@ -27,6 +27,7 @@ def worker_command(args, seeds, output):
         command.extend(['--'+name.replace('_', '-'), str(getattr(args, name))])
     for name in ('states_only', 'skip_preflight', 'video'):
         if getattr(args, name): command.append('--'+name.replace('_', '-'))
+    if getattr(args, 'acceptance_policy', None): command += ['--acceptance-policy', args.acceptance_policy]
     if (output/'run.json').is_file(): command.append('--resume')
     return command
 
@@ -50,7 +51,7 @@ def export_completed(args, results):
             if expected != {'inputs': inputs, 'files': files}:
                 raise ValueError('Existing export changed: '+str(output))
         else:
-            export_lerobot_v2(paths, output, require_quality=True)
+            export_lerobot_v2(paths, output, require_quality=True, policy=args.acceptance_policy)
             atomic_json(checkpoint, {'inputs': inputs, 'files': {
                 str(p.relative_to(output)): sha256(p) for p in sorted(output.rglob('*')) if p.is_file()}})
 
@@ -92,7 +93,7 @@ def collect(args, journal):
             if len(rows) != len(seeds) or {r['seed'] for r in rows} != set(seeds):
                 raise ValueError('Missing or duplicate shard outcomes: '+str(folder))
             for result in rows:
-                validate_completed(result)
+                validate_completed(result, policy=args.acceptance_policy)
                 index = args.seeds.index(result['seed'])
                 journal.save(index, result)
                 results[index] = result
@@ -129,6 +130,7 @@ def main():
     parser.add_argument('--task-scene', default='configs/tasks/clean_table_rigid.yaml')
     parser.add_argument('--domain-randomization', default='configs/domain_randomization/clean_table.yaml')
     parser.add_argument('--collection-profile', default='configs/collection/clean_table.yaml')
+    parser.add_argument('--acceptance-policy', help='Independent operator policy, retained on resume and export')
     parser.add_argument('--grasp-mode', choices=['physical'], default='physical')
     parser.add_argument('--states-only', action='store_true')
     parser.add_argument('--skip-preflight', action='store_true')
@@ -148,6 +150,8 @@ def main():
     # Relative paths must refer to the same inputs in parent and worker processes.
     for name in ('config', 'task_scene', 'domain_randomization', 'collection_profile'):
         setattr(args, name, str(Path(getattr(args, name)).resolve()))
+    if args.acceptance_policy:
+        args.acceptance_policy = str(Path(args.acceptance_policy).resolve())
     identity = batch_identity(args)
     identity['files'][str(Path(__file__).resolve())] = sha256(__file__)
     with termination_guard():

@@ -1,0 +1,22 @@
+{
+  "seeds": [
+    15619,
+    3304020488
+  ],
+  "roles": {
+    "15619": "known development regression",
+    "3304020488": "previously evaluated validation layout; now a regression case, not a fresh holdout"
+  },
+  "config": "configs/clean_table_tcp.yaml",
+  "collection_profile": "configs/collection/clean_table_tcp.yaml",
+  "acceptance_policy": "configs/collection/quality_policy_tcp.yaml",
+  "old_policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "strict_policy_sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351",
+  "limits": {
+    "linear_speed_m_s": 0.25,
+    "angular_speed_rad_s": 1.5
+  },
+  "source": "Uncalibrated simulation budgets; linear budget uses existing .25 m/s planning setting, angular budget is an explicit experimental cap.",
+  "protocol": "Freeze files before full state recordings. Keep all attempts and existing quality limits including 300 s max episode. No tuning within this cohort.",
+  "training_ready": false
+}

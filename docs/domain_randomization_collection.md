@@ -296,6 +296,37 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/audit_collected_episode.py \
 且不同批次应保持同一个 `--validation-fraction`。真实项目若另行改变布局/资产生成规则，应按来源
 重新制定划分，不应仅依赖随机帧切分。
 
+### 可选的全任务末端速度约束
+
+`cartesian_speed_m_s` 原本只参与笛卡尔路径的时长估计，不是全局末端限速。直接关节运动
+也能产生更快的 TCP 平移。实验候选现在覆盖教师的直接关节段、连续路径、限位备选曲线
+和避障中间段：对生成曲线重新定时，增加控制帧，继续检查原关节导数、
+持物姿态偏差与碰撞门限。没有裁剪动作、跳帧或缩短仿真时间。
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_parallel_clean_table.py \
+  --output outputs/tcp_batch_001 --workers 2 --seeds 15619 3304020488 \
+  --config configs/clean_table_tcp.yaml \
+  --collection-profile configs/collection/clean_table_tcp.yaml \
+  --acceptance-policy configs/collection/quality_policy_tcp.yaml --states-only
+```
+
+三份配置分别选择子步观察器、规划/在线拒收预算、独立验收策略。候选线速度上限为
+0.25 m/s、角速度为 1.5 rad/s，规划使用其 95% 留出跟踪余量；这些是**未标定的仿真预算**。
+观察器在私有数据上计算两个 link6 TCP（偏移 `[0,0,0.1375]` m）的 Jacobian 速度，记录
+区间起点及每个物理积分后的峰值、发生子步和端点速度。默认刚体任务每控制帧 32 子步，
+即 960 Hz 的积分边界；不宣称测得两个积分边界之间的连续时间最大值。
+
+录制在 `extras.tcp_motion_interval` 保留这些证据，在线超限先保留该帧，再停止并拒收。
+独立严格策略另外检查全部区间、两个机械臂、样本数、时钟、边界原生快照和峰值；缺少
+证据即拒收，不使用记录自行声明的更松限制。原生产策略的全部数值门限（包括 300 s
+回合时长）保持不变。`--acceptance-policy` 同时用于批次恢复、子 worker 和合格导出，
+不是只给最后一次命令附加一个标签。默认录制和原默认策略保持原样。
+
+后端的 `mujoco.tcp_motion_evidence: true` 本身是只读观察器；外部控制调用不会因此获得
+自动限速。上述重新定时和在线拒收属于教师策略，外部控制器仍需自己的运动约束。
+完整候选结果及拒收原因以 [平台审计](platform_audit.md) 为准；状态诊断没有 RGB 训练许可。
+
 导出器遇到带 `teacher` 的脚本数据会要求最终 RGB 验收；通用外部录制仍可做诊断转换。
 原始 HDF5 保留无损 RGB；LeRobot 视频采用 H.264 / CRF 18 / yuv420p，是有损编码，
 不是原始像素的无损替代。导出逐路解码核对帧数和尺寸，并保留源文件指纹、相机标定及 SI 单位旁路数据。

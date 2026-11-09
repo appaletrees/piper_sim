@@ -40,6 +40,9 @@ def load_acceptance_policy(path=None):
             elif (isinstance(value, bool) or not isinstance(value, (int, float))
                   or not np.isfinite(value) or value < 0):
                 raise ValueError('Non-finite or invalid policy limit: '+name+'/'+key)
+    if 'tcp_motion' in settings:
+        from .tcp_audit import validate_tcp_policy
+        validate_tcp_policy(settings['tcp_motion'])
     return settings, {'source': str(path.resolve()), 'sha256': hashlib.sha256(raw).hexdigest()}
 
 
@@ -281,8 +284,12 @@ def audit_episode(path, *, require_rgb=True, policy=None):
             # the separately supplied policy even if the producer relaxed its gates.
             result['declared_settings'] = meta['teacher']['motion_and_quality']
             result['settings'] = settings
-            for name, check in [('streams', lambda: audit_streams(f, meta, settings, require_rgb)),
-                                ('task', lambda: audit_task(f, meta, settings))]:
+            checks = [('streams', lambda: audit_streams(f, meta, settings, require_rgb)),
+                      ('task', lambda: audit_task(f, meta, settings))]
+            if 'tcp_motion' in settings:
+                from .tcp_audit import audit_tcp_motion
+                checks.append(('tcp_motion', lambda: audit_tcp_motion(f, meta, settings['tcp_motion'])))
+            for name, check in checks:
                 try:
                     report = check()
                     result['checks'][name] = report

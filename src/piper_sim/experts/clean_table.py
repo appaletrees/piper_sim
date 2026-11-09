@@ -13,6 +13,7 @@ from .grasp_assist import ContactGraspAssist, finger_contacts
 from .trajectory import smooth_trajectory, path_trajectory
 from .path_fidelity import loaded_path_limits, path_pose_deviation
 from .placement_search import validate_profile as placement_search_profile
+from .tcp_limits import validate_limits as tcp_limits_profile, speed_constraint, measured_violations
 from .quality import MotionQuality
 from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
 from ..transforms import pose_matrix
@@ -49,6 +50,9 @@ class CleanTableTeacher:
             (ROOT/'configs/collection/clean_table.yaml').read_text())
         self.motion = self.settings['motion']
         self.pacing = self.settings.get('pacing', {})
+        self.tcp_limits = tcp_limits_profile(self.pacing.get('tcp_limits'))
+        if self.tcp_limits and not getattr(self.b, 'tcp_observer', None):
+            raise ValueError('TCP limits require native tcp_motion_evidence in the backend')
         self.bounded_loaded_path = loaded_path_limits(self.pacing.get('bounded_loaded_path'))
         self.placement_search = placement_search_profile(self.pacing.get('placement_search'))
         self.release_preload_m = float(self.pacing.get('release_preload_threshold_m', .003))
@@ -121,6 +125,10 @@ class CleanTableTeacher:
                 'calibration': 'uncalibrated simulation planning budget',
                 'collision_checks': 'original actual-curve robot and carried-object gates retained'}
             value['trajectory'] += '; loaded overshoot may use the explicit pose-fidelity guarded convex profile'
+        if self.tcp_limits:
+            value['tcp_limits'] = {**self.tcp_limits, 'calibration': 'unidentified simulation budget',
+                'planning': 'FK translation and SO(3) sample speed retiming, all arm trajectory generators',
+                'measured_gate': 'initial and every post-integration native TCP velocity; reject, never clip'}
         profile = getattr(self.b, 'finger_contact', None)
         value['contact_material_source'] = 'backend_episode_profile' if profile else 'legacy_teacher_parameters'
         if profile:
@@ -159,6 +167,10 @@ class CleanTableTeacher:
         for ids in self.b.indices.values():
             self.b.data.qfrc_applied[ids['dof']] = self.b.data.qfrc_bias[ids['dof']]
         obs = self.session.step(self.q)
+        if self.tcp_limits:
+            violations = measured_violations(obs.extras.get('tcp_motion_interval'), self.tcp_limits)
+            if violations:
+                raise SortFailure('Native TCP speed limit exceeded: '+', '.join(violations))
         if self.carried:
             side, name, relative = self.carried
             hand, obj = self.b.data.body(side+'/link6'), self.b.data.body('task/'+name)
@@ -261,11 +273,20 @@ class CleanTableTeacher:
         self.check_joint_path(side, before[offset:offset+6], joints,
                               gripper=(before[offset+6], target[offset+6]) if gripper_width is not None else None)
         if seconds is None: seconds = self.pacing.get('minimum_move_s', 2.)
-        trajectory = smooth_trajectory(before, target, 1/self.fps, seconds=seconds, **self.motion_limits())
+        trajectory = smooth_trajectory(before, target, 1/self.fps, seconds=seconds,
+            speed_ratio=self.tcp_speed_constraint(side, before), **self.motion_limits())
         for command in trajectory:
             self.q = command
             self.step()
         self.settle()
+
+    def tcp_speed_constraint(self, side, start):
+        config = getattr(self, 'tcp_limits', None)
+        if config is None:
+            return None
+        offset = 0 if side == 'left' else 7
+        return speed_constraint(start, lambda q: self.ik[side].forward(q[offset:offset+6]),
+                                1/self.fps, config)
 
     def motion_limits(self):
         motion = self.motion.copy()
@@ -320,7 +341,9 @@ class CleanTableTeacher:
                 points.append(q)
             start, rotation = target, target_r
         duration = 2.1875*length/(speed or self.pacing['cartesian_speed_m_s'])
-        trajectory = path_trajectory(points, 1/self.fps, seconds=duration, **self.motion_limits())
+        constraint = self.tcp_speed_constraint(side, initial)
+        trajectory = path_trajectory(points, 1/self.fps, seconds=duration,
+                                     speed_ratio=constraint, **self.motion_limits())
         interpolation = 'natural'
         if ((self.carried is None or self.bounded_loaded_path)
                 and (np.any(trajectory < LOWER) or np.any(trajectory > UPPER))
@@ -330,7 +353,7 @@ class CleanTableTeacher:
             # gate. Neither alternative clips targets or bypasses geometry checks.
             if self.carried is None:
                 trajectory = path_trajectory(points, 1/self.fps, seconds=duration,
-                                             interpolation='convex', **self.motion_limits())
+                                             interpolation='convex', speed_ratio=constraint, **self.motion_limits())
             else:
                 trajectory, fidelity = self.bounded_loaded_trajectory(side, points, duration)
                 if diagnostics is not None:
@@ -365,7 +388,8 @@ class CleanTableTeacher:
         for refinement in range(limits['max_refinements']+1):
             sampling = {}
             path = path_trajectory(controls, 1/self.fps, seconds=duration, interpolation='convex',
-                                   sampling=sampling, **self.motion_limits())
+                                   sampling=sampling, speed_ratio=self.tcp_speed_constraint(side, controls[0]),
+                                   **self.motion_limits())
             if reference is None:
                 reference = {'points': sampling['points'][:, offset:offset+6], 'knots': sampling['knots']}
                 controls = sampling['points']
@@ -471,7 +495,8 @@ class CleanTableTeacher:
                         target[off:off+6] = self.solve(side, *poses[0])
                         self.check_joint_path(side, start, target[off:off+6])
                         trajectory = smooth_trajectory(self.q, target, 1/self.fps,
-                            seconds=self.pacing.get('minimum_move_s', 2.), **self.motion_limits())
+                            seconds=self.pacing.get('minimum_move_s', 2.),
+                            speed_ratio=self.tcp_speed_constraint(side, self.q), **self.motion_limits())
                     else:
                         trajectory = self.plan_pose_path(side, poses)
                     self.check_joint_path(side, trajectory[-1, off:off+6], joints,

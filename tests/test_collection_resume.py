@@ -28,7 +28,7 @@ def test_resume_keeps_finished_job_and_preserves_interrupted_attempt(tmp_path, m
         return 0, {'training_ready': False}, {'passed': True, 'violations': [], 'checks': {}}
     monkeypatch.setattr(cli, 'run_episode', run)
     monkeypatch.setattr(collection_jobs, 'batch_identity', lambda args: {'settings': 'fixed'})
-    monkeypatch.setattr(collection_jobs, 'validate_completed', lambda r: None)
+    monkeypatch.setattr(collection_jobs, 'validate_completed', lambda r, **kwargs: None)
     argv = ['collect', '--output', str(root), '--states-only', '--seeds', '1', '2']
     monkeypatch.setattr(sys, 'argv', argv)
     with pytest.raises(KeyboardInterrupt):
@@ -63,7 +63,7 @@ def test_resume_invalid_evidence_preserves_published_manifest(tmp_path, monkeypa
         journal.save(0, {'accepted': True, 'path': 'missing_episode.h5'})
     (root/'accepted.jsonl').write_text('previous manifest\n')
     args = argparse.Namespace(output=root, seeds=[1], validation_fraction=.2)
-    def reject(result):
+    def reject(result, **kwargs):
         raise ValueError('checksum mismatch')
     monkeypatch.setattr(collection_jobs, 'validate_completed', reject)
     with BatchJournal(root, {}, resume=True) as journal:

@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--randomize', action='store_true', help='Enable reproducible task/domain randomization')
     parser.add_argument('--domain-randomization', help='Episode randomization YAML, e.g. configs/domain_randomization/clean_table.yaml')
     parser.add_argument('--collection-profile', default='configs/collection/clean_table.yaml')
+    parser.add_argument('--acceptance-policy', help='Operator-selected independent policy; default production policy otherwise')
     parser.add_argument('--viewer', action='store_true')
     parser.add_argument('--video', action='store_true')
     parser.add_argument('--video-speed', type=int, default=1, choices=range(1,17),
@@ -72,6 +73,8 @@ def main():
     source_files += [Path(__file__), Path(args.task_scene), Path(args.collection_profile)]
     if args.domain_randomization:
         source_files.append(Path(args.domain_randomization))
+    if args.acceptance_policy:
+        source_files.append(Path(args.acceptance_policy))
     source_files += list((ROOT/'assets/tasks/clean_table').glob('*'))
     provenance = {str(p.resolve().relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                   for p in source_files if p.is_file() and p.resolve().is_relative_to(ROOT)}
@@ -195,7 +198,7 @@ def main():
     # publish training data. State-only runs remain motion/task diagnostics.
     if recording and Path(recording['path']).suffix == '.h5':
         from piper_sim.collection_audit import audit_episode, save_audit
-        audit = audit_episode(recording['path'], require_rgb=args.rgb)
+        audit = audit_episode(recording['path'], require_rgb=args.rgb, policy=args.acceptance_policy)
         save_audit(recording['path'], audit, args.output/'audit.json')
         report['accepted'] = audit['training_ready']
         report['training_ready'] = audit['training_ready']
@@ -208,7 +211,7 @@ def main():
         (args.output/'report.json').write_text(json.dumps(report, indent=2, ensure_ascii=False)+'\n')
     if args.lerobot and recording and error is None and report.get('training_ready'):
         from piper_sim.lerobot_export import export_lerobot_v2
-        export_lerobot_v2([recording['path']], args.output/'lerobot_v2', require_quality=True)
+        export_lerobot_v2([recording['path']], args.output/'lerobot_v2', require_quality=True, policy=args.acceptance_policy)
     print(json.dumps({'output':str(args.output.resolve()), 'error':error, 'summary':summary},ensure_ascii=False),flush=True)
     return 2 if error else 0
 

@@ -87,7 +87,7 @@ class MujocoReferenceController:
         self.previous_acceleration=None;self.last=None
         self.model.actuator_biasprm[self.ids,0]=0
 
-    def advance(self,data):
+    def advance(self,data, *, observer=None):
         if self.previous is None: raise RuntimeError('Reset controller before stepping')
         if self.model.opt.timestep != self.dt: raise ValueError('Controller physics timestep changed')
         target=self._target(data.ctrl[self.ids]); damping=self._validate_servo()
@@ -120,6 +120,8 @@ class MujocoReferenceController:
                     or [data.warning[j].number for j in warning_ids] != warnings
                     or not np.isfinite(data.qpos).all() or not np.isfinite(data.qvel).all()):
                 raise RuntimeError('MuJoCo controller detected physics warning, reset or nonfinite state')
+            if observer is not None:
+                observer(data)
             current=self.projection@data.qvel
             acc=(current-native[-1])/self.dt
             if self.previous_acceleration is not None:

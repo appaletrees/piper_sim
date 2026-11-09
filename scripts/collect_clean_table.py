@@ -22,6 +22,7 @@ def run_episode(args, seed, output, *, nominal, rgb):
                '--config', args.config, '--task-scene', args.task_scene,
                '--grasp-mode', args.grasp_mode, '--collection-profile', args.collection_profile]
     if not nominal: command += ['--domain-randomization', args.domain_randomization]
+    if getattr(args, 'acceptance_policy', None): command += ['--acceptance-policy', args.acceptance_policy]
     if rgb: command.append('--rgb')
     if rgb and args.video: command.append('--video')
     with output.with_suffix('.log').open('w') as log:
@@ -47,6 +48,7 @@ def main():
     parser.add_argument('--task-scene', default='configs/tasks/clean_table_rigid.yaml')
     parser.add_argument('--domain-randomization', default='configs/domain_randomization/clean_table.yaml')
     parser.add_argument('--collection-profile', default='configs/collection/clean_table.yaml')
+    parser.add_argument('--acceptance-policy', help='Independent operator policy, retained on resume and export')
     parser.add_argument('--grasp-mode', choices=['physical'], default='physical')
     parser.add_argument('--states-only', action='store_true', help='Diagnostics only; never accepted.jsonl')
     parser.add_argument('--skip-preflight', action='store_true', help='Record directly; final RGB audit still mandatory')
@@ -152,7 +154,7 @@ def collect(args, journal):
                 if evidence != {'inputs': inputs, 'files': files}:
                     raise ValueError('Existing export changed: '+str(destination))
             else:
-                export_lerobot_v2(paths, destination, require_quality=True)
+                export_lerobot_v2(paths, destination, require_quality=True, policy=args.acceptance_policy)
                 atomic_json(checkpoint, {'inputs': inputs, 'files': {
                     str(p.relative_to(destination)): sha256(p)
                     for p in sorted(destination.rglob('*')) if p.is_file()}})

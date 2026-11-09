@@ -16,7 +16,7 @@ spec.loader.exec_module(cli)
 def args_fixture(path, resume=False):
     return SimpleNamespace(output=path, workers=2, seeds=[7, 9, 43], resume=resume,
         config='workcell.yaml', task_scene='scene.yaml', domain_randomization='dr.yaml',
-        collection_profile='profile.yaml', grasp_mode='physical', timeout_s=7200.,
+        collection_profile='profile.yaml', acceptance_policy=None, grasp_mode='physical', timeout_s=7200.,
         nominal_fraction=0., validation_fraction=.2, states_only=True,
         skip_preflight=False, video=False, lerobot=False)
 
@@ -51,9 +51,9 @@ def test_shards_start_concurrently_validate_all_outcomes_and_resume_does_not_cla
             return self.code
         def poll(self): return self.code
     monkeypatch.setattr(cli.subprocess, 'Popen', Process)
-    monkeypatch.setattr(cli, 'validate_completed', lambda r: checked.append(r['seed']))
+    monkeypatch.setattr(cli, 'validate_completed', lambda r, **kwargs: checked.append(r['seed']))
     import piper_sim.collection_jobs as jobs
-    monkeypatch.setattr(jobs, 'validate_completed', lambda r: None)
+    monkeypatch.setattr(jobs, 'validate_completed', lambda r, **kwargs: None)
     with BatchJournal(args.output, {'same': 'identity'}) as journal:
         assert cli.collect(args, journal) == 0
     expected = [args.seeds[index::workers] for index in range(workers)]
@@ -81,7 +81,7 @@ def test_child_claims_are_not_published_when_revalidation_fails(tmp_path, monkey
         def wait(self, **kwargs): return 0
         def poll(self): return 0
     monkeypatch.setattr(cli.subprocess, 'Popen', Process)
-    def reject(_): raise ValueError('Source checksum changed')
+    def reject(_, **kwargs): raise ValueError('Source checksum changed')
     monkeypatch.setattr(cli, 'validate_completed', reject)
     with BatchJournal(args.output, {}) as journal:
         with pytest.raises(ValueError, match='checksum'):
@@ -110,7 +110,9 @@ def test_cleanup_signals_only_owned_running_process_groups(monkeypatch):
 def test_worker_command_keeps_parent_export_and_uses_child_resume(tmp_path):
     args = args_fixture(tmp_path)
     args.lerobot = True
+    args.acceptance_policy = '/operator/strict.yaml'
     (tmp_path/'run.json').write_text('{}')
     command = cli.worker_command(args, [7, 43], tmp_path)
+    assert command[command.index('--acceptance-policy')+1] == '/operator/strict.yaml'
     assert '--resume' in command and '--states-only' in command and '--lerobot' not in command
     assert command[command.index('--seeds')+1:command.index('--config')] == ['7', '43']

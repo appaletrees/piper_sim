@@ -74,6 +74,13 @@ class MujocoBackend:
                 actuator_ids.extend(ids['ctrl'])
             self.reference_controller = MujocoReferenceController(self.model, actuator_ids, projection,
                 self.decimation*self.substeps, controller_config)
+        self.tcp_observer = None
+        observe_tcp = cfg.get('mujoco', {}).get('tcp_motion_evidence', False)
+        if type(observe_tcp) is not bool:
+            raise ValueError('tcp_motion_evidence must be boolean')
+        if observe_tcp:
+            from ..mujoco_tcp import MujocoTcpObserver
+            self.tcp_observer = MujocoTcpObserver(self.model, self.decimation*self.substeps)
         self.reset()
         try:
             if viewer:
@@ -119,6 +126,8 @@ class MujocoBackend:
             self.data.ctrl[ids["ctrl"]] = a
         if self.reference_controller:
             self.reference_controller.reset(q)
+        if self.tcp_observer:
+            self.tcp_observer.reset()
         mujoco.mj_forward(self.model, self.data)
         self._images = None
 
@@ -140,10 +149,19 @@ class MujocoBackend:
             self.finger_contact.assert_unchanged()
         expected_time = float(self.data.time)+self.dt*self.decimation
         warnings_before = self.data.warning.number[_PHYSICS_WARNINGS].copy()
+        if self.tcp_observer:
+            self.tcp_observer.begin(self.data)
         if self.reference_controller:
-            self.reference_controller.advance(self.data)
+            self.reference_controller.advance(self.data,
+                observer=self.tcp_observer.sample if self.tcp_observer else None)
+        elif self.tcp_observer:
+            for _ in range(self.decimation*self.substeps):
+                mujoco.mj_step(self.model, self.data)
+                self.tcp_observer.sample(self.data)
         else:
             mujoco.mj_step(self.model, self.data, nstep=self.decimation*self.substeps)
+        if self.tcp_observer:
+            self.tcp_observer.finish()
         # MuJoCo can auto-reset on huge acceleration, leaving finite qpos/qvel.
         # Reject that discontinuity before a recorder sees a restarted episode.
         if not np.isclose(self.data.time, expected_time, atol=1e-7, rtol=0):
@@ -168,6 +186,8 @@ class MujocoBackend:
         result = {'finger_contact': self.finger_contact.metadata()} if self.finger_contact else {}
         if self.reference_controller:
             result['controller'] = self.reference_controller.metadata()
+        if self.tcp_observer:
+            result['tcp_motion'] = self.tcp_observer.metadata()
         return result
 
     def _render(self, name, width, height):
@@ -213,6 +233,7 @@ class MujocoBackend:
             {"image_timestamp_clock": "simulation", "cameras": poses, "physics_time": self.sim_time,
              "engine": "mujoco", "engine_version": mujoco.__version__,
              **({'controller_interval': self.reference_controller.telemetry()} if self.reference_controller else {}),
+             **({'tcp_motion_interval': self.tcp_observer.telemetry()} if self.tcp_observer else {}),
              **extras})
 
     def save_overview(self, path):

@@ -1,0 +1,42 @@
+{
+  "scope": "Render a 1x diagnostic phase interval from recorded native states.\n\nEvery selected 30 Hz state is displayed once. This is kinematic reconstruction,\nnot dynamics replay or original synchronized sensor RGB, and is never training\ndata. The source HDF5 and its acceptance fields remain read-only.\n",
+  "training_ready": false,
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/json_compact_states_v1/worker_00/episode_000000_seed_15619/episode.h5",
+  "source_sha256": "7084ac6e5a56845fa61ae06cf3405a62d1385024b03e1aa1d177a07a38b7a812",
+  "script_sha256": "cac8c3fc9037e2965eebaf152b7a79fa0059872d18f9d593b111f8456c689a32",
+  "source_provenance_changes": [
+    "src/piper_sim/collection_jobs.py",
+    "src/piper_sim/collection_audit.py",
+    "src/piper_sim/mujoco_controller.py",
+    "src/piper_sim/experts/trajectory.py",
+    "src/piper_sim/experts/clean_table.py",
+    "src/piper_sim/backends/mujoco.py",
+    "scripts/demo_clean_table.py"
+  ],
+  "selection": {
+    "object": "side_dish",
+    "start_phase": "approach",
+    "end_phase": "grasp",
+    "lead_seconds": 0.0,
+    "view": "workcell"
+  },
+  "frame_range_exclusive": [
+    5763,
+    5933
+  ],
+  "frames": 170,
+  "fps": 30.0,
+  "first_last_source_sim_time": [
+    193.10000000073305,
+    198.7333333341381
+  ],
+  "duration_s": 5.666666666666667,
+  "duration_note": "Each displayed sample, including the last, occupies one frame interval.",
+  "video_sha256": "f3efc8ed71b54c29243bc5842ab8e1e752ec44214b5e47d3d0ae96cbea69b4e5",
+  "ffprobe": {
+    "avg_frame_rate": "30/1",
+    "duration": "5.666667",
+    "nb_read_frames": "170"
+  },
+  "render_note": "Diagnostic overview camera; sensor noise/postprocessing are not replayed."
+}

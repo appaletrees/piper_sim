@@ -23,7 +23,16 @@ def _convex_spline(points, parameters, samples):
     return values[:, degree]
 
 
-def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., interpolation='natural', sampling=None):
+def _speed_scale(check, path):
+    if check is None:
+        return 0.
+    ratio = check(path)
+    if not np.isscalar(ratio) or not np.isfinite(ratio) or ratio < 0:
+        raise ValueError('Invalid additional trajectory speed ratio')
+    return float(ratio)
+
+
+def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., interpolation='natural', sampling=None, speed_ratio=None):
     """C2 cubic joint path, with one C3 time law for the whole motion.
 
     Natural interpolation passes through IK waypoints without stopping. Optional
@@ -79,6 +88,8 @@ def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., 
         scale = max(float(np.max(abs(np.diff(padded, n=order, axis=0))/dt**order/bound))**(1/order)
                     for order, bound in enumerate(limits, 1))
         if scale <= 1+1e-9:
+            scale = max(scale, _speed_scale(speed_ratio, path))
+        if scale <= 1+1e-9:
             if sampling is not None:
                 sampling.update(points=points.copy(), knots=knots.copy(), samples=s.copy())
             return path
@@ -86,7 +97,7 @@ def path_trajectory(waypoints, dt, *, velocity, acceleration, jerk, seconds=0., 
     raise ValueError('Could not retime the joint path within derivative limits')
 
 
-def smooth_trajectory(start, end, dt, *, velocity, acceleration, jerk, seconds=0.):
+def smooth_trajectory(start, end, dt, *, velocity, acceleration, jerk, seconds=0., speed_ratio=None):
     """Return targets excluding start, including end; all limits are per channel.
 
     Seventh-order smoothstep has zero first THREE derivatives at both ends.
@@ -105,8 +116,13 @@ def smooth_trajectory(start, end, dt, *, velocity, acceleration, jerk, seconds=0
                    float(np.sqrt(np.max(7.514*distance/limits[1]))),
                    float(np.cbrt(np.max(52.5*distance/limits[2]))))
     steps = max(1, int(np.ceil(duration/dt)))
-    t = np.arange(1, steps+1, dtype=float)/steps
-    blend = t**4*(35+t*(-84+t*(70-20*t)))
-    result = start+blend[:, None]*(end-start)
-    result[-1] = end
-    return result
+    for _ in range(40):
+        t = np.arange(1, steps+1, dtype=float)/steps
+        blend = t**4*(35+t*(-84+t*(70-20*t)))
+        result = start+blend[:, None]*(end-start)
+        result[-1] = end
+        scale = _speed_scale(speed_ratio, result)
+        if scale <= 1+1e-9:
+            return result
+        steps = max(steps+1, int(np.ceil(steps*scale*1.02)))
+    raise ValueError('Could not retime additional trajectory speed constraint')
