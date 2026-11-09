@@ -1057,3 +1057,34 @@ Euler/implicitfast、有/无接触等 **11 项测试通过**。该工具没有�
 机器人/环境峰值约 0.549 mm。右臂采样 TCP 速度峰值 0.618 m/s；配置 0.25 m/s 仍只是
 部分笛卡尔段规划值，并非全局限速。邻接碰撞排除、凸包近似、30 Hz 采样和未标定工具
 偏置等限制见 `servo_geometry_seed0_v1.json`，该报告不授予训练许可。
+
+### 候选控制器 seed 0：完整 RGB 与官方读取验证通过
+
+冻结源码/配置/资产的单 worker 回合正常结束，父进程在结束时再次核对输入指纹。
+物理任务完成 10/10，三路 640×480、30 Hz，7,106 transitions、236.8667 s；原独立策略
+审核通过并标记 `training_ready=true`。全部 42,636 张 before/after 图像连续性检查通过，
+基础图像质量异常率为零；动作/状态、全部物体位姿、帧数和时长与先前状态回合逐项一致。
+这里的训练接受仍限定于现有策略，不等于实机一致或域随机化总体成功。
+
+官方 LeRobot 0.3.3 / v2.1 消费者读取通过：全部 7,106 行九个数值列与源 HDF5 对齐，
+另抽查四个时刻的三相机、16 步 action chunk 与末尾 padding，没有额外特权公共列。
+三段 H.264 视频均完整解码为 7,106 帧、30 fps、236.866667 s；视频为原速，不重定时。
+全部 7,107 个唯一状态的三相机 FK 检查通过，最大矩阵绝对残差约 2.8×10⁻⁷；这只验证
+仿真挂载一致性，不证明真实内外参或曝光延迟已标定。
+
+本次含启动、审核、导出和父进程检查的墙钟为 1,497.40 s（24.96 min），4.746 合格
+transitions/墙钟秒；HDF5 为 9,691,366,574 B。同期存在低优先级状态验证和诊断，
+这是共享负载下的一条验收运行，不能与不同控制器的三种子基准直接计算加速比。
+现有 2.128× 结论仍只属于先前配对基准。完整阶段数据和限制保存在
+`servo_rgb_seed0_v1_summary.json`、`servo_rgb_seed0_v1/seed_0_profile.json`。
+
+![候选回合实际记录的三路 RGB 抽帧](../outputs/platform_audit_v1/servo_rgb_review_v1/camera_review.jpg)
+
+本机原速视频（大型原始数据与 LeRobot 视频不提交 Git）：
+
+- [中央相机](../outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/lerobot_v2/videos/chunk-000/observation.images.cam_external_rgb/episode_000000.mp4)
+- [左腕相机](../outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/lerobot_v2/videos/chunk-000/observation.images.cam_left_wrist_rgb/episode_000000.mp4)
+- [右腕相机](../outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/lerobot_v2/videos/chunk-000/observation.images.cam_right_wrist_rgb/episode_000000.mp4)
+
+候选仍不替换默认配置：新增验证种子只有 1/3 通过，放置规划和持物曲线问题尚未完成
+整任务修复。此 seed 与既有记录属于同一家族，不能将其副本跨训练/验证划分。

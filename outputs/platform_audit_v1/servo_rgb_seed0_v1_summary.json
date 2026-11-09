@@ -1,0 +1,159 @@
+{
+  "status": "complete_rgb_accepted_and_official_consumer_checked",
+  "training_ready_under_original_policy": true,
+  "seed": 0,
+  "config": "configs/clean_table_servo.yaml",
+  "production_default_changed": false,
+  "training_scope": "One development seed accepted under the unchanged policy; physical hardware realism and distribution-wide success are not certified.",
+  "source_sha256": "c1d8939a732cf6f545e61c8a189d6427048abe2b89f23bea11ca7e52c4178b83",
+  "acceptance_policy_sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089",
+  "source_freeze_verified_by_parent": true,
+  "state_trial_match": {
+    "trajectory_sha256": true,
+    "frames": true,
+    "duration_s": true,
+    "objects_sha256": true
+  },
+  "frames": 7106,
+  "recorded_fps": 30,
+  "recorded_seconds": 236.86666666666667,
+  "checked_before_after_images": 42636,
+  "hdf5_bytes": 9691366574,
+  "wall_seconds_including_audit_export_parent_checks": 1497.4012017661007,
+  "qualified_transitions_per_wall_second": 4.745555160246213,
+  "exclusive_stage_seconds": {
+    "imports": 0.11274645000230521,
+    "physics_forward": 7.859424257068895,
+    "scene_load": 5.7650205889949575,
+    "render_scene_update": 0.9935145012568682,
+    "render_and_readback": 471.56938430818263,
+    "camera_render": 0.9720780524658039,
+    "sensor_postprocess": 310.78328981169034,
+    "observation_read": 16.834702742402442,
+    "control_apply": 0.07943149760831147,
+    "physics_integration": 251.91641594364773,
+    "backend_step": 14.513805025955662,
+    "expert_ik": 5.136712807230651,
+    "expert_collision_plan": 8.120924119488336,
+    "expert_time_parameterization": 0.057919210637919605,
+    "metadata_write": 18.36014905234333,
+    "rgb_compress_write": 157.99107639177237,
+    "hdf5_flush": 0.9346317326417193,
+    "recording_append": 14.826614035875537,
+    "recording_close": 0.001790447044186294,
+    "audit_streams": 67.57224787794985,
+    "audit_task": 11.997726637986489,
+    "audit_total": 0.003158690989948809,
+    "audit_save_and_checksum": 2.6419759599957615,
+    "lerobot_input_validation": 2.8990220540435985,
+    "lerobot_video_and_statistics": 104.45970341796055,
+    "lerobot_export": 9.713093411992304
+  },
+  "consumer_numeric_rows_checked": 7106,
+  "consumer_numeric_columns_checked": [
+    "action",
+    "episode_index",
+    "frame_index",
+    "index",
+    "observation.state",
+    "sim_timestamp",
+    "source_timestamp",
+    "task_index",
+    "timestamp"
+  ],
+  "consumer_sampled_camera_chunk_rows": 4,
+  "camera_fk": {
+    "status": "diagnostic_only",
+    "matrix_tolerance": 2e-05,
+    "scope": "All unique recorded states including terminal. URDF/Fabric attachment consistency only.",
+    "physical_alignment_verified": false,
+    "results": [
+      {
+        "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/episode.h5",
+        "backend": "MujocoBackend",
+        "samples": 7107,
+        "cameras": {
+          "right_wrist": {
+            "matrix_max_abs_error": 2.75322617926399e-07,
+            "position_error_m": 1.6473815403567875e-07,
+            "position_span_m": 0.5565558749610927
+          },
+          "left_wrist": {
+            "matrix_max_abs_error": 1.9753653493492784e-07,
+            "position_error_m": 6.570614062048304e-08,
+            "position_span_m": 0.33715244398372257
+          },
+          "overhead": {
+            "matrix_max_abs_error": 4.765077221691172e-13,
+            "position_error_m": 4.769617493820814e-13,
+            "position_span_m": 0.0
+          }
+        },
+        "numerical_fk_check_passed": true
+      }
+    ]
+  },
+  "video_review": {
+    "status": "all_three_streams_decoded_with_expected_frame_counts",
+    "videos": [
+      {
+        "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/lerobot_v2/videos/chunk-000/observation.images.cam_external_rgb/episode_000000.mp4",
+        "sha256": "650f9f679bcab7e23d7af47dd0e86f0877a9b8a574f23b3cc48b79c97b58e9a1",
+        "bytes": 10767099,
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "duration": "236.866667",
+        "nb_read_frames": "7106"
+      },
+      {
+        "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/lerobot_v2/videos/chunk-000/observation.images.cam_left_wrist_rgb/episode_000000.mp4",
+        "sha256": "b36ad1a214759a974838a94bd2e4767897a14e1b1bbb8a12cab82ae4b102901a",
+        "bytes": 5313464,
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "duration": "236.866667",
+        "nb_read_frames": "7106"
+      },
+      {
+        "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/lerobot_v2/videos/chunk-000/observation.images.cam_right_wrist_rgb/episode_000000.mp4",
+        "sha256": "2b70008ca43159aaeede63acc5b45ed85b567ccf81717c2f63cec2aa8564b23f",
+        "bytes": 25174286,
+        "codec_name": "h264",
+        "width": 640,
+        "height": 480,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "duration": "236.866667",
+        "nb_read_frames": "7106"
+      }
+    ],
+    "playback_speed": 1,
+    "limitations": [
+      "Full stream decoding/frame-count check, not a full-frame semantic visual review.",
+      "Six recorded timepoints per camera were separately viewed in the contact sheet."
+    ]
+  },
+  "contact_sheet": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_rgb_review_v1/camera_review.jpg",
+  "resource_context": "Concurrent nice-10 state validation, native/geometry diagnostics and a cup-path prototype; FK/contact sheet inspection overlapped end of export. Shared workstation, no isolated throughput or candidate speedup claim.",
+  "remaining_failures": {
+    "known_seed_13": "chopstick placement",
+    "new_seed_9137": "loaded natural spline limit overshoot; cup-only convex diagnostic passed, not integrated",
+    "new_seed_15619": "side dish placement"
+  },
+  "limitations": [
+    "New motion validation seeds 5987/9137/15619 passed only 1/3 original state audits; production default remains unchanged.",
+    "Six camera timepoints per camera were visually inspected; full video decode and numeric audit are separate.",
+    "Intrinsics/extrinsics, contact response and hardware drive limits remain uncalibrated.",
+    "This seed family repeats earlier recordings and must not be split across train and validation.",
+    "No speedup ratio against an unmatched controller/cohort is inferred from this one shared-load run."
+  ]
+}
