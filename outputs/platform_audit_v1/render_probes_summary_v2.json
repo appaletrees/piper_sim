@@ -1,0 +1,414 @@
+{
+  "status": "render_hypotheses_measured_not_adopted",
+  "training_ready": false,
+  "production_renderer_changed": false,
+  "source": "/dev/shm/piper_sensor_workers_rgb_v1/seed_1340830695/episode.h5",
+  "source_sha256": "9aaff05fc5bb21b182199b24955f96190f50b8d9d71dcec0fb3427c240539b13",
+  "production_frozen_inputs_unchanged": 429,
+  "scope": "Render-only diagnostics; no new full episode, dynamics replay, training acceptance or pipeline speedup.",
+  "modes": [
+    "baseline",
+    "fit_buffer",
+    "workers"
+  ],
+  "isolated_order": [
+    "baseline",
+    "fit_buffer",
+    "workers",
+    "workers",
+    "fit_buffer",
+    "baseline"
+  ],
+  "isolated_samples_per_mode": 160,
+  "isolated_pose_frames": [
+    0,
+    2450,
+    4385,
+    8770
+  ],
+  "isolated_run_median_seconds": [
+    {
+      "index": 0,
+      "mode": "baseline",
+      "seconds": 0.06445639149751514
+    },
+    {
+      "index": 1,
+      "mode": "fit_buffer",
+      "seconds": 0.06423151603667066
+    },
+    {
+      "index": 2,
+      "mode": "workers",
+      "seconds": 0.06928100303048268
+    },
+    {
+      "index": 3,
+      "mode": "workers",
+      "seconds": 0.06868605350609869
+    },
+    {
+      "index": 4,
+      "mode": "fit_buffer",
+      "seconds": 0.06417361850617453
+    },
+    {
+      "index": 5,
+      "mode": "baseline",
+      "seconds": 0.06422055349685252
+    }
+  ],
+  "pooled_median_seconds": {
+    "baseline": 0.0644031889969483,
+    "fit_buffer": 0.06421762303216383,
+    "workers": 0.06895332201384008
+  },
+  "pooled_component_ratios": {
+    "baseline": 1.0,
+    "fit_buffer": 1.0028896423757623,
+    "workers": 0.9340114024386165
+  },
+  "isolated_pixel_comparison_to_first_baseline": [
+    {
+      "index": 0,
+      "mode": "baseline",
+      "images": 12,
+      "different_channel_values": 0,
+      "total_channel_values": 11059200,
+      "max_abs": 0,
+      "mean_absolute_error_0_to_255": 0.0
+    },
+    {
+      "index": 1,
+      "mode": "fit_buffer",
+      "images": 12,
+      "different_channel_values": 199,
+      "total_channel_values": 11059200,
+      "max_abs": 1,
+      "mean_absolute_error_0_to_255": 1.7994068287037037e-05
+    },
+    {
+      "index": 2,
+      "mode": "workers",
+      "images": 12,
+      "different_channel_values": 195,
+      "total_channel_values": 11059200,
+      "max_abs": 1,
+      "mean_absolute_error_0_to_255": 1.763237847222222e-05
+    },
+    {
+      "index": 3,
+      "mode": "workers",
+      "images": 12,
+      "different_channel_values": 166,
+      "total_channel_values": 11059200,
+      "max_abs": 1,
+      "mean_absolute_error_0_to_255": 1.5010127314814815e-05
+    },
+    {
+      "index": 4,
+      "mode": "fit_buffer",
+      "images": 12,
+      "different_channel_values": 176,
+      "total_channel_values": 11059200,
+      "max_abs": 1,
+      "mean_absolute_error_0_to_255": 1.591435185185185e-05
+    },
+    {
+      "index": 5,
+      "mode": "baseline",
+      "images": 12,
+      "different_channel_values": 40,
+      "total_channel_values": 11059200,
+      "max_abs": 1,
+      "mean_absolute_error_0_to_255": 3.6168981481481483e-06
+    }
+  ],
+  "isolated_resources": [
+    {
+      "index": 0,
+      "mode": "baseline",
+      "resources": {
+        "samples": 9,
+        "peak_rss_bytes": 2434514944,
+        "cpu_percent_one_core": {
+          "mean": 99.63020704282548,
+          "peak": 100.02185289264489
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 9,
+            "utilization_sum_percent": 529.0,
+            "peak_utilization_percent": 93.0,
+            "peak_used_bytes": 2964324352
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 9,
+            "peak_fb_reported_MB": 1011,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    },
+    {
+      "index": 1,
+      "mode": "fit_buffer",
+      "resources": {
+        "samples": 9,
+        "peak_rss_bytes": 2438250496,
+        "cpu_percent_one_core": {
+          "mean": 99.98524197276892,
+          "peak": 100.0981794488209
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 9,
+            "utilization_sum_percent": 637.0,
+            "peak_utilization_percent": 93.0,
+            "peak_used_bytes": 2959081472
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 9,
+            "peak_fb_reported_MB": 1005,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    },
+    {
+      "index": 2,
+      "mode": "workers",
+      "resources": {
+        "samples": 10,
+        "peak_rss_bytes": 2948182016,
+        "cpu_percent_one_core": {
+          "mean": 137.18852085228303,
+          "peak": 156.00293167693948
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 10,
+            "utilization_sum_percent": 663.0,
+            "peak_utilization_percent": 95.0,
+            "peak_used_bytes": 4389339136
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 10,
+            "peak_fb_reported_MB": 2351,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    },
+    {
+      "index": 3,
+      "mode": "workers",
+      "resources": {
+        "samples": 10,
+        "peak_rss_bytes": 2947215360,
+        "cpu_percent_one_core": {
+          "mean": 134.46195365062857,
+          "peak": 153.73948667726722
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 10,
+            "utilization_sum_percent": 644.0,
+            "peak_utilization_percent": 94.0,
+            "peak_used_bytes": 4387241984
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 10,
+            "peak_fb_reported_MB": 2351,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    },
+    {
+      "index": 4,
+      "mode": "fit_buffer",
+      "resources": {
+        "samples": 9,
+        "peak_rss_bytes": 2434818048,
+        "cpu_percent_one_core": {
+          "mean": 99.93733193702037,
+          "peak": 100.13502885756687
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 9,
+            "utilization_sum_percent": 645.0,
+            "peak_utilization_percent": 92.0,
+            "peak_used_bytes": 2956984320
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 9,
+            "peak_fb_reported_MB": 1005,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    },
+    {
+      "index": 5,
+      "mode": "baseline",
+      "resources": {
+        "samples": 9,
+        "peak_rss_bytes": 2432397312,
+        "cpu_percent_one_core": {
+          "mean": 99.75116117750616,
+          "peak": 100.11761500400868
+        },
+        "gpus": {
+          "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+            "name": "NVIDIA GeForce RTX 5090 D",
+            "samples": 9,
+            "utilization_sum_percent": 553.0,
+            "peak_utilization_percent": 94.0,
+            "peak_used_bytes": 2964324352
+          }
+        },
+        "gpu_sampling_errors": 0,
+        "process_gpus": {
+          "0": {
+            "samples": 9,
+            "peak_fb_reported_MB": 1011,
+            "process_type": "G"
+          }
+        },
+        "process_gpu_sampling_errors": 0
+      }
+    }
+  ],
+  "exploratory_component_ratios": {
+    "paths": {
+      "baseline": 1.0,
+      "split_calls": 1.0052459740346429,
+      "grouped_read": 1.0569539048527201
+    },
+    "workers": {
+      "baseline": 1.0,
+      "worker_serial": 0.9090608383098007,
+      "worker_parallel": 0.9687455100934778
+    },
+    "buffer": {
+      "baseline": 1.0,
+      "fit_buffer": 1.1138310386086,
+      "finish_diagnostic": 0.8069143926569993
+    }
+  },
+  "finish_diagnostic_median_seconds": {
+    "total_s": 0.09020311653148383,
+    "scene_update_s": 0.00017158995615318418,
+    "render_api_s": 0.040542756498325616,
+    "read_api_s": 0.0005444898852147162,
+    "copy_s": 0.00020667747594416142,
+    "finish_api_s": 0.04875685699516907
+  },
+  "hypotheses": [
+    {
+      "name": "grouped viewports/readback",
+      "decision": "not adopted",
+      "reason": "Only 1.057x exploratory component timing; observed max channel difference 32/255 versus repeated baseline max 1. No visual-acceptance threshold invented."
+    },
+    {
+      "name": "one thread/context/data per camera",
+      "decision": "not adopted",
+      "reason": "Both mixed and isolated measurements show slowdown, while retaining three GPU contexts. The initial unavailable Python mj_copyData call failed; fixed to supported copy.copy and failure preserved."
+    },
+    {
+      "name": "640x480 offscreen allocation",
+      "decision": "not adopted",
+      "reason": "Exploratory mixed-context result suggested 1.114x but isolated forward/reverse runs do not reproduce meaningful speedup. More context-switching in an exploratory benchmark is not production evidence."
+    }
+  ],
+  "timing_interpretation": "After explicit GPU finish, median actual pixel-read API time is about 0.54 ms per triplet. Much of ordinary read API wall time therefore contains waiting for preceding draw work. Finish perturbs scheduling and is diagnostic only; it is not a GPU timer query or proposed production call.",
+  "baseline_pipeline": {
+    "profile": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/sensor_workers_rgb_evidence_v1/profile.json",
+    "profile_sha256": "fee0c766e03f1e8c5ec371f2659587c85f25f96b2f726709ec80d734301b7848",
+    "wall_seconds": 1791.5053425339283,
+    "rendering_seconds": 573.4670393774286,
+    "rendering_fraction": 0.3201034491844213,
+    "ideal_zero_render_cost_speedup_with_other_costs_fixed": 1.4708119916190736,
+    "interpretation": "Analytical upper bound only: even zero rendering cost cannot alone double this serial full pipeline while other costs remain fixed."
+  },
+  "references": [
+    "https://mujoco.readthedocs.io/en/3.3.7/programming/visualization.html",
+    "https://raw.githubusercontent.com/google-deepmind/mujoco/3.3.7/src/render/render_gl2.c",
+    "https://raw.githubusercontent.com/google-deepmind/mujoco/3.3.7/src/render/render_gl3.c"
+  ],
+  "evidence_hashes": {
+    "render_buffer_probe_v1.log": "a524ed683e06d28abd1b27dbf7c7ab39f89021b4a42d4d757061402c0fa558ac",
+    "render_shadow_probe_v1.py": "55bc1c22026f2b47911d1149cd9fce68cd62bb28c0a9de39eb17b67e3d4e3ca9",
+    "render_isolated_probe_v1.py": "64b3075e1b1c666c0a77d98583551268bb0506e5713100b93715ccf1385f32a8",
+    "render_buffer_probe_v1.json": "30cc82b739aa2827e8a486c5a391c581d55b0ee7904d27ba94bc2ac40614b6b0",
+    "render_buffer_probe_v1.py": "3a0056892f14c055623d88eba41ee2e60487c9ab07f81271d18de475b347daaf",
+    "render_probes_summary_v2.py": "7ad3898349cd681093b83309b6479eae351b5499647276c354e5d5290c9182b8",
+    "render_probes_summary_v1_failure.json": "f14a0f0bca49779c2725a71ef2ee154180b83f5277c89c98b176c9410315d932",
+    "render_workers_probe_v1.log": "10b1eb3f4b1fc47dd60432458414a097a6e75850a11e6869f0025ff4bd16de5c",
+    "render_workers_probe_v1.py": "709d125ecb4b5d1ea5e02f7d882c43523f9a5ef3aa11a67abf621464d33ab629",
+    "render_workers_probe_v1_failure.json": "df68439825356a49c42613350ab30737b9f14c043b9ce3071f94b601dc929c6c",
+    "render_paths_probe_v1.json": "d29354dc974d69495178f1a7a905ffe6e3c2cefeceddb3377570598f42b35438",
+    "render_workers_probe_v2.log": "53e3c02f9a2d73f1947d88bef61a9a871bad2b3bfa13ddb0f743a0735c02920d",
+    "render_workers_probe_v2.json": "98c9d129e383dc69a2ee6e7613088b35bcdcbc2240e321b7699960e73612555b",
+    "render_paths_probe_v1.log": "23089f3bc69410cc936c9c350abdf04dbd0bd95ae890a30c63b0e2f5036de39c",
+    "render_probes_summary_v1.py": "d6ae17bbc52081bc59164b3f10fb64a2ed1fc7c54467d7adbaf9d384f2a54442",
+    "render_isolated_v1/runner.log": "b4077219a222191d6ee76b548d59905b2d4168b11cb43872ecedd4a656c32c7c",
+    "render_isolated_v1/5_baseline.log": "1223433488dfe78b008eee47dc1119163145c13d38c59043dc8ae67c5cc72162",
+    "render_isolated_v1/5_baseline.json": "ee42b4fcc0a9eeb0db42640846ddb74020240f8c44f6daaa7c513fa1a2616c75",
+    "render_isolated_v1/runs.json": "7d78277a5fe8213fd2715ee7c70897e0f1607e153609e8b4e544af516eff38ee",
+    "render_isolated_v1/4_fit_buffer.log": "6fcf7465e8a10e45f791d21abd5d24c4e56e4c5b293c0b43561e55debdc69f9a",
+    "render_isolated_v1/1_fit_buffer.log": "9f094f030a4e7e2cd09088188ed8208b7e14ec2fa212d6257c2e8325adcb6a30",
+    "render_isolated_v1/0_baseline.json": "9dd5b6d6220deba4fb6f754732ff65242aef1d9e7753d8491d0c99cd5ea9363a",
+    "render_isolated_v1/3_workers.log": "d982065e7c5392e9b2601c70dcf4a45c3d8eaf442fba0ac5f04e041db6aa4321",
+    "render_isolated_v1/0_baseline.log": "f549d36acf54cf51bde2b790273f41fdea719591278277b23a01b2ec865fa8fc",
+    "render_isolated_v1/3_workers.json": "83e7e6ae31430d0b53a17bfef1ee7ea93adb98dbf48255b70bbc6be5f609b5a9",
+    "render_isolated_v1/4_fit_buffer.json": "b0a86158f64a9053a3a458bfed806aef402152d1bd96c92b5718c70449169c42",
+    "render_isolated_v1/1_fit_buffer.json": "79c1d124bd514f8d18e4f2ecc24e779c1bb4855600fac2aa856835c4f98ea8ca",
+    "render_isolated_v1/2_workers.json": "59989a52923746bd0c797ff15aa93f1038f3426f0745e5336048e45540563bfe",
+    "render_isolated_v1/2_workers.log": "d785e9bbecca5ecf4b6b909e3e63f531a072ce2b669bd1da0d526a97900d29a2"
+  },
+  "storage": {
+    "evidence_bytes": 670285,
+    "root_free_bytes": 5342756864,
+    "tmpfs_free_bytes": 10124775424,
+    "note": "Small reports/logs/scripts persisted; reference snapshots in tmpfs remain volatile. Existing raw episodes preserved."
+  },
+  "limitations": [
+    "Four static recorded poses and two isolated repetitions per mode do not estimate full-task or layout-population performance.",
+    "Warm context timing excludes setup, sensor processing, physics, recording, audit and export.",
+    "No frame rate, image resolution, shadow size, MSAA, model dimensions or acceptance thresholds changed.",
+    "Exact raw RGB across repeated or independent GPU renders is not assumed.",
+    "Current full-task candidate still has per-target finger material switching and uncalibrated real optics/dynamics."
+  ],
+  "next_priorities": [
+    "Return to fixed finger material with current motion/planning changes; retain all failures.",
+    "Study safe cross-stage or environment-level concurrency after current-version reliability and durable storage are established."
+  ]
+}

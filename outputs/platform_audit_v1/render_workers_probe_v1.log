@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/midea/Desktop/piper_sim/scripts/benchmark_render_workers.py", line 176, in <module>
+    main()
+  File "/home/midea/Desktop/piper_sim/scripts/benchmark_render_workers.py", line 130, in main
+    for _ in range(2): render(mode)
+                       ^^^^^^^^^^^^
+  File "/home/midea/Desktop/piper_sim/scripts/benchmark_render_workers.py", line 107, in render
+    rows = {name: owner.submit(backend.data).result() for name, owner in owners.items()}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/midea/Desktop/piper_sim/scripts/benchmark_render_workers.py", line 107, in <dictcomp>
+    rows = {name: owner.submit(backend.data).result() for name, owner in owners.items()}
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/midea/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/midea/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/midea/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/midea/Desktop/piper_sim/scripts/benchmark_render_workers.py", line 44, in _render
+    mujoco.mj_copyData(self.data, self.model, source)
+    ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'mujoco' has no attribute 'mj_copyData'

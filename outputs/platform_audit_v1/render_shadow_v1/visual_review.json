@@ -1,0 +1,32 @@
+{
+  "scope": "Static diagnostic image comparison, not training data or real-camera alignment.",
+  "frame_key": "frame_8770_right_wrist",
+  "selection": "Largest per-image MAE for 4096; crop maximizes summed absolute difference over 96x96.",
+  "crop_xywh": [
+    448,
+    24,
+    96,
+    96
+  ],
+  "sources": [
+    {
+      "path": "/dev/shm/piper_render_shadow_v1/0_8192/pixels.npz",
+      "sha256": "298209f122caa12333f7bc762f9a1bf742e3cce19e47c9938df43e45e70f8091"
+    },
+    {
+      "path": "/dev/shm/piper_render_shadow_v1/1_4096/pixels.npz",
+      "sha256": "b5fc6faba227224a7f904f76f253c8cae87fc1f84ee82c9fa131137988feaa80"
+    },
+    {
+      "path": "/dev/shm/piper_render_shadow_v1/2_2048/pixels.npz",
+      "sha256": "657f6d613bcb0646e5be02e337e6b75e047c7d5625e8628de2b25864a228858b"
+    }
+  ],
+  "preview_sha256": "7df98d1226dd733c65df8df42b322a4e7b3a94c2ceb0a62f5b35cc98e917bbbe",
+  "preview_downscaled": true,
+  "observations": [
+    "Same viewpoint and geometry across all three renderings; local basket-edge/shadow appearance changes.",
+    "Hard shadows remain, and all resolutions exhibit speckled artifacts on the basket rim. Possible self-shadow artifact; root cause has not been isolated.",
+    "This is a static reconstruction comparison selected by 4096-vs-8192 MAE, not original synchronized sensor RGB or a real-camera calibration."
+  ]
+}
