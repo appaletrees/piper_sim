@@ -101,6 +101,8 @@ def bounded_hermite_targets(previous, target, start_velocity, end_velocity, peri
     c1,c2=a+period*va/3,b-period*vb/3
     q=(1-s)**3*a+3*s*(1-s)**2*c1+3*s*s*(1-s)*c2+s**3*b
     v=3*((1-s)**2*(c1-a)+2*s*(1-s)*(c2-c1)+s*s*(b-c2))/period
+    stationary=a==b
+    q[:,stationary]=a[stationary];v[:,stationary]=0
     q[-1]=b;v[-1]=vb
     return q,v
 

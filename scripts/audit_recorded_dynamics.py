@@ -58,6 +58,81 @@ def inspect_snapshot(raw, state, timestamp):
     return arms, {'phase': teacher.get('phase'), 'object': teacher.get('object')}
 
 
+def inspect_controller_intervals(f, meta):
+    """Check optional substep summaries against both native boundary snapshots.
+
+    The full 960 Hz trace is not recorded: this verifies summary consistency,
+    not independent reconstruction of every internal peak.
+    """
+    from piper_sim.contracts import LOWER, UPPER, FEATURE_NAMES
+    config=meta['physics_model']['controller']
+    steps=config['integration_steps'];dt=float(config['integration_dt'])
+    if (type(config['schema_version']) is not int or config['schema_version']!=1
+            or config['mode']!='monotone_cubic_velocity' or type(steps) is not int or steps<1
+            or not np.isfinite(dt) or dt<=0):
+        raise ValueError('Unsupported controller interval metadata')
+    peaks={};previous=None;count=len(f['action/position']);limited=0
+    fields=('previous_command','command','position_reference_min','position_reference_max',
+            'velocity_reference_min','velocity_reference_max','last_velocity_reference',
+            'limiter_start_velocity_jump','native_velocity_min','native_velocity_max',
+            'native_acceleration_abs_max','native_jerk_abs_max','position_gain','velocity_gain')
+    def native(extra):
+        arms=extra['teacher']['physics']['arms']
+        return np.concatenate([np.r_[finite_vector(arms[s]['joint_velocity'],8,s)[:6],
+            np.asarray(arms[s]['joint_velocity'])[6:].sum()] for s in ('left','right')])
+    for i in range(count):
+        before,after=[json.loads(f[p+'/extras_json'][i]) for p in ('observation','next_observation')]
+        value=after['controller_interval']
+        arrays={key:finite_vector(value[key],14,'controller/'+key) for key in fields}
+        t0,t1=[float(f[p+'/sim_time'][i]) for p in ('observation','next_observation')]
+        clocks=np.array([value['start_sim_time'],value['end_sim_time'],value['integration_dt']],float)
+        if (not np.isfinite(clocks).all() or abs(clocks[0]-t0)>1e-7 or abs(clocks[1]-t1)>1e-7
+                or clocks[2]!=dt or type(value['integration_steps']) is not int or value['integration_steps']!=steps
+                or abs(t1-t0-steps*dt)>1e-7 or value['mode']!=config['mode']):
+            raise ValueError('Controller interval clock mismatch at '+str(i))
+        if previous is not None and before.get('controller_interval')!=previous:
+            raise ValueError('Controller interval continuity mismatch at '+str(i))
+        prior=previous['command'] if previous is not None else meta['collection_initial_target']
+        if (not np.array_equal(arrays['previous_command'],prior)
+                or not np.array_equal(arrays['command'].astype(np.float32),f['action/position'][i])):
+            raise ValueError('Controller endpoint/action mismatch at '+str(i))
+        for key in ('position_reference','velocity_reference','native_velocity'):
+            if np.any(arrays[key+'_min']>arrays[key+'_max']):
+                raise ValueError('Reversed controller extrema at '+str(i))
+        if (np.any(arrays['position_reference_min']<LOWER) or np.any(arrays['position_reference_max']>UPPER)
+                or np.any(arrays['command']<arrays['position_reference_min'])
+                or np.any(arrays['command']>arrays['position_reference_max'])):
+            raise ValueError('Controller internal target bounds mismatch at '+str(i))
+        v0,v1=native(before),native(after)
+        for v in (v0,v1):
+            if (np.any(v<arrays['native_velocity_min']-1e-12)
+                    or np.any(v>arrays['native_velocity_max']+1e-12)):
+                raise ValueError('Native boundary velocity outside substep extrema at '+str(i))
+        if (np.any(arrays['native_acceleration_abs_max']<np.abs(v1-v0)/(steps*dt)-1e-9)
+                or np.any(arrays['native_acceleration_abs_max']<0)
+                or np.any(arrays['native_jerk_abs_max']<0)
+                or np.any(arrays['position_gain']<=0) or np.any(arrays['velocity_gain']<0)
+                or type(value['native_jerk_samples']) is not int
+                or value['native_jerk_samples'] not in ([steps-1,steps] if i==0 else [steps])):
+            raise ValueError('Invalid controller derivative/gain evidence at '+str(i))
+        force_range=np.asarray(value['actuator_force_range'],float)
+        if force_range.shape!=(14,2) or not np.isfinite(force_range).all() or np.any(force_range[:,0]>force_range[:,1]):
+            raise ValueError('Invalid controller actuator force range at '+str(i))
+        measurements={'native_velocity_abs_max':np.maximum(np.abs(arrays['native_velocity_min']),np.abs(arrays['native_velocity_max'])),
+            **{key:np.abs(arrays[key]) for key in ('native_acceleration_abs_max','native_jerk_abs_max','limiter_start_velocity_jump')}}
+        for name,values in measurements.items():
+            if name not in peaks:peaks[name]=[None]*14
+            for channel,x in enumerate(values):
+                if peaks[name][channel] is None or x>peaks[name][channel]['absolute_max']:
+                    peaks[name][channel]={'absolute_max':float(x),'transition_index':i,'interval_start_sim_time':t0,
+                        'interval_end_sim_time':t1,'phase':after['teacher'].get('phase'),'object':after['teacher'].get('object')}
+        limited+=int(np.any(arrays['limiter_start_velocity_jump']!=0));previous=value
+    return {'integrity_status':'consistent_interval_summaries','intervals':count,'integration_steps':count*steps,
+        'channels':list(FEATURE_NAMES),'integration_dt':dt,'intervals_with_slope_limiter':limited,'peaks':peaks,
+        'peak_time_resolution':'Control interval containing the peak; exact substep time was not recorded.',
+        'scope':'Recorded native substep summary consistency, not full-trace recomputation, contact validation, hardware calibration or training acceptance.'}
+
+
 def analyze(source):
     started = time.perf_counter()
     source = Path(source).resolve()
@@ -156,10 +231,13 @@ def analyze(source):
                     'force_sample_note': 'Initial observation plus post-step snapshots; all-observation peaks also include pre-action feedforward updates.'}
             result.update(integrity_status='consistent_recorded_evidence', transitions=count,
                           unique_state_samples=count+1, checked_snapshots=2*count, fps=fps)
+            if meta.get('physics_model',{}).get('controller'):
+                result['controller_intervals']=inspect_controller_intervals(f,meta)
             result['declared_cartesian_path_speed_m_s'] = meta.get('teacher', {}).get('motion_and_quality', {}).get('pacing', {}).get('cartesian_speed_m_s')
             result['cartesian_speed_note'] = 'Declared planning speed is not a global TCP acceptance limit. '
             result['cartesian_speed_note'] += 'This report compares measurements without inventing a hardware or production-policy limit.'
     except (KeyError, TypeError, ValueError, OSError) as error:
+        result['integrity_status']='invalid'
         result['violations'].append(type(error).__name__+': '+str(error))
     after = source.stat()
     if (before.st_ino, before.st_size, before.st_mtime_ns) != (after.st_ino, after.st_size, after.st_mtime_ns):

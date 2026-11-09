@@ -129,10 +129,11 @@ def test_portable_bundle_needs_no_generated_cad_or_external_source(tmp_path, mon
         assets.resolve_model(load())
 
 
-def test_instability_autoreset_is_not_silently_exposed_as_valid_state():
+@pytest.mark.parametrize('advance_first', [False, True])
+def test_instability_autoreset_is_not_silently_exposed_as_valid_state(advance_first):
     b=MujocoBackend(load())
     try:
-        b.step()
+        if advance_first: b.step()
         b.data.qvel[0]=1e20  # Forces MuJoCo's native bad-velocity reset.
         with pytest.raises(RuntimeError,match='physics reset'):
             b.step()

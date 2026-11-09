@@ -8,6 +8,11 @@ import numpy as np
 from ..contracts import ARMS, JOINT_NAMES, LOWER, UPPER, Observation, vector
 from ..mujoco_asset import resolve_model
 
+_PHYSICS_WARNINGS = np.array([int(x) for x in (mujoco.mjtWarning.mjWARN_INERTIA,
+    mujoco.mjtWarning.mjWARN_CONTACTFULL, mujoco.mjtWarning.mjWARN_CNSTRFULL,
+    mujoco.mjtWarning.mjWARN_BADQPOS, mujoco.mjtWarning.mjWARN_BADQVEL,
+    mujoco.mjtWarning.mjWARN_BADQACC, mujoco.mjtWarning.mjWARN_BADCTRL)])
+
 
 class MujocoBackend:
     def __init__(self, cfg, cameras=False, viewer=False, model_xml_transform=None):
@@ -56,6 +61,19 @@ class MujocoBackend:
                 "qpos": [self.model.joint(n).qposadr[0] for n in names],
                 "dof": [self.model.joint(n).dofadr[0] for n in names],
                 "ctrl": [self.model.actuator(f"{side}/{n}").id for n in (*JOINT_NAMES, "gripper")]}
+        self.reference_controller = None
+        controller_config = cfg.get('mujoco', {}).get('controller')
+        if controller_config is not None:
+            from ..mujoco_controller import MujocoReferenceController
+            projection = np.zeros((14, self.model.nv))
+            actuator_ids = []
+            for i, side in enumerate(ARMS):
+                ids = self.indices[side]
+                for j, dof in enumerate(ids['dof'][:6]): projection[7*i+j, dof] = 1.
+                projection[7*i+6, ids['dof'][6:]] = 1.
+                actuator_ids.extend(ids['ctrl'])
+            self.reference_controller = MujocoReferenceController(self.model, actuator_ids, projection,
+                self.decimation*self.substeps, controller_config)
         self.reset()
         try:
             if viewer:
@@ -99,6 +117,8 @@ class MujocoBackend:
             self.data.qpos[ids["qpos"]] = values
             self.data.qvel[ids["dof"]] = 0
             self.data.ctrl[ids["ctrl"]] = a
+        if self.reference_controller:
+            self.reference_controller.reset(q)
         mujoco.mj_forward(self.model, self.data)
         self._images = None
 
@@ -119,7 +139,11 @@ class MujocoBackend:
         if self.finger_contact:
             self.finger_contact.assert_unchanged()
         expected_time = float(self.data.time)+self.dt*self.decimation
-        mujoco.mj_step(self.model, self.data, nstep=self.decimation*self.substeps)
+        warnings_before = self.data.warning.number[_PHYSICS_WARNINGS].copy()
+        if self.reference_controller:
+            self.reference_controller.advance(self.data)
+        else:
+            mujoco.mj_step(self.model, self.data, nstep=self.decimation*self.substeps)
         # MuJoCo can auto-reset on huge acceleration, leaving finite qpos/qvel.
         # Reject that discontinuity before a recorder sees a restarted episode.
         if not np.isclose(self.data.time, expected_time, atol=1e-7, rtol=0):
@@ -127,6 +151,8 @@ class MujocoBackend:
         # mj_step leaves position-dependent buffers at the last integration
         # evaluation. Refresh so RGB, poses and qpos describe the same state.
         mujoco.mj_forward(self.model, self.data)
+        if not np.array_equal(self.data.warning.number[_PHYSICS_WARNINGS], warnings_before):
+            raise RuntimeError('MuJoCo physics reset/warning after instability or capacity failure; episode rejected')
         self._images = None
         if self.task:
             self.task.metrics(self.task_adapter.task_poses(self.data, self.task), self.dt*self.decimation)
@@ -139,7 +165,10 @@ class MujocoBackend:
         return not self._closed and (self.viewer is None or self.viewer.is_running())
 
     def physics_metadata(self):
-        return {'finger_contact': self.finger_contact.metadata()} if self.finger_contact else {}
+        result = {'finger_contact': self.finger_contact.metadata()} if self.finger_contact else {}
+        if self.reference_controller:
+            result['controller'] = self.reference_controller.metadata()
+        return result
 
     def _render(self, name, width, height):
         key = (width, height)
@@ -183,6 +212,7 @@ class MujocoBackend:
             {name: self.sim_time for name in images},
             {"image_timestamp_clock": "simulation", "cameras": poses, "physics_time": self.sim_time,
              "engine": "mujoco", "engine_version": mujoco.__version__,
+             **({'controller_interval': self.reference_controller.telemetry()} if self.reference_controller else {}),
              **extras})
 
     def save_overview(self, path):

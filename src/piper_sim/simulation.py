@@ -72,7 +72,7 @@ class SimulationSession:
         if self.writer: raise RuntimeError("Already recording")
         if not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', name): raise ValueError("Invalid episode name")
         self.writer = EpisodeWriter(self.record_dir/(name+'.h5'), {**self.metadata(), "task": task,
-            "action_semantics": "applied absolute joint targets and full gripper opening"},
+            "action_semantics": "accepted absolute joint targets and full gripper opening; the backend controller applies them during the following observation-to-next_observation interval"},
             image_compression=image_compression, image_storage=image_storage, flush_every=flush_every)
 
     def stop_recording(self, success=False):

@@ -15,6 +15,8 @@ class IsaacBackend:
     def __init__(self, cfg, device="cuda:0", cameras=False):
         from ..mujoco_contact import require_contact_engine
         require_contact_engine(cfg, 'isaac')
+        if cfg.get('mujoco', {}).get('controller') is not None:
+            raise ValueError('mujoco.controller requires MuJoCo; no equivalent Isaac controller is implemented')
         self.cfg = cfg
         runtime = cfg["runtime"]
         self.dt = runtime["physics_dt"]

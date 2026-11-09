@@ -468,3 +468,32 @@ PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/benchmark_qualified
 10 GiB，属于规划估计，不是硬上限。运行时 recorder 的空闲磁盘门槛继续生效。这里两组
 刻意重复相同 seed 家族，不能把六个文件当六条独立轨迹拼入训练集，更不能将复制的家族
 分别放进训练和验证集；整理数据时选择一组并应用生产采集的固定家族划分。
+## 可选 MuJoCo 内部参考控制器（实验配置）
+
+`configs/clean_table_servo.yaml` 使用同一 CAD、场景和相机配置，在 30 Hz 接收绝对位置目标，
+以物理子步生成单调三次位置参考和对应速度参考。默认配置不变。位置参考保持在前后两个
+目标之间，停止/反转处会显式限制端点导数；这不能保证全程 C1 连续，也不是已标定的真机控制器。
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py \
+  --config configs/clean_table_servo.yaml --record --seed 0 \
+  --domain-randomization configs/domain_randomization/clean_table.yaml \
+  --output outputs/servo_trial_new
+```
+
+上述命令仅做完整状态诊断，不生成训练合格 RGB 数据。每回合仍须通过原独立任务/运动审计；
+完整 RGB、多个种子和吞吐尚需单独复测，不能将原控制器的 2.128× 基准直接归给新控制器。
+
+公共接口仍为 14 维 SI 绝对目标，夹爪为总开口；action 表示控制周期开始时接收的端点，
+不是该周期内每个子步的瞬时执行器目标。配置与控制语义进入 `physics_model.controller`，
+私有 `controller_interval` 记录前后目标、内部参考范围、原生速度/差分峰值、导数约束跳变量、
+增益和执行器力限幅。记录中的峰值定位到控制周期，没有伪造准确子步时间。
+LeRobot 公共训练列不因此增加特权字段。Isaac 会明确拒绝此 MuJoCo 专用控制器配置。
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/audit_recorded_dynamics.py \
+  outputs/servo_trial_new/episode.h5 --output outputs/servo_trial_native_check.json
+```
+
+此只读诊断核对全部区间的时钟、动作、连续性、限位、原生边界速度与峰值范围；
+它检查摘要一致性，不声称独立重算了未存储的完整 960 Hz 轨迹，也不授予训练许可。
