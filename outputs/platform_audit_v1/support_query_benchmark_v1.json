@@ -1,0 +1,58 @@
+{
+  "status": "microbenchmark_only",
+  "script_sha256": "b47ed86f09a2b35ef211c00b1213c60761e50edce8ba0892c5e4c05933ce23ae",
+  "production_source_sha256": "2f93aa184b655ca7968f59e5f769ea63f9b86c84959eb88d50d87e187a070926",
+  "rows": [
+    {
+      "seed": 13,
+      "source_sha256": "373c8433c24307d603a01bc85ac9674f75df377f96a3c775df5519d1b04d7614",
+      "source_frame": 6917,
+      "object": "chopstick_a",
+      "queries": 11,
+      "points": 209,
+      "projectable_triangles": 16216,
+      "exact_heights_equal": true,
+      "seconds": {
+        "original": [
+          0.04456651792861521,
+          0.04410691908560693,
+          0.04473786905873567
+        ],
+        "broad_phase_prototype": [
+          0.03715990309137851,
+          0.03680184402037412,
+          0.03715152700897306
+        ]
+      },
+      "median_query_speedup": 1.1995877832383912
+    },
+    {
+      "seed": 15619,
+      "source_sha256": "92d564b2e676808c237b91536cf66773a855c111fd18cf33aed83584ab3026fb",
+      "source_frame": 5106,
+      "object": "side_dish",
+      "queries": 11,
+      "points": 5249,
+      "projectable_triangles": 12156,
+      "exact_heights_equal": true,
+      "seconds": {
+        "original": [
+          1.086555908084847,
+          1.1016704440116882,
+          1.0570304760476574
+        ],
+        "broad_phase_prototype": [
+          0.13634763902518898,
+          0.13635508995503187,
+          0.13032800192013383
+        ]
+      },
+      "median_query_speedup": 7.9690115344359995
+    }
+  ],
+  "limitations": [
+    "Prototype only; production source is unchanged during full-task validation.",
+    "Fixed geometry queries, not independent episodes or end-to-end qualified collection throughput.",
+    "Shared host load; IK, collision planning and physics time are excluded."
+  ]
+}

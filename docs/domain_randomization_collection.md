@@ -535,3 +535,42 @@ PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py
 这是完整状态诊断命令，不含 RGB。`bounded_path_selected` 事件保留各次细分的样本数和最大
 位置/旋转偏离；采集元数据保存配置与未标定范围。几何与偏离检查都是采样检查，不保证
 连续时间无碰撞。在线通过也不替代最终独立闭文件审核。
+
+## 考虑篮内支撑的放置搜索（实验配置）
+
+`configs/collection/clean_table_placement_search.yaml` 在有界持物曲线配置上，只增加
+筷子和小碟的可选放置搜索。读取实际抓持变换、篮筐和已入篮物体的当前碰撞三角面，
+在原槽位周围 5 cm 内搜索位置、偏航和俯仰，每次最多检查 216 个姿态候选。
+几何估计的首次接触面决定释放高度；原机械臂、双臂和持物碰撞检查仍保留，并增加
+释放时夹爪开口的采样检查。搜索不会写入物体位置，也不启用吸附或更改接触参数。
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/collect_parallel_clean_table.py \
+  --config configs/clean_table_servo.yaml \
+  --collection-profile configs/collection/clean_table_placement_search.yaml \
+  --seeds 13 15619 0 --workers 2 --states-only --output outputs/placement_trial_new
+```
+
+这是状态诊断命令。当前三个工程回归种子中 13、0 通过，15619 的物体全部入篮，
+但最后一根筷子仍在滚动，因此被原稳定门限拒收。该候选还没有完整 RGB 验证，
+未提升为默认配置，不能把 2/3 状态通过率当作批量训练数据成功率。
+
+`placement_search_selected` 事件记录槽位、角度、内壁余量、预计支撑间隙、候选数、
+障碍物名单和开爪检查范围。当前支撑估计只采样持物可见顶点，可能漏掉杆身中部的
+碰撞接触；几何首次接触也不能证明动态落稳。后续改进需保留这些失败证据并完整复测。
+
+辅助诊断命令：
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/audit_final_object_motion.py \
+  outputs/placement_trial_new/worker_01/episode_000000_seed_15619/episode.h5 \
+  --output outputs/final_motion_new.json
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/render_recorded_release.py \
+  outputs/placement_trial_new/worker_00/episode_000000_seed_13/episode.h5 \
+  --object chopstick_a --output outputs/release_review_new
+```
+
+第一条对闭文件（包括失败回合）做 30 Hz 位姿差分分析，采用独立生产稳定门限；
+第二条按原速显示连续原生状态，视频明确标注状态重建，**不是原始同步相机数据**。
+两者只读原始记录，不修改训练许可。隔离放置实验另用 `diagnose_placement_search.py`，
+只在初始化时恢复记录姿态；因缺少物体速度和求解器缓存，它不是精确动态回放，也不产训练数据。

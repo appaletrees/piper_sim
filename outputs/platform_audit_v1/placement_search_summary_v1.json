@@ -1,0 +1,714 @@
+{
+  "status": "two_state_regressions_passed_one_rejected",
+  "training_ready": false,
+  "analysis_sha256": "2abd8825faf413b4534ee4ff3d0984df748eeabdb29f2e3971134d7232109710",
+  "seed_role": "development regressions, not held-out evaluation",
+  "unchanged_frozen_input_files": 412,
+  "changed_input_files": [],
+  "runs": [
+    {
+      "seed": 13,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/placement_search_states_v1/worker_00/episode_000000_seed_13/episode.h5",
+      "source_sha256": "1506e1c9636d3a0dd6c0b4dbedf7ff2c4b70ea0874d6ec32dc482bf19a78bbd5",
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "violations": [],
+      "audit_passed": true,
+      "training_ready": false,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "frames": 8010,
+      "duration_s": 267.0000000013593,
+      "placement_events": [
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 202.3666666675177,
+          "slot_xy_m": [
+            0.06,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.04178351243052364,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 49,
+          "opening_sweep_checked_m": [
+            0.007423269987384712,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 46,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_a",
+          "sim_time": 235.10000000126783,
+          "slot_xy_m": [
+            -0.025,
+            -0.08499999999999999
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.036781701983996884,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.00589989012361748,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_b",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_b",
+          "sim_time": 255.26666666819128,
+          "slot_xy_m": [
+            -0.025,
+            -0.1
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.02178170198399687,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005923809051991996,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        }
+      ],
+      "native_integrity": "consistent_recorded_evidence",
+      "native_snapshot_tcp_speed_peak_m_s": {
+        "left": 0.2611138213155622,
+        "right": 0.6533425217492732
+      },
+      "phase_wall_seconds": {
+        "collection": 552.5358091229573
+      }
+    },
+    {
+      "seed": 15619,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/placement_search_states_v1/worker_01/episode_000000_seed_15619/episode.h5",
+      "source_sha256": "2d83f232081da3a3e486576d16ffaee3045feae5882989e84e9d7c8890dcf708",
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "error": "SortFailure: Final objects did not remain stable for 1.0 s within 5.0 s; last stable interval=0.033 s",
+      "violations": [
+        "ValueError: unsuccessful_episode"
+      ],
+      "audit_passed": false,
+      "training_ready": false,
+      "acceptance_policy": null,
+      "frames": 6997,
+      "duration_s": 233.2333333345901,
+      "placement_events": [
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 175.766666667179,
+          "slot_xy_m": [
+            0.009999999999999995,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.09178351243052327,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 57,
+          "opening_sweep_checked_m": [
+            0.007502367897006141,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 54,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_a",
+          "sim_time": 199.03333333414193,
+          "slot_xy_m": [
+            -0.025,
+            -0.08499999999999999
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.036781701983996884,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005915257501888857,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_b",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_b",
+          "sim_time": 220.30000000107938,
+          "slot_xy_m": [
+            -0.05,
+            -0.075
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.014499999999999985,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 163,
+          "opening_sweep_checked_m": [
+            0.005910763780570609,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 162,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        }
+      ],
+      "native_integrity": "consistent_recorded_evidence",
+      "native_snapshot_tcp_speed_peak_m_s": {
+        "left": 0.28716131816631685,
+        "right": 0.5772946781116725
+      },
+      "phase_wall_seconds": {
+        "collection": 429.11550685495604
+      }
+    },
+    {
+      "seed": 0,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/placement_search_states_v1/worker_00/episode_000001_seed_0/episode.h5",
+      "source_sha256": "35013d6d56582269c8541ff3c484d4a02a4e32a0add6a9afa688e2212c087aff",
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "error": null,
+      "violations": [],
+      "audit_passed": true,
+      "training_ready": false,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "frames": 7437,
+      "duration_s": 247.90000000144352,
+      "placement_events": [
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 178.80000000055097,
+          "slot_xy_m": [
+            0.06,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.041783512430523584,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 49,
+          "opening_sweep_checked_m": [
+            0.007576790452353073,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 46,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_a",
+          "sim_time": 212.50000000098007,
+          "slot_xy_m": [
+            -0.025,
+            -0.08499999999999999
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.036781701983996884,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005921212360264674,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_b",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_b",
+          "sim_time": 234.60000000126146,
+          "slot_xy_m": [
+            -0.025,
+            -0.1
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.02178170198399687,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005911650806828745,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "object-vertex samples against vertical envelope of current task collision triangles",
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        }
+      ],
+      "native_integrity": "consistent_recorded_evidence",
+      "native_snapshot_tcp_speed_peak_m_s": {
+        "left": 0.2841660781103989,
+        "right": 0.6178820832901611
+      },
+      "phase_wall_seconds": {
+        "collection": 359.28047319699544
+      }
+    }
+  ],
+  "diagnostic_passed": 2,
+  "accepted_rgb_episodes": 0,
+  "seed0_duration_increase_s": 11.033333334776842,
+  "seed15619_stability": {
+    "scope": "Read-only stability diagnosis, including closed rejected episodes.\n\nUses recorded 30 Hz object pose differences and the independent production\nstability policy. This does not change acceptance or infer native contact forces.\n",
+    "training_ready": false,
+    "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/placement_search_states_v1/worker_01/episode_000000_seed_15619/episode.h5",
+    "source_sha256": "2d83f232081da3a3e486576d16ffaee3045feae5882989e84e9d7c8890dcf708",
+    "acceptance_policy": {
+      "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+      "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+    },
+    "window_start_end_sim_time": [
+      228.2666666678475,
+      234.23333333459013
+    ],
+    "samples": 180,
+    "thresholds": {
+      "final_stable_hold_s": 1.0,
+      "final_object_speed_m_s": 0.01,
+      "final_object_angular_speed_rad_s": 0.1
+    },
+    "objects": {
+      "plate": {
+        "linear_speed_max_m_s": 1.2264430413077415e-05,
+        "angular_speed_max_rad_s": 0.0003834798127158834,
+        "local_x_angular_component_max_rad_s": 0.0002829276795482904,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "bowl": {
+        "linear_speed_max_m_s": 2.5170887505458123e-05,
+        "angular_speed_max_rad_s": 0.0010785311830051828,
+        "local_x_angular_component_max_rad_s": 0.00013479819356046807,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "spoon": {
+        "linear_speed_max_m_s": 7.847553986560408e-06,
+        "angular_speed_max_rad_s": 0.00026447542039295023,
+        "local_x_angular_component_max_rad_s": 0.00026251299588953545,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "chopstick_a": {
+        "linear_speed_max_m_s": 2.7372473115031383e-05,
+        "angular_speed_max_rad_s": 0.0003846401614558229,
+        "local_x_angular_component_max_rad_s": 0.00037141436143965574,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "chopstick_b": {
+        "linear_speed_max_m_s": 0.0005328808376194614,
+        "angular_speed_max_rad_s": 0.22867515074550093,
+        "local_x_angular_component_max_rad_s": 0.22862080472488006,
+        "last_second_unstable_intervals": 11,
+        "unstable_interval_end_times_s": [
+          228.333333334515,
+          228.60000000118507,
+          228.63333333451882,
+          228.66666666785258,
+          228.7333333345201,
+          228.93333333452264,
+          229.3666666678615,
+          230.53333333454302,
+          230.56666666787677,
+          230.76666666787932,
+          230.96666666788187,
+          231.23333333455193,
+          231.2666666678857,
+          231.30000000121944,
+          231.3333333345532,
+          231.500000001222,
+          231.53333333455575,
+          231.83333333455957,
+          231.86666666789333,
+          232.23333333456466,
+          232.70000000123727,
+          232.8333333345723,
+          232.86666666790606,
+          233.10000000124236,
+          233.13333333457612,
+          233.26666666791115,
+          233.36666666791243,
+          233.40000000124618,
+          233.4666666679137,
+          233.50000000124746,
+          233.6333333345825,
+          233.66666666791625,
+          233.73333333458376,
+          233.76666666791752,
+          234.06666666792134,
+          234.20000000125637
+        ]
+      },
+      "side_dish": {
+        "linear_speed_max_m_s": 9.860359555348701e-06,
+        "angular_speed_max_rad_s": 0.0004020620477864968,
+        "local_x_angular_component_max_rad_s": 0.0003477381383805565,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "cup_00": {
+        "linear_speed_max_m_s": 4.143981790625037e-08,
+        "angular_speed_max_rad_s": 3.576278686477902e-06,
+        "local_x_angular_component_max_rad_s": 7.403956342878777e-08,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "cup_01": {
+        "linear_speed_max_m_s": 1.0713707545191122e-07,
+        "angular_speed_max_rad_s": 3.7932163659321648e-06,
+        "local_x_angular_component_max_rad_s": 1.3255856021496246e-07,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "pen": {
+        "linear_speed_max_m_s": 3.777921981717886e-08,
+        "angular_speed_max_rad_s": 3.6863436927483937e-06,
+        "local_x_angular_component_max_rad_s": 1.5533190755833927e-07,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      },
+      "charger": {
+        "linear_speed_max_m_s": 6.8677717713224094e-06,
+        "angular_speed_max_rad_s": 8.234668044744078e-05,
+        "local_x_angular_component_max_rad_s": 1.3260930256212556e-05,
+        "last_second_unstable_intervals": 0,
+        "unstable_interval_end_times_s": []
+      }
+    },
+    "longest_all_contained_stable_s": 1.133333333347764,
+    "ending_all_contained_stable_s": 0.033333333333757764,
+    "limitations": [
+      "Pose differences at recording rate; native object velocities/substep extrema are not present.",
+      "A component along local X diagnoses axial rotation; it does not establish the force or cause."
+    ],
+    "script_sha256": "ad5eeebe125c5d3c744a1d0eeca209d72c39d76ebec6e1c096de5961825f508c"
+  },
+  "seed13_geometry": {
+    "samples": 8011,
+    "native_arm_samples": 16022,
+    "equal_jaw_reconstruction_arm_samples": 0,
+    "changed_or_missing_provenance_files": [],
+    "category_peaks": {
+      "intended_finger_target": {
+        "category": "intended_finger_target",
+        "bodies": [
+          "right/link7",
+          "task/plate"
+        ],
+        "frames_with_contact": 523,
+        "max_depth_m": 0.0008683971790880874,
+        "frame": 5023,
+        "sim_time": 168.4333333337523,
+        "phase": "transfer",
+        "object": "plate",
+        "geoms": [
+          "gripper_right_46",
+          "task/plate/glazed_shell_contact_1_9"
+        ]
+      },
+      "held_object_environment": {
+        "category": "held_object_environment",
+        "bodies": [
+          "task/plate",
+          "world"
+        ],
+        "frames_with_contact": 65,
+        "max_depth_m": 4.9120459401676135e-05,
+        "frame": 4646,
+        "sim_time": 155.86666666692562,
+        "phase": "grasp",
+        "object": "plate",
+        "geoms": [
+          "table_collision",
+          "task/plate/glazed_shell_contact_0_3"
+        ]
+      },
+      "robot_environment": {
+        "category": "robot_environment",
+        "bodies": [
+          "right/link7",
+          "world"
+        ],
+        "frames_with_contact": 81,
+        "max_depth_m": 0.0005893580591296194,
+        "frame": 4591,
+        "sim_time": 154.03333333356895,
+        "phase": "grasp",
+        "object": "plate",
+        "geoms": [
+          "table_collision",
+          "gripper_right_43"
+        ]
+      }
+    },
+    "tcp": {
+      "left": {
+        "max_sampled_speed_m_s": 0.26206445985109567,
+        "p95_sampled_speed_m_s": 0.06587024422642043,
+        "peak_interval": [
+          50.633333333307824,
+          50.66666666664113
+        ]
+      },
+      "right": {
+        "max_sampled_speed_m_s": 0.6527186973443279,
+        "p95_sampled_speed_m_s": 0.23796514437729913,
+        "peak_interval": [
+          176.66666666719047,
+          176.70000000052423
+        ]
+      }
+    }
+  },
+  "previews": {
+    "placement_preview_original13_v1": {
+      "scope": "Render a 1x diagnostic release clip from recorded native states.\n\nEvery selected 30 Hz state is displayed once. This is kinematic reconstruction,\nnot dynamics replay or original synchronized sensor RGB, and is never training\ndata. The source HDF5 and its acceptance fields remain read-only.\n",
+      "training_ready": false,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_validation_states_v1/worker_00/episode_000000_seed_13/episode.h5",
+      "source_sha256": "373c8433c24307d603a01bc85ac9674f75df377f96a3c775df5519d1b04d7614",
+      "script_sha256": "af0dc5a3820a4805ac56e03401928809ef8dd3771300e01e58446a8d8d43812d",
+      "source_provenance_changes": [
+        "src/piper_sim/experts/trajectory.py",
+        "src/piper_sim/experts/rigid_table.py",
+        "src/piper_sim/experts/clean_table.py"
+      ],
+      "frame_range_exclusive": [
+        7003,
+        7193
+      ],
+      "frames": 190,
+      "fps": 30.0,
+      "first_last_source_sim_time": [
+        234.43333333459267,
+        240.7333333346729
+      ],
+      "duration_s": 6.333333333333333,
+      "duration_note": "Each displayed sample, including the last, occupies one frame interval.",
+      "video_sha256": "6e7489343fa428feed6eec6f001b55788ac7540b7a608d1e9c5d6725d22bbdcb",
+      "ffprobe": {
+        "avg_frame_rate": "30/1",
+        "duration": "6.333333",
+        "nb_read_frames": "190"
+      },
+      "render_note": "Diagnostic overview camera; sensor noise/postprocessing are not replayed."
+    },
+    "placement_preview_chop13_v1": {
+      "scope": "Render a 1x diagnostic release clip from recorded native states.\n\nEvery selected 30 Hz state is displayed once. This is kinematic reconstruction,\nnot dynamics replay or original synchronized sensor RGB, and is never training\ndata. The source HDF5 and its acceptance fields remain read-only.\n",
+      "training_ready": false,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/placement_search_states_v1/worker_00/episode_000000_seed_13/episode.h5",
+      "source_sha256": "1506e1c9636d3a0dd6c0b4dbedf7ff2c4b70ea0874d6ec32dc482bf19a78bbd5",
+      "script_sha256": "af0dc5a3820a4805ac56e03401928809ef8dd3771300e01e58446a8d8d43812d",
+      "source_provenance_changes": [],
+      "frame_range_exclusive": [
+        7103,
+        7341
+      ],
+      "frames": 238,
+      "fps": 30.0,
+      "first_last_source_sim_time": [
+        237.76666666796845,
+        245.66666666806904
+      ],
+      "duration_s": 7.933333333333334,
+      "duration_note": "Each displayed sample, including the last, occupies one frame interval.",
+      "video_sha256": "5037f2c9c7382dc0a5f2f4d5f2e849866d33f8d84bb5926d11c381b688e6bf73",
+      "ffprobe": {
+        "avg_frame_rate": "30/1",
+        "duration": "7.933333",
+        "nb_read_frames": "238"
+      },
+      "render_note": "Diagnostic overview camera; sensor noise/postprocessing are not replayed."
+    },
+    "placement_preview_dish15619_v1": {
+      "scope": "Render a 1x diagnostic release clip from recorded native states.\n\nEvery selected 30 Hz state is displayed once. This is kinematic reconstruction,\nnot dynamics replay or original synchronized sensor RGB, and is never training\ndata. The source HDF5 and its acceptance fields remain read-only.\n",
+      "training_ready": false,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/placement_search_states_v1/worker_01/episode_000000_seed_15619/episode.h5",
+      "source_sha256": "2d83f232081da3a3e486576d16ffaee3045feae5882989e84e9d7c8890dcf708",
+      "script_sha256": "af0dc5a3820a4805ac56e03401928809ef8dd3771300e01e58446a8d8d43812d",
+      "source_provenance_changes": [],
+      "frame_range_exclusive": [
+        5404,
+        5691
+      ],
+      "frames": 287,
+      "fps": 30.0,
+      "first_last_source_sim_time": [
+        181.133333333914,
+        190.66666666736873
+      ],
+      "duration_s": 9.566666666666666,
+      "duration_note": "Each displayed sample, including the last, occupies one frame interval.",
+      "video_sha256": "0ef36e4e7ea195601e9de2c8343589285c0e54d39b35e0bd700452bf57e989ce",
+      "ffprobe": {
+        "avg_frame_rate": "30/1",
+        "duration": "9.566667",
+        "nb_read_frames": "287"
+      },
+      "render_note": "Diagnostic overview camera; sensor noise/postprocessing are not replayed."
+    }
+  },
+  "limitations": [
+    "No RGB in these three runs, no LeRobot export and no training acceptance.",
+    "Seed 15619 remains rejected despite all ten objects being contained: chopstick_b keeps rolling.",
+    "The original independent stability thresholds and final-settle timeout were not relaxed.",
+    "First-contact estimates sample visible payload vertices against collision support triangles; this can miss middle-face support.",
+    "Opening sweep and movement checks are sampled geometry checks, not continuous-time dynamic stability proofs.",
+    "State-run wall times under shared load are not a qualified throughput benchmark.",
+    "The support-query broad-phase benchmark is a separate prototype and does not measure end-to-end speed.",
+    "The 0.25 m/s Cartesian pacing setting is not a global measured TCP velocity limit.",
+    "Early isolated v1/v2/v3 diagnostics did not record all expert source hashes and are not frozen-source full-task evidence.",
+    "No geometry, contact profile, nominal dimension, quality threshold or default collection profile changed."
+  ]
+}

@@ -12,6 +12,7 @@ from .mujoco_ik import PiperIK, grasp_rotation, rotation_error
 from .grasp_assist import ContactGraspAssist, finger_contacts
 from .trajectory import smooth_trajectory, path_trajectory
 from .path_fidelity import loaded_path_limits, path_pose_deviation
+from .placement_search import validate_profile as placement_search_profile
 from .quality import MotionQuality
 from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
 from ..transforms import pose_matrix
@@ -49,6 +50,7 @@ class CleanTableTeacher:
         self.motion = self.settings['motion']
         self.pacing = self.settings.get('pacing', {})
         self.bounded_loaded_path = loaded_path_limits(self.pacing.get('bounded_loaded_path'))
+        self.placement_search = placement_search_profile(self.pacing.get('placement_search'))
         self.release_preload_m = float(self.pacing.get('release_preload_threshold_m', .003))
         if not np.isfinite(self.release_preload_m) or not 0 <= self.release_preload_m <= .095:
             raise ValueError('Release preload threshold must be finite and within the gripper stroke')
@@ -628,6 +630,9 @@ class CleanTableTeacher:
 
     def placement(self, side, name, target):
         """Search upright/tilted placement frames using the measured grasp offset."""
+        if self.placement_search and self.b.task.specs[name]['kind'] in self.placement_search['kinds']:
+            from .placement_search import search
+            return search(self, side, name, target, self.placement_search)
         tcp, hand_r = self.tcp(side)
         obj = self.b.data.body('task/'+name)
         offset = hand_r.T@(obj.xpos-tcp)

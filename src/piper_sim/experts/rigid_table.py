@@ -80,7 +80,8 @@ class RigidTableTeacher(CleanTableTeacher):
             yield position+offset*axis, rotation, {'height_offset_m': 0., 'local_tilt_deg': 0.,
                                                    'long_axis_offset_m': offset}
 
-    def sort_one(self,name):
+    def configure_object_contact(self,name):
+        """Existing per-kind contact/controller settings, also used in diagnostics."""
         aid=self.b.model.actuator('right/gripper').id
         kind=self.b.task.specs[name]['kind']
         force={'pen':.35,'chopstick':.30,'plate':30.,'side_dish':15.}.get(kind,self.settings['controller']['gripper_force_limit_N'])
@@ -94,6 +95,8 @@ class RigidTableTeacher(CleanTableTeacher):
                 self.b.model.geom_friction[g,2]=.008 if kind in ('plate','side_dish') else .002
                 self.b.model.geom_solref[g,0]=.0042 if kind=='side_dish' else self.settings['controller']['finger_contact_time_constant_s']
                 self.b.model.geom_solimp[g,:2]=[.99,.999] if kind=='side_dish' else [.95,.99]
+    def sort_one(self,name):
+        self.configure_object_contact(name)
         return super().sort_one(name)
 
     def step(self):
