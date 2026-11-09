@@ -1,0 +1,1355 @@
+{
+  "status": "completed_frozen_state_cohort",
+  "training_ready": false,
+  "runs": [
+    {
+      "seed": 1340830695,
+      "split": "train",
+      "category": "diagnostics",
+      "error": null,
+      "violations": [],
+      "returncode": 0,
+      "inventory": {
+        "cup_count": 3,
+        "cup_colors": {
+          "cup_00": [
+            0.32,
+            0.63,
+            0.82
+          ],
+          "cup_01": [
+            0.32,
+            0.63,
+            0.82
+          ],
+          "cup_02": [
+            0.32,
+            0.63,
+            0.82
+          ]
+        }
+      },
+      "phase_wall_seconds": {
+        "collection": 580.7236910579959
+      },
+      "training_ready": false,
+      "source": "/dev/shm/piper_tcp_clearance_v1/worker_00/episode_000000_seed_1340830695/episode.h5",
+      "raw_storage": "volatile_tmpfs_pending_archival",
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "audit_passed": true,
+      "rollout_accepted": true,
+      "quality_passed": true,
+      "quality_violations": [],
+      "last_events": [
+        {
+          "phase": "transfer",
+          "object": "side_dish",
+          "sim_time": 263.0333333347649,
+          "lift_m": 0.14794325879529716
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 267.6000000013651,
+          "slot_xy_m": [
+            0.06,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.0417835124305235,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 49,
+          "opening_sweep_checked_m": [
+            0.0074858279003587646,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 46,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "visible payload vertices against vertical envelope of current task collision triangles",
+          "payload_sample_count": 576,
+          "payload_surface_spacing_m": null,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "lower",
+          "object": "side_dish",
+          "sim_time": 278.5000000012065
+        },
+        {
+          "phase": "open_gripper",
+          "object": "side_dish",
+          "sim_time": 284.00000000112647,
+          "object_pose": {
+            "position": [
+              0.670905240247447,
+              -0.44589650598146485,
+              0.058728692777006264
+            ],
+            "quaternion_wxyz": [
+              0.9915409310916391,
+              -0.0016165337137885067,
+              -0.12861469011281723,
+              -0.01738477137790727
+            ]
+          }
+        },
+        {
+          "phase": "unload_gripper",
+          "object": "side_dish",
+          "sim_time": 284.00000000112647,
+          "measured_width_m": 0.007437790950869535,
+          "command_width_m": 0.0
+        },
+        {
+          "phase": "release",
+          "object": "side_dish",
+          "sim_time": 284.8333333344477,
+          "object_pose": {
+            "position": [
+              0.6717502762514943,
+              -0.44614398047866655,
+              0.05031721820096433
+            ],
+            "quaternion_wxyz": [
+              0.9933825023348057,
+              0.07005507091904326,
+              -0.08659507402861616,
+              -0.02801400092000269
+            ]
+          }
+        },
+        {
+          "phase": "placed",
+          "object": "side_dish",
+          "sim_time": 291.36666666768593,
+          "success": true
+        },
+        {
+          "phase": "finished",
+          "object": "side_dish",
+          "sim_time": 293.36666666765683,
+          "success": true,
+          "sorted_count": 11,
+          "required_count": 11
+        }
+      ],
+      "results": [
+        {
+          "name": "cup_00",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 5.466666666666657,
+          "success": true
+        },
+        {
+          "name": "cup_01",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 5.199999999999991,
+          "success": true
+        },
+        {
+          "name": "cup_02",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 4.2999999999999945,
+          "success": true
+        },
+        {
+          "name": "chopstick_a",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.19422295598626177,
+          "contained": true,
+          "hold_seconds": 4.933333333333326,
+          "success": true
+        },
+        {
+          "name": "chopstick_b",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.15057397313463416,
+          "contained": true,
+          "hold_seconds": 4.166666666666662,
+          "success": true
+        },
+        {
+          "name": "pen",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.16345148056463163,
+          "contained": true,
+          "hold_seconds": 3.0333333333333323,
+          "success": true
+        },
+        {
+          "name": "charger",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.14939086118449516,
+          "contained": true,
+          "hold_seconds": 3.2333333333333316,
+          "success": true
+        },
+        {
+          "name": "spoon",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.16564958075329295,
+          "contained": true,
+          "hold_seconds": 3.599999999999997,
+          "success": true
+        },
+        {
+          "name": "bowl",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.1353247467686041,
+          "contained": true,
+          "hold_seconds": 3.166666666666665,
+          "success": true
+        },
+        {
+          "name": "plate",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.10393033529073897,
+          "contained": true,
+          "hold_seconds": 2.9333333333333327,
+          "success": true
+        },
+        {
+          "name": "side_dish",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.14794325879529716,
+          "contained": true,
+          "hold_seconds": 9.999999999999975,
+          "success": true
+        }
+      ],
+      "source_sha256": "b1495815bd9bef69c9f0e25fe5487983555ecabe962fbf7593cdf528de3e28d6",
+      "source_bytes": 91390005,
+      "source_audit_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+        "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+      },
+      "frames": 8771,
+      "duration_s": 292.36666666765683,
+      "cup_count": 3,
+      "per_target_contact_material_switching": true,
+      "task": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+      "tcp": {
+        "passed": true,
+        "violations": [],
+        "limits": {
+          "linear_speed_m_s": 0.25,
+          "angular_speed_rad_s": 1.5
+        },
+        "intervals": 8771,
+        "integration_steps": 280672,
+        "peaks": {
+          "left/linear": {
+            "speed": 0.23282735611573815,
+            "transition_index": 1551,
+            "substep": 19,
+            "sim_time": 52.71979166663928,
+            "phase": "stack_ready",
+            "object": "cup_02"
+          },
+          "left/angular": {
+            "speed": 0.9119896977774274,
+            "transition_index": 43,
+            "substep": 19,
+            "sim_time": 2.4531249999999423,
+            "phase": "approach",
+            "object": "cup_01"
+          },
+          "right/linear": {
+            "speed": 0.2347764103725852,
+            "transition_index": 2862,
+            "substep": 15,
+            "sim_time": 96.41562499993287,
+            "phase": "release",
+            "object": "chopstick_a"
+          },
+          "right/angular": {
+            "speed": 1.1341215770998196,
+            "transition_index": 5894,
+            "substep": 26,
+            "sim_time": 197.49375000078865,
+            "phase": "transfer",
+            "object": "bowl"
+          }
+        },
+        "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification.",
+        "source": "/dev/shm/piper_tcp_clearance_v1/worker_00/episode_000000_seed_1340830695/episode.h5",
+        "source_sha256": "b1495815bd9bef69c9f0e25fe5487983555ecabe962fbf7593cdf528de3e28d6",
+        "training_ready": false,
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+          "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+        }
+      },
+      "phase_seconds": {
+        "approach": 69.03333333333333,
+        "grasp": 32.733333333333334,
+        "lift": 54.0,
+        "nest": 6.666666666666667,
+        "release_for_nesting": 8.333333333333334,
+        "stack_checked": 0.8,
+        "stack_ready": 3.7,
+        "transfer_stack": 8.3,
+        "release_stack": 4.8,
+        "transfer": 51.1,
+        "lower": 15.0,
+        "unload_gripper": 5.933333333333334,
+        "release": 29.966666666666665,
+        "placed": 2.0
+      },
+      "object_seconds": {
+        "cup_01": 21.9,
+        "cup_02": 31.9,
+        "cup_00": 23.0,
+        "chopstick_a": 19.966666666666665,
+        "chopstick_b": 20.133333333333333,
+        "pen": 18.333333333333332,
+        "charger": 20.133333333333333,
+        "spoon": 26.0,
+        "bowl": 22.666666666666668,
+        "plate": 31.733333333333334,
+        "side_dish": 56.6
+      },
+      "native_integrity": "consistent_recorded_evidence",
+      "native_violations": [],
+      "native_controller_intervals": "consistent_interval_summaries",
+      "read_only_diagnostic_seconds": 24.720683919033036,
+      "cadence": {
+        "stationary_fraction": 0.249344430509634,
+        "stationary_bouts_at_least_250ms": 111,
+        "longest_stationary_bout_s": 2.7333333333333334,
+        "definition": "Both applied targets and measured motion below 0.02 rad/s for all arm joints and 0.002 m/s for both grippers; intentional contact holds included."
+      },
+      "geometry": {
+        "samples": 8772,
+        "native_arm_samples": 17544,
+        "category_peaks": {
+          "intended_finger_target": {
+            "category": "intended_finger_target",
+            "bodies": [
+              "right/link7",
+              "task/plate"
+            ],
+            "frames_with_contact": 535,
+            "max_depth_m": 0.0008432975318351646,
+            "frame": 6497,
+            "sim_time": 217.56666666771125,
+            "phase": "lift",
+            "object": "plate",
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_9"
+            ]
+          },
+          "held_object_environment": {
+            "category": "held_object_environment",
+            "bodies": [
+              "task/plate",
+              "world"
+            ],
+            "frames_with_contact": 46,
+            "max_depth_m": 4.269606297118214e-05,
+            "frame": 6546,
+            "sim_time": 219.20000000106538,
+            "phase": "lift",
+            "object": "plate",
+            "geoms": [
+              "table_collision",
+              "task/plate/glazed_shell_contact_1_2"
+            ]
+          },
+          "robot_environment": {
+            "category": "robot_environment",
+            "bodies": [
+              "right/link7",
+              "world"
+            ],
+            "frames_with_contact": 98,
+            "max_depth_m": 0.0007493514137826562,
+            "frame": 6410,
+            "sim_time": 214.66666666767432,
+            "phase": "grasp",
+            "object": "plate",
+            "geoms": [
+              "table_collision",
+              "gripper_right_43"
+            ]
+          }
+        },
+        "limitations": [
+          "Position-only reconstruction, not dynamic replay; no contact-force, slip or torque inference.",
+          "Frame range is explicit; contacts between 30 Hz samples are unobserved.",
+          "Native eight-joint positions are preferred; missing native evidence uses half total width per jaw.",
+          "Held-object contacts are context only: intended support or cup-stack contact is not an automatic violation.",
+          "Inactive task objects retain their recorded initial layout poses; active poses are reconstructed each frame.",
+          "Current compiled geometry retains adjacent body exclusions and convex-hull approximations.",
+          "Provenance differences are listed; this diagnostic does not certify identical source assets.",
+          "TCP is the configured link6 offset [0,0,0.1375] m; not a measured tool calibration.",
+          "No change to episode acceptance or source data."
+        ],
+        "report_sha256": "5dca2c614bcf02bdd8fbac7504c7a669249d40b4312ade1b45b7a4928f99aca6"
+      }
+    },
+    {
+      "seed": 3074758446,
+      "split": "train",
+      "category": "diagnostics",
+      "error": null,
+      "violations": [],
+      "returncode": 0,
+      "inventory": {
+        "cup_count": 3,
+        "cup_colors": {
+          "cup_00": [
+            0.94,
+            0.94,
+            0.9
+          ],
+          "cup_01": [
+            0.32,
+            0.63,
+            0.82
+          ],
+          "cup_02": [
+            0.94,
+            0.94,
+            0.9
+          ]
+        }
+      },
+      "phase_wall_seconds": {
+        "collection": 602.4479352339404
+      },
+      "training_ready": false,
+      "source": "/dev/shm/piper_tcp_clearance_v1/worker_01/episode_000000_seed_3074758446/episode.h5",
+      "raw_storage": "volatile_tmpfs_pending_archival",
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "audit_passed": true,
+      "rollout_accepted": true,
+      "quality_passed": true,
+      "quality_violations": [],
+      "last_events": [
+        {
+          "phase": "transfer",
+          "object": "side_dish",
+          "sim_time": 264.9000000014044,
+          "lift_m": 0.14778747874458506
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 269.8000000013331,
+          "slot_xy_m": [
+            0.06,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.04178351243052336,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 49,
+          "opening_sweep_checked_m": [
+            0.007605084875130803,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 46,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "visible payload vertices against vertical envelope of current task collision triangles",
+          "payload_sample_count": 576,
+          "payload_surface_spacing_m": null,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "lower",
+          "object": "side_dish",
+          "sim_time": 280.7000000011745
+        },
+        {
+          "phase": "open_gripper",
+          "object": "side_dish",
+          "sim_time": 286.46666666775724,
+          "object_pose": {
+            "position": [
+              0.6721310634748249,
+              -0.42979601039478227,
+              0.06240655715643963
+            ],
+            "quaternion_wxyz": [
+              0.9915916751853486,
+              -0.001952361065079979,
+              -0.12810689227112823,
+              -0.01818686729537588
+            ]
+          }
+        },
+        {
+          "phase": "unload_gripper",
+          "object": "side_dish",
+          "sim_time": 286.46666666775724,
+          "measured_width_m": 0.00755616720068918,
+          "command_width_m": 0.0
+        },
+        {
+          "phase": "release",
+          "object": "side_dish",
+          "sim_time": 287.30000000107844,
+          "object_pose": {
+            "position": [
+              0.6744012119528132,
+              -0.4328177710158674,
+              0.04754709838779404
+            ],
+            "quaternion_wxyz": [
+              0.9968440378091501,
+              0.07433892230154075,
+              -0.006641597103364734,
+              -0.027047700518028968
+            ]
+          }
+        },
+        {
+          "phase": "placed",
+          "object": "side_dish",
+          "sim_time": 293.86666666764955,
+          "success": true
+        },
+        {
+          "phase": "finished",
+          "object": "side_dish",
+          "sim_time": 295.86666666762045,
+          "success": true,
+          "sorted_count": 11,
+          "required_count": 11
+        }
+      ],
+      "results": [
+        {
+          "name": "cup_00",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 5.199999999999991,
+          "success": true
+        },
+        {
+          "name": "cup_01",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 4.999999999999992,
+          "success": true
+        },
+        {
+          "name": "cup_02",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 4.133333333333328,
+          "success": true
+        },
+        {
+          "name": "chopstick_a",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.18350711803741007,
+          "contained": true,
+          "hold_seconds": 4.899999999999992,
+          "success": true
+        },
+        {
+          "name": "chopstick_b",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.1505653168123774,
+          "contained": true,
+          "hold_seconds": 5.49999999999999,
+          "success": true
+        },
+        {
+          "name": "pen",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.16354199682058979,
+          "contained": true,
+          "hold_seconds": 3.0333333333333323,
+          "success": true
+        },
+        {
+          "name": "charger",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.14956011944772798,
+          "contained": true,
+          "hold_seconds": 3.266666666666665,
+          "success": true
+        },
+        {
+          "name": "spoon",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.1625484212676643,
+          "contained": true,
+          "hold_seconds": 3.8666666666666627,
+          "success": true
+        },
+        {
+          "name": "bowl",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.1350194990305885,
+          "contained": true,
+          "hold_seconds": 3.166666666666665,
+          "success": true
+        },
+        {
+          "name": "plate",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.11192239029137317,
+          "contained": true,
+          "hold_seconds": 2.666666666666667,
+          "success": true
+        },
+        {
+          "name": "side_dish",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.14778747874458506,
+          "contained": true,
+          "hold_seconds": 10.099999999999975,
+          "success": true
+        }
+      ],
+      "source_sha256": "783482a9b508830950b7702c0581cf8065f2b72b7e343668fbedf5c5df4f3dc0",
+      "source_bytes": 92242852,
+      "source_audit_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+        "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+      },
+      "frames": 8846,
+      "duration_s": 294.86666666762045,
+      "cup_count": 3,
+      "per_target_contact_material_switching": true,
+      "task": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+      "tcp": {
+        "passed": true,
+        "violations": [],
+        "limits": {
+          "linear_speed_m_s": 0.25,
+          "angular_speed_rad_s": 1.5
+        },
+        "intervals": 8846,
+        "integration_steps": 283072,
+        "peaks": {
+          "left/linear": {
+            "speed": 0.23163966715805515,
+            "transition_index": 1564,
+            "substep": 20,
+            "sim_time": 53.154166666638886,
+            "phase": "stack_ready",
+            "object": "cup_02"
+          },
+          "left/angular": {
+            "speed": 0.894234791967454,
+            "transition_index": 45,
+            "substep": 18,
+            "sim_time": 2.518749999999938,
+            "phase": "approach",
+            "object": "cup_01"
+          },
+          "right/linear": {
+            "speed": 0.236103119519438,
+            "transition_index": 1674,
+            "substep": 2,
+            "sim_time": 56.802083333302214,
+            "phase": "approach",
+            "object": "cup_00"
+          },
+          "right/angular": {
+            "speed": 1.2206616037577485,
+            "transition_index": 6451,
+            "substep": 23,
+            "sim_time": 216.05729166769171,
+            "phase": "approach",
+            "object": "plate"
+          }
+        },
+        "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification.",
+        "source": "/dev/shm/piper_tcp_clearance_v1/worker_01/episode_000000_seed_3074758446/episode.h5",
+        "source_sha256": "783482a9b508830950b7702c0581cf8065f2b72b7e343668fbedf5c5df4f3dc0",
+        "training_ready": false,
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+          "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+        }
+      },
+      "phase_seconds": {
+        "approach": 70.2,
+        "grasp": 32.733333333333334,
+        "lift": 54.96666666666667,
+        "nest": 6.7,
+        "release_for_nesting": 8.4,
+        "stack_checked": 0.8,
+        "stack_ready": 3.6,
+        "transfer_stack": 7.766666666666667,
+        "release_stack": 4.633333333333334,
+        "transfer": 50.6,
+        "lower": 15.1,
+        "unload_gripper": 5.933333333333334,
+        "release": 31.433333333333334,
+        "placed": 2.0
+      },
+      "object_seconds": {
+        "cup_01": 22.466666666666665,
+        "cup_02": 31.733333333333334,
+        "cup_00": 22.033333333333335,
+        "chopstick_a": 19.566666666666666,
+        "chopstick_b": 22.166666666666668,
+        "pen": 18.933333333333334,
+        "charger": 20.166666666666668,
+        "spoon": 28.1,
+        "bowl": 23.733333333333334,
+        "plate": 28.2,
+        "side_dish": 57.766666666666666
+      },
+      "native_integrity": "consistent_recorded_evidence",
+      "native_violations": [],
+      "native_controller_intervals": "consistent_interval_summaries",
+      "read_only_diagnostic_seconds": 23.977812853991054,
+      "cadence": {
+        "stationary_fraction": 0.24824779561383675,
+        "stationary_bouts_at_least_250ms": 111,
+        "longest_stationary_bout_s": 2.7333333333333334,
+        "definition": "Both applied targets and measured motion below 0.02 rad/s for all arm joints and 0.002 m/s for both grippers; intentional contact holds included."
+      },
+      "geometry": {
+        "samples": 8847,
+        "native_arm_samples": 17694,
+        "category_peaks": {
+          "intended_finger_target": {
+            "category": "intended_finger_target",
+            "bodies": [
+              "right/link7",
+              "task/plate"
+            ],
+            "frames_with_contact": 460,
+            "max_depth_m": 0.0008774175727304858,
+            "frame": 6699,
+            "sim_time": 224.30000000113031,
+            "phase": "lift",
+            "object": "plate",
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_9"
+            ]
+          },
+          "robot_environment": {
+            "category": "robot_environment",
+            "bodies": [
+              "right/link7",
+              "world"
+            ],
+            "frames_with_contact": 96,
+            "max_depth_m": 0.0005875872511853507,
+            "frame": 6534,
+            "sim_time": 218.80000000106028,
+            "phase": "grasp",
+            "object": "plate",
+            "geoms": [
+              "table_collision",
+              "gripper_right_43"
+            ]
+          },
+          "held_object_environment": {
+            "category": "held_object_environment",
+            "bodies": [
+              "task/plate",
+              "world"
+            ],
+            "frames_with_contact": 28,
+            "max_depth_m": 8.172676387770486e-05,
+            "frame": 6590,
+            "sim_time": 220.66666666775072,
+            "phase": "grasp",
+            "object": "plate",
+            "geoms": [
+              "table_collision",
+              "task/plate/glazed_shell_contact_0_15"
+            ]
+          }
+        },
+        "limitations": [
+          "Position-only reconstruction, not dynamic replay; no contact-force, slip or torque inference.",
+          "Frame range is explicit; contacts between 30 Hz samples are unobserved.",
+          "Native eight-joint positions are preferred; missing native evidence uses half total width per jaw.",
+          "Held-object contacts are context only: intended support or cup-stack contact is not an automatic violation.",
+          "Inactive task objects retain their recorded initial layout poses; active poses are reconstructed each frame.",
+          "Current compiled geometry retains adjacent body exclusions and convex-hull approximations.",
+          "Provenance differences are listed; this diagnostic does not certify identical source assets.",
+          "TCP is the configured link6 offset [0,0,0.1375] m; not a measured tool calibration.",
+          "No change to episode acceptance or source data."
+        ],
+        "report_sha256": "f4c3503a6a91e3082ea626aab94111a6e9de63894174488e0925be1ec58774b5"
+      }
+    },
+    {
+      "seed": 1990188034,
+      "split": "train",
+      "category": "diagnostics",
+      "error": null,
+      "violations": [],
+      "returncode": 0,
+      "inventory": {
+        "cup_count": 2,
+        "cup_colors": {
+          "cup_00": [
+            0.65,
+            0.43,
+            0.23
+          ],
+          "cup_01": [
+            0.82,
+            0.4,
+            0.48
+          ],
+          "cup_02": [
+            0.82,
+            0.4,
+            0.48
+          ]
+        }
+      },
+      "phase_wall_seconds": {
+        "collection": 435.38834256201517
+      },
+      "training_ready": false,
+      "source": "/dev/shm/piper_tcp_clearance_v1/worker_02/episode_000000_seed_1990188034/episode.h5",
+      "raw_storage": "volatile_tmpfs_pending_archival",
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "audit_passed": true,
+      "rollout_accepted": true,
+      "quality_passed": true,
+      "quality_violations": [],
+      "last_events": [
+        {
+          "phase": "transfer",
+          "object": "side_dish",
+          "sim_time": 237.60000000129966,
+          "lift_m": 0.14775995533178682
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 242.3000000013595,
+          "slot_xy_m": [
+            0.06,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.04178351243052314,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 49,
+          "opening_sweep_checked_m": [
+            0.007494382742159782,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 46,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "visible payload vertices against vertical envelope of current task collision triangles",
+          "payload_sample_count": 576,
+          "payload_surface_spacing_m": null,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "lower",
+          "object": "side_dish",
+          "sim_time": 253.2000000014983
+        },
+        {
+          "phase": "open_gripper",
+          "object": "side_dish",
+          "sim_time": 258.7333333348275,
+          "object_pose": {
+            "position": [
+              0.6666249744664958,
+              -0.44013651915417884,
+              0.06397492088117106
+            ],
+            "quaternion_wxyz": [
+              0.9916972340061345,
+              0.0010192894996827301,
+              -0.1285689877200414,
+              0.0023606164749387956
+            ]
+          }
+        },
+        {
+          "phase": "unload_gripper",
+          "object": "side_dish",
+          "sim_time": 258.7333333348275,
+          "measured_width_m": 0.007451487916101051,
+          "command_width_m": 0.0
+        },
+        {
+          "phase": "release",
+          "object": "side_dish",
+          "sim_time": 259.5666666681487,
+          "object_pose": {
+            "position": [
+              0.6688945780866756,
+              -0.44042595115945776,
+              0.04897546640619572
+            ],
+            "quaternion_wxyz": [
+              0.994267057808003,
+              0.09372167103565354,
+              -0.050616143929114225,
+              0.00934195428427367
+            ]
+          }
+        },
+        {
+          "phase": "placed",
+          "object": "side_dish",
+          "sim_time": 265.7333333347256,
+          "success": true
+        },
+        {
+          "phase": "finished",
+          "object": "side_dish",
+          "sim_time": 267.7333333346965,
+          "success": true,
+          "sorted_count": 10,
+          "required_count": 10
+        }
+      ],
+      "results": [
+        {
+          "name": "cup_00",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 5.566666666666657,
+          "success": true
+        },
+        {
+          "name": "cup_01",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "contained": true,
+          "hold_seconds": 5.333333333333324,
+          "success": true
+        },
+        {
+          "name": "chopstick_a",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.16047536965300013,
+          "contained": true,
+          "hold_seconds": 4.499999999999994,
+          "success": true
+        },
+        {
+          "name": "chopstick_b",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.15053995706846707,
+          "contained": true,
+          "hold_seconds": 4.499999999999994,
+          "success": true
+        },
+        {
+          "name": "pen",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.1634542257992702,
+          "contained": true,
+          "hold_seconds": 3.0333333333333323,
+          "success": true
+        },
+        {
+          "name": "charger",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.14962700404108698,
+          "contained": true,
+          "hold_seconds": 3.299999999999998,
+          "success": true
+        },
+        {
+          "name": "spoon",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.1664821466976096,
+          "contained": true,
+          "hold_seconds": 3.599999999999997,
+          "success": true
+        },
+        {
+          "name": "bowl",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.1349986938128877,
+          "contained": true,
+          "hold_seconds": 3.1999999999999984,
+          "success": true
+        },
+        {
+          "name": "plate",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.10366260020458523,
+          "contained": true,
+          "hold_seconds": 2.8,
+          "success": true
+        },
+        {
+          "name": "side_dish",
+          "target": "basket",
+          "grasp_mode": "physical",
+          "lift_m": 0.14775995533178682,
+          "contained": true,
+          "hold_seconds": 9.566666666666643,
+          "success": true
+        }
+      ],
+      "source_sha256": "edba6ac85255e166b8d7a15faff719f86238abf928c4baf764cb3ca5534afb47",
+      "source_bytes": 82730844,
+      "source_audit_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+        "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+      },
+      "frames": 8002,
+      "duration_s": 266.7333333346965,
+      "cup_count": 2,
+      "per_target_contact_material_switching": true,
+      "task": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+      "tcp": {
+        "passed": true,
+        "violations": [],
+        "limits": {
+          "linear_speed_m_s": 0.25,
+          "angular_speed_rad_s": 1.5
+        },
+        "intervals": 8002,
+        "integration_steps": 256064,
+        "peaks": {
+          "left/linear": {
+            "speed": 0.23332499557119146,
+            "transition_index": 755,
+            "substep": 20,
+            "sim_time": 26.187499999996742,
+            "phase": "stack_ready",
+            "object": "cup_01"
+          },
+          "left/angular": {
+            "speed": 0.8783770772033191,
+            "transition_index": 46,
+            "substep": 18,
+            "sim_time": 2.5520833333332695,
+            "phase": "approach",
+            "object": "cup_01"
+          },
+          "right/linear": {
+            "speed": 0.23682889888783448,
+            "transition_index": 866,
+            "substep": 1,
+            "sim_time": 29.86770833332671,
+            "phase": "approach",
+            "object": "cup_00"
+          },
+          "right/angular": {
+            "speed": 1.2692063506657865,
+            "transition_index": 1622,
+            "substep": 24,
+            "sim_time": 55.091666666637124,
+            "phase": "approach",
+            "object": "chopstick_a"
+          }
+        },
+        "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification.",
+        "source": "/dev/shm/piper_tcp_clearance_v1/worker_02/episode_000000_seed_1990188034/episode.h5",
+        "source_sha256": "edba6ac85255e166b8d7a15faff719f86238abf928c4baf764cb3ca5534afb47",
+        "training_ready": false,
+        "acceptance_policy": {
+          "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+          "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+        }
+      },
+      "phase_seconds": {
+        "approach": 63.96666666666667,
+        "grasp": 30.966666666666665,
+        "lift": 42.233333333333334,
+        "nest": 3.3,
+        "release_for_nesting": 4.333333333333333,
+        "stack_checked": 0.8,
+        "stack_ready": 3.533333333333333,
+        "transfer_stack": 8.033333333333333,
+        "release_stack": 4.9,
+        "transfer": 50.766666666666666,
+        "lower": 15.566666666666666,
+        "unload_gripper": 5.933333333333334,
+        "release": 30.4,
+        "placed": 2.0
+      },
+      "object_seconds": {
+        "cup_01": 27.2,
+        "cup_00": 23.133333333333333,
+        "chopstick_a": 20.866666666666667,
+        "chopstick_b": 21.866666666666667,
+        "pen": 18.6,
+        "charger": 19.433333333333334,
+        "spoon": 25.933333333333334,
+        "bowl": 23.033333333333335,
+        "plate": 31.233333333333334,
+        "side_dish": 55.43333333333333
+      },
+      "native_integrity": "consistent_recorded_evidence",
+      "native_violations": [],
+      "native_controller_intervals": "consistent_interval_summaries",
+      "read_only_diagnostic_seconds": 21.41178358194884,
+      "cadence": {
+        "stationary_fraction": 0.24931267183204198,
+        "stationary_bouts_at_least_250ms": 102,
+        "longest_stationary_bout_s": 2.7,
+        "definition": "Both applied targets and measured motion below 0.02 rad/s for all arm joints and 0.002 m/s for both grippers; intentional contact holds included."
+      },
+      "geometry": {
+        "samples": 8003,
+        "native_arm_samples": 16006,
+        "category_peaks": {
+          "intended_finger_target": {
+            "category": "intended_finger_target",
+            "bodies": [
+              "right/link7",
+              "task/plate"
+            ],
+            "frames_with_contact": 514,
+            "max_depth_m": 0.0008451097674493276,
+            "frame": 6138,
+            "sim_time": 205.6000000008922,
+            "phase": "transfer",
+            "object": "plate",
+            "geoms": [
+              "gripper_right_46",
+              "task/plate/glazed_shell_contact_1_9"
+            ]
+          },
+          "robot_environment": {
+            "category": "robot_environment",
+            "bodies": [
+              "right/link7",
+              "world"
+            ],
+            "frames_with_contact": 99,
+            "max_depth_m": 0.000661452190979149,
+            "frame": 5702,
+            "sim_time": 191.06666666737382,
+            "phase": "grasp",
+            "object": "plate",
+            "geoms": [
+              "table_collision",
+              "gripper_right_43"
+            ]
+          },
+          "held_object_environment": {
+            "category": "held_object_environment",
+            "bodies": [
+              "task/plate",
+              "world"
+            ],
+            "frames_with_contact": 71,
+            "max_depth_m": 4.268740431979252e-05,
+            "frame": 5757,
+            "sim_time": 192.9000000007305,
+            "phase": "grasp",
+            "object": "plate",
+            "geoms": [
+              "table_collision",
+              "task/plate/glazed_shell_contact_0_3"
+            ]
+          }
+        },
+        "limitations": [
+          "Position-only reconstruction, not dynamic replay; no contact-force, slip or torque inference.",
+          "Frame range is explicit; contacts between 30 Hz samples are unobserved.",
+          "Native eight-joint positions are preferred; missing native evidence uses half total width per jaw.",
+          "Held-object contacts are context only: intended support or cup-stack contact is not an automatic violation.",
+          "Inactive task objects retain their recorded initial layout poses; active poses are reconstructed each frame.",
+          "Current compiled geometry retains adjacent body exclusions and convex-hull approximations.",
+          "Provenance differences are listed; this diagnostic does not certify identical source assets.",
+          "TCP is the configured link6 offset [0,0,0.1375] m; not a measured tool calibration.",
+          "No change to episode acceptance or source data."
+        ],
+        "report_sha256": "072ad4cfe07e771724f8396ec1fa0a71b9b272a1a98f157fa029dcbcff009fe2"
+      }
+    }
+  ],
+  "attempted": 3,
+  "state_audit_passed": 3,
+  "rejected_or_unverified": 0,
+  "accepted_rgb_episodes": 0,
+  "plan_sha256": "7c5c3f87a67b8259f75c1a25ea3a5c6737715c940de843a0203d81956527d4de",
+  "analysis_sha256": "c2280811a3ed0d30a262766df60281af608fc713ee7584fa279fe206e82c8d03",
+  "inputs_sha256": "b0a5125fa4b564e74b4741fe112bc19712c915d777971b23175e297b7e9b5d7d",
+  "unchanged_frozen_files": 425,
+  "changed_input_files": [],
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "raw_output": "/dev/shm/piper_tcp_clearance_v1",
+  "raw_storage": "volatile tmpfs; all raw records retained, durable archival still required",
+  "durable_reports": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_evidence_v1",
+  "copied_file_checksums": {
+    "accepted.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diagnostics.jsonl": "08dc705f1911405e851040a3087685469e158597db62f32d9dbde517645e2108",
+    "invocation_001.json": "d21ba3cb6a00cc23bd046578c5fa3f860985923ceeee1dceee8717ffe42f2990",
+    "jobs/000000.json": "f99a97fc689ced2cf2bd33d79b1f1ba88f89d4921516c04193804bb627562edd",
+    "jobs/000001.json": "5f03614772f0f206aaef1cc2ef069a5f2c0a9581eb5229b33b56ed14dd8141a6",
+    "jobs/000002.json": "54a36135e31fdad4f8eefa21b258ff9650da75d50a23edfbeb4e34e98a82c5dc",
+    "rejected.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "run.json": "b0a5125fa4b564e74b4741fe112bc19712c915d777971b23175e297b7e9b5d7d",
+    "summary.json": "0dd384ca0c30c27fa8bbcefff6dccca068cd5a87586a6c665df6d3143547f2ee",
+    "unverified.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_00/accepted.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_00/diagnostics.jsonl": "912ffda523726a3ecc40a16bcf1993a4ec9ebb70181e9ade18494fa8d481fdb9",
+    "worker_00/episode_000000_seed_1340830695/audit.json": "42029abce0c56eeb129db474a3858dd50134e6bf2db79a7e62fb7d6fa44869b0",
+    "worker_00/episode_000000_seed_1340830695/report.json": "fce87f4d3660842bf8d83211728a09ae339e2b7c3ab45a29be31935f53a356f2",
+    "worker_00/episode_000000_seed_1340830695.attempt.json": "ce863bd9d98b2699509a23744647fb5c5d9cffb5d1ac33c107059957b3e1930a",
+    "worker_00/episode_000000_seed_1340830695.log": "ea6c9c629caa71898910ae81b49b0bcc1749f8ea737f7a28768677869897eb35",
+    "worker_00/jobs/000000.json": "f99a97fc689ced2cf2bd33d79b1f1ba88f89d4921516c04193804bb627562edd",
+    "worker_00/rejected.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_00/run.json": "ea4a6a675702bdce2be7f10fb168cc4ccdfd00589d2138e94b2590173fcd573e",
+    "worker_00/summary.json": "db573da7c3a51f644c15ff3030792042a9c8367a6575dc0214222e3bc89c59ec",
+    "worker_00/unverified.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_00_invocation_001.log": "912ffda523726a3ecc40a16bcf1993a4ec9ebb70181e9ade18494fa8d481fdb9",
+    "worker_01/accepted.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_01/diagnostics.jsonl": "ed5031333f6c156dd18ae27dea716d03c0bcc682a9d1fdcb48985bff653fd160",
+    "worker_01/episode_000000_seed_3074758446/audit.json": "bbecb3b7a5661934527ee9af02c2c67de5340fbb20a6b63c5dd6693296082965",
+    "worker_01/episode_000000_seed_3074758446/report.json": "a5239957935d0714f809bc2ef7ec549b902abf2dd3104ad89a3e1e9ba84d82ce",
+    "worker_01/episode_000000_seed_3074758446.attempt.json": "a349b17d4fdbd13e277b311f071c66826ae99937c529af2af01a6859fe241a4b",
+    "worker_01/episode_000000_seed_3074758446.log": "c4ae6589838bba681efc9d0a44953dd7e1453fbabe311f0a5cab9112bc98c6c2",
+    "worker_01/jobs/000000.json": "5f03614772f0f206aaef1cc2ef069a5f2c0a9581eb5229b33b56ed14dd8141a6",
+    "worker_01/rejected.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_01/run.json": "ce6a0c96dbcf89822ca8ff65ffa162a718cec068f0d95cd004df8356fcbf9868",
+    "worker_01/summary.json": "efc16952922b56c94d0b8874a288a2d13517d661aa06d272a8b5b7e74f3f77b9",
+    "worker_01/unverified.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_01_invocation_001.log": "ed5031333f6c156dd18ae27dea716d03c0bcc682a9d1fdcb48985bff653fd160",
+    "worker_02/accepted.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_02/diagnostics.jsonl": "00f73a8a46ec17c61d86a6bf3ba87c68985d685718bfac0b0d38cebae1cde66f",
+    "worker_02/episode_000000_seed_1990188034/audit.json": "6f6f871151f3861838e68676d0e0b88580d7295dd2f22e6d6352611f27fe730e",
+    "worker_02/episode_000000_seed_1990188034/report.json": "347c2a7eb60b641276e1faf9c8d97681ac5dfd89dfa77d67d8e8d66b5b285e92",
+    "worker_02/episode_000000_seed_1990188034.attempt.json": "d07de8887c935e405a4a11c806d182d4eb26ab689a750444798b39e57db1ab23",
+    "worker_02/episode_000000_seed_1990188034.log": "07cc3106a8d2692bfed461da576bd9086d5fed7b82496caad525617570da896e",
+    "worker_02/jobs/000000.json": "54a36135e31fdad4f8eefa21b258ff9650da75d50a23edfbeb4e34e98a82c5dc",
+    "worker_02/rejected.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_02/run.json": "5208bc79a6cc929199c205af0f36f8c680d2f897d6788fcafbc703db377ee9b3",
+    "worker_02/summary.json": "7b843bfe4e3e7db370bce6a55cc20e1082cc516add67506fddc7300663421a50",
+    "worker_02/unverified.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "worker_02_invocation_001.log": "00f73a8a46ec17c61d86a6bf3ba87c68985d685718bfac0b0d38cebae1cde66f"
+  },
+  "invocation": {
+    "status": "completed",
+    "workers": 3,
+    "seeds": [
+      1340830695,
+      3074758446,
+      1990188034
+    ],
+    "resumed": false,
+    "started_unix": 1794241624.920513,
+    "completed_shards": [
+      {
+        "path": "/dev/shm/piper_tcp_clearance_v1/worker_00",
+        "returncode": 0
+      },
+      {
+        "path": "/dev/shm/piper_tcp_clearance_v1/worker_01",
+        "returncode": 0
+      },
+      {
+        "path": "/dev/shm/piper_tcp_clearance_v1/worker_02",
+        "returncode": 0
+      }
+    ],
+    "throughput_note": "Fresh invocations include startup, every attempt, validation and optional export. Resume reuses earlier work, so its rate is deliberately omitted. Single cohorts are not success distributions.",
+    "wall_seconds": 602.6994524989277,
+    "accepted": 0,
+    "attempted": 3,
+    "diagnostic_passed": 3,
+    "accepted_episodes_per_hour": 0.0,
+    "export_requested": false,
+    "elapsed_including_cleanup_s": 602.6994640529156
+  },
+  "regression_note": "All three seeds were selected from the prior cohort; these are development regressions, not fresh holdouts.",
+  "limitations": [
+    "Three predeclared known regression trials; no independent reliability or RGB training claim.",
+    "TCP measurements are native integration-boundary summaries, not continuous-time hardware proof.",
+    "Existing per-target pad material switching remains in this candidate and is not calibrated physical material.",
+    "Raw state recordings are on volatile tmpfs pending disk archival; no raw recording removed.",
+    "Shared-host state-only wall time is not qualified RGB production throughput."
+  ]
+}

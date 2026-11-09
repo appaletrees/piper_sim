@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "command": "PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python -m pytest -q tests --ignore=tests/test_rl_geometry.py --ignore=tests/test_rl_policy.py --basetemp=/dev/shm/pytest_tcp_clearance_full_v1",
+  "result": "461 passed in 91.39 s",
+  "log": "........................................................................ [ 15%]\n........................................................................ [ 31%]\n........................................................................ [ 46%]\n........................................................................ [ 62%]\n........................................................................ [ 78%]\n........................................................................ [ 93%]\n.............................                                            [100%]\n461 passed in 91.39s (0:01:31)\nWARNING: Nan, Inf or huge value in QVEL at DOF 0. The simulation is unstable. Time = 0.0000.\n\nWARNING: Nan, Inf or huge value in QVEL at DOF 0. The simulation is unstable. Time = 0.0333.\n\nWARNING: Nan, Inf or huge value in QVEL at DOF 0. The simulation is unstable. Time = 0.0000.\n\n",
+  "log_sha256": "faa7d63a196358d6ab3a3d6a7d42492aa80a000c0bee701c848c4d56d94b5c8b",
+  "files": {
+    "src/piper_sim/experts/clean_table.py": "616869d2d81e310c7281336bcf218d39cc4098dfd3f69ba9784133009ada27c5",
+    "src/piper_sim/experts/rigid_table.py": "1e501bc5403f7c58bbd5ef93714c42b4a94943c4e3cedf63ef1c486cec956db4",
+    "src/piper_sim/experts/grasp_clearance.py": "cb44a42cd83f1f707adcbce637b6bc267bf4a10381fadb45f228f227862bbcc0",
+    "tests/test_grasp_clearance.py": "2b5b560e783dc70afd78d8fd5e38ada6917d3d91a25018e52eee23d9185e8780",
+    "configs/collection/clean_table_tcp_clearance.yaml": "d2af7e5d6aecc0a9f8a2512405f3da5818843537788cc5fb4be75a4030aecc83",
+    "configs/collection/quality_policy_tcp.yaml": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351",
+    "configs/collection/quality_policy.yaml": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+  },
+  "note": "Expected fault-injection QVEL warnings retained. Does not certify physical rollout success."
+}

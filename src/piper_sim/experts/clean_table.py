@@ -13,6 +13,7 @@ from .grasp_assist import ContactGraspAssist, finger_contacts
 from .trajectory import smooth_trajectory, path_trajectory
 from .path_fidelity import loaded_path_limits, path_pose_deviation
 from .placement_search import validate_profile as placement_search_profile
+from .grasp_clearance import validate_profile as grasp_clearance_profile
 from .tcp_limits import validate_limits as tcp_limits_profile, speed_constraint, measured_violations
 from .quality import MotionQuality
 from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
@@ -55,6 +56,9 @@ class CleanTableTeacher:
             raise ValueError('TCP limits require native tcp_motion_evidence in the backend')
         self.bounded_loaded_path = loaded_path_limits(self.pacing.get('bounded_loaded_path'))
         self.placement_search = placement_search_profile(self.pacing.get('placement_search'))
+        self.grasp_clearance = grasp_clearance_profile(self.pacing.get('grasp_approach_clearance'))
+        if self.grasp_clearance and (self.mode != 'physical' or not self.pacing.get('continuous_paths')):
+            raise ValueError('Grasp clearance requires continuous physical paths')
         self.release_preload_m = float(self.pacing.get('release_preload_threshold_m', .003))
         if not np.isfinite(self.release_preload_m) or not 0 <= self.release_preload_m <= .095:
             raise ValueError('Release preload threshold must be finite and within the gripper stroke')
@@ -129,6 +133,11 @@ class CleanTableTeacher:
             value['tcp_limits'] = {**self.tcp_limits, 'calibration': 'unidentified simulation budget',
                 'planning': 'FK translation and SO(3) sample speed retiming, all arm trajectory generators',
                 'measured_gate': 'initial and every post-integration native TCP velocity; reject, never clip'}
+        if self.grasp_clearance:
+            value['grasp_approach_clearance'] = {**self.grasp_clearance,
+                'scope': 'sampled moving-arm distance to active non-target task objects during final '
+                         'pregrasp and contact approach; planned aperture; original other collision gates retained',
+                'calibration': 'uncalibrated planning margin, not continuous-time clearance proof'}
         profile = getattr(self.b, 'finger_contact', None)
         value['contact_material_source'] = 'backend_episode_profile' if profile else 'legacy_teacher_parameters'
         if profile:
@@ -265,13 +274,15 @@ class CleanTableTeacher:
                          context={'phase': 'prepared', 'object': None})
         self.event('prepared')
 
-    def move_joints(self, side, joints, seconds=None, gripper_width=None):
+    def move_joints(self, side, joints, seconds=None, gripper_width=None, *, neighbor_clearance=0.):
         offset = 0 if side == 'left' else 7
         before = self.q.copy()
         target = before.copy();target[offset:offset+6] = joints
         if gripper_width is not None: target[offset+6] = gripper_width
+        options = {'neighbor_clearance': neighbor_clearance} if neighbor_clearance else {}
         self.check_joint_path(side, before[offset:offset+6], joints,
-                              gripper=(before[offset+6], target[offset+6]) if gripper_width is not None else None)
+                              gripper=(before[offset+6], target[offset+6])
+                              if gripper_width is not None or neighbor_clearance else None, **options)
         if seconds is None: seconds = self.pacing.get('minimum_move_s', 2.)
         trajectory = smooth_trajectory(before, target, 1/self.fps, seconds=seconds,
             speed_ratio=self.tcp_speed_constraint(side, before), **self.motion_limits())
@@ -298,13 +309,14 @@ class CleanTableTeacher:
                 for label,suffix,grip_suffix in [('velocity','_rad_s','_m_s'),
                     ('acceleration','_rad_s2','_m_s2'),('jerk','_rad_s3','_m_s3')]}
 
-    def pose_path(self, side, poses, *, speed=None):
+    def pose_path(self, side, poses, *, speed=None, neighbor_clearance=0.):
         """Plan a complete Cartesian path on scratch IK data, then execute it."""
         if not self.pacing.get('continuous_paths'):
             for p, r in poses: self.pose(side, p, r)
             return
         diagnostics = {}
-        trajectory = self.plan_pose_path(side, poses, speed=speed, diagnostics=diagnostics)
+        options = {'neighbor_clearance': neighbor_clearance} if neighbor_clearance else {}
+        trajectory = self.plan_pose_path(side, poses, speed=speed, diagnostics=diagnostics, **options)
         if diagnostics.get('interpolation') == 'convex':
             self.events.append({'phase': 'bounded_path_selected', 'object': self.current,
                 'sim_time': self.b.sim_time, **diagnostics})
@@ -313,7 +325,7 @@ class CleanTableTeacher:
             self.step()
         self.settle()
 
-    def plan_pose_path(self, side, poses, *, speed=None, start=None, diagnostics=None):
+    def plan_pose_path(self, side, poses, *, speed=None, start=None, diagnostics=None, neighbor_clearance=0.):
         """Return a checked trajectory without advancing state or control.
 
         An explicit start supports candidate evaluation from a planned pregrasp.
@@ -364,10 +376,14 @@ class CleanTableTeacher:
             row, channel = np.unravel_index(np.argmax(excess), excess.shape)
             raise SortFailure(f'Continuous path exceeds joint limits: channel={channel}, value={trajectory[row,channel]:.8f}')
         previous = initial[offset:offset+6]
+        previous_width = initial[offset+6]
         # Check the spline that will actually run, not just its original knots.
         for q in trajectory:
-            self.check_joint_path(side, previous, q[offset:offset+6])
+            options = ({'neighbor_clearance': neighbor_clearance,
+                        'gripper': (previous_width, q[offset+6])} if neighbor_clearance else {})
+            self.check_joint_path(side, previous, q[offset:offset+6], **options)
             previous = q[offset:offset+6]
+            previous_width = q[offset+6]
         if diagnostics is not None:
             diagnostics.update(interpolation=interpolation, command_samples=len(trajectory))
         return trajectory
@@ -407,7 +423,7 @@ class CleanTableTeacher:
             controls = refined
         raise SortFailure(f'Bounded loaded path exceeds pose fidelity: {attempts[-1]}')
 
-    def check_joint_path(self, side, start, end, gripper=None, *, transit_clearance=0.):
+    def check_joint_path(self, side, start, end, gripper=None, *, transit_clearance=0., neighbor_clearance=0.):
         """Check sampled interpolation on scratch state before executing a segment.
 
         This is a rejection gate, not a general collision-free motion planner.
@@ -424,12 +440,14 @@ class CleanTableTeacher:
             rel_r = hand.xmat.reshape(3, 3).T@obj.xmat.reshape(3, 3)
             obj_q = self.b.model.joint('task/'+name+'/free').qposadr[0]
             transforms.append((obj_q,rel_p,rel_r))
-        spacing = .01 if transit_clearance else .08
+        spacing = .01 if transit_clearance or neighbor_clearance else .08
         steps = max(2, int(np.ceil(np.max(abs(np.asarray(end)-start))/spacing)))
-        if transit_clearance and gripper is not None:
+        if (transit_clearance or neighbor_clearance) and gripper is not None:
             steps = max(steps, int(np.ceil(abs(gripper[1]-gripper[0])/.001)))
         containers = ({spec['target'] for spec in self.b.task.specs.values() if spec.get('target')}
                       if transit_clearance else ())
+        neighbors = ([name for name in self.b.task.active_names if name != self.current]
+                     if neighbor_clearance else ())
         for t in np.linspace(0, 1, steps+1):
             ik.data.qpos[:] = self.b.data.qpos
             ik.data.qpos[ik.qids] = (1-t)*np.asarray(start)+t*np.asarray(end)
@@ -452,6 +470,11 @@ class CleanTableTeacher:
                 if distance < transit_clearance:
                     raise SortFailure(f'Planned arm/container clearance {distance*1000:.2f} mm '
                                       f'< {transit_clearance*1000:.2f} mm: {pair}')
+            if neighbor_clearance:
+                distance, pair = robot_obstacle_clearance(self.b.model, ik.data, side, neighbors, neighbor_clearance)
+                if distance < neighbor_clearance:
+                    raise SortFailure(f'Planned grasp neighbor clearance {distance*1000:.2f} mm '
+                                      f'< {neighbor_clearance*1000:.2f} mm: {pair}')
             if self.pacing.get('continuous_paths') and carried:
                 depth, pair = carried_obstacle_penetration(self.b.model, ik.data, carried)
                 if depth > self.settings['quality']['max_robot_penetration_m']:
@@ -533,8 +556,9 @@ class CleanTableTeacher:
         raise SortFailure(f'{side} IK failed at {np.round(position,4).tolist()}: '
                           f'{best[1]*1000:.1f} mm, {np.rad2deg(best[2]):.1f} deg')
 
-    def pose(self, side, position, rotation, seconds=None, gripper_width=None):
-        self.move_joints(side, self.solve(side, np.asarray(position), rotation), seconds, gripper_width)
+    def pose(self, side, position, rotation, seconds=None, gripper_width=None, *, neighbor_clearance=0.):
+        options = {'neighbor_clearance': neighbor_clearance} if neighbor_clearance else {}
+        self.move_joints(side, self.solve(side, np.asarray(position), rotation), seconds, gripper_width, **options)
 
     def grip(self, side, width):
         index = 6 if side == 'left' else 13
@@ -607,7 +631,7 @@ class CleanTableTeacher:
         if self.assist:
             self.armed = (side, name)
         elif self.pacing.get('continuous_paths'):
-            self.pose_path(side, [(p, r)], speed=self.pacing['contact_speed_m_s'])
+            self.pose_path(side, [(p, r)], speed=self.pacing['contact_speed_m_s'], **self.grasp_path_options(name))
             return
         for remaining in np.linspace(.030, 0., 11):
             self.pose(side, self.approach_position(name,p,r,remaining), r, seconds=.35)
@@ -625,9 +649,17 @@ class CleanTableTeacher:
                 ry = np.array([[np.cos(a), 0, np.sin(a)], [0, 1, 0], [-np.sin(a), 0, np.cos(a)]])
                 yield p, rotation@ry, {'height_offset_m': float(height), 'local_tilt_deg': tilt}
 
+    def grasp_path_options(self, name):
+        profile = getattr(self, 'grasp_clearance', None)
+        if profile and self.b.task.specs[name]['kind'] in profile['kinds']:
+            return {'neighbor_clearance': profile['margin_m']}
+        return {}
+
     def reachable_grasp(self, name, *, check_approach=False):
         side, original_p, r, width = self.plan_grasp(name)
         failures = []
+        rejected = []
+        options = self.grasp_path_options(name)
         for p, candidate, details in self.grasp_candidates(name, original_p, r, check_approach=check_approach):
             try:
                 pregrasp = self.solve(side, self.approach_position(name,p,candidate,.035), candidate)
@@ -641,16 +673,20 @@ class CleanTableTeacher:
                     self.solve(side,p+[0,0,.10],candidate,q)
                 if check_approach:
                     off = 0 if side == 'left' else 7
-                    self.check_joint_path(side, self.q[off:off+6], pregrasp)
+                    aperture = {'gripper': (self.q[off+6], self.q[off+6])} if options else {}
+                    self.check_joint_path(side, self.q[off:off+6], pregrasp, **aperture, **options)
                     start = self.q.copy()
                     start[off:off+6] = pregrasp
                     self.plan_pose_path(side, [(p, candidate)], start=start,
-                                        speed=self.pacing['contact_speed_m_s'])
+                                        speed=self.pacing['contact_speed_m_s'], **options)
+                    evidence = {'clearance_m': options['neighbor_clearance'],
+                                'rejected_candidate_details': rejected} if options else {}
                     self.events.append({'phase': 'grasp_candidate_selected', 'object': name,
-                        'sim_time': self.b.sim_time, **details, 'rejected_candidates': len(failures)})
+                        'sim_time': self.b.sim_time, **details, 'rejected_candidates': len(failures), **evidence})
                 return side, p, candidate, width
             except SortFailure as exc:
                 failures.append(str(exc))
+                rejected.append({**details, 'error': str(exc)})
         raise SortFailure(f'No reachable grasp for {name}: {failures[-1]}')
 
     def placement(self, side, name, target):
@@ -746,7 +782,7 @@ class CleanTableTeacher:
         # Objects may shift while approaching a stack; refresh from live truth.
         side, p, r, _ = self.reachable_grasp(name, check_approach=bool(
             self.pacing.get('continuous_paths') and self.mode == 'physical'))
-        self.pose(side, self.approach_position(name,p,r,.035), r)
+        self.pose(side, self.approach_position(name,p,r,.035), r, **self.grasp_path_options(name))
         self.event('grasp')
         self.contact_approach(side, p, r, name)
         self.grip(side, 0.)

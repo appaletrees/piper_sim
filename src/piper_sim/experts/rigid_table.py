@@ -94,12 +94,16 @@ class RigidTableTeacher(CleanTableTeacher):
             return
         # Tilting a pad beside a 6 mm stick can put its tip on the table before
         # its face reaches the stick. Keep the pad upright and vary the grasp
-        # along the actual long axis, inside the central half of the object.
+        # along the actual long axis. Optional extra candidates keep at least
+        # 10% of total object length between grasp center and either end.
         pose = self.object_pose(name)
         axis = pose_matrix(pose['position'], pose['quaternion_wxyz'])[:3, 0]
         extent = min(.04, spec['size_m'][0]/4)
-        for fraction in (0., -.5, .5, -1., 1.):
-            offset = fraction*extent
+        offsets = [fraction*extent for fraction in (0., -.5, .5, -1., 1.)]
+        profile = getattr(self, 'grasp_clearance', None)
+        if check_approach and profile:
+            offsets.extend(fraction*spec['size_m'][0] for fraction in profile['extra_long_axis_fractions'])
+        for offset in dict.fromkeys(offsets):
             yield position+offset*axis, rotation, {'height_offset_m': 0., 'local_tilt_deg': 0.,
                                                    'long_axis_offset_m': offset}
 
