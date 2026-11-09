@@ -51,3 +51,12 @@ def test_interval_motion_and_native_velocity_are_reported_separately():
     assert result['left/arm']['native_substep_velocity']['absolute_max'] == 2.
     assert result['left/arm']['native_control_boundary_velocity']['absolute_max'] == 0.
     assert result['left/arm']['control_position_difference_velocity']['absolute_max'] == pytest.approx(.3)
+
+
+def test_linear_candidate_preserves_endpoints_and_joint_limits_without_clipping():
+    start=np.array([-.5,.3,.095]);end=np.array([.5,-.3,0.])
+    targets=module.linear_targets(start,end,32)
+    np.testing.assert_array_equal(targets[-1],end)
+    np.testing.assert_allclose(np.diff(np.vstack([start,targets]),axis=0),np.tile((end-start)/32,(32,1)),atol=1e-16)
+    assert np.all(targets >= np.minimum(start,end)) and np.all(targets <= np.maximum(start,end))
+    assert targets.shape == (32,3)

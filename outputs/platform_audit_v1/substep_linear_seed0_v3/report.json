@@ -1,0 +1,663 @@
+{
+  "scope": "Independent pre-contact substep diagnostic, never training data or replay.\n\nInitialize identical MuJoCo data copies from the first recorded approach.\nTask-object velocities and solver warm starts were not recorded and start at zero.\nReplay stored float32 action targets (not the original teacher's float64 values).\nCompare batched mj_step with individually observed steps, without extra forwards\ninside integration. Report native velocities separately from 30 Hz differences.\nThe optional linear controller changes the actuator targets and is not expected\nto reproduce the zero-order controller's integration state.\n",
+  "training_ready": false,
+  "status": "diagnostic_complete",
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/transit_clearance_states_v8/worker_01/episode_000000_seed_0/episode.h5",
+  "source_sha256": "2420b5d60870adc66407e31ab908c1833227e707b4b93388a148c6d05b6d05a1",
+  "implementation_sha256": "0db79890de8ff5e1d03d5fd3be317701efb7d33180e0994d4019081f50a79227",
+  "mujoco_version": "3.3.7",
+  "source_seed": 0,
+  "control_frames": 90,
+  "integration_samples": 2881,
+  "control_hz": 30.0,
+  "integration_hz": 960.0,
+  "observer_equivalence": {
+    "methods": [
+      "batched",
+      "observed"
+    ],
+    "state": "mjSTATE_INTEGRATION",
+    "boundaries_compared": 90,
+    "all_boundaries_bitwise_identical": true,
+    "excludes_controller_candidates": true
+  },
+  "simulation_seconds": 2.9999999999998295,
+  "window_wall_seconds": {
+    "batched": 2.4261722640367225,
+    "observed": 2.464703644043766,
+    "linear": 2.527128246962093
+  },
+  "max_boundary_position_error_vs_stored_source_per_channel": [
+    3.8511465683122026e-08,
+    6.806281316329432e-08,
+    4.141002640789537e-08,
+    3.951096172460922e-08,
+    6.891740955694559e-08,
+    6.012119668774574e-08,
+    3.911199975004109e-09,
+    1.4901681202650482e-16,
+    1.7908076594976478e-17,
+    1.5290481714809672e-15,
+    1.535601039930806e-15,
+    1.958114709600307e-17,
+    1.5350357157104349e-15,
+    8.940696724635266e-10
+  ],
+  "metrics": {
+    "left/arm": {
+      "native_substep_velocity": {
+        "absolute_max": 1.121320238892051,
+        "channel": 5,
+        "sim_time": 2.7354166666665916
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 0.8365875595380553,
+        "channel": 5,
+        "sim_time": 2.76666666666659
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 0.9804916053208226,
+        "channel": 5,
+        "sim_time": 2.76666666666659
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 239.26931592822447,
+        "channel": 5,
+        "sim_time": 2.6343749999999306
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 237418.60871217784,
+        "channel": 5,
+        "sim_time": 2.6343749999999306
+      },
+      "units": "rad/s, rad/s2, rad/s3"
+    },
+    "left/gripper": {
+      "native_substep_velocity": {
+        "absolute_max": 0.04695513803465358,
+        "channel": 0,
+        "sim_time": 2.734374999999925
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 0.031192006409622802,
+        "channel": 0,
+        "sim_time": 2.76666666666659
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 0.035903421529547105,
+        "channel": 0,
+        "sim_time": 2.76666666666659
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 15.348623500082626,
+        "channel": 0,
+        "sim_time": 2.6343749999999306
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 24323.566729079794,
+        "channel": 0,
+        "sim_time": 2.6354166666665972
+      },
+      "units": "m/s, m/s2, m/s3"
+    },
+    "right/arm": {
+      "native_substep_velocity": {
+        "absolute_max": 3.589753604743933e-12,
+        "channel": 5,
+        "sim_time": 1.00104166666669
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 3.371969681315745e-14,
+        "channel": 3,
+        "sim_time": 1.0333333333333548
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 4.60680311979268e-14,
+        "channel": 3,
+        "sim_time": 1.0333333333333548
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 4.925578898872716e-09,
+        "channel": 5,
+        "sim_time": 1.0020833333333565
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 8.03687266505046e-06,
+        "channel": 5,
+        "sim_time": 1.0020833333333565
+      },
+      "units": "rad/s, rad/s2, rad/s3"
+    },
+    "right/gripper": {
+      "native_substep_velocity": {
+        "absolute_max": 1.1936846242911904e-08,
+        "channel": 0,
+        "sim_time": 1.00104166666669
+      },
+      "native_control_boundary_velocity": {
+        "absolute_max": 5.6366477947979104e-09,
+        "channel": 0,
+        "sim_time": 1.0333333333333548
+      },
+      "control_position_difference_velocity": {
+        "absolute_max": 6.554732798203328e-09,
+        "channel": 0,
+        "sim_time": 1.0333333333333548
+      },
+      "substep_velocity_difference_acceleration": {
+        "absolute_max": 1.145937239319608e-05,
+        "channel": 0,
+        "sim_time": 1.00104166666669
+      },
+      "substep_velocity_second_difference_jerk": {
+        "absolute_max": 0.017851532970122586,
+        "channel": 0,
+        "sim_time": 1.0020833333333565
+      },
+      "units": "m/s, m/s2, m/s3"
+    }
+  },
+  "limitations": [
+    "Short pre-contact reconstruction, not exact historical physics or a complete task.",
+    "Missing free-object velocities/warm starts and float32 action storage limit historical reconstruction.",
+    "Native substep and 30 Hz finite-difference derivatives use different bandwidths; existing acceptance gates are not reinterpreted.",
+    "Solver force/contact buffers are intentionally not assigned post-integration timestamps by this diagnostic.",
+    "CPU-only low-priority work on the shared benchmark host; not end-to-end throughput.",
+    "No real hardware response, force limit or calibration is established."
+  ],
+  "trace": {
+    "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/substep_linear_seed0_v3/trace.npz",
+    "sha256": "e2594f9c89296d4e39a5ce878a285e634235b57564658ef34c0b7c629b57a8d3"
+  },
+  "controller_comparison": {
+    "policy": {
+      "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+      "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+    },
+    "methods": {
+      "observed": {
+        "metrics": {
+          "left/arm": {
+            "native_substep_velocity": {
+              "absolute_max": 1.121320238892051,
+              "channel": 5,
+              "sim_time": 2.7354166666665916
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 0.8365875595380553,
+              "channel": 5,
+              "sim_time": 2.76666666666659
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 0.9804916053208226,
+              "channel": 5,
+              "sim_time": 2.76666666666659
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 239.26931592822447,
+              "channel": 5,
+              "sim_time": 2.6343749999999306
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 237418.60871217784,
+              "channel": 5,
+              "sim_time": 2.6343749999999306
+            },
+            "units": "rad/s, rad/s2, rad/s3"
+          },
+          "left/gripper": {
+            "native_substep_velocity": {
+              "absolute_max": 0.04695513803465358,
+              "channel": 0,
+              "sim_time": 2.734374999999925
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 0.031192006409622802,
+              "channel": 0,
+              "sim_time": 2.76666666666659
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 0.035903421529547105,
+              "channel": 0,
+              "sim_time": 2.76666666666659
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 15.348623500082626,
+              "channel": 0,
+              "sim_time": 2.6343749999999306
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 24323.566729079794,
+              "channel": 0,
+              "sim_time": 2.6354166666665972
+            },
+            "units": "m/s, m/s2, m/s3"
+          },
+          "right/arm": {
+            "native_substep_velocity": {
+              "absolute_max": 3.589753604743933e-12,
+              "channel": 5,
+              "sim_time": 1.00104166666669
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 3.371969681315745e-14,
+              "channel": 3,
+              "sim_time": 1.0333333333333548
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 4.60680311979268e-14,
+              "channel": 3,
+              "sim_time": 1.0333333333333548
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 4.925578898872716e-09,
+              "channel": 5,
+              "sim_time": 1.0020833333333565
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 8.03687266505046e-06,
+              "channel": 5,
+              "sim_time": 1.0020833333333565
+            },
+            "units": "rad/s, rad/s2, rad/s3"
+          },
+          "right/gripper": {
+            "native_substep_velocity": {
+              "absolute_max": 1.1936846242911904e-08,
+              "channel": 0,
+              "sim_time": 1.00104166666669
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 5.6366477947979104e-09,
+              "channel": 0,
+              "sim_time": 1.0333333333333548
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 6.554732798203328e-09,
+              "channel": 0,
+              "sim_time": 1.0333333333333548
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 1.145937239319608e-05,
+              "channel": 0,
+              "sim_time": 1.00104166666669
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 0.017851532970122586,
+              "channel": 0,
+              "sim_time": 1.0020833333333565
+            },
+            "units": "m/s, m/s2, m/s3"
+          }
+        },
+        "motion_diagnostic_30hz": {
+          "passed": true,
+          "violations": [],
+          "frames": 91,
+          "metrics": {
+            "command_arm_velocity": 0.9918111562728882,
+            "command_gripper_velocity": 0.03645457327365875,
+            "command_arm_acceleration": 1.0315775871276855,
+            "command_gripper_acceleration": 0.03791972994804382,
+            "command_arm_jerk": 2.1854639053344727,
+            "command_gripper_jerk": 0.08046627044677734,
+            "measured_arm_velocity": 0.9804916053207668,
+            "measured_gripper_velocity": 0.035903421529545065,
+            "measured_arm_acceleration": 1.0082437481384572,
+            "measured_gripper_acceleration": 0.03675087468966165,
+            "measured_arm_jerk": 2.1341184799350543,
+            "measured_gripper_jerk": 0.07777919401416589,
+            "tracking_error_rad": 0.08571721781847996,
+            "hold_velocity_rms_rad_s": 0.0,
+            "hold_gripper_velocity_rms_m_s": 0.0
+          },
+          "thresholds": {
+            "command_arm_velocity": 1.01,
+            "command_gripper_velocity": 0.0606,
+            "command_arm_acceleration": 2.525,
+            "command_gripper_acceleration": 0.1818,
+            "command_arm_jerk": 20.2,
+            "command_gripper_jerk": 1.5150000000000001,
+            "measured_arm_velocity": 1.2,
+            "measured_gripper_velocity": 0.08,
+            "measured_arm_acceleration": 8.0,
+            "measured_gripper_acceleration": 1.0,
+            "measured_arm_jerk": 200.0,
+            "measured_gripper_jerk": 50.0,
+            "tracking_error_rad": 0.1,
+            "hold_velocity_rms_rad_s": 0.025,
+            "hold_gripper_velocity_rms_m_s": 0.003
+          },
+          "peaks": {
+            "command_arm_velocity": {
+              "sim_time": 2.6666666666665955,
+              "channel": 5,
+              "context": null
+            },
+            "command_gripper_velocity": {
+              "sim_time": 2.6666666666665955,
+              "channel": 6,
+              "context": null
+            },
+            "command_arm_acceleration": {
+              "sim_time": 1.9333333333333036,
+              "channel": 5,
+              "context": null
+            },
+            "command_gripper_acceleration": {
+              "sim_time": 3.4333333333332186,
+              "channel": 6,
+              "context": null
+            },
+            "command_arm_jerk": {
+              "sim_time": 2.699999999999927,
+              "channel": 5,
+              "context": null
+            },
+            "command_gripper_jerk": {
+              "sim_time": 2.6666666666665955,
+              "channel": 6,
+              "context": null
+            },
+            "measured_arm_velocity": {
+              "sim_time": 2.76666666666659,
+              "channel": 5,
+              "context": null
+            },
+            "measured_gripper_velocity": {
+              "sim_time": 2.76666666666659,
+              "channel": 6,
+              "context": null
+            },
+            "measured_arm_acceleration": {
+              "sim_time": 2.033333333333298,
+              "channel": 5,
+              "context": null
+            },
+            "measured_gripper_acceleration": {
+              "sim_time": 2.033333333333298,
+              "channel": 6,
+              "context": null
+            },
+            "measured_arm_jerk": {
+              "sim_time": 2.799999999999921,
+              "channel": 5,
+              "context": null
+            },
+            "measured_gripper_jerk": {
+              "sim_time": 2.799999999999921,
+              "channel": 6,
+              "context": null
+            }
+          },
+          "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+          "hold_samples": 0
+        },
+        "sim_seconds": 2.9999999999998295,
+        "internal_target_schedule": "Current accepted target held for all 32 substeps",
+        "final_boundary_error_vs_zero_order": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "linear": {
+        "metrics": {
+          "left/arm": {
+            "native_substep_velocity": {
+              "absolute_max": 0.9804917220648258,
+              "channel": 5,
+              "sim_time": 2.76666666666659
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 0.9804917220648258,
+              "channel": 5,
+              "sim_time": 2.76666666666659
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 0.9804164809974305,
+              "channel": 5,
+              "sim_time": 2.76666666666659
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 1.1532334156587198,
+              "channel": 5,
+              "sim_time": 3.468749999999883
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 417.5922131980335,
+              "channel": 1,
+              "sim_time": 3.034374999999908
+            },
+            "units": "rad/s, rad/s2, rad/s3"
+          },
+          "left/gripper": {
+            "native_substep_velocity": {
+              "absolute_max": 0.035903333317905975,
+              "channel": 0,
+              "sim_time": 2.76666666666659
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 0.035903333317905975,
+              "channel": 0,
+              "sim_time": 2.76666666666659
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 0.03588171979538572,
+              "channel": 0,
+              "sim_time": 2.799999999999921
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 0.04805281762085774,
+              "channel": 0,
+              "sim_time": 2.0010416666666333
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 15.91154708732997,
+              "channel": 0,
+              "sim_time": 1.9010416666666388
+            },
+            "units": "m/s, m/s2, m/s3"
+          },
+          "right/arm": {
+            "native_substep_velocity": {
+              "absolute_max": 1.1217980014824791e-13,
+              "channel": 5,
+              "sim_time": 1.00104166666669
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 4.606299399824326e-14,
+              "channel": 3,
+              "sim_time": 1.0333333333333548
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 6.541599215959983e-14,
+              "channel": 5,
+              "sim_time": 1.0333333333333548
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 1.0868991616892455e-10,
+              "channel": 5,
+              "sim_time": 1.0343750000000214
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 1.4778273352111262e-07,
+              "channel": 5,
+              "sim_time": 1.035416666666688
+            },
+            "units": "rad/s, rad/s2, rad/s3"
+          },
+          "right/gripper": {
+            "native_substep_velocity": {
+              "absolute_max": 6.554732483880965e-09,
+              "channel": 0,
+              "sim_time": 1.0333333333333548
+            },
+            "native_control_boundary_velocity": {
+              "absolute_max": 6.554732483880965e-09,
+              "channel": 0,
+              "sim_time": 1.0333333333333548
+            },
+            "control_position_difference_velocity": {
+              "absolute_max": 5.622796395155269e-09,
+              "channel": 0,
+              "sim_time": 1.0666666666666862
+            },
+            "substep_velocity_difference_acceleration": {
+              "absolute_max": 3.581053872873775e-07,
+              "channel": 0,
+              "sim_time": 1.00104166666669
+            },
+            "substep_velocity_second_difference_jerk": {
+              "absolute_max": 0.0003451796818102059,
+              "channel": 0,
+              "sim_time": 1.0343750000000214
+            },
+            "units": "m/s, m/s2, m/s3"
+          }
+        },
+        "motion_diagnostic_30hz": {
+          "passed": false,
+          "violations": [
+            "tracking_error_rad"
+          ],
+          "frames": 91,
+          "metrics": {
+            "command_arm_velocity": 0.9918111562728882,
+            "command_gripper_velocity": 0.03645457327365875,
+            "command_arm_acceleration": 1.0315775871276855,
+            "command_gripper_acceleration": 0.03791972994804382,
+            "command_arm_jerk": 2.1854639053344727,
+            "command_gripper_jerk": 0.08046627044677734,
+            "measured_arm_velocity": 0.9804164809973748,
+            "measured_gripper_velocity": 0.03588171979538368,
+            "measured_arm_acceleration": 1.0072918661926167,
+            "measured_gripper_acceleration": 0.03673711840463181,
+            "measured_arm_jerk": 2.1341464105368857,
+            "measured_gripper_jerk": 0.0777577845485905,
+            "tracking_error_rad": 0.10070477903441133,
+            "hold_velocity_rms_rad_s": 0.0,
+            "hold_gripper_velocity_rms_m_s": 0.0
+          },
+          "thresholds": {
+            "command_arm_velocity": 1.01,
+            "command_gripper_velocity": 0.0606,
+            "command_arm_acceleration": 2.525,
+            "command_gripper_acceleration": 0.1818,
+            "command_arm_jerk": 20.2,
+            "command_gripper_jerk": 1.5150000000000001,
+            "measured_arm_velocity": 1.2,
+            "measured_gripper_velocity": 0.08,
+            "measured_arm_acceleration": 8.0,
+            "measured_gripper_acceleration": 1.0,
+            "measured_arm_jerk": 200.0,
+            "measured_gripper_jerk": 50.0,
+            "tracking_error_rad": 0.1,
+            "hold_velocity_rms_rad_s": 0.025,
+            "hold_gripper_velocity_rms_m_s": 0.003
+          },
+          "peaks": {
+            "command_arm_velocity": {
+              "sim_time": 2.6666666666665955,
+              "channel": 5,
+              "context": null
+            },
+            "command_gripper_velocity": {
+              "sim_time": 2.6666666666665955,
+              "channel": 6,
+              "context": null
+            },
+            "command_arm_acceleration": {
+              "sim_time": 1.9333333333333036,
+              "channel": 5,
+              "context": null
+            },
+            "command_gripper_acceleration": {
+              "sim_time": 3.4333333333332186,
+              "channel": 6,
+              "context": null
+            },
+            "command_arm_jerk": {
+              "sim_time": 2.699999999999927,
+              "channel": 5,
+              "context": null
+            },
+            "command_gripper_jerk": {
+              "sim_time": 2.6666666666665955,
+              "channel": 6,
+              "context": null
+            },
+            "measured_arm_velocity": {
+              "sim_time": 2.76666666666659,
+              "channel": 5,
+              "context": null
+            },
+            "measured_gripper_velocity": {
+              "sim_time": 2.799999999999921,
+              "channel": 6,
+              "context": null
+            },
+            "measured_arm_acceleration": {
+              "sim_time": 2.033333333333298,
+              "channel": 5,
+              "context": null
+            },
+            "measured_gripper_acceleration": {
+              "sim_time": 2.0666666666666296,
+              "channel": 6,
+              "context": null
+            },
+            "measured_arm_jerk": {
+              "sim_time": 2.799999999999921,
+              "channel": 5,
+              "context": null
+            },
+            "measured_gripper_jerk": {
+              "sim_time": 2.8333333333332527,
+              "channel": 6,
+              "context": null
+            }
+          },
+          "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+          "hold_samples": 0
+        },
+        "sim_seconds": 2.9999999999998295,
+        "internal_target_schedule": "Previous accepted target to current target over 32 substeps",
+        "final_boundary_error_vs_zero_order": [
+          -0.00048580252013241676,
+          -0.0009503263630388226,
+          0.0006359276200361696,
+          0.0006473049581646739,
+          -0.0010302717863408528,
+          -0.0013312336995046081,
+          -5.555896568057439e-05,
+          -6.521654532520468e-21,
+          -5.6751515503339634e-24,
+          1.4313799802404014e-23,
+          -3.129369660903192e-23,
+          3.413423924299972e-25,
+          -2.868811036824787e-23,
+          0.0
+        ],
+        "trace": {
+          "path": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/substep_linear_seed0_v3/linear_trace.npz",
+          "sha256": "0b61545ad7eb1b07d6446e8df69120b0edd4155b6b1dfd6ef473f4ad48bd7b61"
+        }
+      }
+    },
+    "scope": "Short approach diagnostic with identical 30 Hz controller inputs and simulation duration. Linear mode changes the internal actuator-target schedule and resulting physics. No attachment, state assignment during motion, video retiming or quality-limit change.",
+    "hardware_calibrated": false,
+    "training_ready": false
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "status": "candidate_rejected",
+  "training_ready": false,
+  "production_modified": false,
+  "reason": "Linear target interpolation reduces internal ripple but violates the unchanged 30 Hz tracking_error_rad gate.",
+  "diagnostic_report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/substep_linear_seed0_v3/report.json",
+  "diagnostic_report_sha256": "7307f1f9376eab1aa7dc3727eb486384c20b290199efa024227cf357af7f4724",
+  "original_v2_report_note": "v2 observer equivalence boolean referred only to batched versus observed integration, not linear; v3 explicitly lists the compared methods.",
+  "comparison_scope": "Short approach diagnostic with identical 30 Hz controller inputs and simulation duration. Linear mode changes the internal actuator-target schedule and resulting physics. No attachment, state assignment during motion, video retiming or quality-limit change.",
+  "policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+    "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+  },
+  "tests": {
+    "command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q tests/test_substep_observer.py",
+    "passed": 12,
+    "seconds": 0.14
+  },
+  "results": {
+    "observed": {
+      "tracking_error_rad": 0.08571721781847996,
+      "left_arm_peak_native_velocity_rad_s": 1.121320238892051,
+      "left_arm_peak_substep_difference_acceleration_rad_s2": 239.26931592822447,
+      "left_gripper_peak_native_velocity_m_s": 0.04695513803465358,
+      "motion_30hz_passed": true,
+      "violations": []
+    },
+    "linear": {
+      "tracking_error_rad": 0.10070477903441133,
+      "left_arm_peak_native_velocity_rad_s": 0.9804917220648258,
+      "left_arm_peak_substep_difference_acceleration_rad_s2": 1.1532334156587198,
+      "left_gripper_peak_native_velocity_m_s": 0.035903333317905975,
+      "motion_30hz_passed": false,
+      "violations": [
+        "tracking_error_rad"
+      ]
+    }
+  },
+  "limitations": [
+    "Short pre-contact reconstruction, not exact historical physics or a complete task.",
+    "Missing free-object velocities/warm starts and float32 action storage limit historical reconstruction.",
+    "Native substep and 30 Hz finite-difference derivatives use different bandwidths; existing acceptance gates are not reinterpreted.",
+    "Solver force/contact buffers are intentionally not assigned post-integration timestamps by this diagnostic.",
+    "CPU-only low-priority work on the shared benchmark host; not end-to-end throughput.",
+    "No real hardware response, force limit or calibration is established."
+  ],
+  "next_requirement": "Any future controller candidate must pass original closed-loop whole-task motion, contact, release and dataset audits, then be benchmarked separately; short free-space results do not grant production acceptance."
+}
