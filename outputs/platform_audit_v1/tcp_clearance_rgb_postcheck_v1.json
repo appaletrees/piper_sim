@@ -1,0 +1,103 @@
+{
+  "status": "all_checks_passed",
+  "source": "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/episode.h5",
+  "source_sha256": "e5776772858a199908378514e908d49668dc2abdc324c45bc7562e710e3f080a",
+  "export_checksums": {
+    "meta/export.json": "60d49597dede4004da10fcf3c733441ac05fe031d242603adf692a5f5f37726f",
+    "meta/sim_episodes.jsonl": "df1eaca89672be1661eaeede6856a5a093908e3b36ec1656f3bea3e22c7a4664",
+    "meta/stats.json": "968fc2d5d4675060a9f4f60e640dd85167eb60b7f3138c045925397cce7eafea",
+    "meta/episodes_stats.jsonl": "f169b7a12f520055a3ad633531398a2dd39b978e94db2256f6c2ba5f909f7d80",
+    "meta/tasks.jsonl": "d4412f5a23ac54d3bec4dad4bb7170bd8ff55f0fd5ce7ef9e117942d12da683f",
+    "meta/episodes.jsonl": "c8462e1f62d86f1394187026352fac1aabc2ea44b4c39f4c0ee8e341d98a3858",
+    "meta/info.json": "8e6a525973a9e385060a9e67f7d11810fc530fd5fd2c6f731c5d6370cc8d1741",
+    "extras/chunk-000/episode_000000.jsonl": "38e03c730b4669a93a46538ba86d39d8347c27a1bfacaa1422729e5497ef50d6",
+    "videos/chunk-000/observation.images.cam_right_wrist_rgb/episode_000000.mp4": "4a900f8dae50e0f1cc37b8a18ae7596f31030869691b615dae1c1a859381acb2",
+    "videos/chunk-000/observation.images.cam_left_wrist_rgb/episode_000000.mp4": "5e7df1db5424a8e0669dfcabff65434e2ee07f39331cb93cd0237702fd004b0c",
+    "videos/chunk-000/observation.images.cam_external_rgb/episode_000000.mp4": "7ee8cb939f95ada32b1d894b93497f35b6560b0e39aa1e86a7c9db0d1bf356cf",
+    "data/chunk-000/episode_000000.parquet": "b164d5848c46bf2a739c18a0f225733e91046debb21d984a43db580211354bb3"
+  },
+  "checker_input_hashes": {
+    "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_postcheck_v1.py": "85dd913e425b56c177903ae53e50362790f315bf447412e2b7fcc57088c1818d",
+    "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_validate_v1.py": "f3b4d1192a73cee97e728c50f23fc3b6da4c2210ec6e3e5ff18a2d09f7e11463",
+    "/home/midea/Desktop/piper_sim/scripts/check_lerobot_reader.py": "2fdfd94e9d4b35ce32e99d0beab5c2eeed457eca5c7b87ede0e35eb4126381e0",
+    "/home/midea/Desktop/piper_sim/scripts/audit_camera_kinematics.py": "1a525e7eaf512a29a4a3c73ee723c770a8e63fbce47a797b8488b182630de385",
+    "/home/midea/Desktop/piper_sim/scripts/audit_exported_video.py": "739d9cde9325b789661817dc9b7ae72eef04ed123d462b0ed4f79f907dcd7832",
+    "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "steps": [
+    {
+      "name": "reader",
+      "command": [
+        "/home/midea/Desktop/piper_sim/.venv-mujoco/bin/python",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_validate_v1.py"
+      ],
+      "returncode": 0,
+      "wall_seconds": 216.42036687897053,
+      "log": "/dev/shm/piper_tcp_clearance_rgb_v1/postcheck_reader.log",
+      "log_sha256": "88fc107dbc69c75d899481c6ab9c9e9cdfa5c43aa562b7c02e677a1752d80676",
+      "report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_validation_v1.json",
+      "report_sha256": "d47ac763616377397d7244f148146710331c88dddbd1e938fca0805c66c58b8d"
+    },
+    {
+      "name": "consumer",
+      "command": [
+        "/home/midea/Desktop/piper_sim/.venv-lerobot-audit/bin/python",
+        "scripts/check_lerobot_reader.py",
+        "--source",
+        "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/episode.h5",
+        "--dataset",
+        "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/lerobot_v2",
+        "--output",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_consumer_v1.json"
+      ],
+      "returncode": 0,
+      "wall_seconds": 3.6973778679966927,
+      "log": "/dev/shm/piper_tcp_clearance_rgb_v1/postcheck_consumer.log",
+      "log_sha256": "aadf2813efd17f7b21346532912f4654fe00bab59fc7114827d284348fd4620c",
+      "report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_consumer_v1.json",
+      "report_sha256": "717b916f8e581caea82bb517e565ed926e8d2afd72a7cc227ea41baca05e3464"
+    },
+    {
+      "name": "camera_fk",
+      "command": [
+        "/home/midea/Desktop/piper_sim/.venv-mujoco/bin/python",
+        "scripts/audit_camera_kinematics.py",
+        "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/episode.h5",
+        "--output",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_camera_fk_v1.json"
+      ],
+      "returncode": 0,
+      "wall_seconds": 11.651297286967747,
+      "log": "/dev/shm/piper_tcp_clearance_rgb_v1/postcheck_camera_fk.log",
+      "log_sha256": "b44a0630ee215688f0e5deef13f500d79259cd458c174baada8f05ccb589385b",
+      "report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_camera_fk_v1.json",
+      "report_sha256": "f2974a0e52a4c80ff3dfa4b51ca66ece94ac84df787ae4cdf611335cad2c2605"
+    },
+    {
+      "name": "video_audit",
+      "command": [
+        "/home/midea/Desktop/piper_sim/.venv-mujoco/bin/python",
+        "scripts/audit_exported_video.py",
+        "--source",
+        "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/episode.h5",
+        "--dataset",
+        "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/lerobot_v2",
+        "--policy",
+        "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+        "--output",
+        "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_video_audit_v1.json"
+      ],
+      "returncode": 0,
+      "wall_seconds": 132.30913542199414,
+      "log": "/dev/shm/piper_tcp_clearance_rgb_v1/postcheck_video_audit.log",
+      "log_sha256": "167b72e0a514a80695e1b83c05cd2e05340e5eca223eb2b10ba655a5290d3307",
+      "report": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_video_audit_v1.json",
+      "report_sha256": "c7492e2ab7c4869b58590d52a37c90a336f47197ab93f10a2b187dd0daadc0ca"
+    }
+  ],
+  "training_ready": null,
+  "durable_release": false,
+  "source_and_export_unchanged": true,
+  "frozen_input_files_unchanged": 426,
+  "wall_seconds": 367.3987179789692
+}

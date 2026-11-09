@@ -1,0 +1,275 @@
+{
+  "status": "passed_known_full_rgb_regression",
+  "collection_training_ready": true,
+  "durable_release": false,
+  "source": "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/episode.h5",
+  "source_sha256": "e5776772858a199908378514e908d49668dc2abdc324c45bc7562e710e3f080a",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "complete_target_count": 11,
+  "targets_succeeded": 11,
+  "frames": 8771,
+  "unique_raw_frames_per_camera": 8772,
+  "fps": 30,
+  "recorded_simulated_duration_s": 292.3666666666667,
+  "full_simulation_clock_end_s": 293.36666666765683,
+  "raw_rgb_images_compared": 26313,
+  "exact_physics_rows": 8772,
+  "measured_motion": {
+    "command_arm_velocity": 0.9984970092773438,
+    "command_gripper_velocity": 0.059972964227199554,
+    "command_arm_acceleration": 2.4799704551696777,
+    "command_gripper_acceleration": 0.17313659191131592,
+    "command_arm_jerk": 19.785046577453613,
+    "command_gripper_jerk": 1.4250262174755335,
+    "measured_arm_velocity": 0.9990065693855286,
+    "measured_gripper_velocity": 0.05996927246451378,
+    "measured_arm_acceleration": 3.9400577545166016,
+    "measured_gripper_acceleration": 0.8272988796234131,
+    "measured_arm_jerk": 88.69636535644531,
+    "measured_gripper_jerk": 24.275442123413086,
+    "tracking_error_rad": 0.017542362213134766,
+    "hold_velocity_rms_rad_s": 0.00021657973411493003,
+    "hold_gripper_velocity_rms_m_s": 0.00013701159332413226
+  },
+  "tcp_motion": {
+    "passed": true,
+    "violations": [],
+    "limits": {
+      "linear_speed_m_s": 0.25,
+      "angular_speed_rad_s": 1.5
+    },
+    "intervals": 8771,
+    "integration_steps": 280672,
+    "peaks": {
+      "left/linear": {
+        "speed": 0.23282735611573815,
+        "transition_index": 1551,
+        "substep": 19,
+        "sim_time": 52.71979166663928,
+        "phase": "stack_ready",
+        "object": "cup_02"
+      },
+      "left/angular": {
+        "speed": 0.9119896977774274,
+        "transition_index": 43,
+        "substep": 19,
+        "sim_time": 2.4531249999999423,
+        "phase": "approach",
+        "object": "cup_01"
+      },
+      "right/linear": {
+        "speed": 0.2347764103725852,
+        "transition_index": 2862,
+        "substep": 15,
+        "sim_time": 96.41562499993287,
+        "phase": "release",
+        "object": "chopstick_a"
+      },
+      "right/angular": {
+        "speed": 1.1341215770998196,
+        "transition_index": 5894,
+        "substep": 26,
+        "sim_time": 197.49375000078865,
+        "phase": "transfer",
+        "object": "bowl"
+      }
+    },
+    "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification."
+  },
+  "all_frozen_inputs_unchanged": 426,
+  "source_and_export_unchanged": true,
+  "private_fields_absent_from_public_reader": true,
+  "official_reader_sample_indices": [
+    0,
+    4385,
+    8769,
+    8770
+  ],
+  "video": {
+    "overhead": {
+      "frames": 8771,
+      "fps": 30.0,
+      "max_pts_error_s": 3.333333467026023e-07,
+      "psnr_db": 41.57693451449731,
+      "mean_absolute_pixel_error_0_to_255": 1.5424584175063183,
+      "max_channel_absolute_error_0_to_255": 94
+    },
+    "left_wrist": {
+      "frames": 8771,
+      "fps": 30.0,
+      "max_pts_error_s": 3.333333467026023e-07,
+      "psnr_db": 44.20316144763987,
+      "mean_absolute_pixel_error_0_to_255": 1.2372967665301688,
+      "max_channel_absolute_error_0_to_255": 99
+    },
+    "right_wrist": {
+      "frames": 8771,
+      "fps": 30.0,
+      "max_pts_error_s": 3.333333467026023e-07,
+      "psnr_db": 40.510824023779094,
+      "mean_absolute_pixel_error_0_to_255": 1.682016141666746,
+      "max_channel_absolute_error_0_to_255": 101
+    }
+  },
+  "camera_fk": {
+    "right_wrist": {
+      "matrix_max_abs_error": 3.0882154389288985e-07,
+      "position_error_m": 1.5521119523519603e-07,
+      "position_span_m": 0.5677926168045977
+    },
+    "left_wrist": {
+      "matrix_max_abs_error": 2.068392605525382e-07,
+      "position_error_m": 6.308533390031049e-08,
+      "position_span_m": 0.35910711221392216
+    },
+    "overhead": {
+      "matrix_max_abs_error": 4.765077221691172e-13,
+      "position_error_m": 4.769617493820814e-13,
+      "position_span_m": 0.0
+    }
+  },
+  "source_bytes": 10722233115,
+  "export_bytes": 300682388,
+  "raw_transitions_per_decimal_GB": 818.0198943566804,
+  "raw_and_export_transitions_per_decimal_GB": 795.7059997069633,
+  "performance": {
+    "scope": "One known regression, instrumented shared host, tmpfs; not durable-disk or population throughput.",
+    "acquisition_audit_export_wall_s": 1940.4621200169204,
+    "recorded_host_span_s": 1673.6655395290582,
+    "frames_per_recorded_host_second": 5.240593053297862,
+    "frames_per_pipeline_wall_second": 4.520057314967591,
+    "single_known_episode_rate_per_hour": 1.8552281762493816,
+    "independent_postcheck_wall_s": 367.3987179789692,
+    "postchecks_are_additional": true,
+    "total_pipeline_plus_postchecks_s": 2307.8608379958896,
+    "stage_exclusive_seconds": {
+      "imports": 0.11344890494365245,
+      "physics_forward": 13.112737761926837,
+      "scene_load": 5.848657699069008,
+      "render_scene_update": 1.3008308641146868,
+      "render_and_readback": 572.9868169509573,
+      "camera_render": 1.1557006273651496,
+      "sensor_postprocess": 368.8976024988806,
+      "observation_read": 21.4720039262902,
+      "control_apply": 0.09192244824953377,
+      "physics_integration": 418.07728103129193,
+      "backend_step": 27.788484220393002,
+      "expert_ik": 5.9642182644456625,
+      "expert_collision_plan": 17.724118933663704,
+      "expert_time_parameterization": 0.27108861471060663,
+      "metadata_write": 17.97221027384512,
+      "rgb_compress_write": 178.54868310096208,
+      "hdf5_flush": 1.1237068767659366,
+      "recording_append": 21.160543891019188,
+      "recording_close": 0.0024419219698756933,
+      "audit_streams": 79.8965378390858,
+      "audit_task": 15.966379374964163,
+      "audit_total": 12.625747346901335,
+      "audit_save_and_checksum": 6.04467484401539,
+      "lerobot_input_validation": 3.2967622180003673,
+      "lerobot_video_and_statistics": 124.925690219854,
+      "lerobot_export": 13.069731506169774
+    },
+    "stage_inclusive_seconds": {
+      "imports": 0.11344890494365245,
+      "physics_forward": 13.112737761926837,
+      "scene_load": 5.848872123053297,
+      "render_scene_update": 1.3008308641146868,
+      "render_and_readback": 572.9868169509573,
+      "camera_render": 575.4433484424371,
+      "sensor_postprocess": 368.8976024988806,
+      "observation_read": 965.8129548676079,
+      "control_apply": 0.09192244824953377,
+      "physics_integration": 418.07728103129193,
+      "backend_step": 458.9779986856738,
+      "expert_ik": 5.9642182644456625,
+      "expert_collision_plan": 17.724118933663704,
+      "expert_time_parameterization": 0.27108861471060663,
+      "metadata_write": 17.97221027384512,
+      "rgb_compress_write": 178.54868310096208,
+      "hdf5_flush": 1.1237068767659366,
+      "recording_append": 218.784244004637,
+      "recording_close": 0.023342059925198555,
+      "audit_streams": 79.8965378390858,
+      "audit_task": 15.966379374964163,
+      "audit_total": 108.48866456095129,
+      "audit_save_and_checksum": 6.04467484401539,
+      "lerobot_input_validation": 3.2967622180003673,
+      "lerobot_video_and_statistics": 124.925690219854,
+      "lerobot_export": 141.29218394402415
+    },
+    "unattributed_wall_seconds": 11.024097857065499,
+    "resources": {
+      "samples": 944,
+      "peak_rss_bytes": 2895499264,
+      "cpu_percent_one_core": {
+        "mean": 100.90603009503133,
+        "peak": 268.62597743507393
+      },
+      "gpus": {
+        "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+          "name": "NVIDIA GeForce RTX 5090 D",
+          "samples": 944,
+          "utilization_sum_percent": 27992.0,
+          "peak_utilization_percent": 68.0,
+          "peak_used_bytes": 2974810112
+        }
+      },
+      "gpu_sampling_errors": 0,
+      "process_gpus": {
+        "0": {
+          "samples": 817,
+          "peak_fb_reported_MB": 1009,
+          "process_type": "G"
+        }
+      },
+      "process_gpu_sampling_errors": 0
+    },
+    "mean_cpu_percent_one_core": 100.90034772902071
+  },
+  "evidence_hashes": {
+    "tcp_clearance_rgb_camera_fk_v1.json": "f2974a0e52a4c80ff3dfa4b51ca66ece94ac84df787ae4cdf611335cad2c2605",
+    "tcp_clearance_rgb_consumer_v1.json": "717b916f8e581caea82bb517e565ed926e8d2afd72a7cc227ea41baca05e3464",
+    "tcp_clearance_rgb_inputs_v1.json": "fa36edacb61d00609a558da0a7a8b5d1743fd5cb2553a555511998a9f981143a",
+    "tcp_clearance_rgb_plan_v1.json": "d9030a2dfaca9216eb9c1e960529ff85e11e3f318ae4026283af6e3d67f002bd",
+    "tcp_clearance_rgb_postcheck_v1.json": "7766a6100d6a0ab4770b033ed9008c18b1c997ead1c05beab5843868910e852a",
+    "tcp_clearance_rgb_postcheck_v1.py": "85dd913e425b56c177903ae53e50362790f315bf447412e2b7fcc57088c1818d",
+    "tcp_clearance_rgb_prepare_v1.py": "3eb3891e1da2ea5d8a0ce8defb15d2165c1104a1b4c6794e206a9a37c52cd9fa",
+    "tcp_clearance_rgb_pytest_benchmark_policy_v1.log": "afa9ae1fc499358a0250f001bab1398d606aa92a6b12c26574a2eea4f1d37196",
+    "tcp_clearance_rgb_pytest_exported_video_v1.log": "2a972e91a01c735ba2f846c2c844201df72eee2228aa3d0387c2185548d2c49b",
+    "tcp_clearance_rgb_pytest_rgb_policy_full_v1.log": "93c7651fe04cd9dc6523850748ce29b4723d5b40a170046866888db3a2528adf",
+    "tcp_clearance_rgb_summary_v1.py": "545419539e129fc3971be2caae8f14429ee20187643b29b94c5f841d17be5aaf",
+    "tcp_clearance_rgb_tests_v1.json": "588df80b52b76dacf9cf4ce4fcc34035bd7b39a752eb6bc17edc8f6af079562e",
+    "tcp_clearance_rgb_validate_v1.py": "f3b4d1192a73cee97e728c50f23fc3b6da4c2210ec6e3e5ff18a2d09f7e11463",
+    "tcp_clearance_rgb_validation_v1.json": "d47ac763616377397d7244f148146710331c88dddbd1e938fca0805c66c58b8d",
+    "tcp_clearance_rgb_video_audit_v1.json": "c7492e2ab7c4869b58590d52a37c90a336f47197ab93f10a2b187dd0daadc0ca",
+    "tcp_clearance_rgb_video_audit_v1.npz": "80415ecb0580ae7e4cb26446702c2c4d00770ec1a0bb8853f59beb4235e69325",
+    "tcp_clearance_rgb_views_v1.jpg": "6c2c64f0f9bb8388f358edf53095304be71170978885ed15c715c75b9a37729e",
+    "tcp_clearance_rgb_visual_review_v1.json": "13a0f3efafc9340a1274f6578baba2e1c35c40c64631419a39bcd80f6cae4f30",
+    "tcp_clearance_rgb_evidence_v1/audit.json": "403c777e12e6d0d806a7734fbcb952d566c6d39c58b61ea8318ff8f6abe36a3c",
+    "tcp_clearance_rgb_evidence_v1/collection.log": "6dda16fa193d984292c1c32bdcd529eab7286f88f5231b9688f61f9b2eb18efd",
+    "tcp_clearance_rgb_evidence_v1/export_checksums.json": "e85ffc86e0e0a11c225b5f1312da9e3ddd60b817f5f9475c8b0f872d8215a188",
+    "tcp_clearance_rgb_evidence_v1/postcheck_camera_fk.log": "b44a0630ee215688f0e5deef13f500d79259cd458c174baada8f05ccb589385b",
+    "tcp_clearance_rgb_evidence_v1/postcheck_consumer.log": "aadf2813efd17f7b21346532912f4654fe00bab59fc7114827d284348fd4620c",
+    "tcp_clearance_rgb_evidence_v1/postcheck_reader.log": "88fc107dbc69c75d899481c6ab9c9e9cdfa5c43aa562b7c02e677a1752d80676",
+    "tcp_clearance_rgb_evidence_v1/postcheck_video_audit.log": "167b72e0a514a80695e1b83c05cd2e05340e5eca223eb2b10ba655a5290d3307",
+    "tcp_clearance_rgb_evidence_v1/profile.json": "df7cf2229b53231b1537e6830fbaeecd36e4e4fe89ce207ab76c86625309d8be",
+    "tcp_clearance_rgb_evidence_v1/report.json": "9b29b067c7fec6e62f339c97abbafb6ac8d68d9ae0dbed4f22daab409b359c0c"
+  },
+  "storage": {
+    "root_free_bytes_at_summary": 5361303552,
+    "tmpfs_free_bytes_at_summary": 21240315904,
+    "raw_on_volatile_tmpfs": true,
+    "note": "Initial 5 GiB root reserve was a planning budget; available bytes fluctuate on this shared host. No raw files were deleted. Raw/export still require durable archival."
+  },
+  "limitations": [
+    "One known repaired scene; not an unseen-layout reliability estimate or a new 2x speedup.",
+    "Per-target finger material switching remains; real camera, contact and robot response are uncalibrated.",
+    "Sparse visual review finds hard shadows/simplified materials and low-information idle left-wrist views.",
+    "Full decoded video diagnostics quantify lossy encoding, not perceptual or real-world fidelity.",
+    "Independent postchecks are additional to normal collection/audit/export profiling; some small visual sampling overlapped postchecks."
+  ]
+}

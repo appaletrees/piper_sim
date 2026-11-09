@@ -1,0 +1,52 @@
+{
+  "purpose": "Full synchronized RGB, independent TCP policy, training reader and LeRobot consumer regression",
+  "seed": 1340830695,
+  "selection": "Known repaired three-cup regression; not a new holdout or population estimate",
+  "source_commit": "f9fc144897b2d2e8956d0bb2d6332a8a08eaaf31",
+  "inputs_sha256": "fa36edacb61d00609a558da0a7a8b5d1743fd5cb2553a555511998a9f981143a",
+  "script_sha256": "3eb3891e1da2ea5d8a0ce8defb15d2165c1104a1b4c6794e206a9a37c52cd9fa",
+  "command": [
+    "/home/midea/Desktop/piper_sim/.venv-mujoco/bin/python",
+    "/home/midea/Desktop/piper_sim/scripts/profile_collection.py",
+    "--profile-output",
+    "/dev/shm/piper_tcp_clearance_rgb_v1/profile.json",
+    "--record",
+    "--rgb",
+    "--lerobot",
+    "--seed",
+    "1340830695",
+    "--output",
+    "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695",
+    "--config",
+    "/home/midea/Desktop/piper_sim/configs/clean_table_tcp.yaml",
+    "--task-scene",
+    "/home/midea/Desktop/piper_sim/configs/tasks/clean_table_rigid.yaml",
+    "--domain-randomization",
+    "/home/midea/Desktop/piper_sim/configs/domain_randomization/clean_table.yaml",
+    "--collection-profile",
+    "/home/midea/Desktop/piper_sim/configs/collection/clean_table_tcp_clearance.yaml",
+    "--acceptance-policy",
+    "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "--grasp-mode",
+    "physical"
+  ],
+  "raw_output": "/dev/shm/piper_tcp_clearance_rgb_v1",
+  "persistent_evidence": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_clearance_rgb_evidence_v1",
+  "comparison_state_source": "/dev/shm/piper_tcp_clearance_v1/worker_00/episode_000000_seed_1340830695/episode.h5",
+  "comparison_state_sha256": "b1495815bd9bef69c9f0e25fe5487983555ecabe962fbf7593cdf528de3e28d6",
+  "free_disk_bytes_before": 5379416064,
+  "free_tmpfs_bytes_before": 32313376768,
+  "mem_available_bytes_before": 36579553280,
+  "environment": {
+    "OMP_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null,
+    "MUJOCO_GL": "egl"
+  },
+  "protocol": "One complete physical task, all three native-resolution RGB streams at 30 Hz; no repeated preflight. Compare against the retained full state trajectory. No tuning, skipped images, speed editing, or acceptance relaxation. Keep failures and partial outputs.",
+  "storage": "Volatile tmpfs for full raw/export validation; not a durable production release. No existing raw data is deleted. Archive required before reboot.",
+  "performance_scope": "Profile full acquisition/audit/export on tmpfs; separate actual stage wall times from production disk throughput. A single known regression cannot establish qualified population throughput.",
+  "remaining_limitations": [
+    "Uncalibrated camera/contact parameters and per-target finger material switching remain.",
+    "One accepted RGB episode would not demonstrate broad reliability or sim-to-real fidelity."
+  ]
+}

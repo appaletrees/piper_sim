@@ -3,6 +3,9 @@ import json
 from pathlib import Path
 import sys
 import pytest
+import yaml
+
+from test_audit_publication import source
 
 from piper_sim.config import ROOT
 
@@ -11,12 +14,18 @@ cli = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(cli)
 
 
-def test_benchmark_counts_only_revalidated_episodes_and_includes_rejected_jobs(tmp_path, monkeypatch):
+@pytest.mark.parametrize('policy', [None, ROOT/'configs/collection/quality_policy_tcp.yaml'])
+def test_benchmark_counts_only_revalidated_episodes_and_includes_rejected_jobs(tmp_path, monkeypatch, policy):
+    expected_policy = str(policy.resolve()) if policy else None
     calls = []
     class Process:
         def __init__(self, command, **kwargs):
             self.pid = 12345
             assert kwargs['start_new_session']
+            if policy:
+                assert command[command.index('--acceptance-policy')+1] == expected_policy
+            else:
+                assert '--acceptance-policy' not in command
             folder = Path(command[command.index('--output')+1])
             folder.mkdir()
             (folder/'report.json').write_text(json.dumps({'training_ready': True}))
@@ -28,15 +37,18 @@ def test_benchmark_counts_only_revalidated_episodes_and_includes_rejected_jobs(t
             Path(command[command.index('--profile-output')+1]).write_text('{}')
         def wait(self, **kwargs): return 0
         def poll(self): return 0
-    def validate(path, *, require_quality):
+    def validate(path, *, require_quality, policy):
+        assert policy == expected_policy
         calls.append((path.parent.name, require_quality))
         if path.parent.name == 'seed_7': raise ValueError('source checksum changed')
     from piper_sim import lerobot_export
     monkeypatch.setattr(lerobot_export, '_inspect', validate)
     monkeypatch.setattr(cli.subprocess, 'Popen', Process)
     monkeypatch.setattr(cli, 'capture_identity', lambda args: {'test': 'frozen'})
-    monkeypatch.setattr(sys, 'argv', ['benchmark', '--seeds', '0', '7', '--output', str(tmp_path/'run'),
-                                     '--min-free-gib', '.001', '--expected-episode-gib', '.001'])
+    command = ['benchmark', '--seeds', '0', '7', '--output', str(tmp_path/'run'),
+               '--min-free-gib', '.001', '--expected-episode-gib', '.001']
+    if policy: command += ['--acceptance-policy', str(policy)]
+    monkeypatch.setattr(sys, 'argv', command)
     cli.main()
     report = json.loads((tmp_path/'run/report.json').read_text())
     assert calls == [('seed_0', True), ('seed_7', True)]
@@ -61,7 +73,8 @@ def test_paired_cohorts_use_same_seeds_and_bounded_pool_and_require_matching_has
         def wait(self, **kwargs):
             active[self.group] -= 1
             return 0
-    def validate(job, code):
+    def validate(job, code, *, policy):
+        assert policy is None
         return {'seed': job['seed'], 'qualified': True, 'frames': 300, 'sim_seconds': 10.,
                 'hdf5_bytes': 1000, 'trajectory_sha256': str(job['seed']),
                 'objects_sha256': str(job['seed']), 'acceptance_policy_sha256': 'same'}
@@ -136,3 +149,46 @@ def test_real_input_fingerprint_does_not_require_unused_scipy(monkeypatch):
     assert fingerprint['versions']['Pillow'] and fingerprint['versions']['pyarrow']
     assert fingerprint['export_executables']['ffmpeg']['sha256']
     assert fingerprint['files'][str(ROOT/'scripts/benchmark_qualified_collection.py')]
+
+
+def test_parent_verifies_the_selected_policy_on_actual_closed_hdf5(source, tmp_path):
+    # The task verdict is stubbed by the fixture. Source publication, file hash,
+    # selected-policy binding and parent qualification are real. Export/profile
+    # placeholders only satisfy the existing completion-file checks here.
+    from piper_sim import collection_audit
+    path, policy = source
+    report = collection_audit.audit_episode(path, policy=policy)
+    collection_audit.save_audit(path, report, tmp_path/'audit.json')
+    (tmp_path/'report.json').write_text(json.dumps({'training_ready': True}))
+    (tmp_path/'lerobot_v2/meta').mkdir(parents=True)
+    (tmp_path/'lerobot_v2/meta/info.json').write_text('{}')
+    profile = tmp_path/'profile.json'; profile.write_text('{}')
+    job = {'folder': tmp_path, 'profile': profile, 'seed': 0}
+    assert cli.validate_job(job, 0, policy=policy)['qualified']
+    default = cli.validate_job(job, 0)
+    assert not default['qualified'] and 'selected production acceptance policy' in default['validation_error']
+    settings = yaml.safe_load(policy.read_text()); settings['dataset']['min_frames'] += 1
+    other = tmp_path/'other.yaml'; other.write_text(yaml.safe_dump(settings))
+    mismatch = cli.validate_job(job, 0, policy=other)
+    assert not mismatch['qualified'] and 'selected production acceptance policy' in mismatch['validation_error']
+    assert not cli.validate_job(job, 2, policy=policy)['qualified']
+
+
+def test_external_policy_is_fingerprinted_and_invalid_policy_fails_before_launch(tmp_path):
+    from types import SimpleNamespace
+    policy = tmp_path/'operator-policy.yaml'
+    policy.write_text((ROOT/'configs/collection/quality_policy_tcp.yaml').read_text())
+    args = SimpleNamespace(config=str(ROOT/'configs/clean_table_tcp.yaml'),
+        task_scene=str(ROOT/'configs/tasks/clean_table_rigid.yaml'),
+        domain_randomization=str(ROOT/'configs/domain_randomization/clean_table.yaml'),
+        collection_profile=str(ROOT/'configs/collection/clean_table_tcp_clearance.yaml'),
+        acceptance_policy=str(policy))
+    before = cli.capture_identity(args)
+    assert before['files'][str(policy)] == cli.sha256(policy)
+    assert before['acceptance_policy']['sha256'] == cli.sha256(policy)
+    policy.write_text(policy.read_text()+'\n# operator revision\n')
+    assert cli.capture_identity(args) != before
+    settings = yaml.safe_load(policy.read_text()); settings['quality']['measured_jerk_rad_s3'] = float('inf')
+    policy.write_text(yaml.safe_dump(settings))
+    with pytest.raises(ValueError, match='invalid policy limit'):
+        cli.capture_identity(args)

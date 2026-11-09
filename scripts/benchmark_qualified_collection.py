@@ -23,6 +23,8 @@ from piper_sim.process_lifecycle import termination_guard, stop_process_groups
 
 def capture_identity(args):
     value = batch_identity(args)
+    from piper_sim.collection_audit import load_acceptance_policy
+    _, value['acceptance_policy'] = load_acceptance_policy(getattr(args, 'acceptance_policy', None))
     from piper_sim.lerobot_export import check_dependencies
     check_dependencies()
     value['versions'].update({key: importlib.metadata.version(key) for key in ('Pillow', 'pyarrow')})
@@ -43,10 +45,12 @@ def worker_command(args, seed, output, profile):
         '--record', '--rgb', '--lerobot', '--seed', str(seed), '--output', str(output)]
     for key in ('config', 'task_scene', 'domain_randomization', 'collection_profile'):
         command += ['--'+key.replace('_', '-'), getattr(args, key)]
+    if getattr(args, 'acceptance_policy', None):
+        command += ['--acceptance-policy', args.acceptance_policy]
     return command
 
 
-def validate_job(job, code):
+def validate_job(job, code, *, policy=None):
     folder = job['folder']
     entry = {'seed': job['seed'], 'returncode': code, 'path': str(folder.resolve()), 'qualified': False,
              'profile': str(job['profile'].resolve())}
@@ -56,7 +60,7 @@ def validate_job(job, code):
         entry.update(error=rollout.get('error'), violations=audit.get('violations'))
         if code == 0 and rollout.get('training_ready') and audit.get('training_ready'):
             from piper_sim.lerobot_export import _inspect
-            _inspect(folder/'episode.h5', require_quality=True)
+            _inspect(folder/'episode.h5', require_quality=True, policy=policy)
             # The worker only returns zero after atomic export publication.
             if not (folder/'lerobot_v2/meta/info.json').is_file() or not job['profile'].is_file():
                 raise ValueError('Missing completed LeRobot export or profile')
@@ -117,7 +121,7 @@ def run_cohort(args, output, workers, verify_inputs, identity):
                 code = job['process'].wait()
                 job['log'].close()
                 active.remove(job)
-                entry = validate_job(job, code)
+                entry = validate_job(job, code, policy=getattr(args, 'acceptance_policy', None))
                 report['jobs'].append(entry)
                 report['jobs'].sort(key=lambda row: args.seeds.index(row['seed']))
                 publish()
@@ -172,6 +176,8 @@ def main():
     parser.add_argument('--expected-episode-gib', type=float, default=10.,
                         help='Planning allowance per full RGB episode including export; actual usage may differ')
     parser.add_argument('--timeout-s', type=float, default=7200., help='Per worker timeout, including audit and export')
+    parser.add_argument('--acceptance-policy',
+                        help='Independent operator policy used by acquisition, export and parent revalidation')
     for key, default in [('config', 'configs/clean_table_workcell.yaml'),
                          ('task-scene', 'configs/tasks/clean_table_rigid.yaml'),
                          ('domain-randomization', 'configs/domain_randomization/clean_table.yaml'),
@@ -195,6 +201,8 @@ def main():
         parser.error(f'Insufficient disk: estimated allowance requires {required:g} GiB')
     for key in ('config', 'task_scene', 'domain_randomization', 'collection_profile'):
         setattr(args, key, str(Path(getattr(args, key)).resolve()))
+    if args.acceptance_policy:
+        args.acceptance_policy = str(Path(args.acceptance_policy).resolve())
     identity = capture_identity(args)
     def verify_inputs():
         if capture_identity(args) != identity:

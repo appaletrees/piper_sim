@@ -1,0 +1,323 @@
+{
+  "status": "passed_full_rgb_reader_regression",
+  "training_ready": null,
+  "durable_release": false,
+  "script_sha256": "f3b4d1192a73cee97e728c50f23fc3b6da4c2210ec6e3e5ff18a2d09f7e11463",
+  "plan_sha256": "d9030a2dfaca9216eb9c1e960529ff85e11e3f318ae4026283af6e3d67f002bd",
+  "scope": "Validate the frozen full-RGB regression and every strict-reader input row.",
+  "raw_storage": "Volatile tmpfs for full raw/export validation; not a durable production release. No existing raw data is deleted. Archive required before reboot.",
+  "source": "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695/episode.h5",
+  "source_sha256": "e5776772858a199908378514e908d49668dc2abdc324c45bc7562e710e3f080a",
+  "inputs_sha256": "fa36edacb61d00609a558da0a7a8b5d1743fd5cb2553a555511998a9f981143a",
+  "unchanged_frozen_files": 426,
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "closed_rgb_audit_passed": true,
+  "matching_state_trajectory_and_object_hashes": true,
+  "frames": 8771,
+  "unique_frames_per_camera": 8772,
+  "image_shape": [
+    480,
+    640,
+    3
+  ],
+  "fps": 30.0,
+  "simulated_duration_s": 292.3666666666667,
+  "all_public_rows_compared": 8771,
+  "raw_rgb_images_compared": 26313,
+  "total_images_compared_including_windows": 26457,
+  "window_starts": [
+    0,
+    4385,
+    8755
+  ],
+  "horizon": 16,
+  "reader_public_keys": [
+    "action",
+    "action_sequence",
+    "action_timestamp",
+    "image_timestamps",
+    "images",
+    "next_sim_timestamp",
+    "next_state",
+    "sim_timestamp",
+    "state",
+    "task",
+    "timestamp"
+  ],
+  "reader_fields_compared": {
+    "state": "observation/state",
+    "action": "action/position",
+    "next_state": "next_observation/state",
+    "timestamp": "observation/timestamp",
+    "sim_timestamp": "observation/sim_time",
+    "next_sim_timestamp": "next_observation/sim_time",
+    "action_timestamp": "action/timestamp",
+    "action_sequence": "action/sequence"
+  },
+  "exact_state_rgb_fields": [
+    "observation/state",
+    "next_observation/state",
+    "action/position",
+    "action/sequence",
+    "observation/sim_time",
+    "next_observation/sim_time"
+  ],
+  "task": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+  "clocks": {
+    "sim_interval_range_s": [
+      0.03333333333284827,
+      0.033333333333757764
+    ],
+    "host_interval_median_s": 0.17517693899571896,
+    "host_interval_max_s": 5.474582480965182,
+    "host_observation_span_s": 1673.6655395290582,
+    "host_span_note": "Recorded host wall-clock span, not simulation duration or complete pipeline timing."
+  },
+  "exact_physics_rows": 8772,
+  "exact_physics_extra_fields": [
+    "physics_time",
+    "engine",
+    "engine_version",
+    "controller_interval",
+    "tcp_motion_interval",
+    "objects",
+    "task",
+    "teacher"
+  ],
+  "max_returned_window_bytes": 44240512,
+  "source_bytes": 10722233115,
+  "export_bytes": 300682388,
+  "raw_transitions_per_decimal_GB": 818.0198943566804,
+  "strict_export_inspection_passed": true,
+  "all_sources_unchanged": true,
+  "process_peak_rss_kib": 276128,
+  "pipeline_profile": {
+    "schema_version": "piper.pipeline_profile.v1",
+    "pid": 1173191,
+    "wall_seconds": 1940.4621200169204,
+    "process_cpu_seconds": 1957.933026647,
+    "mean_cpu_percent_one_core": 100.90034772902071,
+    "stages": {
+      "imports": {
+        "calls": 1,
+        "inclusive_s": 0.11344890494365245,
+        "exclusive_s": 0.11344890494365245,
+        "max_call_s": 0.11344890494365245
+      },
+      "physics_forward": {
+        "calls": 8803,
+        "inclusive_s": 13.112737761926837,
+        "exclusive_s": 13.112737761926837,
+        "max_call_s": 0.006376706063747406
+      },
+      "scene_load": {
+        "calls": 1,
+        "inclusive_s": 5.848872123053297,
+        "exclusive_s": 5.848657699069008,
+        "max_call_s": 5.848872123053297
+      },
+      "render_scene_update": {
+        "calls": 26409,
+        "inclusive_s": 1.3008308641146868,
+        "exclusive_s": 1.3008308641146868,
+        "max_call_s": 0.0013674619840458035
+      },
+      "render_and_readback": {
+        "calls": 26409,
+        "inclusive_s": 572.9868169509573,
+        "exclusive_s": 572.9868169509573,
+        "max_call_s": 0.0748174829641357
+      },
+      "camera_render": {
+        "calls": 26409,
+        "inclusive_s": 575.4433484424371,
+        "exclusive_s": 1.1557006273651496,
+        "max_call_s": 0.36665596801321954
+      },
+      "sensor_postprocess": {
+        "calls": 8803,
+        "inclusive_s": 368.8976024988806,
+        "exclusive_s": 368.8976024988806,
+        "max_call_s": 0.07342143298592418
+      },
+      "observation_read": {
+        "calls": 17700,
+        "inclusive_s": 965.8129548676079,
+        "exclusive_s": 21.4720039262902,
+        "max_call_s": 0.41178071999456733
+      },
+      "control_apply": {
+        "calls": 8801,
+        "inclusive_s": 0.09192244824953377,
+        "exclusive_s": 0.09192244824953377,
+        "max_call_s": 3.007205668836832e-05
+      },
+      "physics_integration": {
+        "calls": 281632,
+        "inclusive_s": 418.07728103129193,
+        "exclusive_s": 418.07728103129193,
+        "max_call_s": 0.01603892503771931
+      },
+      "backend_step": {
+        "calls": 8801,
+        "inclusive_s": 458.9779986856738,
+        "exclusive_s": 27.788484220393002,
+        "max_call_s": 0.19033803208731115
+      },
+      "expert_ik": {
+        "calls": 3326,
+        "inclusive_s": 5.9642182644456625,
+        "exclusive_s": 5.9642182644456625,
+        "max_call_s": 0.02543155907187611
+      },
+      "expert_collision_plan": {
+        "calls": 2762,
+        "inclusive_s": 17.724118933663704,
+        "exclusive_s": 17.724118933663704,
+        "max_call_s": 0.7619666790124029
+      },
+      "expert_time_parameterization": {
+        "calls": 129,
+        "inclusive_s": 0.27108861471060663,
+        "exclusive_s": 0.27108861471060663,
+        "max_call_s": 0.03697918402031064
+      },
+      "metadata_write": {
+        "calls": 131565,
+        "inclusive_s": 17.97221027384512,
+        "exclusive_s": 17.97221027384512,
+        "max_call_s": 0.0033847379963845015
+      },
+      "rgb_compress_write": {
+        "calls": 26316,
+        "inclusive_s": 178.54868310096208,
+        "exclusive_s": 178.54868310096208,
+        "max_call_s": 0.014176185941323638
+      },
+      "hdf5_flush": {
+        "calls": 8771,
+        "inclusive_s": 1.1237068767659366,
+        "exclusive_s": 1.1237068767659366,
+        "max_call_s": 0.0007386429933831096
+      },
+      "recording_append": {
+        "calls": 8771,
+        "inclusive_s": 218.784244004637,
+        "exclusive_s": 21.160543891019188,
+        "max_call_s": 0.0371982780052349
+      },
+      "recording_close": {
+        "calls": 1,
+        "inclusive_s": 0.023342059925198555,
+        "exclusive_s": 0.0024419219698756933,
+        "max_call_s": 0.023342059925198555
+      },
+      "audit_streams": {
+        "calls": 1,
+        "inclusive_s": 79.8965378390858,
+        "exclusive_s": 79.8965378390858,
+        "max_call_s": 79.8965378390858
+      },
+      "audit_task": {
+        "calls": 1,
+        "inclusive_s": 15.966379374964163,
+        "exclusive_s": 15.966379374964163,
+        "max_call_s": 15.966379374964163
+      },
+      "audit_total": {
+        "calls": 1,
+        "inclusive_s": 108.48866456095129,
+        "exclusive_s": 12.625747346901335,
+        "max_call_s": 108.48866456095129
+      },
+      "audit_save_and_checksum": {
+        "calls": 1,
+        "inclusive_s": 6.04467484401539,
+        "exclusive_s": 6.04467484401539,
+        "max_call_s": 6.04467484401539
+      },
+      "lerobot_input_validation": {
+        "calls": 1,
+        "inclusive_s": 3.2967622180003673,
+        "exclusive_s": 3.2967622180003673,
+        "max_call_s": 3.2967622180003673
+      },
+      "lerobot_video_and_statistics": {
+        "calls": 3,
+        "inclusive_s": 124.925690219854,
+        "exclusive_s": 124.925690219854,
+        "max_call_s": 46.2313738259254
+      },
+      "lerobot_export": {
+        "calls": 1,
+        "inclusive_s": 141.29218394402415,
+        "exclusive_s": 13.069731506169774,
+        "max_call_s": 141.29218394402415
+      }
+    },
+    "resources": {
+      "samples": 944,
+      "peak_rss_bytes": 2895499264,
+      "cpu_percent_one_core": {
+        "mean": 100.90603009503133,
+        "peak": 268.62597743507393
+      },
+      "gpus": {
+        "GPU-c51e8e96-3847-533d-57df-a6cbb632f49e": {
+          "name": "NVIDIA GeForce RTX 5090 D",
+          "samples": 944,
+          "utilization_sum_percent": 27992.0,
+          "peak_utilization_percent": 68.0,
+          "peak_used_bytes": 2974810112
+        }
+      },
+      "gpu_sampling_errors": 0,
+      "process_gpus": {
+        "0": {
+          "samples": 817,
+          "peak_fb_reported_MB": 1009,
+          "process_type": "G"
+        }
+      },
+      "process_gpu_sampling_errors": 0
+    },
+    "scope": "Single synchronous process; GPU totals include unrelated applications. Exclusive stage time excludes nested measured calls; unwrapped work remains unattributed. RSS is process lifetime high-water mark. Rendering includes GPU synchronization/readback. process_gpus uses this PID only (nvidia-smi pmon framebuffer MB); an empty mapping means no attributable measurement, not zero VRAM. Peaks are sampled.",
+    "unattributed_wall_seconds": 11.024097857065499,
+    "returncode": 0,
+    "command": [
+      "--record",
+      "--rgb",
+      "--lerobot",
+      "--seed",
+      "1340830695",
+      "--output",
+      "/dev/shm/piper_tcp_clearance_rgb_v1/seed_1340830695",
+      "--config",
+      "/home/midea/Desktop/piper_sim/configs/clean_table_tcp.yaml",
+      "--task-scene",
+      "/home/midea/Desktop/piper_sim/configs/tasks/clean_table_rigid.yaml",
+      "--domain-randomization",
+      "/home/midea/Desktop/piper_sim/configs/domain_randomization/clean_table.yaml",
+      "--collection-profile",
+      "/home/midea/Desktop/piper_sim/configs/collection/clean_table_tcp_clearance.yaml",
+      "--acceptance-policy",
+      "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+      "--grasp-mode",
+      "physical"
+    ],
+    "training_note": "Instrumentation alone does not establish acceptance; see the closed-file audit."
+  },
+  "reader_validation_seconds": 216.30341613199562,
+  "limitations": [
+    "Uncalibrated camera/contact parameters and per-target finger material switching remain.",
+    "One accepted RGB episode would not demonstrate broad reliability or sim-to-real fidelity.",
+    "Known regression on volatile tmpfs; no durable release or unseen-layout reliability claim.",
+    "The non-PPO test suite ran concurrently during early acquisition; stage times are diagnostic shared-host measurements.",
+    "Reader checks compare against indexed HDF5 pixels; physical camera calibration and pixel-level real-world alignment are separate.",
+    "Official LeRobot consumer, camera FK, and full decoded-video diagnostics are separate reports."
+  ],
+  "analysis_elapsed_s": 216.30342282692436
+}
