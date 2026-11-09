@@ -1,0 +1,508 @@
+{
+  "schema_version": 1,
+  "scope": "All attempted known-scene state-only episodes, including failures. No RGB or training-ready claim; no wall-time speed comparison across different concurrent host workloads.",
+  "root": "/dev/shm/piper_tcp_fixed_release_probe_v1",
+  "frozen_input_count": 429,
+  "changed_inputs": [],
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "rows": [
+    {
+      "seed": 1,
+      "source": "/dev/shm/piper_tcp_fixed_release_probe_v1/episode_000000_seed_1/episode.h5",
+      "source_sha256": "fca827036b3ea5c2535c1af7cba686eb34fcca051f77a07e0bd6b5a8a9f850f1",
+      "bytes": 88381902,
+      "frames": 8502,
+      "recorded_seconds": 283.4,
+      "fps": 30.0,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "diagnostic_passed": true,
+      "training_ready": false,
+      "audit_passed": true,
+      "audit_violations": [],
+      "online_quality": {
+        "passed": true,
+        "violations": [],
+        "frames": 8503,
+        "metrics": {
+          "command_arm_velocity": 0.9975450785800888,
+          "command_gripper_velocity": 0.05997290430363178,
+          "command_arm_acceleration": 2.451376354027812,
+          "command_gripper_acceleration": 0.17313679957717543,
+          "command_arm_jerk": 19.64875864419269,
+          "command_gripper_jerk": 1.4155838743542677,
+          "measured_arm_velocity": 0.9973223344541982,
+          "measured_gripper_velocity": 0.05996923579324215,
+          "measured_arm_acceleration": 2.763223220713429,
+          "measured_gripper_acceleration": 0.8231890156239673,
+          "measured_arm_jerk": 61.157436249223316,
+          "measured_gripper_jerk": 28.271704403471436,
+          "tracking_error_rad": 0.011020907675965086,
+          "hold_velocity_rms_rad_s": 0.00018071274306116102,
+          "hold_gripper_velocity_rms_m_s": 0.00017162798148094474
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 111.46666666658584,
+            "channel": 9,
+            "context": {
+              "phase": "lower",
+              "object": "chopstick_b"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 78.9999999999487,
+            "channel": 13,
+            "context": {
+              "phase": "approach",
+              "object": "chopstick_a"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 85.53333333327609,
+            "channel": 8,
+            "context": {
+              "phase": "lift",
+              "object": "chopstick_a"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 20.000000000002352,
+            "channel": 6,
+            "context": {
+              "phase": "release_for_nesting",
+              "object": "cup_01"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 35.03333333332201,
+            "channel": 2,
+            "context": {
+              "phase": "lift",
+              "object": "cup_02"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 151.66666666687215,
+            "channel": 13,
+            "context": {
+              "phase": "unload_gripper",
+              "object": "charger"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 111.49999999991914,
+            "channel": 9,
+            "context": {
+              "phase": "lower",
+              "object": "chopstick_b"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 78.9999999999487,
+            "channel": 13,
+            "context": {
+              "phase": "approach",
+              "object": "chopstick_a"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 213.13333333432146,
+            "channel": 8,
+            "context": {
+              "phase": "grasp",
+              "object": "plate"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 124.79999999990704,
+            "channel": 13,
+            "context": {
+              "phase": "grasp",
+              "object": "pen"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 213.13333333432146,
+            "channel": 8,
+            "context": {
+              "phase": "grasp",
+              "object": "plate"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 222.00000000110103,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "plate"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 475,
+        "physical_grasps": [
+          {
+            "name": "cup_01",
+            "assisted": false,
+            "samples": 348,
+            "bilateral_samples": 348,
+            "max_slip_m": 0.0010933602971061318,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "cup_02",
+            "assisted": false,
+            "samples": 457,
+            "bilateral_samples": 457,
+            "max_slip_m": 0.0010205397337579186,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "cup_00",
+            "assisted": false,
+            "samples": 322,
+            "bilateral_samples": 322,
+            "max_slip_m": 0.002745722194627546,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "chopstick_a",
+            "assisted": false,
+            "samples": 233,
+            "bilateral_samples": 233,
+            "max_slip_m": 0.002764339123449238,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "chopstick_b",
+            "assisted": false,
+            "samples": 243,
+            "bilateral_samples": 243,
+            "max_slip_m": 0.0028035769711951624,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "pen",
+            "assisted": false,
+            "samples": 194,
+            "bilateral_samples": 194,
+            "max_slip_m": 0.001476476331327769,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "charger",
+            "assisted": false,
+            "samples": 216,
+            "bilateral_samples": 216,
+            "max_slip_m": 0.0013960260774422881,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "spoon",
+            "assisted": false,
+            "samples": 318,
+            "bilateral_samples": 318,
+            "max_slip_m": 0.0016857196234580218,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "bowl",
+            "assisted": false,
+            "samples": 226,
+            "bilateral_samples": 226,
+            "max_slip_m": 0.0031745809002440366,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "plate",
+            "assisted": false,
+            "samples": 466,
+            "bilateral_samples": 466,
+            "max_slip_m": 0.002916794752667493,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          },
+          {
+            "name": "side_dish",
+            "assisted": false,
+            "samples": 860,
+            "bilateral_samples": 860,
+            "max_slip_m": 0.0031725150809049246,
+            "lost_contact_s": 0.0,
+            "anchor": "mean initial pad contact in object frame"
+          }
+        ],
+        "cameras": {}
+      },
+      "tcp_diagnostic": {
+        "passed": true,
+        "violations": [],
+        "limits": {
+          "linear_speed_m_s": 0.25,
+          "angular_speed_rad_s": 1.5
+        },
+        "intervals": 8502,
+        "integration_steps": 272064,
+        "peaks": {
+          "left/linear": {
+            "speed": 0.23326042966492957,
+            "transition_index": 1558,
+            "substep": 19,
+            "sim_time": 52.9531249999724,
+            "phase": "stack_ready",
+            "object": "cup_02"
+          },
+          "left/angular": {
+            "speed": 0.8905007062573892,
+            "transition_index": 45,
+            "substep": 18,
+            "sim_time": 2.518749999999938,
+            "phase": "approach",
+            "object": "cup_01"
+          },
+          "right/linear": {
+            "speed": 0.2338289371213482,
+            "transition_index": 2704,
+            "substep": 27,
+            "sim_time": 91.161458333271,
+            "phase": "lower",
+            "object": "chopstick_a"
+          },
+          "right/angular": {
+            "speed": 1.167596796237621,
+            "transition_index": 2406,
+            "substep": 24,
+            "sim_time": 81.2249999999467,
+            "phase": "approach",
+            "object": "chopstick_a"
+          }
+        },
+        "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification."
+      },
+      "material": {
+        "schema_version": "piper.mujoco_finger_contact.v1",
+        "parameter_origin": "uncalibrated_configuration",
+        "constant_within_episode": true,
+        "profile": {
+          "schema_version": 1,
+          "name": "fixed_finger_material_v1",
+          "friction": [
+            1.0,
+            0.015,
+            0.002
+          ],
+          "solref": [
+            0.01,
+            1.0
+          ],
+          "solimp": [
+            0.95,
+            0.99,
+            0.001,
+            0.5,
+            2.0
+          ],
+          "friction_scale_range": [
+            0.8,
+            1.2
+          ]
+        },
+        "source": {
+          "path": "/home/midea/Desktop/piper_sim/configs/physics/mujoco_fixed_fingers.yaml",
+          "sha256": "804ea2c4f69c5ea9487a6affdd5367fe0ebb6ca98b9bf6740f1177315bc56e2b"
+        },
+        "seed": 1,
+        "randomized": true,
+        "arms": {
+          "left": {
+            "friction_scale": 0.9154737072707516,
+            "friction": [
+              0.9154737072707516,
+              0.013732105609061273,
+              0.0018309474145415032
+            ],
+            "geom_names": [
+              "gripper_left_99",
+              "gripper_left_100",
+              "gripper_left_101",
+              "gripper_left_102",
+              "gripper_left_89",
+              "gripper_left_90",
+              "gripper_left_91",
+              "gripper_left_92"
+            ]
+          },
+          "right": {
+            "friction_scale": 0.8197149109943607,
+            "friction": [
+              0.8197149109943607,
+              0.012295723664915409,
+              0.0016394298219887214
+            ],
+            "geom_names": [
+              "gripper_right_43",
+              "gripper_right_44",
+              "gripper_right_45",
+              "gripper_right_46",
+              "gripper_right_33",
+              "gripper_right_34",
+              "gripper_right_35",
+              "gripper_right_36"
+            ]
+          }
+        },
+        "condim": 6,
+        "priority": 1,
+        "scope": "Per-arm finger material. Object/table coefficients remain governed by their own profiles and MuJoCo mixing rules. No per-target material switching or hardware calibration claim."
+      },
+      "per_target_material_switching": false,
+      "mode_counts": {
+        "physical": 8502
+      },
+      "assisted_frames": 0,
+      "grasps": {
+        "cup_01": {
+          "samples": 348,
+          "bilateral_samples": 348,
+          "max_slip_m": 0.0010933602971061318,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "cup_02": {
+          "samples": 457,
+          "bilateral_samples": 457,
+          "max_slip_m": 0.0010205397337579186,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "cup_00": {
+          "samples": 322,
+          "bilateral_samples": 322,
+          "max_slip_m": 0.002745722194627546,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "chopstick_a": {
+          "samples": 233,
+          "bilateral_samples": 233,
+          "max_slip_m": 0.002764339123449238,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "chopstick_b": {
+          "samples": 243,
+          "bilateral_samples": 243,
+          "max_slip_m": 0.0028035769711951624,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "pen": {
+          "samples": 194,
+          "bilateral_samples": 194,
+          "max_slip_m": 0.001476476331327769,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "charger": {
+          "samples": 216,
+          "bilateral_samples": 216,
+          "max_slip_m": 0.0013960260774422881,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "spoon": {
+          "samples": 318,
+          "bilateral_samples": 318,
+          "max_slip_m": 0.0016857196234580218,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "bowl": {
+          "samples": 226,
+          "bilateral_samples": 226,
+          "max_slip_m": 0.0031745809002440366,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "plate": {
+          "samples": 466,
+          "bilateral_samples": 466,
+          "max_slip_m": 0.002916794752667493,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "side_dish": {
+          "samples": 860,
+          "bilateral_samples": 860,
+          "max_slip_m": 0.0031725150809049246,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        }
+      },
+      "max_robot_penetration_m": {
+        "depth_m": 0.0004169031538674324,
+        "pair": [
+          "world",
+          "right/link7"
+        ],
+        "sim_time": 213.40000000099153,
+        "phase": "grasp",
+        "object": "plate"
+      },
+      "source_unchanged": true
+    }
+  ],
+  "source_unchanged": true,
+  "diagnostic_passed": 1,
+  "attempted": 1,
+  "training_ready": false,
+  "durable_raw_archive": false,
+  "evidence_files": {
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/accepted.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/diagnostics.jsonl": "d86d86a6b2479175686817dad057137c8805c11e55ec76ae6f3b39844db2300b",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/episode_000000_seed_1/audit.json": "4620b75600b9995c58247c20fbcb6703b5438a366f439f24f06a7efc58b29689",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/episode_000000_seed_1/report.json": "9ac47a00fc48691d6340e9c8c362f13fb77c439cffa599ddd401713f18e5e1d9",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/episode_000000_seed_1.attempt.json": "97a5594394187d7de730703f9d2252cff6798deb70e8dc1f623bb66cdc69f8bd",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/episode_000000_seed_1.log": "4bbb5d1f8028321e9d597f0079d8f634860a8d39d942aca9d7f939edf49a51e8",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/jobs/000000.json": "4042fd6ff27059fcf0eea2b23ba31f482d26ac137d107eb13b0cd0f5e861aa9c",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/rejected.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/run.json": "5c8d3ab16d0275999cf7f447c7b9f266ba347402f76e5101c3789f4d3f20828b",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/summary.json": "ad41c718a135c60d11a86d98d95d8f22eb4cde1839dc9f71c3562c3196d75955",
+    "outputs/platform_audit_v1/tcp_fixed_release_probe_v1/summary_evidence/unverified.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "script_sha256": "b7e597c47f2d4027493b9661c9e0ab0516a4ee2988b6b979883098651b6fb57c"
+}

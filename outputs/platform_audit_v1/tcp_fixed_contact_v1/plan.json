@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-09T19:01:32.837279+00:00",
+  "head": "db74758d9ccd2b4b681ea8aa71b87c12b8dea201",
+  "dirty_status": " M README.md\n M src/piper_sim/robot_asset.py\n M src/piper_sim/tasks/isaac.py\n?? configs/clean_table_tcp_fixed_contact.yaml\n?? configs/rl/\n?? docs/ppo_training.md\n?? outputs/platform_audit_v1/hermite_schedule_bounds_v1.json\n?? outputs/platform_audit_v1/native_dynamics_seed0_v1.json\n?? outputs/platform_audit_v1/servo_release_geometry_seed13_v1.json\n?? outputs/platform_audit_v1/servo_release_geometry_seed15619_v1.json\n?? outputs/platform_audit_v1/substep_hermite_seed0_v1/\n?? outputs/platform_audit_v1/substep_linear_seed0_v2/\n?? outputs/platform_audit_v1/substep_velocity_seed0_v1/\n?? requirements/ppo-linux-py311.lock\n?? scripts/install_ppo.sh\n?? scripts/run_ppo_background.py\n?? scripts/start_ppo_background.py\n?? scripts/train_ppo.py\n?? scripts/train_ppo.sh\n?? src/piper_sim/rl/\n?? tests/test_rl_geometry.py\n?? tests/test_rl_policy.py\n",
+  "command": [
+    ".venv-mujoco/bin/python",
+    "scripts/collect_parallel_clean_table.py",
+    "--output",
+    "/dev/shm/piper_tcp_fixed_contact_v1",
+    "--workers",
+    "3",
+    "--seeds",
+    "0",
+    "1",
+    "43",
+    "--config",
+    "/home/midea/Desktop/piper_sim/configs/clean_table_tcp_fixed_contact.yaml",
+    "--task-scene",
+    "configs/tasks/clean_table_rigid.yaml",
+    "--domain-randomization",
+    "configs/domain_randomization/clean_table.yaml",
+    "--collection-profile",
+    "configs/collection/clean_table_tcp_clearance.yaml",
+    "--acceptance-policy",
+    "configs/collection/quality_policy_tcp.yaml",
+    "--states-only"
+  ],
+  "seeds": [
+    0,
+    1,
+    43
+  ],
+  "scope": "Known-scene full state-only regression. Not independent holdout evidence, RGB acceptance, calibration or qualified data throughput.",
+  "change": "Only backend finger_contact is added to current TCP controller configuration. Latest collection/planner settings and independent quality gates unchanged.",
+  "release_mitigations": "Not added; current baseline has default release preload threshold and rim release noslip setting.",
+  "raw_storage": "Volatile /dev/shm; retain failures and original recordings. Root contains small evidence only.",
+  "files": {
+    "/home/midea/Desktop/piper_sim/configs/clean_table_tcp.yaml": "7ff00535a1c5ac60bb2aee0a609ee102b78088d91a298e971a49a6d3c518a66e",
+    "/home/midea/Desktop/piper_sim/configs/clean_table_tcp_fixed_contact.yaml": "da3442cb7087ea364b834ecc76d76d0488c6b08af435f4bfa60dae5e6b8ef14f",
+    "/home/midea/Desktop/piper_sim/configs/physics/mujoco_fixed_fingers.yaml": "804ea2c4f69c5ea9487a6affdd5367fe0ebb6ca98b9bf6740f1177315bc56e2b",
+    "/home/midea/Desktop/piper_sim/configs/collection/clean_table_tcp_clearance.yaml": "d2af7e5d6aecc0a9f8a2512405f3da5818843537788cc5fb4be75a4030aecc83",
+    "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  }
+}

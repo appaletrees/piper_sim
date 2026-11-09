@@ -1,0 +1,20 @@
+{
+  "created_utc": "2026-11-09T19:12:04.489992+00:00",
+  "scope": "Known-scene full state-only diagnostic, not RGB training acceptance, unseen-layout reliability, hardware calibration or throughput benchmark.",
+  "seeds": [
+    0,
+    1,
+    43
+  ],
+  "change": "Only slender_pregrasp_clearance_m 0.004 -> 0.001 relative to fixed contact v1. Object CAD, neighbour-distance margin 0.001, independent policy, force limits, servo, and all release parameters unchanged.",
+  "geometric_interpretation": "For upright 6 mm sticks, planned opening 7 mm gives nominal 0.5 mm per pad before contact. This is a simulation candidate, not a hardware positioning tolerance.",
+  "justification": "Read-only geometric aperture probe found feasible seed 0 and preserved source/native state; full task still required.",
+  "acceptance_policy": "configs/collection/quality_policy_tcp.yaml",
+  "files": {
+    "/home/midea/Desktop/piper_sim/configs/collection/clean_table_tcp_slender.yaml": "b56d0c535859a87494300b452834fa5e05961258fc977d0e75816de3958838d3",
+    "/home/midea/Desktop/piper_sim/configs/clean_table_tcp_fixed_contact.yaml": "da3442cb7087ea364b834ecc76d76d0488c6b08af435f4bfa60dae5e6b8ef14f",
+    "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "output": "/dev/shm/piper_tcp_fixed_slender_v1",
+  "required_outcomes": "Preserve every attempt, inspect independent state/task/TCP audit and grasp contact evidence; no gate relaxation."
+}

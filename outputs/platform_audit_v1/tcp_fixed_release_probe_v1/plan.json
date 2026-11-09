@@ -1,0 +1,13 @@
+{
+  "created_utc": "2026-11-09T19:21:23.755322+00:00",
+  "seed": 1,
+  "change": "Only add rim_release_noslip_iterations=10 to current TCP clearance collection profile. Retain baseline 4 mm extra pregrasp opening, fixed material, same independent policy and all thresholds. No preload threshold change.",
+  "reference": "/dev/shm/piper_tcp_fixed_contact_v1/worker_01/episode_000000_seed_1/episode.h5",
+  "reference_native_dynamics": "outputs/platform_audit_v1/tcp_fixed_contact_v1/fixed_seed1_native_dynamics.json",
+  "motivation": "30 Hz audit passed, but 960 Hz substep right gripper acceleration 28.9673 m/s2 and jerk 38261.94 m/s3 peaked during side_dish release. Test phase-continuous numerical friction refinement, not an attachment/contact-force override.",
+  "evaluation": "Complete task, original independent state/TCP audit, and read-only native interval integrity/peaks. A component improvement does not prove calibrated physical fidelity or remove other contact transients.",
+  "profile": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/tcp_fixed_release_probe_v1/collection.yaml",
+  "profile_sha256": "8f9bf56f960d5cd3b79eb84bec7cce47cdec22fe409f1e2912ebd2afa01f4011",
+  "output": "/dev/shm/piper_tcp_fixed_release_probe_v1",
+  "training_ready": false
+}
