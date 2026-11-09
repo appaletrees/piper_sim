@@ -115,3 +115,24 @@ def test_worker_timeout_stops_group_and_never_publishes_a_rate(tmp_path, monkeyp
     report = json.loads((tmp_path/'run/report.json').read_text())
     assert report['status'] == 'interrupted_or_failed' and not report['jobs']
     assert 'qualified_episodes_per_hour' not in report and len(stopped) == 1
+
+
+def test_real_input_fingerprint_does_not_require_unused_scipy(monkeypatch):
+    from types import SimpleNamespace
+    import shutil
+    pytest.importorskip('pyarrow')
+    if not all(shutil.which(key) for key in ('ffmpeg', 'ffprobe')):
+        pytest.skip('Export executables required for real fingerprint smoke test')
+    version = cli.importlib.metadata.version
+    def without_scipy(name):
+        if name.lower() == 'scipy': raise cli.importlib.metadata.PackageNotFoundError(name)
+        return version(name)
+    monkeypatch.setattr(cli.importlib.metadata, 'version', without_scipy)
+    args = SimpleNamespace(config=str(ROOT/'configs/clean_table_workcell.yaml'),
+        task_scene=str(ROOT/'configs/tasks/clean_table_rigid.yaml'),
+        domain_randomization=str(ROOT/'configs/domain_randomization/clean_table.yaml'),
+        collection_profile=str(ROOT/'configs/collection/clean_table.yaml'))
+    fingerprint = cli.capture_identity(args)
+    assert fingerprint['versions']['Pillow'] and fingerprint['versions']['pyarrow']
+    assert fingerprint['export_executables']['ffmpeg']['sha256']
+    assert fingerprint['files'][str(ROOT/'scripts/benchmark_qualified_collection.py')]

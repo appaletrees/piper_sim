@@ -25,7 +25,7 @@ def capture_identity(args):
     value = batch_identity(args)
     from piper_sim.lerobot_export import check_dependencies
     check_dependencies()
-    value['versions'].update({key: importlib.metadata.version(key) for key in ('Pillow', 'pyarrow', 'scipy')})
+    value['versions'].update({key: importlib.metadata.version(key) for key in ('Pillow', 'pyarrow')})
     value['export_executables'] = {key: {'path': str(Path(shutil.which(key)).resolve()),
         'sha256': sha256(shutil.which(key))} for key in ('ffmpeg', 'ffprobe')}
     value['runtime'] = {'python': sys.version, 'executable': sys.executable,
