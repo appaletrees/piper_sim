@@ -73,26 +73,8 @@ def _inspect(path, *, require_quality=False, policy=None):
         # Generic external recordings can still be converted for diagnostics.
         # Scripted teachers and curated batch exports must pass the final gate.
         if require_quality or 'teacher' in meta:
-            audit = json.loads(f.attrs.get('dataset_audit', '{}'))
-            if not (f.attrs.get('training_ready', False) and f.attrs.get('accepted', False)
-                    and f.attrs.get('success', False) and audit.get('training_ready')
-                    and audit.get('passed') and not audit.get('violations')):
-                raise ValueError('Scripted training export requires a passed RGB dataset audit: '+str(path))
-            sidecar = f.attrs.get('dataset_audit_sidecar', '')
-            if not sidecar or Path(sidecar).name != sidecar:
-                raise ValueError('Missing portable dataset audit sidecar: '+str(path))
-            evidence = json.loads(path.with_name(sidecar).read_text())
-            audited_sha256 = evidence.get('source_sha256')
-            if (not evidence.get('training_ready') or not evidence.get('passed') or evidence.get('violations')
-                    or audited_sha256 != _sha256(path)):
-                raise ValueError('Episode changed after its dataset audit: '+str(path))
-            from .collection_audit import AUDIT_VERSION, load_acceptance_policy
-            _, expected_policy = load_acceptance_policy(policy)
-            if (audit.get('schema_version') != AUDIT_VERSION or
-                    audit.get('acceptance_policy', {}).get('sha256') != expected_policy['sha256']):
-                raise ValueError('Re-audit this episode with the selected production acceptance policy: '+str(path))
-            if {k: v for k, v in evidence.items() if k != 'source_sha256'} != audit:
-                raise ValueError('Embedded and detached dataset audits disagree: '+str(path))
+            from .training_acceptance import verify_training_acceptance
+            audit, audited_sha256 = verify_training_acceptance(f, path, policy=policy)
             meta['dataset_audit'] = audit
         # Preserve final collection gates as well as reset-time metadata.
         if 'quality' in f.attrs:

@@ -1,0 +1,17 @@
+{
+  "command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q --ignore=tests/test_rl_geometry.py --ignore=tests/test_rl_policy.py --basetemp=/dev/shm/piper_training_reader_full_tests",
+  "passed": 447,
+  "seconds": 91.35,
+  "log_sha256": "c9d8ec26ab7c84bcb04ed5c4bbea89b656a55a052417465aaa8201693d2c09e0",
+  "file_sha256": {
+    "src/piper_sim/dataset.py": "7ed08f8981206094b19d2721fe7ea36c5da4695d36161125bf94197af6a032d1",
+    "src/piper_sim/training_acceptance.py": "43c65a8a7d5612f19d82195f48a94ff7609030019737f0b2ba3112f9550cba2e",
+    "src/piper_sim/collection_audit.py": "c2621995fc32606ad9fff8309fa8eabb13ce3f3c4d9941ac1e833d57548e8d56",
+    "src/piper_sim/collection_jobs.py": "a5a9140b87fe850a1b38eaaecb58f32d68cc9c9936378889f5493bee2994a931",
+    "src/piper_sim/lerobot_export.py": "f8afa8772ab62bc459bc60b02e1abebceea7803819b6b1efcc098566a7a4c900",
+    "tests/test_recording.py": "e09ac91ea26cb73b8f06e11f5f1936320dc28ce810da4890a4aef5e6fb67c885",
+    "tests/test_training_reader.py": "9efea1e7fd64fce863a6d625a0c775568fd88d56326f24835d2156fe890126b3",
+    "configs/collection/quality_policy.yaml": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+  },
+  "scope": "Full non-PPO suite. Added 19 reader cases cover shared eligibility, explicit diagnostic opt-out, all clock/state/pixel fields, policy mismatch, checksum mismatch, path replacement, locks, once-per-generator hashing, external dependencies, option validation and dependency isolation. Acceptance fixtures stub task outcome; they are not physical production episodes."
+}

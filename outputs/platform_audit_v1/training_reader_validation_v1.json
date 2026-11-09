@@ -1,0 +1,85 @@
+{
+  "training_ready": false,
+  "scope": "Read-only full-episode consumer validation; no rollout or training export.",
+  "plan_sha256": "97de5b3b7cbf587ab88a173b55c22ec3f4bb7397371494fefeb02c13f177eec3",
+  "analysis_sha256": "0c5e694e739ae17ba15b35b453b24a0a2b6142f36322298bff67efcd974617c5",
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/episode.h5",
+  "source_sha256": "c1d8939a732cf6f545e61c8a189d6427048abe2b89f23bea11ca7e52c4178b83",
+  "source_training_ready": true,
+  "frames_checked": 7106,
+  "camera_names": [
+    "left_wrist",
+    "overhead",
+    "right_wrist"
+  ],
+  "full_row_rgb_images_checked": 21318,
+  "rgb_shape": [
+    480,
+    640,
+    3
+  ],
+  "multi_frame_window_starts": [
+    0,
+    3545,
+    7090
+  ],
+  "multi_frame_horizon": 16,
+  "total_rgb_images_compared_including_windows": 21462,
+  "fields_compared_exactly": {
+    "state": "observation/state",
+    "action": "action/position",
+    "next_state": "next_observation/state",
+    "timestamp": "observation/timestamp",
+    "sim_timestamp": "observation/sim_time",
+    "next_sim_timestamp": "next_observation/sim_time",
+    "action_timestamp": "action/timestamp",
+    "action_sequence": "action/sequence"
+  },
+  "keys": [
+    "action",
+    "action_sequence",
+    "action_timestamp",
+    "image_timestamps",
+    "images",
+    "next_sim_timestamp",
+    "next_state",
+    "sim_timestamp",
+    "state",
+    "task",
+    "timestamp"
+  ],
+  "task": "先在桌面套叠纸杯，再将整摞杯子、笔、充电头和全部餐具放入右篮",
+  "simulation_duration_seconds": 236.8666666679697,
+  "clocks": {
+    "host_dt_seconds": {
+      "min": 0.15382521296851337,
+      "median": 0.17345253995154053,
+      "max": 2.2571996189653873
+    },
+    "sim_dt_seconds": {
+      "min": 0.03333333333330302,
+      "median": 0.03333333333333144,
+      "max": 0.033333333333757764
+    },
+    "transition_dt_seconds": {
+      "min": 0.03333333333330302,
+      "median": 0.03333333333333144,
+      "max": 0.033333333333757764
+    }
+  },
+  "max_returned_window_array_bytes": 44240512,
+  "process_peak_rss_kib": 1003208,
+  "reader_validation_seconds": 165.272170051001,
+  "strict_export_inspection": "passed",
+  "state_only_reaudit": {
+    "passed": true,
+    "training_ready": false,
+    "seconds": 10.28676990896929
+  },
+  "all_sources_sidecars_and_code_unchanged": true,
+  "limitations": [
+    "Existing RGB recording; no new simulation or export produced.",
+    "This verifies reader fidelity, not real-device calibration or TCP candidate RGB.",
+    "Wall time includes duplicated independent reads and is not production throughput."
+  ]
+}

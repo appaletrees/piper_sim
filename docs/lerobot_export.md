@@ -54,6 +54,12 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/export_lerobot.py \
 不因此获得训练质量认证；需要对它执行同样的生产门槛时使用 `--require-quality`，并用
 `--policy` 选择独立验收策略。详细证据要求见 [采集质量说明](domain_randomization_collection.md)。
 
+直接读取 HDF5 训练窗口时，`dataset.sequence_windows()` 现在默认执行同一训练验收，
+不需要先导出视频。它保留 rad/m 单位，显式提供仿真与图像时间，不返回特权 extras；
+诊断读取须传 `require_quality=False`。见 [HDF5 训练读取说明](training_reader.md)。
+严格入口均要求数据自包含，外部 HDF5 链接/存储不受单文件校验和保护，因而拒收；
+项目现有的内部共享 RGB 虚拟数据集仍可使用。
+
 Python调用：
 
 ```python

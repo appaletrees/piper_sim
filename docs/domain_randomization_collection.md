@@ -114,6 +114,11 @@ reset 改变杯子数量时，`observation.extras.objects` 仅包含活动物体
 `extras.task.metrics.cup_stack` 提供套叠状态，`summary.required_count` 随数量改变。
 元数据 `task_scene.layout.content` 与 `domain_randomization` 保存实际随机样本。
 
+离线训练可用 [HDF5 窗口读取器](training_reader.md) 或严格 LeRobot 导出，两者共享生产
+验收入口。HDF5 窗口默认拒绝失败、状态预检或未通过独立 RGB 审计的回合；仅诊断时
+显式设置 `require_quality=False`。窗口不包含上述特权 extras，仿真时钟与主机时钟分别
+提供。`next_state` 是预测目标，训练器应显式选择因果输入字段。
+
 ```python
 from piper_sim.client import SimulationClient
 from piper_sim.agilex import AgilexAdapter

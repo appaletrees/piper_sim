@@ -394,8 +394,11 @@ metadata 明确标记这种混合来源，不能当作真实相机数据训练�
 
 记录先写 `.h5.partial`，正常结束后原子重命名；异常时保留 partial 便于诊断。
 不覆盖既有 episode。不自动把测试动作标为任务成功。
-`dataset.sequence_windows()` 返回连续状态、动作、图像序列，窗口不跨 episode；
-可作为后续 WAM 数据入口。原始HDF5可选转换为 **LeRobot Dataset v2.1**，保留原episode：
+`dataset.sequence_windows()` 默认只读取通过独立 RGB 审计的回合，返回连续的 rad/m 状态、
+动作和图像窗口，保留独立的主机/仿真/图像时间字段，不跨 episode、不返回特权 extras。
+失败或未验收回合须显式指定 `require_quality=False` 做诊断；`next_state` 仅作预测目标，
+不能作为同一步策略输入。使用示例及默认行为变更见 [HDF5 训练读取说明](docs/training_reader.md)。
+原始HDF5可选转换为 **LeRobot Dataset v2.1**，保留原episode：
 
 ```bash
 # 新采集：结束后自动导出；不加该选项仍只录制HDF5

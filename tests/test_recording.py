@@ -19,7 +19,8 @@ def test_transitions_images_and_windows(tmp_path, compression):
             writer.append(obs(i), Command(np.zeros(14), i+.1, i), obs(i+1))
     info = validate_episode(path)
     assert info["transitions"] == 4
-    windows = list(sequence_windows(path, horizon=3))
+    # These are failed, uncurated writer fixtures, read explicitly for diagnostics.
+    windows = list(sequence_windows(path, horizon=3, require_quality=False))
     assert len(windows) == 2
     assert windows[0]["images"]["overhead"].shape == (3, 8, 8, 3)
     with h5py.File(path) as f:

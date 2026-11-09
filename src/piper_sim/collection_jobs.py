@@ -70,6 +70,8 @@ def validate_completed(result, *, policy=None):
                 evidence.get('acceptance_policy', {}).get('sha256') != policy['sha256']):
             raise ValueError('Diagnostic source or policy changed: '+str(path))
         with h5py.File(path, 'r') as f:
+            from .training_acceptance import require_self_contained
+            require_self_contained(f)
             embedded = json.loads(f.attrs.get('dataset_audit', '{}'))
             if not f.attrs.get('complete') or embedded != {k: v for k, v in evidence.items() if k != 'source_sha256'}:
                 raise ValueError('Diagnostic audit mismatch: '+str(path))

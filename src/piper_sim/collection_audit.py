@@ -17,6 +17,7 @@ import numpy as np
 from .contracts import FEATURE_NAMES, LOWER, UPPER
 from .experts.quality import MotionQuality
 from .config import ROOT
+from .training_acceptance import require_self_contained
 
 AUDIT_VERSION = 'piper.collection.v3'
 
@@ -308,6 +309,7 @@ def audit_episode(path, *, require_rgb=True, policy=None):
               'auditor_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
     try:
         with _bound_audit_source(path, result) as f:
+            require_self_contained(f)
             _need(f.attrs.get('complete', False) and f.attrs.get('schema_version') == 'piper.transitions.v1',
                   'incomplete_or_unknown_episode')
             _need(f.attrs.get('success', False), 'unsuccessful_episode')
