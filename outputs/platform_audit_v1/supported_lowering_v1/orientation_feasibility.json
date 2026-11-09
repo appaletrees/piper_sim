@@ -1,0 +1,1688 @@
+{
+  "scope": "Static, collision-checked container placement offsets from recorded grasps.\n\nNo live rollout or data collection. Uses measured grasp geometry and an elevated\nXY traverse followed by a vertical descent. A successful query is not proof of\ngrasp stability, physical support or final containment.\n",
+  "source": "/dev/shm/piper_contact_substeps_v1/episode/episode.h5",
+  "source_sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+  "source_unchanged": true,
+  "script_sha256": "e3e543c985df865ae3a6cc9dbd5a6c6a90a327d61adaf64ec7e0e030fe8d1c9e",
+  "training_ready": false,
+  "results": [
+    {
+      "object": "bowl",
+      "source_index": 5957,
+      "support_obstacles": [
+        "plate",
+        "spoon",
+        "chopstick_a",
+        "chopstick_b",
+        "side_dish",
+        "basket",
+        "cup_00",
+        "cup_01",
+        "cup_02",
+        "pen",
+        "charger"
+      ],
+      "attempts": [
+        {
+          "offset_world_xy_m": [
+            0.04,
+            0.04
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": 0.12396436992062017,
+          "stage": "path",
+          "error": "SortFailure: right IK failed at [0.5105, -0.4389, 0.2385]: 2.4 mm, 2.3 deg",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0.04,
+            0
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": 0.11797399429358196,
+          "stage": "path",
+          "error": "SortFailure: right IK failed at [0.5025, -0.4789, 0.2385]: 2.8 mm, 2.3 deg",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0,
+            0.04
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": 0.12396363589285456,
+          "stage": "path",
+          "error": "SortFailure: Planned path obstructed (4.30 mm): ['task/basket', 'right/link7']",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.04,
+            0.04
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": null,
+          "stage": "footprint",
+          "error": "ValueError: Payload footprint outside basket interior",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.04,
+            0
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": null,
+          "stage": "footprint",
+          "error": "ValueError: Payload footprint outside basket interior",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0.08,
+            0
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": 0.1179762614574025,
+          "stage": "path",
+          "error": "SortFailure: right IK failed at [0.5005, -0.4789, 0.2385]: 3.0 mm, 2.5 deg",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0,
+            -0.04
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": null,
+          "stage": "footprint",
+          "error": "ValueError: Payload footprint outside basket interior",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.08,
+            0
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": null,
+          "stage": "footprint",
+          "error": "ValueError: Payload footprint outside basket interior",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0.04,
+            -0.04
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": null,
+          "stage": "footprint",
+          "error": "ValueError: Payload footprint outside basket interior",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.04,
+            -0.04
+          ],
+          "rise_m": 0.04,
+          "sampled_initial_gap_m": null,
+          "stage": "footprint",
+          "error": "ValueError: Payload footprint outside basket interior",
+          "state_unchanged": true
+        }
+      ],
+      "orientation_search": {
+        "profile": {
+          "kinds": [
+            "bowl"
+          ],
+          "xy_radius_m": 0.05,
+          "xy_step_m": 0.025,
+          "wall_margin_m": 0.012,
+          "support_gap_m": 0.001,
+          "extra_release_heights_m": [
+            0.0
+          ],
+          "max_candidates": 216
+        },
+        "rejections": [
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5157, -0.5272, 0.2456]: 12.8 mm, 52.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5642, -0.482, 0.2456]: 43.1 mm, 63.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5189, -0.4334, 0.2456]: 34.0 mm, 60.5 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (16.07 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5407, -0.5279, 0.2456]: 2.2 mm, 54.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5892, -0.4827, 0.2456]: 54.4 mm, 63.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5439, -0.4341, 0.2456]: 29.1 mm, 61.8 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (18.41 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.567, -0.4786, 0.2456]: 29.1 mm, 53.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6156, -0.4334, 0.2456]: 63.8 mm, 63.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5703, -0.3849, 0.2456]: 54.1 mm, 65.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5218, -0.4301, 0.2456]: 3.4 mm, 3.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5164, -0.5022, 0.2456]: 20.8 mm, 50.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5649, -0.457, 0.2456]: 42.1 mm, 62.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5196, -0.4084, 0.2456]: 29.3 mm, 71.9 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (16.08 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5663, -0.5036, 0.2456]: 18.9 mm, 54.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6149, -0.4584, 0.2456]: 65.0 mm, 64.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5211, -0.4551, 0.2456]: 6.3 mm, 4.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5696, -0.4098, 0.2456]: 43.0 mm, 63.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5413, -0.5029, 0.2456]: 15.3 mm, 52.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5899, -0.4577, 0.2456]: 53.3 mm, 63.4 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (18.31 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5446, -0.4091, 0.2456]: 43.7 mm, 62.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5275, -0.5276, 0.2506]: 9.7 mm, 66.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5645, -0.4702, 0.2506]: 47.1 mm, 58.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5321, -0.4338, 0.2506]: 28.2 mm, 60.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4701, -0.4905, 0.2506]: 13.0 mm, 9.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5525, -0.5283, 0.2506]: 10.1 mm, 68.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5895, -0.4709, 0.2506]: 56.8 mm, 60.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5571, -0.4345, 0.2506]: 23.1 mm, 61.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4951, -0.4912, 0.2506]: 14.7 mm, 9.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5788, -0.479, 0.2506]: 36.3 mm, 67.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6152, -0.4466, 0.2506]: 67.2 mm, 61.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5578, -0.4095, 0.2506]: 35.1 mm, 63.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5214, -0.4419, 0.2506]: 20.7 mm, 9.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5282, -0.5026, 0.2506]: 17.7 mm, 65.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5652, -0.4452, 0.2506]: 43.8 mm, 58.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5328, -0.4088, 0.2506]: 25.9 mm, 63.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4708, -0.4655, 0.2506]: 14.4 mm, 6.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6159, -0.4216, 0.2506]: 61.2 mm, 62.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5781, -0.504, 0.2506]: 25.1 mm, 68.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5532, -0.5033, 0.2506]: 14.7 mm, 67.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5539, -0.4783, 0.2506]: 29.3 mm, 66.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6145, -0.4716, 0.2506]: 66.2 mm, 62.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5585, -0.3845, 0.2506]: 33.7 mm, 65.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5207, -0.4669, 0.2506]: 14.8 mm, 10.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5902, -0.4459, 0.2506]: 52.0 mm, 60.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5289, -0.5276, 0.2505]: 36.8 mm, 22.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5639, -0.4938, 0.2505]: 56.5 mm, 100.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5307, -0.4338, 0.2505]: 35.8 mm, 67.6 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (16.11 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5539, -0.5283, 0.2505]: 11.2 mm, 39.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5888, -0.4944, 0.2505]: 71.2 mm, 100.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5557, -0.4345, 0.2505]: 31.8 mm, 69.1 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (22.13 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5546, -0.5033, 0.2505]: 38.4 mm, 21.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6152, -0.4452, 0.2505]: 57.8 mm, 100.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5821, -0.3852, 0.2505]: 60.4 mm, 71.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5214, -0.4433, 0.2505]: 4.7 mm, 1.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5296, -0.5026, 0.2505]: 30.1 mm, 21.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5646, -0.4688, 0.2505]: 52.5 mm, 99.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5314, -0.4088, 0.2505]: 49.4 mm, 67.8 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (15.80 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5221, -0.4183, 0.2505]: 3.4 mm, 1.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5814, -0.4102, 0.2505]: 45.3 mm, 71.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5564, -0.4095, 0.2505]: 47.2 mm, 69.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5571, -0.3845, 0.2505]: 61.4 mm, 69.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5552, -0.4783, 0.2505]: 31.2 mm, 21.8 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (17.40 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6145, -0.4702, 0.2505]: 60.5 mm, 102.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5895, -0.4695, 0.2505]: 66.9 mm, 99.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5385, -0.5279, 0.2522]: 13.8 mm, 78.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5648, -0.4591, 0.2522]: 34.8 mm, 97.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5211, -0.4335, 0.2522]: 24.9 mm, 53.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4698, -0.5015, 0.2522]: 23.8 mm, 18.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5135, -0.5272, 0.2522]: 20.5 mm, 77.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5898, -0.4598, 0.2522]: 41.3 mm, 98.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5461, -0.4342, 0.2522]: 29.9 mm, 53.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4947, -0.5022, 0.2522]: 16.2 mm, 19.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5899, -0.4793, 0.2522]: 42.0 mm, 79.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6148, -0.4605, 0.2522]: 51.4 mm, 98.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5468, -0.4092, 0.2522]: 28.5 mm, 54.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5211, -0.453, 0.2522]: 27.3 mm, 19.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5142, -0.5022, 0.2522]: 19.4 mm, 76.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5655, -0.4341, 0.2522]: 35.8 mm, 99.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5218, -0.4085, 0.2522]: 25.0 mm, 54.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4705, -0.4765, 0.2522]: 27.2 mm, 17.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5649, -0.4786, 0.2522]: 35.6 mm, 77.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5642, -0.5036, 0.2522]: 20.9 mm, 78.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6155, -0.4355, 0.2522]: 49.2 mm, 100.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5892, -0.5043, 0.2522]: 32.2 mm, 80.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5392, -0.5029, 0.2522]: 15.2 mm, 77.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5399, -0.4779, 0.2522]: 28.1 mm, 76.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5905, -0.4348, 0.2522]: 41.1 mm, 99.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5179, -0.5273, 0.2519]: 7.4 mm, 12.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5636, -0.5047, 0.2519]: 76.5 mm, 89.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5417, -0.4341, 0.2519]: 36.1 mm, 76.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.471, -0.456, 0.0809]: 0.0 mm, 18.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5429, -0.528, 0.2519]: 8.7 mm, 12.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5885, -0.5054, 0.2519]: 85.3 mm, 89.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5167, -0.4334, 0.2519]: 40.6 mm, 75.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.496, -0.4567, 0.0809]: 0.0 mm, 13.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5436, -0.503, 0.2519]: 5.5 mm, 10.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6149, -0.4561, 0.2519]: 71.4 mm, 93.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.593, -0.3855, 0.2519]: 65.1 mm, 80.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.521, -0.4574, 0.0809]: 0.0 mm, 7.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5186, -0.5023, 0.2519]: 4.7 mm, 8.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5642, -0.4797, 0.2519]: 75.1 mm, 87.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5174, -0.4084, 0.2519]: 26.5 mm, 90.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4717, -0.431, 0.0809]: 0.0 mm, 19.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5681, -0.3848, 0.2519]: 68.0 mm, 78.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5217, -0.4324, 0.0809]: 0.0 mm, 9.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5674, -0.4098, 0.2519]: 50.9 mm, 77.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5923, -0.4105, 0.2519]: 52.2 mm, 79.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5424, -0.4091, 0.2519]: 51.5 mm, 76.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5431, -0.3841, 0.2519]: 31.3 mm, 92.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5443, -0.478, 0.2519]: 3.0 mm, 8.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.548, -0.5281, 0.2503]: 18.2 mm, 88.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5651, -0.4496, 0.2503]: 54.9 mm, 87.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5116, -0.4332, 0.2503]: 5.9 mm, 41.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4695, -0.511, 0.2503]: 20.5 mm, 34.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.523, -0.5274, 0.2503]: 22.1 mm, 87.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5901, -0.4503, 0.2503]: 51.5 mm, 88.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5366, -0.4339, 0.2503]: 1.9 mm, 43.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4945, -0.5117, 0.2503]: 13.1 mm, 34.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5994, -0.4795, 0.2503]: 62.2 mm, 73.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6151, -0.451, 0.2503]: 52.4 mm, 89.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5373, -0.4089, 0.2503]: 0.3 mm, 40.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5209, -0.4624, 0.2503]: 30.4 mm, 30.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5237, -0.5024, 0.2503]: 20.6 mm, 86.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5658, -0.4247, 0.2503]: 59.6 mm, 89.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5123, -0.4082, 0.2503]: 2.6 mm, 38.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4702, -0.486, 0.2503]: 11.1 mm, 28.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5744, -0.4788, 0.2503]: 46.4 mm, 73.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5737, -0.5038, 0.2503]: 48.9 mm, 73.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6158, -0.426, 0.2503]: 54.7 mm, 91.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5987, -0.5045, 0.2503]: 65.4 mm, 74.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5487, -0.5031, 0.2503]: 14.9 mm, 88.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5494, -0.4782, 0.2503]: 38.8 mm, 71.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6144, -0.476, 0.2503]: 50.8 mm, 87.3 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (9.59 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5633, -0.5141, 0.2498]: 53.9 mm, 84.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5511, -0.4343, 0.2498]: 38.3 mm, 84.2 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (8.51 mm): ['task/bowl', 'task/cup_02']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5335, -0.5277, 0.2498]: 3.9 mm, 2.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5883, -0.5148, 0.2498]: 62.4 mm, 85.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5261, -0.4336, 0.2498]: 40.0 mm, 83.1 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (4.91 mm): ['task/bowl', 'task/cup_02']"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (15.38 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6147, -0.4655, 0.2498]: 69.1 mm, 80.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6024, -0.3857, 0.2498]: 48.9 mm, 100.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5213, -0.448, 0.0788]: 4.1 mm, 1.5 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (15.54 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.564, -0.4891, 0.2498]: 50.0 mm, 82.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5268, -0.4086, 0.2498]: 57.3 mm, 83.2 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (4.89 mm): ['task/bowl', 'task/cup_02']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5774, -0.3851, 0.2498]: 41.3 mm, 100.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.522, -0.423, 0.0788]: 10.1 mm, 3.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5767, -0.41, 0.2498]: 53.5 mm, 86.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6017, -0.4107, 0.2498]: 61.0 mm, 87.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5518, -0.4093, 0.2498]: 54.3 mm, 84.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5524, -0.3844, 0.2498]: 69.8 mm, 85.4 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (7.60 mm): ['task/basket', 'task/bowl']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5553, -0.5283, 0.2461]: 30.7 mm, 97.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5653, -0.4423, 0.2461]: 67.5 mm, 81.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5043, -0.433, 0.2461]: 0.0 mm, 19.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4693, -0.5183, 0.2461]: 33.8 mm, 43.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5303, -0.5276, 0.2461]: 29.5 mm, 96.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5903, -0.443, 0.2461]: 63.3 mm, 81.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5293, -0.4337, 0.2461]: 0.0 mm, 22.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4943, -0.519, 0.2461]: 19.9 mm, 44.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6067, -0.4797, 0.2461]: 75.3 mm, 88.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6153, -0.4437, 0.2461]: 62.5 mm, 81.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.53, -0.4087, 0.2461]: 0.0 mm, 17.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5207, -0.4698, 0.2461]: 27.7 mm, 43.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.531, -0.5026, 0.2461]: 19.4 mm, 96.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.566, -0.4173, 0.2461]: 72.3 mm, 83.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.505, -0.408, 0.2461]: 0.0 mm, 14.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.47, -0.4933, 0.2461]: 37.2 mm, 41.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5817, -0.4791, 0.2461]: 63.5 mm, 86.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.581, -0.504, 0.2461]: 35.9 mm, 99.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.616, -0.4187, 0.2461]: 66.3 mm, 84.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.556, -0.5033, 0.2461]: 30.4 mm, 97.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.606, -0.5047, 0.2461]: 58.0 mm, 99.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5567, -0.4784, 0.2461]: 52.1 mm, 85.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6146, -0.4687, 0.2461]: 58.7 mm, 79.7 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (13.08 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5631, -0.5213, 0.2455]: 41.3 mm, 85.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5582, -0.4345, 0.2455]: 41.6 mm, 92.0 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (5.75 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (22.54 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5881, -0.522, 0.2455]: 54.1 mm, 84.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5332, -0.4338, 0.2455]: 39.0 mm, 91.3 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (26.04 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (26.09 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6145, -0.4727, 0.2455]: 55.4 mm, 79.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6096, -0.3859, 0.2455]: 50.9 mm, 102.4 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (8.92 mm): ['task/bowl', 'task/cup_02']"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (6.03 mm): ['task/basket', 'right/link7']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5638, -0.4963, 0.2455]: 38.6 mm, 82.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5339, -0.4088, 0.2455]: 32.9 mm, 100.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.4722, -0.4144, 0.2455]: 4.3 mm, 3.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5846, -0.3853, 0.2455]: 41.5 mm, 102.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5222, -0.4158, 0.2455]: 3.3 mm, 3.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5839, -0.4102, 0.2455]: 41.5 mm, 100.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5589, -0.4095, 0.2455]: 35.4 mm, 100.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6089, -0.4109, 0.2455]: 50.7 mm, 100.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5596, -0.3846, 0.2455]: 36.4 mm, 103.0 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (8.91 mm): ['right/link7', 'task/cup_02']"
+          }
+        ],
+        "error": "SortFailure: No supported container placement for bowl; checked=216; last_failure=Planned path obstructed (8.91 mm): ['right/link7', 'task/cup_02']"
+      }
+    },
+    {
+      "object": "side_dish",
+      "source_index": 8314,
+      "support_obstacles": [
+        "plate",
+        "bowl",
+        "spoon",
+        "chopstick_a",
+        "chopstick_b",
+        "basket",
+        "cup_00",
+        "cup_01",
+        "cup_02",
+        "pen",
+        "charger"
+      ],
+      "attempts": [
+        {
+          "offset_world_xy_m": [
+            0.04,
+            0.04
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": 0.06493869904000604,
+          "stage": "path",
+          "error": "SortFailure: Planned path obstructed (4.02 mm): ['task/basket', 'right/link5']",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0.04,
+            0
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": 0.06361975849272802,
+          "stage": "path",
+          "error": "SortFailure: right IK failed at [0.6484, -0.4526, 0.2296]: 4.1 mm, 3.4 deg",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0,
+            0.04
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": 0.06661134806303759,
+          "stage": "path",
+          "error": "SortFailure: Planned path obstructed (4.22 mm): ['task/basket', 'right/link5']",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.04,
+            0.04
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": -0.04138983888138412,
+          "stage": "footprint",
+          "error": "ValueError: Predicted supported object above rim",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.04,
+            0
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": -0.03967927205443218,
+          "stage": "footprint",
+          "error": "ValueError: Predicted supported object above rim",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0.08,
+            0
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": null,
+          "stage": "footprint",
+          "error": "ValueError: Payload footprint outside basket interior",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0,
+            -0.04
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": 0.05942920925247197,
+          "stage": "path",
+          "error": "SortFailure: Planned path obstructed (4.04 mm): ['task/basket', 'right/link6']",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.08,
+            0
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": -0.04147920683464182,
+          "stage": "footprint",
+          "error": "ValueError: Predicted supported object above rim",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            0.04,
+            -0.04
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": 0.06473699422698609,
+          "stage": "path",
+          "error": "SortFailure: right IK failed at [0.6284, -0.4726, 0.2296]: 2.4 mm, 2.0 deg",
+          "state_unchanged": true
+        },
+        {
+          "offset_world_xy_m": [
+            -0.04,
+            -0.04
+          ],
+          "rise_m": 0.0883179857854136,
+          "sampled_initial_gap_m": 0.03982506882461609,
+          "stage": "path",
+          "error": "SortFailure: Planned path obstructed (4.35 mm): ['task/basket', 'right/link6']",
+          "state_unchanged": true
+        }
+      ],
+      "orientation_search": {
+        "profile": {
+          "kinds": [
+            "side_dish"
+          ],
+          "xy_radius_m": 0.05,
+          "xy_step_m": 0.025,
+          "wall_margin_m": 0.012,
+          "support_gap_m": 0.001,
+          "extra_release_heights_m": [
+            0.0
+          ],
+          "max_candidates": 216
+        },
+        "rejections": [
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6385, -0.4801, 0.2229]: 22.1 mm, 18.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7393, -0.4701, 0.2229]: 120.4 mm, 85.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7293, -0.3693, 0.2229]: 92.7 mm, 82.6 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (9.18 mm): ['task/charger', 'task/side_dish']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6135, -0.4795, 0.2229]: 22.9 mm, 17.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7643, -0.4708, 0.2229]: 141.0 mm, 85.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7043, -0.3686, 0.2229]: 77.1 mm, 89.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6535, -0.38, 0.2229]: 4.5 mm, 3.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5885, -0.4788, 0.2229]: 9.5 mm, 18.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7143, -0.4695, 0.2229]: 101.5 mm, 84.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6794, -0.3679, 0.2229]: 67.0 mm, 94.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6035, -0.3786, 0.2229]: 0.0 mm, 5.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5878, -0.5038, 0.2229]: 14.2 mm, 21.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6887, -0.4938, 0.2229]: 81.4 mm, 86.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6787, -0.3929, 0.2229]: 66.6 mm, 92.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5778, -0.4029, 0.2229]: 0.0 mm, 9.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5892, -0.4538, 0.2229]: 6.3 mm, 15.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.68, -0.3429, 0.2229]: 67.7 mm, 96.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6894, -0.4688, 0.2229]: 74.2 mm, 85.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5785, -0.3779, 0.2229]: 0.0 mm, 11.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6128, -0.5045, 0.2229]: 25.9 mm, 19.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6142, -0.4545, 0.2229]: 11.0 mm, 14.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7037, -0.3936, 0.2229]: 77.5 mm, 87.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.705, -0.3436, 0.2229]: 77.3 mm, 94.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6459, -0.4804, 0.2495]: 34.1 mm, 29.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7395, -0.4627, 0.2495]: 119.9 mm, 86.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7219, -0.3691, 0.2495]: 89.0 mm, 74.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6283, -0.3867, 0.2495]: 3.3 mm, 2.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6209, -0.4797, 0.2495]: 32.8 mm, 29.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7645, -0.4634, 0.2495]: 142.4 mm, 86.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7469, -0.3698, 0.2495]: 105.8 mm, 77.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6533, -0.3874, 0.2495]: 8.8 mm, 7.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5959, -0.479, 0.2495]: 34.6 mm, 29.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7145, -0.462, 0.2495]: 102.4 mm, 84.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6719, -0.3677, 0.2495]: 98.0 mm, 73.3 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (4.37 mm): ['task/basket', 'task/side_dish']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5952, -0.504, 0.2495]: 28.3 mm, 29.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6889, -0.4864, 0.2495]: 85.6 mm, 83.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6713, -0.3927, 0.2495]: 63.8 mm, 90.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5776, -0.4103, 0.1095]: 0.0 mm, 18.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5966, -0.454, 0.2495]: 28.0 mm, 35.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6969, -0.3684, 0.2495]: 71.6 mm, 83.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6962, -0.3934, 0.2495]: 72.2 mm, 81.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6976, -0.3434, 0.2495]: 66.8 mm, 82.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6896, -0.4614, 0.2495]: 78.7 mm, 83.7 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (5.16 mm): ['task/side_dish', 'task/cup_00']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6202, -0.5047, 0.2495]: 25.7 mm, 29.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6341, -0.48, 0.2268]: 13.4 mm, 11.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7392, -0.4746, 0.2268]: 114.7 mm, 90.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7338, -0.3694, 0.2268]: 92.1 mm, 83.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6286, -0.3749, 0.2268]: 0.0 mm, 2.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.659, -0.4807, 0.2268]: 24.0 mm, 14.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7642, -0.4753, 0.2268]: 140.8 mm, 86.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7088, -0.3687, 0.2268]: 66.7 mm, 86.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6536, -0.3755, 0.2268]: 3.1 mm, 2.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5841, -0.4787, 0.2268]: 7.7 mm, 9.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7142, -0.4739, 0.2268]: 95.9 mm, 86.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6838, -0.368, 0.2268]: 70.0 mm, 95.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6036, -0.3742, 0.2268]: 0.0 mm, 12.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5834, -0.5036, 0.2268]: 6.1 mm, 12.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6885, -0.4982, 0.2268]: 84.3 mm, 87.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6831, -0.393, 0.2268]: 69.7 mm, 93.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5779, -0.3985, 0.2268]: 14.4 mm, 9.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6091, -0.4793, 0.2268]: 7.8 mm, 11.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6845, -0.3431, 0.2268]: 70.7 mm, 97.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6084, -0.5043, 0.2268]: 9.9 mm, 12.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6097, -0.4544, 0.2268]: 4.7 mm, 8.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6892, -0.4732, 0.2268]: 73.4 mm, 87.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5786, -0.3735, 0.2268]: 14.1 mm, 9.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7081, -0.3937, 0.2268]: 68.5 mm, 83.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6558, -0.4806, 0.2737]: 48.4 mm, 41.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7398, -0.4528, 0.2737]: 123.9 mm, 85.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.712, -0.3688, 0.2737]: 80.4 mm, 72.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.628, -0.3966, 0.2737]: 8.0 mm, 7.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6308, -0.4799, 0.2737]: 37.4 mm, 39.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7648, -0.4535, 0.2737]: 132.2 mm, 87.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.737, -0.3695, 0.2737]: 105.0 mm, 72.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.653, -0.3973, 0.2737]: 13.6 mm, 11.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6058, -0.4793, 0.2737]: 54.2 mm, 42.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7148, -0.4521, 0.2737]: 104.3 mm, 84.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.662, -0.3675, 0.2737]: 79.4 mm, 69.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.603, -0.3959, 0.2737]: 4.6 mm, 5.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6051, -0.5042, 0.2737]: 48.1 mm, 42.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6891, -0.4764, 0.2737]: 89.1 mm, 81.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6613, -0.3924, 0.2737]: 80.1 mm, 69.1 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (8.31 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.687, -0.3681, 0.2737]: 60.8 mm, 79.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6877, -0.3431, 0.2737]: 65.2 mm, 83.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6863, -0.3931, 0.2737]: 64.8 mm, 80.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6065, -0.4543, 0.2737]: 52.0 mm, 41.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6898, -0.4515, 0.2737]: 83.4 mm, 82.0 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (13.34 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7391, -0.4778, 0.2737]: 108.1 mm, 88.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6329, -0.48, 0.2298]: 7.3 mm, 6.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7392, -0.4757, 0.2298]: 109.9 mm, 88.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7349, -0.3694, 0.2298]: 91.1 mm, 86.7 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (12.18 mm): ['right/link6', 'task/cup_02']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6579, -0.4807, 0.2298]: 13.5 mm, 10.2 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7642, -0.4764, 0.2298]: 133.2 mm, 88.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7099, -0.3688, 0.2298]: 68.1 mm, 85.1 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (15.83 mm): ['task/charger', 'task/side_dish']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5829, -0.4786, 0.2298]: 6.3 mm, 3.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7142, -0.475, 0.2298]: 89.9 mm, 88.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6849, -0.3681, 0.2298]: 71.5 mm, 95.3 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (8.99 mm): ['task/basket', 'right/link6']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5823, -0.5036, 0.2298]: 7.2 mm, 6.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6885, -0.4993, 0.2298]: 78.9 mm, 89.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6842, -0.3931, 0.2298]: 71.1 mm, 93.1 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (4.52 mm): ['task/basket', 'task/side_dish']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6079, -0.4793, 0.2298]: 4.8 mm, 4.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6072, -0.5043, 0.2298]: 6.7 mm, 7.8 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (29.36 mm): ['task/basket', 'right/link5']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6856, -0.3431, 0.2298]: 72.2 mm, 97.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6892, -0.4743, 0.2298]: 75.3 mm, 87.4 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (4.63 mm): ['task/basket', 'task/side_dish']"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned path obstructed (10.76 mm): ['right/link6', 'task/cup_02']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7003, -0.3685, 0.2939]: 73.6 mm, 71.3 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6277, -0.4083, 0.2939]: 12.5 mm, 10.9 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7253, -0.3692, 0.2939]: 96.5 mm, 68.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6027, -0.4076, 0.2939]: 11.0 mm, 7.8 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6169, -0.5046, 0.2939]: 57.6 mm, 55.5 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6895, -0.4647, 0.2939]: 90.3 mm, 80.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6503, -0.3671, 0.2939]: 53.9 mm, 65.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6034, -0.3827, 0.2939]: 9.7 mm, 7.1 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6902, -0.4397, 0.2939]: 82.9 mm, 84.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.676, -0.3428, 0.2939]: 51.4 mm, 69.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6351, -0.4801, 0.2319]: 4.4 mm, 3.7 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7392, -0.4735, 0.2319]: 105.5 mm, 89.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6601, -0.4807, 0.2319]: 10.1 mm, 8.0 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7143, -0.4728, 0.2319]: 88.8 mm, 87.4 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.682, -0.393, 0.2319]: 62.6 mm, 89.8 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (11.14 mm): ['task/basket', 'task/side_dish']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.5852, -0.4787, 0.2319]: 6.8 mm, 4.6 deg"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.7149, -0.4478, 0.2319]: 81.0 mm, 87.6 deg"
+          },
+          {
+            "stage": "joint_path",
+            "error": "Planned payload path obstructed (4.53 mm): ['task/basket', 'task/side_dish']"
+          },
+          {
+            "stage": "IK",
+            "error": "right IK failed at [0.6108, -0.4544, 0.0754]: 3.6 mm, 2.5 deg"
+          }
+        ],
+        "error": "SortFailure: No supported container placement for side_dish; checked=216; last_failure=right IK failed at [0.6108, -0.4544, 0.0754]: 3.6 mm, 2.5 deg"
+      }
+    }
+  ]
+}

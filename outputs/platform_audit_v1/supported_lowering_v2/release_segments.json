@@ -1,0 +1,45 @@
+{
+  "method": "First native sample with arm target differing from release-start arm target by > 1e-7 rad separates stationary-arm opening/wait from retreat. All release samples retained. Velocities are full jaw opening; differences at native integration dt. Diagnostic segmentation, not a changed training quality gate.",
+  "results": {
+    "baseline": {
+      "trace": "outputs/platform_audit_v1/contact_substeps_v1/native/trace.npz",
+      "sha256": "5d97cf6cf801a65e123d87273d5d9950655616db9bdf28b10d88e7bb1ac395a0",
+      "release_start_time": 230.6333333345443,
+      "retreat_start_time": 232.57500000123568,
+      "segments": {
+        "stationary_arm_open_and_wait": {
+          "steps": 1864,
+          "acceleration_peak_m_s2": 15.40902890294135,
+          "jerk_peak_m_s3": 17983.975964841185,
+          "opening_velocity_peak_m_s": 0.059157940819402385
+        },
+        "retreat": {
+          "steps": 2616,
+          "acceleration_peak_m_s2": 1.6379947629165022e-05,
+          "jerk_peak_m_s3": 0.024010116112621136,
+          "opening_velocity_peak_m_s": 1.4423020180059183e-08
+        }
+      }
+    },
+    "candidate": {
+      "trace": "outputs/platform_audit_v1/supported_lowering_v2/native/trace.npz",
+      "sha256": "2e2fcfe7212a1adb2327a681ea930b57faa4b816970fc713a1b52979cdf68ca0",
+      "release_start_time": 236.03333333461305,
+      "retreat_start_time": 237.97812500130448,
+      "segments": {
+        "stationary_arm_open_and_wait": {
+          "steps": 1867,
+          "acceleration_peak_m_s2": 12.194234310536277,
+          "jerk_peak_m_s3": 20001.631951805746,
+          "opening_velocity_peak_m_s": 0.06867683072903039
+        },
+        "retreat": {
+          "steps": 3445,
+          "acceleration_peak_m_s2": 13.190043605034642,
+          "jerk_peak_m_s3": 21244.919869585607,
+          "opening_velocity_peak_m_s": 0.006924365964983912
+        }
+      }
+    }
+  }
+}

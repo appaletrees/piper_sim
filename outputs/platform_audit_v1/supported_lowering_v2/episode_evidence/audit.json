@@ -1,0 +1,587 @@
+{
+  "schema_version": "piper.collection.v3",
+  "episode": "/dev/shm/piper_supported_release_v2/episode/episode.h5",
+  "require_rgb": false,
+  "passed": true,
+  "training_ready": false,
+  "violations": [],
+  "checks": {
+    "streams": {
+      "passed": true,
+      "violations": [],
+      "frames": 8693,
+      "fps": 30.0,
+      "duration_s": 289.76666666666665,
+      "cameras": {},
+      "rgb": false,
+      "trajectory_sha256": "5591798e0eebd44cc92529f02fbb319af951f93944ec6048fc6800040957e369"
+    },
+    "task": {
+      "passed": true,
+      "violations": [],
+      "motion": {
+        "passed": true,
+        "violations": [],
+        "frames": 8694,
+        "metrics": {
+          "command_arm_velocity": 0.9954044222831726,
+          "command_gripper_velocity": 0.059948600828647614,
+          "command_arm_acceleration": 2.4286866188049316,
+          "command_gripper_acceleration": 0.17313659191131592,
+          "command_arm_jerk": 19.65630054473877,
+          "command_gripper_jerk": 1.415703445672989,
+          "measured_arm_velocity": 0.9946497678756714,
+          "measured_gripper_velocity": 0.05988098308444023,
+          "measured_arm_acceleration": 2.7633190155029297,
+          "measured_gripper_acceleration": 0.8231883645057678,
+          "measured_arm_jerk": 61.160804748535156,
+          "measured_gripper_jerk": 26.924680709838867,
+          "tracking_error_rad": 0.011021137237548828,
+          "hold_velocity_rms_rad_s": 0.00018085577175952494,
+          "hold_gripper_velocity_rms_m_s": 0.00017148804909083992
+        },
+        "thresholds": {
+          "command_arm_velocity": 1.01,
+          "command_gripper_velocity": 0.0606,
+          "command_arm_acceleration": 2.525,
+          "command_gripper_acceleration": 0.1818,
+          "command_arm_jerk": 20.2,
+          "command_gripper_jerk": 1.5150000000000001,
+          "measured_arm_velocity": 1.2,
+          "measured_gripper_velocity": 0.08,
+          "measured_arm_acceleration": 8.0,
+          "measured_gripper_acceleration": 1.0,
+          "measured_arm_jerk": 200.0,
+          "measured_gripper_jerk": 50.0,
+          "tracking_error_rad": 0.1,
+          "hold_velocity_rms_rad_s": 0.025,
+          "hold_gripper_velocity_rms_m_s": 0.003
+        },
+        "peaks": {
+          "command_arm_velocity": {
+            "sim_time": 168.3666666670848,
+            "channel": 12,
+            "context": {
+              "phase": "lift",
+              "object": "spoon"
+            }
+          },
+          "command_gripper_velocity": {
+            "sim_time": 201.4333333341725,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "bowl"
+            }
+          },
+          "command_arm_acceleration": {
+            "sim_time": 126.76666666657192,
+            "channel": 8,
+            "context": {
+              "phase": "lift",
+              "object": "pen"
+            }
+          },
+          "command_gripper_acceleration": {
+            "sim_time": 19.500000000002807,
+            "channel": 6,
+            "context": {
+              "phase": "release_for_nesting",
+              "object": "cup_01"
+            }
+          },
+          "command_arm_jerk": {
+            "sim_time": 35.03333333332201,
+            "channel": 2,
+            "context": {
+              "phase": "lift",
+              "object": "cup_02"
+            }
+          },
+          "command_gripper_jerk": {
+            "sim_time": 151.60000000020463,
+            "channel": 13,
+            "context": {
+              "phase": "unload_gripper",
+              "object": "charger"
+            }
+          },
+          "measured_arm_velocity": {
+            "sim_time": 25.73333333333047,
+            "channel": 5,
+            "context": {
+              "phase": "approach",
+              "object": "cup_02"
+            }
+          },
+          "measured_gripper_velocity": {
+            "sim_time": 201.4333333341725,
+            "channel": 13,
+            "context": {
+              "phase": "release",
+              "object": "bowl"
+            }
+          },
+          "measured_arm_acceleration": {
+            "sim_time": 213.1000000009877,
+            "channel": 8,
+            "context": {
+              "phase": "grasp",
+              "object": "plate"
+            }
+          },
+          "measured_gripper_acceleration": {
+            "sim_time": 124.76666666657374,
+            "channel": 13,
+            "context": {
+              "phase": "grasp",
+              "object": "pen"
+            }
+          },
+          "measured_arm_jerk": {
+            "sim_time": 213.1000000009877,
+            "channel": 8,
+            "context": {
+              "phase": "grasp",
+              "object": "plate"
+            }
+          },
+          "measured_gripper_jerk": {
+            "sim_time": 222.0333333344348,
+            "channel": 13,
+            "context": {
+              "phase": "transfer",
+              "object": "plate"
+            }
+          }
+        },
+        "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+        "hold_samples": 484
+      },
+      "objects_sha256": "5d3547b732d0a57cd3db5b3b3c727459f1149f7d99e4b56b0430518156bfc721",
+      "grasps": {
+        "cup_01": {
+          "samples": 348,
+          "bilateral_samples": 348,
+          "max_slip_m": 0.0010933602971061318,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "cup_02": {
+          "samples": 457,
+          "bilateral_samples": 457,
+          "max_slip_m": 0.0010205397337579186,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "cup_00": {
+          "samples": 322,
+          "bilateral_samples": 322,
+          "max_slip_m": 0.002745722194627546,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "chopstick_a": {
+          "samples": 237,
+          "bilateral_samples": 237,
+          "max_slip_m": 0.0028157270731722812,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "chopstick_b": {
+          "samples": 243,
+          "bilateral_samples": 243,
+          "max_slip_m": 0.00277788059678081,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "pen": {
+          "samples": 194,
+          "bilateral_samples": 194,
+          "max_slip_m": 0.0014764755503376462,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "charger": {
+          "samples": 216,
+          "bilateral_samples": 216,
+          "max_slip_m": 0.0013958947789530216,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "spoon": {
+          "samples": 318,
+          "bilateral_samples": 318,
+          "max_slip_m": 0.0016857156915748418,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "bowl": {
+          "samples": 226,
+          "bilateral_samples": 226,
+          "max_slip_m": 0.0031748281594209237,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "plate": {
+          "samples": 628,
+          "bilateral_samples": 628,
+          "max_slip_m": 0.0029879370304986552,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        },
+        "side_dish": {
+          "samples": 862,
+          "bilateral_samples": 862,
+          "max_slip_m": 0.003173372290939939,
+          "max_contact_loss_s": 0.0,
+          "bilateral_fraction": 1.0
+        }
+      },
+      "max_robot_penetration_m": 0.00041690670731636675,
+      "first_stable_table_stack_s": 47.59999999997725,
+      "first_base_cup_in_basket_s": 72.13333333328828,
+      "final_stable_seconds": 5.299999999999991,
+      "final_metrics": {
+        "plate": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 52.133333333332935,
+          "success": true
+        },
+        "bowl": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 89.96666666666412,
+          "success": true
+        },
+        "spoon": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 113.29999999999613,
+          "success": true
+        },
+        "chopstick_a": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 198.09999999999133,
+          "success": true
+        },
+        "chopstick_b": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 177.96666666665914,
+          "success": true
+        },
+        "side_dish": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 5.799999999999989,
+          "success": true
+        },
+        "cup_00": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 218.19999999999018,
+          "success": true
+        },
+        "cup_01": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 217.9999999999902,
+          "success": true
+        },
+        "cup_02": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 217.1666666666569,
+          "success": true
+        },
+        "pen": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 158.26666666666026,
+          "success": true
+        },
+        "charger": {
+          "target": "basket",
+          "contained": true,
+          "hold_seconds": 139.09999999999468,
+          "success": true
+        },
+        "summary": {
+          "success": true,
+          "sorted_count": 11,
+          "required_count": 11
+        },
+        "cup_stack": {
+          "nested": true,
+          "axis_offset_m": 0.0005460934691198986,
+          "max_tilt_deg": 0.3066602076196734,
+          "pitches_m": [
+            0.011023529018009848,
+            0.010426429237625174
+          ],
+          "count": 3,
+          "on_table": false,
+          "stacked_on_table_first": true
+        }
+      },
+      "final_peak_object_speed_m_s": 3.0179230726741363e-05,
+      "final_peak_object_angular_speed_rad_s": 0.005660067842545013
+    },
+    "tcp_motion": {
+      "passed": true,
+      "violations": [],
+      "limits": {
+        "linear_speed_m_s": 0.25,
+        "angular_speed_rad_s": 1.5
+      },
+      "intervals": 8693,
+      "integration_steps": 278176,
+      "peaks": {
+        "left/linear": {
+          "speed": 0.23326042966492957,
+          "transition_index": 1558,
+          "substep": 19,
+          "sim_time": 52.9531249999724,
+          "phase": "stack_ready",
+          "object": "cup_02"
+        },
+        "left/angular": {
+          "speed": 0.8905007062573892,
+          "transition_index": 45,
+          "substep": 18,
+          "sim_time": 2.518749999999938,
+          "phase": "approach",
+          "object": "cup_01"
+        },
+        "right/linear": {
+          "speed": 0.23298579002176198,
+          "transition_index": 2051,
+          "substep": 3,
+          "sim_time": 69.36979166662412,
+          "phase": "transfer_stack",
+          "object": "cup_00"
+        },
+        "right/angular": {
+          "speed": 1.1385291160495075,
+          "transition_index": 5864,
+          "substep": 25,
+          "sim_time": 196.49270833410924,
+          "phase": "transfer",
+          "object": "bowl"
+        }
+      },
+      "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification."
+    }
+  },
+  "auditor_sha256": "c2621995fc32606ad9fff8309fa8eabb13ce3f3c4d9941ac1e833d57548e8d56",
+  "audited_source_sha256": "83b9631a9228f163a8e78fd15454353f511e5bb2ac4bf12e09db267f1dc855d6",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "declared_settings": {
+    "schema_version": 2,
+    "controller": {
+      "gripper_kp_N_per_m": 1000.0,
+      "gripper_kv_Ns_per_m": 120.0,
+      "gripper_force_limit_N": 5.0,
+      "finger_contact_time_constant_s": 0.01
+    },
+    "motion": {
+      "joint_velocity_rad_s": 1.0,
+      "joint_acceleration_rad_s2": 2.5,
+      "joint_jerk_rad_s3": 20.0,
+      "gripper_velocity_m_s": 0.06,
+      "gripper_acceleration_m_s2": 0.18,
+      "gripper_jerk_m_s3": 1.5,
+      "settle_error_rad": 0.035,
+      "settle_velocity_rad_s": 0.04,
+      "settle_hold_s": 0.1,
+      "settle_timeout_s": 2.0
+    },
+    "pacing": {
+      "grasp_approach_clearance": {
+        "kinds": [
+          "chopstick"
+        ],
+        "margin_m": 0.001,
+        "extra_long_axis_fractions": [
+          -0.3,
+          0.3,
+          -0.4,
+          0.4
+        ]
+      },
+      "tcp_limits": {
+        "linear_speed_m_s": 0.25,
+        "angular_speed_rad_s": 1.5,
+        "planning_fraction": 0.95
+      },
+      "rigid_sort_order": [
+        "chopstick_a",
+        "chopstick_b",
+        "pen",
+        "charger",
+        "spoon",
+        "bowl",
+        "plate",
+        "side_dish"
+      ],
+      "placement_search": {
+        "kinds": [
+          "chopstick",
+          "side_dish"
+        ],
+        "xy_radius_m": 0.05,
+        "xy_step_m": 0.025,
+        "wall_margin_m": 0.012,
+        "support_gap_m": 0.01,
+        "extra_release_heights_m": [
+          0.0,
+          0.015,
+          0.03,
+          0.06
+        ],
+        "max_candidates": 216,
+        "slender_surface_spacing_m": 0.005
+      },
+      "bounded_loaded_path": {
+        "max_position_deviation_m": 0.002,
+        "max_rotation_deviation_rad": 0.01,
+        "max_refinements": 2
+      },
+      "continuous_paths": true,
+      "direct_transfer": true,
+      "direct_next_object": true,
+      "minimum_move_s": 0.15,
+      "minimum_grip_s": 0.2,
+      "cartesian_speed_m_s": 0.25,
+      "contact_speed_m_s": 0.06,
+      "grasp_height_offsets_m": [
+        0.0,
+        0.002,
+        0.004
+      ],
+      "slender_pregrasp_clearance_m": 0.001,
+      "unloaded_transit_clearance_m": 0.002,
+      "unloaded_transit_rises_m": [
+        0.02,
+        0.04,
+        0.06
+      ],
+      "payload_transport_clearance_m_by_kind": {
+        "chopstick": 0.006
+      },
+      "grip_hold_s": 0.15,
+      "grasp_hold_s": 0.1,
+      "release_hold_s": 0.15,
+      "placement_hold_s": 0.35,
+      "final_settle_timeout_s": 5.0,
+      "rim_load_limits": {
+        "joint_velocity_rad_s": 0.5,
+        "joint_acceleration_rad_s2": 1.2,
+        "joint_jerk_rad_s3": 8.0
+      },
+      "closing_limits": {
+        "velocity": 0.04,
+        "acceleration": 0.12,
+        "jerk": 1.0
+      },
+      "loaded_limits_by_kind": {
+        "side_dish": {
+          "joint_velocity_rad_s": 0.3,
+          "joint_acceleration_rad_s2": 0.6,
+          "joint_jerk_rad_s3": 4
+        }
+      }
+    },
+    "quality": {
+      "measured_velocity_rad_s": 1.2,
+      "measured_acceleration_rad_s2": 8.0,
+      "measured_jerk_rad_s3": 200.0,
+      "measured_gripper_velocity_m_s": 0.08,
+      "measured_gripper_acceleration_m_s2": 1.0,
+      "measured_gripper_jerk_m_s3": 50.0,
+      "tracking_error_rad": 0.1,
+      "hold_velocity_rms_rad_s": 0.025,
+      "hold_gripper_velocity_rms_m_s": 0.003,
+      "max_robot_penetration_m": 0.004
+    },
+    "dataset": {
+      "extras_storage": "compressed",
+      "image_compression": "gzip",
+      "image_storage": "shared",
+      "flush_every": 1,
+      "min_free_disk_gib": 5.0,
+      "required_cameras": [
+        "overhead",
+        "left_wrist",
+        "right_wrist"
+      ],
+      "min_frames": 150,
+      "max_duration_s": 300.0,
+      "timestamp_tolerance_s": 1e-06,
+      "max_grasp_slip_m": 0.012,
+      "max_contact_loss_s": 0.2,
+      "min_bilateral_contact_fraction": 0.98,
+      "final_stable_hold_s": 1.0,
+      "final_object_speed_m_s": 0.01,
+      "final_object_angular_speed_rad_s": 0.1,
+      "min_image_luma_std": 1.0,
+      "max_image_clipped_fraction": 0.995,
+      "max_bad_image_fraction": 0.01,
+      "max_identical_image_fraction": 0.98
+    }
+  },
+  "settings": {
+    "schema_version": 1,
+    "motion": {
+      "joint_velocity_rad_s": 1.0,
+      "joint_acceleration_rad_s2": 2.5,
+      "joint_jerk_rad_s3": 20.0,
+      "gripper_velocity_m_s": 0.06,
+      "gripper_acceleration_m_s2": 0.18,
+      "gripper_jerk_m_s3": 1.5
+    },
+    "quality": {
+      "measured_velocity_rad_s": 1.2,
+      "measured_acceleration_rad_s2": 8.0,
+      "measured_jerk_rad_s3": 200.0,
+      "measured_gripper_velocity_m_s": 0.08,
+      "measured_gripper_acceleration_m_s2": 1.0,
+      "measured_gripper_jerk_m_s3": 50.0,
+      "tracking_error_rad": 0.1,
+      "hold_velocity_rms_rad_s": 0.025,
+      "hold_gripper_velocity_rms_m_s": 0.003,
+      "max_robot_penetration_m": 0.004
+    },
+    "dataset": {
+      "required_cameras": [
+        "overhead",
+        "left_wrist",
+        "right_wrist"
+      ],
+      "min_frames": 150,
+      "max_duration_s": 300.0,
+      "timestamp_tolerance_s": 1e-06,
+      "max_grasp_slip_m": 0.012,
+      "max_contact_loss_s": 0.2,
+      "min_bilateral_contact_fraction": 0.98,
+      "final_stable_hold_s": 1.0,
+      "final_object_speed_m_s": 0.01,
+      "final_object_angular_speed_rad_s": 0.1,
+      "min_image_luma_std": 1.0,
+      "max_image_clipped_fraction": 0.995,
+      "max_bad_image_fraction": 0.01,
+      "max_identical_image_fraction": 0.98
+    },
+    "tcp_motion": {
+      "linear_speed_m_s": 0.25,
+      "angular_speed_rad_s": 1.5
+    }
+  },
+  "source_sha256": "fa383d4dcf47a98083fa2c8773a17abbf9277cc54ab98b3f0916973a101b4169"
+}

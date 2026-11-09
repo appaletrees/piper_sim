@@ -1,0 +1,11 @@
+{
+  "git_base": "d13d749846a8f19c958d53759b773457577dec56",
+  "seed": 1,
+  "scope": "Fresh full physical state-only rollout. Only plate gets supported descent after original lowering, before release; bowl and side dish retain original controller/placement. This is a causal first experiment, not a complete supported-placement policy.",
+  "baseline": "/dev/shm/piper_contact_substeps_v1/episode/episode.h5",
+  "baseline_sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+  "candidate": "/dev/shm/piper_supported_release_v1/episode",
+  "control_changes": "Only extra bounded, collision-checked position commands. Existing gains, force limits, contact materials, slip thresholds, and quality limits unchanged. Require at least 50% weight supported for 0.1 s before opening; abort above 3x weight during descent. Experimental uncalibrated planning/load guards.",
+  "tests": "8 passed: support force sign for both actual contact orders, robot exclusion, read-only force trace noninterference and constraints",
+  "static_evidence": "static_feasibility.json confirms geometric plate descent/opening feasibility only; not dynamics replay."
+}

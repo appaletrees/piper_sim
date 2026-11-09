@@ -66,7 +66,10 @@ def main():
     baseline = evidence(args.baseline) if comparison else None
     same_streams = baseline['streams'] == observed['streams'] if comparison else None
     same_physics = baseline['privileged_sha256'] == observed['privileged_sha256'] if comparison else None
-    with np.load(args.trace/'trace.npz', allow_pickle=False) as z:
+    with np.load(args.trace/'trace.npz', allow_pickle=False) as archive:
+        # Cache columns once; repeated NpzFile indexing inflates the full column
+        # for each contact in a peak snapshot, making large support traces slow.
+        z = {key: archive[key] for key in archive.files}
         dt = meta['integration_dt']
         v0, v1 = z['qvel_before'][:, 6:].sum(axis=1), z['qvel_after'][:, 6:].sum(axis=1)
         acceleration = (v1-v0)/dt

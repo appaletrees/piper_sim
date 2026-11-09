@@ -1,0 +1,329 @@
+{
+  "schema_version": 1,
+  "scope": "One-seed physical supported-placement experiment and read-only native audit. Progress only; full platform goal remains active.",
+  "decision": "do_not_promote",
+  "production_defaults_changed": false,
+  "training_ready": false,
+  "baseline_git_commit": "d13d749846a8f19c958d53759b773457577dec56",
+  "seed": 1,
+  "candidate": {
+    "source": "/dev/shm/piper_supported_release_v2/episode/episode.h5",
+    "source_sha256": "fa383d4dcf47a98083fa2c8773a17abbf9277cc54ab98b3f0916973a101b4169",
+    "summary": {
+      "success": true,
+      "sorted_count": 11,
+      "required_count": 11
+    },
+    "transitions": 8693,
+    "recorded_sim_duration_s": 289.76666666769466,
+    "independent_tcp_audit_passed": true,
+    "native_continuous_support_verified": false
+  },
+  "previous_failed_attempt": {
+    "summary": {
+      "success": false,
+      "sorted_count": 9,
+      "required_count": 11
+    },
+    "error": "RuntimeError: Contact trace contact limit reached; refusing silent truncation",
+    "source_sha256": "8d3f239dbd640cab3841510277823c09ea2cf5730eb9ed90c968f54cac774ee8",
+    "reason": "Explicit diagnostic contact trace capacity limit; terminated exit 2. Retained, not counted successful. Fresh retry changed only diagnostic object selection."
+  },
+  "paired_integrity": {
+    "unchanged_prefix_transitions": 6889,
+    "prefix_public_streams_exact": {
+      "observation/state": true,
+      "next_observation/state": true,
+      "action/position": true,
+      "observation/sim_time": true,
+      "next_observation/sim_time": true
+    },
+    "prefix_native_physics_exact": true,
+    "same_online_thresholds": true,
+    "same_evaluated_policy": true,
+    "frozen_inputs": {
+      "outputs/platform_audit_v1/supported_lowering_v1": {
+        "files": 436,
+        "changed": []
+      },
+      "outputs/platform_audit_v1/supported_lowering_v2": {
+        "files": 436,
+        "changed": []
+      }
+    }
+  },
+  "native_release_comparison": {
+    "plate/release": {
+      "right_gripper_acceleration": {
+        "baseline": 15.409028903137552,
+        "candidate": 13.19004360520259,
+        "percent_change": -14.400552506479736
+      },
+      "right_gripper_jerk": {
+        "baseline": 17983.975965299163,
+        "candidate": 21244.919870126625,
+        "percent_change": 18.132497013561345
+      }
+    },
+    "side_dish/release": {
+      "right_gripper_acceleration": {
+        "baseline": 28.567140158996978,
+        "candidate": 30.862545332981625,
+        "percent_change": 8.035124136364512
+      },
+      "right_gripper_jerk": {
+        "baseline": 37743.93432408457,
+        "candidate": 40177.716389371366,
+        "percent_change": 6.4481408969965015
+      }
+    }
+  },
+  "support_window": {
+    "steps": 96,
+    "complete": true,
+    "zero_force_steps": 6,
+    "mean_fraction_of_weight": 0.7537478780717984,
+    "minimum_fraction": 0.0,
+    "maximum_fraction": 0.9000558694470269,
+    "continuous_half_weight_support": false
+  },
+  "duration_change_s": 6.3666666665740195,
+  "findings": [
+    "Plate can pass original descent/opening collision checks at a 1 mm predicted support gap. Limited bowl/side-dish placement search found no feasible candidate; not an impossibility proof.",
+    "Fresh full run completed 11/11 and original independent TCP audit, but plate native release jerk and downstream side-dish peaks increased.",
+    "Three 30 Hz support samples missed six zero-support native steps in the preceding 0.1 s. No continuous-support claim.",
+    "The new plate acceleration peak occurs during upward retreat with the gripper command fixed at 45 mm and intermittent plate/finger contact. Stationary opening/wait jerk also increased.",
+    "Coordinate supported placement, release aperture and withdrawal; retain original geometry and quality thresholds."
+  ],
+  "verification": {
+    "pytest_command": "PYTHONPATH=src .venv-mujoco/bin/python -m pytest -q tests/test_native_support_audit.py tests/test_support_evidence.py tests/test_contact_trace.py",
+    "pytest_result": "10 passed in 0.40s",
+    "whole_suite_rerun": false,
+    "cached_vs_uncached_v1_comparison_numerically_exact_excluding_script_sha256": true,
+    "full_recorded_dynamics_integrity": "consistent_recorded_evidence"
+  },
+  "previews": {
+    "candidate": {
+      "path": "outputs/platform_audit_v1/supported_lowering_v2/plate_preview/release.mp4",
+      "frames": 402,
+      "fps": 30,
+      "duration_s": 13.4
+    },
+    "baseline": {
+      "path": "outputs/platform_audit_v1/supported_lowering_v2/baseline_plate_preview/release.mp4",
+      "frames": 214,
+      "fps": 30,
+      "duration_s": 7.133333333333334
+    },
+    "scope": "All selected recorded native states at 1x, reconstructed kinematically. Not original synchronized camera RGB, not physics replay, not training data."
+  },
+  "limitations": [
+    "One known seed; no success-population estimate.",
+    "No real hardware calibration or hardware jerk threshold established.",
+    "No RGB training episode generated by this experiment.",
+    "NPZ cache optimization has no measured collection-throughput claim.",
+    "Raw HDF5 lives on volatile /dev/shm and is not uploaded to Git.",
+    "No production candidate promotion or full-goal completion."
+  ],
+  "raw_evidence_local_only": {
+    "/dev/shm/piper_supported_release_v1/episode/episode.h5": {
+      "sha256": "8d3f239dbd640cab3841510277823c09ea2cf5730eb9ed90c968f54cac774ee8",
+      "bytes": 76603584,
+      "in_git": false,
+      "volatile": true
+    },
+    "/dev/shm/piper_supported_release_v2/episode/episode.h5": {
+      "sha256": "fa383d4dcf47a98083fa2c8773a17abbf9277cc54ab98b3f0916973a101b4169",
+      "bytes": 94681454,
+      "in_git": false,
+      "volatile": true
+    },
+    "/dev/shm/piper_contact_substeps_v1/episode/episode.h5": {
+      "sha256": "293e6624eed30ba562fbd058e70b7c8398fe9d88471841e15940a6e196ecd7dd",
+      "bytes": 88310708,
+      "in_git": false,
+      "volatile": true
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/native/trace.npz": {
+      "sha256": "18b17d63ef308a0a524a834572781f695e1660a62e62b136a11c66ac67b04c3a",
+      "bytes": 42645160,
+      "in_git": false,
+      "volatile": false
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/native/trace.npz": {
+      "sha256": "2e2fcfe7212a1adb2327a681ea930b57faa4b816970fc713a1b52979cdf68ca0",
+      "bytes": 15001847,
+      "in_git": false,
+      "volatile": false
+    },
+    "outputs/platform_audit_v1/contact_substeps_v1/native/trace.npz": {
+      "sha256": "5d97cf6cf801a65e123d87273d5d9950655616db9bdf28b10d88e7bb1ac395a0",
+      "bytes": 9940261,
+      "in_git": false,
+      "volatile": false
+    }
+  },
+  "delivery_files_sha256": {
+    "docs/platform_audit.md": {
+      "sha256": "a4e96f02a4d6b68a9e7d8f77503d5c0030b9e13592f25ceb52d1d22bdfd75761",
+      "bytes": 174650
+    },
+    "scripts/analyze_contact_trace.py": {
+      "sha256": "8d475c11b48f470ef0b1439b32bf3c75e51f5ee8caf84deb9d20163e59c33860",
+      "bytes": 8756
+    },
+    "scripts/plot_contact_trace.py": {
+      "sha256": "0221e814055151e7a35d72c818371dae3cf61f3148f13d417be66b75f8f94858",
+      "bytes": 3352
+    },
+    "scripts/trace_contact_substeps.py": {
+      "sha256": "2323d8746fa60253b976fd576a87809052c2e1dafee84736514f51900d374e2a",
+      "bytes": 10528
+    },
+    "scripts/audit_supported_release.py": {
+      "sha256": "610663aec201a054362524dc4094e2b35d8d439f5174eb5eae7d449b99e0f534",
+      "bytes": 9092
+    },
+    "scripts/probe_support_offsets.py": {
+      "sha256": "e3e543c985df865ae3a6cc9dbd5a6c6a90a327d61adaf64ec7e0e030fe8d1c9e",
+      "bytes": 7925
+    },
+    "scripts/probe_supported_lowering.py": {
+      "sha256": "6f770cae5d5b4c288aaece3d1ab4bf765fc46b90ce77e35345e1e9f0d281cf38",
+      "bytes": 6065
+    },
+    "scripts/probe_supported_release.py": {
+      "sha256": "660c1c311e18d36e4ebd39f6b9924f8f6cc11b7c6a314f9b9017bd18b85044e8",
+      "bytes": 6656
+    },
+    "src/piper_sim/experts/support_evidence.py": {
+      "sha256": "d8cfc6136c6d6eb7262573fe9ebea35d4bd549ef64d6882f367899bede931fc0",
+      "bytes": 2375
+    },
+    "tests/test_support_evidence.py": {
+      "sha256": "33432c132cabc567b962d0fc67cf3b39d4c07dc9a3f7b5613deb3d40a580c05e",
+      "bytes": 1992
+    },
+    "tests/test_native_support_audit.py": {
+      "sha256": "d151840b73542352247163c52427171cce3e890a9445def9fa9b847aaaa73623",
+      "bytes": 1948
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/plan.json": {
+      "sha256": "20be22282222a431144c209c64901f8adb81c3535bb55a28e09d9384a5d62fd5",
+      "bytes": 1161
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/identity.json": {
+      "sha256": "78bf14ba99dbb147047ca61835b4a6d707a27ca6eb7f5a3e24d48542c63ccde9",
+      "bytes": 64167
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/static_feasibility.json": {
+      "sha256": "6869e7cb32cbbb2ac246c2729baa4fcd9dbd3d8fe8c8ff95023667daf59af16e",
+      "bytes": 8186
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/static_feasibility.log": {
+      "sha256": "f27c5914e45e8ceec164087662e94c9223658d76d5531e2028a7a5f4a8861e11",
+      "bytes": 4621
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/orientation_feasibility.json": {
+      "sha256": "b2b7639b370f0ccf3031bc0c4637722159a1f4bf61cea474ea11cb8107a1da68",
+      "bytes": 57585
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/orientation_feasibility.log": {
+      "sha256": "b212eccc857636a5f5c6e1acb8e3edd003a548b03814dc8f2573b416f0d45e23",
+      "bytes": 4900
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/run.log": {
+      "sha256": "49078eff0510a7361083392761bd83b4472a034e528ca33d8c311341989d4acc",
+      "bytes": 13829
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/native/trace.json": {
+      "sha256": "ebb5e644c6531993d8932eec167db1b79a73dcc3fb4dc22557b6332cb5cc7508",
+      "bytes": 29816
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/comparison_cached.json": {
+      "sha256": "56ee957760131d71458d1577cad7d413c67aa3f7f5303be6baddd4580d0c542b",
+      "bytes": 192040
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/episode_evidence/report.json": {
+      "sha256": "a6aa114d8cfd8d5c25b2aa2cf17a2ad43341edffddb0ced0f53b4977bc627da5",
+      "bytes": 81516
+    },
+    "outputs/platform_audit_v1/supported_lowering_v1/episode_evidence/audit.json": {
+      "sha256": "13e7709f6da190ae67d034a1fceca2dc2c17f4c87121545f13dcca1c20c37dce",
+      "bytes": 535
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/plan.json": {
+      "sha256": "a8067086411d5a987f3be2eb5308a02a12a70892869dcd9c16125ebf31296077",
+      "bytes": 1602
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/identity.json": {
+      "sha256": "78bf14ba99dbb147047ca61835b4a6d707a27ca6eb7f5a3e24d48542c63ccde9",
+      "bytes": 64167
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/run.log": {
+      "sha256": "295546d087be711a4cb30492ac781451583305a110766df213ff0eee95fe2bd0",
+      "bytes": 15021
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/native/trace.json": {
+      "sha256": "4ee6d344799a1d29038b9c9e7ebddf4986c57a379d716574c59aa8c96c422244",
+      "bytes": 29786
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/analysis.json": {
+      "sha256": "56d3ac227cf9995d7588f173f438fcd033a0c2ebafac294769c993555a7d4678",
+      "bytes": 171692
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/comparison.json": {
+      "sha256": "fa74d809b86f47234e5727ae742dd05184301d23d0c4068073543c7c929bf09f",
+      "bytes": 218914
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/recorded_dynamics.json": {
+      "sha256": "edd993926dbf81f9c7fb7e274dc48571a8b0b0f9f46e5a1a51c5a21413bb59a8",
+      "bytes": 32921
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/release_mechanism.json": {
+      "sha256": "7b452757fe8b965971562f712a0617a6e58060808d5b50d526519194ea8bacf3",
+      "bytes": 5559
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/release_segments.json": {
+      "sha256": "154313b356d812ec65d98596f1a86f46969d8e7eb353bc184445775473f87baf",
+      "bytes": 1902
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/plate_release_force_reviewed.png": {
+      "sha256": "f7efef8200967347adca74c67b57ff1d80a9906266562dbb3eadc5a0ad49d96f",
+      "bytes": 258863
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/episode_evidence/report.json": {
+      "sha256": "999dda66ef019e498721fc20d0e1818fe20f58c890e0dbc42c7c45a93099a9a5",
+      "bytes": 85293
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/episode_evidence/audit.json": {
+      "sha256": "faccb36b76e0c8885a97596757e900ac51c46453b02966ebbef05b80d64b4dea",
+      "bytes": 17650
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/plate_preview/preview.json": {
+      "sha256": "ab4fa74400d48595b363dc37b71be905a0b0e2c20ba8b0b89b4befb1ecf3c7b9",
+      "bytes": 1343
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/plate_preview/review.jpg": {
+      "sha256": "39aff70519a3110033b05a8df652675b1f043a76b6cf0b781961beee601b3fd8",
+      "bytes": 75647
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/plate_preview/release.mp4": {
+      "sha256": "a6200f94899b79a7695ece0821d847f493f571b7354a9429fca84675a9dc58f1",
+      "bytes": 468819
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/baseline_plate_preview/preview.json": {
+      "sha256": "8ed763e82f80bdab7a99fc56333a92519f2d9918e4122a9ae0f5b91a5e5c6a21",
+      "bytes": 1354
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/baseline_plate_preview/review.jpg": {
+      "sha256": "61799a4946e5f18b7f21a39322068d98639680b94a0f68e66c6f5e5a5f716eb5",
+      "bytes": 75482
+    },
+    "outputs/platform_audit_v1/supported_lowering_v2/baseline_plate_preview/release.mp4": {
+      "sha256": "cf58ec3a52828a279d35fcb8cad3258609a7e790eb59b602dd46ed9c9d22f3b1",
+      "bytes": 215947
+    }
+  },
+  "manifest_note": "This summary excludes its own checksum. It is committed with exactly the listed delivery files; raw H5/NPZ and earlier redundant analyses remain local."
+}

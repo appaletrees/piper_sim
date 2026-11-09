@@ -119,6 +119,8 @@ def main(*, before_step=None, extra_metadata=None):
     parser.add_argument('--trace-output', type=Path, required=True)
     parser.add_argument('--trace-objects', default='bowl,plate,side_dish')
     parser.add_argument('--trace-phases', default='unload_gripper,release')
+    parser.add_argument('--trace-task-contacts', action='store_true',
+                        help='Also retain selected task objects versus support contacts')
     args, forwarded = parser.parse_known_args()
     args.trace_output.mkdir(parents=True, exist_ok=False)
     from piper_sim.experts.clean_table import CleanTableTeacher
@@ -126,6 +128,7 @@ def main(*, before_step=None, extra_metadata=None):
     original_step, original_teacher = mujoco.mj_step, CleanTableTeacher.step
     current, tracer, result, error = None, None, None, None
     metadata = {'command': forwarded, 'selected_objects': sorted(objects),
+                'includes_task_contacts': args.trace_task_contacts,
                 'selected_phases': sorted(phases), 'script_sha256': sha256(Path(__file__)),
                 'scope': 'Read-only force diagnostic of fresh physical rollout; no additional forwards or state writes.'}
     if extra_metadata is not None:
@@ -155,7 +158,9 @@ def main(*, before_step=None, extra_metadata=None):
         if tracer is None:
             ids = current.b.indices['right']
             geoms = [i for i in range(model.ngeom)
-                     if model.body(int(model.geom_bodyid[i])).name.startswith('right/')]
+                     if (model.body(int(model.geom_bodyid[i])).name.startswith('right/') or
+                         (args.trace_task_contacts and model.body(int(model.geom_bodyid[i])).name in
+                          {'task/'+name for name in objects}))]
             tracer = ContactTrace(model, ids['qpos'], ids['dof'], ids['ctrl'], geoms)
         row = tracer.before(data)
         value = original_step(model, data, *a, **kw)

@@ -25,7 +25,7 @@ def main():
                   if np.any((z['target'] == target) & (z['phase'] == phase))]
         if not groups:
             raise ValueError('No release samples to plot')
-        fig, axes = plt.subplots(4, len(groups), figsize=(5*len(groups), 10), sharex='col', squeeze=False)
+        fig, axes = plt.subplots(4, len(groups), figsize=(max(8, 5*len(groups)), 10), sharex='col', squeeze=False)
         for column, (target, phase) in enumerate(groups):
             ids = np.flatnonzero((z['target'] == target) & (z['phase'] == phase))
             peak = ids[np.argmax(np.abs(acceleration[ids]))]
