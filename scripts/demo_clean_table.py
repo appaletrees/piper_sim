@@ -125,7 +125,8 @@ def main():
             session.start_recording('episode', instruction,
                 image_compression=settings.get('dataset', {}).get('image_compression', 'lzf'),
                 image_storage=settings.get('dataset', {}).get('image_storage', 'duplicated'),
-                flush_every=settings.get('dataset', {}).get('flush_every', 1))
+                flush_every=settings.get('dataset', {}).get('flush_every', 1),
+                extras_storage=settings.get('dataset', {}).get('extras_storage', 'vlen'))
         summary = teacher.run(args.objects)
     except (Exception, KeyboardInterrupt) as exc:
         error = f'{type(exc).__name__}: {exc}'

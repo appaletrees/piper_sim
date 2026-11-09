@@ -1,0 +1,595 @@
+{
+  "status": "complete_frozen_state_cohort",
+  "training_ready": false,
+  "analysis_sha256": "4e186a61980c09d65a5b4a0a2230d7237f305d185e44818670fe5297cc1747ac",
+  "plan_sha256": "74b15c4eb3692336f8b1ee2c578b3e3a93c637abd31d916c424eb9a03c68be8b",
+  "runs": [
+    {
+      "seed": 15619,
+      "role": "known complete regression; compare every recorded public dataset and JSON byte",
+      "split": "train",
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/json_compact_states_v1/worker_00/episode_000000_seed_15619/episode.h5",
+      "source_sha256": "7084ac6e5a56845fa61ae06cf3405a62d1385024b03e1aa1d177a07a38b7a812",
+      "frames": 7034,
+      "duration_s": 234.46666666793914,
+      "bytes": 67508985,
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "error": null,
+      "audit_passed": true,
+      "violations": [],
+      "training_ready": false,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "native_integrity": "consistent_recorded_evidence",
+      "native_violations": [],
+      "native_interval_integrity": "consistent_interval_summaries",
+      "phase_wall_seconds": {
+        "collection": 503.1476740340004
+      }
+    },
+    {
+      "seed": 4178702991,
+      "role": "previously untested train scene; outcome retained regardless of success",
+      "split": "train",
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/json_compact_states_v1/worker_01/episode_000000_seed_4178702991/episode.h5",
+      "source_sha256": "76e716461cb411be162a7d8e873943e553f6e920e5d107ffb030784917c40dd9",
+      "frames": 8164,
+      "duration_s": 272.13333333461793,
+      "bytes": 79306773,
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "audit_passed": true,
+      "violations": [],
+      "training_ready": false,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "native_integrity": "consistent_recorded_evidence",
+      "native_violations": [],
+      "native_interval_integrity": "consistent_interval_summaries",
+      "phase_wall_seconds": {
+        "collection": 618.6050607839134
+      }
+    },
+    {
+      "seed": 3304020488,
+      "role": "previously untested validation scene; outcome retained regardless of success",
+      "split": "validation",
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/json_compact_states_v1/worker_02/episode_000000_seed_3304020488/episode.h5",
+      "source_sha256": "4851363370943249a5f775ece955d1fb1af13a6ef0199c26dadebc6d64a6b64f",
+      "frames": 7093,
+      "duration_s": 236.43333333463085,
+      "bytes": 68337861,
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "error": null,
+      "audit_passed": true,
+      "violations": [],
+      "training_ready": false,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "native_integrity": "consistent_recorded_evidence",
+      "native_violations": [],
+      "native_interval_integrity": "consistent_interval_summaries",
+      "phase_wall_seconds": {
+        "collection": 589.4852809029398
+      }
+    }
+  ],
+  "unchanged_input_files": 416,
+  "changed_input_files": [],
+  "profile_only_change": {
+    "dataset.extras_storage": "compressed"
+  },
+  "known_regression": {
+    "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/packing_order_states_v1/worker_01/episode_000000_seed_15619/episode.h5",
+    "source_sha256": "d4aec2ca4a0cd81e59746f99705db3fa3b56274bbeffed95e51fcf6ba1a09158",
+    "destination_sha256": "7084ac6e5a56845fa61ae06cf3405a62d1385024b03e1aa1d177a07a38b7a812",
+    "datasets": {
+      "action/position": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "action/sequence": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "action/timestamp": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": false,
+        "clock_role": "host_monotonic: expected to differ between physical reruns"
+      },
+      "next_observation/extras_json": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "next_observation/sim_time": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "next_observation/state": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "next_observation/timestamp": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": false,
+        "clock_role": "host_monotonic: expected to differ between physical reruns"
+      },
+      "observation/extras_json": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "observation/sim_time": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "observation/state": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": true,
+        "clock_role": "deterministic simulated data"
+      },
+      "observation/timestamp": {
+        "shape_equal": true,
+        "dtype_equal": true,
+        "values_equal": false,
+        "clock_role": "host_monotonic: expected to differ between physical reruns"
+      }
+    },
+    "all_simulated_fields_byte_equal": true,
+    "source_bytes": 161970920,
+    "output_bytes": 67508985,
+    "storage_ratio": 0.41679694725448246
+  },
+  "unseen_diagnostic_passed": 2,
+  "unseen_attempted": 2,
+  "accepted_rgb_episodes": 0,
+  "unseen_geometry": {
+    "4178702991": {
+      "samples": 8165,
+      "native_arm_samples": 16330,
+      "equal_jaw_reconstruction_arm_samples": 0,
+      "changed_or_missing_provenance_files": [],
+      "category_peaks": {
+        "intended_finger_target": {
+          "category": "intended_finger_target",
+          "bodies": [
+            "right/link7",
+            "task/plate"
+          ],
+          "frames_with_contact": 447,
+          "max_depth_m": 0.0008539617341069729,
+          "frame": 6516,
+          "sim_time": 218.20000000105264,
+          "phase": "transfer",
+          "object": "plate",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ]
+        },
+        "held_object_environment": {
+          "category": "held_object_environment",
+          "bodies": [
+            "task/charger",
+            "world"
+          ],
+          "frames_with_contact": 6,
+          "max_depth_m": 4.2427370708103367e-05,
+          "frame": 4293,
+          "sim_time": 144.10000000010913,
+          "phase": "grasp",
+          "object": "charger",
+          "geoms": [
+            "table_collision",
+            "task/charger/body_contact"
+          ]
+        },
+        "robot_environment": {
+          "category": "robot_environment",
+          "bodies": [
+            "right/link7",
+            "world"
+          ],
+          "frames_with_contact": 101,
+          "max_depth_m": 0.0006511940239552066,
+          "frame": 6131,
+          "sim_time": 205.3666666675559,
+          "phase": "grasp",
+          "object": "plate",
+          "geoms": [
+            "table_collision",
+            "gripper_right_43"
+          ]
+        }
+      },
+      "tcp": {
+        "left": {
+          "max_sampled_speed_m_s": 0.28465873613367976,
+          "p95_sampled_speed_m_s": 0.06777642046935346,
+          "peak_interval": [
+            52.299999999972975,
+            52.33333333330628
+          ]
+        },
+        "right": {
+          "max_sampled_speed_m_s": 0.6205208671453132,
+          "p95_sampled_speed_m_s": 0.21331504732177498,
+          "peak_interval": [
+            225.2666666678093,
+            225.30000000114305
+          ]
+        }
+      },
+      "limitations": [
+        "Position-only reconstruction, not dynamic replay; no contact-force, slip or torque inference.",
+        "Frame range is explicit; contacts between 30 Hz samples are unobserved.",
+        "Native eight-joint positions are preferred; missing native evidence uses half total width per jaw.",
+        "Held-object contacts are context only: intended support or cup-stack contact is not an automatic violation.",
+        "Inactive task objects retain their recorded initial layout poses; active poses are reconstructed each frame.",
+        "Current compiled geometry retains adjacent body exclusions and convex-hull approximations.",
+        "Provenance differences are listed; this diagnostic does not certify identical source assets.",
+        "TCP is the configured link6 offset [0,0,0.1375] m; not a measured tool calibration.",
+        "No change to episode acceptance or source data."
+      ],
+      "report_sha256": "0fcee829c849e2c13f56e2d0e4ff7aa1584b16f81380a0b3005f6b324b076f68",
+      "source_sha256": "76e716461cb411be162a7d8e873943e553f6e920e5d107ffb030784917c40dd9"
+    },
+    "3304020488": {
+      "samples": 7094,
+      "native_arm_samples": 14188,
+      "equal_jaw_reconstruction_arm_samples": 0,
+      "changed_or_missing_provenance_files": [],
+      "category_peaks": {
+        "intended_finger_target": {
+          "category": "intended_finger_target",
+          "bodies": [
+            "right/link7",
+            "task/plate"
+          ],
+          "frames_with_contact": 495,
+          "max_depth_m": 0.0008505504268777097,
+          "frame": 5155,
+          "sim_time": 172.83333333380833,
+          "phase": "lift",
+          "object": "plate",
+          "geoms": [
+            "gripper_right_46",
+            "task/plate/glazed_shell_contact_1_9"
+          ]
+        },
+        "robot_environment": {
+          "category": "robot_environment",
+          "bodies": [
+            "right/link7",
+            "world"
+          ],
+          "frames_with_contact": 98,
+          "max_depth_m": 0.0005103402335885424,
+          "frame": 5068,
+          "sim_time": 169.9333333337714,
+          "phase": "grasp",
+          "object": "plate",
+          "geoms": [
+            "table_collision",
+            "gripper_right_43"
+          ]
+        },
+        "held_object_environment": {
+          "category": "held_object_environment",
+          "bodies": [
+            "task/pen",
+            "world"
+          ],
+          "frames_with_contact": 6,
+          "max_depth_m": 4.07602610789262e-05,
+          "frame": 2867,
+          "sim_time": 96.56666666659939,
+          "phase": "grasp",
+          "object": "pen",
+          "geoms": [
+            "table_collision",
+            "task/pen/grip_contact"
+          ]
+        }
+      },
+      "tcp": {
+        "left": {
+          "max_sampled_speed_m_s": 0.2720134581725755,
+          "p95_sampled_speed_m_s": 0.03481285783492892,
+          "peak_interval": [
+            25.133333333331016,
+            25.16666666666432
+          ]
+        },
+        "right": {
+          "max_sampled_speed_m_s": 0.6591754027046111,
+          "p95_sampled_speed_m_s": 0.24053033431119258,
+          "peak_interval": [
+            192.6666666673942,
+            192.70000000072795
+          ]
+        }
+      },
+      "limitations": [
+        "Position-only reconstruction, not dynamic replay; no contact-force, slip or torque inference.",
+        "Frame range is explicit; contacts between 30 Hz samples are unobserved.",
+        "Native eight-joint positions are preferred; missing native evidence uses half total width per jaw.",
+        "Held-object contacts are context only: intended support or cup-stack contact is not an automatic violation.",
+        "Inactive task objects retain their recorded initial layout poses; active poses are reconstructed each frame.",
+        "Current compiled geometry retains adjacent body exclusions and convex-hull approximations.",
+        "Provenance differences are listed; this diagnostic does not certify identical source assets.",
+        "TCP is the configured link6 offset [0,0,0.1375] m; not a measured tool calibration.",
+        "No change to episode acceptance or source data."
+      ],
+      "report_sha256": "190fd5e148435acfd7dc0107333f615de2409a41bbfab5cad481cd9d4f69de25",
+      "source_sha256": "4851363370943249a5f775ece955d1fb1af13a6ef0199c26dadebc6d64a6b64f"
+    }
+  },
+  "benchmarks": {
+    "state": {
+      "scope": "Compare JSON storage using identical recorded transitions; no training verdict.\n\nOnly temporary benchmark copies are removed. Input recordings remain read-only.\nIncludes append, flush and close; excludes source loading and fsync durability.\n",
+      "training_ready": false,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/packing_order_states_v1/worker_01/episode_000000_seed_15619/episode.h5",
+      "source_sha256": "d4aec2ca4a0cd81e59746f99705db3fa3b56274bbeffed95e51fcf6ba1a09158",
+      "script_sha256": "de23279e233ca5cb31e345c67cd782a99e232d524b5fa0d5b27ab346e3d0725f",
+      "writer_sha256": "92ecfbea63ee651bfdec6c2dc0a3244e7c132c74efe3fb87b1a28094da2cc69b",
+      "json_writer_sha256": "b09b9bc0096f2d053544e738ff6effae646f25c8ea70b12c822a149397c92663",
+      "policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "start_frame": 500,
+      "frames": 300,
+      "rgb": false,
+      "repeats": 3,
+      "results": [
+        {
+          "mode": "vlen",
+          "repeat": 0,
+          "write_seconds": 0.6033598369685933,
+          "verify_seconds": 0.019794736988842487,
+          "bytes": 6180400,
+          "hashes": {
+            "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "compressed",
+          "repeat": 0,
+          "write_seconds": 0.6292289620032534,
+          "verify_seconds": 0.0319378919666633,
+          "bytes": 2529488,
+          "hashes": {
+            "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "compressed",
+          "repeat": 1,
+          "write_seconds": 0.6363540249876678,
+          "verify_seconds": 0.030621594982221723,
+          "bytes": 2529488,
+          "hashes": {
+            "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "vlen",
+          "repeat": 1,
+          "write_seconds": 0.6142418730305508,
+          "verify_seconds": 0.010421052924357355,
+          "bytes": 6180400,
+          "hashes": {
+            "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "vlen",
+          "repeat": 2,
+          "write_seconds": 0.6143185230903327,
+          "verify_seconds": 0.011020936071872711,
+          "bytes": 6180400,
+          "hashes": {
+            "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "compressed",
+          "repeat": 2,
+          "write_seconds": 0.6319803460501134,
+          "verify_seconds": 0.028081297990866005,
+          "bytes": 2529488,
+          "hashes": {
+            "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+          },
+          "every_json_byte_equal_to_source": true
+        }
+      ],
+      "summary": {
+        "vlen": {
+          "median_write_seconds": 0.6142418730305508,
+          "median_verify_seconds": 0.011020936071872711,
+          "median_bytes": 6180400
+        },
+        "compressed": {
+          "median_write_seconds": 0.6319803460501134,
+          "median_verify_seconds": 0.030621594982221723,
+          "median_bytes": 2529488
+        }
+      },
+      "compressed_storage_ratio": 0.40927577503074236,
+      "compressed_write_time_ratio": 1.0288786450393628,
+      "limitations": [
+        "Short fixed recorded windows; not a task success or qualified-throughput measurement.",
+        "Original stream policy unchanged; full task audit and training acceptance are not run for benchmark copies."
+      ]
+    },
+    "rgb": {
+      "scope": "Compare JSON storage using identical recorded transitions; no training verdict.\n\nOnly temporary benchmark copies are removed. Input recordings remain read-only.\nIncludes append, flush and close; excludes source loading and fsync durability.\n",
+      "training_ready": false,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/servo_rgb_seed0_v1/seed_0/episode.h5",
+      "source_sha256": "c1d8939a732cf6f545e61c8a189d6427048abe2b89f23bea11ca7e52c4178b83",
+      "script_sha256": "de23279e233ca5cb31e345c67cd782a99e232d524b5fa0d5b27ab346e3d0725f",
+      "writer_sha256": "92ecfbea63ee651bfdec6c2dc0a3244e7c132c74efe3fb87b1a28094da2cc69b",
+      "json_writer_sha256": "b09b9bc0096f2d053544e738ff6effae646f25c8ea70b12c822a149397c92663",
+      "policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "start_frame": 2400,
+      "frames": 150,
+      "rgb": true,
+      "repeats": 3,
+      "results": [
+        {
+          "mode": "vlen",
+          "repeat": 0,
+          "write_seconds": 4.078412379021756,
+          "verify_seconds": 1.4844390020007268,
+          "bytes": 207543619,
+          "hashes": {
+            "trajectory": "5b909d21978f7f12b968ca9e2e83562913dae06835df16ebad062adf9451a6e7",
+            "left_wrist": "70c1f2ac331ced4ea9cb1c392564d023b2827647482fdd5326232d8c592a6b1a",
+            "overhead": "2bd9b101f1eda0a13dd339c305c24809c7b0960a3045538f269acef01acac1ea",
+            "right_wrist": "6c70d391ea9f7557b69d068435d09450a3728e088cba320e4b23b51eecfe5cf2"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "compressed",
+          "repeat": 0,
+          "write_seconds": 3.87380168994423,
+          "verify_seconds": 1.4777476439485326,
+          "bytes": 205353740,
+          "hashes": {
+            "trajectory": "5b909d21978f7f12b968ca9e2e83562913dae06835df16ebad062adf9451a6e7",
+            "left_wrist": "70c1f2ac331ced4ea9cb1c392564d023b2827647482fdd5326232d8c592a6b1a",
+            "overhead": "2bd9b101f1eda0a13dd339c305c24809c7b0960a3045538f269acef01acac1ea",
+            "right_wrist": "6c70d391ea9f7557b69d068435d09450a3728e088cba320e4b23b51eecfe5cf2"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "compressed",
+          "repeat": 1,
+          "write_seconds": 3.8886176620144397,
+          "verify_seconds": 1.4761075699934736,
+          "bytes": 205353740,
+          "hashes": {
+            "trajectory": "5b909d21978f7f12b968ca9e2e83562913dae06835df16ebad062adf9451a6e7",
+            "left_wrist": "70c1f2ac331ced4ea9cb1c392564d023b2827647482fdd5326232d8c592a6b1a",
+            "overhead": "2bd9b101f1eda0a13dd339c305c24809c7b0960a3045538f269acef01acac1ea",
+            "right_wrist": "6c70d391ea9f7557b69d068435d09450a3728e088cba320e4b23b51eecfe5cf2"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "vlen",
+          "repeat": 1,
+          "write_seconds": 3.883622682071291,
+          "verify_seconds": 1.472703979932703,
+          "bytes": 207543619,
+          "hashes": {
+            "trajectory": "5b909d21978f7f12b968ca9e2e83562913dae06835df16ebad062adf9451a6e7",
+            "left_wrist": "70c1f2ac331ced4ea9cb1c392564d023b2827647482fdd5326232d8c592a6b1a",
+            "overhead": "2bd9b101f1eda0a13dd339c305c24809c7b0960a3045538f269acef01acac1ea",
+            "right_wrist": "6c70d391ea9f7557b69d068435d09450a3728e088cba320e4b23b51eecfe5cf2"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "vlen",
+          "repeat": 2,
+          "write_seconds": 3.8948391830781475,
+          "verify_seconds": 1.4597993500065058,
+          "bytes": 207543619,
+          "hashes": {
+            "trajectory": "5b909d21978f7f12b968ca9e2e83562913dae06835df16ebad062adf9451a6e7",
+            "left_wrist": "70c1f2ac331ced4ea9cb1c392564d023b2827647482fdd5326232d8c592a6b1a",
+            "overhead": "2bd9b101f1eda0a13dd339c305c24809c7b0960a3045538f269acef01acac1ea",
+            "right_wrist": "6c70d391ea9f7557b69d068435d09450a3728e088cba320e4b23b51eecfe5cf2"
+          },
+          "every_json_byte_equal_to_source": true
+        },
+        {
+          "mode": "compressed",
+          "repeat": 2,
+          "write_seconds": 3.8907715959940106,
+          "verify_seconds": 1.473959318944253,
+          "bytes": 205353740,
+          "hashes": {
+            "trajectory": "5b909d21978f7f12b968ca9e2e83562913dae06835df16ebad062adf9451a6e7",
+            "left_wrist": "70c1f2ac331ced4ea9cb1c392564d023b2827647482fdd5326232d8c592a6b1a",
+            "overhead": "2bd9b101f1eda0a13dd339c305c24809c7b0960a3045538f269acef01acac1ea",
+            "right_wrist": "6c70d391ea9f7557b69d068435d09450a3728e088cba320e4b23b51eecfe5cf2"
+          },
+          "every_json_byte_equal_to_source": true
+        }
+      ],
+      "summary": {
+        "vlen": {
+          "median_write_seconds": 3.8948391830781475,
+          "median_verify_seconds": 1.472703979932703,
+          "median_bytes": 207543619
+        },
+        "compressed": {
+          "median_write_seconds": 3.8886176620144397,
+          "median_verify_seconds": 1.4761075699934736,
+          "median_bytes": 205353740
+        }
+      },
+      "compressed_storage_ratio": 0.9894485842997659,
+      "compressed_write_time_ratio": 0.9984026244034059,
+      "limitations": [
+        "Short fixed recorded windows; not a task success or qualified-throughput measurement.",
+        "Original stream policy unchanged; full task audit and training acceptance are not run for benchmark copies."
+      ]
+    }
+  },
+  "limitations": [
+    "Two previously untested state-only seeds do not estimate population success or RGB training acceptance.",
+    "Original production policy unchanged; all successes and failures are retained.",
+    "Short-window write measurements do not measure qualified task throughput; no pipeline speedup claim.",
+    "Host timestamps correctly differ between new runs; deterministic simulated data are compared separately.",
+    "Telemetry compression does not solve the storage required for complete three-camera RGB recordings."
+  ]
+}

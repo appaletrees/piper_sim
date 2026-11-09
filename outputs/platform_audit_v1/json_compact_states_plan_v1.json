@@ -1,0 +1,34 @@
+{
+  "namespace": "piper/platform_audit/json_compression_unseen_states/v1",
+  "selection": "First train and first validation seed from SHA256(namespace/index), before loading layouts; stable split fraction 0.2.",
+  "candidates": [
+    {
+      "index": 0,
+      "seed": 3304020488,
+      "split": "validation"
+    },
+    {
+      "index": 1,
+      "seed": 4178702991,
+      "split": "train"
+    }
+  ],
+  "previous_summary_matches": [],
+  "roles": {
+    "15619": "known complete regression; compare every recorded public dataset and JSON byte",
+    "3304020488": "previously untested validation scene; outcome retained regardless of success",
+    "4178702991": "previously untested train scene; outcome retained regardless of success"
+  },
+  "seeds": [
+    15619,
+    4178702991,
+    3304020488
+  ],
+  "config": "configs/clean_table_servo.yaml",
+  "collection_profile": "configs/collection/clean_table_packing_compact.yaml",
+  "profile_sha256": "a5d3f513833863d023481cbc5c76db557e51be5e66c000354d33aadf824c7e4d",
+  "limitations": [
+    "State-only; not RGB training acceptance or a general success-rate estimate.",
+    "No tuning after viewing these layouts or outcomes within this frozen cohort."
+  ]
+}

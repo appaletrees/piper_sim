@@ -6,11 +6,12 @@ import time
 import h5py
 import numpy as np
 from .contracts import FEATURE_NAMES, Command, Observation
+from .recording_json import CompressedJsonStreams
 
 
 class EpisodeWriter:
     def __init__(self, path, metadata, *, image_compression="lzf",
-                 image_storage="duplicated", flush_every=1):
+                 image_storage="duplicated", flush_every=1, extras_storage="vlen"):
         if image_compression not in ("lzf", "gzip"):
             raise ValueError("image_compression must be lzf or gzip")
         self.image_compression = image_compression
@@ -18,6 +19,8 @@ class EpisodeWriter:
             raise ValueError("image_storage must be duplicated or shared")
         if type(flush_every) is not int or flush_every < 1:
             raise ValueError("flush_every must be a positive integer")
+        if extras_storage not in ("vlen", "compressed"):
+            raise ValueError("extras_storage must be vlen or compressed")
         self.image_storage = image_storage
         self.flush_every = flush_every
         self._last_images = {}
@@ -33,6 +36,7 @@ class EpisodeWriter:
                             units=json.dumps(["rad"]*6+["m"]+["rad"]*6+["m"]),
                             metadata=json.dumps(metadata), created_unix=time.time(),
                             complete=False, flush_every=flush_every)
+        self._json_streams = CompressedJsonStreams(self.f) if extras_storage == 'compressed' else None
         self.count = 0
         self.camera_names = None
         self.failed = False
@@ -79,8 +83,7 @@ class EpisodeWriter:
             payload[f"{prefix}/state"] = obs.position.astype(np.float32)
             payload[f"{prefix}/timestamp"] = obs.timestamp
             payload[f"{prefix}/sim_time"] = np.nan if obs.sim_time is None else obs.sim_time
-            payload[f"{prefix}/extras_json"] = np.asarray(
-                json.dumps(obs.extras, allow_nan=False), dtype=h5py.string_dtype("utf-8"))
+            payload[f"{prefix}/extras_json"] = json.dumps(obs.extras, allow_nan=False)
             for name, pixels in obs.images.items():
                 if "/" in name or not name:
                     raise ValueError("Invalid camera name")
@@ -106,7 +109,13 @@ class EpisodeWriter:
                 raise ValueError(f"Shape changed for {key}")
         try:
             for key, value in payload.items():
-                self._append(key, value)
+                if key.endswith('/extras_json'):
+                    if self._json_streams:
+                        self._json_streams.append(key, value, self.count)
+                    else:
+                        self._append(key, np.asarray(value, dtype=h5py.string_dtype('utf-8')))
+                else:
+                    self._append(key, value)
         except BaseException:
             self.failed = True
             raise
@@ -146,6 +155,8 @@ class EpisodeWriter:
             return
         complete = complete and not self.failed and self.count > 0
         try:
+            if complete and self._json_streams:
+                self._json_streams.finalize(self.count)
             if complete and self.image_storage == "shared":
                 self._finalize_shared_images()
             self.f.attrs.update(complete=complete, success=bool(success and complete))

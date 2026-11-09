@@ -67,13 +67,14 @@ class SimulationSession:
         return self.read()
 
     def start_recording(self, name, task="dual Piper demonstration", *, image_compression="lzf",
-                        image_storage="duplicated", flush_every=1):
+                        image_storage="duplicated", flush_every=1, extras_storage="vlen"):
         import re
         if self.writer: raise RuntimeError("Already recording")
         if not re.fullmatch(r'[A-Za-z0-9_-]{1,80}', name): raise ValueError("Invalid episode name")
         self.writer = EpisodeWriter(self.record_dir/(name+'.h5'), {**self.metadata(), "task": task,
             "action_semantics": "accepted absolute joint targets and full gripper opening; the backend controller applies them during the following observation-to-next_observation interval"},
-            image_compression=image_compression, image_storage=image_storage, flush_every=flush_every)
+            image_compression=image_compression, image_storage=image_storage, flush_every=flush_every,
+            extras_storage=extras_storage)
 
     def stop_recording(self, success=False):
         if not self.writer: raise RuntimeError("Not recording")

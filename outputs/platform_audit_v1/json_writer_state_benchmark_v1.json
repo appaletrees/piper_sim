@@ -1,0 +1,103 @@
+{
+  "scope": "Compare JSON storage using identical recorded transitions; no training verdict.\n\nOnly temporary benchmark copies are removed. Input recordings remain read-only.\nIncludes append, flush and close; excludes source loading and fsync durability.\n",
+  "training_ready": false,
+  "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/packing_order_states_v1/worker_01/episode_000000_seed_15619/episode.h5",
+  "source_sha256": "d4aec2ca4a0cd81e59746f99705db3fa3b56274bbeffed95e51fcf6ba1a09158",
+  "script_sha256": "de23279e233ca5cb31e345c67cd782a99e232d524b5fa0d5b27ab346e3d0725f",
+  "writer_sha256": "92ecfbea63ee651bfdec6c2dc0a3244e7c132c74efe3fb87b1a28094da2cc69b",
+  "json_writer_sha256": "b09b9bc0096f2d053544e738ff6effae646f25c8ea70b12c822a149397c92663",
+  "policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+    "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+  },
+  "start_frame": 500,
+  "frames": 300,
+  "rgb": false,
+  "repeats": 3,
+  "results": [
+    {
+      "mode": "vlen",
+      "repeat": 0,
+      "write_seconds": 0.6033598369685933,
+      "verify_seconds": 0.019794736988842487,
+      "bytes": 6180400,
+      "hashes": {
+        "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+      },
+      "every_json_byte_equal_to_source": true
+    },
+    {
+      "mode": "compressed",
+      "repeat": 0,
+      "write_seconds": 0.6292289620032534,
+      "verify_seconds": 0.0319378919666633,
+      "bytes": 2529488,
+      "hashes": {
+        "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+      },
+      "every_json_byte_equal_to_source": true
+    },
+    {
+      "mode": "compressed",
+      "repeat": 1,
+      "write_seconds": 0.6363540249876678,
+      "verify_seconds": 0.030621594982221723,
+      "bytes": 2529488,
+      "hashes": {
+        "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+      },
+      "every_json_byte_equal_to_source": true
+    },
+    {
+      "mode": "vlen",
+      "repeat": 1,
+      "write_seconds": 0.6142418730305508,
+      "verify_seconds": 0.010421052924357355,
+      "bytes": 6180400,
+      "hashes": {
+        "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+      },
+      "every_json_byte_equal_to_source": true
+    },
+    {
+      "mode": "vlen",
+      "repeat": 2,
+      "write_seconds": 0.6143185230903327,
+      "verify_seconds": 0.011020936071872711,
+      "bytes": 6180400,
+      "hashes": {
+        "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+      },
+      "every_json_byte_equal_to_source": true
+    },
+    {
+      "mode": "compressed",
+      "repeat": 2,
+      "write_seconds": 0.6319803460501134,
+      "verify_seconds": 0.028081297990866005,
+      "bytes": 2529488,
+      "hashes": {
+        "trajectory": "d74d0d95281fe20d7ec11240581e7975ab8d85c603cf90ce478e097943838f5b"
+      },
+      "every_json_byte_equal_to_source": true
+    }
+  ],
+  "summary": {
+    "vlen": {
+      "median_write_seconds": 0.6142418730305508,
+      "median_verify_seconds": 0.011020936071872711,
+      "median_bytes": 6180400
+    },
+    "compressed": {
+      "median_write_seconds": 0.6319803460501134,
+      "median_verify_seconds": 0.030621594982221723,
+      "median_bytes": 2529488
+    }
+  },
+  "compressed_storage_ratio": 0.40927577503074236,
+  "compressed_write_time_ratio": 1.0288786450393628,
+  "limitations": [
+    "Short fixed recorded windows; not a task success or qualified-throughput measurement.",
+    "Original stream policy unchanged; full task audit and training acceptance are not run for benchmark copies."
+  ]
+}

@@ -246,6 +246,43 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/compact_collected_episode.py \
 汇总保留全部尝试和失败原因。默认教师在线共享连续 RGB 帧：存 N 张 observation 和终止帧，
 next_observation 仍可完整读取；外部 API 的默认存储布局不变，可显式选 `image_storage="shared"`。
 
+### 可选的遥测 JSON 无损压缩
+
+`configs/collection/clean_table_packing_compact.yaml` 与 `clean_table_packing_order.yaml`
+使用完全相同的运动、接触和审核参数，仅增加 `dataset.extras_storage: compressed`。
+它压缩每帧的物体、控制器和教师遥测，不改变数值记录、RGB、采样周期或动作语义。
+Python 进程内接口也可使用：
+
+```python
+session.start_recording("episode_000001", task="clear table",
+                        image_storage="shared", extras_storage="compressed")
+```
+
+默认仍为 `extras_storage="vlen"`；HTTP 客户端目前未暴露这个选项。已关闭文件的
+`observation/extras_json` / `next_observation/extras_json` 路径、长度、UTF-8 类型和内容
+保持一致，支持切片、`asstr()`、项目审计与序列读取。内部 `recording_extras/` 使用按实际
+字节长度增长的 GZIP 桶，公开路径是同文件虚拟数据集；移动整个 HDF5 文件不影响读取。
+不能单独复制虚拟数据集而丢弃内部源数据。外部读取器须支持 HDF5 VDS（项目使用 h5py）。
+压缩源不会截断长字符串；关闭失败保留不完整 `.partial`，不得把部分文件用于训练。
+
+旧记录可生成一个单独压缩副本，不覆盖或删除原文件：
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/compress_episode_json.py \
+  outputs/batch/episode_000000_seed_0/episode.h5 \
+  --output outputs/compressed/episode.h5 --report outputs/compressed/copy.json
+PYTHONPATH=src .venv-mujoco/bin/python scripts/audit_collected_episode.py \
+  outputs/compressed/episode.h5 --output outputs/compressed/audit.json --update-acceptance
+```
+
+复制后逐项比较原数据集的值、形状和类型，记录来源 SHA256，清除旧训练许可；必须重新
+审计。只有状态的记录需给审核命令加 `--states-only`，其训练许可始终为 false。
+这只压缩遥测：实测完整状态副本约缩小 59%，三路 RGB 短窗口整体仅缩小约 1.1%；
+不能解决完整原生 RGB 的磁盘容量需求，也不能当作合格采集吞吐提升。
+性能范围及完整回合证据见 [平台审计](platform_audit.md)。
+
+### 批次恢复和导出
+
 新批次可以用首次启动时的相同参数追加 `--resume`。代码、配置、资产、依赖或通过文件的
 校验和发生变化时拒绝恢复，需新建批次。已完成任务不重跑，未完成尝试保留，并在新 attempt
 目录重试。旧批次没有 `run.json`，不能直接恢复。不要在批次执行过程中修改其代码/配置。
