@@ -10,7 +10,8 @@ def validate_profile(value):
     if value is None: return None
     keys = {'kinds', 'xy_radius_m', 'xy_step_m', 'wall_margin_m', 'support_gap_m',
             'extra_release_heights_m', 'max_candidates'}
-    if not isinstance(value, dict) or set(value) != keys:
+    optional = {'slender_surface_spacing_m'}
+    if not isinstance(value, dict) or not keys <= set(value) or set(value)-keys-optional:
         raise ValueError('placement_search requires exactly '+', '.join(sorted(keys)))
     if not isinstance(value['kinds'], list) or not value['kinds'] or any(
             k not in ('chopstick', 'side_dish') for k in value['kinds']):
@@ -27,6 +28,10 @@ def validate_profile(value):
         raise ValueError('Release height increments must start at zero and strictly increase')
     if type(value['max_candidates']) is not int or not 1 <= value['max_candidates'] <= 256:
         raise ValueError('Placement max_candidates must be in 1..256')
+    if 'slender_surface_spacing_m' in value:
+        spacing = value['slender_surface_spacing_m']
+        if isinstance(spacing, (str, bool)) or not np.isscalar(spacing) or not np.isfinite(spacing) or not .001 <= spacing <= .01:
+            raise ValueError('Slender collision surface spacing must be in .001..01 m')
     return dict(value)
 
 
@@ -40,18 +45,61 @@ class VerticalSupport:
         det = u[:, 0]*v[:, 1]-u[:, 1]*v[:, 0]
         good = abs(det) > 1e-14
         self.a, self.u, self.v, self.det = a[good], u[good], v[good], det[good]
+        vertices = triangles[good]
+        # Match the barycentric tolerance below, including points just outside
+        # a triangle edge; add a conservative floating-point rounding allowance.
+        # s,t >= -eps and s+t <= 1+eps permit s or t up to 1+2eps.
+        pad = 2e-10*(abs(self.u[:, :2])+abs(self.v[:, :2]))
+        pad += 32*np.finfo(float).eps*(1+np.max(abs(vertices[:, :, :2]), axis=1))
+        self.lower = vertices[:, :, :2].min(1)-pad
+        self.upper = vertices[:, :, :2].max(1)+pad
 
     def height(self, xy):
         xy = np.asarray(xy, float)
+        if xy.ndim != 2 or xy.shape[1] != 2 or not np.isfinite(xy).all():
+            raise ValueError('Finite XY points required')
         result = np.full(len(xy), -np.inf)
+        if not len(xy): return result
+        selected = np.all(self.upper >= xy.min(0), axis=1) & np.all(self.lower <= xy.max(0), axis=1)
+        a, u, v, det = (values[selected] for values in (self.a, self.u, self.v, self.det))
         for start in range(0, len(xy), 64):
-            delta = xy[start:start+64, None]-self.a[None, :, :2]
-            s = (delta[:, :, 0]*self.v[:, 1]-delta[:, :, 1]*self.v[:, 0])/self.det
-            t = (self.u[:, 0]*delta[:, :, 1]-self.u[:, 1]*delta[:, :, 0])/self.det
+            delta = xy[start:start+64, None]-a[None, :, :2]
+            s = (delta[:, :, 0]*v[:, 1]-delta[:, :, 1]*v[:, 0])/det
+            t = (u[:, 0]*delta[:, :, 1]-u[:, 1]*delta[:, :, 0])/det
             inside = (s >= -1e-10) & (t >= -1e-10) & (s+t <= 1+1e-10)
-            height = self.a[:, 2]+s*self.u[:, 2]+t*self.v[:, 2]
+            height = a[:, 2]+s*u[:, 2]+t*v[:, 2]
             if height.shape[1]: result[start:start+64] = np.max(np.where(inside, height, -np.inf), axis=1)
         return result
+
+
+def collision_surface_points(parts, spacing):
+    """Subdivide collision faces along their longest edge, without changing them.
+
+    Final triangle edges are at most spacing metres. This bounds sample gaps;
+    it is still sampled support estimation, not an exact collision certificate.
+    """
+    if not np.isfinite(spacing) or not .001 <= spacing <= .01:
+        raise ValueError('Collision sample spacing must be in .001..01 m')
+    surfaces = [np.asarray(p['points'], float)[np.asarray(p['faces'])]
+                for p in parts if p.get('collision')]
+    if not surfaces: raise ValueError('No payload collision surfaces')
+    pending = np.concatenate(surfaces)
+    if not np.isfinite(pending).all(): raise ValueError('Invalid payload collision surfaces')
+    finished = []
+    for _ in range(24):
+        edges = np.roll(pending, -1, axis=1)-pending
+        lengths = np.linalg.norm(edges, axis=2)
+        done = lengths.max(1) <= spacing
+        finished.append(pending[done].reshape(-1, 3))
+        pending = pending[~done]
+        if not len(pending): return np.unique(np.concatenate(finished), axis=0)
+        longest = lengths[~done].argmax(1)
+        row = np.arange(len(pending))
+        a, b, c = (pending[row, (longest+i)%3] for i in range(3))
+        midpoint = (a+b)/2
+        pending = np.concatenate((np.stack((a, midpoint, c), axis=1), np.stack((midpoint, b, c), axis=1)))
+        if len(pending) > 200000: raise ValueError('Collision sampling budget exceeded')
+    raise ValueError('Collision surface subdivision did not converge')
 
 
 def support_surface(teacher, target, held):
@@ -108,6 +156,9 @@ def search(teacher, side, name, target, profile):
     nominal = np.asarray(teacher.b.task.config['drop_slots_m'].get(name, [0., 0.]))
     points = teacher.b.task.surface_points[name]
     slender = teacher.b.task.specs[name]['kind']=='chopstick'
+    spacing = profile.get('slender_surface_spacing_m') if slender else None
+    if spacing is not None:
+        points = collision_surface_points(teacher.b.task.parts[name], spacing)
     support, obstacles = support_surface(teacher, target, teacher.carried_objects())
     grid = np.arange(-int(profile['xy_radius_m']/profile['xy_step_m']),
                      int(profile['xy_radius_m']/profile['xy_step_m'])+1)*profile['xy_step_m']
@@ -185,7 +236,9 @@ def search(teacher, side, name, target, profile):
                     'support_gap_m': profile['support_gap_m']+extra, 'checked_pose_candidates': checked,
                     'opening_sweep_checked_m': [aperture, release],
                     'rejected_geometry_or_ik': len(failures), 'support_obstacles': obstacles,
-                    'support_method': 'object-vertex samples against vertical envelope of current task collision triangles',
+                    'support_method': ('subdivided payload collision faces' if spacing is not None else 'visible payload vertices')
+                                      +' against vertical envelope of current task collision triangles',
+                    'payload_sample_count': len(points), 'payload_surface_spacing_m': spacing,
                     'prediction_note': 'geometric first contact, not dynamic stability proof'})
                 return score, high, low, desired_r, q_high, q_low
         if checked >= profile['max_candidates']: break

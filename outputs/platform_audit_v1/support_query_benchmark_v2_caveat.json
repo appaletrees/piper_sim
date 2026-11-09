@@ -1,0 +1,33 @@
+{
+  "source_report": "support_query_benchmark_v2.json",
+  "status": "query_subset_results_valid_but_old_implementation_has_a_boundary_defect",
+  "counterexample": {
+    "triangle": [
+      [
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        1
+      ]
+    ],
+    "query": [
+      1.00000000015,
+      -7.5e-11
+    ],
+    "reference_height": 1,
+    "old_filtered_result": "-inf"
+  },
+  "reason": "s,t >= -epsilon and s+t <= 1+epsilon allows either coordinate up to 1+2epsilon; the first broad-phase pad only used epsilon.",
+  "resolution": "Double the analytic expansion, preserve rounding allowance, add an expanded-corner regression and restart full tasks in collision_support_states_v2.",
+  "current_benchmark": "support_query_benchmark_v3.json",
+  "training_ready": false
+}

@@ -6,6 +6,48 @@ import pytest
 from piper_sim.experts.placement_search import VerticalSupport, validate_profile, support_surface, diverse_candidates
 
 
+def test_broad_phase_preserves_exact_upper_envelope_including_edge_tolerance():
+    rng = np.random.default_rng(901)
+    triangles = rng.uniform(-10, 10, (120, 3, 3))
+    surface = VerticalSupport(triangles)
+    queries = np.concatenate((rng.uniform(-15, 15, (300, 2)), triangles[:, 0, :2],
+        surface.a[:, :2]-1e-10*surface.u[:, :2]))
+    # Independent brute-force reference retains every projectable triangle.
+    expected = []
+    for point in queries:
+        d = point-surface.a[:, :2]
+        s = (d[:, 0]*surface.v[:, 1]-d[:, 1]*surface.v[:, 0])/surface.det
+        t = (surface.u[:, 0]*d[:, 1]-surface.u[:, 1]*d[:, 0])/surface.det
+        inside = (s >= -1e-10) & (t >= -1e-10) & (s+t <= 1+1e-10)
+        expected.append(np.max(np.where(inside, surface.a[:, 2]+s*surface.u[:, 2]+t*surface.v[:, 2], -np.inf)))
+    # Small query batches exercise pruning rather than selecting the whole set.
+    actual = np.concatenate([surface.height(q) for q in np.array_split(queries, len(queries))])
+    np.testing.assert_array_equal(actual, expected)
+    assert surface.height(np.empty((0, 2))).shape == (0,)
+    np.testing.assert_array_equal(VerticalSupport(np.empty((0, 3, 3))).height([[0., 0.]]), [-np.inf])
+
+
+def test_collision_sampling_covers_middle_of_actual_face_and_excludes_visual_geometry():
+    from piper_sim.experts.placement_search import collision_surface_points
+    points = [[x, y, 0.] for x, y in ((-.1125, -.003), (.1125, -.003), (.1125, .003), (-.1125, .003))]
+    part = {'points': points, 'faces': [[0, 1, 2], [0, 2, 3]], 'collision': True}
+    samples = collision_surface_points([part, {'collision': False}], .005)
+    assert len(samples) > len(points)
+    assert (samples[:, 2] == 0).all()
+    # A narrow mid-shaft support was invisible to endpoint-only estimates.
+    assert ((abs(samples[:, 0]) < .0025) & (abs(samples[:, 1]) < .0025)).any()
+    np.testing.assert_array_equal(part['points'], points)
+    with pytest.raises(ValueError, match='No payload'): collision_surface_points([{'collision': False}], .005)
+
+
+def test_broad_phase_includes_expanded_triangle_corners():
+    surface = VerticalSupport([[[0., 0., 1.], [1., 0., 1.], [0., 1., 1.]]])
+    # One negative barycentric coordinate permits the other to exceed 1+eps.
+    # An eps-only AABB expansion incorrectly rejected these valid intersections.
+    queries = [[1.+1.5e-10, -.75e-10], [-.75e-10, 1.+1.5e-10], [-.75e-10, -.75e-10]]
+    for query in queries: np.testing.assert_array_equal(surface.height([query]), [1.])
+
+
 def test_support_height_handles_tilted_faces_overlap_and_holes():
     triangles = np.array([[[0, 0, 0], [1, 0, 1], [0, 1, 0]],
                           [[0, 0, 2], [.2, 0, 2], [0, .2, 2]],

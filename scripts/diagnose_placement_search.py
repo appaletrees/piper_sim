@@ -17,6 +17,7 @@ import numpy as np
 import yaml
 
 from piper_sim.backends.mujoco import MujocoBackend
+from piper_sim.collection_audit import load_acceptance_policy
 from piper_sim.collection_jobs import atomic_json, sha256
 from piper_sim.experts.clean_table import SortFailure
 from piper_sim.experts.rigid_table import RigidTableTeacher
@@ -31,8 +32,12 @@ def main():
     p.add_argument('--profile', default='configs/collection/clean_table_placement_search.yaml', type=Path)
     p.add_argument('--output', required=True, type=Path)
     p.add_argument('--execute', action='store_true')
+    p.add_argument('--observe-stability-s', type=float, default=0.)
     args = p.parse_args()
     if args.output.exists(): p.error('Retain existing diagnostics; select a new output')
+    if not np.isfinite(args.observe_stability_s) or not 0 <= args.observe_stability_s <= 10:
+        p.error('Stability observation must be in 0..10 seconds')
+    if args.observe_stability_s and not args.execute: p.error('Stability observation requires --execute')
     with h5py.File(args.source, 'r') as f:
         if not f.attrs.get('complete'): raise ValueError('Closed complete recording required')
         meta = json.loads(f.attrs['metadata'])
@@ -97,6 +102,24 @@ def main():
             teacher.wait(teacher.pacing['placement_hold_s'])
             result['placement_metric'] = teacher.session.read().extras['task']['metrics'][args.object]
             result['final_pose'] = teacher.object_pose(args.object)
+            if args.observe_stability_s:
+                policy, provenance = load_acceptance_policy()
+                limits = policy['dataset'];samples = [];stable = longest = 0.
+                previous = teacher.object_pose(args.object);previous_time = b.sim_time
+                teacher.event('diagnostic_settle')
+                for _ in range(int(np.ceil(args.observe_stability_s*30))):
+                    teacher.wait(1/30)
+                    current = teacher.object_pose(args.object);dt = b.sim_time-previous_time
+                    linear = float(np.linalg.norm(np.asarray(current['position'])-previous['position'])/dt)
+                    angular = float(2*np.arccos(np.clip(abs(np.dot(current['quaternion_wxyz'], previous['quaternion_wxyz'])), 0, 1))/dt)
+                    metric = teacher.session.read().extras['task']['metrics'][args.object]
+                    good = metric['success'] and linear <= limits['final_object_speed_m_s'] and angular <= limits['final_object_angular_speed_rad_s']
+                    stable = stable+dt if good else 0.;longest = max(longest, stable)
+                    samples.append({'sim_time': b.sim_time, 'linear_speed_m_s': linear, 'angular_speed_rad_s': angular, 'contained': metric['success']})
+                    previous, previous_time = current, b.sim_time
+                result['target_stability_diagnostic'] = {'acceptance_policy': provenance,
+                    'ending_stable_s': stable, 'longest_stable_s': longest, 'samples': samples,
+                    'note': 'Target only, initialized snapshot trial; not independent full-task acceptance.'}
     except Exception as error:
         result['error'] = type(error).__name__+': '+str(error)
     finally:

@@ -1,0 +1,565 @@
+{
+  "status": "completed_engineering_state_regressions",
+  "training_ready": false,
+  "analysis_sha256": "e94ee15d2496f7a99291ace962ca8807858b50a0fde27ec534de50ee45398952",
+  "unchanged_frozen_input_files": 413,
+  "changed_input_files": [],
+  "diagnostic_passed": 2,
+  "accepted_rgb_episodes": 0,
+  "runs": [
+    {
+      "seed": 13,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/collision_support_states_v2/worker_00/episode_000000_seed_13/episode.h5",
+      "source_sha256": "85512e2224708c0d56b72a6401b6ee1680b742b253abd1410e663543c7267bb4",
+      "summary": {
+        "success": true,
+        "sorted_count": 11,
+        "required_count": 11
+      },
+      "error": null,
+      "violations": [],
+      "audit_passed": true,
+      "training_ready": false,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "frames": 8010,
+      "duration_s": 267.0000000013593,
+      "previous_duration_s": 267.0000000013593,
+      "full_numeric_dataset_equality_to_previous": {
+        "observation/sim_time": true,
+        "observation/state": true,
+        "next_observation/state": true,
+        "action/position": true
+      },
+      "placement_events": [
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 202.3666666675177,
+          "slot_xy_m": [
+            0.06,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.04178351243052364,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 49,
+          "opening_sweep_checked_m": [
+            0.007423269987384712,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 46,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "visible payload vertices against vertical envelope of current task collision triangles",
+          "payload_sample_count": 576,
+          "payload_surface_spacing_m": null,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_a",
+          "sim_time": 235.10000000126783,
+          "slot_xy_m": [
+            -0.025,
+            -0.08499999999999999
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.03498507994709921,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.00589989012361748,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_b",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+          "payload_sample_count": 2938,
+          "payload_surface_spacing_m": 0.005,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_b",
+          "sim_time": 255.26666666819128,
+          "slot_xy_m": [
+            -0.025,
+            -0.1
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.019985079947099194,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005923809051991996,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "cup_02",
+            "pen",
+            "charger"
+          ],
+          "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+          "payload_sample_count": 2938,
+          "payload_surface_spacing_m": 0.005,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        }
+      ],
+      "native_integrity": "consistent_recorded_evidence",
+      "prefix_comparison": {
+        "transitions_before_first_slender_placement": 7023,
+        "exact_dataset_equality": {
+          "observation/sim_time": true,
+          "observation/state": true,
+          "action/position": true
+        },
+        "exact_object_poses_equal": true,
+        "previous_source_sha256": "1506e1c9636d3a0dd6c0b4dbedf7ff2c4b70ea0874d6ec32dc482bf19a78bbd5"
+      },
+      "phase_wall_seconds": {
+        "collection": 574.181511090952
+      }
+    },
+    {
+      "seed": 15619,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/collision_support_states_v2/worker_01/episode_000000_seed_15619/episode.h5",
+      "source_sha256": "12c975864da2cc449397aff088cde12bc796592c7d54aa3c32a320d70b3968ef",
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "error": "SortFailure: Final objects did not remain stable for 1.0 s within 5.0 s; last stable interval=0.033 s",
+      "violations": [
+        "ValueError: unsuccessful_episode"
+      ],
+      "audit_passed": false,
+      "training_ready": false,
+      "acceptance_policy": null,
+      "frames": 6997,
+      "duration_s": 233.2333333345901,
+      "previous_duration_s": 233.2333333345901,
+      "full_numeric_dataset_equality_to_previous": {
+        "observation/sim_time": true,
+        "observation/state": true,
+        "next_observation/state": true,
+        "action/position": true
+      },
+      "placement_events": [
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 175.766666667179,
+          "slot_xy_m": [
+            0.009999999999999995,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.09178351243052327,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 57,
+          "opening_sweep_checked_m": [
+            0.007502367897006141,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 54,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "visible payload vertices against vertical envelope of current task collision triangles",
+          "payload_sample_count": 576,
+          "payload_surface_spacing_m": null,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_a",
+          "sim_time": 199.03333333414193,
+          "slot_xy_m": [
+            -0.025,
+            -0.08499999999999999
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.03498507994709921,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005915257501888857,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_b",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+          "payload_sample_count": 2938,
+          "payload_surface_spacing_m": 0.005,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_b",
+          "sim_time": 220.30000000107938,
+          "slot_xy_m": [
+            -0.05,
+            -0.075
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.014499999999999985,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 163,
+          "opening_sweep_checked_m": [
+            0.005910763780570609,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 162,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+          "payload_sample_count": 2938,
+          "payload_surface_spacing_m": 0.005,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        }
+      ],
+      "native_integrity": "consistent_recorded_evidence",
+      "prefix_comparison": {
+        "transitions_before_first_slender_placement": 5941,
+        "exact_dataset_equality": {
+          "observation/sim_time": true,
+          "observation/state": true,
+          "action/position": true
+        },
+        "exact_object_poses_equal": true,
+        "previous_source_sha256": "2d83f232081da3a3e486576d16ffaee3045feae5882989e84e9d7c8890dcf708"
+      },
+      "phase_wall_seconds": {
+        "collection": 441.19604666600935
+      }
+    },
+    {
+      "seed": 0,
+      "source": "/home/midea/Desktop/piper_sim/outputs/platform_audit_v1/collision_support_states_v2/worker_00/episode_000001_seed_0/episode.h5",
+      "source_sha256": "d5f146dbf70f454b086e71fb4f463d5d67027e9429d7954dac9dac4f15e0340f",
+      "summary": {
+        "success": true,
+        "sorted_count": 10,
+        "required_count": 10
+      },
+      "error": null,
+      "violations": [],
+      "audit_passed": true,
+      "training_ready": false,
+      "acceptance_policy": {
+        "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+        "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+      },
+      "frames": 7437,
+      "duration_s": 247.90000000144352,
+      "previous_duration_s": 247.90000000144352,
+      "full_numeric_dataset_equality_to_previous": {
+        "observation/sim_time": true,
+        "observation/state": true,
+        "next_observation/state": true,
+        "action/position": true
+      },
+      "placement_events": [
+        {
+          "phase": "placement_search_selected",
+          "object": "side_dish",
+          "sim_time": 178.80000000055097,
+          "slot_xy_m": [
+            0.06,
+            0.0
+          ],
+          "object_pitch_deg": -15,
+          "object_yaw_deg": 0,
+          "wall_margin_m": 0.041783512430523584,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 49,
+          "opening_sweep_checked_m": [
+            0.007576790452353073,
+            0.07
+          ],
+          "rejected_geometry_or_ik": 46,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "chopstick_b",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "visible payload vertices against vertical envelope of current task collision triangles",
+          "payload_sample_count": 576,
+          "payload_surface_spacing_m": null,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_a",
+          "sim_time": 212.50000000098007,
+          "slot_xy_m": [
+            -0.025,
+            -0.08499999999999999
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.03498507994709921,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005921212360264674,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_b",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+          "payload_sample_count": 2938,
+          "payload_surface_spacing_m": 0.005,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        },
+        {
+          "phase": "placement_search_selected",
+          "object": "chopstick_b",
+          "sim_time": 234.60000000126146,
+          "slot_xy_m": [
+            -0.025,
+            -0.1
+          ],
+          "object_pitch_deg": -45,
+          "object_yaw_deg": -15,
+          "wall_margin_m": 0.019985079947099194,
+          "support_gap_m": 0.01,
+          "checked_pose_candidates": 153,
+          "opening_sweep_checked_m": [
+            0.005911650806828745,
+            0.04
+          ],
+          "rejected_geometry_or_ik": 152,
+          "support_obstacles": [
+            "plate",
+            "bowl",
+            "spoon",
+            "chopstick_a",
+            "side_dish",
+            "basket",
+            "cup_00",
+            "cup_01",
+            "pen",
+            "charger"
+          ],
+          "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+          "payload_sample_count": 2938,
+          "payload_surface_spacing_m": 0.005,
+          "prediction_note": "geometric first contact, not dynamic stability proof"
+        }
+      ],
+      "native_integrity": "consistent_recorded_evidence",
+      "prefix_comparison": {
+        "transitions_before_first_slender_placement": 6345,
+        "exact_dataset_equality": {
+          "observation/sim_time": true,
+          "observation/state": true,
+          "action/position": true
+        },
+        "exact_object_poses_equal": true,
+        "previous_source_sha256": "35013d6d56582269c8541ff3c484d4a02a4e32a0add6a9afa688e2212c087aff"
+      },
+      "phase_wall_seconds": {
+        "collection": 387.9184579059947
+      }
+    }
+  ],
+  "interrupted_development_attempt": {
+    "status": "interrupted_or_failed",
+    "workers": 2,
+    "seeds": [
+      13,
+      15619,
+      0
+    ],
+    "resumed": false,
+    "started_unix": 1794227749.6265862,
+    "completed_shards": [],
+    "throughput_note": "Fresh invocations include startup, every attempt, validation and optional export. Resume reuses earlier work, so its rate is deliberately omitted. Single cohorts are not success distributions.",
+    "error": "KeyboardInterrupt: ",
+    "elapsed_including_cleanup_s": 186.89062463096343
+  },
+  "interruption_reason": "A new tolerance-expanded corner test found an AABB epsilon bound too narrow. Owned workers stopped; fixed bound and restarted into a new directory. Partial records retained, not counted as completed or accepted.",
+  "query_benchmark": {
+    "status": "microbenchmark_only",
+    "script_sha256": "af703c4fb282ef11b2a3ff3a825b03635a5d4047c22ba9d01b01e565960c38f1",
+    "production_source_sha256": "0bd6d51cec01017e7f04fb8784e0dcd6072b8b98e55cfce2a1fe6f7c434eac00",
+    "rows": [
+      {
+        "seed": 13,
+        "source_sha256": "373c8433c24307d603a01bc85ac9674f75df377f96a3c775df5519d1b04d7614",
+        "source_frame": 6917,
+        "object": "chopstick_a",
+        "payload_points": "visible_vertices",
+        "queries": 5,
+        "points": 113,
+        "projectable_triangles": 16216,
+        "exact_heights_equal": true,
+        "seconds": {
+          "unfiltered": [
+            0.02633390505798161,
+            0.02674689400009811,
+            0.026404800009913743
+          ],
+          "production_broad_phase": [
+            0.002997117000631988,
+            0.0029792659915983677,
+            0.0030025530140846968
+          ]
+        },
+        "median_query_speedup": 8.810066475331421
+      },
+      {
+        "seed": 13,
+        "source_sha256": "373c8433c24307d603a01bc85ac9674f75df377f96a3c775df5519d1b04d7614",
+        "source_frame": 6917,
+        "object": "chopstick_a",
+        "payload_points": "collision_surface_5mm",
+        "queries": 5,
+        "points": 8879,
+        "projectable_triangles": 16216,
+        "exact_heights_equal": true,
+        "seconds": {
+          "unfiltered": [
+            2.4766742630163208,
+            2.4897855480667204,
+            2.41884197096806
+          ],
+          "production_broad_phase": [
+            0.09504889696836472,
+            0.09339322103187442,
+            0.08754911599680781
+          ]
+        },
+        "median_query_speedup": 26.51877979635214
+      },
+      {
+        "seed": 15619,
+        "source_sha256": "92d564b2e676808c237b91536cf66773a855c111fd18cf33aed83584ab3026fb",
+        "source_frame": 5106,
+        "object": "side_dish",
+        "payload_points": "visible_vertices",
+        "queries": 5,
+        "points": 1793,
+        "projectable_triangles": 12156,
+        "exact_heights_equal": true,
+        "seconds": {
+          "unfiltered": [
+            0.34548017801716924,
+            0.3530777570558712,
+            0.34100970602594316
+          ],
+          "production_broad_phase": [
+            0.021173424902372062,
+            0.02132415398955345,
+            0.021087098051793873
+          ]
+        },
+        "median_query_speedup": 16.316688471994205
+      }
+    ],
+    "limitations": [
+      "Shared host load; no claim about full-task planning or qualified throughput.",
+      "Exact equality is checked on these query inputs; independent tests also cover tolerance-expanded edges.",
+      "Collision sampling is still discrete and does not prove dynamic landing stability."
+    ]
+  },
+  "limitations": [
+    "Three development seeds, not independent held-out reliability evidence.",
+    "State-only records cannot pass RGB training acceptance; no new LeRobot dataset exported.",
+    "Collision support samples improve geometric coverage but do not certify dynamic stability.",
+    "Original geometry, physics parameters and independent acceptance policy unchanged.",
+    "Local query acceleration is not qualified data throughput; shared-load full-task wall times are not a matched benchmark.",
+    "The isolated seed15619 snapshot trial remained unstable and is not a full-task verdict."
+  ]
+}

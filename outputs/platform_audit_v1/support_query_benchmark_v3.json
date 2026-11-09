@@ -1,0 +1,84 @@
+{
+  "status": "microbenchmark_only",
+  "script_sha256": "af703c4fb282ef11b2a3ff3a825b03635a5d4047c22ba9d01b01e565960c38f1",
+  "production_source_sha256": "0bd6d51cec01017e7f04fb8784e0dcd6072b8b98e55cfce2a1fe6f7c434eac00",
+  "rows": [
+    {
+      "seed": 13,
+      "source_sha256": "373c8433c24307d603a01bc85ac9674f75df377f96a3c775df5519d1b04d7614",
+      "source_frame": 6917,
+      "object": "chopstick_a",
+      "payload_points": "visible_vertices",
+      "queries": 5,
+      "points": 113,
+      "projectable_triangles": 16216,
+      "exact_heights_equal": true,
+      "seconds": {
+        "unfiltered": [
+          0.02633390505798161,
+          0.02674689400009811,
+          0.026404800009913743
+        ],
+        "production_broad_phase": [
+          0.002997117000631988,
+          0.0029792659915983677,
+          0.0030025530140846968
+        ]
+      },
+      "median_query_speedup": 8.810066475331421
+    },
+    {
+      "seed": 13,
+      "source_sha256": "373c8433c24307d603a01bc85ac9674f75df377f96a3c775df5519d1b04d7614",
+      "source_frame": 6917,
+      "object": "chopstick_a",
+      "payload_points": "collision_surface_5mm",
+      "queries": 5,
+      "points": 8879,
+      "projectable_triangles": 16216,
+      "exact_heights_equal": true,
+      "seconds": {
+        "unfiltered": [
+          2.4766742630163208,
+          2.4897855480667204,
+          2.41884197096806
+        ],
+        "production_broad_phase": [
+          0.09504889696836472,
+          0.09339322103187442,
+          0.08754911599680781
+        ]
+      },
+      "median_query_speedup": 26.51877979635214
+    },
+    {
+      "seed": 15619,
+      "source_sha256": "92d564b2e676808c237b91536cf66773a855c111fd18cf33aed83584ab3026fb",
+      "source_frame": 5106,
+      "object": "side_dish",
+      "payload_points": "visible_vertices",
+      "queries": 5,
+      "points": 1793,
+      "projectable_triangles": 12156,
+      "exact_heights_equal": true,
+      "seconds": {
+        "unfiltered": [
+          0.34548017801716924,
+          0.3530777570558712,
+          0.34100970602594316
+        ],
+        "production_broad_phase": [
+          0.021173424902372062,
+          0.02132415398955345,
+          0.021087098051793873
+        ]
+      },
+      "median_query_speedup": 16.316688471994205
+    }
+  ],
+  "limitations": [
+    "Shared host load; no claim about full-task planning or qualified throughput.",
+    "Exact equality is checked on these query inputs; independent tests also cover tolerance-expanded edges.",
+    "Collision sampling is still discrete and does not prove dynamic landing stability."
+  ]
+}
