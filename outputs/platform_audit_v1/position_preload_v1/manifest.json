@@ -1,0 +1,182 @@
+{
+  "schema_version": "piper.position_preload_experiment.v1",
+  "base_commit": "684947550414495b4c534c500b9de1357dec4970",
+  "outcome": "progress: recorded position-target relaxation reduces slender-object lift shocks in seed 1, without changing fixed execution parameters. Full production remains unqualified.",
+  "training_ready": false,
+  "hardware_calibrated": false,
+  "qualified_throughput_improvement_proven": false,
+  "trials": {
+    "baseline": {
+      "summary": {
+        "success": false,
+        "sorted_count": 9,
+        "required_count": 11
+      },
+      "error": "SortFailure: plate lost physical grasp: slip=0.0200 m, fingers=[]",
+      "transitions": 6806,
+      "source": "/dev/shm/piper_position_preload_baseline_v1/episode/episode.h5",
+      "source_sha256": "bffa22c4150dacf3ede4136ad38bda5395fd2a07142c54c9d6d8332232936377",
+      "recorded_duration_s": 226.86666666666667,
+      "preload_events": 0,
+      "recorded_motion_passed": false,
+      "recorded_motion_violations": [
+        "measured_gripper_acceleration",
+        "measured_gripper_jerk"
+      ],
+      "gripper_acceleration_m_s2": 1.5754544734954834,
+      "gripper_jerk_m_s3": 82.65430450439453,
+      "whole_audit_passed": false,
+      "position_execution_passed": true
+    },
+    "candidate": {
+      "summary": {
+        "success": false,
+        "sorted_count": 9,
+        "required_count": 11
+      },
+      "error": "SortFailure: plate lost physical grasp: slip=0.0230 m, fingers=[]",
+      "transitions": 6728,
+      "source": "/dev/shm/piper_position_preload_candidate_v1/episode/episode.h5",
+      "source_sha256": "58f697ba765b0fc35e86835e36698db80537ba858cf23951403a868913f4f95f",
+      "recorded_duration_s": 224.26666666666668,
+      "preload_events": 12,
+      "recorded_motion_passed": true,
+      "recorded_motion_violations": [],
+      "gripper_acceleration_m_s2": 0.8720229864120483,
+      "gripper_jerk_m_s3": 38.114044189453125,
+      "whole_audit_passed": false,
+      "position_execution_passed": true
+    },
+    "seed2": {
+      "summary": {
+        "success": false,
+        "sorted_count": 3,
+        "required_count": 11
+      },
+      "error": "SortFailure: No reachable grasp for chopstick_a: Planned grasp neighbor clearance 0.94 mm < 1.00 mm: ['right/link7', 'task/chopstick_b']",
+      "transitions": 2412,
+      "source": "/dev/shm/piper_position_preload_seed2_v1/episode/episode.h5",
+      "source_sha256": "8e25a8e78de9b543aa7527160db33206a1b14339fbda9a8aa5596f55b63ba002",
+      "recorded_duration_s": 80.4,
+      "preload_events": 0,
+      "recorded_motion_passed": true,
+      "recorded_motion_violations": [],
+      "gripper_acceleration_m_s2": 0.5409881472587585,
+      "gripper_jerk_m_s3": 11.689737319946289,
+      "whole_audit_passed": false,
+      "position_execution_passed": true
+    }
+  },
+  "native_chopstick_b": {
+    "baseline": {
+      "chopstick_b/grasp": {
+        "steps": 2272,
+        "acceleration_peak_m_s2": 7.502721211068519,
+        "jerk_peak_m_s3": 8522.638572883656,
+        "recorded_interval_acceleration_matches": true,
+        "recorded_interval_jerk_matches": true
+      },
+      "chopstick_b/lift": {
+        "steps": 2048,
+        "acceleration_peak_m_s2": 14.565754399359054,
+        "jerk_peak_m_s3": 14442.962045693088,
+        "recorded_interval_acceleration_matches": true,
+        "recorded_interval_jerk_matches": true
+      }
+    },
+    "candidate": {
+      "chopstick_b/grasp": {
+        "steps": 3680,
+        "acceleration_peak_m_s2": 7.502721495918105,
+        "jerk_peak_m_s3": 8522.638817988907,
+        "recorded_interval_acceleration_matches": true,
+        "recorded_interval_jerk_matches": true
+      },
+      "chopstick_b/lift": {
+        "steps": 2048,
+        "acceleration_peak_m_s2": 1.2881785287061052,
+        "jerk_peak_m_s3": 1398.9088005595968,
+        "recorded_interval_acceleration_matches": true,
+        "recorded_interval_jerk_matches": true
+      }
+    }
+  },
+  "tests": {
+    "targeted": 103,
+    "additional_diagnostic": 3,
+    "total_distinct_passed": 106
+  },
+  "limits": [
+    "No successful complete task or new RGB collection.",
+    "Seed 2 fails the existing neighbour clearance gate before using preload reduction.",
+    "Initial grasp impact remains about 7.5 m/s² and 8523 m/s³ at native integration boundaries; 30 Hz thresholds do not certify those peaks.",
+    "All closed-recording diagnostic checks retain the original failed acceptance verdict."
+  ],
+  "raw_archive_manifest": "archive_manifest.json",
+  "code_and_docs_sha256": {
+    "configs/collection/clean_table_position_preload.yaml": "fe359c6849ac6c46eba4006136b38f4bc81ffc6690893a777cc45d46162eb332",
+    "docs/domain_randomization_collection.md": "2f4ac0f791615512d530b012ecd668ac20faa6fa19250204b824c21e9eec6e22",
+    "docs/platform_audit.md": "fa0f14a9beff025c78964a2dd5a9c48768912b2cb8687b70a51a57f92cf007ea",
+    "src/piper_sim/experts/clean_table.py": "d660ecd13f26627d61a4d9a6a1948686e632a4a0b759958c0ba2d81156f903fa",
+    "src/piper_sim/experts/gripper_preload.py": "69c644d91183585a54c9c96a4e3063b9723d0ca116faa87ef0d2576222d78bef",
+    "scripts/diagnose_collection.py": "c3ca4b383bfc7d2657f7a3c814a83bd13e33ffe754a0cada8d80d0eacd8e35b0",
+    "scripts/plot_preload_comparison.py": "05fd1c3e2a1739866eabbe2cad9fce31fcd1369442e3b819fd10cf581bbc6849",
+    "tests/test_collection_diagnostics.py": "201e6bd568bf710c62cf8bdb4c5bae179c32d060f6a49b93acfcab1b409501be",
+    "tests/test_gripper_preload.py": "f4742ca460750ce03a616c9cd66f70936353b4d5201e26195bfdeaf25070746b"
+  },
+  "evidence_sha256": {
+    "archive_manifest.json": "f997360b70b7da30e4445aedf87c80e6b8b97c6fb0333eea762b048aeb3a6017",
+    "baseline.log": "4669fdf6072c2996e56dfa875fb085ad80de390f55e7cf84789f846a2cc1eb73",
+    "baseline_components.json": "9d0380b8cd7c113239ac1fa6fad967e372dd41bfd28abad67e6eb10201fd7abe",
+    "baseline_components.log": "2a60b7e219fb62771a0d1ae365dc03ffd86a8373ec8f1c47533312b7321c2818",
+    "baseline_components_final.json": "e162dd9f9656a12574fe7d76252b469f9328ea93d945cc3e153564359e872fd6",
+    "baseline_components_final.log": "6cb4b1992e74b1a36c76cf0eee7371dba53640cf7cf56aaa8515685a5fef5665",
+    "baseline_execution.json": "63d1b9800e0567dec9ecb16d5e78894d256f0ff2222d223c6a0601e803724664",
+    "baseline_execution.log": "63d1b9800e0567dec9ecb16d5e78894d256f0ff2222d223c6a0601e803724664",
+    "baseline_load.json": "110977f9180c2eabf3fd748dc08cced0ccd1e685967ac673ccc47f6a551bd936",
+    "baseline_load.log": "babdfeb754f7cd0703bb126a614c87c688a28ace3b3c12dd0504d8a1000087a9",
+    "baseline_native.json": "41022268738f301c2d586c27b38d074cb3873c6fd0fd26ca7c4d104a0a2af2d8",
+    "baseline_native.log": "2562014f6f4de13c4cb9cf345649fbebfd36aeb0da5b0d352578be88b3382fc9",
+    "baseline_trace.json": "d258599ca5d94e4bcc84f092364b64a4ebe2abc957f7e92d3ca341d9c5714577",
+    "candidate.log": "9e9d9dceb0244192635f5a0dc14a13e32c8e6d8642d64e57d13c56fe30e148ca",
+    "candidate_components.json": "7c8e7afdf46aae67190f419e5a12a2e67683519350a6473ebe46b646d8bdae90",
+    "candidate_components.log": "2a60b7e219fb62771a0d1ae365dc03ffd86a8373ec8f1c47533312b7321c2818",
+    "candidate_components_final.json": "b96dc1e98dd6153b6c37f61e049dedff16c1a612182ee55963d54a356d30841c",
+    "candidate_components_final.log": "c8a548fc3b042864af59b0af3e8c934d3992e434319fe719f14e05f5db376931",
+    "candidate_execution.json": "45725f55b35a8b15b9c8fd4d6fe582bc81b22870681b3c7af063e4c036051912",
+    "candidate_execution.log": "45725f55b35a8b15b9c8fd4d6fe582bc81b22870681b3c7af063e4c036051912",
+    "candidate_load.json": "63820047aaac6278643bea0d26e3ae5a13ddbe9bf5ae2ef4c47ef426d36b815d",
+    "candidate_load.log": "328d2bd383ab776f80a12f8a5a640ea64de428f914ca6d2687dc09f9a4422190",
+    "candidate_native.json": "af422d46f2e1b118111a0352b7787bbe1d0cd93b95dfbf06e4c52b46201c23da",
+    "candidate_native.log": "51b16fade37e274ef88f7860697ed97f147ac465a27d130c0d00b1f06e409d5f",
+    "candidate_trace.json": "c6754cdf8d117c925afe16baa1356ac37c4d0cda4f8603f9f2062d19d2060610",
+    "chopstick_preview/preview.json": "68755c0ca39a84b1468add1006553a56f1db8098d1f21fb5d69af83edd4b012c",
+    "chopstick_preview/release.mp4": "34e6108230ec3d64bbe067aab5a49fcbb027a8effff89e4ea1a694eae7153261",
+    "chopstick_preview/review.jpg": "aacc42f2095525d69257a4b0014e0ccdb276271a9c1249393f8b68f56b2c8370",
+    "diagnose_collection_initial.py": "9cb1ae54eb95b4bfe34af41ee74d4ae4b08a019c10d9033d1bb7def7f991d573",
+    "diagnostic_tests.log": "976ea3fe6dfa65b827ec05fc16bf49cec94d3fda3b2d6ad4719708e74a38b32d",
+    "diagnostic_tests_final.log": "ed0d6c079627b8413ba6fa1e9b0419bf2bb3f2c7f1917b91d9f908f1f9a678d2",
+    "episode_evidence/baseline/audit.json": "7f380105c102921f28be3ab6438e64d7511906c31aae7ebbe2450f20747aa01b",
+    "episode_evidence/baseline/report.json": "f17ad6765bdc7e36212df23dfa35de8f60956f729274f6b384804bedbe44bf7e",
+    "episode_evidence/candidate/audit.json": "4e187e90069c54549288bb2a20f439375dc6ec8fd41232e19c2eeaa67c965d81",
+    "episode_evidence/candidate/report.json": "700f3faa2cf6a49a7135517f4429ff328f0169005dec346fdc110c81c83f6899",
+    "episode_evidence/seed2/audit.json": "b5394fbf5533f4bf4165863b1f975aee23ba1444a10e63c04625ad2117334c55",
+    "episode_evidence/seed2/report.json": "792eadbe47ba2f87ff06543f82cca4451666f520eb8e6023dc245054aad29a62",
+    "frozen_verified.json": "f4faf7572e18378454ba5c0fd968f3f62fb4ccbcac61fee9e141670f55763af6",
+    "identity.json": "00ace6e9d9df276961406865ff1ec1f9fa614a068edb17af973a9ade080c2c0b",
+    "native_plot/comparison.png": "a466f5f47277cce74d7df29b3617331e1d95009b123e5ac6c5807edf4a246216",
+    "native_plot/plot.json": "bae26d2c406baa1ef2be6d38cb44bebbf2538089f9eaee8a45da1f6b06c8ab59",
+    "paired.json": "502f64a59f0777b72a7f537340aefce3334de8c6aac7fb6a5eb0babe718b52d8",
+    "paired.log": "ce1cdcc8710099b6d8ca8b954e3c0e02dabf37755da1650acbcd78341a46596d",
+    "plan.json": "fcb7b3f4bf349f367ed0b503e388e7e5a5a5bc9ad213b646dda23a4cadc130dd",
+    "preview.log": "fca10de59a2ef1eedaed234d3c4e1406a683545b26185f946a809fa79ebdc63b",
+    "seed2.log": "7d6884211e68f0e98469b6a4ba766aecd9a6514f554cc54e23c63f125f04a107",
+    "seed2_components.json": "0af788c5d226fb2ab13918a30befc9b636c287de43a182d789fd1af3d5445947",
+    "seed2_components.log": "2a60b7e219fb62771a0d1ae365dc03ffd86a8373ec8f1c47533312b7321c2818",
+    "seed2_components_final.json": "d3b4b3d5707c937db7998d74728f0e7c6bec2a3c070fe915df9cca99b7262aff",
+    "seed2_components_final.log": "c8a548fc3b042864af59b0af3e8c934d3992e434319fe719f14e05f5db376931",
+    "seed2_execution.json": "f697f7ff2ff00ccf9245202287dca6813c0fbddefcb6d17468c1001641bd5ea9",
+    "seed2_execution.log": "f697f7ff2ff00ccf9245202287dca6813c0fbddefcb6d17468c1001641bd5ea9",
+    "targeted_tests.log": "0db69e267a3250fd5bb722d0d25f0c83fe41191f6d174f49fc6baf36944a8314"
+  }
+}

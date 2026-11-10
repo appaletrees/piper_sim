@@ -1,0 +1,4296 @@
+{
+  "schema_version": 1,
+  "scope": "Analyze a native force trace and prove its full rollout matches a source.\n\nRead-only diagnostic; native acceleration/jerk are velocity differences across\nactual integrator boundaries. This does not set a training acceptance threshold.\n",
+  "script_sha256": "8d475c11b48f470ef0b1439b32bf3c75e51f5ee8caf84deb9d20163e59c33860",
+  "trace_sha256": "de25eb3c7a293c112191d513e06f3f9fe3721e3f369da42ea2ece5fde3ea49c5",
+  "frozen_inputs_changed": [],
+  "comparison_scope": "single_recording_trace_consistency_only",
+  "baseline": null,
+  "observed": {
+    "source": "/dev/shm/piper_position_preload_candidate_v1/episode/episode.h5",
+    "sha256": "58f697ba765b0fc35e86835e36698db80537ba858cf23951403a868913f4f95f",
+    "streams": {
+      "observation/state": {
+        "shape": [
+          6728,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "35e4bcbb82f46f2f9a7017d4f24df464869cf2808c9b136d3086b2d985d0a3b4"
+      },
+      "next_observation/state": {
+        "shape": [
+          6728,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "c40f13b4bcc05908194995d8658d5a8539e9a6579cbc2106e34a9e6d002c2229"
+      },
+      "action/position": {
+        "shape": [
+          6728,
+          14
+        ],
+        "dtype": "float32",
+        "sha256": "f047acf1632c48de76ecd4651cd78035a366240d2121ee3a10085525a8b59726"
+      },
+      "observation/sim_time": {
+        "shape": [
+          6728
+        ],
+        "dtype": "float64",
+        "sha256": "dc6820f6af3b72b38ef8775bfd62356788ac9edf145241d5d412823f9b5b1bbe"
+      },
+      "next_observation/sim_time": {
+        "shape": [
+          6728
+        ],
+        "dtype": "float64",
+        "sha256": "9f85eb4bc3ec3037a4fe1021f327f403958703d9141d4ee19717631c0b662c41"
+      }
+    },
+    "privileged_sha256": "9e7a9913376ed93f4b3f9585dbd7ac1000b9833cb784fb2e3e5fdbe7771309e7",
+    "phase_native_extrema": {
+      "cup_01/approach": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/grasp": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/lift": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/nest": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_01/release_for_nesting": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/approach": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/grasp": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/lift": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/nest": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/release_for_nesting": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/stack_checked": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_02/stack_ready": {
+        "acceleration": 0.0,
+        "jerk": 0.0
+      },
+      "cup_00/approach": {
+        "acceleration": 0.39466215778431346,
+        "jerk": 478.21970944615447
+      },
+      "cup_00/grasp": {
+        "acceleration": 1.3034019514754402,
+        "jerk": 1261.8809118149898
+      },
+      "cup_00/lift": {
+        "acceleration": 0.013920790128751463,
+        "jerk": 9.368184003632377
+      },
+      "cup_00/transfer_stack": {
+        "acceleration": 0.34618458156081894,
+        "jerk": 337.4226281792135
+      },
+      "cup_00/release_stack": {
+        "acceleration": 9.766294902114607,
+        "jerk": 15212.35565543098
+      },
+      "chopstick_a/approach": {
+        "acceleration": 0.4738718386062968,
+        "jerk": 574.1950838980728
+      },
+      "chopstick_a/grasp": {
+        "acceleration": 4.412074402735543,
+        "jerk": 6424.7664189618
+      },
+      "chopstick_a/lift": {
+        "acceleration": 1.0292270729520199,
+        "jerk": 1102.8877475082406
+      },
+      "chopstick_a/transfer": {
+        "acceleration": 0.8033657082178602,
+        "jerk": 897.9256526629603
+      },
+      "chopstick_a/lower": {
+        "acceleration": 0.9962607678367603,
+        "jerk": 1061.1676380925062
+      },
+      "chopstick_a/release": {
+        "acceleration": 1.2034166225364473,
+        "jerk": 1455.261419842612
+      },
+      "chopstick_b/approach": {
+        "acceleration": 0.13097384979896431,
+        "jerk": 158.72147572212435
+      },
+      "chopstick_b/grasp": {
+        "acceleration": 7.502721495918105,
+        "jerk": 8522.638817988907
+      },
+      "chopstick_b/lift": {
+        "acceleration": 1.2881785287061052,
+        "jerk": 1398.9088005595968
+      },
+      "chopstick_b/transfer": {
+        "acceleration": 1.0938239623098056,
+        "jerk": 1217.8585838769734
+      },
+      "chopstick_b/lower": {
+        "acceleration": 1.2367355957180868,
+        "jerk": 1339.626387724836
+      },
+      "chopstick_b/release": {
+        "acceleration": 1.2061042479637951,
+        "jerk": 1458.0657135673214
+      },
+      "pen/approach": {
+        "acceleration": 0.05649644355864902,
+        "jerk": 68.45892361717479
+      },
+      "pen/grasp": {
+        "acceleration": 1.3805933807492177,
+        "jerk": 1215.4376997257195
+      },
+      "pen/lift": {
+        "acceleration": 0.0010087109405268772,
+        "jerk": 0.4600819483208889
+      },
+      "pen/transfer": {
+        "acceleration": 0.00021533011382623046,
+        "jerk": 0.10269164494834844
+      },
+      "pen/lower": {
+        "acceleration": 0.00012416706449634452,
+        "jerk": 0.06343385613196252
+      },
+      "pen/release": {
+        "acceleration": 1.1896033666205508,
+        "jerk": 1806.3399725024833
+      },
+      "charger/approach": {
+        "acceleration": 0.28668381817083644,
+        "jerk": 347.2966527369032
+      },
+      "charger/grasp": {
+        "acceleration": 1.2295051871992246,
+        "jerk": 1177.4781546717754
+      },
+      "charger/lift": {
+        "acceleration": 0.7468964118758197,
+        "jerk": 560.2369709896335
+      },
+      "charger/transfer": {
+        "acceleration": 0.5607505949150611,
+        "jerk": 561.1075021123384
+      },
+      "charger/lower": {
+        "acceleration": 0.566887834424778,
+        "jerk": 561.6393555777348
+      },
+      "charger/unload_gripper": {
+        "acceleration": 3.868216508890403,
+        "jerk": 6239.676298346686
+      },
+      "charger/release": {
+        "acceleration": 1.2707401184105382,
+        "jerk": 1538.0928363534886
+      },
+      "spoon/approach": {
+        "acceleration": 0.11172048115830335,
+        "jerk": 135.39275246781895
+      },
+      "spoon/grasp": {
+        "acceleration": 1.1028161625240696,
+        "jerk": 886.1142474528592
+      },
+      "spoon/lift": {
+        "acceleration": 0.004577557752712866,
+        "jerk": 5.551832805157468
+      },
+      "spoon/transfer": {
+        "acceleration": 0.00023915193490013837,
+        "jerk": 0.30325196324132964
+      },
+      "spoon/lower": {
+        "acceleration": 0.002280161963271057,
+        "jerk": 3.1644260692562147
+      },
+      "spoon/unload_gripper": {
+        "acceleration": 1.9490541632884661,
+        "jerk": 3045.5405308944946
+      },
+      "spoon/release": {
+        "acceleration": 0.8411404028630498,
+        "jerk": 1018.1765994901475
+      },
+      "bowl/approach": {
+        "acceleration": 0.030047876347444047,
+        "jerk": 36.42222687771062
+      },
+      "bowl/grasp": {
+        "acceleration": 5.4567515627013154,
+        "jerk": 5190.20468049467
+      },
+      "bowl/lift": {
+        "acceleration": 0.8693824221821855,
+        "jerk": 843.9564111980985
+      },
+      "bowl/transfer": {
+        "acceleration": 0.25685383111135984,
+        "jerk": 272.6187567295902
+      },
+      "bowl/lower": {
+        "acceleration": 0.2562965732630866,
+        "jerk": 268.04565686318966
+      },
+      "bowl/unload_gripper": {
+        "acceleration": 24.503583966952167,
+        "jerk": 26354.134389588697
+      },
+      "bowl/release": {
+        "acceleration": 15.742128199154934,
+        "jerk": 17721.12699336969
+      },
+      "plate/approach": {
+        "acceleration": 0.11727078390439793,
+        "jerk": 141.90949167984925
+      },
+      "plate/grasp": {
+        "acceleration": 8.521893949999166,
+        "jerk": 9338.624735898213
+      },
+      "plate/lift": {
+        "acceleration": 0.5550949510645864,
+        "jerk": 540.4731163036342
+      },
+      "plate/transfer": {
+        "acceleration": 27.038475973846204,
+        "jerk": 28768.525754877577
+      }
+    }
+  },
+  "public_streams_exact": null,
+  "objects_native_physics_controller_tcp_exact": null,
+  "constraint_attribution_max_abs_error": 2.6645352591003757e-15,
+  "bounded_affine_actuator_max_abs_error": 1.5987211554602254e-13,
+  "groups": {
+    "chopstick_b/grasp": {
+      "steps": 3680,
+      "acceleration_peak_m_s2": 7.502721495918105,
+      "jerk_peak_m_s3": 8522.638817988907,
+      "recorded_interval_acceleration_matches": true,
+      "recorded_interval_jerk_matches": true,
+      "acceleration_peak": {
+        "row": 1740,
+        "solver_time": 104.5791666665921,
+        "integrated_time": 104.58020833325877,
+        "width_m": 0.004406437529520664,
+        "command_m": 0.0025377906797624935,
+        "velocity_m_s": [
+          0.02306940311231158,
+          0.01525406822073022
+        ],
+        "acceleration_m_s2": -7.502721495918105,
+        "jerk_m_s3": -8522.638817988907,
+        "position_gain_N_m": 1000.0,
+        "affine_force_bias_N": -2.347835080172722,
+        "force_range_N": [
+          -5.0,
+          5.0
+        ],
+        "actuator_force_N": -5.0,
+        "jaw_constraint_force_N": [
+          4.39872731886738,
+          4.453514143408751
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.2368227780478519,
+            -0.2368227780478519
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            4.161904540819528,
+            4.690336921456603
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "table_collision",
+              "task/chopstick_b/stick_contact"
+            ],
+            "distance_m": -0.00022993784704853823,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "table_collision",
+              "task/chopstick_b/stick_contact"
+            ],
+            "distance_m": -6.74737994624913e-05,
+            "force_local_N_Nm": [
+              0.5666905946147854,
+              0.5662428842182243,
+              -0.02252168060082617,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_46"
+            ],
+            "distance_m": -0.000971000087745417,
+            "force_local_N_Nm": [
+              4.162069797826426,
+              2.2473893951289297,
+              -0.4410857280797758,
+              -0.020776066209195556,
+              0.00017163091079909135,
+              0.00422784475526751
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_36"
+            ],
+            "distance_m": -0.0009699630771176729,
+            "force_local_N_Nm": [
+              4.688700555487835,
+              -1.8323560764427742,
+              -0.42576494311699825,
+              0.027545485613429878,
+              0.00022699598115975,
+              -0.0056027782204060616
+            ]
+          }
+        ]
+      },
+      "jerk_peak": {
+        "row": 1740,
+        "solver_time": 104.5791666665921,
+        "integrated_time": 104.58020833325877,
+        "width_m": 0.004406437529520664,
+        "command_m": 0.0025377906797624935,
+        "velocity_m_s": [
+          0.02306940311231158,
+          0.01525406822073022
+        ],
+        "acceleration_m_s2": -7.502721495918105,
+        "jerk_m_s3": -8522.638817988907,
+        "position_gain_N_m": 1000.0,
+        "affine_force_bias_N": -2.347835080172722,
+        "force_range_N": [
+          -5.0,
+          5.0
+        ],
+        "actuator_force_N": -5.0,
+        "jaw_constraint_force_N": [
+          4.39872731886738,
+          4.453514143408751
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.2368227780478519,
+            -0.2368227780478519
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            4.161904540819528,
+            4.690336921456603
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "table_collision",
+              "task/chopstick_b/stick_contact"
+            ],
+            "distance_m": -0.00022993784704853823,
+            "force_local_N_Nm": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "table_collision",
+              "task/chopstick_b/stick_contact"
+            ],
+            "distance_m": -6.74737994624913e-05,
+            "force_local_N_Nm": [
+              0.5666905946147854,
+              0.5662428842182243,
+              -0.02252168060082617,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_46"
+            ],
+            "distance_m": -0.000971000087745417,
+            "force_local_N_Nm": [
+              4.162069797826426,
+              2.2473893951289297,
+              -0.4410857280797758,
+              -0.020776066209195556,
+              0.00017163091079909135,
+              0.00422784475526751
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_36"
+            ],
+            "distance_m": -0.0009699630771176729,
+            "force_local_N_Nm": [
+              4.688700555487835,
+              -1.8323560764427742,
+              -0.42576494311699825,
+              0.027545485613429878,
+              0.00022699598115975,
+              -0.0056027782204060616
+            ]
+          }
+        ]
+      },
+      "acceleration_window": [
+        {
+          "row": 1735,
+          "solver_time": 104.57395833325877,
+          "integrated_time": 104.57499999992544,
+          "width_m": 0.004302440465353798,
+          "command_m": 0.002640463671562968,
+          "velocity_m_s": [
+            0.014709626251795165,
+            0.016626694452555508
+          ],
+          "acceleration_m_s2": 1.8403854727299296,
+          "jerk_m_s3": -120.89848001243766,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.386294823811539,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.147403321691137,
+            5.154493075712349
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.020156228979204393,
+              -0.020156228979204393
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.127247092711932,
+              5.174649304691553
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.00026678263034510545,
+              "force_local_N_Nm": [
+                0.20356559900162305,
+                0.019804742387583337,
+                0.04240166540281926,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -7.94770723029741e-05,
+              "force_local_N_Nm": [
+                0.06158718582490956,
+                0.027266410843145863,
+                0.026165785052130672,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0010383415996484651,
+              "force_local_N_Nm": [
+                2.638621615325593,
+                1.3198651081609192,
+                0.19414421488302747,
+                -0.005542612585090685,
+                -0.000272302324484859,
+                0.0016658634330108987
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0010383415996484651,
+              "force_local_N_Nm": [
+                2.488515783147226,
+                1.8262036406550253,
+                0.1885247733411861,
+                -0.005348803483782674,
+                -0.0002627807012463066,
+                0.0016076130159201946
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.00103380242228969,
+              "force_local_N_Nm": [
+                2.654197793152844,
+                -1.2288798179875184,
+                0.15645290654124153,
+                0.005542573374355471,
+                -0.00027230041131342484,
+                -0.0016658517291230444
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.00103380242228969,
+              "force_local_N_Nm": [
+                2.5203804190959707,
+                -1.7194628786023254,
+                0.15749111682324496,
+                0.005542573374355471,
+                -0.00027230041131342484,
+                -0.0016658517291230444
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1736,
+          "solver_time": 104.57499999992544,
+          "integrated_time": 104.5760416665921,
+          "width_m": 0.004319759938741877,
+          "command_m": 0.002619789369005895,
+          "velocity_m_s": [
+            0.016626694452555508,
+            0.01841752498371508
+          ],
+          "acceleration_m_s2": 1.7191973099131885,
+          "jerk_m_s3": -116.34063630407141,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.377182823010958,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.140208736042402,
+            5.144694197990268
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.020032210444466046,
+              -0.020032210444466046
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.120176525597937,
+              5.164726408434734
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.00025612198923238914,
+              "force_local_N_Nm": [
+                0.18182679306605273,
+                0.020162145734196366,
+                0.03165769910599078,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -7.583813348010333e-05,
+              "force_local_N_Nm": [
+                0.05815390878381793,
+                0.02386747375473376,
+                0.021911966686767072,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0010252885459585733,
+              "force_local_N_Nm": [
+                2.629830065223319,
+                1.319777829693392,
+                0.1702803190835058,
+                -0.004864510373758377,
+                -0.00024383773175092895,
+                0.0016566575503151673
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0010252885459585733,
+              "force_local_N_Nm": [
+                2.4902440590415904,
+                1.8190314020492109,
+                0.1708975999921728,
+                -0.004864510373758377,
+                -0.00024383773175092895,
+                0.0016566575503151673
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.001021833694822254,
+              "force_local_N_Nm": [
+                2.6421122122046032,
+                -1.2694421025487812,
+                0.1435132126199297,
+                0.004864475928698305,
+                -0.00024383601856922045,
+                -0.0016566459110721105
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.001021833694822254,
+              "force_local_N_Nm": [
+                2.522547366654388,
+                -1.6970865198676028,
+                0.1440419588677688,
+                0.004864475928698305,
+                -0.00024383601856922045,
+                -0.0016566459110721105
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1737,
+          "solver_time": 104.5760416665921,
+          "integrated_time": 104.57708333325877,
+          "width_m": 0.004338944860599913,
+          "command_m": 0.0025991910819677653,
+          "velocity_m_s": [
+            0.01841752498371508,
+            0.020086476015152073
+          ],
+          "acceleration_m_s2": 1.602192990179514,
+          "jerk_m_s3": -112.32414694432755,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.368780848246785,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.132890087715959,
+            5.135545255591452
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.018712881622728876,
+              -0.018712881622728876
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.11417720609323,
+              5.15425813721418
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.00024747820403364456,
+              "force_local_N_Nm": [
+                0.16372080602682826,
+                0.019299402168484452,
+                0.02223039607970262,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -7.294876028543466e-05,
+              "force_local_N_Nm": [
+                0.05472993737950898,
+                0.020238783879032277,
+                0.01726675940439533,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0010121115980872317,
+              "force_local_N_Nm": [
+                2.618844775984582,
+                1.3410558701403006,
+                0.14678984034895792,
+                -0.004410491127171494,
+                -0.00021651342976181424,
+                0.0016640759283227087
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0010121115980872317,
+              "force_local_N_Nm": [
+                2.495238329226257,
+                1.7907877440840108,
+                0.14706311152040524,
+                -0.004410491127171494,
+                -0.00021651342976181424,
+                0.0016640759283227087
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0010095443811946056,
+              "force_local_N_Nm": [
+                2.630020200323705,
+                -1.2981048043980419,
+                0.12706949438700407,
+                0.004410459870712378,
+                -0.00021651190855805633,
+                -0.0016640642369357133
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0010095443811946056,
+              "force_local_N_Nm": [
+                2.5241765201174906,
+                -1.6832083155880018,
+                0.12730349838855184,
+                0.004410459870712378,
+                -0.00021651190855805633,
+                -0.0016640642369357133
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1738,
+          "solver_time": 104.57708333325877,
+          "integrated_time": 104.57812499992544,
+          "width_m": 0.004359868273115696,
+          "command_m": 0.0025786626470281253,
+          "velocity_m_s": [
+            0.020086476015152073,
+            0.021637083036457058
+          ],
+          "acceleration_m_s2": 1.4885827404527852,
+          "jerk_m_s3": -109.06583973765969,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.3610888995190225,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.1255249723930465,
+            5.126850227414149
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.017168283173997843,
+              -0.017168283173997843
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.1083566892190495,
+              5.144018510588147
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.00024043972993109848,
+              "force_local_N_Nm": [
+                0.1493330963940463,
+                0.01813018017568978,
+                0.013831285326143895,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -7.066496098258896e-05,
+              "force_local_N_Nm": [
+                0.05190833100508645,
+                0.01704477023465502,
+                0.01243785373803689,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0009987149876421392,
+              "force_local_N_Nm": [
+                2.6086230722273354,
+                1.3585809826389514,
+                0.12474840009554891,
+                -0.004041952776391367,
+                -0.0001915208024937608,
+                0.0016710078398986864
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0009987149876421392,
+              "force_local_N_Nm": [
+                2.4996472659427185,
+                1.7680437341403241,
+                0.12481659662345512,
+                -0.004041952776391367,
+                -0.0001915208024937608,
+                0.0016710078398986864
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.000996836022869928,
+              "force_local_N_Nm": [
+                2.6186234667632293,
+                -1.3214849109376607,
+                0.11165398489679342,
+                0.004041651091956529,
+                -0.0001915065204990699,
+                -0.0016708832305698223
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.000996836022869928,
+              "force_local_N_Nm": [
+                2.5253386956245105,
+                -1.6719905907966124,
+                0.11171236473722315,
+                0.004041651091956529,
+                -0.0001915065204990699,
+                -0.0016708832305698223
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1739,
+          "solver_time": 104.57812499992544,
+          "integrated_time": 104.5791666665921,
+          "width_m": 0.0043824069012786725,
+          "command_m": 0.00255819790076652,
+          "velocity_m_s": [
+            0.021637083036457058,
+            0.02306940311231158
+          ],
+          "acceleration_m_s2": 1.3750272728203405,
+          "jerk_m_s3": -109.01324892714683,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.3541069768276675,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.117955204777025,
+            5.118250076595157
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.015661646022950795,
+              -0.015661646022950795
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.1022935587540745,
+              5.133911722618108
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.0002346796942469128,
+              "force_local_N_Nm": [
+                0.1377883087650577,
+                0.016910424092708414,
+                0.006469731972803934,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -6.887103096011709e-05,
+              "force_local_N_Nm": [
+                0.049603743654773824,
+                0.014307436076591839,
+                0.007822764719197916,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0009850270877026779,
+              "force_local_N_Nm": [
+                2.5991606739573943,
+                1.3729193921630984,
+                0.10507681464521586,
+                -0.0037424457667017286,
+                -0.00016955278649046846,
+                0.0016775831943998214
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0009850270877026779,
+              "force_local_N_Nm": [
+                2.5030534306692442,
+                1.7495946324960683,
+                0.1050314581355619,
+                -0.0037424457667017286,
+                -0.00016955278649046846,
+                0.0016775831943998214
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0009836511890203073,
+              "force_local_N_Nm": [
+                2.608043982483081,
+                -1.3405355136536836,
+                0.0979821814251646,
+                0.0037411186739977195,
+                -0.00016949267437855556,
+                -0.001676988435493234
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0009836511890203073,
+              "force_local_N_Nm": [
+                2.525815883274799,
+                -1.6628139182428459,
+                0.09794337735672191,
+                0.0037411186739977195,
+                -0.00016949267437855556,
+                -0.001676988435493234
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1740,
+          "solver_time": 104.5791666665921,
+          "integrated_time": 104.58020833325877,
+          "width_m": 0.004406437529520664,
+          "command_m": 0.0025377906797624935,
+          "velocity_m_s": [
+            0.02306940311231158,
+            0.01525406822073022
+          ],
+          "acceleration_m_s2": -7.502721495918105,
+          "jerk_m_s3": -8522.638817988907,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.347835080172722,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            4.39872731886738,
+            4.453514143408751
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.2368227780478519,
+              -0.2368227780478519
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              4.161904540819528,
+              4.690336921456603
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.00022993784704853823,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -6.74737994624913e-05,
+              "force_local_N_Nm": [
+                0.5666905946147854,
+                0.5662428842182243,
+                -0.02252168060082617,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.000971000087745417,
+              "force_local_N_Nm": [
+                4.162069797826426,
+                2.2473893951289297,
+                -0.4410857280797758,
+                -0.020776066209195556,
+                0.00017163091079909135,
+                0.00422784475526751
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0009699630771176729,
+              "force_local_N_Nm": [
+                4.688700555487835,
+                -1.8323560764427742,
+                -0.42576494311699825,
+                0.027545485613429878,
+                0.00022699598115975,
+                -0.0056027782204060616
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1741,
+          "solver_time": 104.58020833325877,
+          "integrated_time": 104.58124999992543,
+          "width_m": 0.004422327183917258,
+          "command_m": 0.0025174348205955917,
+          "velocity_m_s": [
+            0.01525406822073022,
+            0.0164648449519944
+          ],
+          "acceleration_m_s2": 1.1623456620136126,
+          "jerk_m_s3": 8318.46447161445,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.342273209554185,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.124292071963834,
+            5.072442239278637
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.021644006834239435,
+              0.021644006834239435
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.145936078798073,
+              5.0507982324443965
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -6.490894505119336e-05,
+              "force_local_N_Nm": [
+                0.44619928141146176,
+                -0.11085322122624072,
+                -0.06509792211941574,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0008737219008372295,
+              "force_local_N_Nm": [
+                2.181375995516058,
+                1.3709725066185707,
+                -0.2082935254369251,
+                -0.009612368327344252,
+                5.8007931902952574e-05,
+                0.001857821797554169
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0008737219008372295,
+              "force_local_N_Nm": [
+                2.964580188464969,
+                2.187418418983156,
+                -0.1905137143039858,
+                -0.008866769643388034,
+                5.350845412463769e-05,
+                0.0017137168860370852
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008853658774167191,
+              "force_local_N_Nm": [
+                2.205592354715168,
+                -1.1772923515265614,
+                -0.1754142876336349,
+                0.011587596348828425,
+                6.992787814550498e-05,
+                -0.002239582278263077
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008853658774167191,
+              "force_local_N_Nm": [
+                2.8452405635403464,
+                -1.9803145474353054,
+                -0.15590941548949583,
+                0.010406388559147911,
+                6.279962204348333e-05,
+                -0.0020112854034774583
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1742,
+          "solver_time": 104.58124999992543,
+          "integrated_time": 104.5822916665921,
+          "width_m": 0.004439478064075585,
+          "command_m": 0.002497124159845359,
+          "velocity_m_s": [
+            0.0164648449519944,
+            0.016852730119576664
+          ],
+          "acceleration_m_s2": 0.37236976087897444,
+          "jerk_m_s3": -758.3768650892526,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.337421364972058,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.040447167120361,
+            5.034135639387885
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.006730856414352952,
+              -0.006730856414352952
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.033716310706009,
+              5.040866495802239
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0007931143697321026,
+              "force_local_N_Nm": [
+                2.468596986459776,
+                1.5603226884997117,
+                -0.16352885914786106,
+                -0.0012900480476861406,
+                0.00016397879696692521,
+                0.001870356853926499
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0007931143697321026,
+              "force_local_N_Nm": [
+                2.5651311671724697,
+                1.6963167855062449,
+                -0.16361484188492018,
+                -0.0012900480476861406,
+                0.00016397879696692521,
+                0.001870356853926499
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008129186794222871,
+              "force_local_N_Nm": [
+                2.4774200504029142,
+                -1.5924968108196715,
+                -0.16335086359236078,
+                0.001353802354889026,
+                0.0001720826864534396,
+                -0.0019627905437293413
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008129186794222871,
+              "force_local_N_Nm": [
+                2.5634794159082017,
+                -1.7137343415039015,
+                -0.16342751891728535,
+                0.001353802354889026,
+                0.0001720826864534396,
+                -0.0019627905437293413
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1743,
+          "solver_time": 104.5822916665921,
+          "integrated_time": 104.58333333325876,
+          "width_m": 0.004457032991283479,
+          "command_m": 0.0024768525340913413,
+          "velocity_m_s": [
+            0.016852730119576664,
+            0.017203540635131076
+          ],
+          "acceleration_m_s2": 0.3367780949322352,
+          "jerk_m_s3": -34.16799930886967,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.3332795464263385,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.036581454082273,
+            5.032826366076742
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.004802152784920526,
+              -0.004802152784920526
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.031779301297353,
+              5.037628518861663
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -4.122360574067806e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -1.6596672299340176e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0007877294380195044,
+              "force_local_N_Nm": [
+                2.4812390406920786,
+                -1.6989498053628969,
+                -0.10140229024290535,
+                -0.001468941493119792,
+                0.00013503188306707454,
+                -0.0018368518136154448
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0007877294380195044,
+              "force_local_N_Nm": [
+                2.550620786377309,
+                -1.573553712757421,
+                -0.1020480887565691,
+                -0.001468941493119792,
+                0.00013503188306707454,
+                -0.0018368518136154448
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.000813547906459848,
+              "force_local_N_Nm": [
+                2.47534266057424,
+                1.6868430716944505,
+                -0.10056571359919571,
+                0.0015648874317209997,
+                0.00014385164756459989,
+                0.001956827926158249
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.000813547906459848,
+              "force_local_N_Nm": [
+                2.562340232920908,
+                1.5296092701040962,
+                -0.1013754810120427,
+                0.0015648874317209997,
+                0.00014385164756459989,
+                0.001956827926158249
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1744,
+          "solver_time": 104.58333333325876,
+          "integrated_time": 104.58437499992543,
+          "width_m": 0.004474953346111739,
+          "command_m": 0.0024566137799130836,
+          "velocity_m_s": [
+            0.017203540635131076,
+            0.01784252712680628
+          ],
+          "acceleration_m_s2": 0.6134270320081969,
+          "jerk_m_s3": 265.58297959292327,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.3298477539170284,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.058060511976647,
+            5.054864676587413
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.00391935896745229,
+              -0.00391935896745229
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.054141153009194,
+              5.058784035554867
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.00012309490613047385,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -5.987465785160162e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0008197190415739694,
+              "force_local_N_Nm": [
+                2.5007533377973634,
+                -1.6598470133464818,
+                -0.07659306135126177,
+                -0.001180905767485749,
+                9.972906988850626e-05,
+                -0.0017778993337688761
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0008197190415739694,
+              "force_local_N_Nm": [
+                2.5534590966503656,
+                -1.5637724827739288,
+                -0.07742750699639725,
+                -0.001180905767485749,
+                9.972906988850626e-05,
+                -0.0017778993337688761
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008493291155451278,
+              "force_local_N_Nm": [
+                2.496383081370791,
+                1.641847330518592,
+                -0.07572018800196371,
+                0.0012602461218768823,
+                0.00010642944290286932,
+                0.0018973488455642693
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008493291155451278,
+              "force_local_N_Nm": [
+                2.5624467748839703,
+                1.5214233298333038,
+                -0.07676612041626593,
+                0.0012602461218768823,
+                0.00010642944290286932,
+                0.0018973488455642693
+              ]
+            }
+          ]
+        },
+        {
+          "row": 1745,
+          "solver_time": 104.58437499992543,
+          "integrated_time": 104.5854166665921,
+          "width_m": 0.004493539311868829,
+          "command_m": 0.0024364017338901305,
+          "velocity_m_s": [
+            0.01784252712680628,
+            0.018650994996192684
+          ],
+          "acceleration_m_s2": 0.7761291546109472,
+          "jerk_m_s3": 156.1940376986403,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": -2.327125987444128,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -5.0,
+          "jaw_constraint_force_N": [
+            5.071023255774678,
+            5.067928648320003
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0033735736590196548,
+              -0.0033735736590196548
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              5.0676496821156585,
+              5.071302221979022
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -0.0001879837970078207,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "table_collision",
+                "task/chopstick_b/stick_contact"
+              ],
+              "distance_m": -9.45845389309337e-05,
+              "force_local_N_Nm": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0008424790863186405,
+              "force_local_N_Nm": [
+                2.513525306026321,
+                -1.6280888659562511,
+                -0.058159795849453466,
+                -0.0009535431875535052,
+                7.422441203337739e-05,
+                -0.0017359137096244724
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -0.0008424790863186405,
+              "force_local_N_Nm": [
+                2.5541887092188884,
+                -1.555023492421589,
+                -0.059006598581025145,
+                -0.0009535431875535052,
+                7.422441203337739e-05,
+                -0.0017359137096244724
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008742703715570591,
+              "force_local_N_Nm": [
+                2.510287442410418,
+                1.6056195776691962,
+                -0.057398423533054736,
+                0.0010152567253348972,
+                7.90282100337453e-05,
+                0.0018482619057695682
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -0.0008742703715570591,
+              "force_local_N_Nm": [
+                2.56105423944358,
+                1.5144000855455304,
+                -0.058455627762441044,
+                0.0010152567253348972,
+                7.90282100337453e-05,
+                0.0018482619057695682
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "chopstick_b/lift": {
+      "steps": 2048,
+      "acceleration_peak_m_s2": 1.2881785287061052,
+      "jerk_peak_m_s3": 1398.9088005595968,
+      "recorded_interval_acceleration_matches": true,
+      "recorded_interval_jerk_matches": true,
+      "acceleration_peak": {
+        "row": 5352,
+        "solver_time": 108.34166666658868,
+        "integrated_time": 108.34270833325535,
+        "width_m": 0.005858641516017866,
+        "command_m": 0.00549328101547252,
+        "velocity_m_s": [
+          0.00028129078880304156,
+          -0.001060561845265818
+        ],
+        "acceleration_m_s2": -1.2881785287061052,
+        "jerk_m_s3": -1239.8395136366598,
+        "position_gain_N_m": 1000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -5.0,
+          5.0
+        ],
+        "actuator_force_N": -0.39911539520171146,
+        "jaw_constraint_force_N": [
+          0.2987885710450529,
+          0.2986082625459796
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            -0.0002911882445429186,
+            0.0002911882445429186
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.29907975928959585,
+            0.2983170743014367
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_46"
+            ],
+            "distance_m": -8.878322365996863e-05,
+            "force_local_N_Nm": [
+              0.29880544513634094,
+              0.06152601889187614,
+              -0.17341520506599864,
+              2.449817275161322e-05,
+              0.00028234931944602913,
+              0.00015750624820532524
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_36"
+            ],
+            "distance_m": -8.635911116659727e-05,
+            "force_local_N_Nm": [
+              0.29799500030890885,
+              -0.1245824634138807,
+              -0.1757612981330265,
+              -7.845489229102774e-06,
+              0.00020108974389247103,
+              -0.0001121771045700323
+            ]
+          }
+        ]
+      },
+      "jerk_peak": {
+        "row": 5353,
+        "solver_time": 108.34270833325535,
+        "integrated_time": 108.34374999992201,
+        "width_m": 0.005857536764095714,
+        "command_m": 0.00549328101547252,
+        "velocity_m_s": [
+          -0.001060561845265818,
+          -0.0008845012842830318
+        ],
+        "acceleration_m_s2": 0.16901813854347483,
+        "jerk_m_s3": 1398.9088005595968,
+        "position_gain_N_m": 1000.0,
+        "affine_force_bias_N": 0.0,
+        "force_range_N": [
+          -5.0,
+          5.0
+        ],
+        "actuator_force_N": -0.2369883271912956,
+        "jaw_constraint_force_N": [
+          0.25042546928582815,
+          0.2487796455263288
+        ],
+        "jaw_constraint_by_type_N": [
+          [
+            0.000601641184799598,
+            -0.000601641184799598
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.24982382810102857,
+            0.2493812867111284
+          ]
+        ],
+        "contacts": [
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_46"
+            ],
+            "distance_m": -8.799256578040024e-05,
+            "force_local_N_Nm": [
+              0.0689122439164243,
+              -0.00046596111597523075,
+              -0.014097861589335538,
+              6.406707791312298e-06,
+              1.939580686276635e-05,
+              1.0492201775795127e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_46"
+            ],
+            "distance_m": -8.799256578040024e-05,
+            "force_local_N_Nm": [
+              0.0569521775033513,
+              0.00015468103999043156,
+              -0.013946863279774175,
+              6.406707791312298e-06,
+              1.939580686276635e-05,
+              1.0492201775795127e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_46"
+            ],
+            "distance_m": -8.799256578040024e-05,
+            "force_local_N_Nm": [
+              0.06797805686834328,
+              -0.0003469446689590779,
+              -0.014216464792766904,
+              6.406707791312298e-06,
+              1.939580686276635e-05,
+              1.0492201775795127e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_46"
+            ],
+            "distance_m": -8.799256578040024e-05,
+            "force_local_N_Nm": [
+              0.05599024234969771,
+              0.00012129470931721199,
+              -0.01378072366444064,
+              6.406707791312298e-06,
+              1.939580686276635e-05,
+              1.0492201775795127e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_36"
+            ],
+            "distance_m": -8.506916553204095e-05,
+            "force_local_N_Nm": [
+              0.06880925240743946,
+              -0.015529203642110101,
+              -0.015180163937470912,
+              -6.4011434494188705e-06,
+              1.9378961016150742e-05,
+              -1.0483088979378866e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_36"
+            ],
+            "distance_m": -8.506916553204095e-05,
+            "force_local_N_Nm": [
+              0.05683590783000002,
+              -0.015996834095943786,
+              -0.014744867909720225,
+              -6.4011434494188705e-06,
+              1.9378961016150742e-05,
+              -1.0483088979378866e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_36"
+            ],
+            "distance_m": -8.506916553204095e-05,
+            "force_local_N_Nm": [
+              0.06785221036545708,
+              -0.015495644007625682,
+              -0.015014235119470715,
+              -6.4011434494188705e-06,
+              1.9378961016150742e-05,
+              -1.0483088979378866e-05
+            ]
+          },
+          {
+            "geoms": [
+              "task/chopstick_b/stick_contact",
+              "gripper_right_36"
+            ],
+            "distance_m": -8.506916553204095e-05,
+            "force_local_N_Nm": [
+              0.055897450700394924,
+              -0.016115995328250067,
+              -0.014863275226595616,
+              -6.4011434494188705e-06,
+              1.9378961016150742e-05,
+              -1.0483088979378866e-05
+            ]
+          }
+        ]
+      },
+      "acceleration_window": [
+        {
+          "row": 5347,
+          "solver_time": 108.33645833325535,
+          "integrated_time": 108.33749999992202,
+          "width_m": 0.005857193237823372,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            0.00028225272812462134,
+            0.00027855379024917503
+          ],
+          "acceleration_m_s2": -0.0035509803604284566,
+          "jerk_m_s3": 1.070334086865038,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.3977825497258074,
+          "jaw_constraint_force_N": [
+            0.3985764998437139,
+            0.39657110452024785
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0009038520564271088,
+              -0.0009038520564271088
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.3976726477872867,
+              0.3974749565766749
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.5519018730119e-05,
+              "force_local_N_Nm": [
+                0.10228812133304008,
+                -0.006009796715823537,
+                -0.007852553395910795,
+                2.917841759060606e-05,
+                8.633230069843131e-06,
+                4.649549794270056e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.5519018730119e-05,
+              "force_local_N_Nm": [
+                0.09697114285324353,
+                -0.003182433903369872,
+                -0.00717047620921242,
+                2.917841759060606e-05,
+                8.633230069843131e-06,
+                4.649549794270056e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.5519018730119e-05,
+              "force_local_N_Nm": [
+                0.1018739483336641,
+                -0.005469853411232706,
+                -0.008393041390371522,
+                2.917841759060606e-05,
+                8.633230069843131e-06,
+                4.649549794270056e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.5519018730119e-05,
+              "force_local_N_Nm": [
+                0.09654294655317718,
+                -0.0033326140995970717,
+                -0.006413905793151932,
+                2.917841759060606e-05,
+                8.633230069843131e-06,
+                4.649549794270056e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.493624723392437e-05,
+              "force_local_N_Nm": [
+                0.10224517368770146,
+                -0.010250519137299465,
+                -0.006430571334839369,
+                -2.9173277038748933e-05,
+                8.631709087732681e-06,
+                -4.648730645606598e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.493624723392437e-05,
+              "force_local_N_Nm": [
+                0.09691693531205949,
+                -0.012386449417663137,
+                -0.004452088131055623,
+                -2.9173277038748933e-05,
+                8.631709087732681e-06,
+                -4.648730645606598e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.493624723392437e-05,
+              "force_local_N_Nm": [
+                0.10181887679606634,
+                -0.010099432745888787,
+                -0.0056744373818903675,
+                -2.9173277038748933e-05,
+                8.631709087732681e-06,
+                -4.648730645606598e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.493624723392437e-05,
+              "force_local_N_Nm": [
+                0.09650050960270153,
+                -0.012927463512204052,
+                -0.0049920511176872445,
+                -2.9173277038748933e-05,
+                8.631709087732681e-06,
+                -4.648730645606598e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5348,
+          "solver_time": 108.33749999992202,
+          "integrated_time": 108.33854166658868,
+          "width_m": 0.005857483398021548,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            0.00027855379024917503,
+            0.00027646577983625714
+          ],
+          "acceleration_m_s2": -0.0020044899964011785,
+          "jerk_m_s3": 1.484630749466187,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.39762883737892984,
+          "jaw_constraint_force_N": [
+            0.39838265466356587,
+            0.39670421476829615
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0006702050895565988,
+              -0.0006702050895565988
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.39771244957400936,
+              0.39737441985785277
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.598653323296969e-05,
+              "force_local_N_Nm": [
+                0.10172458272876077,
+                -0.006417316095535305,
+                -0.005990504435332807,
+                2.279791781078109e-05,
+                6.907457493483357e-06,
+                3.721447317422887e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.598653323296969e-05,
+              "force_local_N_Nm": [
+                0.09746978281413302,
+                -0.0042083481973147485,
+                -0.005456788570675939,
+                2.279791781078109e-05,
+                6.907457493483357e-06,
+                3.721447317422887e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.598653323296969e-05,
+              "force_local_N_Nm": [
+                0.1013928432400762,
+                -0.005995192737195142,
+                -0.006412724902867657,
+                2.279791781078109e-05,
+                6.907457493483357e-06,
+                3.721447317422887e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.598653323296969e-05,
+              "force_local_N_Nm": [
+                0.09712741220606867,
+                -0.004325935453903217,
+                -0.00486566252407054,
+                2.279791781078109e-05,
+                6.907457493483357e-06,
+                3.721447317422887e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.508277191979928e-05,
+              "force_local_N_Nm": [
+                0.10164506736222095,
+                -0.009863847664363724,
+                -0.005415144451104085,
+                -2.2791755557838126e-05,
+                6.905590407183895e-06,
+                -3.720441408398517e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.508277191979928e-05,
+              "force_local_N_Nm": [
+                0.09738224687748466,
+                -0.011531926474351311,
+                -0.003868737780558401,
+                -2.2791755557838126e-05,
+                6.905590407183895e-06,
+                -3.720441408398517e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.508277191979928e-05,
+              "force_local_N_Nm": [
+                0.10130424671470921,
+                -0.00974556479640396,
+                -0.004824415299671731,
+                -2.2791755557838126e-05,
+                6.905590407183895e-06,
+                -3.720441408398517e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.508277191979928e-05,
+              "force_local_N_Nm": [
+                0.09704874257102312,
+                -0.011954843348233764,
+                -0.004290509076737823,
+                -2.2791755557838126e-05,
+                6.905590407183895e-06,
+                -3.720441408398517e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5349,
+          "solver_time": 108.33854166658868,
+          "integrated_time": 108.33958333325535,
+          "width_m": 0.005857771383208877,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            0.00027646577983625714,
+            0.0002762052572164709
+          ],
+          "acceleration_m_s2": -0.0002501017149947847,
+          "jerk_m_s3": 1.684212750150138,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.3976662613167088,
+          "jaw_constraint_force_N": [
+            0.3984275173489244,
+            0.3970151696485929
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.0004846078071866538,
+              -0.0004846078071866538
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.39794290954173767,
+              0.3974997774557796
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.658941596419991e-05,
+              "force_local_N_Nm": [
+                0.10130133879554565,
+                -0.006747238447249876,
+                -0.00448483988681712,
+                1.7719578608366915e-05,
+                5.460777155226589e-06,
+                2.9426213445985566e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.658941596419991e-05,
+              "force_local_N_Nm": [
+                0.09793717207509132,
+                -0.005030412013007288,
+                -0.004069423146493827,
+                1.7719578608366915e-05,
+                5.460777155226589e-06,
+                2.9426213445985566e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.658941596419991e-05,
+              "force_local_N_Nm": [
+                0.10103873799110881,
+                -0.00641893647384243,
+                -0.004812966609942204,
+                1.7719578608366915e-05,
+                5.460777155226589e-06,
+                2.9426213445985566e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.658941596419991e-05,
+              "force_local_N_Nm": [
+                0.09766674877625604,
+                -0.005121998620833885,
+                -0.003609966381826303,
+                1.7719578608366915e-05,
+                5.460777155226589e-06,
+                2.9426213445985566e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.531545394556247e-05,
+              "force_local_N_Nm": [
+                0.10119433001263349,
+                -0.009501823268858324,
+                -0.004522120174049409,
+                -1.771284560688571e-05,
+                5.4587021887079356e-06,
+                -2.941503216708046e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.531545394556247e-05,
+              "force_local_N_Nm": [
+                0.09782477238874517,
+                -0.010797704324745845,
+                -0.003319761864224779,
+                -1.771284560688571e-05,
+                5.4587021887079356e-06,
+                -2.941503216708046e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.531545394556247e-05,
+              "force_local_N_Nm": [
+                0.10092515963668552,
+                -0.009409707375174393,
+                -0.0040630224695242185,
+                -1.771284560688571e-05,
+                5.4587021887079356e-06,
+                -2.941503216708046e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.531545394556247e-05,
+              "force_local_N_Nm": [
+                0.09756081153109349,
+                -0.011126583780647674,
+                -0.0036475042819197065,
+                -1.771284560688571e-05,
+                5.4587021887079356e-06,
+                -2.941503216708046e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5350,
+          "solver_time": 108.33958333325535,
+          "integrated_time": 108.34062499992201,
+          "width_m": 0.005858059097018478,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            0.0002762052572164709,
+            0.0002778314506099004
+          ],
+          "acceleration_m_s2": 0.0015611456576923068,
+          "jerk_m_s3": 1.7387974777796078,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.3979227124119342,
+          "jaw_constraint_force_N": [
+            0.3987182421440779,
+            0.397529002862315
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.00033406353827030366,
+              -0.00033406353827030366
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.39838417860580755,
+              0.39786306640058533
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.728045069628631e-05,
+              "force_local_N_Nm": [
+                0.10101140411933675,
+                -0.007016221970122668,
+                -0.0032800335912250883,
+                1.3766798886289964e-05,
+                4.2568982518246446e-06,
+                2.2938770699534964e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.728045069628631e-05,
+              "force_local_N_Nm": [
+                0.09838858428260394,
+                -0.005682431314532529,
+                -0.002956843108348903,
+                1.3766798886289964e-05,
+                4.2568982518246446e-06,
+                2.2938770699534964e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.728045069628631e-05,
+              "force_local_N_Nm": [
+                0.10080637972791022,
+                -0.006760987364972987,
+                -0.003534940324711153,
+                1.3766798886289964e-05,
+                4.2568982518246446e-06,
+                2.2938770699534964e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.728045069628631e-05,
+              "force_local_N_Nm": [
+                0.0981780306863607,
+                -0.005753736232490845,
+                -0.002599869680400636,
+                1.3766798886289964e-05,
+                4.2568982518246446e-06,
+                2.2938770699534964e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.561642356197454e-05,
+              "force_local_N_Nm": [
+                0.1008839364911706,
+                -0.009168836192107592,
+                -0.0037443744091680774,
+                -1.3759956604370627e-05,
+                4.25478251202468e-06,
+                -2.2927369790603986e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.561642356197454e-05,
+              "force_local_N_Nm": [
+                0.0982577887044826,
+                -0.010175149636483275,
+                -0.0028099122404506584,
+                -1.3759956604370627e-05,
+                4.25478251202468e-06,
+                -2.2927369790603986e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.561642356197454e-05,
+              "force_local_N_Nm": [
+                0.1006743823568498,
+                -0.00909712956985906,
+                -0.0033877218784508435,
+                -1.3759956604370627e-05,
+                4.25478251202468e-06,
+                -2.2927369790603986e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.561642356197454e-05,
+              "force_local_N_Nm": [
+                0.09805173373257806,
+                -0.010430800174217814,
+                -0.003064491278893279,
+                -1.3759956604370627e-05,
+                4.25478251202468e-06,
+                -2.2927369790603986e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5351,
+          "solver_time": 108.34062499992201,
+          "integrated_time": 108.34166666658868,
+          "width_m": 0.00585834850477953,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            0.0002778314506099004,
+            0.00028129078880304156
+          ],
+          "acceleration_m_s2": 0.003320964665415524,
+          "jerk_m_s3": 1.6894262474142885,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.3984072633801983,
+          "jaw_constraint_force_N": [
+            0.39925001161810036,
+            0.3982517889288846
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.00021007913737351993,
+              -0.00021007913737351993
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.39903993248072683,
+              0.3984618680662581
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.8021789079647e-05,
+              "force_local_N_Nm": [
+                0.10084167198108925,
+                -0.007238246614089985,
+                -0.0023151705634648304,
+                1.0690606087837248e-05,
+                3.2535467194867674e-06,
+                1.7526489762027606e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.8021789079647e-05,
+              "force_local_N_Nm": [
+                0.09883688357186082,
+                -0.006202531012525571,
+                -0.002063861877772067,
+                1.0690606087837248e-05,
+                3.2535467194867674e-06,
+                1.7526489762027606e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.8021789079647e-05,
+              "force_local_N_Nm": [
+                0.10068467313273857,
+                -0.0070399112855667025,
+                -0.002513104523174612,
+                1.0690606087837248e-05,
+                3.2535467194867674e-06,
+                1.7526489762027606e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.8021789079647e-05,
+              "force_local_N_Nm": [
+                0.09867622734111509,
+                -0.0062580175147098,
+                -0.0017866452271822764,
+                1.0690606087837248e-05,
+                3.2535467194867674e-06,
+                1.7526489762027606e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.596887621321857e-05,
+              "force_local_N_Nm": [
+                0.10069921890944362,
+                -0.008868201139374471,
+                -0.0030677118378800226,
+                -1.0684027072065767e-05,
+                3.251544478200583e-06,
+                -1.7515703906593987e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.596887621321857e-05,
+              "force_local_N_Nm": [
+                0.09869269165777204,
+                -0.009649275226292277,
+                -0.002341811353492264,
+                -1.0684027072065767e-05,
+                3.251544478200583e-06,
+                -1.7515703906593987e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.596887621321857e-05,
+              "force_local_N_Nm": [
+                0.10053934399732446,
+                -0.008812410221771955,
+                -0.002790777335316276,
+                -1.0684027072065767e-05,
+                3.251544478200583e-06,
+                -1.7515703906593987e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.596887621321857e-05,
+              "force_local_N_Nm": [
+                0.0985349283862464,
+                -0.009847907706798966,
+                -0.002539468002455099,
+                -1.0684027072065767e-05,
+                3.251544478200583e-06,
+                -1.7515703906593987e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5352,
+          "solver_time": 108.34166666658868,
+          "integrated_time": 108.34270833325535,
+          "width_m": 0.005858641516017866,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            0.00028129078880304156,
+            -0.001060561845265818
+          ],
+          "acceleration_m_s2": -1.2881785287061052,
+          "jerk_m_s3": -1239.8395136366598,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.39911539520171146,
+          "jaw_constraint_force_N": [
+            0.2987885710450529,
+            0.2986082625459796
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.0002911882445429186,
+              0.0002911882445429186
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.29907975928959585,
+              0.2983170743014367
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.878322365996863e-05,
+              "force_local_N_Nm": [
+                0.29880544513634094,
+                0.06152601889187614,
+                -0.17341520506599864,
+                2.449817275161322e-05,
+                0.00028234931944602913,
+                0.00015750624820532524
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.635911116659727e-05,
+              "force_local_N_Nm": [
+                0.29799500030890885,
+                -0.1245824634138807,
+                -0.1757612981330265,
+                -7.845489229102774e-06,
+                0.00020108974389247103,
+                -0.0001121771045700323
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5353,
+          "solver_time": 108.34270833325535,
+          "integrated_time": 108.34374999992201,
+          "width_m": 0.005857536764095714,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            -0.001060561845265818,
+            -0.0008845012842830318
+          ],
+          "acceleration_m_s2": 0.16901813854347483,
+          "jerk_m_s3": 1398.9088005595968,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.2369883271912956,
+          "jaw_constraint_force_N": [
+            0.25042546928582815,
+            0.2487796455263288
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              0.000601641184799598,
+              -0.000601641184799598
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.24982382810102857,
+              0.2493812867111284
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.799256578040024e-05,
+              "force_local_N_Nm": [
+                0.0689122439164243,
+                -0.00046596111597523075,
+                -0.014097861589335538,
+                6.406707791312298e-06,
+                1.939580686276635e-05,
+                1.0492201775795127e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.799256578040024e-05,
+              "force_local_N_Nm": [
+                0.0569521775033513,
+                0.00015468103999043156,
+                -0.013946863279774175,
+                6.406707791312298e-06,
+                1.939580686276635e-05,
+                1.0492201775795127e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.799256578040024e-05,
+              "force_local_N_Nm": [
+                0.06797805686834328,
+                -0.0003469446689590779,
+                -0.014216464792766904,
+                6.406707791312298e-06,
+                1.939580686276635e-05,
+                1.0492201775795127e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.799256578040024e-05,
+              "force_local_N_Nm": [
+                0.05599024234969771,
+                0.00012129470931721199,
+                -0.01378072366444064,
+                6.406707791312298e-06,
+                1.939580686276635e-05,
+                1.0492201775795127e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.506916553204095e-05,
+              "force_local_N_Nm": [
+                0.06880925240743946,
+                -0.015529203642110101,
+                -0.015180163937470912,
+                -6.4011434494188705e-06,
+                1.9378961016150742e-05,
+                -1.0483088979378866e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.506916553204095e-05,
+              "force_local_N_Nm": [
+                0.05683590783000002,
+                -0.015996834095943786,
+                -0.014744867909720225,
+                -6.4011434494188705e-06,
+                1.9378961016150742e-05,
+                -1.0483088979378866e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.506916553204095e-05,
+              "force_local_N_Nm": [
+                0.06785221036545708,
+                -0.015495644007625682,
+                -0.015014235119470715,
+                -6.4011434494188705e-06,
+                1.9378961016150742e-05,
+                -1.0483088979378866e-05
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.506916553204095e-05,
+              "force_local_N_Nm": [
+                0.055897450700394924,
+                -0.016115995328250067,
+                -0.014863275226595616,
+                -6.4011434494188705e-06,
+                1.9378961016150742e-05,
+                -1.0483088979378866e-05
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5354,
+          "solver_time": 108.34374999992201,
+          "integrated_time": 108.34479166658868,
+          "width_m": 0.005856615408591252,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            -0.0008845012842830318,
+            -0.0007330333635720337
+          ],
+          "acceleration_m_s2": 0.14540920388255815,
+          "jerk_m_s3": -22.664577274480013,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.2571942390047681,
+          "jaw_constraint_force_N": [
+            0.26838441157173226,
+            0.2677290869725447
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -4.6237605434505125e-06,
+              4.6237605434505125e-06
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.2683890353322756,
+              0.26772446321200133
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.752506876621181e-05,
+              "force_local_N_Nm": [
+                0.07234118780034089,
+                -0.0018237821961218583,
+                -0.011309448771911245,
+                4.803770872749993e-06,
+                1.5750800433167772e-05,
+                8.526395076223629e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.752506876621181e-05,
+              "force_local_N_Nm": [
+                0.06262682773715494,
+                -0.0013584401499762834,
+                -0.011196084351133138,
+                4.803770872749993e-06,
+                1.5750800433167772e-05,
+                8.526395076223629e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.752506876621181e-05,
+              "force_local_N_Nm": [
+                0.07158206238624351,
+                -0.0017344860809344138,
+                -0.011398371389528636,
+                4.803770872749993e-06,
+                1.5750800433167772e-05,
+                8.526395076223629e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.752506876621181e-05,
+              "force_local_N_Nm": [
+                0.06184568329844869,
+                -0.0013835224003041335,
+                -0.011071510511995638,
+                4.803770872749993e-06,
+                1.5750800433167772e-05,
+                8.526395076223629e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.413406587595303e-05,
+              "force_local_N_Nm": [
+                0.07218056316778927,
+                -0.014098701772285584,
+                -0.012446264305344162,
+                -4.798976852050257e-06,
+                1.573508139482623e-05,
+                -8.517885874244586e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.413406587595303e-05,
+              "force_local_N_Nm": [
+                0.06245719271781709,
+                -0.014449163934726431,
+                -0.012119779906055122,
+                -4.798976852050257e-06,
+                1.573508139482623e-05,
+                -8.517885874244586e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.413406587595303e-05,
+              "force_local_N_Nm": [
+                0.07140348976962468,
+                -0.014073493247476261,
+                -0.012321864953864928,
+                -4.798976852050257e-06,
+                1.573508139482623e-05,
+                -8.517885874244586e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.413406587595303e-05,
+              "force_local_N_Nm": [
+                0.06169471990708777,
+                -0.014538555820658279,
+                -0.012208544164658938,
+                -4.798976852050257e-06,
+                1.573508139482623e-05,
+                -8.517885874244586e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5355,
+          "solver_time": 108.34479166658868,
+          "integrated_time": 108.34583333325534,
+          "width_m": 0.005855851832170865,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            -0.0007330333635720337,
+            -0.0006020293693595024
+          ],
+          "acceleration_m_s2": 0.12576383444403005,
+          "jerk_m_s3": -18.859554660986976,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.2746068130697008,
+          "jaw_constraint_force_N": [
+            0.2841986372757303,
+            0.28383390570023054
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.0001743354488799086,
+              0.0001743354488799086
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.2843729727246101,
+              0.28365957025135063
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72841236970672e-05,
+              "force_local_N_Nm": [
+                0.0752705871976018,
+                -0.0030252652114681365,
+                -0.008876425112231067,
+                3.458992479855351e-06,
+                1.2545267568283904e-05,
+                6.7948144322983805e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72841236970672e-05,
+              "force_local_N_Nm": [
+                0.06753187953287051,
+                -0.0026902050529381684,
+                -0.008794692252668362,
+                3.458992479855351e-06,
+                1.2545267568283904e-05,
+                6.7948144322983805e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72841236970672e-05,
+              "force_local_N_Nm": [
+                0.07466546171966268,
+                -0.0029609266937321824,
+                -0.008940449362782764,
+                3.458992479855351e-06,
+                1.2545267568283904e-05,
+                6.7948144322983805e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72841236970672e-05,
+              "force_local_N_Nm": [
+                0.06690987504223694,
+                -0.002708300463228523,
+                -0.008704991167653263,
+                3.458992479855351e-06,
+                1.2545267568283904e-05,
+                6.7948144322983805e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.350371675928452e-05,
+              "force_local_N_Nm": [
+                0.07509611629206232,
+                -0.012840424026871182,
+                -0.010030663823396825,
+                -3.455166925663772e-06,
+                1.2531392651639233e-05,
+                -6.787299447856576e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.350371675928452e-05,
+              "force_local_N_Nm": [
+                0.0673517263608021,
+                -0.013092662173733465,
+                -0.009795502406752343,
+                -3.455166925663772e-06,
+                1.2531392651639233e-05,
+                -6.787299447856576e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.350371675928452e-05,
+              "force_local_N_Nm": [
+                0.07447741855530438,
+                -0.012822239914728691,
+                -0.009941098229139118,
+                -3.455166925663772e-06,
+                1.2531392651639233e-05,
+                -6.787299447856576e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.350371675928452e-05,
+              "force_local_N_Nm": [
+                0.06674401685404853,
+                -0.013157061871785792,
+                -0.009859405758674031,
+                -3.455166925663772e-06,
+                1.2531392651639233e-05,
+                -6.787299447856576e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5356,
+          "solver_time": 108.34583333325534,
+          "integrated_time": 108.34687499992201,
+          "width_m": 0.005855224718244448,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            -0.0006020293693595024,
+            -0.00048817873969025195
+          ],
+          "acceleration_m_s2": 0.10929660448248045,
+          "jerk_m_s3": -15.80854076308762,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.2897001784487889,
+          "jaw_constraint_force_N": [
+            0.29802240456591067,
+            0.2977669433119405
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.00023036098114765028,
+              0.00023036098114765028
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.2982527655470583,
+              0.29753658233079283
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.720251458940021e-05,
+              "force_local_N_Nm": [
+                0.07784971930688102,
+                -0.0040310492606207065,
+                -0.006856647774318322,
+                2.2952148511488074e-06,
+                9.868762212866519e-06,
+                5.347428284142197e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.720251458940021e-05,
+              "force_local_N_Nm": [
+                0.07176106475314134,
+                -0.0038087290914112252,
+                -0.006802345272582395,
+                2.2952148511488074e-06,
+                9.868762212866519e-06,
+                5.347428284142197e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.720251458940021e-05,
+              "force_local_N_Nm": [
+                0.07737325652499084,
+                -0.003988331617200208,
+                -0.006899127119388472,
+                2.2952148511488074e-06,
+                9.868762212866519e-06,
+                5.347428284142197e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.720251458940021e-05,
+              "force_local_N_Nm": [
+                0.07127197957056594,
+                -0.0038207589354476495,
+                -0.0067428241179581395,
+                2.2952148511488074e-06,
+                9.868762212866519e-06,
+                5.347428284142197e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.311621341434468e-05,
+              "force_local_N_Nm": [
+                0.0776733928038898,
+                -0.01179504219472938,
+                -0.008002271075974725,
+                -2.2924800815391383e-06,
+                9.857003323816864e-06,
+                -5.341056682675841e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.311621341434468e-05,
+              "force_local_N_Nm": [
+                0.07158144406031582,
+                -0.011962343206353799,
+                -0.007846178488955453,
+                -2.2924800815391383e-06,
+                9.857003323816864e-06,
+                -5.341056682675841e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.311621341434468e-05,
+              "force_local_N_Nm": [
+                0.07718694849491815,
+                -0.011782954657789195,
+                -0.007942844960756854,
+                -2.2924800815391383e-06,
+                9.857003323816864e-06,
+                -5.341056682675841e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.311621341434468e-05,
+              "force_local_N_Nm": [
+                0.07110300173936142,
+                -0.01200509728009262,
+                -0.007888574016416738,
+                -2.2924800815391383e-06,
+                9.857003323816864e-06,
+                -5.341056682675841e-06
+              ]
+            }
+          ]
+        },
+        {
+          "row": 5357,
+          "solver_time": 108.34687499992201,
+          "integrated_time": 108.34791666658867,
+          "width_m": 0.005854716198723938,
+          "command_m": 0.00549328101547252,
+          "velocity_m_s": [
+            -0.00048817873969025195,
+            -0.0003887963760600171
+          ],
+          "acceleration_m_s2": 0.09540706908502544,
+          "jerk_m_s3": -13.333953981556808,
+          "position_gain_N_m": 1000.0,
+          "affine_force_bias_N": 0.0,
+          "force_range_N": [
+            -5.0,
+            5.0
+          ],
+          "actuator_force_N": -0.3028537344885871,
+          "jaw_constraint_force_N": [
+            0.31012369808803175,
+            0.3099280231910046
+          ],
+          "jaw_constraint_by_type_N": [
+            [
+              -0.00025528082536230973,
+              0.00025528082536230973
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.31037897891339405,
+              0.30967274236564224
+            ]
+          ],
+          "contacts": [
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72293546919613e-05,
+              "force_local_N_Nm": [
+                0.08014585594187251,
+                -0.004863338064054574,
+                -0.0051981894804255776,
+                1.2557623143243283e-06,
+                7.659763183460346e-06,
+                4.151670584030876e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72293546919613e-05,
+              "force_local_N_Nm": [
+                0.07541939405268733,
+                -0.004741707066149562,
+                -0.00516844192129099,
+                1.2557623143243283e-06,
+                7.659763183460346e-06,
+                4.151670584030876e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72293546919613e-05,
+              "force_local_N_Nm": [
+                0.07977565433888766,
+                -0.004839952701642105,
+                -0.005221428336801385,
+                1.2557623143243283e-06,
+                7.659763183460346e-06,
+                4.151670584030876e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_46"
+              ],
+              "distance_m": -8.72293546919613e-05,
+              "force_local_N_Nm": [
+                0.07504003239237626,
+                -0.004748300992666545,
+                -0.00513587692691933,
+                1.2557623143243283e-06,
+                7.659763183460346e-06,
+                4.151670584030876e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.291594421534205e-05,
+              "force_local_N_Nm": [
+                0.07997121322533421,
+                -0.010940612133571694,
+                -0.006316985994923469,
+                -1.2541850845501747e-06,
+                7.650142384618023e-06,
+                -4.146456011636623e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.291594421534205e-05,
+              "force_local_N_Nm": [
+                0.07524313560514433,
+                -0.011032109339956998,
+                -0.006231555203227663,
+                -1.2541850845501747e-06,
+                7.650142384618023e-06,
+                -4.146456011636623e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.291594421534205e-05,
+              "force_local_N_Nm": [
+                0.07959392414659036,
+                -0.010933987086858315,
+                -0.006284475032168098,
+                -1.2541850845501747e-06,
+                7.650142384618023e-06,
+                -4.146456011636623e-06
+              ]
+            },
+            {
+              "geoms": [
+                "task/chopstick_b/stick_contact",
+                "gripper_right_36"
+              ],
+              "distance_m": -8.291594421534205e-05,
+              "force_local_N_Nm": [
+                0.07487143044804295,
+                -0.01105551286790367,
+                -0.006254746724018309,
+                -1.2541850845501747e-06,
+                7.650142384618023e-06,
+                -4.146456011636623e-06
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "training_ready": false
+}

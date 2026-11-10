@@ -720,3 +720,28 @@ runtime:
 30 Hz、292.37 秒，增加处理线程不会缩短真实仿真动作或视频时长。
 MuJoCo 和 Isaac 的实际相机输入处理等价、线程退出及重置验证已通过。
 完整回合、跨次渲染微小像素差异和限制见 [平台审计](platform_audit.md)。
+
+## 固定执行器下的压紧量调整（实验）
+
+`configs/collection/clean_table_position_preload.yaml` 需配合
+`configs/clean_table_position_execution.yaml`。筷子和笔闭合后，教师读取实测开口，
+通过原有受限位置轨迹，逐次把目标向实测开口靠近：目标误差预算 0.3 mm，停止预算
+0.4 mm，最多六次调整。每次必须仍有双指正法向接触。它只改变记录中的 14 维动作，
+不改增益、执行器力限、材质或求解器参数；这些宽度预算不是标定过的接触力限制。
+
+该配置尚不能用于合格数据批产。seed 1 的完整记录通过原 30 Hz 运动指标，但盘子
+滑脱，任务仍为 9/11；seed 2 在进入调整前因相邻筷子间距不足失败。首次闭合的
+内部积分步冲击也仍存在。已有历史通过回合不能替代当前 v4 执行证据和完整任务验收。
+
+对已经失败的闭合 HDF5，可只读分析各个子项，继续查找原因：
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/diagnose_collection.py \
+  /absolute/path/to/episode.h5 \
+  --policy configs/collection/quality_policy_tcp.yaml \
+  --output /absolute/path/to/new_components.json
+```
+
+此工具单独重算已存状态/动作的运动质量，并检查时钟、转移连续性、执行证据和 TCP。
+不要求任务成功后才分析，也不改源 HDF5、原审核报告或训练标志。输出始终是诊断，
+`training_ready=false`；没有 RGB 的通过子项不能作为视觉或整回合认证。

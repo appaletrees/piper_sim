@@ -1,0 +1,545 @@
+{
+  "scope": "Resolve recorded native contact forces into payload load contributions.\n\nReads original solver buffers from trace_contact_substeps, without replaying\ncontacts or velocities. An isolated model supplies only body membership, mass\nand gravity, verified against trace geometry names and frozen input hashes.\nFinger forces, other robot forces and external support are kept separate.\nThis is a diagnostic, not a stable-grasp or training-acceptance certificate.\n",
+  "script_sha256": "c9b727af55c5cc14391420e31d3924cf9fc19804c936a380f90501568efb176e",
+  "source": "/dev/shm/piper_position_preload_baseline_v1/episode/episode.h5",
+  "source_sha256": "bffa22c4150dacf3ede4136ad38bda5395fd2a07142c54c9d6d8332232936377",
+  "trace_sha256": "ddb8d342413cd4f0b6302a15ce6be62831fe8c9319bc27fbbf6a04c6fa9dd5d6",
+  "source_unchanged": true,
+  "frozen_input_count": 462,
+  "frozen_inputs_changed": [],
+  "object": "chopstick_b",
+  "weight_N": 0.06879483538928884,
+  "up_axis_world": [
+    -0.0,
+    -0.0,
+    1.0
+  ],
+  "payload_contacts": 26324,
+  "native_rows": 4320,
+  "phases": {
+    "grasp": {
+      "native_steps": 2272,
+      "first_last_solver_time": [
+        104.4666666665922,
+        106.83229166659005
+      ],
+      "fingers": {
+        "min_max_upward_N": [
+          -0.765821435523983,
+          0.08024394545555236
+        ],
+        "min_max_weight_fraction": [
+          -11.131961159445106,
+          1.1664239764726019
+        ],
+        "steps_downward": 448,
+        "steps_upward": 301
+      },
+      "other_robot": {
+        "min_max_upward_N": [
+          0.0,
+          0.0
+        ],
+        "min_max_weight_fraction": [
+          0.0,
+          0.0
+        ],
+        "steps_downward": 0,
+        "steps_upward": 0
+      },
+      "external": {
+        "min_max_upward_N": [
+          0.0,
+          0.8669246938252952
+        ],
+        "min_max_weight_fraction": [
+          0.0,
+          12.601595583732918
+        ],
+        "steps_downward": 0,
+        "steps_upward": 2259
+      }
+    },
+    "lift": {
+      "native_steps": 2048,
+      "first_last_solver_time": [
+        106.83333333325672,
+        108.96562499992145
+      ],
+      "fingers": {
+        "min_max_upward_N": [
+          -0.016220026822696007,
+          0.08919584573628792
+        ],
+        "min_max_weight_fraction": [
+          -0.2357739026616149,
+          1.2965485741997351
+        ],
+        "steps_downward": 1,
+        "steps_upward": 2047
+      },
+      "other_robot": {
+        "min_max_upward_N": [
+          0.0,
+          0.0
+        ],
+        "min_max_weight_fraction": [
+          0.0,
+          0.0
+        ],
+        "steps_downward": 0,
+        "steps_upward": 0
+      },
+      "external": {
+        "min_max_upward_N": [
+          0.0,
+          0.08747524969882936
+        ],
+        "min_max_weight_fraction": [
+          0.0,
+          1.2715380333979114
+        ],
+        "steps_downward": 0,
+        "steps_upward": 56
+      }
+    }
+  },
+  "snapshots": [
+    {
+      "native_row": 0,
+      "phase": "grasp",
+      "solver_time": 104.4666666665922,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928884
+      }
+    },
+    {
+      "native_row": 151,
+      "phase": "grasp",
+      "solver_time": 104.62395833325873,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928882
+      }
+    },
+    {
+      "native_row": 302,
+      "phase": "grasp",
+      "solver_time": 104.78124999992525,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928885
+      }
+    },
+    {
+      "native_row": 454,
+      "phase": "grasp",
+      "solver_time": 104.93958333325844,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928884
+      }
+    },
+    {
+      "native_row": 605,
+      "phase": "grasp",
+      "solver_time": 105.09687499992496,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928882
+      }
+    },
+    {
+      "native_row": 757,
+      "phase": "grasp",
+      "solver_time": 105.25520833325815,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928884
+      }
+    },
+    {
+      "native_row": 908,
+      "phase": "grasp",
+      "solver_time": 105.41249999992468,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928885
+      }
+    },
+    {
+      "native_row": 1059,
+      "phase": "grasp",
+      "solver_time": 105.5697916665912,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928885
+      }
+    },
+    {
+      "native_row": 1211,
+      "phase": "grasp",
+      "solver_time": 105.72812499992439,
+      "commanded_right_opening_m": 0.0069990861709383475,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928882
+      }
+    },
+    {
+      "native_row": 1362,
+      "phase": "grasp",
+      "solver_time": 105.88541666659091,
+      "commanded_right_opening_m": 0.006998622184285056,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928884
+      }
+    },
+    {
+      "native_row": 1514,
+      "phase": "grasp",
+      "solver_time": 106.0437499999241,
+      "commanded_right_opening_m": 0.006552853183518825,
+      "upward_force_N": {
+        "fingers": 0.0,
+        "other_robot": 0.0,
+        "external": 0.06879483538928884
+      }
+    },
+    {
+      "native_row": 1665,
+      "phase": "grasp",
+      "solver_time": 106.20104166659063,
+      "commanded_right_opening_m": 0.004148462884399124,
+      "upward_force_N": {
+        "fingers": -0.4210258891177961,
+        "other_robot": 0.0,
+        "external": 0.48986177597456093
+      }
+    },
+    {
+      "native_row": 1689,
+      "phase": "grasp",
+      "solver_time": 106.2260416665906,
+      "commanded_right_opening_m": 0.0036299187336188378,
+      "upward_force_N": {
+        "fingers": 0.06643781863688246,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 1730,
+      "phase": "grasp",
+      "solver_time": 106.2687499999239,
+      "commanded_right_opening_m": 0.002745191136848422,
+      "upward_force_N": {
+        "fingers": -0.765821435523983,
+        "other_robot": 0.0,
+        "external": 0.8382407275628462
+      }
+    },
+    {
+      "native_row": 1746,
+      "phase": "grasp",
+      "solver_time": 106.28541666659055,
+      "commanded_right_opening_m": 0.0024162102326020273,
+      "upward_force_N": {
+        "fingers": -0.75915781641991,
+        "other_robot": 0.0,
+        "external": 0.8669246938252952
+      }
+    },
+    {
+      "native_row": 1816,
+      "phase": "grasp",
+      "solver_time": 106.35833333325715,
+      "commanded_right_opening_m": 0.001162720981258577,
+      "upward_force_N": {
+        "fingers": -0.049140512615850396,
+        "other_robot": 0.0,
+        "external": 0.1178542530545594
+      }
+    },
+    {
+      "native_row": 1968,
+      "phase": "grasp",
+      "solver_time": 106.51666666659034,
+      "commanded_right_opening_m": 2.8101709769802e-05,
+      "upward_force_N": {
+        "fingers": -0.008699243504749196,
+        "other_robot": 0.0,
+        "external": 0.07740739253355314
+      }
+    },
+    {
+      "native_row": 2119,
+      "phase": "grasp",
+      "solver_time": 106.67395833325686,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.029702360712505232,
+        "other_robot": 0.0,
+        "external": 0.03941954391130632
+      }
+    },
+    {
+      "native_row": 2255,
+      "phase": "grasp",
+      "solver_time": 106.8156249999234,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.08024394545555236,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 2271,
+      "phase": "grasp",
+      "solver_time": 106.83229166659005,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.03871866527266028,
+        "other_robot": 0.0,
+        "external": 0.02984857125645581
+      }
+    },
+    {
+      "native_row": 2272,
+      "phase": "lift",
+      "solver_time": 106.83333333325672,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.018177027767534604,
+        "other_robot": 0.0,
+        "external": 0.05053586107123938
+      }
+    },
+    {
+      "native_row": 2325,
+      "phase": "lift",
+      "solver_time": 106.88854166659,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06902978070186254,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 2337,
+      "phase": "lift",
+      "solver_time": 106.90104166658999,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": -0.016220026822696007,
+        "other_robot": 0.0,
+        "external": 0.08747524969882936
+      }
+    },
+    {
+      "native_row": 2408,
+      "phase": "lift",
+      "solver_time": 106.97499999992326,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.07427015348668523,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 2544,
+      "phase": "lift",
+      "solver_time": 107.1166666665898,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.07243698074020792,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 2681,
+      "phase": "lift",
+      "solver_time": 107.259374999923,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06820782703833618,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 2817,
+      "phase": "lift",
+      "solver_time": 107.40104166658953,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.0643529085508816,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 2954,
+      "phase": "lift",
+      "solver_time": 107.54374999992274,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06886525110036631,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3090,
+      "phase": "lift",
+      "solver_time": 107.68541666658928,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06913755347670336,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3155,
+      "phase": "lift",
+      "solver_time": 107.75312499992255,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.08919584573628792,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3227,
+      "phase": "lift",
+      "solver_time": 107.82812499992248,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.07075169821612626,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3363,
+      "phase": "lift",
+      "solver_time": 107.96979166658902,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06839121384875681,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3500,
+      "phase": "lift",
+      "solver_time": 108.11249999992222,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.07350727360804418,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3636,
+      "phase": "lift",
+      "solver_time": 108.25416666658876,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.07586544432692688,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3773,
+      "phase": "lift",
+      "solver_time": 108.39687499992196,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06861137889288205,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 3909,
+      "phase": "lift",
+      "solver_time": 108.5385416665885,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06367103224507586,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 4046,
+      "phase": "lift",
+      "solver_time": 108.6812499999217,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06459004722551265,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 4182,
+      "phase": "lift",
+      "solver_time": 108.82291666658824,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06858655241311601,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    },
+    {
+      "native_row": 4319,
+      "phase": "lift",
+      "solver_time": 108.96562499992145,
+      "commanded_right_opening_m": 0.0,
+      "upward_force_N": {
+        "fingers": 0.06883528821689608,
+        "other_robot": 0.0,
+        "external": 0.0
+      }
+    }
+  ],
+  "training_ready": false,
+  "timing": "Solver force/Jacobian/contact arrays are from the evaluation at time_before. qpos_after and qvel_after are the integrated state at time_after. Finite differences of integrated velocity need not equal solver qacc under implicit integration.",
+  "limitations": [
+    "These are original solver force-evaluation samples, not forces recomputed from rounded observations.",
+    "No mass-acceleration balance is claimed; object velocities and accelerations were not included in this trace.",
+    "Upward load alone does not establish grasp closure, torque balance, stability or physical hardware calibration."
+  ]
+}

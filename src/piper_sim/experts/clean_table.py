@@ -15,6 +15,7 @@ from .path_fidelity import loaded_path_limits, path_pose_deviation
 from .placement_search import validate_profile as placement_search_profile
 from .grasp_clearance import validate_profile as grasp_clearance_profile
 from .tcp_limits import validate_limits as tcp_limits_profile, speed_constraint, measured_violations
+from .gripper_preload import validate_profile as preload_profile, relax_preload
 from .quality import MotionQuality
 from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
 from ..transforms import pose_matrix
@@ -51,6 +52,9 @@ class CleanTableTeacher:
             (ROOT/'configs/collection/clean_table.yaml').read_text())
         self.motion = self.settings['motion']
         self.pacing = self.settings.get('pacing', {})
+        self.grasp_preload = preload_profile(self.pacing.get('grasp_preload'))
+        if self.grasp_preload and (self.mode != 'physical' or getattr(self.b, 'position_execution', None) is None):
+            raise ValueError('Grasp preload reduction requires physical mode and backend-owned position execution')
         self.tcp_limits = tcp_limits_profile(self.pacing.get('tcp_limits'))
         if self.tcp_limits and not getattr(self.b, 'tcp_observer', None):
             raise ValueError('TCP limits require native tcp_motion_evidence in the backend')
@@ -159,6 +163,11 @@ class CleanTableTeacher:
             for key in ('gripper_kp_N_per_m', 'gripper_kv_Ns_per_m', 'gripper_force_limit_N'):
                 value[key] = execution.profile[key]
             value['noslip_iterations'] = execution.profile['noslip_iterations']
+        if self.grasp_preload:
+            value['grasp_preload'] = {**self.grasp_preload,
+                'scope': 'Privileged contact-gated width-target relaxation; controller and material unchanged.',
+                'parameter_origin': 'uncalibrated_tracking_error_budget',
+                'actions': 'Only ordinary bounded gripper position commands, stored in the public action vector.'}
         return value
 
     def event(self, phase, **fields):
@@ -589,6 +598,8 @@ class CleanTableTeacher:
 
     def grip(self, side, width):
         index = 6 if side == 'left' else 13
+        reduce_preload = (width == 0. and self.current and self.grasp_preload
+            and self.b.task.specs[self.current]['kind'] in self.grasp_preload['kinds'])
         if self.pacing and width == 0. and self.current:
             # Broad rigid items do not require an impossible zero-aperture
             # target. Keep a force preload, still verify real bilateral contact.
@@ -608,6 +619,18 @@ class CleanTableTeacher:
             self.q[index] = command[0]
             self.step()
         self.wait(self.pacing.get('grip_hold_s', .5))
+        if reduce_preload:
+            def report(fields):
+                self.events.append({'phase': 'grasp_preload', 'object': self.current,
+                    'sim_time': self.b.sim_time, 'side': side, **fields})
+            try:
+                relax_preload(profile=self.grasp_preload,
+                    read_width=lambda: self.session.read().position[index],
+                    read_target=lambda: self.q[index],
+                    has_bilateral_contact=lambda: len(finger_contacts(self.b, side, self.current)) == 2,
+                    move=lambda target: self.grip(side, target), report=report)
+            except RuntimeError as exc:
+                raise SortFailure(str(exc)) from exc
 
     def object_pose(self, name):
         # Same privileged dictionary exposed through the external read API.
