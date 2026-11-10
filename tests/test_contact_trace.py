@@ -30,7 +30,7 @@ def test_force_trace_preserves_state_and_resolves_constraints(integrator, jacobi
       <actuator><position joint="a" kp="400" kv="40" forcerange="-10 10"/></actuator></mujoco>''')
     original_model = copy.copy(model)
     plain, observed = mujoco.MjData(model), mujoco.MjData(model)
-    tracer = module.ContactTrace(model, [0], [0], [0], [1])
+    tracer = module.ContactTrace(model, [0], [0], [0], [1], payload_bodies=[1])
     tracer.projected.fill(123.)  # prove no-contact rows cannot reuse scratch memory
     for i in range(250):
         plain.ctrl[:] = observed.ctrl[:] = -.07+.005*np.sin(i/30)
@@ -40,6 +40,11 @@ def test_force_trace_preserves_state_and_resolves_constraints(integrator, jacobi
         tracer.after(observed, before, 'release', 'ball')
         np.testing.assert_array_equal(state(model, plain), state(model, observed))
         np.testing.assert_array_equal(plain.qacc, observed.qacc)
+        np.testing.assert_array_equal(before['payload_com_world'][0], plain.xipos[1])
+        np.testing.assert_array_equal(before['payload_origin_world'][0], plain.xpos[1])
+        expected_velocity = np.empty(6)
+        mujoco.mj_objectVelocity(model, plain, mujoco.mjtObj.mjOBJ_BODY, 1, expected_velocity, 0)
+        np.testing.assert_array_equal(before['payload_velocity_world'][0], expected_velocity)
         np.testing.assert_allclose(before['constraint_force_by_type'].sum(axis=0),
                                    before['qfrc_constraint'], atol=1e-12, rtol=1e-12)
         expected = np.clip(400*(before['control']-before['actuator_length'])
@@ -53,6 +58,7 @@ def test_force_trace_preserves_state_and_resolves_constraints(integrator, jacobi
         assert arrays['qpos_after'].shape == (250, 1)
         assert arrays['constraint_force_by_type'].shape == (250, 8, 1)
         assert arrays['contact_force_local'].shape[1] == 6
+        assert arrays['payload_com_world'].shape == (250, 1, 3)
         np.testing.assert_allclose(arrays['time_after']-arrays['time_before'], .001)
 
 

@@ -21,7 +21,7 @@ from piper_sim.collection_jobs import atomic_json, sha256
 
 class ContactTrace:
     def __init__(self, model, qpos, dofs, actuators, geoms, max_steps=30000,
-                 max_contacts=1000000):
+                 max_contacts=1000000, *, payload_bodies=()):
         if model.opt.integrator not in (mujoco.mjtIntegrator.mjINT_EULER,
                                         mujoco.mjtIntegrator.mjINT_IMPLICITFAST):
             raise ValueError('Only Euler/implicitfast force-evaluation timing is supported')
@@ -33,6 +33,10 @@ class ContactTrace:
         self.max_steps, self.max_contacts = max_steps, max_contacts
         self.rows, self.contacts = [], []
         self.projected = np.empty(model.nv)
+        self.payload_bodies = np.asarray(payload_bodies, dtype=int)
+        if (self.payload_bodies.ndim != 1 or len(set(self.payload_bodies)) != len(self.payload_bodies)
+                or np.any(self.payload_bodies <= 0) or np.any(self.payload_bodies >= model.nbody)):
+            raise ValueError('Unique non-world payload bodies required')
 
     def before(self, data):
         if len(self.rows) >= self.max_steps:
@@ -58,6 +62,19 @@ class ContactTrace:
                    actuator_length=data.actuator_length[self.actuators].copy(),
                    actuator_velocity=data.actuator_velocity[self.actuators].copy(),
                    constraint_count=int(data.nefc))
+        if len(self.payload_bodies):
+            ids = self.payload_bodies
+            # These buffers still describe the force evaluation at time_before,
+            # not the integrated qpos_after. Query writes only its output array.
+            velocities = np.empty((len(ids), 6))
+            for i, body in enumerate(ids):
+                mujoco.mj_objectVelocity(model, data, mujoco.mjtObj.mjOBJ_BODY,
+                                        int(body), velocities[i], 0)
+            row.update(payload_com_world=data.xipos[ids].copy(),
+                       payload_origin_world=data.xpos[ids].copy(),
+                       payload_rotation_world=data.xmat[ids].copy(),
+                       payload_velocity_world=velocities,
+                       payload_applied_wrench=data.xfrc_applied[ids].copy())
         for field in ('qfrc_actuator', 'qfrc_applied', 'qfrc_bias', 'qfrc_passive',
                       'qfrc_constraint', 'qfrc_smooth'):
             row[field] = getattr(data, field)[self.dofs].copy()
@@ -112,6 +129,11 @@ class ContactTrace:
                                'qpos_after and qvel_after are the integrated state at time_after. '
                                'Finite differences of integrated velocity need not equal solver qacc under implicit integration.',
                         status='diagnostic_only_not_training_data')
+        if len(self.payload_bodies):
+            metadata['payloads'] = [{'body_id': int(i), 'name': self.model.body(int(i)).name,
+                'mass_kg': float(self.model.body_mass[i])} for i in self.payload_bodies]
+            metadata['payload_timing'] = 'COM, origin, orientation and world-oriented body-center rot:lin velocity at force-evaluation time_before; no additional forward call.'
+            metadata['gravity_world_m_s2'] = self.model.opt.gravity.tolist()
         atomic_json(directory/'trace.json', metadata)
 
 
@@ -124,7 +146,11 @@ def main(*, before_step=None, extra_metadata=None):
     parser.add_argument('--trace-phases', default='unload_gripper,release')
     parser.add_argument('--trace-task-contacts', action='store_true',
                         help='Also retain selected task objects versus support contacts')
+    parser.add_argument('--trace-payload-wrench', action='store_true',
+                        help='Read selected body COM and pose at the original force evaluation')
     args, forwarded = parser.parse_known_args()
+    if args.trace_payload_wrench and not args.trace_task_contacts:
+        parser.error('Payload wrench trace requires --trace-task-contacts')
     args.trace_output.mkdir(parents=True, exist_ok=False)
     from piper_sim.experts.clean_table import CleanTableTeacher
     objects, phases = set(args.trace_objects.split(',')), set(args.trace_phases.split(','))
@@ -164,7 +190,8 @@ def main(*, before_step=None, extra_metadata=None):
                      if (model.body(int(model.geom_bodyid[i])).name.startswith('right/') or
                          (args.trace_task_contacts and model.body(int(model.geom_bodyid[i])).name in
                           {'task/'+name for name in objects}))]
-            tracer = ContactTrace(model, ids['qpos'], ids['dof'], ids['ctrl'], geoms)
+            payloads = [model.body('task/'+name).id for name in sorted(objects)] if args.trace_payload_wrench else ()
+            tracer = ContactTrace(model, ids['qpos'], ids['dof'], ids['ctrl'], geoms, payload_bodies=payloads)
         row = tracer.before(data)
         value = original_step(model, data, *a, **kw)
         tracer.after(data, row, current.phase, current.current)

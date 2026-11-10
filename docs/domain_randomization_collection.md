@@ -758,3 +758,34 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/diagnose_collection.py \
 此候选尚未取得完整生产验收，不能用于宣称合格的批量 VLA 数据。第一版仅几何
 闭合在某些摆放下反而导致筷子掉落，失败回合和后续改进验证均见
 [平台审计](platform_audit.md)。默认采集配置没有切换到此候选。
+
+## 盘子原生接触力与力矩诊断
+
+`scripts/trace_contact_substeps.py` 可在完整新回合中通过
+`--trace-task-contacts --trace-payload-wrench` 追踪选定物体的原接触力、质心、姿态
+和角速度。它读取已有的物理计算结果；选定原生步数或接触数达到容量上限时明确
+失败，不静默截断。原始追踪必须配对已闭合的 HDF5 和运行前保存的输入 SHA256。
+
+```bash
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/audit_payload_wrench.py \
+  /absolute/path/to/trace \
+  --recording /absolute/path/to/episode.h5 \
+  --identity /absolute/path/to/frozen_identity.json \
+  --object plate --output /absolute/path/to/new_wrench_audit
+```
+
+`frozen_identity.json` 的 `files` 字段是文件路径到 SHA256 的映射，必须在试验前
+冻结，不能在运行后补写成仿佛事前固定。分析器核对这些输入以及原始追踪哈希，
+把手指、其他机器人部位、外部支撑的力和关于物体质心的力矩分开。物体无正法向
+手指接触时，接触中心及相关重力矩保留 NaN，避免伪造零力矩结论。
+
+输出是诊断，不能据此绕过原整回合验收；角度变化小、向上力足够或力矩平衡单项
+都不等价于可执行、稳定的实机抓取。力矩样本对应 `time_before`，不能与积分后的
+`qpos_after` 混作同一时刻。`scripts/plot_payload_wrench.py` 使用系统 Python 的
+matplotlib 绘制全部原始样本，在阶段或采样间隙处断开曲线，不平滑、不压缩时间：
+
+```bash
+python3 scripts/plot_payload_wrench.py \
+  --case baseline=/absolute/path/to/wrench_audit \
+  --output /absolute/path/to/new_wrench_plot
+```

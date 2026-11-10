@@ -1,0 +1,85 @@
+{
+  "scope": "Plot original payload wrench samples without smoothing or time rescaling.\n\nUse system Python with matplotlib. Inputs are audit_payload_wrench output\ndirectories. Each column has its own time origin; this is not a matched-state\ncausal comparison when controller parameters differ for the whole episode.\n",
+  "script_sha256": "37bbf1e540111db1a56f0ae98ac95969c230e4e198fb0e7a0e33152842d78907",
+  "cases": [
+    {
+      "label": "baseline",
+      "directory": "outputs/platform_audit_v1/plate_wrench_v1/baseline_wrench",
+      "series_sha256": "f0071f54115b6ac79e8fa3194ede8906700abcfa313afc40f42e988f0f885fb0",
+      "recording_sha256": "76c0f5bc03d4268bd1b1da6fe8d98089e1159e186207968876e067d7cb4df2c9",
+      "trace_sha256": "2ea152dfd170bd60d39688ec87aaf7750bde43c4c2bcd9a84a3ba7f5858ac5a9",
+      "native_samples": 10432,
+      "first_last_time": [
+        209.60000000094314,
+        220.4656250010815
+      ],
+      "segments": [
+        {
+          "phase": "grasp",
+          "samples": 2912,
+          "first_last_time": [
+            209.60000000094314,
+            212.63229166764842
+          ]
+        },
+        {
+          "phase": "lift",
+          "samples": 3680,
+          "first_last_time": [
+            212.6333333343151,
+            216.46562500103056
+          ]
+        },
+        {
+          "phase": "transfer",
+          "samples": 3840,
+          "first_last_time": [
+            216.46666666769724,
+            220.4656250010815
+          ]
+        }
+      ]
+    },
+    {
+      "label": "force15",
+      "directory": "outputs/platform_audit_v1/plate_wrench_v1/force15_wrench",
+      "series_sha256": "2d4b3898c641be0cfaa418ca3461cf14ddf340b1a3b758a1be6b80fce1dfdb61",
+      "recording_sha256": "1812378259ffedfe88a8f81640a96af5ff12df26287a73e0a2bb9ec78e05498d",
+      "trace_sha256": "3b4df3d9cea5d3afdde4818c8f8f7f5555ec32c4ade36353356e514c60fec44a",
+      "native_samples": 10784,
+      "first_last_time": [
+        209.60000000094314,
+        220.83229166775283
+      ],
+      "segments": [
+        {
+          "phase": "grasp",
+          "samples": 2912,
+          "first_last_time": [
+            209.60000000094314,
+            212.63229166764842
+          ]
+        },
+        {
+          "phase": "lift",
+          "samples": 3680,
+          "first_last_time": [
+            212.6333333343151,
+            216.46562500103056
+          ]
+        },
+        {
+          "phase": "transfer",
+          "samples": 4192,
+          "first_last_time": [
+            216.46666666769724,
+            220.83229166775283
+          ]
+        }
+      ]
+    }
+  ],
+  "plot_sha256": "12252b3b67b787b3ec2d66016d41e8e2104440705c67f5135bfa0240085e92a1",
+  "training_ready": false,
+  "processing": "Every original sample; time origin shifted independently; lines broken at phase or sampling gaps."
+}
