@@ -1,0 +1,246 @@
+{
+  "schema_version": "piper.collection_diagnostics.v1",
+  "scope": "Read-only component checks, including recordings that failed task success.\n\nNormal collection acceptance stops immediately on an unsuccessful episode.\nThis diagnostic keeps that verdict and separately evaluates available evidence;\nit never publishes a training audit or changes HDF5 acceptance attributes.\n",
+  "source": "/dev/shm/piper_geometric_capture_window_seed1_v1/episode/episode.h5",
+  "source_sha256": "c3e196a9c5b01b4ebeb200202b335fa9822a8fb74290bd1c87ae200f1a0de1ed",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "training_ready": false,
+  "checks": {
+    "streams_without_rgb_requirement": {
+      "passed": true,
+      "violations": [],
+      "frames": 6584,
+      "fps": 30.0,
+      "duration_s": 219.46666666666667,
+      "cameras": {},
+      "rgb": false,
+      "trajectory_sha256": "534274f4a79a445880a40167b9ac67bed3889047bee113167962faf2bd5c8252"
+    },
+    "recorded_motion": {
+      "passed": true,
+      "violations": [],
+      "frames": 6585,
+      "metrics": {
+        "command_arm_velocity": 0.9955000877380371,
+        "command_gripper_velocity": 0.05994904786348343,
+        "command_arm_acceleration": 2.4287939071655273,
+        "command_gripper_acceleration": 0.17313659191131592,
+        "command_arm_jerk": 19.65630054473877,
+        "command_gripper_jerk": 1.4156028628349304,
+        "measured_arm_velocity": 0.9950851798057556,
+        "measured_gripper_velocity": 0.05988187715411186,
+        "measured_arm_acceleration": 2.7120351791381836,
+        "measured_gripper_acceleration": 0.6099653244018555,
+        "measured_arm_jerk": 59.62228775024414,
+        "measured_gripper_jerk": 15.343031883239746,
+        "tracking_error_rad": 0.009880900382995605,
+        "hold_velocity_rms_rad_s": 0.00019212088955100626,
+        "hold_gripper_velocity_rms_m_s": 0.00018754290067590773
+      },
+      "thresholds": {
+        "command_arm_velocity": 1.01,
+        "command_gripper_velocity": 0.0606,
+        "command_arm_acceleration": 2.525,
+        "command_gripper_acceleration": 0.1818,
+        "command_arm_jerk": 20.2,
+        "command_gripper_jerk": 1.5150000000000001,
+        "measured_arm_velocity": 1.2,
+        "measured_gripper_velocity": 0.08,
+        "measured_arm_acceleration": 8.0,
+        "measured_gripper_acceleration": 1.0,
+        "measured_arm_jerk": 200.0,
+        "measured_gripper_jerk": 50.0,
+        "tracking_error_rad": 0.1,
+        "hold_velocity_rms_rad_s": 0.025,
+        "hold_gripper_velocity_rms_m_s": 0.003
+      },
+      "peaks": {
+        "command_arm_velocity": {
+          "sim_time": 165.80000000038544,
+          "channel": 12,
+          "context": {
+            "phase": "lift",
+            "object": "spoon"
+          }
+        },
+        "command_gripper_velocity": {
+          "sim_time": 198.86666666747314,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "command_arm_acceleration": {
+          "sim_time": 120.63333333324417,
+          "channel": 8,
+          "context": {
+            "phase": "approach",
+            "object": "pen"
+          }
+        },
+        "command_gripper_acceleration": {
+          "sim_time": 19.500000000002807,
+          "channel": 6,
+          "context": {
+            "phase": "release_for_nesting",
+            "object": "cup_01"
+          }
+        },
+        "command_arm_jerk": {
+          "sim_time": 35.03333333332201,
+          "channel": 2,
+          "context": {
+            "phase": "lift",
+            "object": "cup_02"
+          }
+        },
+        "command_gripper_jerk": {
+          "sim_time": 149.03333333350528,
+          "channel": 13,
+          "context": {
+            "phase": "unload_gripper",
+            "object": "charger"
+          }
+        },
+        "measured_arm_velocity": {
+          "sim_time": 110.76666666658647,
+          "channel": 9,
+          "context": {
+            "phase": "lower",
+            "object": "chopstick_b"
+          }
+        },
+        "measured_gripper_velocity": {
+          "sim_time": 198.86666666747314,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "measured_arm_acceleration": {
+          "sim_time": 210.53333333428836,
+          "channel": 8,
+          "context": {
+            "phase": "grasp",
+            "object": "plate"
+          }
+        },
+        "measured_gripper_acceleration": {
+          "sim_time": 211.80000000097115,
+          "channel": 13,
+          "context": {
+            "phase": "grasp",
+            "object": "plate"
+          }
+        },
+        "measured_arm_jerk": {
+          "sim_time": 210.53333333428836,
+          "channel": 8,
+          "context": {
+            "phase": "grasp",
+            "object": "plate"
+          }
+        },
+        "measured_gripper_jerk": {
+          "sim_time": 220.4333333344144,
+          "channel": 13,
+          "context": {
+            "phase": "transfer",
+            "object": "plate"
+          }
+        }
+      },
+      "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+      "hold_samples": 364,
+      "source_precision": "Stored state/action arrays; no smoothing or native-substep claim."
+    },
+    "task_and_motion": {
+      "passed": false,
+      "violations": [
+        "ValueError: rollout_not_accepted"
+      ]
+    },
+    "position_execution": {
+      "passed": true,
+      "violations": [],
+      "checked_intervals": 6584,
+      "missing_execution_intervals": 0,
+      "missing_controller_intervals": 0,
+      "gripper_regime_segments": [
+        {
+          "first_transition": 0,
+          "last_transition": 6583,
+          "left_right_kp_kv_force_range": [
+            [
+              1000.0,
+              120.0,
+              -5.0,
+              5.0
+            ],
+            [
+              1000.0,
+              120.0,
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "position_only_execution_supported": true,
+      "scope": "Declared fixed controller and complete interval evidence for 14 position actions; not task, RGB or hardware acceptance."
+    },
+    "tcp_motion": {
+      "passed": true,
+      "violations": [],
+      "limits": {
+        "linear_speed_m_s": 0.25,
+        "angular_speed_rad_s": 1.5
+      },
+      "intervals": 6584,
+      "integration_steps": 210688,
+      "peaks": {
+        "left/linear": {
+          "speed": 0.23326042966492957,
+          "transition_index": 1558,
+          "substep": 19,
+          "sim_time": 52.9531249999724,
+          "phase": "stack_ready",
+          "object": "cup_02"
+        },
+        "left/angular": {
+          "speed": 0.8905007062573892,
+          "transition_index": 45,
+          "substep": 18,
+          "sim_time": 2.518749999999938,
+          "phase": "approach",
+          "object": "cup_01"
+        },
+        "right/linear": {
+          "speed": 0.23298579002176198,
+          "transition_index": 2051,
+          "substep": 3,
+          "sim_time": 69.36979166662412,
+          "phase": "transfer_stack",
+          "object": "cup_00"
+        },
+        "right/angular": {
+          "speed": 1.1385083761411747,
+          "transition_index": 5787,
+          "substep": 24,
+          "sim_time": 193.92500000074324,
+          "phase": "transfer",
+          "object": "bowl"
+        }
+      },
+      "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification."
+    }
+  },
+  "recorded_success": false,
+  "source_unchanged": true,
+  "script_sha256": "c3ca4b383bfc7d2657f7a3c814a83bd13e33ffe754a0cada8d80d0eacd8e35b0"
+}

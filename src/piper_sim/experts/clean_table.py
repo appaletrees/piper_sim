@@ -16,6 +16,7 @@ from .placement_search import validate_profile as placement_search_profile
 from .grasp_clearance import validate_profile as grasp_clearance_profile
 from .tcp_limits import validate_limits as tcp_limits_profile, speed_constraint, measured_violations
 from .gripper_preload import validate_profile as preload_profile, relax_preload
+from .geometric_capture import validate_profile as capture_profile, closure_target
 from .quality import MotionQuality
 from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
 from ..transforms import pose_matrix
@@ -53,6 +54,9 @@ class CleanTableTeacher:
         self.motion = self.settings['motion']
         self.pacing = self.settings.get('pacing', {})
         self.grasp_preload = preload_profile(self.pacing.get('grasp_preload'))
+        self.geometric_capture = capture_profile(self.pacing.get('geometric_capture'))
+        if self.geometric_capture and (self.mode != 'physical' or getattr(self.b, 'position_execution', None) is None):
+            raise ValueError('Geometric capture requires physical mode and backend-owned position execution')
         if self.grasp_preload and (self.mode != 'physical' or getattr(self.b, 'position_execution', None) is None):
             raise ValueError('Grasp preload reduction requires physical mode and backend-owned position execution')
         self.tcp_limits = tcp_limits_profile(self.pacing.get('tcp_limits'))
@@ -165,9 +169,17 @@ class CleanTableTeacher:
             value['noslip_iterations'] = execution.profile['noslip_iterations']
         if self.grasp_preload:
             value['grasp_preload'] = {**self.grasp_preload,
-                'scope': 'Privileged contact-gated width-target relaxation; controller and material unchanged.',
+                'scope': ('Privileged contact-gated width-target conditioning with a minimum preload; '
+                          if self.grasp_preload.get('min_tracking_error_m', 0.) else
+                          'Privileged contact-gated width-target relaxation; ')
+                         + 'controller and material unchanged.',
                 'parameter_origin': 'uncalibrated_tracking_error_budget',
                 'actions': 'Only ordinary bounded gripper position commands, stored in the public action vector.'}
+        if self.geometric_capture:
+            value['geometric_capture'] = {**self.geometric_capture,
+                'scope': 'Scratch collision scan at measured pose, followed by ordinary bounded position commands.',
+                'parameter_origin': 'uncalibrated_geometric_overtravel',
+                'verification': 'Existing actual bilateral force, slip and motion gates retained.'}
         return value
 
     def event(self, phase, **fields):
@@ -600,6 +612,18 @@ class CleanTableTeacher:
         index = 6 if side == 'left' else 13
         reduce_preload = (width == 0. and self.current and self.grasp_preload
             and self.b.task.specs[self.current]['kind'] in self.grasp_preload['kinds'])
+        if (width == 0. and self.current and self.geometric_capture
+                and self.b.task.specs[self.current]['kind'] in self.geometric_capture['kinds']):
+            try:
+                prediction = closure_target(self.b.model, self.b.data, self.ik[side].data,
+                    jaw_qpos=self.b.indices[side]['qpos'][6:],
+                    finger_bodies=[self.b.model.body(side+'/link'+str(i)).id for i in (7, 8)],
+                    object_body=self.b.model.body('task/'+self.current).id, profile=self.geometric_capture)
+            except RuntimeError as exc:
+                raise SortFailure(str(exc)) from exc
+            width = prediction['target_width_m']
+            self.events.append({'phase': 'geometric_capture', 'object': self.current,
+                'sim_time': self.b.sim_time, 'side': side, **prediction})
         if self.pacing and width == 0. and self.current:
             # Broad rigid items do not require an impossible zero-aperture
             # target. Keep a force preload, still verify real bilateral contact.

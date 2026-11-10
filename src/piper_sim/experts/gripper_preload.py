@@ -1,4 +1,4 @@
-"""Optional position-target preload reduction after a physical pinch.
+"""Optional position-target preload conditioning after a physical pinch.
 
 This is a privileged teacher policy, not a servo override. Only ordinary
 recorded gripper position trajectories are issued. Width tracking error is a
@@ -12,7 +12,7 @@ def validate_profile(value):
     if value is None:
         return None
     keys = {'kinds', 'target_tracking_error_m', 'max_tracking_error_m', 'max_iterations'}
-    if not isinstance(value, dict) or set(value) != keys:
+    if not isinstance(value, dict) or set(value)-{'min_tracking_error_m'} != keys:
         raise ValueError('Grasp preload requires exactly kinds, tracking-error budgets and max_iterations')
     p = copy.deepcopy(value)
     if (not isinstance(p['kinds'], list) or not p['kinds']
@@ -25,6 +25,10 @@ def validate_profile(value):
             raise ValueError('Positive finite preload width budget below stroke required')
     if p['target_tracking_error_m'] >= p['max_tracking_error_m']:
         raise ValueError('Target preload must be strictly below its acceptance budget')
+    minimum = p.get('min_tracking_error_m', 0.)
+    if (isinstance(minimum, bool) or not isinstance(minimum, (int, float))
+            or not math.isfinite(minimum) or not 0 <= minimum < p['target_tracking_error_m']):
+        raise ValueError('Minimum preload must be finite, nonnegative and below the target')
     if type(p['max_iterations']) is not int or not 1 <= p['max_iterations'] <= 20:
         raise ValueError('Grasp preload max_iterations must be an integer in [1, 20]')
     return p
@@ -32,11 +36,13 @@ def validate_profile(value):
 
 def relax_preload(*, profile, read_width, read_target, has_bilateral_contact,
                   move, report):
-    """Bounded, monotone opening of the position target while contact persists.
+    """Condition the target while actual bilateral contact persists.
 
 ``move`` must finish a normally bounded trajectory and its settling interval.
 No target is clipped, no state is assigned, and no controller parameter changes.
 Failure is explicit; callers must not proceed with an unverified grasp.
+Without an optional positive minimum this preserves the original opening-only
+policy. With a minimum, weak capture can also issue small closing trajectories.
 """
     for iteration in range(profile['max_iterations']+1):
         width, target = float(read_width()), float(read_target())
@@ -47,12 +53,15 @@ Failure is explicit; callers must not proceed with an unverified grasp.
         error = width-target
         report({'iteration': iteration, 'measured_width_m': width,
                 'command_width_m': target, 'tracking_error_m': error})
-        if error <= profile['max_tracking_error_m']:
+        minimum = profile.get('min_tracking_error_m', 0.)
+        if error <= profile['max_tracking_error_m'] and (minimum == 0. or error >= minimum):
             return
         if iteration == profile['max_iterations']:
             break
         next_target = width-profile['target_tracking_error_m']
-        if not target < next_target <= .095:
-            raise RuntimeError('Preload reduction would require an invalid opening target')
+        opening = error > profile['max_tracking_error_m']
+        correct_direction = next_target > target if opening else next_target < target
+        if not correct_direction or not 0 < next_target <= .095:
+            raise RuntimeError('Preload conditioning would require an invalid position target')
         move(next_target)
     raise RuntimeError('Grasp preload did not converge within the declared iteration budget')

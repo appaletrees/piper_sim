@@ -1,0 +1,55 @@
+.................................................................F...... [ 81%]
+................                                                         [100%]
+=================================== FAILURES ===================================
+____ test_force_trace_preserves_state_and_resolves_constraints[dense-Euler] ____
+
+integrator = 'Euler', jacobian = 'dense'
+tmp_path = PosixPath('/tmp/pytest-of-midea/pytest-120/test_force_trace_preserves_sta0')
+
+    @pytest.mark.parametrize('integrator', ['Euler', 'implicitfast'])
+    @pytest.mark.parametrize('jacobian', ['dense', 'sparse'])
+    def test_force_trace_preserves_state_and_resolves_constraints(integrator, jacobian, tmp_path):
+        model = mujoco.MjModel.from_xml_string(f'''<mujoco>
+          <option timestep=".001" integrator="{integrator}" jacobian="{jacobian}"/>
+          <worldbody><geom type="plane" size="1 1 .1"/>
+          <body pos="0 0 .07"><joint name="a" type="slide" axis="0 0 1"/>
+          <geom name="ball" type="sphere" size=".05" mass="1"/></body></worldbody>
+          <actuator><position joint="a" kp="400" kv="40" forcerange="-10 10"/></actuator></mujoco>''')
+        original_model = copy.copy(model)
+        plain, observed = mujoco.MjData(model), mujoco.MjData(model)
+        tracer = module.ContactTrace(model, [0], [0], [0], [1])
+        for i in range(250):
+            plain.ctrl[:] = observed.ctrl[:] = -.07+.005*np.sin(i/30)
+            mujoco.mj_step(model, plain)
+            before = tracer.before(observed)
+            mujoco.mj_step(model, observed)
+            tracer.after(observed, before, 'release', 'ball')
+            np.testing.assert_array_equal(state(model, plain), state(model, observed))
+            np.testing.assert_array_equal(plain.qacc, observed.qacc)
+>           np.testing.assert_allclose(before['constraint_force_by_type'].sum(axis=0),
+                                       before['qfrc_constraint'], atol=1e-12, rtol=1e-12)
+
+tests/test_contact_trace.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x77fa89f471a0>, array([8.]), array([0.]))
+kwds = {'err_msg': '', 'verbose': True, 'header': 'Not equal to tolerance rtol=1e-12, atol=1e-12', 'equal_nan': True}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+                   ^^^^^^^^^^^^^^^^^^^
+E           AssertionError: 
+E           Not equal to tolerance rtol=1e-12, atol=1e-12
+E           
+E           Mismatched elements: 1 / 1 (100%)
+E           Max absolute difference: 8.
+E           Max relative difference: inf
+E            x: array([8.])
+E            y: array([0.])
+
+../../.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/contextlib.py:81: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_contact_trace.py::test_force_trace_preserves_state_and_resolves_constraints[dense-Euler]
+1 failed, 87 passed in 0.52s

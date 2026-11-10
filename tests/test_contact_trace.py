@@ -31,6 +31,7 @@ def test_force_trace_preserves_state_and_resolves_constraints(integrator, jacobi
     original_model = copy.copy(model)
     plain, observed = mujoco.MjData(model), mujoco.MjData(model)
     tracer = module.ContactTrace(model, [0], [0], [0], [1])
+    tracer.projected.fill(123.)  # prove no-contact rows cannot reuse scratch memory
     for i in range(250):
         plain.ctrl[:] = observed.ctrl[:] = -.07+.005*np.sin(i/30)
         mujoco.mj_step(model, plain)

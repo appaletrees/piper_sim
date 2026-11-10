@@ -745,3 +745,16 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/diagnose_collection.py \
 此工具单独重算已存状态/动作的运动质量，并检查时钟、转移连续性、执行证据和 TCP。
 不要求任务成功后才分析，也不改源 HDF5、原审核报告或训练标志。输出始终是诊断，
 `training_ready=false`；没有 RGB 的通过子项不能作为视觉或整回合认证。
+
+
+## 几何闭合候选与小幅预载调整（实验）
+
+`configs/collection/clean_table_geometric_capture_window.yaml` 配合固定执行器配置，
+先用独立碰撞查询预测筷子/笔的闭合开口，再通过实际双指接触和实测开口反馈小幅
+调整普通位置目标。原增益、力限、物理几何和独立验收门限不变。
+`pacing.grasp_preload.min_tracking_error_m` 是可选下限；未设置时保持旧版只松开
+过紧目标的行为。配置中的开口误差并非标定接触力。
+
+此候选尚未取得完整生产验收，不能用于宣称合格的批量 VLA 数据。第一版仅几何
+闭合在某些摆放下反而导致筷子掉落，失败回合和后续改进验证均见
+[平台审计](platform_audit.md)。默认采集配置没有切换到此候选。

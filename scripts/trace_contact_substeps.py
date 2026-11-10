@@ -66,6 +66,9 @@ class ContactTrace:
         components = []
         for kind in range(8):
             forces = np.where(data.efc_type == kind, data.efc_force, 0.)
+            # With no active constraints MuJoCo may leave the destination
+            # untouched; never report stale/uninitialized force attribution.
+            self.projected.fill(0.)
             mujoco.mj_mulJacTVec(model, data, self.projected, forces)
             components.append(self.projected[self.dofs].copy())
         row['constraint_force_by_type'] = np.asarray(components)

@@ -1,0 +1,34 @@
+{
+  "scope": "Compare three original grasp/lift traces without resampling or time scaling.",
+  "sources": [
+    {
+      "label": "Zero target, then relax",
+      "source": "outputs/position_preload_raw_v1/candidate/trace/trace.npz",
+      "sha256": "de25eb3c7a293c112191d513e06f3f9fe3721e3f369da42ea2ece5fde3ea49c5",
+      "samples": 5728,
+      "lift_onset_sim_time_s": 106.5999999999236,
+      "integration_dt": 0.0010416666666666667
+    },
+    {
+      "label": "Geometric target: dropped during lift",
+      "source": "outputs/geometric_capture_raw_v1/seed1/trace/trace.npz",
+      "sha256": "524ba36d69e051369d556d94931febaa99cb98bce65ecd9c6f13d98147a07e37",
+      "samples": 2240,
+      "lift_onset_sim_time_s": 103.03333333326017,
+      "integration_dt": 0.0010416666666666667
+    },
+    {
+      "label": "Geometric target + preload window",
+      "source": "/dev/shm/piper_geometric_capture_window_seed1_v1/trace/trace.npz",
+      "sha256": "3d523eadb2b07237a244dfa32f2a947eafb8ee3be158e22e7561a005af2da06b",
+      "samples": 4640,
+      "lift_onset_sim_time_s": 103.69999999992623,
+      "integration_dt": 0.0010416666666666667
+    }
+  ],
+  "object": "chopstick_b",
+  "training_ready": false,
+  "image_sha256": "da0229eb9848c127446fb3dca223146c9c2f7744c968a474f81955dd31932948",
+  "script_sha256": "1ee40b6c5ba0212197b424a7444dde9f712c11fa57f4563bdd8404fe67e35270",
+  "reader_sha256": "05fd1c3e2a1739866eabbe2cad9fce31fcd1369442e3b819fd10cf581bbc6849"
+}
