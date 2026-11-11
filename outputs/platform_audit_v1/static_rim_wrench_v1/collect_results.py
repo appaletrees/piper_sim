@@ -5,7 +5,7 @@ import h5py
 
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
 root=Path(__file__).resolve().parent;rows=[]
-families=['rim_force25_raw_v1','rim_capacity_raw_v1','rim_friction_raw_v1','rim_contained_raw_v1','rim_contained_scoped_raw_v1','rim_continuous_raw_v1','rim_fallback_raw_v1','rim_fallback_rgb_v1','rim_supported_raw_v1','rim_supported_rgb_v1','rim_supported20_raw_v1','rim_stiff_raw_v1']
+families=['rim_force25_raw_v1','rim_capacity_raw_v1','rim_friction_raw_v1','rim_contained_raw_v1','rim_contained_scoped_raw_v1','rim_continuous_raw_v1','rim_fallback_raw_v1','rim_fallback_rgb_v1','rim_supported_raw_v1','rim_supported_rgb_v1','rim_supported20_raw_v1','rim_stiff_raw_v1','rim_damped_raw_v1','rim_damped_rgb_v1','rim_packed_raw_v1','rim_packed_rgb_v1','rim_bowl_clearance_raw_v1','rim_bowl_clearance_rgb_v2']
 for family in families:
  for base in sorted((Path('outputs')/family).glob('seed*/episode')):
   source=base/'episode.h5';audit_path=base/'audit.json';report_path=base/'report.json'

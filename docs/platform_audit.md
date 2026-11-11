@@ -3003,3 +3003,111 @@ seed 3 搬运时法向力之和均值约 48.86 N，除了失去接触前，执�
 seed 0 仍在转运出现 52.010 m/s³ 的夹爪 jerk；seed 1 在细杆预载条件处失败；
 seed 2 最后稳定保持不足且超过时间预算。全部保留拒收。后续需继续区分接触
 柔顺性/阻尼、相机/记录频率采样及实际抓持演化，不能靠改变审核门限认证通过。
+
+
+## 2026-11-11：固定接触阻尼和装篮顺序复核
+
+新增显式实验配置 `clean_table_position_execution_rim25_damped.yaml` 和
+`clean_table_rim_damped.yaml`。整回合固定夹爪 10000 N/m、120 Ns/m、25 N，
+`impratio=1000`；只将手指材料正格式 `solref` 从 `(0.01, 1)` 改为 `(0.005, 2)`。
+按 MuJoCo 正格式参数公式，同一阻抗下参考法向刚度相同、阻尼加倍。独立球面/平面
+参数探针在 1 mm 压入、零速度时测得相同的 1.97119 N，速度响应斜率比约 2。
+探针只检验参数含义，不能替代机器人实测或真机材料标定。后端参数不会随动作阶段切换。
+
+原装篮顺序 seed 0、2、3 的完整状态审核通过，时长分别为 267.2、299.7、263.6 s；
+seed 1 仍拒收，筷子在放碗阶段已出篮，发生在盘子动作之前。逐帧时间定位见
+`chopstick_containment_timing.json`，该时间关联本身不证明是哪一个接触力造成出篮。
+seed 0、1 的 measured gripper jerk 峰值降为 24.273、18.261 m/s³，原门限仍为 50。
+
+`clean_table_rim_packed.yaml` 只把筷子排在所有大件后面。seed 2、3 的状态审核通过
+（297.733、247.433 s）；seed 0、1 虽物理计数均完成，最终 1 s 静止检查失败，仍拒收。
+`packed_final_seed0.json` 和 `packed_final_seed1.json` 定位为第二根筷子沿自身长轴转动，
+最后 6 s 最大角速度分别 0.318、0.249 rad/s；平移速度仅约 1.2、1.4 mm/s。
+这不满足原 0.1 rad/s 门限，不能把“在篮内”等同于“稳定放好”。
+
+两组 seed 3 的完整三路 RGB 均通过 v4 审核：
+
+| 配置 | transitions | 时长 | 全部物体 | training_ready |
+| --- | ---: | ---: | ---: | --- |
+| damped 原顺序 | 7908 | 263.6 s | 10/10 | true |
+| packed 筷子最后 | 7423 | 247.433 s | 10/10 | true |
+
+两份录像的公共动作/状态、物体/原生控制区间摘要分别与对应状态预检完全相同，
+原生追踪没有改变运动。`damped_native_audit.json` / `packed_native_audit.json` 中冻结
+输入无变化，约束力分解残差约 1e-14，执行器仿射力残差约 1.7e-13。
+`damped_wrench/audit.json` / `packed_wrench/audit.json` 的 transfer 阶段未出现
+桌面、篮内支撑或其他机器人向上的分力，手指平均向上分力约等于盘子重量。
+低位 lower/unload 阶段可以逐渐接触篮内支撑，未将它误写成全程悬空。
+
+[阻尼版本的原始三相机盘子片段](../outputs/platform_audit_v1/static_rim_wrench_v1/damped_sensor_preview/sensor_rgb.mp4)
+为 1393 帧、46.433 s、原速 30 Hz，来源是
+`outputs/rim_damped_rgb_v1/seed3/episode/episode.h5`。完整 HDF5 留在本机，片段仅供审看。
+本轮目前证明了固定参数下的盘子物理搬运和部分完整布局成功，尚未证明整个随机分布可靠。
+
+
+## 2026-11-11：碗落点避让筷子的完整布局复测
+
+`configs/tasks/clean_table_rigid_bowl_clearance.yaml` 仅把篮内碗目标从
+`[-0.105, -0.06]` 改为 `[-0.105, -0.02]` m，沿篮筐局部 Y 向内移动 40 mm。
+所有其他解析后字段完全相同，见 `bowl_goal_config_delta.json`。
+seed 0–3 的初始随机布局，以及开始碗搬运前的公共动作/状态、物体位姿摘要完全相同，
+见 `bowl_goal_noninterference.json`。未移动原 CAD、相机、桌面或物体初始摆放。
+
+该落点配合固定阻尼配置，完整状态复测如下。最后一行是额外布局的失败结果，不隐去：
+
+| seed | 独立状态审核 | 物体 | 时长 | 盘子最大抓持位移 | measured gripper jerk |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 0 | 通过 | 10/10 | 266.667 s | 2.218 mm | 23.072 m/s³ |
+| 1 | 通过 | 11/11 | 288.8 s | 4.417 mm | 18.261 m/s³ |
+| 2 | 通过 | 11/11 | 299.9 s | 3.498 mm | 21.702 m/s³ |
+| 3 | 通过 | 10/10 | 263.267 s | 3.122 mm | 18.446 m/s³ |
+| 4 | 通过 | 10/10 | 268.167 s | 1.955 mm | 20.991 m/s³ |
+| 42 | 拒收 | 3/11 | 提前停止 | 未到盘子 | 13.690 m/s³ |
+
+五个通过回合的盘子双指接触样本比例都是 1.0、最长丢失接触时间为零；所有物体
+最后稳定 4.63–7.57 s。seed 42 在筷子预抓阶段被 IK 拒绝，未进入盘子动作，不是盘子
+掉落，也不能算整个任务成功。seed 2 距 300 s 时间上限仅 0.1 s，尚无充分时间余量。
+以上 6 次是有限回归与附加布局检查，不是统计充分的随机分布成功率估计；这六份
+state-only 文件都不是视觉训练集。源审核和矩阵见 `bowl_clearance_state_matrix.json`。
+
+运行命令已加入 [采集说明](domain_randomization_collection.md#2026-11-11-盘子抓持与入篮配置)。
+新 `scripts/export_full_sensor_rgb.py` 为合格完整 HDF5 导出三路并排原速审看视频，
+每个 observation 只显示一次，不缩放原图、不裁剪时间、不改写源 HDF5。失败回合
+与状态预检文件在创建输出目录前就会被训练审核入口拒绝。
+
+
+表中的 measured jerk 使用独立审核定义的 30 Hz 状态差分。原生积分接触瞬态单独保存在
+力追踪报告中，不能把 30 Hz 门限通过表述为每个原生积分步都没有冲击。当前改动也未宣称
+与 LIBERO/RoboTwin 的视觉、动力学或专家效率达到同等标准。
+
+首次补录碗避让版本的 RGB 进程以 SIGTERM / 143 退出，原因未确定，最后日志停留在
+充电头抬起阶段。`outputs/rim_bowl_clearance_rgb_v1/seed1/episode/episode.h5.partial`
+保持原样，不补写完成属性、不拼接后半段、不用于训练。见 `interrupted_rgb_v1.json`。
+后续 `rgb_v2` 从 reset 重新执行，使用独立进程和 `clean_table_rim_damped_lzf.yaml`。
+后者只改无损图像压缩方式；9 张原始 RGB 的小型 I/O 探针确认 LZF/GZIP 解码像素完全相同，
+但该探针不是整个渲染器加速比例的证明。
+
+`rgb_v2` 随后完成并通过原独立 v4 审核：seed 1、11/11、8664 transitions、288.8 s，
+`training_ready=true`。盘子最大抓持位移 4.417 mm、双指接触比例 1.0、丢失时间为零。
+公共动作/状态以及物体、控制器、原生物理区间、TCP 摘要与对应完整状态预检完全一致。
+`bowl_clearance_native_audit.json` 中约束力分解残差为 1.42e-14，仿射执行器力残差为
+1.71e-13；`bowl_clearance_wrench/audit.json` 中盘子 transfer 阶段外部支撑与其他机器人
+向上的分力均为零，手指平均向上分力为盘子重量的 0.999995 倍。
+这些分力诊断不替代独立验收，也不构成真机标定。运行后重新检查 596 个冻结输入，均未改变。
+
+- [完整原速三相机视频，288.8 秒](../outputs/platform_audit_v1/static_rim_wrench_v1/bowl_clearance_complete_video/full_sensor_rgb.mp4)
+- [盘子动作的原速三相机片段](../outputs/platform_audit_v1/static_rim_wrench_v1/bowl_clearance_sensor_preview/sensor_rgb.mp4)
+- [视频完整性与源文件摘要](../outputs/platform_audit_v1/static_rim_wrench_v1/bowl_clearance_complete_video/export.json)
+- 本机原始数据：`outputs/rim_bowl_clearance_rgb_v2/seed1/episode/episode.h5`，SHA256
+  `71a28a041bbbd73e271c5bc57a7735daa17263a9c866641181d5e5788d5dcc40`。
+
+完整视频每个 observation 显示一次，保持 1x / 30 Hz；三路图像不缩放，仅额外添加说明栏。
+审看 MP4 为 H.264 有损编码；训练源 RGB 使用 LZF 无损存储且文件摘要未改变。
+视频导出经过完整成功回合检查，以及拒收 seed 42 在输出目录创建前失败的负例检查。
+`run_results.v3.json.gz` 索引 45 份已闭合实验与原审核报告，其中 5 份 RGB 通过，涉及 seed 1、3；
+这不是 5 个独立随机种子，也不是将先前失败版本计入当前配置的成功率。所有失败证据保留。
+
+当前盘子修复在 seed 0–4 的完整状态回合及上述完整 RGB 回合得到验证；seed 42 的筷子
+IK 候选问题仍未解决。动作加速现状与参数说明见
+[采集说明](domain_randomization_collection.md#运动速度视频倍速与采集吞吐)：未把视频倍速
+或计算吞吐提升当作真实动作提速，未提供尚未验证的统一快速档。

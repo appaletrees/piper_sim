@@ -1,0 +1,121 @@
+{
+  "scope": "Read-only stability diagnosis, including closed rejected episodes.\n\nUses recorded 30 Hz object pose differences and the independent production\nstability policy. This does not change acceptance or infer native contact forces.\n",
+  "training_ready": false,
+  "source": "/home/midea/Desktop/piper_sim/outputs/rim_packed_raw_v1/seed0/episode/episode.h5",
+  "source_sha256": "462199b405c4aaa9315c6dc456fc6ff71b14743b91d44dcdf19f7c9818365569",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy.yaml",
+    "sha256": "a8b2fc8c29bc7135a14f2db1efacba50eba9a5960aff4bf24ea439e075727089"
+  },
+  "window_start_end_sim_time": [
+    262.7666666681021,
+    268.7666666680148
+  ],
+  "samples": 181,
+  "thresholds": {
+    "final_stable_hold_s": 1.0,
+    "final_object_speed_m_s": 0.01,
+    "final_object_angular_speed_rad_s": 0.1
+  },
+  "objects": {
+    "plate": {
+      "linear_speed_max_m_s": 9.35997515617902e-05,
+      "angular_speed_max_rad_s": 0.0005694227191417662,
+      "local_x_angular_component_max_rad_s": 0.00053425378677957,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "bowl": {
+      "linear_speed_max_m_s": 7.174534687883754e-05,
+      "angular_speed_max_rad_s": 0.0014034074679942809,
+      "local_x_angular_component_max_rad_s": 0.0002991642998455227,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "spoon": {
+      "linear_speed_max_m_s": 0.0001876258576344937,
+      "angular_speed_max_rad_s": 0.0017102524584727773,
+      "local_x_angular_component_max_rad_s": 0.0016895292142695953,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "chopstick_a": {
+      "linear_speed_max_m_s": 0.0001406328573352162,
+      "angular_speed_max_rad_s": 0.017405970727581592,
+      "local_x_angular_component_max_rad_s": 0.017387877671359284,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "chopstick_b": {
+      "linear_speed_max_m_s": 0.0011675054952711948,
+      "angular_speed_max_rad_s": 0.31768253853225104,
+      "local_x_angular_component_max_rad_s": 0.3176620879141325,
+      "last_second_unstable_intervals": 6,
+      "unstable_interval_end_times_s": [
+        263.233333334762,
+        263.26666666809484,
+        263.4333333347591,
+        263.46666666809193,
+        265.2333333347329,
+        265.3000000013986,
+        265.76666666805846,
+        265.83333333472416,
+        266.533333334714,
+        266.5666666680468,
+        266.60000000137967,
+        266.73333333471106,
+        266.7666666680439,
+        267.400000001368,
+        267.4333333347009,
+        267.8000000013622,
+        267.9333333346936,
+        268.03333333469214,
+        268.5666666680177,
+        268.60000000135057,
+        268.6333333346834
+      ]
+    },
+    "side_dish": {
+      "linear_speed_max_m_s": 0.0001012615320088399,
+      "angular_speed_max_rad_s": 0.0005676377864165285,
+      "local_x_angular_component_max_rad_s": 0.0005627754649726348,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "cup_00": {
+      "linear_speed_max_m_s": 0.00014994063112733596,
+      "angular_speed_max_rad_s": 0.0007146536632705098,
+      "local_x_angular_component_max_rad_s": 0.0006103127667273107,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "cup_01": {
+      "linear_speed_max_m_s": 0.0001605798973035792,
+      "angular_speed_max_rad_s": 0.001306102070774563,
+      "local_x_angular_component_max_rad_s": 0.0009329587935392637,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "pen": {
+      "linear_speed_max_m_s": 0.0001163008064830756,
+      "angular_speed_max_rad_s": 0.00047148253603896724,
+      "local_x_angular_component_max_rad_s": 0.00043091909626312837,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    },
+    "charger": {
+      "linear_speed_max_m_s": 0.00012113095681365168,
+      "angular_speed_max_rad_s": 0.00044255184387461386,
+      "local_x_angular_component_max_rad_s": 0.0004021809458052225,
+      "last_second_unstable_intervals": 0,
+      "unstable_interval_end_times_s": []
+    }
+  },
+  "longest_all_contained_stable_s": 1.73333333330811,
+  "ending_all_contained_stable_s": 0.13333333333139308,
+  "limitations": [
+    "Pose differences at recording rate; native object velocities/substep extrema are not present.",
+    "A component along local X diagnoses axial rotation; it does not establish the force or cause."
+  ],
+  "script_sha256": "ad5eeebe125c5d3c744a1d0eeca209d72c39d76ebec6e1c096de5961825f508c"
+}

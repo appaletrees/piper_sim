@@ -3,6 +3,86 @@
 最新审计、已知限制和各版本复测结果见 [平台审计](platform_audit.md)。下文的早期
 105 项／135 项测试和旧版成功率保留作历史记录，不代表当前版本的验收结论。
 
+## 2026-11-11 盘子抓持与入篮配置
+
+本轮使用以下三个显式配置，命令行缺省值仍保留旧实验行为：
+
+- 后端：`configs/clean_table_position_execution_rim25_damped.yaml`，整回合固定位置执行器和指垫材料。
+- 策略：`configs/collection/clean_table_rim_damped.yaml`，平滑离桌、实测抓持变换规划、低位放盘。
+- 任务：`configs/tasks/clean_table_rigid_bowl_clearance.yaml`，只将碗的篮内目标向内移动 40 mm，避开筷子区域；初始布局、尺寸、CAD 和相机不变。
+
+`clean_table_rim_damped_lzf.yaml` 只将图像存储改为 LZF 无损压缩，动作、物理和门限
+与上述策略相同，适合优先考虑录制吞吐的采集。GZIP 版本通常占用更少磁盘。
+
+独立审核仍使用 `configs/collection/quality_policy_tcp.yaml`。已通过的三相机完整回合
+与失败样例均在平台审计中列出；有限 seed 的通过不能作为任意布局成功率承诺。
+状态预检不能用于视觉训练，批量入口仍只发布通过完整 RGB 审核的回合。
+
+```bash
+# 完整三相机录制；更换 seed 和输出目录可采集新的随机回合
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/demo_clean_table.py \
+  --config configs/clean_table_position_execution_rim25_damped.yaml \
+  --task-scene configs/tasks/clean_table_rigid_bowl_clearance.yaml \
+  --collection-profile configs/collection/clean_table_rim_damped_lzf.yaml \
+  --acceptance-policy configs/collection/quality_policy_tcp.yaml \
+  --domain-randomization configs/domain_randomization/clean_table.yaml \
+  --seed 1 --record --rgb --output outputs/stable_table_rgb_001
+
+# 先状态预检，再录制 RGB；仅合格回合转换为 LeRobot v2.1
+PYTHONPATH=src MUJOCO_GL=egl .venv-mujoco/bin/python scripts/collect_clean_table.py \
+  --config configs/clean_table_position_execution_rim25_damped.yaml \
+  --task-scene configs/tasks/clean_table_rigid_bowl_clearance.yaml \
+  --collection-profile configs/collection/clean_table_rim_damped_lzf.yaml \
+  --acceptance-policy configs/collection/quality_policy_tcp.yaml \
+  --seeds 0 1 2 3 --lerobot --output outputs/stable_table_batch_001
+```
+
+该配置的固定夹爪参数为 10000 N/m、120 Ns/m、25 N，固定 `impratio=1000`、
+`noslip_iterations=0`；没有随物体或阶段修改增益、力上限和材料。盘子释放预测须
+同时满足倾斜/落平轮廓离壁 12 mm、整个盘面低于篮沿 5 mm，并检查手爪张开扫掠
+及完整搬运路径。位置动作和记录保持 30 Hz，原生物理步约 960 Hz。
+这些是仿真配置，未声称 25 N 已与定制真机夹爪完成标定。
+
+以下为通用接口及早期配置说明；复现本轮结果时，应保留上面的显式配置参数。
+
+### 运动速度、视频倍速与采集吞吐
+
+目前可在策略 YAML 中调整实际运动速度，但没有经过验证的统一“2 倍动作速度”开关。
+使用 `--collection-profile` 选择策略；复制当前策略到新文件后修改，保留原配置作为对照。
+当前 `clean_table_rim_damped_lzf.yaml` 中的主要参数如下：
+
+| 参数 | 当前值 | 作用 |
+| --- | ---: | --- |
+| `motion.joint_velocity_rad_s` | 1.0 | 普通关节运动速度上限 |
+| `motion.joint_acceleration_rad_s2` / `joint_jerk_rad_s3` | 2.5 / 20 | 加速度与 jerk 上限，规划器据此延长轨迹 |
+| `pacing.cartesian_speed_m_s` | 0.25 | 一般笛卡尔路径的时长预算 |
+| `pacing.contact_speed_m_s` | 0.06 | 接近接触时的路径时长预算 |
+| `pacing.rim_transport.transfer_speed_m_s` | 0.15 | 盘子转运路径的时长预算 |
+| `pacing.rim_transport.lower_speed_m_s` | 0.06 | 盘子落篮路径的时长预算 |
+| `pacing.rim_lift_limits` | 0.25 / 0.6 / 4 | 盘子离桌时关节速度/加速度/jerk 上限 |
+
+笛卡尔速度是规划输入，不是保证达到的执行速度；轨迹还受关节、TCP、碰撞与抓持限制。
+最新合格回合普通关节的峰值已达到 0.995 rad/s、2.429 rad/s²、19.454 rad/s³，接近
+独立审核限值，不能直接把整个动作按 2 倍压缩。相同几何轨迹若时间减半，速度、加速度、
+jerk 分别变成 2、4、8 倍。提高保守阶段的速度需要重新执行完整状态预检和三相机审核；
+不能提高验收门限、改记录时间戳或把抽帧视频当作更快的训练轨迹。
+
+若仅想更快看演示，在上面的 `demo_clean_table.py` 命令中增加：
+
+```bash
+--video --video-speed 2
+```
+
+这会生成带 `2x PREVIEW` 标识的 `demo.mp4`：通过降低预览取帧频率实现倍速，输出视频
+仍为 15 fps。它不改变物理时间、控制频率或三路 HDF5 数据；`--video-speed` 不控制 viewer。
+训练录制保持 30 Hz；增加录制频率本身也不会使动作更快。完整原速传感器审看视频可由
+`scripts/export_full_sensor_rgb.py` 导出，该工具固定 1x / 30 Hz，保留所有 observation 帧。
+
+LZF 无损压缩、相机后处理线程与批量 worker 用于提高计算吞吐，也不缩短仿真动作时长。
+当前回归尚未提供可保证通过质量门限的“快速采集档”。
+
+## 早期配置与通用接口
+
 当前演示入口使用 `configs/tasks/clean_table_rigid.yaml`：移除纸团、毛巾、餐垫和左侧纸篓，
 保留六件餐具，加入 2–3 只纸杯、笔、充电头。杯子先在桌面套叠，再整摞入右篮；碗直接入篮。
 纸杯沿用照片参考的 80 mm 杯口、56 mm 杯底、95 mm 高的空心模型。

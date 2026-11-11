@@ -1,0 +1,80 @@
+{
+  "scope": "Synthetic normal-contact parameter check; not robot calibration, replay or training data.",
+  "training_ready": false,
+  "mujoco_version": "3.3.7",
+  "same_zero_velocity_contact_force": true,
+  "normal_force_velocity_slope_ratio": 2.0000000000001537,
+  "profiles": [
+    {
+      "profile": "configs/physics/mujoco_fixed_fingers.yaml",
+      "profile_sha256": "804ea2c4f69c5ea9487a6affdd5367fe0ebb6ca98b9bf6740f1177315bc56e2b",
+      "solref": [
+        0.01,
+        1.0
+      ],
+      "solimp": [
+        0.95,
+        0.99,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "samples": [
+        {
+          "synthetic_velocity_z_m_s": -0.01,
+          "distance_m": -0.0010000000000000009,
+          "normal_force_N": 2.1711899999999846,
+          "reference_acceleration_m_s2": 12.121212121212128
+        },
+        {
+          "synthetic_velocity_z_m_s": 0.0,
+          "distance_m": -0.0010000000000000009,
+          "normal_force_N": 1.9711899999999967,
+          "reference_acceleration_m_s2": 10.10101010101011
+        },
+        {
+          "synthetic_velocity_z_m_s": 0.01,
+          "distance_m": -0.0010000000000000009,
+          "normal_force_N": 1.7711900000000087,
+          "reference_acceleration_m_s2": 8.08080808080809
+        }
+      ]
+    },
+    {
+      "profile": "configs/physics/mujoco_damped_fingers.yaml",
+      "profile_sha256": "67b134ae4448de6374ca36d2f81de2c34f0526195f99aa9f9c34fc162b6164f3",
+      "solref": [
+        0.005,
+        2.0
+      ],
+      "solimp": [
+        0.95,
+        0.99,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "samples": [
+        {
+          "synthetic_velocity_z_m_s": -0.01,
+          "distance_m": -0.0010000000000000009,
+          "normal_force_N": 2.371190000000008,
+          "reference_acceleration_m_s2": 14.141414141414149
+        },
+        {
+          "synthetic_velocity_z_m_s": 0.0,
+          "distance_m": -0.0010000000000000009,
+          "normal_force_N": 1.9711899999999967,
+          "reference_acceleration_m_s2": 10.10101010101011
+        },
+        {
+          "synthetic_velocity_z_m_s": 0.01,
+          "distance_m": -0.0010000000000000009,
+          "normal_force_N": 1.5711899999999945,
+          "reference_acceleration_m_s2": 6.060606060606069
+        }
+      ]
+    }
+  ],
+  "script_sha256": "6f81fd820a96241ece56c35f8a6fcd0fa2f9c22d61a3567b7de6563c8d17eca6"
+}
