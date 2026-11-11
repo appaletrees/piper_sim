@@ -17,6 +17,7 @@ from .grasp_clearance import validate_profile as grasp_clearance_profile
 from .tcp_limits import validate_limits as tcp_limits_profile, speed_constraint, measured_violations
 from .gripper_preload import validate_profile as preload_profile, relax_preload
 from .geometric_capture import validate_profile as capture_profile, closure_target
+from .rim_transport import validate_profile as rim_transport_profile
 from .quality import MotionQuality
 from .collision import robot_penetration, carried_obstacle_penetration, carried_obstacle_clearance, robot_obstacle_clearance
 from ..transforms import pose_matrix
@@ -65,6 +66,20 @@ class CleanTableTeacher:
         self.bounded_loaded_path = loaded_path_limits(self.pacing.get('bounded_loaded_path'))
         self.placement_search = placement_search_profile(self.pacing.get('placement_search'))
         self.grasp_clearance = grasp_clearance_profile(self.pacing.get('grasp_approach_clearance'))
+        self.rim_transport = rim_transport_profile(self.pacing.get('rim_transport'))
+        if self.rim_transport and (self.mode != 'physical' or not self.pacing.get('continuous_paths')
+                                   or getattr(self.b, 'position_execution', None) is None):
+            raise ValueError('Measured rim transport requires continuous physical paths and backend-owned position execution')
+        self.rim_alignment = copy.deepcopy(self.pacing.get('rim_alignment'))
+        if self.rim_alignment is not None:
+            a=self.rim_alignment
+            if (not isinstance(a,dict) or set(a)!={'angle_deg','gap_m','speed_m_s'}
+                    or any(isinstance(v,bool) or not isinstance(v,(int,float)) or not np.isfinite(v) for v in a.values())
+                    or not 1 <= a['angle_deg'] <= 35 or not 0 <= a['gap_m'] <= .01
+                    or not .01 <= a['speed_m_s'] <= .06):
+                raise ValueError('Invalid measured rim alignment profile')
+            if not self.rim_transport or not self.bounded_loaded_path:
+                raise ValueError('Rim alignment requires physical measured-frame transport and bounded loaded paths')
         if self.grasp_clearance and (self.mode != 'physical' or not self.pacing.get('continuous_paths')):
             raise ValueError('Grasp clearance requires continuous physical paths')
         self.release_preload_m = float(self.pacing.get('release_preload_threshold_m', .003))
@@ -180,6 +195,14 @@ class CleanTableTeacher:
                 'scope': 'Scratch collision scan at measured pose, followed by ordinary bounded position commands.',
                 'parameter_origin': 'uncalibrated_geometric_overtravel',
                 'verification': 'Existing actual bilateral force, slip and motion gates retained.'}
+        if self.rim_transport:
+            value['rim_transport'] = {**self.rim_transport,
+                'scope': 'Measured hand-frame placement; bounded yaw/tilt proposals, vertical clearance and sampled support.',
+                'execution': 'Only ordinary bounded public position commands; original contact/slip/motion gates retained.'}
+        if self.rim_alignment:
+            value['rim_alignment']={**self.rim_alignment,
+                'scope':'Measured tilted plate and original collision vertices; rigid-grasp planning hypothesis only.',
+                'execution':'Bounded public position commands with original actual contact, slip, collision and motion gates.'}
         return value
 
     def event(self, phase, **fields):
@@ -373,7 +396,8 @@ class CleanTableTeacher:
             self.step()
         self.settle()
 
-    def plan_pose_path(self, side, poses, *, speed=None, start=None, diagnostics=None, neighbor_clearance=0.):
+    def plan_pose_path(self, side, poses, *, speed=None, start=None, diagnostics=None, neighbor_clearance=0.,
+                       bounded=False):
         """Return a checked trajectory without advancing state or control.
 
         An explicit start supports candidate evaluation from a planned pregrasp.
@@ -402,9 +426,16 @@ class CleanTableTeacher:
             start, rotation = target, target_r
         duration = 2.1875*length/(speed or self.pacing['cartesian_speed_m_s'])
         constraint = self.tcp_speed_constraint(side, initial)
-        trajectory = path_trajectory(points, 1/self.fps, seconds=duration,
-                                     speed_ratio=constraint, **self.motion_limits())
-        interpolation = 'natural'
+        if bounded:
+            if self.carried is None or not self.bounded_loaded_path:
+                raise ValueError('Explicit bounded interpolation requires a tracked payload and pose-fidelity limits')
+            trajectory, fidelity = self.bounded_loaded_trajectory(side, points, duration)
+            if diagnostics is not None: diagnostics['fidelity'] = fidelity
+            interpolation = 'convex'
+        else:
+            trajectory = path_trajectory(points, 1/self.fps, seconds=duration,
+                                         speed_ratio=constraint, **self.motion_limits())
+            interpolation = 'natural'
         if ((self.carried is None or self.bounded_loaded_path)
                 and (np.any(trajectory < LOWER) or np.any(trajectory > UPPER))
                 and np.all(np.asarray(points) >= LOWER) and np.all(np.asarray(points) <= UPPER)):
@@ -888,19 +919,50 @@ class CleanTableTeacher:
         if lifted < .06:
             raise SortFailure(f'{name} did not lift: {lifted:.3f} m')
         self.event('transfer', lift_m=lifted)
+        if rim_grasp and self.rim_alignment:
+            from .rim_alignment import hand_path as alignment_hand_path
+            obj=self.b.data.body('task/'+name); hp,hr=self.tcp(side)
+            points=np.concatenate([np.asarray(part['points']) for part in self.b.task.parts[name] if part.get('collision')])
+            a=self.rim_alignment
+            poses,evidence=alignment_hand_path(obj.xpos,obj.xmat.reshape(3,3),hp,hr,points,
+                angle_deg=a['angle_deg'],support_z_m=self.b.task.table_top,gap_m=a['gap_m'])
+            diagnostics={}
+            trajectory=self.plan_pose_path(side,poses,speed=a['speed_m_s'],bounded=True,diagnostics=diagnostics)
+            self.event('rim_alignment',geometry=evidence,path=diagnostics)
+            for command in trajectory:
+                self.q=command
+                self.step()
+            self.settle()
+            self.event('transfer',lift_m=self.object_pose(name)['position'][2]-initial_z)
         if not rim_grasp and (not self.pacing.get('direct_transfer') or self.b.task.specs[name]['kind']=='side_dish'):
             self.pose(side, [.35,.12,.28] if side == 'left' else [.38,-.20,.32],
                       grasp_rotation(40,-25) if side == 'left' else grasp_rotation(45,15))
-        try:
-            _, high, low, place_r, q_high, q_low = self.placement(side, name, target)
-        except SortFailure:
-            if not self.pacing.get('direct_transfer') or rim_grasp: raise
-            self.pose(side, [.35,.12,.28] if side == 'left' else [.38,-.20,.32],
-                      grasp_rotation(40,-25) if side == 'left' else grasp_rotation(45,15))
-            _, high, low, place_r, q_high, q_low = self.placement(side, name, target)
-        self.move_joints(side, q_high, None if self.pacing else 2.5)
-        self.event('lower')
-        self.move_joints(side, q_low, None if self.pacing else 1.5)
+        if self.rim_transport and self.b.task.specs[name]['kind'] in self.rim_transport['kinds']:
+            from .rim_transport import search as rim_search
+            plan = rim_search(self, side, name, target, self.rim_transport)
+            self.events.append({'phase': 'placement_pose_selected', 'object': name,
+                                'sim_time': self.b.sim_time, **plan['evidence']})
+            high, low, place_r = plan['high'], plan['low'], plan['rotation']
+            for command in plan['transfer']:
+                self.q = command
+                self.step()
+            self.settle()
+            self.event('lower')
+            for command in plan['lower']:
+                self.q = command
+                self.step()
+            self.settle()
+        else:
+            try:
+                _, high, low, place_r, q_high, q_low = self.placement(side, name, target)
+            except SortFailure:
+                if not self.pacing.get('direct_transfer') or rim_grasp: raise
+                self.pose(side, [.35,.12,.28] if side == 'left' else [.38,-.20,.32],
+                          grasp_rotation(40,-25) if side == 'left' else grasp_rotation(45,15))
+                _, high, low, place_r, q_high, q_low = self.placement(side, name, target)
+            self.move_joints(side, q_high, None if self.pacing else 2.5)
+            self.event('lower')
+            self.move_joints(side, q_low, None if self.pacing else 1.5)
         self.event('open_gripper', object_pose=self.object_pose(name))
         self.releasing = (side, name)
         self.carried = None

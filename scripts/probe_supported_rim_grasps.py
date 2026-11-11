@@ -9,6 +9,7 @@ import argparse
 import copy
 import json
 from pathlib import Path
+from itertools import product
 
 import h5py
 import mujoco
@@ -35,7 +36,7 @@ def reject_open_target_intersection(teacher, commands):
     b=teacher.b;d=teacher.ik['right'].data;ids=b.indices['right']['qpos']
     target=b.model.body('task/plate').id
     fingers={b.model.body('right/link'+str(i)).id for i in (7,8)}
-    for before,after in zip(commands[:-1],commands[1:]):
+    for segment,(before,after) in enumerate(zip(commands[:-1],commands[1:])):
         count=max(2,int(np.ceil(np.max(abs(after[7:13]-before[7:13]))/.01)),
                   int(np.ceil(abs(after[13]-before[13])/.001)))
         for fraction in np.linspace(0.,1.,count+1):
@@ -45,12 +46,20 @@ def reject_open_target_intersection(teacher, commands):
             for c in d.contact:
                 bodies=set(b.model.geom_bodyid[c.geom])
                 if c.dist < -.00001 and target in bodies and bodies & fingers:
-                    raise SortFailure(f'Open approach intersects plate by {-c.dist:.6f} m')
+                    raise SortFailure(f'Open approach intersects plate by {-c.dist:.6f} m '
+                                      f'at segment {segment}, fraction {fraction:.3f}')
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('source', type=Path);p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--azimuths', type=float, nargs='+', default=[37., 0., -45., 90.])
+    p.add_argument('--grasp-tilts', type=float, nargs='+', default=[45., 60., 75.])
+    p.add_argument('--rolls', type=float, nargs='+', default=[90.])
+    p.add_argument('--radii', type=float, nargs='+', default=[float(np.hypot(.0687,.0518))])
+    p.add_argument('--heights', type=float, nargs='+', default=[.014])
+    p.add_argument('--jaw-centers', type=float, nargs='+', default=[0.],
+                   help='Shift grasp TCP along the jaw-opening axis, metres')
     args = p.parse_args()
     if args.output.exists(): raise FileExistsError(args.output)
     digest = sha256(args.source)
@@ -72,13 +81,15 @@ def main():
         t=RigidTableTeacher(SimulationSession(b),settings=meta['teacher']['motion_and_quality'])
         command=np.asarray(extra['controller_interval']['command']);t.q=command.copy();t.current='plate'
         initial=state(b);qids=b.indices['right']['qpos'];op=b.data.body('task/plate').xpos.copy();orr=b.data.body('task/plate').xmat.reshape(3,3).copy()
-        for azimuth in (37.,0.,-45.,90.):
-            for tilt in (45.,60.,75.):
-                row={'azimuth_deg':azimuth,'grasp_tilt_deg':tilt,'radius_m':float(np.hypot(.0687,.0518)),
-                     'height_m':.014,'roll_deg':90.,'opening_m':.025,'stage':'capture_geometry','passed':False}
+        for azimuth in args.azimuths:
+            for tilt, roll, radius, height, center in product(args.grasp_tilts, args.rolls, args.radii, args.heights, args.jaw_centers):
+                row={'azimuth_deg':azimuth,'grasp_tilt_deg':tilt,'radius_m':radius,
+                     'height_m':height,'roll_deg':roll,'jaw_center_shift_m':center,
+                     'opening_m':.025,'stage':'capture_geometry','passed':False}
                 trials.append(row)
-                a=np.deg2rad(azimuth);pos=op+orr@[-row['radius_m']*np.cos(a),-row['radius_m']*np.sin(a),.014]
-                rot=orr@grasp_rotation(tilt,azimuth,90)
+                a=np.deg2rad(azimuth);pos=op+orr@[-radius*np.cos(a),-radius*np.sin(a),height]
+                rot=orr@grasp_rotation(tilt,azimuth,roll)
+                pos=pos+center*rot[:,1]
                 try:
                     q=t.solve('right',pos,rot)
                     b.data.qpos[qids[:6]]=q;b.data.qpos[qids[6:]]=.0125;mujoco.mj_forward(b.model,b.data)
@@ -99,10 +110,25 @@ def main():
                     pre=t.solve('right',t.approach_position('plate',pos,rot,.035),rot,above)
                     t.check_joint_path('right',above,pre,gripper=(.025,.025))
                     start=command.copy();start[7:13]=pre;start[13]=.025
+                    # This is a future-state query in an isolated backend.
+                    # The descent's scratch checks retain the backend jaw pose;
+                    # use its planned 25 mm aperture, not the old bowl-release
+                    # aperture at the reconstructed approach boundary.
+                    b.data.qpos[qids[6:]]=.0125
                     descent=t.plan_pose_path('right',[(pos,rot)],start=start,speed=t.pacing['contact_speed_m_s'])
                     above_command=command.copy();above_command[7:13]=above;above_command[13]=.025
                     reject_open_target_intersection(t,np.vstack([command,above_command,start,descent]))
                     row['stage']='supported_tilt_hypothesis'
+                    # Re-evaluate capture on the actual final IK branch rather
+                    # than the independent initial pose-screen solution.
+                    q=descent[-1,7:13]
+                    b.data.qpos[qids[:6]]=q;mujoco.mj_forward(b.model,b.data)
+                    capture=closure_target(b.model,b.data,t.ik['right'].data,jaw_qpos=qids[6:],
+                        finger_bodies=[b.model.body('right/link'+str(i)).id for i in (7,8)],
+                        object_body=b.model.body('task/plate').id,
+                        profile={'scan_step_m':.0001,'overtravel_m':.0003})
+                    if capture['already_bilateral_at_start']:raise SortFailure('Final open approach already intersects both fingers')
+                    row['capture_after_approach']=capture
                     b.data.qpos[qids[:6]]=q;b.data.qpos[qids[6:]]=capture['bilateral_width_m']/2;mujoco.mj_forward(b.model,b.data)
                     t.q[7:13]=q;t.q[13]=0.;t.phase='lift';t.track_grasp('right','plate')
                     hp,hr=t.tcp('right');obj=b.data.body('task/plate')
@@ -115,7 +141,7 @@ def main():
                     mujoco.mj_setState(b.model,b.data,initial,mujoco.mjtState.mjSTATE_INTEGRATION)
                     t.q=command.copy();t.carried=None;t.phase='approach'
                     if not np.array_equal(initial,state(b)):raise RuntimeError('Isolated state restoration failed')
-                print(json.dumps({k:v for k,v in row.items() if k not in ('plan','capture')}),flush=True)
+                print(json.dumps({k:v for k,v in row.items() if k not in ('plan','capture','capture_after_approach')}),flush=True)
     finally:b.close()
     if sha256(args.source)!=digest:raise ValueError('Source changed')
     atomic_json(args.output,{'scope':__doc__,'source':str(args.source),'source_sha256':digest,

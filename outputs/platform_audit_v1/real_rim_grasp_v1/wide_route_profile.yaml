@@ -1,0 +1,176 @@
+# Experimental wider world-yaw route search after measured rim alignment.
+schema_version: 2
+controller:
+  gripper_kp_N_per_m: 1000.0
+  gripper_kv_Ns_per_m: 120.0
+  gripper_force_limit_N: 5.0
+  finger_contact_time_constant_s: 0.01
+motion:
+  joint_velocity_rad_s: 1.0
+  joint_acceleration_rad_s2: 2.5
+  joint_jerk_rad_s3: 20.0
+  gripper_velocity_m_s: 0.06
+  gripper_acceleration_m_s2: 0.18
+  gripper_jerk_m_s3: 1.5
+  settle_error_rad: 0.035
+  settle_velocity_rad_s: 0.04
+  settle_hold_s: 0.1
+  settle_timeout_s: 2.0
+pacing:
+  geometric_capture:
+    kinds:
+    - chopstick
+    - pen
+    scan_step_m: 0.0001
+    overtravel_m: 0.0003
+  grasp_preload:
+    kinds:
+    - chopstick
+    - pen
+    target_tracking_error_m: 0.0003
+    min_tracking_error_m: 0.0002
+    max_tracking_error_m: 0.0004
+    max_iterations: 6
+  grasp_approach_clearance:
+    kinds:
+    - chopstick
+    margin_m: 0.001
+    extra_long_axis_fractions:
+    - -0.3
+    - 0.3
+    - -0.4
+    - 0.4
+  tcp_limits:
+    linear_speed_m_s: 0.25
+    angular_speed_rad_s: 1.5
+    planning_fraction: 0.95
+  rigid_sort_order:
+  - chopstick_a
+  - chopstick_b
+  - pen
+  - charger
+  - spoon
+  - bowl
+  - plate
+  - side_dish
+  placement_search:
+    kinds:
+    - chopstick
+    - side_dish
+    xy_radius_m: 0.05
+    xy_step_m: 0.025
+    wall_margin_m: 0.012
+    support_gap_m: 0.01
+    extra_release_heights_m:
+    - 0.0
+    - 0.015
+    - 0.03
+    - 0.06
+    max_candidates: 216
+    slender_surface_spacing_m: 0.005
+  bounded_loaded_path:
+    max_position_deviation_m: 0.002
+    max_rotation_deviation_rad: 0.01
+    max_refinements: 2
+  continuous_paths: true
+  direct_transfer: true
+  direct_next_object: true
+  minimum_move_s: 0.15
+  minimum_grip_s: 0.2
+  cartesian_speed_m_s: 0.25
+  contact_speed_m_s: 0.06
+  grasp_height_offsets_m:
+  - 0.0
+  - 0.002
+  - 0.004
+  slender_pregrasp_clearance_m: 0.001
+  unloaded_transit_clearance_m: 0.002
+  unloaded_transit_rises_m:
+  - 0.02
+  - 0.04
+  - 0.06
+  payload_transport_clearance_m_by_kind:
+    chopstick: 0.006
+  grip_hold_s: 0.15
+  grasp_hold_s: 0.1
+  release_hold_s: 0.15
+  placement_hold_s: 0.35
+  final_settle_timeout_s: 5.0
+  rim_load_limits:
+    joint_velocity_rad_s: 0.5
+    joint_acceleration_rad_s2: 1.2
+    joint_jerk_rad_s3: 8.0
+  closing_limits:
+    velocity: 0.04
+    acceleration: 0.12
+    jerk: 1.0
+  loaded_limits_by_kind:
+    side_dish:
+      joint_velocity_rad_s: 0.3
+      joint_acceleration_rad_s2: 0.6
+      joint_jerk_rad_s3: 4
+  rim_transport:
+    kinds:
+    - plate
+    yaw_offsets_deg:
+    - 0
+    - -30
+    - 30
+    - -60
+    - 60
+    - -90
+    - 90
+    - -120
+    - 120
+    - -135
+    - 135
+    xy_step_m: 0.025
+    wall_margin_m: 0.012
+    support_gap_m: 0.01
+    rim_clearance_m: 0.035
+    transfer_speed_m_s: 0.15
+    lower_speed_m_s: 0.04
+    max_path_orientation_error_rad: 0.02
+    max_candidates: 256
+    tilt_offsets_deg:
+    - 0
+    - -10
+    - -20
+  rim_alignment:
+    angle_deg: 25.0
+    gap_m: 0.008
+    speed_m_s: 0.04
+quality:
+  measured_velocity_rad_s: 1.2
+  measured_acceleration_rad_s2: 8.0
+  measured_jerk_rad_s3: 200.0
+  measured_gripper_velocity_m_s: 0.08
+  measured_gripper_acceleration_m_s2: 1.0
+  measured_gripper_jerk_m_s3: 50.0
+  tracking_error_rad: 0.1
+  hold_velocity_rms_rad_s: 0.025
+  hold_gripper_velocity_rms_m_s: 0.003
+  max_robot_penetration_m: 0.004
+dataset:
+  extras_storage: compressed
+  image_compression: gzip
+  image_storage: shared
+  flush_every: 1
+  min_free_disk_gib: 5.0
+  required_cameras:
+  - overhead
+  - left_wrist
+  - right_wrist
+  min_frames: 150
+  max_duration_s: 300.0
+  timestamp_tolerance_s: 1.0e-06
+  max_grasp_slip_m: 0.012
+  max_contact_loss_s: 0.2
+  min_bilateral_contact_fraction: 0.98
+  final_stable_hold_s: 1.0
+  final_object_speed_m_s: 0.01
+  final_object_angular_speed_rad_s: 0.1
+  min_image_luma_std: 1.0
+  max_image_clipped_fraction: 0.995
+  max_bad_image_fraction: 0.01
+  max_identical_image_fraction: 0.98

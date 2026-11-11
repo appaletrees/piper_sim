@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/midea/Desktop/piper_sim/scripts/probe_plate_regrasp.py", line 91, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/midea/Desktop/piper_sim/scripts/probe_plate_regrasp.py", line 50, in main
+    hp,hr=t.tcp('right');q=t.solve('right',hp+[0,args.shift_y,0],hr)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/midea/Desktop/piper_sim/src/piper_sim/experts/clean_table.py", line 635, in solve
+    raise SortFailure(f'{side} IK failed at {np.round(position,4).tolist()}: '
+piper_sim.experts.clean_table.SortFailure: right IK failed at [0.322, 0.0742, 0.2172]: 4.6 mm, 4.0 deg

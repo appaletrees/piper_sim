@@ -1,0 +1,139 @@
+{
+  "scope": "Plot original payload wrench samples without smoothing or time rescaling.\n\nUse system Python with matplotlib. Inputs are audit_payload_wrench output\ndirectories. Each column has its own time origin; this is not a matched-state\ncausal comparison when controller parameters differ for the whole episode.\n",
+  "script_sha256": "37bbf1e540111db1a56f0ae98ac95969c230e4e198fb0e7a0e33152842d78907",
+  "cases": [
+    {
+      "label": "Vertical alignment",
+      "directory": "outputs/platform_audit_v1/real_rim_grasp_v1/seed1_wrench",
+      "series_sha256": "207c06020b19777a2ec3d95ea3736e0d7b000a69ed55f3de28ce2a197916a100",
+      "recording_sha256": "86befc2e9f35296a971f4143a9ba84523a88cbc58c71a64ddae493102f5a7ad0",
+      "trace_sha256": "8d91bf7244e4f32cbed7d841c7f7b4e696c72f5b09971c150909dc0192853795",
+      "native_samples": 11744,
+      "first_last_time": [
+        209.60000000094314,
+        221.83229166776556
+      ],
+      "segments": [
+        {
+          "phase": "grasp",
+          "samples": 2912,
+          "first_last_time": [
+            209.60000000094314,
+            212.63229166764842
+          ]
+        },
+        {
+          "phase": "lift",
+          "samples": 3680,
+          "first_last_time": [
+            212.6333333343151,
+            216.46562500103056
+          ]
+        },
+        {
+          "phase": "rim_alignment",
+          "samples": 5152,
+          "first_last_time": [
+            216.46666666769724,
+            221.83229166776556
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Reorient-and-lift seed1",
+      "directory": "outputs/platform_audit_v1/real_rim_grasp_v1/route_seed1_wrench",
+      "series_sha256": "e2b0d430854a14c3438b52d97ee69ef3b2db54e76b911f6e50c3078f48d178ce",
+      "recording_sha256": "f57cc386a4dcf1c0e634ca26f41420df6f29ebab6fbbafdb849f1d794fdb7f85",
+      "trace_sha256": "b8b87debd482626d4c0ab91ed7392131ff8b7040ac5f1f834b618837e76746d7",
+      "native_samples": 15744,
+      "first_last_time": [
+        209.60000000094314,
+        225.99895833448528
+      ],
+      "segments": [
+        {
+          "phase": "grasp",
+          "samples": 2912,
+          "first_last_time": [
+            209.60000000094314,
+            212.63229166764842
+          ]
+        },
+        {
+          "phase": "lift",
+          "samples": 3680,
+          "first_last_time": [
+            212.6333333343151,
+            216.46562500103056
+          ]
+        },
+        {
+          "phase": "rim_alignment",
+          "samples": 5152,
+          "first_last_time": [
+            216.46666666769724,
+            221.83229166776556
+          ]
+        },
+        {
+          "phase": "transfer",
+          "samples": 4000,
+          "first_last_time": [
+            221.83333333443224,
+            225.99895833448528
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Reorient-and-lift seed3",
+      "directory": "outputs/platform_audit_v1/real_rim_grasp_v1/route_seed3_wrench",
+      "series_sha256": "6e13e87153280442236431083f60a1eb733ef3b64c962085df3fa8d6c6b0378a",
+      "recording_sha256": "73fbab46d2beb423c7a393a1ae1e5ad5d2713ca213b93d67d7ca5a8c03560bb2",
+      "trace_sha256": "fbbb6ece81f7eabd9f26ddaaad9d8300adf42fa86d06caa55a61abf38e40b99f",
+      "native_samples": 16992,
+      "first_last_time": [
+        179.46666666722612,
+        197.16562500078481
+      ],
+      "segments": [
+        {
+          "phase": "grasp",
+          "samples": 2912,
+          "first_last_time": [
+            179.46666666722612,
+            182.4989583339314
+          ]
+        },
+        {
+          "phase": "lift",
+          "samples": 5472,
+          "first_last_time": [
+            182.50000000059808,
+            188.19895833400398
+          ]
+        },
+        {
+          "phase": "rim_alignment",
+          "samples": 4288,
+          "first_last_time": [
+            188.20000000067066,
+            192.66562500072752
+          ]
+        },
+        {
+          "phase": "transfer",
+          "samples": 4320,
+          "first_last_time": [
+            192.6666666673942,
+            197.16562500078481
+          ]
+        }
+      ]
+    }
+  ],
+  "plot_sha256": "b94634415e9edec4a5d42aa7ee2eb13236a32473ec85a41bb18372b1c0d9c6e7",
+  "training_ready": false,
+  "processing": "Every original sample; time origin shifted independently; lines broken at phase or sampling gaps."
+}

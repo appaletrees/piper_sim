@@ -148,7 +148,11 @@ def main(*, before_step=None, extra_metadata=None):
                         help='Also retain selected task objects versus support contacts')
     parser.add_argument('--trace-payload-wrench', action='store_true',
                         help='Read selected body COM and pose at the original force evaluation')
+    parser.add_argument('--trace-max-steps', type=int, default=30000)
+    parser.add_argument('--trace-max-contacts', type=int, default=1000000)
     args, forwarded = parser.parse_known_args()
+    if not 1 <= args.trace_max_steps <= 1000000 or not 1 <= args.trace_max_contacts <= 10000000:
+        parser.error('Positive bounded trace capacities required')
     if args.trace_payload_wrench and not args.trace_task_contacts:
         parser.error('Payload wrench trace requires --trace-task-contacts')
     args.trace_output.mkdir(parents=True, exist_ok=False)
@@ -159,6 +163,7 @@ def main(*, before_step=None, extra_metadata=None):
     metadata = {'command': forwarded, 'selected_objects': sorted(objects),
                 'includes_task_contacts': args.trace_task_contacts,
                 'selected_phases': sorted(phases), 'script_sha256': sha256(Path(__file__)),
+                'capacity': {'native_steps': args.trace_max_steps, 'contacts': args.trace_max_contacts},
                 'scope': 'Read-only force diagnostic of fresh physical rollout; no additional forwards or state writes.'}
     if extra_metadata is not None:
         metadata['experiment'] = extra_metadata
@@ -191,7 +196,9 @@ def main(*, before_step=None, extra_metadata=None):
                          (args.trace_task_contacts and model.body(int(model.geom_bodyid[i])).name in
                           {'task/'+name for name in objects}))]
             payloads = [model.body('task/'+name).id for name in sorted(objects)] if args.trace_payload_wrench else ()
-            tracer = ContactTrace(model, ids['qpos'], ids['dof'], ids['ctrl'], geoms, payload_bodies=payloads)
+            tracer = ContactTrace(model, ids['qpos'], ids['dof'], ids['ctrl'], geoms,
+                                  max_steps=args.trace_max_steps, max_contacts=args.trace_max_contacts,
+                                  payload_bodies=payloads)
         row = tracer.before(data)
         value = original_step(model, data, *a, **kw)
         tracer.after(data, row, current.phase, current.current)
