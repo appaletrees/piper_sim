@@ -18,7 +18,7 @@ PROFILE = {'schema_version': 1, 'bias_compensation': 'robot_bias', 'gripper_kp_N
            'gripper_kv_Ns_per_m': 120., 'gripper_force_limit_N': 5., 'noslip_iterations': 0}
 
 
-def model_and_executor():
+def model_and_executor(profile=PROFILE):
     bodies, actuators = [], []
     for side in ('left', 'right'):
         for i in range(1, 9):
@@ -29,7 +29,7 @@ def model_and_executor():
                 actuators.append(f'<position name="{actuator}" joint="{name}" kp="200" kv="20" ctrlrange="-2 2" forcerange="-50 50"/>')
     model = mujoco.MjModel.from_xml_string('<mujoco><worldbody>'+''.join(bodies)+'</worldbody><actuator>'+''.join(actuators)+'</actuator></mujoco>')
     indices = {s: {'ctrl': list(range(7*k, 7*k+7)), 'dof': list(range(8*k, 8*k+8))} for k, s in enumerate(('left', 'right'))}
-    executor = MujocoPositionExecution(model, indices, PROFILE)
+    executor = MujocoPositionExecution(model, indices, profile)
     data = mujoco.MjData(model)
     mujoco.mj_forward(model, data)
     return model, data, executor
@@ -60,14 +60,16 @@ def test_undeclared_changes_fail_before_integration(change):
 
 
 @pytest.mark.parametrize('key,value', [('gripper_force_limit_N', 0), ('gripper_kp_N_per_m', np.nan),
-    ('schema_version', True), ('noslip_iterations', True), ('bias_compensation', 'teacher_target')])
+    ('schema_version', True), ('noslip_iterations', True), ('bias_compensation', 'teacher_target'),
+    ('impratio',True),('impratio',float('nan')),('impratio',0),('impratio',1001)])
 def test_invalid_profile_rejected(key, value):
     profile = {**PROFILE, key: value}
     with pytest.raises(ValueError): validate_profile(profile)
 
 
-def fixture_episode(tmp_path):
+def fixture_episode(tmp_path, *, impratio=None):
     profile = {**PROFILE, 'bias_compensation': 'none'}
+    if impratio is not None:profile['impratio']=impratio
     kp = np.full(14, 200.);kp[[6, 13]] = 1000.
     kv = np.full(14, 20.);kv[[6, 13]] = 120.
     limits = np.tile([-50., 50.], (14, 1));limits[[6, 13]] = [-5., 5.]
@@ -75,6 +77,7 @@ def fixture_episode(tmp_path):
     declaration = {'schema_version': SCHEMA, 'constant_within_episode': True, 'profile': profile,
         'profile_sha256': profile_digest(profile), 'implementation_sha256': hashlib.sha256(implementation.read_bytes()).hexdigest(),
         'position_gain': kp.tolist(), 'velocity_gain': kv.tolist(), 'actuator_force_range': limits.tolist()}
+    if impratio is not None:declaration['solver']={'impratio':impratio,'noslip_iterations':0,'multiccd':True}
     metadata = {'config': {'mujoco': {'position_execution': profile, 'controller': {'mode': 'zero_order_observed'}}},
                 'physics_model': {'position_execution': declaration, 'controller': {'mode': 'zero_order_observed'}}}
     path = tmp_path/'execution.h5';q = np.array([0, .2, -.2, 0, 0, 0, .04]*2)
@@ -83,6 +86,7 @@ def fixture_episode(tmp_path):
             execution = {'schema_version': INTERVAL_SCHEMA, 'profile_sha256': profile_digest(profile),
                 'start_sim_time': i/30, 'end_sim_time': (i+1)/30, 'applied_robot_generalized_force': [0.]*16,
                 'nonrobot_applied_force_abs_max': 0., 'external_body_force_abs_max': 0., 'noslip_iterations': 0}
+            if impratio is not None:execution['impratio']=impratio
             controller = {k: copy.deepcopy(declaration[k]) for k in ['position_gain', 'velocity_gain', 'actuator_force_range']}
             controller['command'] = q.tolist()
             controller['mode'] = 'zero_order_observed'
@@ -99,6 +103,26 @@ def test_complete_fixed_execution_is_accepted_independently_of_task_success(tmp_
         result = audit_position_execution(f, metadata)
     assert result['passed'] and result['checked_intervals'] == 3
     assert len(result['gripper_regime_segments']) == 1
+
+
+def test_nondefault_friction_impedance_is_fixed_reported_and_guarded():
+    model,data,executor=model_and_executor({**PROFILE,'impratio':1000.})
+    assert model.opt.impratio==1000.
+    executor.reset();executor.begin(data)
+    assert executor.metadata()['solver']['impratio']==1000.
+    assert executor.telemetry()['impratio']==1000.
+    model.opt.impratio=100.
+    with pytest.raises(RuntimeError,match='solver settings'):executor.finish(data)
+
+
+def test_independent_audit_rejects_one_hidden_friction_impedance_interval(tmp_path):
+    path,meta=fixture_episode(tmp_path,impratio=1000.)
+    with h5py.File(path) as f:assert audit_position_execution(f,meta)['passed']
+    with h5py.File(path,'r+') as f:
+        e=json.loads(f['next_observation/extras_json'][1]);e['position_execution_interval']['impratio']=10.
+        f['next_observation/extras_json'][1]=json.dumps(e)
+    with h5py.File(path) as f:r=audit_position_execution(f,meta)
+    assert not r['passed'] and 'undeclared_solver_or_external_force' in r['violations']
 
 
 @pytest.mark.parametrize('fault,expected', [

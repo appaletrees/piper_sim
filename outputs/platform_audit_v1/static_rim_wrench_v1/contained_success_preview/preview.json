@@ -1,0 +1,38 @@
+{
+  "scope": "Render a 1x diagnostic phase interval from recorded native states.\n\nEvery selected 30 Hz state is displayed once. This is kinematic reconstruction,\nnot dynamics replay or original synchronized sensor RGB, and is never training\ndata. The source HDF5 and its acceptance fields remain read-only.\n",
+  "training_ready": false,
+  "source": "/home/midea/Desktop/piper_sim/outputs/rim_contained_scoped_raw_v1/seed3/episode/episode.h5",
+  "source_sha256": "e5f92f8428f336da2f604c012dc902bcd294613ee5ef416a9ddd3200a970c63f",
+  "script_sha256": "c1fa72028bdc47f52e6317ba387802f009ea9e8e2a7c402393041bb4367abb38",
+  "source_provenance_changes": [
+    "src/piper_sim/experts/rim_transport.py",
+    "src/piper_sim/experts/clean_table.py"
+  ],
+  "selection": {
+    "object": "plate",
+    "start_phase": "lift",
+    "end_phase": null,
+    "until_recording_end": true,
+    "lead_seconds": 0.5,
+    "view": "workcell"
+  },
+  "frame_range_exclusive": [
+    5526,
+    8205
+  ],
+  "frames": 2679,
+  "fps": 30.0,
+  "first_last_source_sim_time": [
+    185.20000000063246,
+    274.46666666793186
+  ],
+  "duration_s": 89.3,
+  "duration_note": "Each displayed sample, including the last, occupies one frame interval.",
+  "video_sha256": "604083c09bb4fac894e07d105217543473e353a23433a12fbe5b0fcc2a94f14f",
+  "ffprobe": {
+    "avg_frame_rate": "30/1",
+    "duration": "89.300000",
+    "nb_read_frames": "2679"
+  },
+  "render_note": "Diagnostic overview camera; sensor noise/postprocessing are not replayed."
+}

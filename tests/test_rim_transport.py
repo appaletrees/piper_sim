@@ -39,6 +39,7 @@ def test_measured_frame_detects_tool_roll_while_allowing_declared_yaw_and_tilt()
 
 @pytest.mark.parametrize('key,value', [('kinds', ['cup']), ('yaw_offsets_deg', [0, 0]),
     ('yaw_offsets_deg',[0,136]),('tilt_offsets_deg',[0,61]),('reorient_during_lift',1),
+    ('release_rim_margin_m',True),('release_rim_margin_m',0),('path_interpolation','unknown'),
     ('support_gap_m', 0), ('wall_margin_m', float('nan')), ('max_candidates', True)])
 def test_invalid_profile_is_rejected(key, value):
     with pytest.raises(ValueError):
@@ -63,13 +64,14 @@ def fixture_teacher():
         plan_grasp=lambda name: ('right', np.zeros(3), np.eye(3), .025),
         ik={'right': SimpleNamespace(forward=lambda q: (q[:3], np.eye(3)))})
     calls = []
-    def plan(side, poses, *, start=None, speed=None, bounded=False):
+    def plan(side, poses, *, start=None, speed=None, bounded=False,diagnostics=None):
         before = teacher.q if start is None else start
         rows = []
         for position, rotation in poses:
             command = before.copy();command[7:10] = position;rows.append(command)
         calls.append(('path', poses))
         if bounded: calls.append(('bounded',True))
+        if diagnostics is not None:diagnostics.update(interpolation='convex' if bounded else 'natural')
         return np.array(rows)
     teacher.plan_pose_path = plan
     teacher.check_joint_path = lambda *a, **k: calls.append(('opening', k['gripper']))
@@ -106,3 +108,45 @@ def test_reorientation_route_requests_fidelity_bounded_paths():
     t,calls,_=fixture_teacher()
     search(t,'right','plate','basket',{**PROFILE,'reorient_during_lift':True})
     assert [name for name,_ in calls].count('bounded')==2
+
+
+def test_natural_route_retains_opening_checks_and_records_actual_interpolation():
+    t,calls,_=fixture_teacher()
+    result=search(t,'right','plate','basket',{**PROFILE,'reorient_during_lift':True,'path_interpolation':'natural'})
+    assert not any(name=='bounded' for name,_ in calls)
+    assert any(name=='opening' for name,_ in calls)
+    assert result['evidence']['transfer_path']['interpolation']=='natural'
+    assert result['evidence']['lower_path']['interpolation']=='natural'
+
+
+def test_natural_collision_retries_a_checked_bounded_route_without_weakening_gates():
+    t,calls,_=fixture_teacher()
+    original=t.plan_pose_path
+    def plan(*args,bounded=False,**kwargs):
+        if not bounded:raise SortFailure('natural curve intersects basket')
+        return original(*args,bounded=True,**kwargs)
+    t.plan_pose_path=plan
+    result=search(t,'right','plate','basket',{**PROFILE,'reorient_during_lift':True,
+                                         'path_interpolation':'natural_then_bounded'})
+    assert result['evidence']['transfer_path']['interpolation']=='convex'
+    assert result['evidence']['rejected_candidates'][0]['interpolation']=='natural'
+    assert any(name=='opening' for name,_ in calls)
+    def blocked(*args,**kwargs):raise SortFailure('neither curve clears basket')
+    t.plan_pose_path=blocked
+    with pytest.raises(SortFailure,match='No measured-frame'):
+        search(t,'right','plate','basket',{**PROFILE,'reorient_during_lift':True,
+                                       'path_interpolation':'natural_then_bounded'})
+
+
+def test_release_height_guard_rejects_a_plate_perched_on_tall_contents():
+    t,_,bodies=fixture_teacher()
+    # A tall support covers the complete bin: projected XY still fits, but
+    # every predicted released plate protrudes above the actual basket rim.
+    t.b.task.active_names.append('cup')
+    t.b.task.parts['cup']=[{'points':[[-.3,-.3,0],[.3,-.3,0],[.3,.3,0],[-.3,.3,0]],
+                         'faces':[[0,1,2],[0,2,3]],'collision':True}]
+    bodies['task/cup']=SimpleNamespace(xpos=np.array([0.,0.,.13]),xmat=np.eye(3).ravel())
+    old=search(t,'right','plate','basket',PROFILE)
+    assert old['evidence']['predicted_release_top_world_z_m']>.14
+    with pytest.raises(SortFailure,match='No measured-frame'):
+        search(t,'right','plate','basket',{**PROFILE,'release_rim_margin_m':.005})

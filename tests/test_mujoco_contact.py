@@ -79,6 +79,30 @@ def test_runtime_mixing_override_cannot_silently_replace_material():
     material.assert_unchanged()
 
 
+def test_material_reset_preserves_backend_owned_friction_impedance():
+    model=contact_model();material=MujocoFingerContact(model,profile())
+    model.opt.impratio=1000.
+    material.apply(3,True);material.assert_unchanged()
+    assert model.opt.impratio==1000.
+
+
+def test_backend_nondefault_impedance_survives_randomized_episode_resets():
+    from piper_sim.backends.mujoco import MujocoBackend
+    cfg=load('configs/clean_table_position_execution.yaml')
+    cfg['mujoco']['position_execution']['impratio']=1000.
+    cfg['task_scene']=yaml.safe_load((ROOT/'configs/tasks/clean_table_rigid.yaml').read_text())
+    cfg['task_scene']['domain_randomization']='configs/domain_randomization/clean_table.yaml'
+    backend=MujocoBackend(cfg,cameras=False)
+    try:
+        for seed in (1,3,1):
+            backend.reset(seed,True)
+            assert backend.model.opt.impratio==1000.
+            backend.position_execution.assert_unchanged()
+            backend.step()
+            assert backend.position_execution.telemetry()['impratio']==1000.
+    finally:backend.close()
+
+
 def test_backend_material_survives_teacher_and_reset_and_is_recorded(monkeypatch):
     from piper_sim.backends.mujoco import MujocoBackend
     from piper_sim.experts.clean_table import CleanTableTeacher

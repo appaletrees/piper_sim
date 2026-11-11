@@ -71,6 +71,10 @@ class MujocoFingerContact:
             raise ValueError('Fixed finger profile does not support explicit pairs or overriding geom priorities')
         self.check_contact_override()
         self.expected = {}
+        # Set the legacy initial solver default once. A backend executor may
+        # subsequently own another declared constant value; material resampling
+        # at reset must not silently overwrite that solver configuration.
+        model.opt.impratio = 10.
         self.apply(0, False)
 
     def apply(self, seed, randomize):
@@ -88,7 +92,6 @@ class MujocoFingerContact:
             m.geom_priority[ids] = 1
             m.geom_solref[ids] = p['solref']
             m.geom_solimp[ids] = p['solimp']
-        m.opt.impratio = 10
         m.opt.enableflags |= int(mujoco.mjtEnableBit.mjENBL_MULTICCD)
         self.expected = {key: getattr(m, key)[self.all_indices].copy()
             for key in ('geom_friction', 'geom_condim', 'geom_priority', 'geom_solref', 'geom_solimp')}

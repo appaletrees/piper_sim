@@ -19,13 +19,20 @@ def validate_profile(value):
     keys = {'kinds', 'yaw_offsets_deg', 'xy_step_m', 'wall_margin_m', 'support_gap_m',
             'rim_clearance_m', 'transfer_speed_m_s', 'lower_speed_m_s',
             'max_path_orientation_error_rad', 'max_candidates'}
-    if not isinstance(value, dict) or not keys <= set(value) or set(value)-keys-{'tilt_offsets_deg','reorient_during_lift'}:
+    if not isinstance(value, dict) or not keys <= set(value) or set(value)-keys-{'tilt_offsets_deg','reorient_during_lift','release_rim_margin_m','path_interpolation'}:
         raise ValueError('rim_transport requires exactly ' + ', '.join(sorted(keys)))
     p = copy.deepcopy(value)
     p.setdefault('tilt_offsets_deg', [0])
     p.setdefault('reorient_during_lift',False)
+    p.setdefault('path_interpolation','bounded')
+    if p['path_interpolation'] not in ('bounded','natural','natural_then_bounded'):
+        raise ValueError('Rim path interpolation must be bounded, natural or natural_then_bounded')
     if type(p['reorient_during_lift']) is not bool:
         raise ValueError('reorient_during_lift must be boolean')
+    margin=p.get('release_rim_margin_m')
+    if margin is not None and (isinstance(margin,bool) or not isinstance(margin,(int,float))
+            or not math.isfinite(margin) or not .001 <= margin <= .02):
+        raise ValueError('Release rim margin must be finite in 1..20 mm')
     if p['kinds'] != ['plate']:
         raise ValueError('Measured rim transport currently supports plate only')
     yaws = p['yaw_offsets_deg']
@@ -86,6 +93,7 @@ def frame_coordinates(rotation, reference):
 def search(teacher, side, name, target, profile, *, diagnostics=None):
     from .clean_table import SortFailure
     p = validate_profile(profile)
+    release_margin=p.get('release_rim_margin_m')
     b = teacher.b
     tcp, hand_r = teacher.tcp(side)
     obj, basket = (b.data.body('task/' + n) for n in (name, target))
@@ -125,6 +133,12 @@ def search(teacher, side, name, target, profile, *, diagnostics=None):
                 continue
             low_obj = object_p.copy()
             low_obj[2] = np.max(heights[valid] - rotated[valid, 2]) + p['support_gap_m']
+            # A tilted plate can span above the rim even when its projected XY
+            # footprint fits. Releasing it onto cups can leave it leaning out or
+            # eject earlier contents. Require the complete predicted plate below
+            # the rim when this safety margin is explicitly configured.
+            if release_margin is not None and low_obj[2]+rotated[:,2].max()>rim-release_margin:
+                continue
             high_obj = low_obj.copy()
             high_obj[2] = max(low_obj[2] + .045, rim + p['rim_clearance_m'] - rotated[:, 2].min())
             high, low = high_obj - hand_goal @ relative_p, low_obj - hand_goal @ relative_p
@@ -136,58 +150,66 @@ def search(teacher, side, name, target, profile, *, diagnostics=None):
             if checked >= p['max_candidates']:
                 raise SortFailure('Measured rim placement candidate budget exhausted: ' + repr(failures[-3:]))
             checked += 1
-            stage='high_ik'
-            try:
-                q_high = teacher.solve(side, high, hand_goal)
-                stage='low_ik'
-                teacher.solve(side, low, hand_goal, q_high)
-                lift = tcp.copy();lift[2] = max(tcp[2], high[2])
-                stage='transfer'
-                options={'bounded':True} if p['reorient_during_lift'] else {}
-                lift_r=tilt_rotation(hand_r,tilt)@hand_r if p['reorient_during_lift'] and tilt else hand_r
-                transfer = teacher.plan_pose_path(side, [(lift, lift_r), (high, hand_goal)],
-                                                  speed=p['transfer_speed_m_s'],**options)
-                stage='lower'
-                lower = teacher.plan_pose_path(side, [(low, hand_goal)], start=transfer[-1],
-                                               speed=p['lower_speed_m_s'],**options)
-                stage='opening'
-                aperture = float(b.data.qpos[b.indices[side]['qpos'][6:]].sum())
-                release = min(.095, teacher.plan_grasp(name)[3] + .020)
-                widths = np.linspace(aperture, release, max(2, int(np.ceil(abs(release-aperture)/.002))+1))
-                for before, after in zip(widths[:-1], widths[1:]):
-                    teacher.check_joint_path(side, lower[-1][off:off+6], lower[-1][off:off+6],
-                                             gripper=(before, after))
-                maximum = 0.
-                stage='orientation_reference'
-                for q in np.vstack((transfer, lower)):
-                    _, actual = teacher.ik[side].forward(q[off:off+6])
-                    if tilt:
-                        error, actual_yaw, actual_tilt = frame_coordinates(actual, hand_r)
-                    else:
-                        error, actual_yaw = orientation_error(actual, hand_r);actual_tilt = 0.
-                    maximum = max(maximum, error)
-                    bound = p['max_path_orientation_error_rad']
-                    if (error > bound or actual_yaw < min(0., np.deg2rad(yaw)) - bound
-                            or actual_yaw > max(0., np.deg2rad(yaw)) + bound
-                            or actual_tilt < min(0., np.deg2rad(tilt)) - bound
-                            or actual_tilt > max(0., np.deg2rad(tilt)) + bound):
-                        raise SortFailure('Measured rim hand-frame path deviates from its yaw/tilt reference')
-            except SortFailure as exc:
-                failures.append({'yaw_deg': yaw, 'tilt_offset_deg': tilt, 'slot_xy_m': slot[:2].tolist(),
-                                 'stage':stage,'error': str(exc)})
-                continue
-            return {'transfer': transfer, 'lower': lower, 'high': high, 'low': low,
-                    'rotation': hand_goal, 'evidence': {
-                        'strategy': 'measured_rim_hand_frame', 'yaw_offset_deg': yaw,
-                        'tilt_offset_deg': tilt,
-                        'slot_xy_m': slot[:2].tolist(), 'wall_margin_m': margin,
-                        'predicted_object_up_world': object_goal[:, 2].tolist(),
-                        'predicted_tilt_from_container_up_rad': float(np.arccos(np.clip(
-                            object_goal[:, 2] @ bin_r[:, 2], -1., 1.))),
-                        'orientation_reference_error_rad': maximum,
-                        'opening_sweep_checked_m': [aperture, release],
-                        'footprint_gate': 'Measured tilted footprint and level plate footprint both retain the wall margin.',
-                        'candidates_checked': checked, 'rejected_candidates': failures,
-                        'support_obstacles': obstacles,
-                        'scope': 'Measured rigid-grasp and sampled support prediction; physical slip/stability still required.'}}
+            path_choices=('natural','bounded') if p['path_interpolation']=='natural_then_bounded' else (p['path_interpolation'],)
+            for path_choice in path_choices:
+                stage='high_ik'
+                try:
+                    q_high = teacher.solve(side, high, hand_goal)
+                    stage='low_ik'
+                    teacher.solve(side, low, hand_goal, q_high)
+                    lift = tcp.copy();lift[2] = max(tcp[2], high[2])
+                    stage='transfer'
+                    options={'bounded':True} if p['reorient_during_lift'] and path_choice=='bounded' else {}
+                    transfer_diagnostics,lower_diagnostics={},{}
+                    lift_r=tilt_rotation(hand_r,tilt)@hand_r if p['reorient_during_lift'] and tilt else hand_r
+                    transfer = teacher.plan_pose_path(side, [(lift, lift_r), (high, hand_goal)],
+                                                      speed=p['transfer_speed_m_s'],diagnostics=transfer_diagnostics,**options)
+                    stage='lower'
+                    lower = teacher.plan_pose_path(side, [(low, hand_goal)], start=transfer[-1],
+                                                   speed=p['lower_speed_m_s'],diagnostics=lower_diagnostics,**options)
+                    stage='opening'
+                    aperture = float(b.data.qpos[b.indices[side]['qpos'][6:]].sum())
+                    release = min(.095, teacher.plan_grasp(name)[3] + .020)
+                    widths = np.linspace(aperture, release, max(2, int(np.ceil(abs(release-aperture)/.002))+1))
+                    for before, after in zip(widths[:-1], widths[1:]):
+                        teacher.check_joint_path(side, lower[-1][off:off+6], lower[-1][off:off+6],
+                                                 gripper=(before, after))
+                    maximum = 0.
+                    stage='orientation_reference'
+                    for q in np.vstack((transfer, lower)):
+                        _, actual = teacher.ik[side].forward(q[off:off+6])
+                        if tilt:
+                            error, actual_yaw, actual_tilt = frame_coordinates(actual, hand_r)
+                        else:
+                            error, actual_yaw = orientation_error(actual, hand_r);actual_tilt = 0.
+                        maximum = max(maximum, error)
+                        bound = p['max_path_orientation_error_rad']
+                        if (error > bound or actual_yaw < min(0., np.deg2rad(yaw)) - bound
+                                or actual_yaw > max(0., np.deg2rad(yaw)) + bound
+                                or actual_tilt < min(0., np.deg2rad(tilt)) - bound
+                                or actual_tilt > max(0., np.deg2rad(tilt)) + bound):
+                            raise SortFailure('Measured rim hand-frame path deviates from its yaw/tilt reference')
+                except SortFailure as exc:
+                    failures.append({'yaw_deg': yaw, 'tilt_offset_deg': tilt, 'slot_xy_m': slot[:2].tolist(),
+                                     'stage':stage,'interpolation':path_choice,'error': str(exc)})
+                    continue
+                return {'transfer': transfer, 'lower': lower, 'high': high, 'low': low,
+                        'rotation': hand_goal, 'evidence': {
+                            'strategy': 'measured_rim_hand_frame', 'yaw_offset_deg': yaw,
+                            'tilt_offset_deg': tilt,
+                            'requested_path_interpolation':p['path_interpolation'],
+                            'transfer_path':transfer_diagnostics,'lower_path':lower_diagnostics,
+                            'slot_xy_m': slot[:2].tolist(), 'wall_margin_m': margin,
+                            'predicted_object_up_world': object_goal[:, 2].tolist(),
+                            'predicted_tilt_from_container_up_rad': float(np.arccos(np.clip(
+                                object_goal[:, 2] @ bin_r[:, 2], -1., 1.))),
+                            'orientation_reference_error_rad': maximum,
+                            'opening_sweep_checked_m': [aperture, release],
+                            'release_rim_margin_m':release_margin,
+                            'predicted_release_top_world_z_m':float(low[2]+(hand_goal@relative_p)[2]+rotated[:,2].max()),
+                            'basket_rim_world_z_m':float(rim),
+                            'footprint_gate': 'Measured tilted footprint and level plate footprint both retain the wall margin.',
+                            'candidates_checked': checked, 'rejected_candidates': failures,
+                            'support_obstacles': obstacles,
+                            'scope': 'Measured rigid-grasp and sampled support prediction; physical slip/stability still required.'}}
     raise SortFailure('No measured-frame rim placement: ' + repr(failures[-3:]))

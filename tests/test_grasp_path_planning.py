@@ -156,6 +156,7 @@ def test_loaded_refinement_keeps_original_reference_and_retimes_commands():
 
 def test_slender_object_candidates_follow_long_axis_without_tilting_pads():
     teacher = RigidTableTeacher.__new__(RigidTableTeacher)
+    teacher.pacing={}
     teacher.b = SimpleNamespace(task=SimpleNamespace(specs={'stick': {'kind': 'chopstick', 'size_m': [.225, .006, .006]}}))
     teacher.object_pose = lambda name: {'position': [.3, -.2, .03],
         'quaternion_wxyz': [2**-.5, 0., 0., 2**-.5]}

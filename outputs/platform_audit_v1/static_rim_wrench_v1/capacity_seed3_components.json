@@ -1,0 +1,248 @@
+{
+  "schema_version": "piper.collection_diagnostics.v1",
+  "scope": "Read-only component checks, including recordings that failed task success.\n\nNormal collection acceptance stops immediately on an unsuccessful episode.\nThis diagnostic keeps that verdict and separately evaluates available evidence;\nit never publishes a training audit or changes HDF5 acceptance attributes.\n",
+  "source": "/home/midea/Desktop/piper_sim/outputs/rim_capacity_raw_v1/seed3/episode/episode.h5",
+  "source_sha256": "3da7e8633a238150585609da7cd2452adab0872905a3f4fe9bbf203fff1bbcaf",
+  "acceptance_policy": {
+    "source": "/home/midea/Desktop/piper_sim/configs/collection/quality_policy_tcp.yaml",
+    "sha256": "2af593c422a599995a93fa8e83061fcc9613cb88ff781e58f6959c27d5f8a351"
+  },
+  "training_ready": false,
+  "checks": {
+    "streams_without_rgb_requirement": {
+      "passed": true,
+      "violations": [],
+      "frames": 6033,
+      "fps": 30.0,
+      "duration_s": 201.1,
+      "cameras": {},
+      "rgb": false,
+      "trajectory_sha256": "00b2441c4bae3b76f60103055bc3c3c007bf7d7598ec4b09f0f467440d4657c7"
+    },
+    "recorded_motion": {
+      "passed": false,
+      "violations": [
+        "measured_gripper_acceleration"
+      ],
+      "frames": 6034,
+      "metrics": {
+        "command_arm_velocity": 0.9981679916381836,
+        "command_gripper_velocity": 0.05970362573862076,
+        "command_arm_acceleration": 2.4746328592300415,
+        "command_gripper_acceleration": 0.1734115183353424,
+        "command_arm_jerk": 19.582271575927734,
+        "command_gripper_jerk": 1.418086001649499,
+        "measured_arm_velocity": 0.9977244734764099,
+        "measured_gripper_velocity": 0.05971412733197212,
+        "measured_arm_acceleration": 2.4947762489318848,
+        "measured_gripper_acceleration": 1.129906177520752,
+        "measured_arm_jerk": 43.905616760253906,
+        "measured_gripper_jerk": 33.88078689575195,
+        "tracking_error_rad": 0.008739471435546875,
+        "hold_velocity_rms_rad_s": 0.00022220246319193393,
+        "hold_gripper_velocity_rms_m_s": 6.193471199367195e-05
+      },
+      "thresholds": {
+        "command_arm_velocity": 1.01,
+        "command_gripper_velocity": 0.0606,
+        "command_arm_acceleration": 2.525,
+        "command_gripper_acceleration": 0.1818,
+        "command_arm_jerk": 20.2,
+        "command_gripper_jerk": 1.5150000000000001,
+        "measured_arm_velocity": 1.2,
+        "measured_gripper_velocity": 0.08,
+        "measured_arm_acceleration": 8.0,
+        "measured_gripper_acceleration": 1.0,
+        "measured_arm_jerk": 200.0,
+        "measured_gripper_jerk": 50.0,
+        "tracking_error_rad": 0.1,
+        "hold_velocity_rms_rad_s": 0.025,
+        "hold_gripper_velocity_rms_m_s": 0.003
+      },
+      "peaks": {
+        "command_arm_velocity": {
+          "sim_time": 93.26666666660239,
+          "channel": 9,
+          "context": {
+            "phase": "approach",
+            "object": "pen"
+          }
+        },
+        "command_gripper_velocity": {
+          "sim_time": 174.70000000049876,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "command_arm_acceleration": {
+          "sim_time": 167.23333333373702,
+          "channel": 12,
+          "context": {
+            "phase": "lift",
+            "object": "bowl"
+          }
+        },
+        "command_gripper_acceleration": {
+          "sim_time": 127.5666666665712,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "charger"
+          }
+        },
+        "command_arm_jerk": {
+          "sim_time": 89.93333333327209,
+          "channel": 8,
+          "context": {
+            "phase": "release",
+            "object": "chopstick_b"
+          }
+        },
+        "command_gripper_jerk": {
+          "sim_time": 150.73333333352693,
+          "channel": 13,
+          "context": {
+            "phase": "unload_gripper",
+            "object": "spoon"
+          }
+        },
+        "measured_arm_velocity": {
+          "sim_time": 93.26666666660239,
+          "channel": 9,
+          "context": {
+            "phase": "approach",
+            "object": "pen"
+          }
+        },
+        "measured_gripper_velocity": {
+          "sim_time": 174.70000000049876,
+          "channel": 13,
+          "context": {
+            "phase": "release",
+            "object": "bowl"
+          }
+        },
+        "measured_arm_acceleration": {
+          "sim_time": 54.36666666663776,
+          "channel": 8,
+          "context": {
+            "phase": "approach",
+            "object": "chopstick_a"
+          }
+        },
+        "measured_gripper_acceleration": {
+          "sim_time": 202.10000000084764,
+          "channel": 13,
+          "context": {
+            "phase": "transfer",
+            "object": "plate"
+          }
+        },
+        "measured_arm_jerk": {
+          "sim_time": 186.33333333398022,
+          "channel": 8,
+          "context": {
+            "phase": "grasp",
+            "object": "plate"
+          }
+        },
+        "measured_gripper_jerk": {
+          "sim_time": 202.10000000084764,
+          "channel": 13,
+          "context": {
+            "phase": "transfer",
+            "object": "plate"
+          }
+        }
+      },
+      "measurement": "finite differences at control/recording frequency; arm SI radians, full gripper opening metres",
+      "hold_samples": 347,
+      "source_precision": "Stored state/action arrays; no smoothing or native-substep claim."
+    },
+    "task_and_motion": {
+      "passed": false,
+      "violations": [
+        "ValueError: rollout_not_accepted"
+      ]
+    },
+    "position_execution": {
+      "passed": true,
+      "violations": [],
+      "checked_intervals": 6033,
+      "missing_execution_intervals": 0,
+      "missing_controller_intervals": 0,
+      "gripper_regime_segments": [
+        {
+          "first_transition": 0,
+          "last_transition": 6032,
+          "left_right_kp_kv_force_range": [
+            [
+              10000.0,
+              120.0,
+              -25.0,
+              25.0
+            ],
+            [
+              10000.0,
+              120.0,
+              -25.0,
+              25.0
+            ]
+          ]
+        }
+      ],
+      "position_only_execution_supported": true,
+      "scope": "Declared fixed controller and complete interval evidence for 14 position actions; not task, RGB or hardware acceptance."
+    },
+    "tcp_motion": {
+      "passed": true,
+      "violations": [],
+      "limits": {
+        "linear_speed_m_s": 0.25,
+        "angular_speed_rad_s": 1.5
+      },
+      "intervals": 6033,
+      "integration_steps": 193056,
+      "peaks": {
+        "left/linear": {
+          "speed": 0.23253556436327827,
+          "transition_index": 741,
+          "substep": 20,
+          "sim_time": 25.7208333333305,
+          "phase": "stack_ready",
+          "object": "cup_01"
+        },
+        "left/angular": {
+          "speed": 0.8885147583568225,
+          "transition_index": 45,
+          "substep": 18,
+          "sim_time": 2.518749999999938,
+          "phase": "approach",
+          "object": "cup_01"
+        },
+        "right/linear": {
+          "speed": 0.2361630090747606,
+          "transition_index": 1324,
+          "substep": 1,
+          "sim_time": 45.13437499997949,
+          "phase": "transfer_stack",
+          "object": "cup_00"
+        },
+        "right/angular": {
+          "speed": 1.2621453527358293,
+          "transition_index": 5069,
+          "substep": 27,
+          "sim_time": 169.99479166710515,
+          "phase": "transfer",
+          "object": "bowl"
+        }
+      },
+      "scope": "Recorded native substep summaries and boundary snapshot consistency; not independent full-trace reconstruction or hardware certification."
+    }
+  },
+  "recorded_success": false,
+  "source_unchanged": true,
+  "script_sha256": "c3ca4b383bfc7d2657f7a3c814a83bd13e33ffe754a0cada8d80d0eacd8e35b0"
+}

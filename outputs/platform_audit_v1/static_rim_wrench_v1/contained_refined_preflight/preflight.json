@@ -1,0 +1,145 @@
+{
+  "scope": "Read-only geometry preflight from a closed recording, never dynamics replay.",
+  "source": "outputs/rim_friction_raw_v1/seed3/episode/episode.h5",
+  "source_sha256": "f503163a8e547f2691c1d30d21c583121bae1bbd7678605eb1f30e9de3972b1e",
+  "script_sha256": "613b87aa5a5863a2c8a2593a2d0730e6ad3ec8e9799fe97b17819ea31a3d9d76",
+  "collection_profile_sha256": "8ff56e03ae3e17ba8c68ac4316ff209ad209a637478b8e68da18b51f16378916",
+  "training_ready": false,
+  "passed": true,
+  "snapshot": "transfer",
+  "evidence": {
+    "strategy": "measured_rim_hand_frame",
+    "yaw_offset_deg": -15,
+    "tilt_offset_deg": -15,
+    "slot_xy_m": [
+      0.03,
+      0.03
+    ],
+    "wall_margin_m": 0.026145712362154128,
+    "predicted_object_up_world": [
+      0.334797824241886,
+      0.21532948110025973,
+      0.9173568724613087
+    ],
+    "predicted_tilt_from_container_up_rad": 0.4094446764160459,
+    "orientation_reference_error_rad": 0.0017972177759481409,
+    "opening_sweep_checked_m": [
+      0.002897473444296525,
+      0.045
+    ],
+    "release_rim_margin_m": 0.005,
+    "predicted_release_top_world_z_m": 0.15313950904330675,
+    "basket_rim_world_z_m": 0.16498532435589716,
+    "footprint_gate": "Measured tilted footprint and level plate footprint both retain the wall margin.",
+    "candidates_checked": 10,
+    "rejected_candidates": [
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.03,
+          0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5905, -0.4463, 0.2741]: 4.9 mm, 7.7 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5744, -0.4601, 0.2741]: 4.1 mm, 6.7 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5261, -0.5015, 0.2741]: 6.3 mm, 9.6 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.045,
+          0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.6055, -0.4474, 0.2741]: 7.0 mm, 8.0 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.03,
+          0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5894, -0.4612, 0.2741]: 3.4 mm, 8.3 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.0
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5733, -0.475, 0.2741]: 0.5 mm, 12.0 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.0,
+          -0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5572, -0.4889, 0.2741]: 2.9 mm, 9.1 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5411, -0.5027, 0.2741]: 4.3 mm, 9.6 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.03
+        ],
+        "stage": "lower",
+        "error": "Planned path obstructed (4.00 mm): ['right/link6', 'task/bowl']"
+      }
+    ],
+    "support_obstacles": [
+      "bowl",
+      "spoon",
+      "chopstick_a",
+      "chopstick_b",
+      "side_dish",
+      "basket",
+      "cup_00",
+      "cup_01",
+      "pen",
+      "charger"
+    ],
+    "scope": "Measured rigid-grasp and sampled support prediction; physical slip/stability still required."
+  },
+  "transfer_commands": 713,
+  "lower_commands": 204,
+  "isolated_state_and_command_unchanged": true,
+  "commands_sha256": "4b072199cd17d948ffac4ad905f311683c414154d3cc147a6ea5f0ae6abae758"
+}

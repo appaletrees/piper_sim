@@ -1,0 +1,371 @@
+{
+  "scope": "Read-only geometry preflight from a closed recording, never dynamics replay.",
+  "source": "outputs/rim_fallback_raw_v1/seed1/episode/episode.h5",
+  "source_sha256": "762338c12630b07acfaabc85c0d2b6cf6856405b1c5b873b39be4774e4385fe2",
+  "script_sha256": "613b87aa5a5863a2c8a2593a2d0730e6ad3ec8e9799fe97b17819ea31a3d9d76",
+  "collection_profile_sha256": "2264f01a54a17c2a72ebe223f0e12592f12e4797fcdd7bf632133a3032407f14",
+  "training_ready": false,
+  "passed": true,
+  "snapshot": "transfer",
+  "evidence": {
+    "strategy": "measured_rim_hand_frame",
+    "yaw_offset_deg": -45,
+    "tilt_offset_deg": 0,
+    "requested_path_interpolation": "bounded",
+    "transfer_path": {
+      "fidelity": {
+        "limits": {
+          "max_position_deviation_m": 0.002,
+          "max_rotation_deviation_rad": 0.01,
+          "max_refinements": 2
+        },
+        "attempts": [
+          {
+            "refinement": 0,
+            "control_points": 57,
+            "command_samples": 505,
+            "position_deviation_m": 0.0041480935830973025,
+            "rotation_deviation_rad": 0.007927020307608768,
+            "position_peak_sample": 391,
+            "rotation_peak_sample": 392,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          },
+          {
+            "refinement": 1,
+            "control_points": 113,
+            "command_samples": 799,
+            "position_deviation_m": 0.0016689644148652207,
+            "rotation_deviation_rad": 0.003251037248359097,
+            "position_peak_sample": 637,
+            "rotation_peak_sample": 639,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          }
+        ],
+        "reference_ik_knots": 57
+      },
+      "interpolation": "convex",
+      "command_samples": 799
+    },
+    "lower_path": {
+      "fidelity": {
+        "limits": {
+          "max_position_deviation_m": 0.002,
+          "max_rotation_deviation_rad": 0.01,
+          "max_refinements": 2
+        },
+        "attempts": [
+          {
+            "refinement": 0,
+            "control_points": 17,
+            "command_samples": 165,
+            "position_deviation_m": 0.003906077717445229,
+            "rotation_deviation_rad": 0.000140403081062692,
+            "position_peak_sample": 48,
+            "rotation_peak_sample": 130,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          },
+          {
+            "refinement": 1,
+            "control_points": 33,
+            "command_samples": 165,
+            "position_deviation_m": 0.001587633128690252,
+            "rotation_deviation_rad": 7.75240418882897e-05,
+            "position_peak_sample": 43,
+            "rotation_peak_sample": 136,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          }
+        ],
+        "reference_ik_knots": 17
+      },
+      "interpolation": "convex",
+      "command_samples": 165
+    },
+    "slot_xy_m": [
+      0.015,
+      0.0
+    ],
+    "wall_margin_m": 0.0562338207883995,
+    "predicted_object_up_world": [
+      0.5668088359235006,
+      -0.08042970995605797,
+      0.8199139011356199
+    ],
+    "predicted_tilt_from_container_up_rad": 0.6095695620464252,
+    "orientation_reference_error_rad": 0.006193123133676438,
+    "opening_sweep_checked_m": [
+      0.002649220835486829,
+      0.045
+    ],
+    "release_rim_margin_m": 0.005,
+    "predicted_release_top_world_z_m": 0.1598718776632345,
+    "basket_rim_world_z_m": 0.16498558586363848,
+    "footprint_gate": "Measured tilted footprint and level plate footprint both retain the wall margin.",
+    "candidates_checked": 23,
+    "rejected_candidates": [
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5586, -0.4813, 0.3058]: 14.9 mm, 16.9 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5431, -0.4958, 0.3058]: 13.0 mm, 17.2 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5581, -0.4963, 0.3058]: 18.1 mm, 17.8 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.0,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5731, -0.4968, 0.3058]: 18.2 mm, 20.2 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5489, -0.467, 0.3058]: 5.1 mm, 11.2 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5335, -0.4815, 0.3058]: 6.6 mm, 7.0 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5485, -0.482, 0.3058]: 7.8 mm, 8.5 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.0,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5635, -0.4825, 0.3058]: 10.9 mm, 10.1 deg"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.045,
+          -0.03
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.21 mm): ['task/chopstick_b', 'right/link6']"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.16 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.36 mm): ['task/chopstick_b', 'right/link6']"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.46 mm): ['task/chopstick_b', 'right/link6']"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.0,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5579, -0.4662, 0.3058]: 1.9 mm, 2.1 deg"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.015,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5729, -0.4666, 0.3058]: 5.4 mm, 3.9 deg"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.06,
+          0.0
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.6188, -0.438, 0.3058]: 9.0 mm, 7.8 deg"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.03,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "interpolation": "bounded",
+        "error": "right IK failed at [0.5879, -0.4671, 0.3058]: 10.0 mm, 5.8 deg"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          0.0
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.01 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.03,
+          -0.015
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.09 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.045,
+          -0.03
+        ],
+        "stage": "opening",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.16 mm): ['task/basket', 'right/link7']"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.0,
+          0.0
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.21 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.22 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "lower",
+        "interpolation": "bounded",
+        "error": "Planned path obstructed (4.05 mm): ['task/basket', 'right/link6']"
+      }
+    ],
+    "support_obstacles": [
+      "bowl",
+      "spoon",
+      "chopstick_a",
+      "chopstick_b",
+      "side_dish",
+      "basket",
+      "cup_00",
+      "cup_01",
+      "cup_02",
+      "pen",
+      "charger"
+    ],
+    "scope": "Measured rigid-grasp and sampled support prediction; physical slip/stability still required."
+  },
+  "transfer_commands": 799,
+  "lower_commands": 165,
+  "isolated_state_and_command_unchanged": true,
+  "commands_sha256": "de0e58d2e8c59531edab7afe51a27908eb25bb9adaa2851da733c04746e4aa76"
+}

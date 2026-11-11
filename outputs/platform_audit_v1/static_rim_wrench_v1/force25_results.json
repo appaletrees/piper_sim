@@ -1,0 +1,948 @@
+{
+  "scope": "Both full trials failed before reaching plate. No plate dynamics claim.",
+  "training_ready": false,
+  "frozen_inputs_changed": [],
+  "trials": [
+    {
+      "seed": 1,
+      "h5_sha256": "5f6d211c120d5790dcfee2ce9fdbd5e5b2ea312d6d9a41eb3165b9672940da17",
+      "outcome": {
+        "accepted": false,
+        "rollout_accepted": false,
+        "error": "SortFailure: Grasp preload did not converge within the declared iteration budget",
+        "teacher_events": [
+          {
+            "phase": "prepared",
+            "object": null,
+            "sim_time": 1.0000000000000233
+          },
+          {
+            "phase": "approach",
+            "object": "cup_01",
+            "sim_time": 1.0000000000000233,
+            "side": "left",
+            "target": "cup_stack"
+          },
+          {
+            "phase": "grasp",
+            "object": "cup_01",
+            "sim_time": 5.8999999999997454
+          },
+          {
+            "phase": "lift",
+            "object": "cup_01",
+            "sim_time": 7.666666666666312,
+            "contact_fingers": [
+              "7",
+              "8"
+            ]
+          },
+          {
+            "phase": "nest",
+            "object": "cup_01",
+            "sim_time": 15.766666666672473,
+            "base": "cup_00"
+          },
+          {
+            "phase": "release_for_nesting",
+            "object": "cup_01",
+            "sim_time": 19.133333333336473,
+            "base": "cup_00"
+          },
+          {
+            "phase": "stack_checked",
+            "object": "cup_01",
+            "sim_time": 23.433333333332563,
+            "nested": true,
+            "axis_offset_m": 0.0005130690259860859,
+            "max_tilt_deg": 0.3368006113457385,
+            "pitches_m": [
+              0.010824517170995352
+            ],
+            "count": 2,
+            "on_table": true
+          },
+          {
+            "phase": "approach",
+            "object": "cup_02",
+            "sim_time": 23.433333333332563,
+            "side": "left",
+            "target": "cup_stack"
+          },
+          {
+            "phase": "grasp",
+            "object": "cup_02",
+            "sim_time": 29.49999999999371
+          },
+          {
+            "phase": "lift",
+            "object": "cup_02",
+            "sim_time": 31.26666666665877,
+            "contact_fingers": [
+              "7",
+              "8"
+            ]
+          },
+          {
+            "phase": "nest",
+            "object": "cup_02",
+            "sim_time": 43.03333333331474,
+            "base": "cup_01"
+          },
+          {
+            "phase": "release_for_nesting",
+            "object": "cup_02",
+            "sim_time": 46.46666666664495,
+            "base": "cup_01"
+          },
+          {
+            "phase": "stack_checked",
+            "object": "cup_02",
+            "sim_time": 50.69999999997443,
+            "nested": true,
+            "axis_offset_m": 0.0005910601101562656,
+            "max_tilt_deg": 0.5742223077446714,
+            "pitches_m": [
+              0.010542915158673468,
+              0.010315500142406304
+            ],
+            "count": 3,
+            "on_table": true
+          },
+          {
+            "phase": "stack_ready",
+            "object": "cup_02",
+            "sim_time": 51.4999999999737,
+            "cups": [
+              "cup_00",
+              "cup_01",
+              "cup_02"
+            ]
+          },
+          {
+            "phase": "approach",
+            "object": "cup_00",
+            "sim_time": 55.23333333330364,
+            "side": "right",
+            "target": "cup_stack"
+          },
+          {
+            "phase": "grasp",
+            "object": "cup_00",
+            "sim_time": 60.899999999965154
+          },
+          {
+            "phase": "lift",
+            "object": "cup_00",
+            "sim_time": 62.66666666663021,
+            "contact_fingers": [
+              "7",
+              "8"
+            ]
+          },
+          {
+            "phase": "transfer_stack",
+            "object": "cup_00",
+            "sim_time": 65.43333333329437,
+            "target": "basket"
+          },
+          {
+            "phase": "release_stack",
+            "object": "cup_00",
+            "sim_time": 73.29999999995388,
+            "target": "basket"
+          },
+          {
+            "phase": "stack_placed",
+            "object": "cup_00",
+            "sim_time": 77.63333333328328,
+            "success": true
+          },
+          {
+            "phase": "approach",
+            "object": "chopstick_a",
+            "sim_time": 77.63333333328328,
+            "side": "right",
+            "target": "basket"
+          },
+          {
+            "phase": "grasp_candidate_selected",
+            "object": "chopstick_a",
+            "sim_time": 80.96666666661358,
+            "height_offset_m": 0.0,
+            "local_tilt_deg": 0.0,
+            "long_axis_offset_m": 0.0,
+            "rejected_candidates": 0,
+            "clearance_m": 0.001,
+            "rejected_candidate_details": []
+          },
+          {
+            "phase": "grasp",
+            "object": "chopstick_a",
+            "sim_time": 82.2999999999457
+          },
+          {
+            "phase": "geometric_capture",
+            "object": "chopstick_a",
+            "sim_time": 83.69999999994442,
+            "side": "right",
+            "measured_start_width_m": 0.007002471282625999,
+            "bilateral_width_m": 0.005903652679075557,
+            "target_width_m": 0.005873652679075557,
+            "scan_samples": 111,
+            "actual_scan_step_m": 9.989260032276746e-06,
+            "overtravel_m": 3e-05,
+            "already_bilateral_at_start": false,
+            "scope": "Isolated geometric prediction; actual solver contacts still required"
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_a",
+            "sim_time": 84.23333333327727,
+            "side": "right",
+            "iteration": 0,
+            "measured_width_m": 0.005905053752083014,
+            "command_width_m": 0.005873652679075557,
+            "tracking_error_m": 3.1401073007457196e-05
+          },
+          {
+            "phase": "lift",
+            "object": "chopstick_a",
+            "sim_time": 84.33333333327718,
+            "contact_fingers": [
+              "7",
+              "8"
+            ]
+          },
+          {
+            "phase": "transfer",
+            "object": "chopstick_a",
+            "sim_time": 86.46666666660857,
+            "lift_m": 0.1504331381592739
+          },
+          {
+            "phase": "placement_search_selected",
+            "object": "chopstick_a",
+            "sim_time": 86.46666666660857,
+            "slot_xy_m": [
+              -0.025,
+              -0.08499999999999999
+            ],
+            "object_pitch_deg": -45,
+            "object_yaw_deg": -15,
+            "wall_margin_m": 0.03498507994709921,
+            "support_gap_m": 0.01,
+            "checked_pose_candidates": 153,
+            "opening_sweep_checked_m": [
+              0.005907984262151193,
+              0.04
+            ],
+            "rejected_geometry_or_ik": 152,
+            "support_obstacles": [
+              "plate",
+              "bowl",
+              "spoon",
+              "chopstick_b",
+              "side_dish",
+              "basket",
+              "cup_00",
+              "cup_01",
+              "cup_02",
+              "pen",
+              "charger"
+            ],
+            "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+            "payload_sample_count": 2938,
+            "payload_surface_spacing_m": 0.005,
+            "prediction_note": "geometric first contact, not dynamic stability proof"
+          },
+          {
+            "phase": "lower",
+            "object": "chopstick_a",
+            "sim_time": 90.89999999993788
+          },
+          {
+            "phase": "open_gripper",
+            "object": "chopstick_a",
+            "sim_time": 92.99999999993597,
+            "object_pose": {
+              "position": [
+                0.597995468231861,
+                -0.5079372907026513,
+                0.11730885698660222
+              ],
+              "quaternion_wxyz": [
+                0.915436110909923,
+                -0.05552317342431565,
+                -0.3759450036969004,
+                -0.13251135140185305
+              ]
+            }
+          },
+          {
+            "phase": "release",
+            "object": "chopstick_a",
+            "sim_time": 92.99999999993597,
+            "object_pose": {
+              "position": [
+                0.597995468231861,
+                -0.5079372907026513,
+                0.11730885698660222
+              ],
+              "quaternion_wxyz": [
+                0.915436110909923,
+                -0.05552317342431565,
+                -0.3759450036969004,
+                -0.13251135140185305
+              ]
+            }
+          },
+          {
+            "phase": "placed",
+            "object": "chopstick_a",
+            "sim_time": 97.93333333326481,
+            "success": true
+          },
+          {
+            "phase": "approach",
+            "object": "chopstick_b",
+            "sim_time": 97.93333333326481,
+            "side": "right",
+            "target": "basket"
+          },
+          {
+            "phase": "grasp_candidate_selected",
+            "object": "chopstick_b",
+            "sim_time": 102.2333333332609,
+            "height_offset_m": 0.0,
+            "local_tilt_deg": 0.0,
+            "long_axis_offset_m": 0.0,
+            "rejected_candidates": 0,
+            "clearance_m": 0.001,
+            "rejected_candidate_details": []
+          },
+          {
+            "phase": "grasp",
+            "object": "chopstick_b",
+            "sim_time": 103.56666666659302
+          },
+          {
+            "phase": "geometric_capture",
+            "object": "chopstick_b",
+            "sim_time": 104.96666666659175,
+            "side": "right",
+            "measured_start_width_m": 0.007001402989267127,
+            "bilateral_width_m": 0.006312249200024001,
+            "target_width_m": 0.006282249200024001,
+            "scan_samples": 70,
+            "actual_scan_step_m": 9.987736075987342e-06,
+            "overtravel_m": 3e-05,
+            "already_bilateral_at_start": false,
+            "scope": "Isolated geometric prediction; actual solver contacts still required"
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 105.4666666665913,
+            "side": "right",
+            "iteration": 0,
+            "measured_width_m": 0.006292690201482357,
+            "command_width_m": 0.006282249200024001,
+            "tracking_error_m": 1.0441001458355928e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 105.79999999992432,
+            "side": "right",
+            "iteration": 1,
+            "measured_width_m": 0.006276214228851237,
+            "command_width_m": 0.006262690201482357,
+            "tracking_error_m": 1.3524027368879733e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 106.13333333325735,
+            "side": "right",
+            "iteration": 2,
+            "measured_width_m": 0.006255900148521044,
+            "command_width_m": 0.006246214228851237,
+            "tracking_error_m": 9.685919669807051e-06
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 106.46666666659038,
+            "side": "right",
+            "iteration": 3,
+            "measured_width_m": 0.006237978683701609,
+            "command_width_m": 0.006225900148521045,
+            "tracking_error_m": 1.2078535180564363e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 106.79999999992341,
+            "side": "right",
+            "iteration": 4,
+            "measured_width_m": 0.006221222308805276,
+            "command_width_m": 0.0062079786837016095,
+            "tracking_error_m": 1.3243625103666334e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 107.13333333325645,
+            "side": "right",
+            "iteration": 5,
+            "measured_width_m": 0.00620543760453748,
+            "command_width_m": 0.006191222308805276,
+            "tracking_error_m": 1.4215295732204064e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 107.46666666658948,
+            "side": "right",
+            "iteration": 6,
+            "measured_width_m": 0.00619042441715672,
+            "command_width_m": 0.006175437604537481,
+            "tracking_error_m": 1.4986812619239079e-05
+          }
+        ],
+        "object_results": [
+          {
+            "name": "cup_00",
+            "target": "basket",
+            "grasp_mode": "physical",
+            "contained": true,
+            "hold_seconds": 4.866666666666659,
+            "success": true
+          },
+          {
+            "name": "cup_01",
+            "target": "basket",
+            "grasp_mode": "physical",
+            "contained": true,
+            "hold_seconds": 3.8666666666666627,
+            "success": true
+          },
+          {
+            "name": "cup_02",
+            "target": "basket",
+            "grasp_mode": "physical",
+            "contained": true,
+            "hold_seconds": 3.7999999999999963,
+            "success": true
+          },
+          {
+            "name": "chopstick_a",
+            "target": "basket",
+            "grasp_mode": "physical",
+            "lift_m": 0.1504331381592739,
+            "contained": true,
+            "hold_seconds": 4.733333333333326,
+            "success": true
+          }
+        ],
+        "training_ready": false,
+        "audit_version": "piper.collection.v4",
+        "audit_violations": [
+          "ValueError: unsuccessful_episode"
+        ]
+      },
+      "trace_metadata": {
+        "command": [
+          "--config",
+          "configs/clean_table_position_execution_rim25.yaml",
+          "--task-scene",
+          "configs/tasks/clean_table_rigid.yaml",
+          "--domain-randomization",
+          "configs/domain_randomization/clean_table.yaml",
+          "--collection-profile",
+          "configs/collection/clean_table_aligned_rim_force25.yaml",
+          "--acceptance-policy",
+          "configs/collection/quality_policy_tcp.yaml",
+          "--seed",
+          "1",
+          "--record",
+          "--output",
+          "outputs/rim_force25_raw_v1/seed1/episode"
+        ],
+        "selected_objects": [
+          "plate"
+        ],
+        "includes_task_contacts": true,
+        "selected_phases": [
+          "grasp",
+          "lift",
+          "lower",
+          "release",
+          "rim_alignment",
+          "transfer",
+          "unload_gripper"
+        ],
+        "script_sha256": "8b1affcff4ccf6492ca01a652c73d41e65ed771fbf1bf0bf9380932d9d950666",
+        "capacity": {
+          "native_steps": 60000,
+          "contacts": 1500000
+        },
+        "scope": "Read-only force diagnostic of fresh physical rollout; no additional forwards or state writes.",
+        "returncode": 2,
+        "error": null,
+        "rows": 0,
+        "status": "no_selected_steps"
+      }
+    },
+    {
+      "seed": 3,
+      "h5_sha256": "fd45f8f0e65899db04263885f288d3df0c3916d7d3479b4642e21820e88a88a5",
+      "outcome": {
+        "accepted": false,
+        "rollout_accepted": false,
+        "error": "SortFailure: Grasp preload did not converge within the declared iteration budget",
+        "teacher_events": [
+          {
+            "phase": "prepared",
+            "object": null,
+            "sim_time": 1.0000000000000233
+          },
+          {
+            "phase": "approach",
+            "object": "cup_01",
+            "sim_time": 1.0000000000000233,
+            "side": "left",
+            "target": "cup_stack"
+          },
+          {
+            "phase": "grasp",
+            "object": "cup_01",
+            "sim_time": 5.8999999999997454
+          },
+          {
+            "phase": "lift",
+            "object": "cup_01",
+            "sim_time": 7.666666666666312,
+            "contact_fingers": [
+              "7",
+              "8"
+            ]
+          },
+          {
+            "phase": "nest",
+            "object": "cup_01",
+            "sim_time": 15.700000000005753,
+            "base": "cup_00"
+          },
+          {
+            "phase": "release_for_nesting",
+            "object": "cup_01",
+            "sim_time": 19.033333333336564,
+            "base": "cup_00"
+          },
+          {
+            "phase": "stack_checked",
+            "object": "cup_01",
+            "sim_time": 23.333333333332654,
+            "nested": true,
+            "axis_offset_m": 0.0004292369014785373,
+            "max_tilt_deg": 0.28149711039865094,
+            "pitches_m": [
+              0.01075929572343318
+            ],
+            "count": 2,
+            "on_table": true
+          },
+          {
+            "phase": "stack_ready",
+            "object": "cup_01",
+            "sim_time": 24.133333333331926,
+            "cups": [
+              "cup_00",
+              "cup_01"
+            ]
+          },
+          {
+            "phase": "approach",
+            "object": "cup_00",
+            "sim_time": 27.799999999995258,
+            "side": "right",
+            "target": "cup_stack"
+          },
+          {
+            "phase": "grasp",
+            "object": "cup_00",
+            "sim_time": 33.69999999998989
+          },
+          {
+            "phase": "lift",
+            "object": "cup_00",
+            "sim_time": 35.46666666665495,
+            "contact_fingers": [
+              "7",
+              "8"
+            ]
+          },
+          {
+            "phase": "transfer_stack",
+            "object": "cup_00",
+            "sim_time": 38.39999999998562,
+            "target": "basket"
+          },
+          {
+            "phase": "release_stack",
+            "object": "cup_00",
+            "sim_time": 45.899999999978796,
+            "target": "basket"
+          },
+          {
+            "phase": "stack_placed",
+            "object": "cup_00",
+            "sim_time": 50.16666666664158,
+            "success": true
+          },
+          {
+            "phase": "approach",
+            "object": "chopstick_a",
+            "sim_time": 50.16666666664158,
+            "side": "right",
+            "target": "basket"
+          },
+          {
+            "phase": "grasp_candidate_selected",
+            "object": "chopstick_a",
+            "sim_time": 53.499999999971884,
+            "height_offset_m": 0.0,
+            "local_tilt_deg": 0.0,
+            "long_axis_offset_m": -0.02,
+            "rejected_candidates": 1,
+            "clearance_m": 0.001,
+            "rejected_candidate_details": [
+              {
+                "height_offset_m": 0.0,
+                "local_tilt_deg": 0.0,
+                "long_axis_offset_m": 0.0,
+                "error": "Planned grasp neighbor clearance 1.00 mm < 1.00 mm: ['right/link7', 'task/chopstick_b']"
+              }
+            ]
+          },
+          {
+            "phase": "grasp",
+            "object": "chopstick_a",
+            "sim_time": 54.733333333304095
+          },
+          {
+            "phase": "geometric_capture",
+            "object": "chopstick_a",
+            "sim_time": 56.13333333330282,
+            "side": "right",
+            "measured_start_width_m": 0.006999989529819726,
+            "bilateral_width_m": 0.00586999122000597,
+            "target_width_m": 0.00583999122000597,
+            "scan_samples": 114,
+            "actual_scan_step_m": 9.99998504259961e-06,
+            "overtravel_m": 3e-05,
+            "already_bilateral_at_start": false,
+            "scope": "Isolated geometric prediction; actual solver contacts still required"
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_a",
+            "sim_time": 56.66666666663567,
+            "side": "right",
+            "iteration": 0,
+            "measured_width_m": 0.005873706258296932,
+            "command_width_m": 0.00583999122000597,
+            "tracking_error_m": 3.371503829096168e-05
+          },
+          {
+            "phase": "lift",
+            "object": "chopstick_a",
+            "sim_time": 56.76666666663558,
+            "contact_fingers": [
+              "7",
+              "8"
+            ]
+          },
+          {
+            "phase": "transfer",
+            "object": "chopstick_a",
+            "sim_time": 58.89999999996697,
+            "lift_m": 0.1605099972794233
+          },
+          {
+            "phase": "placement_search_selected",
+            "object": "chopstick_a",
+            "sim_time": 58.89999999996697,
+            "slot_xy_m": [
+              0.0,
+              -0.08499999999999999
+            ],
+            "object_pitch_deg": -45,
+            "object_yaw_deg": -15,
+            "wall_margin_m": 0.03498507994709921,
+            "support_gap_m": 0.01,
+            "checked_pose_candidates": 147,
+            "opening_sweep_checked_m": [
+              0.005879436671870934,
+              0.04
+            ],
+            "rejected_geometry_or_ik": 146,
+            "support_obstacles": [
+              "plate",
+              "bowl",
+              "spoon",
+              "chopstick_b",
+              "side_dish",
+              "basket",
+              "cup_00",
+              "cup_01",
+              "pen",
+              "charger"
+            ],
+            "support_method": "subdivided payload collision faces against vertical envelope of current task collision triangles",
+            "payload_sample_count": 2938,
+            "payload_surface_spacing_m": 0.005,
+            "prediction_note": "geometric first contact, not dynamic stability proof"
+          },
+          {
+            "phase": "lower",
+            "object": "chopstick_a",
+            "sim_time": 63.233333333296365
+          },
+          {
+            "phase": "open_gripper",
+            "object": "chopstick_a",
+            "sim_time": 64.99999999996143,
+            "object_pose": {
+              "position": [
+                0.6078553220689124,
+                -0.5039366529062002,
+                0.11708646445177294
+              ],
+              "quaternion_wxyz": [
+                0.9128381847826281,
+                -0.06461034337176985,
+                -0.37086802929463925,
+                -0.1581418881234492
+              ]
+            }
+          },
+          {
+            "phase": "release",
+            "object": "chopstick_a",
+            "sim_time": 64.99999999996143,
+            "object_pose": {
+              "position": [
+                0.6078553220689124,
+                -0.5039366529062002,
+                0.11708646445177294
+              ],
+              "quaternion_wxyz": [
+                0.9128381847826281,
+                -0.06461034337176985,
+                -0.37086802929463925,
+                -0.1581418881234492
+              ]
+            }
+          },
+          {
+            "phase": "placed",
+            "object": "chopstick_a",
+            "sim_time": 68.89999999995788,
+            "success": true
+          },
+          {
+            "phase": "approach",
+            "object": "chopstick_b",
+            "sim_time": 68.89999999995788,
+            "side": "right",
+            "target": "basket"
+          },
+          {
+            "phase": "grasp_candidate_selected",
+            "object": "chopstick_b",
+            "sim_time": 72.96666666662085,
+            "height_offset_m": 0.0,
+            "local_tilt_deg": 0.0,
+            "long_axis_offset_m": -0.02,
+            "rejected_candidates": 1,
+            "clearance_m": 0.001,
+            "rejected_candidate_details": [
+              {
+                "height_offset_m": 0.0,
+                "local_tilt_deg": 0.0,
+                "long_axis_offset_m": 0.0,
+                "error": "Planned grasp neighbor clearance 0.34 mm < 1.00 mm: ['right/link6', 'task/basket']"
+              }
+            ]
+          },
+          {
+            "phase": "grasp",
+            "object": "chopstick_b",
+            "sim_time": 74.19999999995306
+          },
+          {
+            "phase": "geometric_capture",
+            "object": "chopstick_b",
+            "sim_time": 75.59999999995179,
+            "side": "right",
+            "measured_start_width_m": 0.006999076756484801,
+            "bilateral_width_m": 0.006289170399755628,
+            "target_width_m": 0.0062591703997556284,
+            "scan_samples": 72,
+            "actual_scan_step_m": 9.998681080692573e-06,
+            "overtravel_m": 3e-05,
+            "already_bilateral_at_start": false,
+            "scope": "Isolated geometric prediction; actual solver contacts still required"
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 76.09999999995134,
+            "side": "right",
+            "iteration": 0,
+            "measured_width_m": 0.006271420784188169,
+            "command_width_m": 0.0062591703997556284,
+            "tracking_error_m": 1.2250384432540597e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 76.43333333328437,
+            "side": "right",
+            "iteration": 1,
+            "measured_width_m": 0.0062592283438530245,
+            "command_width_m": 0.006241420784188169,
+            "tracking_error_m": 1.780755966485515e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 76.7666666666174,
+            "side": "right",
+            "iteration": 2,
+            "measured_width_m": 0.00624162144893311,
+            "command_width_m": 0.006229228343853025,
+            "tracking_error_m": 1.239310508008469e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 77.09999999995043,
+            "side": "right",
+            "iteration": 3,
+            "measured_width_m": 0.00622880423023388,
+            "command_width_m": 0.00621162144893311,
+            "tracking_error_m": 1.7182781300769875e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 77.43333333328346,
+            "side": "right",
+            "iteration": 4,
+            "measured_width_m": 0.006215270779331664,
+            "command_width_m": 0.00619880423023388,
+            "tracking_error_m": 1.6466549097783438e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 77.76666666661649,
+            "side": "right",
+            "iteration": 5,
+            "measured_width_m": 0.00620400337485361,
+            "command_width_m": 0.006185270779331664,
+            "tracking_error_m": 1.8732595521946463e-05
+          },
+          {
+            "phase": "grasp_preload",
+            "object": "chopstick_b",
+            "sim_time": 78.09999999994952,
+            "side": "right",
+            "iteration": 6,
+            "measured_width_m": 0.006191721437439788,
+            "command_width_m": 0.006174003374853611,
+            "tracking_error_m": 1.771806258617746e-05
+          }
+        ],
+        "object_results": [
+          {
+            "name": "cup_00",
+            "target": "basket",
+            "grasp_mode": "physical",
+            "contained": true,
+            "hold_seconds": 4.7666666666666595,
+            "success": true
+          },
+          {
+            "name": "cup_01",
+            "target": "basket",
+            "grasp_mode": "physical",
+            "contained": true,
+            "hold_seconds": 4.56666666666666,
+            "success": true
+          },
+          {
+            "name": "chopstick_a",
+            "target": "basket",
+            "grasp_mode": "physical",
+            "lift_m": 0.1605099972794233,
+            "contained": true,
+            "hold_seconds": 3.6666666666666634,
+            "success": true
+          }
+        ],
+        "training_ready": false,
+        "audit_version": "piper.collection.v4",
+        "audit_violations": [
+          "ValueError: unsuccessful_episode"
+        ]
+      },
+      "trace_metadata": {
+        "command": [
+          "--config",
+          "configs/clean_table_position_execution_rim25.yaml",
+          "--task-scene",
+          "configs/tasks/clean_table_rigid.yaml",
+          "--domain-randomization",
+          "configs/domain_randomization/clean_table.yaml",
+          "--collection-profile",
+          "configs/collection/clean_table_aligned_rim_force25.yaml",
+          "--acceptance-policy",
+          "configs/collection/quality_policy_tcp.yaml",
+          "--seed",
+          "3",
+          "--record",
+          "--output",
+          "outputs/rim_force25_raw_v1/seed3/episode"
+        ],
+        "selected_objects": [
+          "plate"
+        ],
+        "includes_task_contacts": true,
+        "selected_phases": [
+          "grasp",
+          "lift",
+          "lower",
+          "release",
+          "rim_alignment",
+          "transfer",
+          "unload_gripper"
+        ],
+        "script_sha256": "8b1affcff4ccf6492ca01a652c73d41e65ed771fbf1bf0bf9380932d9d950666",
+        "capacity": {
+          "native_steps": 60000,
+          "contacts": 1500000
+        },
+        "scope": "Read-only force diagnostic of fresh physical rollout; no additional forwards or state writes.",
+        "returncode": 2,
+        "error": null,
+        "rows": 0,
+        "status": "no_selected_steps"
+      }
+    }
+  ]
+}

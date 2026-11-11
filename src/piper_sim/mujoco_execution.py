@@ -28,7 +28,7 @@ class MujocoPositionExecution:
             model.actuator_gainprm[a, 0] = p['gripper_kp_N_per_m']
             model.actuator_biasprm[a, 1:3] = [-p['gripper_kp_N_per_m'], -p['gripper_kv_Ns_per_m']]
             model.actuator_forcerange[a] = [-p['gripper_force_limit_N'], p['gripper_force_limit_N']]
-        model.opt.impratio = 10.
+        model.opt.impratio = p.get('impratio',10.)
         model.opt.enableflags |= int(mujoco.mjtEnableBit.mjENBL_MULTICCD)
         model.opt.noslip_iterations = p['noslip_iterations']
         self.expected = {key: getattr(model, key)[self.actuators].copy() for key in (
@@ -45,7 +45,7 @@ class MujocoPositionExecution:
         if not np.array_equal(self.model.actuator_biasprm[self.actuators, 1:], self.bias_coefficients):
             raise RuntimeError('Position execution servo coefficients changed')
         opt = self.model.opt
-        if (opt.noslip_iterations != self.profile['noslip_iterations'] or opt.impratio != 10.
+        if (opt.noslip_iterations != self.profile['noslip_iterations'] or opt.impratio != self.profile.get('impratio',10.)
                 or not opt.enableflags & int(mujoco.mjtEnableBit.mjENBL_MULTICCD)):
             raise RuntimeError('Position execution solver settings changed')
 
@@ -68,6 +68,7 @@ class MujocoPositionExecution:
                      'start_sim_time': float(data.time), 'end_sim_time': None,
                      'applied_robot_generalized_force': self.expected_applied[self.dofs].tolist(),
                      'nonrobot_applied_force_abs_max': 0., 'external_body_force_abs_max': 0.,
+                     'impratio':float(self.model.opt.impratio),
                      'noslip_iterations': int(self.model.opt.noslip_iterations)}
 
     def finish(self, data):
@@ -87,7 +88,7 @@ class MujocoPositionExecution:
                 'parameter_origin': 'uncalibrated_configuration', 'constant_within_episode': True,
                 'public_action': '14 absolute joint/full-opening targets, rad/m',
                 'bias_timing': 'Recompute from current robot qfrc_bias once before each control interval; hold through its substeps.',
-                'solver': {'impratio': 10., 'multiccd': True, 'noslip_iterations': self.profile['noslip_iterations']},
+                'solver': {'impratio': self.profile.get('impratio',10.), 'multiccd': True, 'noslip_iterations': self.profile['noslip_iterations']},
                 'scope': __doc__}
 
     def telemetry(self):

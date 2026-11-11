@@ -1,0 +1,15 @@
+{
+  "scope": "Fresh full physical trials from reset; experimental and uncalibrated, not training certification",
+  "seeds": [
+    1,
+    3
+  ],
+  "execution": "configs/clean_table_position_execution_rim25.yaml",
+  "collection": "configs/collection/clean_table_aligned_rim_force25.yaml",
+  "executor_constant_for_both_arms_entire_episode": true,
+  "same_material": true,
+  "same_independent_quality_policy": true,
+  "model_parameter_selection": "Frozen-contact rigid-rotation hypothesis needs about 17.5 N at 42 degrees; test 25 N cap and higher fixed gain to avoid aperture-dependent loss of preload. Not a hardware torque-to-force calibration.",
+  "thin_item_policy": "10x lower distance preload budgets with 10x higher kp retains nominal 0.3 N spring preload; actual force and motion must be checked.",
+  "no_object_state_assignment_or_attachment": true
+}

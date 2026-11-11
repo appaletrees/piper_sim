@@ -17,7 +17,7 @@ def profile_digest(profile):
 def validate_profile(value):
     fields = {'schema_version', 'bias_compensation', 'gripper_kp_N_per_m',
               'gripper_kv_Ns_per_m', 'gripper_force_limit_N', 'noslip_iterations'}
-    if not isinstance(value, dict) or set(value) != fields or type(value['schema_version']) is not int or value['schema_version'] != 1:
+    if not isinstance(value, dict) or set(value)-{'impratio'} != fields or type(value['schema_version']) is not int or value['schema_version'] != 1:
         raise ValueError('Position execution requires exactly schema v1 fields')
     p = copy.deepcopy(value)
     if p['bias_compensation'] not in ('robot_bias', 'none'):
@@ -27,6 +27,10 @@ def validate_profile(value):
             raise ValueError('Positive finite execution parameter required: '+key)
     if type(p['noslip_iterations']) is not int or p['noslip_iterations'] < 0:
         raise ValueError('Nonnegative integer noslip_iterations required')
+    if 'impratio' in p:
+        v=p['impratio']
+        if isinstance(v,bool) or not isinstance(v,(int,float)) or not np.isfinite(v) or not 1 <= v <= 1000:
+            raise ValueError('Fixed friction impedance ratio must be finite in 1..1000')
     return p
 
 
@@ -58,6 +62,8 @@ forces, camera quality or bitwise dynamics replay. Legacy files are read-only.
             issues.add('profile_digest_mismatch')
         if metadata.get('config', {}).get('mujoco', {}).get('position_execution') != profile:
             issues.add('config_profile_mismatch')
+        if 'impratio' in profile and declaration.get('solver',{}).get('impratio')!=profile['impratio']:
+            issues.add('declared_solver_impedance_mismatch')
         reference_mode = metadata.get('config', {}).get('mujoco', {}).get('controller', {}).get('mode')
         reference = metadata.get('physics_model', {}).get('controller', {})
         if (reference_mode not in ('monotone_cubic_velocity', 'zero_order_observed')
@@ -126,6 +132,7 @@ forces, camera quality or bitwise dynamics replay. Legacy files are read-only.
         if profile['bias_compensation'] == 'none' and np.any(applied != 0):
             issues.add('unexpected_bias_force')
         if (execution['noslip_iterations'] != profile['noslip_iterations']
+                or execution.get('impratio',10.) != profile.get('impratio',10.)
                 or execution['nonrobot_applied_force_abs_max'] != 0.
                 or execution['external_body_force_abs_max'] != 0.):
             issues.add('undeclared_solver_or_external_force')

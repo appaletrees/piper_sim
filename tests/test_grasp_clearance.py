@@ -124,16 +124,17 @@ def test_spline_checks_planned_aperture_instead_of_unrelated_native_aperture():
 
 def test_extra_candidates_follow_measured_long_axis_with_end_margin():
     teacher = RigidTableTeacher.__new__(RigidTableTeacher)
+    teacher.pacing={'grasp_height_offsets_m':[0.,.002,.004]}
     teacher.grasp_clearance = profile()
     teacher.b = SimpleNamespace(task=SimpleNamespace(specs={'stick': {'kind': 'chopstick', 'size_m': [.225, .006, .006]}}))
     teacher.object_pose = lambda name: {'position': [.3, -.2, .03],
         'quaternion_wxyz': [2**-.5, 0., 0., 2**-.5]}
     p, r = np.array([.3, -.2, .035]), np.eye(3)
     candidates = list(teacher.grasp_candidates('stick', p, r, check_approach=True))
-    assert len(candidates) == 9
+    assert len(candidates) == 27
     for target, rotation, detail in candidates:
         offset = detail['long_axis_offset_m']
-        np.testing.assert_allclose(target-p, [0., offset, 0.], atol=1e-15)
+        np.testing.assert_allclose(target-p, [0., offset, detail['height_offset_m']], atol=1e-15)
         np.testing.assert_array_equal(rotation, r)
         assert abs(offset) <= .4*.225
     assert len(list(teacher.grasp_candidates('stick', p, r, check_approach=False))) == 5

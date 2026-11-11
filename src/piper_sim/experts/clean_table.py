@@ -376,6 +376,11 @@ class CleanTableTeacher:
                 and self.pacing.get('continuous_paths')):
             motion.update(self.pacing.get('rim_load_limits', {}))
             motion.update(self.pacing.get('loaded_limits_by_kind', {}).get(self.b.task.specs[self.carried[1]]['kind'], {}))
+            # Separating a rim from table support changes its contact load.
+            # Limit the actual position trajectory here, independently of the
+            # later free-space transit. Backend gains/forces stay fixed.
+            if self.phase=='lift' and self.b.task.specs[self.carried[1]]['kind']=='plate':
+                motion.update(self.pacing.get('rim_lift_limits', {}))
         return {label:[*[motion['joint_'+label+suffix]]*6, motion['gripper_'+label+grip_suffix]]*2
                 for label,suffix,grip_suffix in [('velocity','_rad_s','_m_s'),
                     ('acceleration','_rad_s2','_m_s2'),('jerk','_rad_s3','_m_s3')]}

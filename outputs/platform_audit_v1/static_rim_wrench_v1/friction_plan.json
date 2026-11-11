@@ -1,0 +1,14 @@
+{
+  "scope": "Fresh full physical validation, no acceptance threshold changes",
+  "seeds": [
+    1,
+    3
+  ],
+  "config": "configs/clean_table_position_execution_rim25_friction.yaml",
+  "collection": "configs/collection/clean_table_rim_capacity.yaml",
+  "solver": "Newton/elliptic, impratio 1000 fixed globally, noslip 0, same native step.",
+  "hypothesis": "Original capacity25 native force exceeds frozen-contact minimum yet suffers gradual rotation; reduce friction regularization per official MuJoCo guidance without increasing friction coefficients or adding attachment.",
+  "same_material_coefficients": true,
+  "same_servo_as_capacity_trial": true,
+  "same_independent_policy": true
+}

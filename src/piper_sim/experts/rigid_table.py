@@ -110,9 +110,14 @@ class RigidTableTeacher(CleanTableTeacher):
         profile = getattr(self, 'grasp_clearance', None)
         if check_approach and profile:
             offsets.extend(fraction*spec['size_m'][0] for fraction in profile['extra_long_axis_fractions'])
-        for offset in dict.fromkeys(offsets):
-            yield position+offset*axis, rotation, {'height_offset_m': 0., 'local_tilt_deg': 0.,
-                                                   'long_axis_offset_m': offset}
+        # Like the other props, try declared positive height alternatives only
+        # after the original grasps fail their full approach checks. The pad
+        # stays upright; neighbor clearance and actual capture are still gates.
+        heights=self.pacing.get('grasp_height_offsets_m',[0.]) if check_approach else [0.]
+        for height in heights:
+            for offset in dict.fromkeys(offsets):
+                yield position+offset*axis+np.array([0.,0.,height]), rotation, {
+                    'height_offset_m':float(height),'local_tilt_deg':0.,'long_axis_offset_m':offset}
 
     def configure_object_contact(self,name):
         """Existing per-kind contact/controller settings, also used in diagnostics."""

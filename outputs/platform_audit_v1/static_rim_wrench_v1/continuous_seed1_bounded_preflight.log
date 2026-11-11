@@ -1,0 +1,510 @@
+{
+  "scope": "Read-only geometry preflight from a closed recording, never dynamics replay.",
+  "source": "outputs/rim_continuous_raw_v1/seed1/episode/episode.h5",
+  "source_sha256": "bac9989ee0697c8f77e03de4ee7f3cc6795b699ec5db6e1f697bec303cd57ad6",
+  "script_sha256": "613b87aa5a5863a2c8a2593a2d0730e6ad3ec8e9799fe97b17819ea31a3d9d76",
+  "collection_profile_sha256": "543130de9ad9571b5da4ab27210ac82449f0d5ae7277de75a397081c29c1875e",
+  "training_ready": false,
+  "passed": true,
+  "snapshot": "final",
+  "evidence": {
+    "strategy": "measured_rim_hand_frame",
+    "yaw_offset_deg": -30,
+    "tilt_offset_deg": -15,
+    "requested_path_interpolation": "bounded",
+    "transfer_path": {
+      "fidelity": {
+        "limits": {
+          "max_position_deviation_m": 0.002,
+          "max_rotation_deviation_rad": 0.01,
+          "max_refinements": 2
+        },
+        "attempts": [
+          {
+            "refinement": 0,
+            "control_points": 52,
+            "command_samples": 235,
+            "position_deviation_m": 0.008564623376302883,
+            "rotation_deviation_rad": 0.029432802942720656,
+            "position_peak_sample": 58,
+            "rotation_peak_sample": 58,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          },
+          {
+            "refinement": 1,
+            "control_points": 103,
+            "command_samples": 397,
+            "position_deviation_m": 0.004193589129598346,
+            "rotation_deviation_rad": 0.014402562288274922,
+            "position_peak_sample": 99,
+            "rotation_peak_sample": 99,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          },
+          {
+            "refinement": 2,
+            "control_points": 205,
+            "command_samples": 583,
+            "position_deviation_m": 0.0019142170313919751,
+            "rotation_deviation_rad": 0.006564405323787233,
+            "position_peak_sample": 146,
+            "rotation_peak_sample": 146,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          }
+        ],
+        "reference_ik_knots": 52
+      },
+      "interpolation": "convex",
+      "command_samples": 583
+    },
+    "lower_path": {
+      "fidelity": {
+        "limits": {
+          "max_position_deviation_m": 0.002,
+          "max_rotation_deviation_rad": 0.01,
+          "max_refinements": 2
+        },
+        "attempts": [
+          {
+            "refinement": 0,
+            "control_points": 14,
+            "command_samples": 136,
+            "position_deviation_m": 0.002728282875992905,
+            "rotation_deviation_rad": 0.0007836335143369123,
+            "position_peak_sample": 96,
+            "rotation_peak_sample": 31,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          },
+          {
+            "refinement": 1,
+            "control_points": 27,
+            "command_samples": 136,
+            "position_deviation_m": 0.0013628674806099596,
+            "rotation_deviation_rad": 0.00032876834525371413,
+            "position_peak_sample": 104,
+            "rotation_peak_sample": 54,
+            "reference": "parameter-matched solved-IK pose polyline",
+            "scope": "sampled additional approximation; excludes IK and tracking error"
+          }
+        ],
+        "reference_ik_knots": 14
+      },
+      "interpolation": "convex",
+      "command_samples": 136
+    },
+    "slot_xy_m": [
+      0.03,
+      0.03
+    ],
+    "wall_margin_m": 0.026432561434320184,
+    "predicted_object_up_world": [
+      0.3382865020976914,
+      0.04107039769177305,
+      0.9401465124819368
+    ],
+    "predicted_tilt_from_container_up_rad": 0.3477698864236132,
+    "orientation_reference_error_rad": 0.00048590112809781605,
+    "opening_sweep_checked_m": [
+      0.002649220835486829,
+      0.045
+    ],
+    "release_rim_margin_m": 0.005,
+    "predicted_release_top_world_z_m": 0.14245928030213523,
+    "basket_rim_world_z_m": 0.16498558586363848,
+    "footprint_gate": "Measured tilted footprint and level plate footprint both retain the wall margin.",
+    "candidates_checked": 38,
+    "rejected_candidates": [
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5586, -0.4813, 0.3058]: 14.9 mm, 16.9 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5581, -0.4963, 0.3058]: 18.1 mm, 17.8 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.0,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5731, -0.4968, 0.3058]: 18.2 mm, 20.2 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5489, -0.467, 0.3058]: 5.1 mm, 11.2 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5335, -0.4815, 0.3058]: 6.6 mm, 7.0 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5485, -0.482, 0.3058]: 7.8 mm, 8.5 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          0.0,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5635, -0.4825, 0.3058]: 10.9 mm, 10.1 deg"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "lower",
+        "error": "Planned path obstructed (4.09 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "lower",
+        "error": "Planned path obstructed (4.37 mm): ['task/chopstick_b', 'right/link6']"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "lower",
+        "error": "Planned path obstructed (4.25 mm): ['task/chopstick_b', 'right/link6']"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "lower",
+        "error": "Planned path obstructed (4.21 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": -45,
+        "tilt_offset_deg": 0,
+        "slot_xy_m": [
+          -0.015,
+          -0.03
+        ],
+        "stage": "lower",
+        "error": "Planned path obstructed (4.03 mm): ['task/basket', 'right/link6']"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5787, -0.4457, 0.2633]: 2.4 mm, 5.0 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.03,
+          0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5937, -0.4461, 0.2633]: 4.6 mm, 5.9 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5783, -0.4607, 0.2633]: 3.7 mm, 7.0 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.0,
+          0.0
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5628, -0.4752, 0.2633]: 8.0 mm, 8.0 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.045,
+          0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.6087, -0.4466, 0.2633]: 4.9 mm, 8.4 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.03,
+          0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5933, -0.4611, 0.2633]: 3.5 mm, 7.9 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5319, -0.5043, 0.2633]: 4.7 mm, 9.0 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.0
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5778, -0.4757, 0.2633]: 5.1 mm, 7.6 deg"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.03
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 209, 'command_samples': 674, 'position_deviation_m': 0.0024122176400577745, 'rotation_deviation_rad': 0.008279484114606297, 'position_peak_sample': 161, 'rotation_peak_sample': 161, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.03,
+          0.03
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 213, 'command_samples': 661, 'position_deviation_m': 0.002350334688775119, 'rotation_deviation_rad': 0.00806562106074634, 'position_peak_sample': 156, 'rotation_peak_sample': 156, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.015
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 213, 'command_samples': 633, 'position_deviation_m': 0.0023368368858580043, 'rotation_deviation_rad': 0.008019332696108902, 'position_peak_sample': 150, 'rotation_peak_sample': 150, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.0,
+          0.0
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 217, 'command_samples': 663, 'position_deviation_m': 0.0024149429297738484, 'rotation_deviation_rad': 0.00828878580772206, 'position_peak_sample': 157, 'rotation_peak_sample': 157, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          -0.015,
+          -0.015
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 217, 'command_samples': 634, 'position_deviation_m': 0.002352329753726325, 'rotation_deviation_rad': 0.008072692500334539, 'position_peak_sample': 150, 'rotation_peak_sample': 150, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.045,
+          0.03
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 217, 'command_samples': 672, 'position_deviation_m': 0.0024715920934602603, 'rotation_deviation_rad': 0.00848365475180731, 'position_peak_sample': 157, 'rotation_peak_sample': 157, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.03,
+          0.015
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 217, 'command_samples': 678, 'position_deviation_m': 0.0024018696666507963, 'rotation_deviation_rad': 0.008243733922561258, 'position_peak_sample': 159, 'rotation_peak_sample': 159, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": -15,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "transfer",
+        "error": "Bounded loaded path exceeds pose fidelity: {'refinement': 2, 'control_points': 217, 'command_samples': 676, 'position_deviation_m': 0.0022133010084879347, 'rotation_deviation_rad': 0.007593699722157713, 'position_peak_sample': 159, 'rotation_peak_sample': 159, 'reference': 'parameter-matched solved-IK pose polyline', 'scope': 'sampled additional approximation; excludes IK and tracking error'}"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          0.03,
+          0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5909, -0.4482, 0.2499]: 5.2 mm, 4.0 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          0.015,
+          0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5755, -0.4628, 0.2499]: 3.4 mm, 4.2 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          0.0,
+          0.0
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.56, -0.4773, 0.2499]: 4.4 mm, 4.7 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          0.045,
+          0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.6059, -0.4487, 0.2499]: 3.2 mm, 4.7 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          0.03,
+          0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5905, -0.4632, 0.2499]: 3.4 mm, 4.8 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          -0.03,
+          -0.03
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5291, -0.5064, 0.2499]: 7.0 mm, 7.4 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          0.015,
+          0.0
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.575, -0.4778, 0.2499]: 6.2 mm, 6.1 deg"
+      },
+      {
+        "yaw_deg": 0,
+        "tilt_offset_deg": -20,
+        "slot_xy_m": [
+          0.0,
+          -0.015
+        ],
+        "stage": "high_ik",
+        "error": "right IK failed at [0.5596, -0.4923, 0.2499]: 4.6 mm, 6.4 deg"
+      },
+      {
+        "yaw_deg": -30,
+        "tilt_offset_deg": -15,
+        "slot_xy_m": [
+          0.015,
+          0.03
+        ],
+        "stage": "lower",
+        "error": "Planned path obstructed (4.26 mm): ['task/basket', 'right/link6']"
+      }
+    ],
+    "support_obstacles": [
+      "bowl",
+      "spoon",
+      "chopstick_a",
+      "chopstick_b",
+      "side_dish",
+      "basket",
+      "cup_00",
+      "cup_01",
+      "cup_02",
+      "pen",
+      "charger"
+    ],
+    "scope": "Measured rigid-grasp and sampled support prediction; physical slip/stability still required."
+  },
+  "transfer_commands": 583,
+  "lower_commands": 136,
+  "isolated_state_and_command_unchanged": true,
+  "commands_sha256": "d308786993fa8038f5a2b305e6146f5206a9582cbe64a2a5973d7ec9e298b577"
+}
