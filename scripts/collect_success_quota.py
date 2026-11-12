@@ -31,6 +31,7 @@ from piper_sim.training_acceptance import verify_training_acceptance
 
 
 DEFAULTS = dict(target_success=2000, gpus=list(range(8)), seed_start=None, workers_per_gpu=1,
+    prior_run=None,
     timeout_s=7200., min_free_gib=512., warmup_successes=1,
     config='configs/clean_table_position_execution_rim25_damped.yaml',
     task_scene='configs/tasks/clean_table_rigid_bowl_clearance.yaml',
@@ -62,6 +63,19 @@ def initialize(output, options):
     profile = yaml.safe_load((ROOT/options['collection_profile']).read_text())
     if profile['dataset'].get('image_storage') != 'shared':
         raise ValueError('Use self-contained shared-frame storage for this large collection')
+    prior = None
+    if options.get('prior_run'):
+        root = Path(options['prior_run']).resolve()
+        options['prior_run'] = str(root)
+        # A revision may inherit only a stopped, reconciled run. References are
+        # frozen rather than moving data or changing an earlier audit policy.
+        status = load_json(root/'status.json')
+        if status.get('status') not in ('completed', 'interrupted', 'failed', 'superseded', 'drained'):
+            raise ValueError('Prior run must be stopped and reconciled')
+        if any((root/'running').iterdir()):
+            raise ValueError('Prior run still has unreconciled working folders')
+        prior = {'root': str(root), 'files': {name: sha256(root/name)
+                 for name in ('run.json', 'success.jsonl', 'failed.jsonl')}}
     output.mkdir(parents=True, exist_ok=False)
     snapshot = output/'inputs/project'
     snapshot.mkdir(parents=True)
@@ -76,13 +90,45 @@ def initialize(output, options):
     git = subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
     atomic_json(output/'run.json', {'schema_version': 'piper.success_quota.v1',
         'created_unix': time.time(), 'source_project': str(ROOT), 'source_git_commit': git,
-        'options': options, 'files': fingerprints(snapshot), 'versions': versions(),
+        'options': options, 'files': fingerprints(snapshot), 'versions': versions(), 'prior_run': prior,
         'contract': {'fps': 30., 'action': 'absolute_joint_position', 'features': list(FEATURE_NAMES),
             'units': ['rad']*6+['m']+['rad']*6+['m'], 'cameras': ['overhead','left_wrist','right_wrist'],
             'task': 'stack cups on the table, move the entire stack and all rigid utensils to the basket',
-            'randomized': True, 'success_rule': 'complete RGB episode passes the unchanged independent policy',
+            'randomized': True, 'success_rule': 'complete RGB episode passes its frozen operator-selected independent policy',
             'random_seed_mode': 'system_entropy_unique' if options['seed_start'] is None else 'deterministic_sequence',
             'failed_rule': 'all other attempts retained, including quality rejection and incomplete recordings'}})
+
+
+def inherited_results(spec):
+    """Carry verified earlier successes toward the quota, retaining their policy.
+
+    Never reclassify earlier failures using the revision's relaxed policy.
+    Earlier manifests and run identity must remain byte-for-byte unchanged.
+    """
+    prior = spec.get('prior_run')
+    if not prior:
+        return []
+    root = Path(prior['root'])
+    if any(sha256(root/name) != digest for name, digest in prior['files'].items()):
+        raise ValueError('Prior run manifests or identity changed')
+    old = load_json(root/'run.json')
+    policy = root/'inputs/project'/old['options']['acceptance_policy']
+    results = []
+    for category in ('success', 'failed'):
+        for line in (root/(category+'.jsonl')).read_text().splitlines():
+            row = json.loads(line)
+            row.setdefault('source_run', str(root))
+            row.setdefault('acceptance_policy', str(policy))
+            if row['accepted'] != (category == 'success'):
+                raise ValueError('Prior category disagrees with accepted flag')
+            if row['accepted']:
+                with h5py.File(row['path'], 'r') as f:
+                    _, digest = verify_training_acceptance(f, row['path'], policy=row['acceptance_policy'])
+                    check_contract(f)
+                if digest != row['verified']['source_sha256']:
+                    raise ValueError('Changed inherited accepted episode')
+            results.append(row)
+    return results
 
 
 def quota_slots(target, successes, active):
@@ -202,7 +248,7 @@ def finalize(output, folder, policy, returncode):
     for name, filename in (('path','episode.h5'),('report','report.json'),('audit','audit.json')):
         path = folder/'recording'/filename
         if name=='path' and not path.exists() and path.with_suffix('.h5.partial').exists():
-            filename='episode.h5.partial';path=folder/filename
+            filename='episode.h5.partial';path=folder/'recording'/filename
         result[name] = str(destination/'recording'/filename) if path.exists() else None
     atomic_json(folder/'result.json', result)
     folder.rename(destination)
@@ -233,7 +279,7 @@ def collect(output, spec):
     options=spec['options'];policy=snapshot/options['acceptance_policy']
     if fingerprints(snapshot) != spec['files'] or versions() != spec['versions']:
         raise ValueError('Frozen collection inputs or installed dependency versions changed')
-    results=[]
+    results=inherited_results(spec)
     for category in ('success','failed'):
         for folder in sorted((output/category).iterdir()):
             result=load_json(folder/'result.json')
@@ -271,10 +317,14 @@ def collect(output, spec):
                     raise RuntimeError('Repeated infrastructure failures; inspect failed episode logs before resuming')
                 publish(output,spec,results,active,'running',started)
             if successes==options['target_success'] and not active:break
+            draining = (output/'DRAIN').exists()
+            if draining and not active:
+                status='drained'
+                return 0
             free=shutil.disk_usage(output).free/1024**3
             if free<options['min_free_gib']:
                 if not active:raise OSError(f'Insufficient free disk: {free:.1f} GiB; resume after freeing space')
-            else:
+            elif not draining:
                 warmup = successes<options['warmup_successes']
                 launched=False
                 for slot,gpu in enumerate(gpu_slots):
@@ -298,7 +348,8 @@ def collect(output, spec):
                     launched=True
                 if launched:publish(output,spec,results,active,'warmup' if warmup else 'running',started)
             if time.monotonic()-last_publish>=15:
-                publish(output,spec,results,active,'warmup' if successes<options['warmup_successes'] else 'running',started,manifests=False)
+                publish(output,spec,results,active,'draining' if draining else
+                    ('warmup' if successes<options['warmup_successes'] else 'running'),started,manifests=False)
                 last_publish=time.monotonic()
             time.sleep(1)
         status='completed'

@@ -66,3 +66,37 @@ PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_success_quota.py \
 恢复时，未完成回合的部分文件会保留；仅有完整独立审核证据的回合可恢复为成功。
 输入或依赖改变时拒绝继续，重复基础设施错误或剩余空间不足时明确停止并记录原因。
 默认保留至少 512 GiB 空间，低于此值不启动新回合；不自动删除失败数据。
+
+### Practical v2 revision (2026-11-12)
+
+Early remote failures were mostly planner rejection: TCP errors of 3.5–5.7 mm
+or 2.3–2.9 degrees exceeded the original 3 mm / 0.035 rad IK criterion. Some
+full physical runs were still in flight while these early failures appeared.
+A targeted rerun then exposed a further 7.2 mm waypoint rejection, so the
+explicit fallback budget is 10 mm / 5 degrees. At the operator's request, the
+alternative profiles are:
+
+- `configs/collection/clean_table_practical_v2.yaml`: IK fallback 10 mm / 5 degrees,
+  after trying all seeds at original precision; bounded spline approximation
+  4 mm / 0.02 rad instead of 2 mm / 0.01 rad; duration up to 420 s.
+- `configs/collection/quality_policy_practical_v2.yaml`: only the maximum
+  duration changes from 300 to 420 s. Motion smoothness, contacts, camera,
+  timestamps, physical completion and full containment gates remain unchanged.
+
+This does not repair physically unreachable poses, missed grasps or failed
+placements. Such attempts remain failures. Fallback errors are recorded in
+teacher events; this is a simulation planning allowance, not a hardware accuracy
+claim.
+
+To change an active run, drain or stop/reconcile it first. Do not edit its frozen
+inputs or re-audit failed episodes as successful. Start a new revision beneath
+the same dataset root with `--prior-run /absolute/path/to/stopped/run`. The old
+manifests and run identity are hashed, prior successful HDF5 files are verified
+under their original policy, and only verified successes count toward the same
+2000 total. Old failures retain their category. The new revision's manifests
+include inherited records with `source_run` and `acceptance_policy` paths.
+
+For new collectors, creating an empty `DRAIN` file in the run folder stops new
+launches, allows active workers to finish, and exits with status `drained`.
+Remove that file before resuming. `DRAIN` affects scheduling only and never
+changes the configured success quota.

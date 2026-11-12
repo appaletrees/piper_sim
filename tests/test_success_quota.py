@@ -147,3 +147,67 @@ def test_frozen_inputs_change_stops_before_launch(tmp_path,monkeypatch):
     (snapshot/'changed.py').write_text('changed')
     monkeypatch.setattr(cli.subprocess,'Popen',lambda *a,**k:pytest.fail('Changed run must not launch'))
     with pytest.raises(ValueError,match='Frozen'):cli.collect(tmp_path,run)
+
+
+def test_partial_recording_path_is_preserved_on_interruption(tmp_path,monkeypatch):
+    folder=tmp_path/'running/episode_000000_seed_1';(folder/'recording').mkdir(parents=True)
+    (tmp_path/'failed').mkdir()
+    (folder/'recording/episode.h5.partial').write_bytes(b'partial retained')
+    atomic_json(folder/'claim.json',{'index':0,'seed':1,'gpu':0})
+    monkeypatch.setattr(cli,'assess',lambda *args:{'accepted':False})
+    result=cli.finalize(tmp_path,folder,None,None)
+    assert Path(result['path']).read_bytes()==b'partial retained'
+
+
+def test_inheritance_preserves_categories_policy_and_rejects_manifest_changes(tmp_path,monkeypatch):
+    root=tmp_path/'old';root.mkdir()
+    policy=root/'inputs/project/old_policy.yaml';policy.parent.mkdir(parents=True)
+    policy.write_text('old policy')
+    atomic_json(root/'run.json',{'options':{'acceptance_policy':'old_policy.yaml'}})
+    success={'index':0,'seed':10,'accepted':True,'path':'/old/episode.h5',
+             'verified':{'source_sha256':'original'}}
+    failed={'index':1,'seed':11,'accepted':False,'error':'task failure'}
+    (root/'success.jsonl').write_text(json.dumps(success)+'\n')
+    (root/'failed.jsonl').write_text(json.dumps(failed)+'\n')
+    spec={'prior_run':{'root':str(root),'files':{name:sha256(root/name)
+        for name in ('run.json','success.jsonl','failed.jsonl')}}}
+    class File:
+        def __enter__(self):return self
+        def __exit__(self,*args):pass
+    monkeypatch.setattr(cli.h5py,'File',lambda *a:File())
+    checked=[]
+    def verify(*args,**kwargs):
+        checked.append(kwargs['policy']);return {},'original'
+    monkeypatch.setattr(cli,'verify_training_acceptance',verify)
+    monkeypatch.setattr(cli,'check_contract',lambda f:None)
+    rows=cli.inherited_results(spec)
+    assert [r['accepted'] for r in rows]==[True,False]
+    assert checked==[str(policy)] and rows[1]['error']=='task failure'
+    (root/'failed.jsonl').write_text('changed')
+    with pytest.raises(ValueError,match='Prior run'):cli.inherited_results(spec)
+
+
+def test_drain_does_not_launch_or_change_target(tmp_path,monkeypatch):
+    snapshot=tmp_path/'inputs/project';snapshot.mkdir(parents=True)
+    for name in ('running','success','failed'):(tmp_path/name).mkdir()
+    (tmp_path/'DRAIN').touch()
+    run={'options':cli.DEFAULTS,'files':{},'versions':{'test':'1'}}
+    monkeypatch.setattr(cli,'versions',lambda:{'test':'1'})
+    monkeypatch.setattr(cli.subprocess,'Popen',lambda *a,**k:pytest.fail('Drained run must not launch'))
+    assert cli.collect(tmp_path,run)==0
+    status=json.loads((tmp_path/'status.json').read_text())
+    assert status['status']=='drained' and status['success_count']==0 and status['target_success']==2000
+
+
+def test_inherited_success_fills_same_quota_without_an_extra_worker(tmp_path,monkeypatch):
+    snapshot=tmp_path/'inputs/project';snapshot.mkdir(parents=True)
+    for name in ('running','success','failed'):(tmp_path/name).mkdir()
+    options={**cli.DEFAULTS,'target_success':1}
+    run={'options':options,'files':{},'versions':{'test':'1'}}
+    row={'index':7,'seed':19,'accepted':True,'path':'/original/episode.h5','source_run':'/original'}
+    monkeypatch.setattr(cli,'versions',lambda:{'test':'1'})
+    monkeypatch.setattr(cli,'inherited_results',lambda spec:[row])
+    monkeypatch.setattr(cli.subprocess,'Popen',lambda *a,**k:pytest.fail('Prior success already fills quota'))
+    assert cli.collect(tmp_path,run)==0
+    assert json.loads((tmp_path/'status.json').read_text())['success_count']==1
+    assert json.loads((tmp_path/'success.jsonl').read_text())['path']=='/original/episode.h5'

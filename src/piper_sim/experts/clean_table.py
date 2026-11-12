@@ -54,6 +54,14 @@ class CleanTableTeacher:
             (ROOT/'configs/collection/clean_table.yaml').read_text())
         self.motion = self.settings['motion']
         self.pacing = self.settings.get('pacing', {})
+        self.ik_tolerance = dict(self.pacing.get('ik_tolerance',
+            {'position_m': .003, 'orientation_rad': .035}))
+        if (set(self.ik_tolerance) != {'position_m', 'orientation_rad'}
+                or any(isinstance(v, bool) or not isinstance(v, (int, float))
+                       or not np.isfinite(v) or v <= 0 for v in self.ik_tolerance.values())
+                or self.ik_tolerance['position_m'] > .01
+                or self.ik_tolerance['orientation_rad'] > .15):
+            raise ValueError('IK tolerance requires position_m <= .01 and orientation_rad <= .15, both positive finite')
         self.grasp_preload = preload_profile(self.pacing.get('grasp_preload'))
         self.geometric_capture = capture_profile(self.pacing.get('geometric_capture'))
         if self.geometric_capture and (self.mode != 'physical' or getattr(self.b, 'position_execution', None) is None):
@@ -631,12 +639,25 @@ class CleanTableTeacher:
         seeds = [self.q[offset:offset+6] if seed is None else seed, reference]
         seeds += [[yaw, 1.8, -1., 0, -.8, roll] for roll in (-1.57, 1.57, 0)]
         best = None
+        fallback = None
         for s in seeds:
             q, ep, er = self.ik[side].solve(position, rotation, s)
             if best is None or ep+.1*er < best[1]+.1*best[2]:
                 best = (q, ep, er)
-            if ep < .003 and er < .035:
+            if ep < min(.003, self.ik_tolerance['position_m']) and er < min(.035, self.ik_tolerance['orientation_rad']):
                 return q
+            if ep < self.ik_tolerance['position_m'] and er < self.ik_tolerance['orientation_rad']:
+                if fallback is None or ep+.1*er < fallback[1]+.1*fallback[2]:
+                    fallback = (q, ep, er)
+        # Try every original seed at the original precision before accepting a
+        # declared approximation. Collision, real contact and task checks still
+        # evaluate the actual executed trajectory and object state.
+        if fallback is not None:
+            q, ep, er = fallback
+            self.events.append({'phase': 'ik_tolerance_fallback', 'object': self.current,
+                'sim_time': self.b.sim_time, 'side': side, 'position_error_m': ep,
+                'orientation_error_rad': er, 'limits': dict(self.ik_tolerance)})
+            return q
         raise SortFailure(f'{side} IK failed at {np.round(position,4).tolist()}: '
                           f'{best[1]*1000:.1f} mm, {np.rad2deg(best[2]):.1f} deg')
 
