@@ -1,0 +1,68 @@
+# 远端清桌数据采集：2000 条合格成功回合
+
+任务保持为：桌面套叠全部纸杯，将整摞杯子、笔、充电头和全部刚体餐具放入右篮。
+使用已验证的固定指垫阻尼和碗落点避让配置；独立质量门限保持不变。
+
+## 数据与随机化
+
+- 仿真时间频率 30 Hz，每帧保留三路 640×480 RGB、实测状态、实际绝对位置动作和下一帧。
+- 14 维顺序：左臂 6 个绝对关节角（rad）、左夹爪完整开口（m）、右臂 6 个绝对关节角（rad）、右夹爪完整开口（m）。
+- 状态是实测值，动作是后端在该区间执行的绝对目标；不是关节增量或末端增量。
+- 每回合自动生成新的系统熵随机种子，并保存用于复现；不需要人工指定 seed。
+- 随机化覆盖整体和单件摆放、篮筐位姿、杯子数量/配色、桌面材质、光照、质量、摩擦和成像扰动。
+- CAD 尺寸、相机安装基准和独立质量门限保持原配置；随机化范围使用 `configs/domain_randomization/clean_table.yaml`。
+- RGB 为 GZIP level 1 无损压缩，观测/下一观测图像共用自包含 HDF5 帧存储；不抽帧或改变动作时间。
+
+## 启动
+
+远端 Python 3.11 / MuJoCo 3.3.7 环境安装后，从项目根目录运行：
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_success_quota.py \
+  --output /mnt/piper_sim_data/clean_table_2000_30hz_abs_20261112 \
+  --target-success 2000 --gpus 0 1 2 3 4 5 6 7 --workers-per-gpu 2
+```
+
+入口默认先完整验证一条成功回合，再展开所有 GPU 槽位。每个槽位是独立进程、物理环境、
+随机状态和文件；GPU 负责相机渲染，MuJoCo 物理和数据压缩也使用 CPU。
+`--workers-per-gpu` 控制每卡环境数，实际吞吐还受 CPU 与磁盘影响，不能用显卡数直接推算。
+无需设置 `--seed-start`；该参数仅供可重复的顺序 seed 调试。
+
+程序冻结实际代码、配置和模型资产到数据目录下的 `inputs/project/`，保留文件指纹和依赖
+版本。采集子进程只导入该快照。SSH 断开不应停止以独立 session 启动的采集管理进程。
+
+## 目录和计数
+
+```text
+clean_table_2000_30hz_abs_20261112/
+  run.json                     # 目标、输入快照指纹、随机化和动作契约
+  status.json                  # 成功/失败计数、GPU、当前 PID 和进行中回合
+  success.jsonl                # 通过独立审核且复核 HDF5 校验和的回合
+  failed.jsonl                 # 拒收/中断/超时/基础设施错误，含原因
+  success/episode_.../recording/episode.h5
+  failed/episode_.../recording/episode.h5[.partial]
+  running/episode_.../          # 仅保存尚未分类的回合
+  inputs/project/              # 固定代码、配置和模型快照
+```
+
+每个回合目录另有 `collection.log`、`claim.json`、`process.json`、`result.json`，
+`recording/` 中保留原始 `report.json` 和 `audit.json`。准备阶段即失败时可能没有 HDF5，
+仍保留错误报告；不会补写虚构帧。完整但质量不合格的回合也只进入 `failed/`。
+只有 `success/` 计入 2000；失败后自动采样新的 seed 补采。进行中的槽位也占用剩余额度，
+因此接近目标时自动减少并发，避免成功回合超采。失败数据不用于合格训练集。
+
+## 状态、停止与恢复
+
+```bash
+cat /mnt/piper_sim_data/clean_table_2000_30hz_abs_20261112/status.json
+# 使用 status.json 中的 manager_pid；只停止本批管理进程及其拥有的工作进程。
+kill -TERM MANAGER_PID
+
+# 恢复会验证快照、依赖和已有成功文件，不覆盖旧回合。
+PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_success_quota.py \
+  --output /mnt/piper_sim_data/clean_table_2000_30hz_abs_20261112 --resume
+```
+
+恢复时，未完成回合的部分文件会保留；仅有完整独立审核证据的回合可恢复为成功。
+输入或依赖改变时拒绝继续，重复基础设施错误或剩余空间不足时明确停止并记录原因。
+默认保留至少 512 GiB 空间，低于此值不启动新回合；不自动删除失败数据。
