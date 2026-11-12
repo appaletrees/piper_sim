@@ -100,3 +100,50 @@ For new collectors, creating an empty `DRAIN` file in the run folder stops new
 launches, allows active workers to finish, and exits with status `drained`.
 Remove that file before resuming. `DRAIN` affects scheduling only and never
 changes the configured success quota.
+
+### Elastic scheduling without interrupting an active recording
+
+`scripts/collect_elastic_quota.py` adds an independently frozen scheduling layer
+above an existing run. It retains the original worker snapshot, run.json,
+randomization, 30 Hz actions/images, acceptance policy, episode index/seed
+registry and the shared 2000-success quota. It adopts existing worker PID/start
+identities and records controller code, handoff and scaling decisions beneath
+`<run>/schedulers/elastic_*/`. Existing HDF5 files are not edited by the handoff.
+
+Example (run using the remote MuJoCo environment):
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_elastic_quota.py \
+  --output /mnt/piper_sim_data/clean_table_2000_30hz_abs_20261112/current \
+  --takeover --initial-workers-per-gpu 3 --max-workers-per-gpu 10 \
+  --stage-seconds 180
+```
+
+A legacy handoff freezes the old supervisor and validates its atomic on-disk
+claim/result catalog. An incomplete launch registration is resumed and retried;
+terminal folders must already have a committed result. This avoids relying on
+privileged process inspection. Only the verified supervisor PID is replaced;
+its independently created worker sessions receive no signal. The same exclusive manager lock prevents two quota
+owners. A failed precondition leaves the legacy supervisor running. PID reuse
+and mismatched commands prohibit worker signalling.
+
+Growth stages are 3, 4, 6, 8 and 10 workers per GPU (24 through 80 on this host).
+Every stage samples CPU, GPU, available memory and I/O pressure. Growth stops
+at 85% CPU busy, 10% CPU pressure, 95% average GPU utilization, 85% GPU memory,
+less than 64 GiB available memory, or sustained I/O pressure. Existing workers
+finish naturally when the desired cap is reduced; no new workers refill a GPU
+already above that cap. The disk reserve stays unchanged. Wall-clock worker
+watchdog is separately declared as six hours for oversubscribed execution;
+simulation-time episode duration remains governed by the original policy.
+
+Phase-log simulation-time advancement is a **rough aggregate progress proxy**,
+not a measurement of accepted episodes per hour or proof of optimal throughput.
+A substantial proxy drop under CPU load backs off to the previous stage. Real
+accepted/failed episode counts remain in the ordinary manifests. Resource and
+phase differences between episodes mean short scaling windows are approximate.
+
+`status.json` reports actual active workers, desired capacity, original frozen
+capacity, resource samples and scale history. `DRAIN` still stops admission and
+finishes the active workers. To resume an elastic controller after interruption,
+run its frozen `controller.py --output <run> --controller-dir <controller-dir>`
+with the MuJoCo environment; never launch a second collector alongside it.
