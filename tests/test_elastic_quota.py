@@ -124,7 +124,8 @@ while True:time.sleep(1)
                 os.killpg(marker['pid'],signal.SIGKILL)
 
 
-def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,monkeypatch):
+@pytest.mark.parametrize('validation_polls',[0,4])
+def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,monkeypatch,validation_polls):
     s=importlib.util.spec_from_file_location('quota_for_elastic_test',ROOT/'scripts/collect_success_quota.py')
     cli=importlib.util.module_from_spec(s);s.loader.exec_module(cli)
     snapshot=tmp_path/'inputs/project';snapshot.mkdir(parents=True)
@@ -142,7 +143,13 @@ def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,mon
     monkeypatch.setattr(e,'load_ledger',lambda *a:[{'index':0,'seed':100,'accepted':True,'source_run':'old'}])
     def revalidation(*args):
         atomic_json(controller/'revalidation_result.json',{'passed':True,'checked':1,'request_sha256':'test'})
-        return SimpleNamespace(poll=lambda:0,returncode=0),'test',1
+        class Verifier:
+            returncode=0
+            calls=0
+            def poll(self):
+                self.calls+=1
+                return 0 if self.calls>=validation_polls else None
+        return Verifier(),'test',1
     monkeypatch.setattr(e,'start_revalidation',revalidation)
     monkeypatch.setattr(cli,'assess',lambda *a:{'accepted':True,'error':None,'infrastructure_failure':False})
     monkeypatch.setattr(cli,'process_identity',lambda pid:'fake')
@@ -166,6 +173,7 @@ def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,mon
     assert e.supervise(tmp_path,controller,config,cli)==0
     state=json.loads((tmp_path/'status.json').read_text())
     assert state['success_count']==4 and state['active']==[] and state['status']=='completed'
+    assert state['historical_revalidation']['passed'] is True
     assert spawned==[102,103]
     assert state['frozen_workers_per_gpu']==1 and state['planned_workers']==3
     assert json.loads((tmp_path/'run.json').read_text())==spec
