@@ -147,3 +147,13 @@ capacity, resource samples and scale history. `DRAIN` still stops admission and
 finishes the active workers. To resume an elastic controller after interruption,
 run its frozen `controller.py --output <run> --controller-dir <controller-dir>`
 with the MuJoCo environment; never launch a second collector alongside it.
+
+Historical successes keep their predecessor audit records. During an operational
+handoff their full hashes are revalidated by a background process, rather than
+blocking all admissions on a large sequential read. Pending historical
+revalidation is explicit in status.json; the quota cannot become `completed`
+until it passes. A mismatch stops the controller. Every newly accepted episode
+still uses the ordinary synchronous independent closed-file verification.
+I/O admission thresholds use whole-host **full** I/O stall pressure; `some`
+pressure is also reported, since a single background sequential reader waiting
+for a disk is not evidence that all simulation workers are starved.

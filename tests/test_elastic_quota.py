@@ -139,7 +139,11 @@ def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,mon
     atomic_json(folder/'claim.json',{'index':1,'seed':101,'gpu':0,'slot':0,'started_unix':time.time()})
     atomic_json(folder/'process.json',{'pid':123,'proc_start_ticks':'fake'})
     monkeypatch.setattr(cli,'versions',lambda:{'test':'1'})
-    monkeypatch.setattr(cli,'inherited_results',lambda s:[{'index':0,'seed':100,'accepted':True,'source_run':'old'}])
+    monkeypatch.setattr(e,'load_ledger',lambda *a:[{'index':0,'seed':100,'accepted':True,'source_run':'old'}])
+    def revalidation(*args):
+        atomic_json(controller/'revalidation_result.json',{'passed':True,'checked':1,'request_sha256':'test'})
+        return SimpleNamespace(poll=lambda:0,returncode=0),'test',1
+    monkeypatch.setattr(e,'start_revalidation',revalidation)
     monkeypatch.setattr(cli,'assess',lambda *a:{'accepted':True,'error':None,'infrastructure_failure':False})
     monkeypatch.setattr(cli,'process_identity',lambda pid:'fake')
     monkeypatch.setattr(e,'process_info',lambda pid:{'start':'fake','state':'R',
@@ -166,3 +170,26 @@ def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,mon
     assert state['frozen_workers_per_gpu']==1 and state['planned_workers']==3
     assert json.loads((tmp_path/'run.json').read_text())==spec
     assert len((tmp_path/'success.jsonl').read_text().splitlines())==4
+
+
+def test_failed_background_revalidation_cannot_publish_a_success(tmp_path):
+    request=tmp_path/'request.json'
+    atomic_json(request,{'episodes':[{'path':'/not-trusted.h5','policy':'original','source_sha256':'bad'}]})
+    class File:
+        def __enter__(self):return self
+        def __exit__(self,*a):pass
+    def reject(*a,**kw):raise ValueError('source checksum mismatch')
+    import hashlib
+    cli=SimpleNamespace(load_json=lambda p:json.loads(p.read_text()),
+        sha256=lambda p:hashlib.sha256(p.read_bytes()).hexdigest(),atomic_json=atomic_json,
+        h5py=SimpleNamespace(File=lambda *a:File()),verify_training_acceptance=reject)
+    assert e.verify_ledger(tmp_path,request,cli)==2
+    result=json.loads((tmp_path/'revalidation_result.json').read_text())
+    assert result['passed'] is False and result['checked']==0
+    assert 'source checksum mismatch' in result['error']
+
+
+def test_pressure_distinguishes_one_io_reader_from_whole_host_stall(tmp_path):
+    p=tmp_path/'pressure';p.write_text('some avg10=95.0 avg60=10.0\nfull avg10=0.1 avg60=0.0\n')
+    assert e.pressure(p)==95.
+    assert e.pressure(p,'full')==.1

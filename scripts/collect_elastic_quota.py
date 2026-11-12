@@ -84,8 +84,16 @@ def acquire_manager(lock, output, controller, cli, *, takeover=False):
     state = cli.load_json(output/'status.json'); pid = state['manager_pid']
     info = process_info(pid)
     expected_script = str(output/'inputs/project/scripts/collect_success_quota.py')
-    if (not info or expected_script not in info['argv'] or str(output) not in info['argv']):
-        raise ValueError('Lock holder is not the expected legacy supervisor')
+    expected = bool(info and expected_script in info['argv'])
+    if info and '--controller-dir' in info['argv']:
+        old_controller=Path(info['argv'][info['argv'].index('--controller-dir')+1])
+        old_config=cli.load_json(old_controller/'controller.json')
+        expected=(old_controller.is_relative_to(output/'schedulers') and
+                  str(old_controller/'controller.py') in info['argv'] and
+                  cli.sha256(old_controller/'controller.py')==old_config.get('controller_sha256') and
+                  old_config.get('base_run_sha256')==cli.sha256(output/'run.json'))
+    if not expected or str(output) not in info['argv']:
+        raise ValueError('Lock holder is not a verified quota supervisor')
     original_start = info['start']; stopped = False; replaced = False
     try:
         # /proc syscall inspection may be forbidden for a non-child process.
@@ -150,9 +158,9 @@ def acquire_manager(lock, output, controller, cli, *, takeover=False):
             if current and current['start'] == original_start:os.kill(pid, signal.SIGCONT)
 
 
-def pressure(path):
+def pressure(path, kind='some'):
     for line in Path(path).read_text().splitlines():
-        if line.startswith('some '):return float(line.split('avg10=')[1].split()[0])
+        if line.startswith(kind+' '):return float(line.split('avg10=')[1].split()[0])
     return 0.
 
 
@@ -176,7 +184,8 @@ def resources(previous_cpu, gpus):
     return {'cpu_busy_percent':busy,'load1':os.getloadavg()[0],
             'memory_available_gib':mem['MemAvailable']/1024**2,
             'cpu_pressure_percent':pressure('/proc/pressure/cpu'),
-            'io_pressure_percent':pressure('/proc/pressure/io'), 'gpus':gpu}, (total,idle)
+            'io_pressure_percent':pressure('/proc/pressure/io','full'),
+            'io_some_pressure_percent':pressure('/proc/pressure/io'), 'gpus':gpu}, (total,idle)
 
 
 def log_time(path):
@@ -214,22 +223,67 @@ def load_cli(output):
     return cli
 
 
+def load_ledger(output, spec, cli):
+    """Read the predecessor journal; full revalidation runs concurrently below."""
+    rows=[]
+    prior=spec.get('prior_run')
+    if prior:
+        root=Path(prior['root'])
+        if any(cli.sha256(root/name)!=digest for name,digest in prior['files'].items()):
+            raise ValueError('Prior ledger identity changed')
+        old=cli.load_json(root/'run.json');policy=root/'inputs/project'/old['options']['acceptance_policy']
+        for category in ('success','failed'):
+            for line in (root/(category+'.jsonl')).read_text().splitlines():
+                row=json.loads(line)
+                if row['accepted']!=(category=='success'):raise ValueError('Prior category mismatch')
+                row.setdefault('source_run',str(root));row.setdefault('acceptance_policy',str(policy));rows.append(row)
+    for category in ('success','failed'):
+        for folder in (output/category).iterdir():
+            row=cli.load_json(folder/'result.json')
+            if not row or row.get('accepted')!=(category=='success'):raise ValueError('Missing/mismatched terminal result')
+            rows.append(row)
+    return rows
+
+
+def verify_ledger(output, request, cli):
+    payload=cli.load_json(request);result_path=request.with_name('revalidation_result.json')
+    digest=cli.sha256(request);checked=0
+    try:
+        for row in payload['episodes']:
+            with cli.h5py.File(row['path'],'r') as f:
+                _,actual=cli.verify_training_acceptance(f,row['path'],policy=row['policy']);cli.check_contract(f)
+            if actual!=row['source_sha256']:raise ValueError('Changed historical accepted episode')
+            checked+=1
+            cli.atomic_json(request.with_name('revalidation_progress.json'),
+                            {'checked':checked,'total':len(payload['episodes']),'updated_unix':time.time()})
+        cli.atomic_json(result_path,{'passed':True,'checked':checked,'request_sha256':digest,'completed_unix':time.time()})
+        return 0
+    except Exception as exc:
+        cli.atomic_json(result_path,{'passed':False,'checked':checked,'request_sha256':digest,
+                                     'error':type(exc).__name__+': '+str(exc)})
+        return 2
+
+
+def start_revalidation(output, controller, rows, policy, cli):
+    episodes=[{'path':row['path'],'policy':row.get('acceptance_policy',str(policy)),
+               'source_sha256':row['verified']['source_sha256']} for row in rows if row['accepted']]
+    request=controller/'revalidation_request.json';cli.atomic_json(request,{'episodes':episodes})
+    command=[sys.executable,'-u',str(controller/'controller.py'),'--output',str(output),'--verify-ledger',str(request)]
+    log=(controller/'revalidation.log').open('a')
+    proc=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,
+                          start_new_session=True,close_fds=True)
+    log.close()
+    cli.atomic_json(controller/'revalidation_process.json',{'pid':proc.pid,'command':command})
+    return proc,cli.sha256(request),len(episodes)
+
+
 def supervise(output, controller, config, cli):
     spec=cli.load_json(output/'run.json');snapshot=output/'inputs/project';options=spec['options']
     if (cli.sha256(output/'run.json') != config['base_run_sha256'] or
         cli.fingerprints(snapshot) != spec['files'] or cli.versions()!=spec['versions']):
         raise ValueError('Frozen worker inputs/dependencies changed')
     policy=snapshot/options['acceptance_policy']
-    results=cli.inherited_results(spec)
-    for category in ('success','failed'):
-        for folder in (output/category).iterdir():
-            result=cli.load_json(folder/'result.json')
-            if not result:raise ValueError('Missing terminal result')
-            if result['accepted']:
-                with cli.h5py.File(result['path'],'r') as f:
-                    _,digest=cli.verify_training_acceptance(f,result['path'],policy=policy);cli.check_contract(f)
-                if digest!=result['verified']['source_sha256']:raise ValueError('Changed accepted episode')
-            results.append(result)
+    results=load_ledger(output,spec,cli)
     active={}; maximum=config['max_workers_per_gpu'];gpus=options['gpus']
     for folder in sorted((output/'running').iterdir()):
         claim=cli.load_json(folder/'claim.json');marker=cli.load_json(folder/'process.json')
@@ -248,6 +302,8 @@ def supervise(output, controller, config, cli):
     index=max((v['index'] for v in claims),default=-1)+1;used={v['seed'] for v in claims}
     successes=sum(v['accepted'] for v in results)
     if successes+len(active)>options['target_success']:raise ValueError('In-flight success quota exceeded')
+    verifier,validation_digest,validation_count=start_revalidation(output,controller,results,policy,cli)
+    validation_passed=False
     desired=max(config['initial_workers_per_gpu'],max(collections.Counter(v['gpu'] for v in active.values()).values(),default=0))
     desired=min(desired,maximum);started=time.time();last_publish=0.;last_sample=0.;cpu=None
     stage_start=time.monotonic();stage=[];previous=None;history=[];tuning_complete=False
@@ -262,12 +318,20 @@ def supervise(output, controller, config, cli):
             frozen_workers_per_gpu=options['workers_per_gpu'],max_workers_per_gpu=maximum,
             desired_workers_per_gpu=desired,tuning_complete=tuning_complete,resources=latest,
             resource_sampling_error=resource_error,
+            historical_revalidation={'passed':validation_passed,'previously_accepted':validation_count,
+                'progress':cli.load_json(controller/'revalidation_progress.json')},
             resource_sample_unix=time.time(),scale_history=history[-12:])
         cli.atomic_json(output/'status.json',state)
         cli.atomic_json(controller/'state.json',state)
 
     try:
-        while successes<options['target_success'] or active:
+        while successes<options['target_success'] or active or not validation_passed:
+            if not validation_passed and verifier.poll() is not None:
+                check=cli.load_json(controller/'revalidation_result.json')
+                if (verifier.returncode!=0 or not check.get('passed') or
+                    check.get('request_sha256')!=validation_digest or check.get('checked')!=validation_count):
+                    raise ValueError('Historical source revalidation failed: '+str(check))
+                validation_passed=True
             for slot,job in list(active.items()):
                 observed=job['process'].poll();code=observed
                 if code is None and time.monotonic()-job['started']>config['worker_timeout_s']:
@@ -353,6 +417,10 @@ def supervise(output, controller, config, cli):
         status='interrupted' if isinstance(exc,(KeyboardInterrupt,SystemExit)) else 'failed'
         error=type(exc).__name__+': '+str(exc);raise
     finally:
+        if verifier.poll() is None:
+            verifier.terminate()
+            try:verifier.wait(timeout=5)
+            except subprocess.TimeoutExpired:verifier.kill();verifier.wait()
         for job in active.values():
             stop_owned(job,snapshot)
             if job['log']:job['log'].close()
@@ -364,11 +432,13 @@ def main():
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--controller-dir',type=Path)
     parser.add_argument('--takeover',action='store_true')
+    parser.add_argument('--verify-ledger',type=Path)
     parser.add_argument('--initial-workers-per-gpu',type=int,default=3)
     parser.add_argument('--max-workers-per-gpu',type=int,default=10)
     parser.add_argument('--stage-seconds',type=float,default=180.)
     parser.add_argument('--worker-timeout-s',type=float,default=21600.)
     args=parser.parse_args();output=args.output.resolve();cli=load_cli(output)
+    if args.verify_ledger is not None:return verify_ledger(output,args.verify_ledger,cli)
     if args.controller_dir is None:
         if not (1<=args.initial_workers_per_gpu<=args.max_workers_per_gpu<=12 and args.stage_seconds>=60 and args.worker_timeout_s>0):
             parser.error('Invalid elastic scheduling bounds')
@@ -390,7 +460,7 @@ def main():
     if (cli.sha256(output/'run.json')!=config['base_run_sha256'] or
         cli.fingerprints(output/'inputs/project')!=spec['files'] or cli.versions()!=spec['versions']):
         raise ValueError('Changed frozen worker inputs')
-    with (output/'.takeover.lock').open('a') as takeover_lock:
+    with (output/'.elastic_transition.lock').open('a') as takeover_lock:
         fcntl.flock(takeover_lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         with (output/'.manager.lock').open('a') as lock:
             acquire_manager(lock,output,directory,cli,takeover=args.takeover)
