@@ -141,7 +141,8 @@ while True:time.sleep(1)
 
 
 @pytest.mark.parametrize('validation_polls',[0,4])
-def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,monkeypatch,validation_polls):
+@pytest.mark.parametrize('steady',[None,1])
+def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,monkeypatch,validation_polls,steady):
     s=importlib.util.spec_from_file_location('quota_for_elastic_test',ROOT/'scripts/collect_success_quota.py')
     cli=importlib.util.module_from_spec(s);s.loader.exec_module(cli)
     snapshot=tmp_path/'inputs/project';snapshot.mkdir(parents=True)
@@ -152,6 +153,7 @@ def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,mon
     atomic_json(tmp_path/'run.json',spec)
     config={'base_run_sha256':cli.sha256(tmp_path/'run.json'),'max_workers_per_gpu':3,
             'initial_workers_per_gpu':3,'worker_timeout_s':3600.,'stage_seconds':180.}
+    if steady is not None:config['steady_workers_per_gpu']=steady
     folder=tmp_path/'running/episode_000001_seed_101';folder.mkdir()
     atomic_json(folder/'claim.json',{'index':1,'seed':101,'gpu':0,'slot':0,'started_unix':time.time()})
     atomic_json(folder/'process.json',{'pid':123,'proc_start_ticks':'fake'})
@@ -191,7 +193,7 @@ def test_supervisor_adopts_inflight_and_reserves_exact_global_quota(tmp_path,mon
     assert state['success_count']==4 and state['active']==[] and state['status']=='completed'
     assert state['historical_revalidation']['passed'] is True
     assert spawned==[102,103]
-    assert state['frozen_workers_per_gpu']==1 and state['planned_workers']==3
+    assert state['frozen_workers_per_gpu']==1 and state['planned_workers']==(steady or 3)
     assert json.loads((tmp_path/'run.json').read_text())==spec
     assert len((tmp_path/'success.jsonl').read_text().splitlines())==4
 

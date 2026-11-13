@@ -55,7 +55,7 @@ class AttachedProcess:
 
 def signal_owned(job, snapshot, signum):
     marker = job['marker']; info = process_info(marker['pid'])
-    if not owned(info, marker, job['folder'], snapshot) or info['state'] == 'Z':
+    if not owned(info, marker, job['folder'], job.get('snapshot',snapshot)) or info['state'] == 'Z':
         return False
     if os.getpgid(marker['pid']) != marker['pid']:
         raise ValueError('Worker no longer owns its saved process group')
@@ -84,7 +84,7 @@ def acquire_manager(lock, output, controller, cli, *, takeover=False):
     state = cli.load_json(output/'status.json'); pid = state['manager_pid']
     info = process_info(pid)
     expected_script = str(output/'inputs/project/scripts/collect_success_quota.py')
-    expected = bool(info and expected_script in info['argv'])
+    expected = bool(info and expected_script in info['argv']);old_controller=None
     if info and '--controller-dir' in info['argv']:
         old_controller=Path(info['argv'][info['argv'].index('--controller-dir')+1])
         old_config=cli.load_json(old_controller/'controller.json')
@@ -128,15 +128,19 @@ def acquire_manager(lock, output, controller, cli, *, takeover=False):
         else:
             raise RuntimeError('Could not verify atomic claim catalog; workers left untouched')
         workers = []
-        snapshot = output/'inputs/project'
+        snapshot = output/'inputs/project';revision_cache={}
         for folder in (output/'running').iterdir():
+            claim=cli.load_json(folder/'claim.json')
+            job_snapshot=(worker_context(output,claim,cli,revision_cache)[0]
+                          if claim.get('worker_revision') else snapshot)
             marker = cli.load_json(folder/'process.json'); p = process_info(marker['pid'])
             if p and p['start'] == marker['proc_start_ticks']:
-                if not owned(p, marker, folder, snapshot):
+                if not owned(p, marker, folder, job_snapshot):
                     raise ValueError('Unexpected worker command in saved claim')
                 workers.append({**marker, 'directory': str(folder), 'state': p['state']})
         receipt = {'legacy_pid': pid, 'legacy_start': original_start, 'atomic_claim_catalog_verified': True,
                    'workers': workers, 'created_unix': time.time(),
+                   'previous_controller':str(old_controller) if old_controller else None,
                    'operation': 'replace supervisor PID only; preserve all worker sessions'}
         cli.atomic_json(controller/'handoff.json', receipt)
         # SIGKILL avoids the legacy finally block, which would stop its workers.
@@ -245,6 +249,39 @@ def storage_module(controller, config, cli):
     return value
 
 
+def worker_context(output, claim, cli, cache):
+    """Resolve explicitly registered, immutable performance-only worker inputs."""
+    base=output/'inputs/project'
+    if not claim.get('worker_revision'):
+        return base,cli.load_json(output/'run.json')
+    revision=Path(claim['worker_revision']).resolve()
+    if revision.parent!=(output/'worker_revisions').resolve():
+        raise ValueError('Worker revision must be registered inside this run')
+    marker=revision/'revision.json';digest=cli.sha256(marker)
+    if digest!=claim.get('worker_revision_sha256'):
+        raise ValueError('Worker revision identity changed')
+    if digest in cache:return cache[digest]
+    record=cli.load_json(marker);spec=cli.load_json(output/'run.json');snapshot=revision/'project'
+    if (record['base_run_sha256']!=cli.sha256(output/'run.json') or
+            record['files']!=cli.fingerprints(snapshot) or record['versions']!=cli.versions()):
+        raise ValueError('Worker revision inputs/dependencies changed')
+    revised=copy.deepcopy(spec);revised['options']=record['options']
+    before=copy.deepcopy(spec['options']);after=copy.deepcopy(record['options'])
+    before.pop('config');after.pop('config')
+    if before!=after:raise ValueError('Performance rollout cannot change task, quota or acceptance options')
+    old_cfg=cli.yaml.safe_load((base/spec['options']['config']).read_text())
+    new_cfg=cli.yaml.safe_load((snapshot/record['options']['config']).read_text())
+    for cfg in (old_cfg,new_cfg):
+        for key in ('sensor_postprocess_workers','sensor_capture_pipeline'):
+            cfg['runtime'].pop(key,None)
+    if old_cfg!=new_cfg:raise ValueError('Performance rollout changed physical/optical configuration')
+    permitted={'src/piper_sim/sensor_processing.py','src/piper_sim/backends/mujoco.py',record['options']['config']}
+    changed={name for name in set(spec['files'])|set(record['files']) if spec['files'].get(name)!=record['files'].get(name)}
+    if changed-permitted:raise ValueError('Unrelated source changes in performance worker revision')
+    cache[digest]=(snapshot,revised)
+    return cache[digest]
+
+
 def load_ledger(output, spec, cli):
     """Read the predecessor journal; full revalidation runs concurrently below."""
     rows=[]
@@ -290,17 +327,107 @@ def verify_ledger(output, request, cli):
         return 2
 
 
+class JoinedValidation:
+    """Join unchanged, owned checksum jobs instead of rereading their sources."""
+    def __init__(self, controller, parts, own, digest, total, cli):
+        self.controller=controller;self.parts=parts;self.own=own;self.digest=digest;self.total=total;self.cli=cli
+        self.returncode=None;self.last_checked=None
+
+    def poll(self):
+        checked=0;complete=True;error=None
+        own_code=self.own.poll() if self.own else 0
+        if own_code is not None and own_code!=0:error='Delta checksum worker failed'
+        for part in self.parts:
+            request=Path(part['request']);result=self.cli.load_json(request.with_name('revalidation_result.json'))
+            if result:
+                if (not result.get('passed') or result.get('request_sha256')!=part['request_sha256']
+                        or result.get('checked')!=part['count']):error='Reused/delta source validation failed: '+str(result);break
+                checked+=part['count']
+            else:
+                marker=part['process'];info=process_info(marker['pid'])
+                if not info or info['start']!=marker['proc_start_ticks'] or info['state']=='Z':
+                    error='Checksum worker exited without complete evidence';break
+                complete=False
+                progress=self.cli.load_json(request.with_name('revalidation_progress.json'))
+                checked+=min(part['count'],max(0,progress.get('checked',0)))
+            if self.cli.sha256(request)!=part['request_sha256']:
+                error='Checksum request changed';break
+        if checked!=self.last_checked:
+            self.cli.atomic_json(self.controller/'revalidation_progress.json',{'checked':checked,'total':self.total,'updated_unix':time.time()})
+            self.last_checked=checked
+        if error or (complete and own_code==0):
+            self.returncode=2 if error else 0
+            self.cli.atomic_json(self.controller/'revalidation_result.json',{'passed':not error,
+                'checked':checked,'request_sha256':self.digest,'completed_unix':time.time(),
+                **({'error':error} if error else {})})
+        return self.returncode
+
+    def terminate(self):
+        if self.own and self.own.poll() is None:self.own.terminate()
+
+    def kill(self):
+        if self.own and self.own.poll() is None:self.own.kill()
+
+    def wait(self, timeout=None):
+        if self.own:return self.own.wait(timeout=timeout)
+
+
 def start_revalidation(output, controller, rows, policy, cli):
     episodes=[{'path':row['path'],'policy':row.get('acceptance_policy',str(policy)),
                'source_sha256':row['verified']['source_sha256']} for row in rows if row['accepted']]
-    request=controller/'revalidation_request.json';cli.atomic_json(request,{'episodes':episodes})
-    command=[sys.executable,'-u',str(controller/'controller.py'),'--output',str(output),'--verify-ledger',str(request)]
-    log=(controller/'revalidation.log').open('a')
-    proc=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,
-                          start_new_session=True,close_fds=True)
-    log.close()
-    cli.atomic_json(controller/'revalidation_process.json',{'pid':proc.pid,'command':command})
-    return proc,cli.sha256(request),len(episodes)
+    def key(row):return (row['path'],row['policy'],row['source_sha256'])
+    wanted={key(row) for row in episodes};covered=set();parts=[]
+    if len(wanted)!=len(episodes):raise ValueError('Duplicate historical source identity')
+    # A same-controller resume can reuse its own immutable validation parts.
+    # Never overwrite a request or result that a surviving helper still owns.
+    previous=(str(controller) if (controller/'validation_parts.json').exists()
+              else cli.load_json(controller/'handoff.json').get('previous_controller'))
+    if previous:
+        previous=Path(previous);old=cli.load_json(previous/'controller.json')
+        if (previous.parent!=output/'schedulers' or old.get('base_run_sha256')!=cli.sha256(output/'run.json')
+                or cli.sha256(previous/'controller.py')!=old.get('controller_sha256')):
+            raise ValueError('Historical verifier controller identity changed')
+        inherited=cli.load_json(previous/'validation_parts.json').get('parts')
+        if inherited is None:
+            request=previous/'revalidation_request.json';marker=cli.load_json(previous/'revalidation_process.json')
+            info=process_info(marker.get('pid',-1))
+            if info and '--verify-ledger' in info['argv'] and str(request) in info['argv']:
+                marker={**marker,'proc_start_ticks':info['start']}
+            inherited=[{'request':str(request),'request_sha256':cli.sha256(request),
+                'count':len(cli.load_json(request)['episodes']),'process':marker}]
+        for part in inherited:
+            request=Path(part['request'])
+            if not request.is_relative_to(output/'schedulers') or cli.sha256(request)!=part['request_sha256']:
+                raise ValueError('Historical verifier request identity changed')
+            old_rows=cli.load_json(request)['episodes'];keys={key(row) for row in old_rows}
+            if not keys<=wanted or keys&covered or len(keys)!=part['count']:
+                raise ValueError('Historical checksum coverage mismatch')
+            if not part['count']:continue
+            result=cli.load_json(request.with_name('revalidation_result.json'));info=process_info(part['process'].get('pid',-1))
+            if not result and not (info and info['start']==part['process'].get('proc_start_ticks')
+                    and '--verify-ledger' in info['argv'] and str(request) in info['argv']):
+                # Interrupted, incomplete checks provide no reusable evidence.
+                # Their sources remain uncovered and are checked afresh below.
+                continue
+            covered.update(keys);parts.append(part)
+    delta=[row for row in episodes if key(row) not in covered]
+    directory=controller/'validation_delta'/('attempt_'+uuid.uuid4().hex);directory.mkdir(parents=True)
+    full=directory/'full_request.json';cli.atomic_json(full,{'episodes':episodes})
+    proc=None;marker={'pid':None,'command':None}
+    if delta:
+        request=directory/'revalidation_request.json';cli.atomic_json(request,{'episodes':delta})
+        command=[sys.executable,'-u',str(controller/'controller.py'),'--output',str(output),'--verify-ledger',str(request)]
+        log=(controller/'revalidation.log').open('a')
+        proc=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,
+                              start_new_session=True,close_fds=True)
+        log.close()
+        marker={'pid':proc.pid,'proc_start_ticks':cli.process_identity(proc.pid),'command':command}
+        parts.append({'request':str(request),'request_sha256':cli.sha256(request),'count':len(delta),'process':marker})
+    cli.atomic_json(controller/'revalidation_process.json',marker)
+    manifest={'parts':parts,'reused_episodes':len(covered),'new_episodes':len(delta),'full_request':str(full)}
+    cli.atomic_json(directory/'validation_parts.json',manifest)
+    cli.atomic_json(controller/'validation_parts.json',manifest)
+    return JoinedValidation(controller,parts,proc,cli.sha256(full),len(episodes),cli),cli.sha256(full),len(episodes)
 
 
 def supervise(output, controller, config, cli):
@@ -309,6 +436,8 @@ def supervise(output, controller, config, cli):
         cli.fingerprints(snapshot) != spec['files'] or cli.versions()!=spec['versions']):
         raise ValueError('Frozen worker inputs/dependencies changed')
     policy=snapshot/options['acceptance_policy']
+    revision_cache={};launch_claim={k:config[k] for k in ('worker_revision','worker_revision_sha256') if k in config}
+    launch_snapshot,launch_spec=worker_context(output,launch_claim,cli,revision_cache)
     results=load_ledger(output,spec,cli)
     storage=None;fast=None;archive=None;storage_state=None;archiver=None
     if config.get('fast_root'):
@@ -333,11 +462,12 @@ def supervise(output, controller, config, cli):
     active={}; maximum=config['max_workers_per_gpu'];gpus=options['gpus']
     for folder in sorted((output/'running').iterdir()):
         claim=cli.load_json(folder/'claim.json');marker=cli.load_json(folder/'process.json')
+        job_snapshot,_=worker_context(output,claim,cli,revision_cache)
         info=process_info(marker['pid'])
         if info and info['start']==marker['proc_start_ticks'] and info['state']!='Z':
-            if not owned(info,marker,folder,snapshot):raise ValueError('Unowned active worker')
+            if not owned(info,marker,folder,job_snapshot):raise ValueError('Unowned active worker')
             lane=next(i for i in range(maximum) if (claim['gpu'],i) not in active)
-            active[(claim['gpu'],lane)]={**claim,'folder':folder,'marker':marker,
+            active[(claim['gpu'],lane)]={**claim,'folder':folder,'marker':marker,'snapshot':job_snapshot,
                 'process':AttachedProcess(marker),'log':None,'started':time.monotonic()-(time.time()-claim['started_unix'])}
         else:
             code=AttachedProcess(marker).poll()
@@ -353,6 +483,8 @@ def supervise(output, controller, config, cli):
     desired=max(config['initial_workers_per_gpu'],max(collections.Counter(v['gpu'] for v in active.values()).values(),default=0))
     desired=min(desired,maximum);started=time.time();last_publish=0.;last_sample=0.;cpu=None
     stage_start=time.monotonic();stage=[];previous=None;history=[];tuning_complete=False
+    if config.get('steady_workers_per_gpu') is not None:
+        desired=config['steady_workers_per_gpu'];tuning_complete=True
     seen_progress={j['index']:log_time(j['folder']/'collection.log') for j in active.values()}
     phase_advance=0.;sample_wall=time.monotonic();latest={};resource_error=None;infra_streak=0;status='running';error=None
 
@@ -363,6 +495,7 @@ def supervise(output, controller, config, cli):
         state.update(scheduler='elastic',controller_directory=str(controller),
             frozen_workers_per_gpu=options['workers_per_gpu'],max_workers_per_gpu=maximum,
             desired_workers_per_gpu=desired,tuning_complete=tuning_complete,resources=latest,
+            steady_workers_per_gpu=config.get('steady_workers_per_gpu'),
             resource_sampling_error=resource_error,
             historical_revalidation={'passed':validation_passed,'previously_accepted':validation_count,
                 'progress':cli.load_json(controller/'revalidation_progress.json')},
@@ -371,6 +504,9 @@ def supervise(output, controller, config, cli):
             state.update(storage={'fast_root':str(fast),'archive_root':str(archive),
                 'capacity':storage_state,'archiver_pid':archiver.pid,
                 'archive_status':cli.load_json(archive/'status.json')})
+        if launch_claim:
+            state.update(worker_revision=launch_claim,
+                active_worker_revisions=dict(collections.Counter(j.get('worker_revision','original') for j in active.values())))
         cli.atomic_json(output/'status.json',state)
         cli.atomic_json(controller/'state.json',state)
 
@@ -457,14 +593,15 @@ def supervise(output, controller, config, cli):
                     if storage:folder=storage.create_folder(output,fast,name)
                     else:folder=output/'running'/name;folder.mkdir()
                     claim={'index':index,'seed':seed,'gpu':gpu,'slot':gpus.index(gpu)*maximum+lane,
-                           'started_unix':time.time(),'scheduler_revision':str(controller)}
+                           'started_unix':time.time(),'scheduler_revision':str(controller),**launch_claim}
                     cli.atomic_json(folder/'claim.json',claim);log=(folder/'collection.log').open('x')
-                    proc=subprocess.Popen(cli.command_for(spec,snapshot,folder,seed),cwd=snapshot,
-                        env=cli.worker_environment(gpu,snapshot),stdin=subprocess.DEVNULL,
+                    proc=subprocess.Popen(cli.command_for(launch_spec,launch_snapshot,folder,seed),cwd=launch_snapshot,
+                        env=cli.worker_environment(gpu,launch_snapshot),stdin=subprocess.DEVNULL,
                         stdout=log,stderr=subprocess.STDOUT,start_new_session=True,close_fds=True)
                     marker={'pid':proc.pid,'proc_start_ticks':cli.process_identity(proc.pid)}
                     cli.atomic_json(folder/'process.json',marker)
-                    active[slot]={**claim,'folder':folder,'marker':marker,'process':proc,'log':log,'started':time.monotonic()}
+                    active[slot]={**claim,'folder':folder,'marker':marker,'snapshot':launch_snapshot,
+                        'process':proc,'log':log,'started':time.monotonic()}
                     seen_progress[index]=0.;index+=1
             elif not active and not draining and not storage:
                 raise RuntimeError('Insufficient disk/memory or sustained I/O pressure; explicit resume required')
@@ -495,10 +632,12 @@ def main():
     parser.add_argument('--archive-only',action='store_true')
     parser.add_argument('--fast-root',type=Path)
     parser.add_argument('--archive-root',type=Path)
+    parser.add_argument('--worker-revision',type=Path)
     parser.add_argument('--fast-min-free-gib',type=float,default=128.)
     parser.add_argument('--episode-reserve-gib',type=float,default=16.)
     parser.add_argument('--initial-workers-per-gpu',type=int,default=3)
     parser.add_argument('--max-workers-per-gpu',type=int,default=10)
+    parser.add_argument('--steady-workers-per-gpu',type=int)
     parser.add_argument('--stage-seconds',type=float,default=180.)
     parser.add_argument('--worker-timeout-s',type=float,default=21600.)
     args=parser.parse_args();output=args.output.resolve();cli=load_cli(output)
@@ -506,6 +645,8 @@ def main():
     if args.controller_dir is None:
         if not (1<=args.initial_workers_per_gpu<=args.max_workers_per_gpu<=12 and args.stage_seconds>=60 and args.worker_timeout_s>0):
             parser.error('Invalid elastic scheduling bounds')
+        if args.steady_workers_per_gpu is not None and not 1<=args.steady_workers_per_gpu<=args.max_workers_per_gpu:
+            parser.error('Steady concurrency must be within the worker ceiling')
         directory=output/'schedulers'/('elastic_'+time.strftime('%Y%m%d_%H%M%S')+'_'+uuid.uuid4().hex[:6]);directory.mkdir(parents=True)
         source=directory/'controller.py';cli.shutil.copy2(__file__,source)
         config={'base_run_sha256':cli.sha256(output/'run.json'),'controller_sha256':cli.sha256(source),
@@ -513,6 +654,13 @@ def main():
             'stage_seconds':args.stage_seconds,'worker_timeout_s':args.worker_timeout_s,
             'worker_inputs':'original immutable inputs/project; no simulation or acceptance change',
             'created_unix':time.time()}
+        if args.steady_workers_per_gpu is not None:
+            config['steady_workers_per_gpu']=args.steady_workers_per_gpu
+        if args.worker_revision:
+            revision=args.worker_revision.resolve()
+            config.update(worker_revision=str(revision),worker_revision_sha256=cli.sha256(revision/'revision.json'))
+            worker_context(output,config,cli,{})
+            config['worker_inputs']='explicit performance-only immutable worker revision; original in-flight workers adopted'
         if args.fast_root:
             fast=args.fast_root.resolve();fast.mkdir(parents=True,exist_ok=True)
             if fast.stat().st_dev==output.stat().st_dev:
@@ -541,6 +689,7 @@ def main():
     if (cli.sha256(output/'run.json')!=config['base_run_sha256'] or
         cli.fingerprints(output/'inputs/project')!=spec['files'] or cli.versions()!=spec['versions']):
         raise ValueError('Changed frozen worker inputs')
+    worker_context(output,config,cli,{})
     # A transition lock serializes handoffs only. Older controllers incorrectly
     # held the old lock for their entire lifetime; use the versioned name so a
     # verified takeover of one of those controllers can still proceed.

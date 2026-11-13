@@ -153,6 +153,71 @@ root remains the single entry point. Do not move active episode symlinks or
 remove their targets. Resume with the saved controller directory as described
 below so its hashed storage helper and configuration are reused.
 
+### Measured CPU/GPU contention and sensor-worker rollout (2026-11-13)
+
+Under the approximately 50-worker load, the 30-frame stationary diagnostic used
+14.77 wall seconds (2.03 frames/s). Its nested stage timers attribute roughly
+58% to rendering/readback, 17% to sensor transforms, 13% to backend physics/task
+metrics and 11% to gzip/JSON/appends. This is not a full-task throughput result.
+NVMe removes the previous disk stall but does not make three synchronous camera
+renders or CPU image transforms run in real time.
+
+Alternating serial / three-thread / overlapped-pipeline / reverse-order probes
+each recorded the same short wrist-motion sequence. Across the two blocks per
+mode, 60 transitions used 37.67 / 31.96 / 31.87 seconds respectively. Three-thread
+postprocessing reduced measured frame-loop time by about 15.2% (1.18x frame
+rate). The new overlap candidate was indistinguishable from the existing
+thread-pool path at this sample size and was **not enabled in production**.
+Every checked processed image matched the frozen sensor arithmetic on its own
+raw RGB input. These component/frame results do not establish successful
+episodes/hour or cross-run, bit-identical GPU rendering.
+
+Short, guarded concurrency probes temporarily stopped only PID/start/command
+verified workers. An independent watchdog restored all eligible workers and
+removed only its own drain marker; restoration receipts are retained. The
+simulation clock does not advance while stopped. A three-thread moving-wrist
+probe obtained 3.20 frames/s under the 32-environment target and 2.84 / 2.72
+frames/s under the two 40-environment targets. Their population-scaled capacity
+proxies were approximately 102 / 114 / 109 frames/s. Other measured targets
+were 16 and 24. These are shared-host diagnostic proxies, not observed qualified
+task throughput, and do not prove a universal optimum. The selected provisional
+steady target is five workers per GPU (40 total), with actual task throughput
+still requiring completed-episode measurement.
+
+`--steady-workers-per-gpu 5` keeps admission at that target without stopping
+already running episodes. Existing surplus workers finish normally, so actual
+in-flight count can temporarily exceed 40. Existing memory/I/O safeguards can
+still lower admission. Twelve lanes per card remain available for adopting an
+older, larger pool; this lane ceiling is not the requested steady load.
+
+Only newly admitted episodes use the registered `worker_revisions/sensor3_v1`:
+it contains an immutable copy of the **original frozen source and assets**, plus
+`configs/clean_table_position_execution_rim25_damped_sensor3.yaml`. The sole
+configuration change is `runtime.sensor_postprocess_workers: 3`. Original
+physics, materials, camera optics/resolution, randomization, trajectories,
+30 Hz clocks, absolute-joint actions and independent acceptance policy remain
+intact. Claims/results identify the worker revision and its manifest SHA-256.
+The controller rejects changed source bytes, unregistered revisions, physical
+configuration differences and task/acceptance-option changes. It can adopt both
+original and explicitly registered worker versions in the same global quota.
+
+The new supervisor also joins the predecessor's owned checksum job and launches
+a helper for uncovered sources only. `validation_parts.json` records each
+request hash, exact source/path/policy coverage and process identity. No source
+counts as revalidated until its complete checksum evidence passes; the final
+batch cannot complete before every part passes. This avoids rereading the same
+multi-terabyte history on every scheduling-only handoff.
+Same-controller resumes retain immutable per-attempt requests and results;
+interrupted checks without complete evidence are checked again rather than
+counted as passed. Completed checks and surviving owned helpers are reused.
+
+Evidence is under the current run's `validation/`: `frame_cost_probe_loaded.json`,
+`pipeline_probe_loaded_v2.json`, `concurrency_probe_v2/`, `concurrency_probe_v3/`
+and `optimization_20261113.json`. Candidate source copies are retained separately
+for reproducibility; they are not the production worker inputs. The initial
+candidate import-name collision and initial over-large requested probe are
+retained as failed diagnostics, not performance results or training episodes.
+
 Example (run using the remote MuJoCo environment):
 
 ```bash
