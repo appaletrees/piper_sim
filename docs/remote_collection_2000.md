@@ -265,3 +265,13 @@ still uses the ordinary synchronous independent closed-file verification.
 I/O admission thresholds use whole-host **full** I/O stall pressure; `some`
 pressure is also reported, since a single background sequential reader waiting
 for a disk is not evidence that all simulation workers are starved.
+
+To release cards without interrupting recordings, add `--admission-gpus 0 1 2 3`
+when creating a replacement elastic controller with `--takeover`. The run's
+original GPU list and worker identities stay immutable. Existing workers on all
+cards are adopted; only the selected subset receives new episodes. Status fields
+`admission_gpus` and `draining_gpus` distinguish future assignments from cards
+finishing existing episodes, and `planned_workers` counts only selected cards.
+GPU memory is released as each excluded card's last worker exits. With
+`--steady-workers-per-gpu 5`, four selected cards target 20 concurrent episodes.
+Do not launch a separate collector or terminate active episodes to reclaim cards.

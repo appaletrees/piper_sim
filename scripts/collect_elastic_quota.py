@@ -232,6 +232,14 @@ def admission_slots(gpus, desired, active):
         yield gpu,lane
 
 
+def admission_gpus(config, available):
+    selected=config.get('admission_gpus',available)
+    if (not selected or len(set(selected))!=len(selected) or
+            any(type(g) is not int or g not in available for g in selected)):
+        raise ValueError('Admission GPUs must be a nonempty unique subset of run GPUs')
+    return list(selected)
+
+
 def load_cli(output):
     snapshot=output/'inputs/project'
     sys.path.insert(0,str(snapshot/'src'))
@@ -432,6 +440,7 @@ def start_revalidation(output, controller, rows, policy, cli):
 
 def supervise(output, controller, config, cli):
     spec=cli.load_json(output/'run.json');snapshot=output/'inputs/project';options=spec['options']
+    launch_gpus=admission_gpus(config,options['gpus'])
     if (cli.sha256(output/'run.json') != config['base_run_sha256'] or
         cli.fingerprints(snapshot) != spec['files'] or cli.versions()!=spec['versions']):
         raise ValueError('Frozen worker inputs/dependencies changed')
@@ -493,6 +502,8 @@ def supervise(output, controller, config, cli):
         jobs={g*maximum+lane:j for (g,lane),j in active.items()}
         state=cli.publish(output,runtime,results,jobs,'draining' if (output/'DRAIN').exists() else status,started,error)
         state.update(scheduler='elastic',controller_directory=str(controller),
+            admission_gpus=launch_gpus,draining_gpus=[g for g in gpus if g not in launch_gpus],
+            planned_workers=len(launch_gpus)*desired,
             frozen_workers_per_gpu=options['workers_per_gpu'],max_workers_per_gpu=maximum,
             desired_workers_per_gpu=desired,tuning_complete=tuning_complete,resources=latest,
             steady_workers_per_gpu=config.get('steady_workers_per_gpu'),
@@ -581,7 +592,7 @@ def supervise(output, controller, config, cli):
                 (not latest or latest['memory_available_gib']>=64) and
                 (not latest or latest['io_pressure_percent']<20))
             if admission_ok:
-                for gpu,lane in admission_slots(gpus,desired,active):
+                for gpu,lane in admission_slots(launch_gpus,desired,active):
                     slot=(gpu,lane)
                     if not cli.quota_slots(options['target_success'],successes,len(active)):break
                     if latest and latest['gpus'][gpu]['memory_used_mib']/latest['gpus'][gpu]['memory_total_mib']>=.85:continue
@@ -638,6 +649,8 @@ def main():
     parser.add_argument('--initial-workers-per-gpu',type=int,default=3)
     parser.add_argument('--max-workers-per-gpu',type=int,default=10)
     parser.add_argument('--steady-workers-per-gpu',type=int)
+    parser.add_argument('--admission-gpus',type=int,nargs='+',
+                        help='GPUs receiving new episodes; existing workers on other GPUs finish naturally')
     parser.add_argument('--stage-seconds',type=float,default=180.)
     parser.add_argument('--worker-timeout-s',type=float,default=21600.)
     args=parser.parse_args();output=args.output.resolve();cli=load_cli(output)
@@ -656,6 +669,9 @@ def main():
             'created_unix':time.time()}
         if args.steady_workers_per_gpu is not None:
             config['steady_workers_per_gpu']=args.steady_workers_per_gpu
+        if args.admission_gpus is not None:
+            config['admission_gpus']=admission_gpus({'admission_gpus':args.admission_gpus},
+                cli.load_json(output/'run.json')['options']['gpus'])
         if args.worker_revision:
             revision=args.worker_revision.resolve()
             config.update(worker_revision=str(revision),worker_revision_sha256=cli.sha256(revision/'revision.json'))
@@ -686,6 +702,7 @@ def main():
         return storage.archive_loop(output,Path(config['fast_root']),Path(config['archive_root']))
     # Validate before touching a running supervisor.
     spec=cli.load_json(output/'run.json')
+    admission_gpus(config,spec['options']['gpus'])
     if (cli.sha256(output/'run.json')!=config['base_run_sha256'] or
         cli.fingerprints(output/'inputs/project')!=spec['files'] or cli.versions()!=spec['versions']):
         raise ValueError('Changed frozen worker inputs')

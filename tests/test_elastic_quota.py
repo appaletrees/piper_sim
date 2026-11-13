@@ -65,6 +65,23 @@ def test_unbalanced_adopted_cards_fill_the_least_occupied_first():
     assert list(itertools.islice(e.admission_slots([0,1,2],12,active),4))==[(1,0),(2,0),(1,1),(2,1)]
 
 
+def test_gpu_release_preserves_adopted_workers_but_excludes_new_admission():
+    active={(g,i):{} for g in range(8) for i in range(2)}
+    before=dict(active)
+    selected=e.admission_gpus({'admission_gpus':[0,1,2,3]},list(range(8)))
+    slots=list(e.admission_slots(selected,5,active))
+    assert len(slots)==12 and {g for g,_ in slots}=={0,1,2,3}
+    assert active==before
+    assert not set(slots)&set(active)
+    assert e.admission_gpus({},list(range(8)))==list(range(8))
+
+
+@pytest.mark.parametrize('selected',[[],[0,0],[8],[-1],[True],['0']])
+def test_gpu_release_rejects_invalid_admission_set(selected):
+    with pytest.raises(ValueError,match='Admission GPUs'):
+        e.admission_gpus({'admission_gpus':selected},list(range(8)))
+
+
 def test_attached_process_does_not_trust_reused_pid_or_invent_exit_status(monkeypatch):
     p=e.AttachedProcess({'pid':123,'proc_start_ticks':'original'})
     monkeypatch.setattr(e,'process_info',lambda pid:None)
