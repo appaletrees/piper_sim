@@ -133,6 +133,8 @@ growth for every active NVMe episode, plus the next episode and a system-disk
 floor. With roughly 1 TiB free, capacity can limit admission before the GPU
 process ceiling is reached. Archival backlog applies backpressure instead of
 deleting recordings or filling the system filesystem.
+When only a few admission slots fit, new jobs go to the least occupied GPU
+first, keeping all eight cards in use rather than filling the first card.
 
 Canonical `running/episode_*` paths are symlinks to NVMe for new episodes.
 Already running episodes retain their original paths. After a worker exits,

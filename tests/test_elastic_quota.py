@@ -49,6 +49,22 @@ def test_saturation_and_progress_regression_are_not_reported_as_speedup():
     assert e.tune(10,10,window(),None,180.)==(10,'maximum_reached',True)
 
 
+def test_disk_limited_admission_balances_cards_before_filling_one_card():
+    import itertools
+    gpus=list(range(8));active={(g,i):{} for g in gpus for i in range(6)}
+    slots=list(itertools.islice(e.admission_slots(gpus,12,active),4))
+    assert slots==[(0,6),(1,6),(2,6),(3,6)]
+    all_slots=list(e.admission_slots(gpus,12,active))
+    assert len(all_slots)==48 and len(set(all_slots))==48
+    assert not set(all_slots)&set(active)
+
+
+def test_unbalanced_adopted_cards_fill_the_least_occupied_first():
+    import itertools
+    active={(0,i):{} for i in range(8)}
+    assert list(itertools.islice(e.admission_slots([0,1,2],12,active),4))==[(1,0),(2,0),(1,1),(2,1)]
+
+
 def test_attached_process_does_not_trust_reused_pid_or_invent_exit_status(monkeypatch):
     p=e.AttachedProcess({'pid':123,'proc_start_ticks':'original'})
     monkeypatch.setattr(e,'process_info',lambda pid:None)

@@ -215,6 +215,19 @@ def tune(current, maximum, window, previous, dt):
     return next_level,'maximum_reached' if next_level==current else reason,next_level==current
 
 
+def admission_slots(gpus, desired, active):
+    """Fill the least occupied card first when storage admits only a few jobs."""
+    occupied=set(active)
+    counts=collections.Counter(gpu for gpu,_ in occupied)
+    while True:
+        available=[g for g in gpus if counts[g]<desired]
+        if not available:return
+        gpu=min(available,key=lambda g:(counts[g],gpus.index(g)))
+        lane=next(i for i in range(desired) if (gpu,i) not in occupied)
+        occupied.add((gpu,lane));counts[gpu]+=1
+        yield gpu,lane
+
+
 def load_cli(output):
     snapshot=output/'inputs/project'
     sys.path.insert(0,str(snapshot/'src'))
@@ -432,29 +445,27 @@ def supervise(output, controller, config, cli):
                 (not latest or latest['memory_available_gib']>=64) and
                 (not latest or latest['io_pressure_percent']<20))
             if admission_ok:
-                for gpu in gpus:
-                    for lane in range(desired):
-                        if sum(j['gpu']==gpu for j in active.values())>=desired:break
-                        slot=(gpu,lane)
-                        if slot in active or not cli.quota_slots(options['target_success'],successes,len(active)):continue
-                        if latest and latest['gpus'][gpu]['memory_used_mib']/latest['gpus'][gpu]['memory_total_mib']>=.85:continue
-                        if storage:
-                            storage_state=storage.capacity(fast,list(active.values()),config)
-                            if not storage_state['admit']:break
-                        seed=cli.choose_seed(index,options,used);used.add(seed)
-                        name=f'episode_{index:06d}_seed_{seed}'
-                        if storage:folder=storage.create_folder(output,fast,name)
-                        else:folder=output/'running'/name;folder.mkdir()
-                        claim={'index':index,'seed':seed,'gpu':gpu,'slot':gpus.index(gpu)*maximum+lane,
-                               'started_unix':time.time(),'scheduler_revision':str(controller)}
-                        cli.atomic_json(folder/'claim.json',claim);log=(folder/'collection.log').open('x')
-                        proc=subprocess.Popen(cli.command_for(spec,snapshot,folder,seed),cwd=snapshot,
-                            env=cli.worker_environment(gpu,snapshot),stdin=subprocess.DEVNULL,
-                            stdout=log,stderr=subprocess.STDOUT,start_new_session=True,close_fds=True)
-                        marker={'pid':proc.pid,'proc_start_ticks':cli.process_identity(proc.pid)}
-                        cli.atomic_json(folder/'process.json',marker)
-                        active[slot]={**claim,'folder':folder,'marker':marker,'process':proc,'log':log,'started':time.monotonic()}
-                        seen_progress[index]=0.;index+=1
+                for gpu,lane in admission_slots(gpus,desired,active):
+                    slot=(gpu,lane)
+                    if not cli.quota_slots(options['target_success'],successes,len(active)):break
+                    if latest and latest['gpus'][gpu]['memory_used_mib']/latest['gpus'][gpu]['memory_total_mib']>=.85:continue
+                    if storage:
+                        storage_state=storage.capacity(fast,list(active.values()),config)
+                        if not storage_state['admit']:break
+                    seed=cli.choose_seed(index,options,used);used.add(seed)
+                    name=f'episode_{index:06d}_seed_{seed}'
+                    if storage:folder=storage.create_folder(output,fast,name)
+                    else:folder=output/'running'/name;folder.mkdir()
+                    claim={'index':index,'seed':seed,'gpu':gpu,'slot':gpus.index(gpu)*maximum+lane,
+                           'started_unix':time.time(),'scheduler_revision':str(controller)}
+                    cli.atomic_json(folder/'claim.json',claim);log=(folder/'collection.log').open('x')
+                    proc=subprocess.Popen(cli.command_for(spec,snapshot,folder,seed),cwd=snapshot,
+                        env=cli.worker_environment(gpu,snapshot),stdin=subprocess.DEVNULL,
+                        stdout=log,stderr=subprocess.STDOUT,start_new_session=True,close_fds=True)
+                    marker={'pid':proc.pid,'proc_start_ticks':cli.process_identity(proc.pid)}
+                    cli.atomic_json(folder/'process.json',marker)
+                    active[slot]={**claim,'folder':folder,'marker':marker,'process':proc,'log':log,'started':time.monotonic()}
+                    seen_progress[index]=0.;index+=1
             elif not active and not draining and not storage:
                 raise RuntimeError('Insufficient disk/memory or sustained I/O pressure; explicit resume required')
             if now-last_publish>=10:publish();last_publish=now
