@@ -110,6 +110,47 @@ registry and the shared 2000-success quota. It adopts existing worker PID/start
 identities and records controller code, handoff and scaling decisions beneath
 `<run>/schedulers/elastic_*/`. Existing HDF5 files are not edited by the handoff.
 
+### NVMe staging and background archival (2026-11-13)
+
+The remote root filesystem is `/dev/nvme0n1p2` (NVMe); `/mnt` is a rotational
+disk array. New episodes can record and complete their dataset audit on NVMe,
+while a single background process archives closed episodes to the large array.
+The existing run, manifests, acceptance rules and worker snapshot remain intact.
+
+```bash
+PYTHONPATH=src .venv-mujoco/bin/python scripts/collect_elastic_quota.py \
+  --output /mnt/piper_sim_data/clean_table_2000_30hz_abs_20261112/current \
+  --takeover --initial-workers-per-gpu 3 --max-workers-per-gpu 12 \
+  --stage-seconds 90 \
+  --fast-root /home/midea/piper_sim_fast/clean_table_2000_30hz_abs_20261112/practical_v2 \
+  --fast-min-free-gib 128 --episode-reserve-gib 20
+```
+
+This is a bounded ramp, not a guarantee of 96 simultaneous environments.
+The controller stops increasing concurrency on CPU/GPU saturation or sustained
+I/O pressure. Admission also reserves the remaining estimated full-episode
+growth for every active NVMe episode, plus the next episode and a system-disk
+floor. With roughly 1 TiB free, capacity can limit admission before the GPU
+process ceiling is reached. Archival backlog applies backpressure instead of
+deleting recordings or filling the system filesystem.
+
+Canonical `running/episode_*` paths are symlinks to NVMe for new episodes.
+Already running episodes retain their original paths. After a worker exits,
+normal read-only acceptance and classification run first; only terminal
+`success/` and `failed/` episode links may be archived. The archiver copies to
+`storage_archive/<category>/<episode>.partial`, fsyncs and verifies every file's
+SHA-256, commits the destination and a receipt, atomically switches the canonical
+symlink, then reclaims that episode's NVMe directory. HDF5 and audit bytes are
+never rewritten. A failed copy leaves the original intact. Revalidation and the
+archive link switch share per-episode locks.
+
+Inspect `current/status.json` for `storage.capacity`, actual `active` workers
+and desired concurrency; `storage_archive/status.json` for archival progress;
+and `storage_archive/receipts/` for verified copy manifests. The original dataset
+root remains the single entry point. Do not move active episode symlinks or
+remove their targets. Resume with the saved controller directory as described
+below so its hashed storage helper and configuration are reused.
+
 Example (run using the remote MuJoCo environment):
 
 ```bash

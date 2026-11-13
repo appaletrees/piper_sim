@@ -223,6 +223,15 @@ def load_cli(output):
     return cli
 
 
+def storage_module(controller, config, cli):
+    path=controller/'collection_nvme.py'
+    if cli.sha256(path)!=config.get('storage_sha256'):
+        raise ValueError('NVMe storage helper identity changed')
+    module=importlib.util.spec_from_file_location('collection_nvme',path)
+    value=importlib.util.module_from_spec(module);module.loader.exec_module(value)
+    return value
+
+
 def load_ledger(output, spec, cli):
     """Read the predecessor journal; full revalidation runs concurrently below."""
     rows=[]
@@ -250,8 +259,12 @@ def verify_ledger(output, request, cli):
     digest=cli.sha256(request);checked=0
     try:
         for row in payload['episodes']:
-            with cli.h5py.File(row['path'],'r') as f:
-                _,actual=cli.verify_training_acceptance(f,row['path'],policy=row['policy']);cli.check_contract(f)
+            locks=output/'storage_locks';locks.mkdir(exist_ok=True)
+            lock_name=Path(row['path']).parent.parent.name or hashlib.sha256(row['path'].encode()).hexdigest()
+            with (locks/(lock_name+'.lock')).open('a') as lock:
+                fcntl.flock(lock,fcntl.LOCK_SH)
+                with cli.h5py.File(row['path'],'r') as f:
+                    _,actual=cli.verify_training_acceptance(f,row['path'],policy=row['policy']);cli.check_contract(f)
             if actual!=row['source_sha256']:raise ValueError('Changed historical accepted episode')
             checked+=1
             cli.atomic_json(request.with_name('revalidation_progress.json'),
@@ -284,6 +297,26 @@ def supervise(output, controller, config, cli):
         raise ValueError('Frozen worker inputs/dependencies changed')
     policy=snapshot/options['acceptance_policy']
     results=load_ledger(output,spec,cli)
+    storage=None;fast=None;archive=None;storage_state=None;archiver=None
+    if config.get('fast_root'):
+        storage=storage_module(controller,config,cli)
+        fast=Path(config['fast_root']);fast.mkdir(parents=True,exist_ok=True)
+        archive=Path(config['archive_root'])
+        command=[sys.executable,'-u',str(controller/'controller.py'),'--output',str(output),
+                 '--controller-dir',str(controller),'--archive-only']
+        archive.mkdir(parents=True,exist_ok=True)
+        marker=cli.load_json(archive/'process.json');info=process_info(marker.get('pid',-1))
+        if (info and info['start']==marker.get('proc_start_ticks') and info['state']!='Z'
+                and '--archive-only' in info['argv'] and str(output) in info['argv']):
+            archiver=AttachedProcess(marker)
+        else:
+            log=(controller/'archive.log').open('a')
+            archiver=subprocess.Popen(command,stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,
+                                      start_new_session=True,close_fds=True)
+            log.close()
+            cli.atomic_json(archive/'process.json',{'pid':archiver.pid,
+                'proc_start_ticks':cli.process_identity(archiver.pid),'command':command})
+        cli.atomic_json(controller/'archive_process.json',{'pid':archiver.pid,'command':command})
     active={}; maximum=config['max_workers_per_gpu'];gpus=options['gpus']
     for folder in sorted((output/'running').iterdir()):
         claim=cli.load_json(folder/'claim.json');marker=cli.load_json(folder/'process.json')
@@ -321,6 +354,10 @@ def supervise(output, controller, config, cli):
             historical_revalidation={'passed':validation_passed,'previously_accepted':validation_count,
                 'progress':cli.load_json(controller/'revalidation_progress.json')},
             resource_sample_unix=time.time(),scale_history=history[-12:])
+        if storage:
+            state.update(storage={'fast_root':str(fast),'archive_root':str(archive),
+                'capacity':storage_state,'archiver_pid':archiver.pid,
+                'archive_status':cli.load_json(archive/'status.json')})
         cli.atomic_json(output/'status.json',state)
         cli.atomic_json(controller/'state.json',state)
 
@@ -385,7 +422,13 @@ def supervise(output, controller, config, cli):
             free=cli.shutil.disk_usage(output).free/1024**3
             draining=(output/'DRAIN').exists()
             if draining and not active:status='drained';break
+            if storage:
+                storage_state=storage.capacity(fast,list(active.values()),config)
+                archive_status=cli.load_json(archive/'status.json')
+                if archiver.poll() is not None:
+                    raise RuntimeError('NVMe archiver exited; pause for explicit recovery')
             admission_ok=(not draining and not resource_error and free>=options['min_free_gib'] and
+                (not storage or (storage_state['admit'] and archive_status.get('status')!='error')) and
                 (not latest or latest['memory_available_gib']>=64) and
                 (not latest or latest['io_pressure_percent']<20))
             if admission_ok:
@@ -395,8 +438,13 @@ def supervise(output, controller, config, cli):
                         slot=(gpu,lane)
                         if slot in active or not cli.quota_slots(options['target_success'],successes,len(active)):continue
                         if latest and latest['gpus'][gpu]['memory_used_mib']/latest['gpus'][gpu]['memory_total_mib']>=.85:continue
+                        if storage:
+                            storage_state=storage.capacity(fast,list(active.values()),config)
+                            if not storage_state['admit']:break
                         seed=cli.choose_seed(index,options,used);used.add(seed)
-                        folder=output/'running'/f'episode_{index:06d}_seed_{seed}';folder.mkdir()
+                        name=f'episode_{index:06d}_seed_{seed}'
+                        if storage:folder=storage.create_folder(output,fast,name)
+                        else:folder=output/'running'/name;folder.mkdir()
                         claim={'index':index,'seed':seed,'gpu':gpu,'slot':gpus.index(gpu)*maximum+lane,
                                'started_unix':time.time(),'scheduler_revision':str(controller)}
                         cli.atomic_json(folder/'claim.json',claim);log=(folder/'collection.log').open('x')
@@ -407,7 +455,7 @@ def supervise(output, controller, config, cli):
                         cli.atomic_json(folder/'process.json',marker)
                         active[slot]={**claim,'folder':folder,'marker':marker,'process':proc,'log':log,'started':time.monotonic()}
                         seen_progress[index]=0.;index+=1
-            elif not active and not draining:
+            elif not active and not draining and not storage:
                 raise RuntimeError('Insufficient disk/memory or sustained I/O pressure; explicit resume required')
             if now-last_publish>=10:publish();last_publish=now
             time.sleep(1)
@@ -433,6 +481,11 @@ def main():
     parser.add_argument('--controller-dir',type=Path)
     parser.add_argument('--takeover',action='store_true')
     parser.add_argument('--verify-ledger',type=Path)
+    parser.add_argument('--archive-only',action='store_true')
+    parser.add_argument('--fast-root',type=Path)
+    parser.add_argument('--archive-root',type=Path)
+    parser.add_argument('--fast-min-free-gib',type=float,default=128.)
+    parser.add_argument('--episode-reserve-gib',type=float,default=16.)
     parser.add_argument('--initial-workers-per-gpu',type=int,default=3)
     parser.add_argument('--max-workers-per-gpu',type=int,default=10)
     parser.add_argument('--stage-seconds',type=float,default=180.)
@@ -449,22 +502,43 @@ def main():
             'stage_seconds':args.stage_seconds,'worker_timeout_s':args.worker_timeout_s,
             'worker_inputs':'original immutable inputs/project; no simulation or acceptance change',
             'created_unix':time.time()}
+        if args.fast_root:
+            fast=args.fast_root.resolve();fast.mkdir(parents=True,exist_ok=True)
+            if fast.stat().st_dev==output.stat().st_dev:
+                parser.error('Fast staging must use a separate filesystem')
+            if args.fast_min_free_gib<64 or args.episode_reserve_gib<=0:
+                parser.error('Invalid staging capacity reserve')
+            helper=directory/'collection_nvme.py'
+            cli.shutil.copy2(Path(__file__).with_name('collection_nvme.py'),helper)
+            config.update(fast_root=str(fast),archive_root=str((args.archive_root or output/'storage_archive').resolve()),
+                fast_min_free_gib=args.fast_min_free_gib,episode_reserve_gib=args.episode_reserve_gib,
+                storage_sha256=cli.sha256(helper))
         cli.atomic_json(directory/'controller.json',config)
         command=[sys.executable,'-u',str(source),'--output',str(output),'--controller-dir',str(directory)]
         if args.takeover:command+=['--takeover']
         os.execv(sys.executable,command)
     directory=args.controller_dir.resolve();config=cli.load_json(directory/'controller.json')
     if cli.sha256(Path(__file__))!=config['controller_sha256']:raise ValueError('Scheduler code changed')
+    if args.archive_only:
+        if not config.get('fast_root'):raise ValueError('Missing NVMe staging configuration')
+        storage=storage_module(directory,config,cli)
+        try:os.nice(10)
+        except OSError:pass
+        return storage.archive_loop(output,Path(config['fast_root']),Path(config['archive_root']))
     # Validate before touching a running supervisor.
     spec=cli.load_json(output/'run.json')
     if (cli.sha256(output/'run.json')!=config['base_run_sha256'] or
         cli.fingerprints(output/'inputs/project')!=spec['files'] or cli.versions()!=spec['versions']):
         raise ValueError('Changed frozen worker inputs')
-    with (output/'.elastic_transition.lock').open('a') as takeover_lock:
+    # A transition lock serializes handoffs only. Older controllers incorrectly
+    # held the old lock for their entire lifetime; use the versioned name so a
+    # verified takeover of one of those controllers can still proceed.
+    with (output/'.elastic_transition_v2.lock').open('a') as takeover_lock:
         fcntl.flock(takeover_lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         with (output/'.manager.lock').open('a') as lock:
             acquire_manager(lock,output,directory,cli,takeover=args.takeover)
             cli.atomic_json(directory/'supervisor.json',{'pid':os.getpid(),'proc_start_ticks':cli.process_identity(os.getpid())})
+            fcntl.flock(takeover_lock,fcntl.LOCK_UN)
             from piper_sim.process_lifecycle import termination_guard
             with termination_guard():return supervise(output,directory,config,cli)
 
