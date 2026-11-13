@@ -275,3 +275,12 @@ finishing existing episodes, and `planned_workers` counts only selected cards.
 GPU memory is released as each excluded card's last worker exits. With
 `--steady-workers-per-gpu 5`, four selected cards target 20 concurrent episodes.
 Do not launch a separate collector or terminate active episodes to reclaim cards.
+
+For fixed steady concurrency, GPU memory pressure now blocks new admissions only
+on the affected card (85% memory threshold). It no longer decreases the global
+worker cap when a shared or released card is occupied by another application.
+`gpu_admission_blocked` lists affected selected cards. Whole-host memory below
+64 GiB or I/O pressure at least 15% still reduces all lanes. After host pressure
+clears, the target recovers by one worker per card per sampling stage up to the
+configured steady cap; existing workers always finish naturally. Initial
+automatic growth without a steady cap retains its conservative tuning rules.

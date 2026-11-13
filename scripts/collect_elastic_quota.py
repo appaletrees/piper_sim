@@ -240,6 +240,19 @@ def admission_gpus(config, available):
     return list(selected)
 
 
+def steady_target(current, configured, window):
+    """Host pressure affects all lanes; GPU memory is gated per card at launch."""
+    if window['memory_available_gib']<64 or window['io_pressure_percent']>=15:
+        return max(1,current-1),'sustained_host_pressure_backoff'
+    if configured is not None and current<configured:
+        return current+1,'recover_steady_capacity'
+    return current,'hold_observed_capacity'
+
+
+def gpu_admits(sample, gpu):
+    return not sample or sample['gpus'][gpu]['memory_used_mib']/sample['gpus'][gpu]['memory_total_mib']<.85
+
+
 def load_cli(output):
     snapshot=output/'inputs/project'
     sys.path.insert(0,str(snapshot/'src'))
@@ -507,6 +520,7 @@ def supervise(output, controller, config, cli):
             frozen_workers_per_gpu=options['workers_per_gpu'],max_workers_per_gpu=maximum,
             desired_workers_per_gpu=desired,tuning_complete=tuning_complete,resources=latest,
             steady_workers_per_gpu=config.get('steady_workers_per_gpu'),
+            gpu_admission_blocked=[g for g in launch_gpus if not gpu_admits(latest,g)],
             resource_sampling_error=resource_error,
             historical_revalidation={'passed':validation_passed,'previously_accepted':validation_count,
                 'progress':cli.load_json(controller/'revalidation_progress.json')},
@@ -571,9 +585,8 @@ def supervise(output, controller, config, cli):
                     before=desired
                     if not tuning_complete:
                         desired,reason,tuning_complete=tune(desired,maximum,window,previous,now-stage_start)
-                    elif window['memory_available_gib']<64 or window['io_pressure_percent']>=15 or window['gpu_memory_fraction']>=.85:
-                        desired=max(1,desired-1);reason='sustained_pressure_backoff'
-                    else:reason='hold_observed_capacity'
+                    else:
+                        desired,reason=steady_target(desired,config.get('steady_workers_per_gpu'),window)
                     entry={'unix':time.time(),'from_per_gpu':before,'to_per_gpu':desired,'reason':reason,'window':window}
                     history.append(entry)
                     with (controller/'scale_history.jsonl').open('a') as f:f.write(json.dumps(entry)+'\n');f.flush();os.fsync(f.fileno())
@@ -595,7 +608,7 @@ def supervise(output, controller, config, cli):
                 for gpu,lane in admission_slots(launch_gpus,desired,active):
                     slot=(gpu,lane)
                     if not cli.quota_slots(options['target_success'],successes,len(active)):break
-                    if latest and latest['gpus'][gpu]['memory_used_mib']/latest['gpus'][gpu]['memory_total_mib']>=.85:continue
+                    if not gpu_admits(latest,gpu):continue
                     if storage:
                         storage_state=storage.capacity(fast,list(active.values()),config)
                         if not storage_state['admit']:break

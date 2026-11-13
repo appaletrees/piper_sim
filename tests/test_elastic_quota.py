@@ -82,6 +82,26 @@ def test_gpu_release_rejects_invalid_admission_set(selected):
         e.admission_gpus({'admission_gpus':selected},list(range(8)))
 
 
+def test_shared_gpu_pressure_does_not_reduce_healthy_card_capacity():
+    sample={'gpus':{g:{'memory_used_mib':23000 if g in [1,2,7] else 700,
+                      'memory_total_mib':24564} for g in range(8)}}
+    desired,reason=e.steady_target(5,5,window(gpu_memory_fraction=.95))
+    assert desired==5 and reason=='hold_observed_capacity'
+    active={(g,0):{} for g in range(4)}
+    slots=[(g,i) for g,i in e.admission_slots([0,1,2,3],desired,active) if e.gpu_admits(sample,g)]
+    assert len(slots)==8 and {g for g,_ in slots}=={0,3}
+    assert not e.gpu_admits(sample,1) and not e.gpu_admits(sample,2)
+    assert e.gpu_admits({},0)
+
+
+def test_host_pressure_still_reduces_all_lanes_and_recovers_gradually():
+    assert e.steady_target(5,5,window(memory_available_gib=63))[0]==4
+    assert e.steady_target(5,5,window(io_pressure_percent=15))[0]==4
+    assert e.steady_target(1,5,window())==(2,'recover_steady_capacity')
+    assert e.steady_target(5,5,window())[0]==5
+    assert e.steady_target(1,None,window())[0]==1
+
+
 def test_attached_process_does_not_trust_reused_pid_or_invent_exit_status(monkeypatch):
     p=e.AttachedProcess({'pid':123,'proc_start_ticks':'original'})
     monkeypatch.setattr(e,'process_info',lambda pid:None)
