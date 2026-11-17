@@ -179,3 +179,34 @@ PYTHONPATH=src .venv-lerobot-audit/bin/python scripts/check_lerobot_reader.py \
 
 该环境的包版本记录在检查报告中；它不是项目基础运行依赖。脚本强制离线读取，属于消费者
 兼容性抽查，不会单独给数据授予任务成功或训练资格。
+
+## 后台批量转换成功清单（可续跑）
+
+大批量采集用 `success.jsonl` 中已验证通过的回合，不扫描失败目录，不启动仿真。
+先将清单、代码和验收策略保存为固定快照，在独立 CPU 环境中运行：
+
+```bash
+CUDA_VISIBLE_DEVICES='' PYTHONPATH=src .venv-lerobot-export/bin/python \
+  scripts/export_success_lerobot.py \
+  --manifest /path/to/frozen/success.jsonl \
+  --output /path/to/lerobot_v2 \
+  --policy /path/to/frozen/quality_policy_practical_v2.yaml \
+  --additional-policy /path/to/frozen/quality_policy_tcp.yaml \
+  --workers 2 --min-free-gib 128
+```
+
+默认保留三路原始尺寸、30 fps、既有度/归一化开度约定与绝对位置动作。
+每条数据依照显式策略白名单中的原验收策略重新校验，不为旧数据补造验收结果。
+清单的源 SHA256 和帧数须与导出结果一致。不同策略来源保留在每集元数据中。
+
+`lerobot_v2.conversion/status.json` 显示进度，`logs/000000.log` 为逐集日志。
+每集先由现有导出器编码并检查所有视频帧数，再对成品保存 SHA256 检查点。
+同一命令再次运行会验证并复用已完成检查点；缺少检查点的成品移到
+`uncommitted/` 保留并重新转换，损坏的已提交检查点会报错，不会静默跳过。
+并行工作进程使用独立集锁，避免父进程意外退出后与续跑任务重复写入。
+
+全部回合通过后才发布一个完整 `lerobot_v2/` 目录。合并时重新计算全局帧号、
+episode/task 索引与统计，视频和 extras 使用同盘硬链接，避免再次复制大文件。
+完成前的分集检查点位于 `lerobot_v2.conversion/shards/`，每个均是完整单集格式；
+其集内索引尚未合并，训练时应使用最终数据集。失败会保留进度并停止，不会减少目标数量。
+始终保留原 HDF5，磁盘低于保留空间时停止新增转换。CPU 编码不使用 CUDA 或 NVENC。
